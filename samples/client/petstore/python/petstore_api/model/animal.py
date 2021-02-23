@@ -68,7 +68,7 @@ class Animal(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -84,7 +84,7 @@ class Animal(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         lazy_import()
         val = {
             'Cat': Cat,
@@ -93,6 +93,7 @@ class Animal(ModelNormal):
         if not val:
             return None
         return {'class_name': val}
+
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501

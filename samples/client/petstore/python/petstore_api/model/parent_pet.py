@@ -72,7 +72,7 @@ class ParentPet(ModelComposed):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -87,7 +87,7 @@ class ParentPet(ModelComposed):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         lazy_import()
         val = {
             'ChildCat': ChildCat,
@@ -97,6 +97,7 @@ class ParentPet(ModelComposed):
         if not val:
             return None
         return {'pet_type': val}
+
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
@@ -209,7 +210,7 @@ class ParentPet(ModelComposed):
             setattr(self, var_name, var_value)
 
     @cached_property
-    def _composed_schemas():
+    def _composed_schemas(self):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -227,3 +228,4 @@ class ParentPet(ModelComposed):
           'oneOf': [
           ],
         }
+

@@ -58,7 +58,7 @@ class StringBooleanMap(ModelNormal):
     }
 
     @cached_property
-    def additional_properties_type():
+    def additional_properties_type(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -68,7 +68,7 @@ class StringBooleanMap(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -81,8 +81,9 @@ class StringBooleanMap(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
+
 
 
     attribute_map = {

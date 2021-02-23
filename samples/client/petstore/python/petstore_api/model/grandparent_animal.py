@@ -72,7 +72,7 @@ class GrandparentAnimal(ModelNormal):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -87,7 +87,7 @@ class GrandparentAnimal(ModelNormal):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         lazy_import()
         val = {
             'ChildCat': ChildCat,
@@ -98,6 +98,7 @@ class GrandparentAnimal(ModelNormal):
         if not val:
             return None
         return {'pet_type': val}
+
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
