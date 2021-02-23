@@ -53,7 +53,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DartClientCodegen extends DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String PUB_LIBRARY = "pubLibrary";
     public static final String PUB_NAME = "pubName";

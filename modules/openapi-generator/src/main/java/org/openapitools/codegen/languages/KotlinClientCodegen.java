@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP = "jvm-okhttp";

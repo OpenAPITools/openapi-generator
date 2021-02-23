@@ -38,7 +38,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";

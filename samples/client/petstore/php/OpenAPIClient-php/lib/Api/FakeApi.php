@@ -3377,7 +3377,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $request_body request body (required)
+     * @param  array<string,string> $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -3393,7 +3393,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $request_body request body (required)
+     * @param  array<string,string> $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -3445,7 +3445,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $request_body request body (required)
+     * @param  array<string,string> $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -3465,7 +3465,7 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $request_body request body (required)
+     * @param  array<string,string> $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -3501,7 +3501,7 @@ class FakeApi
     /**
      * Create request for operation 'testInlineAdditionalProperties'
      *
-     * @param  map[string,string] $request_body request body (required)
+     * @param  array<string,string> $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

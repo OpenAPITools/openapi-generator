@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
  * This generator has been deprecated. Please use scala-akka instead.
  */
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
 
     protected String authScheme = "";
     protected String gradleWrapperPackage = "gradle.wrapper";
