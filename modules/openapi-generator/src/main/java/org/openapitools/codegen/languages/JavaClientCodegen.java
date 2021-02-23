@@ -66,7 +66,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String OAI_ANNOTATION_LIB = "oaiAnnotationLib";
 
     public static final String OAI_ANNOTATION_NONE = "none";
-    public static final String OAI_ANNOTATION_SWAGGER = "swagger";
+    public static final String OAI_ANNOTATION_SWAGGER_2 = "swagger2";
     public static final String OAI_ANNOTATION_MICROPROFILE = "microprofile";
 
     public static final String PLAY_24 = "play24";
@@ -103,7 +103,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    protected String oaiAnnotationLib = OAI_ANNOTATION_SWAGGER;
+    protected String oaiAnnotationLib = OAI_ANNOTATION_SWAGGER_2;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -158,7 +158,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
-        cliOptions.add(CliOption.newString(OAI_ANNOTATION_LIB, "Choose the OpenAPI annotation library to use. Possible values \"none\" and \"swagger\"(Default)"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -188,6 +187,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+
+        CliOption oaiLib = new CliOption(OAI_ANNOTATION_LIB, "Choose the OpenAPI annotation library to use.");
+        Map<String, String> oaiOptions = new HashMap<>();
+        oaiOptions.put(OAI_ANNOTATION_NONE, "Don't use any annotation library");
+        oaiOptions.put(OAI_ANNOTATION_SWAGGER_2, "Use Swagger 2 annotation library");
+//        oaiOptions.put(OAI_ANNOTATION_MICROPROFILE, "Use Microprofile OpenAPI annotation library");
+        oaiLib.setEnum(oaiOptions);
+        oaiLib.setDefault(oaiAnnotationLib);
+        cliOptions.add(oaiLib);
 
         // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
@@ -506,7 +514,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
 
-            if(OAI_ANNOTATION_SWAGGER.equals(oaiAnnotationLib)) {
+            if(OAI_ANNOTATION_SWAGGER_2.equals(oaiAnnotationLib)) {
                 oaiAnnotationLib = OAI_ANNOTATION_MICROPROFILE;
                 additionalProperties.put(OAI_ANNOTATION_LIB, OAI_ANNOTATION_MICROPROFILE);
             }
@@ -788,7 +796,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.remove("ApiModel");
                 //TODO: Add imports for MP OpenAPI
                 break;
-            case OAI_ANNOTATION_SWAGGER:
+            case OAI_ANNOTATION_SWAGGER_2:
                 // Do nothing, annotations are already included by parent class
                 break;
         }

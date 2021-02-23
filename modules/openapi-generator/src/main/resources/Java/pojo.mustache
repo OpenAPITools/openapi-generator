@@ -2,9 +2,9 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{#description}}
-{{#oaiAnnotationswagger}}
+{{#oaiAnnotationswagger2}}
 @ApiModel(description = "{{{description}}}")
-{{/oaiAnnotationswagger}}
+{{/oaiAnnotationswagger2}}
 {{#oaiAnnotationmicroprofile}}
 {{! TODO: Insert Microprofile equivalent here }}
 {{/oaiAnnotationmicroprofile}}
@@ -186,7 +186,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 {{^required}}
   @javax.annotation.Nullable
 {{/required}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#oaiAnnotationswagger}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/oaiAnnotationswagger}}
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#oaiAnnotationswagger2}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/oaiAnnotationswagger2}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
