@@ -33,7 +33,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends DartClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
     public static final String DATE_LIBRARY = "dateLibrary";

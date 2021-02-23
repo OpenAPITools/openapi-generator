@@ -48,7 +48,7 @@ import java.util.regex.Matcher;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class PythonClientCodegen extends PythonLegacyClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
 
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;

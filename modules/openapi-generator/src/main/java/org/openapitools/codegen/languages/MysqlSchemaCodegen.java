@@ -31,7 +31,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("unchecked")
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
     public static final String VENDOR_EXTENSION_MYSQL_SCHEMA = "x-mysql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";

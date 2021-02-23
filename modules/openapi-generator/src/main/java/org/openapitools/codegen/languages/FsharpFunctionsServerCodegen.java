@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
+     final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;

@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
 
     public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
 
