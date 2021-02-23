@@ -34,7 +34,7 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
     private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";

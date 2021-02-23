@@ -32,9 +32,9 @@ data class Order (
     val complete: kotlin.Boolean? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
     /**
     * Order Status
     * Values: placed,approved,delivered

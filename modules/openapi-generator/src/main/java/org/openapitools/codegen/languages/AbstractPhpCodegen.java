@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";

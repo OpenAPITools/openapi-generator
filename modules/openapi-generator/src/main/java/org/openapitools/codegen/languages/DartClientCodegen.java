@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class DartClientCodegen extends AbstractDartCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String SERIALIZATION_LIBRARY_NATIVE = "native";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";

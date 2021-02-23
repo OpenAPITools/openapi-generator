@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;

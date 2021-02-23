@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonLegacyClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonLegacyClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonLegacyClientCodegen.class);
 
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";

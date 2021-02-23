@@ -36,8 +36,8 @@ data class User (
     val userStatus: kotlin.Int? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 }
 

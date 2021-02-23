@@ -52,7 +52,7 @@ public class InlineModelResolver {
         structureMapper.writer(new DefaultPrettyPrinter());
     }
 
-    static final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
