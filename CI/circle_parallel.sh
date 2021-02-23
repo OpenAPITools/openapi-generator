@@ -28,6 +28,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
   if [[ $project_version == *"-SNAPSHOT" ]]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
+
+    # ensure there's no tab in certain template directories
+    /bin/bash ./bin/utils/detect_tab_in_templates.sh
+
     java -version
 
     # clear any changes to the samples
