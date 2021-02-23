@@ -20,7 +20,7 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object PetApi {
 
-  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+  def apply(baseUrl: String = "https://petstore.swagger.io/v2") = new PetApi(baseUrl)
 }
 
 class PetApi(baseUrl: String) {
@@ -83,7 +83,23 @@ class PetApi(baseUrl: String) {
       .withQueryParam("tags", ArrayValues(tags, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
-      
+
+
+  /**
+   * Filter by multiple Pet properties via Map
+   *
+   * Expected answers:
+   *   code 200 : Seq[Pet] (successful operation)
+   *   code 400 :  (Invalid tag value)
+   *
+   * @param filters Pet properties to filter by
+   */
+  def findPetsByArbitraryFilters(filters: Map[String, Any]): ApiRequest[Seq[Pet]] =
+    ApiRequest[Seq[Pet]](ApiMethods.GET, baseUrl, "/pet/findByStatus", "application/json")
+      .withQueryParam(filters)
+      .withSuccessResponse[Seq[Pet]](200)
+      .withErrorResponse[Unit](400)
+
 
   /**
    * Returns a single pet

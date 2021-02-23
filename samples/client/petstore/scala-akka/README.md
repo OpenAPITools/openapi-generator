@@ -69,6 +69,7 @@ Class | Method | HTTP request | Description
 *PetApi* | **deletePet** | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | **findPetsByTags** | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | **findPetsByFilters** | **GET** /pet/findPetsByFilters | Finds Pets by tags
 *PetApi* | **getPetById** | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | **updatePet** | **PUT** /pet | Update an existing pet
 *PetApi* | **updatePetWithForm** | **POST** /pet/{petId} | Updates a pet in the store with form data
