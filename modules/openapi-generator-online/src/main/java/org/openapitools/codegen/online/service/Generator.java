@@ -182,9 +182,7 @@ public class Generator {
 
     private static File getTmpFolder() {
         try {
-            File outputFolder = Files.createTempFile("codegen-", "-tmp").toFile();
-            outputFolder.delete();
-            outputFolder.mkdir();
+            File outputFolder = Files.createTempDirectory("codegen-tmp").toFile();
             outputFolder.deleteOnExit();
             return outputFolder;
         } catch (Exception e) {
