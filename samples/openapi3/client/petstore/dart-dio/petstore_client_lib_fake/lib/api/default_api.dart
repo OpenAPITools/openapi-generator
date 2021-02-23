@@ -6,7 +6,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -63,10 +62,7 @@ class DefaultApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(InlineResponseDefault) as Serializer<InlineResponseDefault>;
-            final data = _serializers.deserializeWith<InlineResponseDefault>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<InlineResponseDefault>(serializer, response.data);
 
             return Response<InlineResponseDefault>(
                 data: data,

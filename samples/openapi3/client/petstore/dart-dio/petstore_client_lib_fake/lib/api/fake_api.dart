@@ -6,7 +6,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -71,10 +70,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(HealthCheckResult) as Serializer<HealthCheckResult>;
-            final data = _serializers.deserializeWith<HealthCheckResult>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<HealthCheckResult>(serializer, response.data);
 
             return Response<HealthCheckResult>(
                 data: data,
@@ -122,9 +118,7 @@ class FakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
+        bodyData = _serializers.serializeWith(bodySerializer, pet);
 
         return _dio.request<dynamic>(
             _path,
@@ -178,9 +172,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = body;
 
         return _dio.request<dynamic>(
             _path,
@@ -243,9 +235,7 @@ class FakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, outerComposite);
-        final jsonouterComposite = json.encode(serializedBody);
-        bodyData = jsonouterComposite;
+        bodyData = _serializers.serializeWith(bodySerializer, outerComposite);
 
         return _dio.request<dynamic>(
             _path,
@@ -266,10 +256,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(OuterComposite) as Serializer<OuterComposite>;
-            final data = _serializers.deserializeWith<OuterComposite>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<OuterComposite>(serializer, response.data);
 
             return Response<OuterComposite>(
                 data: data,
@@ -311,9 +298,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = body;
 
         return _dio.request<dynamic>(
             _path,
@@ -375,9 +360,7 @@ class FakeApi {
             'application/json',
         ];
 
-        final serializedBody = body;
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = body;
 
         return _dio.request<dynamic>(
             _path,
@@ -440,9 +423,7 @@ class FakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(FileSchemaTestClass) as Serializer<FileSchemaTestClass>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
-        final jsonfileSchemaTestClass = json.encode(serializedBody);
-        bodyData = jsonfileSchemaTestClass;
+        bodyData = _serializers.serializeWith(bodySerializer, fileSchemaTestClass);
 
         return _dio.request<dynamic>(
             _path,
@@ -494,9 +475,7 @@ class FakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
+        bodyData = _serializers.serializeWith(bodySerializer, user);
 
         return _dio.request<dynamic>(
             _path,
@@ -546,9 +525,7 @@ class FakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
-        final jsonmodelClient = json.encode(serializedBody);
-        bodyData = jsonmodelClient;
+        bodyData = _serializers.serializeWith(bodySerializer, modelClient);
 
         return _dio.request<dynamic>(
             _path,
@@ -569,10 +546,7 @@ class FakeApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-            final data = _serializers.deserializeWith<ModelClient>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data);
 
             return Response<ModelClient>(
                 data: data,
@@ -825,9 +799,7 @@ class FakeApi {
         ];
 
         const type = FullType(BuiltMap, [FullType(String), FullType(String)]);
-        final serializedBody = _serializers.serialize(requestBody, specifiedType: type);
-        final jsonrequestBody = json.encode(serializedBody);
-        bodyData = jsonrequestBody;
+        bodyData = _serializers.serialize(requestBody, specifiedType: type);
 
         return _dio.request<dynamic>(
             _path,
