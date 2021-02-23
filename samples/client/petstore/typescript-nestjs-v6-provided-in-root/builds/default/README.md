@@ -1,4 +1,4 @@
-modules/openapi-generator/src/main/resources/typescript-nestjs/README.mustache @openapitools/typescript-nestjs-petstore@1.0.0
+## @openapitools/typescript-nestjs-petstore@1.0.0
 
 ### Building
 
