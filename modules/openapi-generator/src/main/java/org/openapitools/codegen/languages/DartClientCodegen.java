@@ -31,7 +31,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
-    public static final String SERIALIZATION_LIBRARY_NATIVE = "native";
+    public static final String SERIALIZATION_LIBRARY_NATIVE = "native_serialization";
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     public DartClientCodegen() {
