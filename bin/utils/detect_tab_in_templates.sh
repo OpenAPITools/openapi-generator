@@ -17,7 +17,7 @@ declare -a samples=("modules/openapi-generator/src/main/resources/kotlin-server"
 for i in "${samples[@]}"
 do
    # grep for \t in the folder
-   RESULT=`grep -R "\t" $i`
+   RESULT=`grep -R -P "\t" $i`
    echo -e "$RESULT"
    
    if [ "$RESULT" != "" ]; then
