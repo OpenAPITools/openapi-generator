@@ -63,6 +63,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String OAI_ANNOTATION_LIB = "oaiAnnotationLib";
+
+    public static final String OAI_ANNOTATION_NONE = "none";
+    public static final String OAI_ANNOTATION_SWAGGER = "swagger";
+    public static final String OAI_ANNOTATION_MICROPROFILE = "microprofile";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -98,6 +103,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String oaiAnnotationLib = OAI_ANNOTATION_SWAGGER;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -152,6 +158,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newString(OAI_ANNOTATION_LIB, "Choose the OpenAPI annotation library to use. Possible values \"none\" and \"swagger\"(Default)"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -271,6 +278,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (additionalProperties.containsKey(OAI_ANNOTATION_LIB)) {
+            this.setOaiAnnotationLib(additionalProperties.get(OAI_ANNOTATION_LIB).toString());
+        }
+        additionalProperties.put(OAI_ANNOTATION_LIB, oaiAnnotationLib);
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -493,6 +505,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
+
+            if(OAI_ANNOTATION_SWAGGER.equals(oaiAnnotationLib)) {
+                oaiAnnotationLib = OAI_ANNOTATION_MICROPROFILE;
+                additionalProperties.put(OAI_ANNOTATION_LIB, OAI_ANNOTATION_MICROPROFILE);
+            }
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -570,6 +587,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
         }
+
+        additionalProperties.put("oaiAnnotation"+oaiAnnotationLib, "true");
 
         // authentication related files
         // has OAuth defined
@@ -758,6 +777,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ApiModel");
             model.imports.remove("JsonSerialize");
             model.imports.remove("ToStringSerializer");
+        }
+        switch (oaiAnnotationLib) {
+            case OAI_ANNOTATION_NONE:
+                model.imports.remove("ApiModelProperty");
+                model.imports.remove("ApiModel");
+                break;
+            case OAI_ANNOTATION_MICROPROFILE:
+                model.imports.remove("ApiModelProperty");
+                model.imports.remove("ApiModel");
+                //TODO: Add imports for MP OpenAPI
+                break;
+            case OAI_ANNOTATION_SWAGGER:
+                // Do nothing, annotations are already included by parent class
+                break;
         }
     }
 
@@ -958,6 +991,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setDynamicOperations(final boolean dynamicOperations) {
         this.dynamicOperations = dynamicOperations;
+    }
+
+    public void setOaiAnnotationLib(String oaiAnnotationLib) {
+        this.oaiAnnotationLib = oaiAnnotationLib;
     }
 
     /**
