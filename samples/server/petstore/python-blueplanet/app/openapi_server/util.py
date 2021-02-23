@@ -103,16 +103,21 @@ def deserialize_model(data, klass, attr_map=True):
     """
     instance = klass()
 
+    # should be included in return types
     if not instance.swagger_types:
         return data
 
-    for attr, attr_type in six.iteritems(instance.openapi_types):
-        attr = instance.attribute_map[attr] if attr_map else attr
+    if data is None:
+        return instance
 
-        if data is not None \
-                and attr in data \
-                and isinstance(data, (list, dict)):
-            value = data[attr]
+    if not isinstance(data, (list, dict)):
+        return instance
+
+    for attr, attr_type in six.iteritems(instance.openapi_types):
+        dict_attr = instance.attribute_map[attr] if attr_map else attr
+
+        if dict_attr in data:
+            value = data[dict_attr]
             setattr(instance, attr, _deserialize(value, attr_type))
 
     return instance

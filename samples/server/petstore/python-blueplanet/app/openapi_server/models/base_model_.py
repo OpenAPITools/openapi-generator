@@ -32,19 +32,19 @@ class Model(object):
         result = {}
 
         for attr, _ in six.iteritems(self.swagger_types):
-            attr = self.attribute_map[attr] if attr_map else attr
-
             value = getattr(self, attr)
+
+            attr = self.attribute_map[attr] if attr_map else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: x.to_dict(attr_map=attr_map) if hasattr(x, "to_dict") else x,
                     value
                 ))
             elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
+                result[attr] = value.to_dict(attr_map=attr_map)
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
+                    lambda item: (item[0], item[1].to_dict(attr_map=attr_map))
                     if hasattr(item[1], "to_dict") else item,
                     value.items()
                 ))
