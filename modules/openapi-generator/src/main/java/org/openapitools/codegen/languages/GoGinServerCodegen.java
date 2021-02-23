@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;

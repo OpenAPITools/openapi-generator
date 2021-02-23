@@ -36,7 +36,7 @@ import java.util.Map;
 public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFile";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
 
     protected String outputFile = "openapi/openapi.yaml";
 

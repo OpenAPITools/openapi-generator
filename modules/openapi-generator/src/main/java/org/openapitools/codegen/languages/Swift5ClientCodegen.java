@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";

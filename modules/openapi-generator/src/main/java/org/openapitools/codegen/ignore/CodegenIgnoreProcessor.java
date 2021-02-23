@@ -36,7 +36,7 @@ import java.util.Locale;
  */
 public class CodegenIgnoreProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessor.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessor.class);
 
     private File ignoreFile = null;
 
