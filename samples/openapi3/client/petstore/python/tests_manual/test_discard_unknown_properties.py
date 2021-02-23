@@ -75,6 +75,8 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # Deserializing with strict validation raises an exception because the 'unknown_property'
         # is undeclared.
         with self.assertRaises(petstore_api.ApiValueError) as cm:
+            import pdb
+            pdb.set_trace()
             deserialized = api_client.deserialize(response, ((isosceles_triangle.IsoscelesTriangle),), True)
         self.assertTrue(re.match('.*Not all inputs were used.*unknown_property.*', str(cm.exception)),
             'Exception message: {0}'.format(str(cm.exception)))
