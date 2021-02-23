@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -49,6 +50,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
+
+    protected static final String WEBREQUEST_LIBRARY = "webRequestLibrary";
+    protected static final String WEBREQUEST_RESTSHARP = "restsharp";
+    protected static final String WEBREQUEST_HTTPCLIENT = "httpclient";
 
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -93,6 +98,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String licenseId;
     protected String packageTags;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+
+    protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use");
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -284,6 +291,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
+
+        webRequestType.addEnum(WEBREQUEST_RESTSHARP, "restsharp (default)");
+        webRequestType.addEnum(WEBREQUEST_HTTPCLIENT, "httpclient (dotnet builtin)");
+        webRequestType.setDefault(WEBREQUEST_RESTSHARP);
+        webRequestType.setOptValue(WEBREQUEST_RESTSHARP);
+        addOption(webRequestType.getOpt(), webRequestType.getDescription(), webRequestType.getOptValue());
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -556,7 +569,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (isEmpty(modelPackage)) {
             setModelPackage("Model");
         }
+
         clientPackage = "Client";
+
+        setCliOption(webRequestType);
+
+        if (additionalProperties.containsKey(WEBREQUEST_LIBRARY)) {
+            switch ((String) additionalProperties.get(WEBREQUEST_LIBRARY)) {
+                case WEBREQUEST_RESTSHARP:
+                    additionalProperties.put("useRestSharp", true);
+                    break;
+
+                case WEBREQUEST_HTTPCLIENT:
+                    additionalProperties.put("useHttpClient", true);
+                    break;
+            }
+        }
 
         String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
         boolean strategyMatched = false;
@@ -683,6 +711,27 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+    }
+
+    private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
+        if (additionalProperties.containsKey(cliOption.getOpt())) {
+            // TODO Hack - not sure why the empty strings become boolean.
+            Object obj = additionalProperties.get(cliOption.getOpt());
+            if (!SchemaTypeUtil.BOOLEAN_TYPE.equals(cliOption.getType())) {
+                if (obj instanceof Boolean) {
+                    obj = "";
+                    additionalProperties.put(cliOption.getOpt(), obj);
+                }
+            }
+            cliOption.setOptValue(obj.toString());
+        } else {
+            additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
+        }
+        if (cliOption.getOptValue() == null) {
+            cliOption.setOptValue(cliOption.getDefault());
+            throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
+                    ". " + cliOption.getDescription());
+        }
     }
 
     public void setNetStandard(Boolean netStandard) {
