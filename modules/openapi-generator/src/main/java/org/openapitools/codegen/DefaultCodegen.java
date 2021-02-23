@@ -3778,7 +3778,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // ensure unique params
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(p, allParams)) {
+                    while (!isParameterNameUnique(p, allParams)) {
                         p.paramName = generateNextName(p.paramName);
                     }
                 }
@@ -3804,7 +3804,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -3813,7 +3813,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (CodegenParameter cp : bodyParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
