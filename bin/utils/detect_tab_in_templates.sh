@@ -4,7 +4,9 @@
 # as these tabs should be replaced with 4-space instead
 
 ## declare an array of folders
-declare -a samples=("modules/openapi-generator/src/main/resources/dart-dio"
+declare -a samples=("modules/openapi-generator/src/main/resources/kotlin-server"
+                    "modules/openapi-generator/src/main/resources/kotlin-spring"
+                    "modules/openapi-generator/src/main/resources/dart-dio"
                     "modules/openapi-generator/src/main/resources/dart"
                     "modules/openapi-generator/src/main/resources/dart2"
                     "modules/openapi-generator/src/main/resources/aspnetcore"
