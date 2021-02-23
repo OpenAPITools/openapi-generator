@@ -19,10 +19,12 @@ using System.Web;
 {{/netStandard}}
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+{{^useRestSharp}}
 using RestSharp;
 using RestSharp.Deserializers;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
+{{/useRestSharp}
 using Polly;
 
 namespace {{packageName}}.Client
