@@ -1,5 +1,7 @@
 using Polly;
+{{#useRestSharp}}
 using RestSharp;
+{{/useRestSharp}}
 
 namespace {{packageName}}.Client
 {
@@ -8,6 +10,7 @@ namespace {{packageName}}.Client
     /// </summary>
     public class RetryConfiguration
     {
+{{#useRestSharp}}
         /// <summary>
         /// Retry policy
         /// </summary>
@@ -17,5 +20,6 @@ namespace {{packageName}}.Client
         /// Async retry policy
         /// </summary>
         public static AsyncPolicy<IRestResponse> AsyncRetryPolicy { get; set; }
+{{/useRestSharp}}
     }
 }

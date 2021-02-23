@@ -20,7 +20,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
-{{^useRestSharp}}
+{{#useRestSharp}}
 using RestSharp;
 using RestSharp.Deserializers;
 using RestSharpMethod = RestSharp.Method;
@@ -29,6 +29,7 @@ using Polly;
 
 namespace {{packageName}}.Client
 {
+{{#useRestSharp}}
     /// <summary>
     /// Allows RestSharp to Serialize/Deserialize JSON using our custom logic, but only when ContentType is JSON.
     /// </summary>
@@ -153,6 +154,7 @@ namespace {{packageName}}.Client
             set { throw new InvalidOperationException("Not allowed to set content type."); }
         }
     }
+{{/useRestSharp}}
     {{! NOTE: Any changes related to RestSharp should be done in this class. All other client classes are for extensibility by consumers.}}
     /// <summary>
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
@@ -178,7 +180,7 @@ namespace {{packageName}}.Client
                 }
             }
         };
-
+{{#useRestSharp}}
         /// <summary>
         /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
         /// </summary>
@@ -191,6 +193,7 @@ namespace {{packageName}}.Client
         /// <param name="request">The RestSharp request object</param>
         /// <param name="response">The RestSharp response object</param>
         partial void InterceptResponse(IRestRequest request, IRestResponse response);
+{{/useRestSharp}}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
@@ -213,6 +216,7 @@ namespace {{packageName}}.Client
             _baseUrl = basePath;
         }
 
+        {{#useRestSharp}}
         /// <summary>
         /// Constructs the RestSharp version of an http method
         /// </summary>
@@ -523,8 +527,9 @@ namespace {{packageName}}.Client
             }
             return result;
         }
-
+        {{/useRestSharp}}
         {{#supportsAsync}}
+        {{#useRestSharp}}
         private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             RestClient client = new RestClient(_baseUrl);
@@ -639,6 +644,7 @@ namespace {{packageName}}.Client
             }
             return result;
         }
+        {{/useRestSharp}}
 
         #region IAsynchronousClient
         /// <summary>
