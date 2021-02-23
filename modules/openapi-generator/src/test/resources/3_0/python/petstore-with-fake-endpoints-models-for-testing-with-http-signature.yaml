@@ -2065,6 +2065,9 @@ components:
         - $ref: '#/components/schemas/banana'
       # Below additionalProperties is set to false to validate the use
       # case when a composed schema has additionalProperties set to false.
+      # This definition will only allow in object payloads that set color because
+      # additionalProperties are evaluated at the schema level and do not include composed schema
+      # properties. Only color is defined here, all others are additional
       additionalProperties: false
     apple:
       type: object
@@ -2140,13 +2143,11 @@ components:
       anyOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      additionalProperties: false
     fruitReq:
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'
         - $ref: '#/components/schemas/bananaReq'
-      additionalProperties: false
     appleReq:
       type: object
       properties:

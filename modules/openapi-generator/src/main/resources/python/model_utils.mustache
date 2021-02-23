@@ -1486,12 +1486,21 @@ def get_anyof_instances(self, model_args, constant_args):
 
 def get_additional_properties_model_instances(
         composed_instances, self):
+    """
+    additional properties must be evaluated at the schema level
+    so self's additional properties are most important
+    If self is a composed schema with:
+    - no properties defined in self
+    - additionalProperties: False
+    Then for object payloads every property is an additional property
+    and they are not allowed, so only empty dict is allowed
+    """
     additional_properties_model_instances = []
-    all_instances = [self]
-    all_instances.extend(composed_instances)
-    for instance in all_instances:
-        if instance.additional_properties_type is not None:
-            additional_properties_model_instances.append(instance)
+    if self.additional_properties_type is not None:
+        additional_properties_model_instances.append(self)
+        for instance in composed_instances:
+            if self.additional_properties_type is not None:
+                additional_properties_model_instances.append(instance)
     return additional_properties_model_instances
 
 
