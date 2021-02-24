@@ -23,37 +23,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class NullableClass extends HashMap<String, Object> {
   
   @ApiModelProperty(value = "")
-  private Integer integerProp;
+  private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
   @ApiModelProperty(value = "")
-  private BigDecimal numberProp;
+  private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
   @ApiModelProperty(value = "")
-  private Boolean booleanProp;
+  private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
 
   @ApiModelProperty(value = "")
-  private String stringProp;
+  private JsonNullable<String> stringProp = JsonNullable.<String>undefined();
 
   @ApiModelProperty(value = "")
-  private LocalDate dateProp;
+  private JsonNullable<LocalDate> dateProp = JsonNullable.<LocalDate>undefined();
 
   @ApiModelProperty(value = "")
-  private Date datetimeProp;
+  private JsonNullable<Date> datetimeProp = JsonNullable.<Date>undefined();
 
   @ApiModelProperty(value = "")
-  private List<Object> arrayNullableProp = null;
+  private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
   @ApiModelProperty(value = "")
-  private List<Object> arrayAndItemsNullableProp = null;
+  private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   @ApiModelProperty(value = "")
   private List<Object> arrayItemsNullable = null;
 
   @ApiModelProperty(value = "")
-  private Map<String, Object> objectNullableProp = null;
+  private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   @ApiModelProperty(value = "")
-  private Map<String, Object> objectAndItemsNullableProp = null;
+  private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   @ApiModelProperty(value = "")
   private Map<String, Object> objectItemsNullable = null;

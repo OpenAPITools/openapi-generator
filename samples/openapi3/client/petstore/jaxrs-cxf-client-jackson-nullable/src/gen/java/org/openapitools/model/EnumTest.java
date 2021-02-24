@@ -170,7 +170,7 @@ public enum EnumNumberEnum {
   private EnumNumberEnum enumNumber;
 
   @ApiModelProperty(value = "")
-  private OuterEnum outerEnum;
+  private JsonNullable<OuterEnum> outerEnum = JsonNullable.<OuterEnum>undefined();
 
   @ApiModelProperty(value = "")
   private OuterEnumInteger outerEnumInteger;

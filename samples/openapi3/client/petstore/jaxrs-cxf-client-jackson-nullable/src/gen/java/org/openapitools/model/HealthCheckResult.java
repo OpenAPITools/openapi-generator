@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HealthCheckResult  {
   
   @ApiModelProperty(value = "")
-  private String nullableMessage;
+  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
  /**
    * Get nullableMessage
    * @return nullableMessage

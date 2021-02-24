@@ -28,13 +28,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    * {{{description}}}
   **/
 {{/description}}
-{{#isContainer}}
+{{#vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
+  {{/isContainer}}
+  {{^isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
+  {{/isContainer}}
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{^vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
-{{/isContainer}}
-{{^isContainer}}
+  {{/isContainer}}
+  {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-{{/isContainer}}
-  {{/vars}}
+  {{/isContainer}}
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{/vars}}
   {{#vars}}
  /**
   {{#description}}
