@@ -54,6 +54,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String WEBREQUEST_LIBRARY = "webRequestLibrary";
     protected static final String WEBREQUEST_RESTSHARP = "restsharp";
     protected static final String WEBREQUEST_HTTPCLIENT = "httpclient";
+    protected static final String WEBREQUEST_WEBREQUEST = "webrequest";
 
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -99,7 +100,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String packageTags;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
-    protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use");
+    protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use. Available options are restsharp, webrequest and httpclient.");
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -293,7 +294,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 this.caseInsensitiveResponseHeaders);
 
         webRequestType.addEnum(WEBREQUEST_RESTSHARP, "restsharp (default)");
-        webRequestType.addEnum(WEBREQUEST_HTTPCLIENT, "httpclient (dotnet builtin)");
+        webRequestType.addEnum(WEBREQUEST_HTTPCLIENT, "httpclient (dotnet builtin, shared client)");
+        webRequestType.addEnum(WEBREQUEST_WEBREQUEST, "webrequest (dotnet builtin)");
         webRequestType.setDefault(WEBREQUEST_RESTSHARP);
         webRequestType.setOptValue(WEBREQUEST_RESTSHARP);
         addOption(webRequestType.getOpt(), webRequestType.getDescription(), webRequestType.getOptValue());
@@ -582,6 +584,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
                 case WEBREQUEST_HTTPCLIENT:
                     additionalProperties.put("useHttpClient", true);
+                    break;
+
+                case WEBREQUEST_WEBREQUEST:
+                    additionalProperties.put("useWebRequest", true);
                     break;
             }
         }
