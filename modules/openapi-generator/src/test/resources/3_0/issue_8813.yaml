@@ -1,0 +1,343 @@
+openapi: 3.0.0
+info:
+  title: foo
+  version: 1.0.0
+paths:
+  /queryParamVars:
+    get:
+      responses:
+        '200':
+          description: Successful response
+      parameters:
+        - in: query
+          name: ObjectNoProps
+          schema:
+            type: object
+        - in: query
+          name: ObjectWithABProps
+          schema:
+            type: object
+            properties:
+              a:
+                type: integer
+              b:
+                type: string
+        - in: query
+          name: ObjectWithCDProps
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              d:
+                type: string
+        - in: query
+          name: ComposedOneOfNoProps
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+        - in: query
+          name: ComposedAnyOfNoProps
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+        - in: query
+          name: ComposedAllOfNoProps
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+        - in: query
+          name: ComposedOneOfWithProps
+          schema:
+            properties:
+              e:
+                type: integer
+              f:
+                type: string
+            oneOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+
+        - in: query
+          name: ComposedAnyOfWithProps
+          schema:
+            properties:
+              e:
+                type: integer
+              f:
+                type: string
+            anyOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+        - in: query
+          name: ComposedAllOfWithProps
+          schema:
+            properties:
+              e:
+                type: integer
+              f:
+                type: string
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithABProps'
+              - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedOneOfNoProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedAnyOfNoProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedAllOfNoProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedOneOfWithProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                e:
+                  type: integer
+                f:
+                  type: string
+              oneOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                properties:
+                  e:
+                    type: integer
+                  f:
+                    type: string
+                oneOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedAnyOfWithProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                e:
+                  type: integer
+                f:
+                  type: string
+              anyOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                properties:
+                  e:
+                    type: integer
+                  f:
+                    type: string
+                anyOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+  /ComposedAllOfWithProps:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                e:
+                  type: integer
+                f:
+                  type: string
+              allOf:
+                - $ref: '#/components/schemas/ObjectWithABProps'
+                - $ref: '#/components/schemas/ObjectWithCDProps'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                properties:
+                  e:
+                    type: integer
+                  f:
+                    type: string
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithABProps'
+                  - $ref: '#/components/schemas/ObjectWithCDProps'
+components:
+  schemas:
+    ObjectNoProps:
+      type: object
+    ObjectWithABProps:
+      type: object
+      properties:
+        a:
+          type: integer
+        b:
+          type: string
+    ObjectWithCDProps:
+      type: object
+      properties:
+        c:
+          type: integer
+        d:
+          type: string
+    ComposedOneOfNoProps:
+      oneOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    ComposedAnyOfNoProps:
+      anyOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    ComposedAllOfNoProps:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    ComposedOneOfWithProps:
+      properties:
+        e:
+          type: integer
+        f:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    ComposedAnyOfWithProps:
+      properties:
+        e:
+          type: integer
+        f:
+          type: string
+      anyOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    ComposedAllOfWithProps:
+      properties:
+        e:
+          type: integer
+        f:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithABProps'
+        - $ref: '#/components/schemas/ObjectWithCDProps'
+    OpjectWithPropsInObjectProps:
+      properties:
+        ObjectNoProps:
+          type: object
+        ObjectWithABProps:
+          type: object
+          properties:
+            a:
+              type: integer
+            b:
+              type: string
+        ObjectWithCDProps:
+          type: object
+          properties:
+            c:
+              type: integer
+            d:
+              type: string
+        ComposedOneOfNoProps:
+          oneOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'
+        ComposedAnyOfNoProps:
+          anyOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'
+        ComposedAllOfNoProps:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'
+        ComposedOneOfWithProps:
+          properties:
+            e:
+              type: integer
+            f:
+              type: string
+          oneOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'
+        ComposedAnyOfWithProps:
+          properties:
+            e:
+              type: integer
+            f:
+              type: string
+          anyOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'
+        ComposedAllOfWithProps:
+          properties:
+            e:
+              type: integer
+            f:
+              type: string
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithABProps'
+            - $ref: '#/components/schemas/ObjectWithCDProps'

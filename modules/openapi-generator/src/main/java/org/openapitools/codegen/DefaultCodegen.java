@@ -2495,7 +2495,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
-
             // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
             if (supportsAdditionalPropertiesWithComposedSchema) {
                 // Process the schema specified with the 'additionalProperties' keyword.
@@ -4856,7 +4855,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
      */
-    private void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    protected void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         if (properties == null) {
             return;
         }
@@ -6175,7 +6174,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
