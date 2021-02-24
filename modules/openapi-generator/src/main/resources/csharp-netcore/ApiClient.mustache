@@ -693,6 +693,129 @@ namespace {{packageName}}.Client
             return request;
         }
 
+        partial void InterceptRequest(HttpRequestMessage req, HttpClientHandler handler);
+        partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
+
+        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, HttpClientHandler handler, Uri uri)
+        {
+            T result = (T) responseData;
+            string rawContent = response.Content.ToString();
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
+            {
+                ErrorText = response.ReasonPhrase,
+                Cookies = new List<Cookie>()
+            };
+
+            if (response.Headers != null)
+            {
+                foreach (var responseHeader in response.Headers)
+                {
+
+                }
+            }
+
+            if (response != null)
+            {
+                foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                {
+                   transformed.Cookies.Add(cookie);
+                }
+            }
+
+            return transformed;
+        }
+
+        private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
+        {
+            return ExecAsync<T>(req, configuration).Result;
+        }
+
+        private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
+            IReadableConfiguration configuration,
+            System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var handler = new HttpClientHandler();
+            var client = new HttpClient();
+            var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
+
+            var finalToken = cancellationToken;
+
+            if (configuration.Timeout > 0)
+            {
+                var tokenSource = new CancellationTokenSource(configuration.Timeout);
+                finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
+            }
+
+            if (configuration.Proxy != null)
+            {
+                handler.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.UserAgent != null)
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", configuration.UserAgent);
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                handler.ClientCertificates.AddRange(configuration.ClientCertificates);
+            }
+
+            var cookieContainer = req.Properties["CookieContainer"] as List<Cookie>;
+
+            if (cookieContainer != null)
+            {
+                foreach (var cookie in cookieContainer)
+                {
+                    handler.CookieContainer.Add(cookie);
+                }
+            }
+
+            InterceptRequest(req, handler);
+
+            HttpResponseMessage response;
+
+            if (RetryConfiguration.AsyncRetryPolicy != null)
+            {
+                var policy = RetryConfiguration.AsyncRetryPolicy;
+                var policyResult = await policy
+                    .ExecuteAndCaptureAsync(() => client.SendAsync(req, cancellationToken))
+                    .ConfigureAwait(false);
+                response = (policyResult.Outcome == OutcomeType.Successful) ?
+                    policyResult.Result : new HttpResponseMessage()
+                    {
+                        ReasonPhrase = policyResult.FinalException.ToString(),
+                        RequestMessage = req
+                    };
+            }
+            else
+            {
+                response = await client.SendAsync(req, cancellationToken).ConfigureAwait(false);
+            }
+
+            object responseData = null;
+
+            // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+            if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+            {
+                T instance = (T) Activator.CreateInstance(typeof(T));
+                MethodInfo method = typeof(T).GetMethod("FromJson");
+                method.Invoke(instance, new object[] {response.Content});
+                responseData = instance;
+            }
+            else if (typeof(T).Name == "Stream") // for binary response
+            {
+                responseData = (T) (object) await response.Content.ReadAsStreamAsync();
+            }
+
+            InterceptResponse(req, response);
+
+            var result = ToApiResponse<T>(response, responseData, handler, req.RequestUri);
+
+            return result;
+        }
+
         {{/useHttpClient}}
 
         {{#useWebRequest}}
