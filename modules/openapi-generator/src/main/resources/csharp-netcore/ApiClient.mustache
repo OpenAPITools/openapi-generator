@@ -687,10 +687,7 @@ namespace {{packageName}}.Client
             // TODO provide an alternative that allows cookies per request instead of per API client
             if (options.Cookies != null && options.Cookies.Count > 0)
             {
-                foreach (var cookie in options.Cookies)
-                {
-                    _httpClientHandler.CookieContainer.Add(new Cookie(cookie.Name, cookie.Value));
-                }
+                request.Properties["CookieContainer"] = options.Cookies;
             }
 
             return request;
