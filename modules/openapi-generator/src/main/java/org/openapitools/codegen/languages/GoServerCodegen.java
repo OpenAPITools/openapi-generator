@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String packageVersion = "1.0.0";
     protected int serverPort = 8080;

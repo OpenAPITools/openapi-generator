@@ -6,7 +6,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -53,9 +52,7 @@ class PetApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
+        bodyData = _serializers.serializeWith(bodySerializer, pet);
 
         return _dio.request<dynamic>(
             _path,
@@ -81,10 +78,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Pet>(serializer, response.data);
 
             return Response<Pet>(
                 data: data,
@@ -201,12 +195,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             const type = FullType(BuiltList, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
@@ -271,12 +260,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             const type = FullType(BuiltList, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
@@ -342,10 +326,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Pet>(serializer, response.data);
 
             return Response<Pet>(
                 data: data,
@@ -389,9 +370,7 @@ class PetApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
+        bodyData = _serializers.serializeWith(bodySerializer, pet);
 
         return _dio.request<dynamic>(
             _path,
@@ -417,10 +396,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Pet>(serializer, response.data);
 
             return Response<Pet>(
                 data: data,
@@ -554,10 +530,7 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<ApiResponse>(serializer, response.data);
 
             return Response<ApiResponse>(
                 data: data,

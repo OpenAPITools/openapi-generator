@@ -33,7 +33,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
 
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";

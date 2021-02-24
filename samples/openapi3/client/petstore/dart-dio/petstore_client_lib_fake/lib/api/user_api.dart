@@ -6,7 +6,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -49,9 +48,7 @@ class UserApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
+        bodyData = _serializers.serializeWith(bodySerializer, user);
 
         return _dio.request<dynamic>(
             _path,
@@ -101,9 +98,7 @@ class UserApi {
         ];
 
         const type = FullType(BuiltList, [FullType(User)]);
-        final serializedBody = _serializers.serialize(user, specifiedType: type);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
+        bodyData = _serializers.serialize(user, specifiedType: type);
 
         return _dio.request<dynamic>(
             _path,
@@ -153,9 +148,7 @@ class UserApi {
         ];
 
         const type = FullType(BuiltList, [FullType(User)]);
-        final serializedBody = _serializers.serialize(user, specifiedType: type);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
+        bodyData = _serializers.serialize(user, specifiedType: type);
 
         return _dio.request<dynamic>(
             _path,
@@ -266,10 +259,7 @@ class UserApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(User) as Serializer<User>;
-            final data = _serializers.deserializeWith<User>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<User>(serializer, response.data);
 
             return Response<User>(
                 data: data,
@@ -418,9 +408,7 @@ class UserApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(User) as Serializer<User>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, user);
-        final jsonuser = json.encode(serializedBody);
-        bodyData = jsonuser;
+        bodyData = _serializers.serializeWith(bodySerializer, user);
 
         return _dio.request<dynamic>(
             _path,

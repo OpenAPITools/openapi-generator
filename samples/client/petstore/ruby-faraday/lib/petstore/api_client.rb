@@ -203,13 +203,6 @@ module Petstore
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
       if return_type == 'File'
-        # throw an exception if the temp folder path is not defined
-        # to avoid using the default temp directory which can be read by anyone
-        if @config.temp_folder_path.nil?
-          raise "@config.temp_folder_path must be setup first (e.g. ENV[\"HOME\"], ENV[\"HOMEPATH\"]) " +
-                "to avoid dowloading the file to a location readable by everyone."
-        end
-
         content_disposition = response.headers['Content-Disposition']
         if content_disposition && content_disposition =~ /filename=/i
           filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]

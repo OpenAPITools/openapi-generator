@@ -165,7 +165,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
