@@ -164,13 +164,6 @@ module XAuthIDAlias
     #
     # @see Configuration#temp_folder_path
     def download_file(request)
-      # throw an exception if the temp folder path is not defined
-      # to avoid using the default temp directory which can be read by anyone
-      if @config.temp_folder_path.nil?
-        raise "@config.temp_folder_path must be setup first (e.g. ENV[\"HOME\"], ENV[\"HOMEPATH\"])" +
-              "to avoid dowloading the file to a location readable by everyone."
-      end
-
       tempfile = nil
       encoding = nil
       request.on_headers do |response|
@@ -186,12 +179,10 @@ module XAuthIDAlias
         tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
         @tempfile = tempfile
       end
-
       request.on_body do |chunk|
         chunk.force_encoding(encoding)
         tempfile.write(chunk)
       end
-
       request.on_complete do |response|
         if tempfile
           tempfile.close

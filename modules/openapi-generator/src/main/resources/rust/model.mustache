@@ -51,7 +51,7 @@ pub struct {{{classname}}} {
     /// {{{description}}}
     {{/description}}
     #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{#isArray}}{{#uniqueItems}}std::collections::HashSet<{{/uniqueItems}}{{^uniqueItems}}Vec<{{/uniqueItems}}{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
 {{/vars}}
 }
 

@@ -6,7 +6,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -116,12 +115,7 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             const type = FullType(BuiltMap, [FullType(String), FullType(int)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltMap<String, int>;
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltMap<String, int>;
 
             return Response<BuiltMap<String, int>>(
                 data: data,
@@ -180,10 +174,7 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Order>(serializer, response.data);
 
             return Response<Order>(
                 data: data,
@@ -226,9 +217,7 @@ class StoreApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Order) as Serializer<Order>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, order);
-        final jsonorder = json.encode(serializedBody);
-        bodyData = jsonorder;
+        bodyData = _serializers.serializeWith(bodySerializer, order);
 
         return _dio.request<dynamic>(
             _path,
@@ -249,10 +238,7 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Order>(serializer, response.data);
 
             return Response<Order>(
                 data: data,
