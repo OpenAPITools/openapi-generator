@@ -77,7 +77,7 @@ public:
     /**
     * @param[in]  tags QList<QString> [required]
     */
-    void findPetsByTags(const QList<QString> &tags);
+    Q_DECL_DEPRECATED void findPetsByTags(const QList<QString> &tags);
 
     /**
     * @param[in]  pet_id qint64 [required]
