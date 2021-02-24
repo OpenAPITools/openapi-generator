@@ -101,6 +101,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use. Available options are restsharp, webrequest and httpclient.");
+    protected boolean needsCustomHttpMethod = false;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -580,6 +581,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             switch ((String) additionalProperties.get(WEBREQUEST_LIBRARY)) {
                 case WEBREQUEST_RESTSHARP:
                     additionalProperties.put("useRestSharp", true);
+                    needsCustomHttpMethod = true;
                     break;
 
                 case WEBREQUEST_HTTPCLIENT:
@@ -678,7 +680,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
-        supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        if(needsCustomHttpMethod) {
+            supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        }
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
             supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
         }
