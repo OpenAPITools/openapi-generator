@@ -35,7 +35,7 @@ public class HealthCheckResult  {
   }
 
   public void setNullableMessage(String nullableMessage) {
-    this.nullableMessage = nullableMessage;
+      this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

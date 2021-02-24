@@ -94,7 +94,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
