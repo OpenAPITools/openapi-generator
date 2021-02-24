@@ -25,6 +25,12 @@ using RestSharp;
 using RestSharp.Deserializers;
 using RestSharpMethod = RestSharp.Method;
 {{/useRestSharp}}
+{{#useWebRequest}}
+using System.Net.Http;
+{{/useWebRequest}}
+{{#useHttpClient}}
+using System.Net.Http;
+{{/useHttpClient}}
 using Polly;
 
 namespace {{packageName}}.Client
@@ -164,6 +170,7 @@ namespace {{packageName}}.Client
     {
         private readonly String _baseUrl;
 {{#useHttpClient}}
+        private readonly HttpClientHandler _httpClientHandler;
         private readonly HttpClient _httpClient;
 {{/useHttpClient}}
 
@@ -205,7 +212,8 @@ namespace {{packageName}}.Client
         {
             _baseUrl = {{packageName}}.Client.GlobalConfiguration.Instance.BasePath;
 {{#useHttpClient}}
-            _httpClient = new HttpClient();
+            _httpClientHandler = new HttpClientHandler();
+            _httpClient = new HttpClient(_httpClientHandler);
 {{/useHttpClient}}
         }
 
@@ -221,7 +229,8 @@ namespace {{packageName}}.Client
 
             _baseUrl = basePath;
 {{#useHttpClient}}
-            _httpClient = new HttpClient();
+            _httpClientHandler = new HttpClientHandler();
+            _httpClient = new HttpClient(_httpClientHandler);
 {{/useHttpClient}}
         }
 
@@ -537,6 +546,114 @@ namespace {{packageName}}.Client
             return result;
         }
         {{/useRestSharp}}
+
+        {{#useHttpClient}}
+            /// <summary>
+        /// Provides all logic for constructing a new HttpRequestMessage.
+        /// At this point, all information for querying the service is known. Here, it is simply
+        /// mapped into the a HttpRequestMessage.
+        /// </summary>
+        /// <param name="method">The http verb.</param>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>[private] A new HttpRequestMessage instance.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private HttpRequestMessage NewRequest(
+            HttpMethod method,
+            String path,
+            RequestOptions options,
+            IReadableConfiguration configuration)
+        {
+            if (path == null) throw new ArgumentNullException("path");
+            if (options == null) throw new ArgumentNullException("options");
+            if (configuration == null) throw new ArgumentNullException("configuration");
+
+            WebRequestPathBuilder builder = new WebRequestPathBuilder(_baseUrl, path);
+
+            builder.AddPathParameters(options.PathParameters);
+
+            // In case of POST or PUT pass query parameters in request body
+            if (method != HttpMethod.Post && method != HttpMethod.Put)
+            {
+                builder.AddQueryParameters(options.QueryParameters);
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
+
+            if (configuration.DefaultHeaders != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeaders)
+                {
+                    request.Headers.Add(headerParam.Key, headerParam.Value);
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                foreach (var headerParam in options.HeaderParameters)
+                {
+                    foreach (var value in headerParam.Value)
+                    {
+                        request.Headers.Add(headerParam.Key, value);
+                    }
+                }
+            }
+
+            List<Tuple<HttpContent, string, string>> contentList = new List<Tuple<HttpContent, string, string>>();
+
+            if (options.FormParameters != null)
+            {
+                contentList.Add(new Tuple<HttpContent, string, string>(new FormUrlEncodedContent(options.FormParameters), null, null));
+            }
+
+            if (options.Data != null)
+            {
+                contentList.Add(
+                    new Tuple<HttpContent, string, string>(new StringContent(options.Data.ToString(), new UTF8Encoding(), "application/json"), null, null));
+            }
+
+            if (options.FileParameters != null)
+            {
+                foreach (var fileParam in options.FileParameters)
+                {
+                    var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
+                    var fileStream = fileParam.Value as FileStream;
+                    contentList.Add(new Tuple<HttpContent, string, string>(new ByteArrayContent(bytes), fileParam.Key,
+                        fileStream?.Name ?? "no_file_name_provided"));
+                }
+            }
+
+            if (contentList.Count > 0)
+            {
+                string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
+                var multipartContent = new MultipartFormDataContent(boundary);
+                foreach (var content in contentList)
+                {
+                   multipartContent.Add(content.Item1, content.Item2, content.Item3);
+                }
+
+                request.Content = multipartContent;
+            }
+            else
+            {
+                request.Content = contentList.FirstOrDefault()?.Item1;
+            }
+
+            // TODO provide an alternative that allows cookies per request instead of per API client
+            if (options.Cookies != null && options.Cookies.Count > 0)
+            {
+                foreach (var cookie in options.Cookies)
+                {
+                    _httpClientHandler.CookieContainer.Add(new Cookie(cookie.Name, cookie.Value));
+                }
+            }
+
+            return request;
+        }
+
+        {{/useHttpClient}}
 
         {{#useWebRequest}}
            /// <summary>
