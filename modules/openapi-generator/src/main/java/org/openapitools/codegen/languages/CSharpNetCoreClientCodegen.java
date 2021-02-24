@@ -102,6 +102,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use. Available options are restsharp, webrequest and httpclient.");
     protected boolean needsCustomHttpMethod = false;
+    protected boolean needsUriBuilder = false;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -586,10 +587,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
                 case WEBREQUEST_HTTPCLIENT:
                     additionalProperties.put("useHttpClient", true);
+                    needsUriBuilder = true;
                     break;
 
                 case WEBREQUEST_WEBREQUEST:
                     additionalProperties.put("useWebRequest", true);
+                    needsUriBuilder = true;
                     break;
             }
         }
@@ -682,6 +685,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         if(needsCustomHttpMethod) {
             supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        }
+        if(needsUriBuilder) {
+            supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
         }
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
             supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
