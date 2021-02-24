@@ -129,8 +129,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} == null || !this.{{name}}.isPresent()) {
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+    }
+    this.{{name}}.get().add({{name}}Item);
+    return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}}.add({{name}}Item);
     return this;
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isArray}}
   {{#isMap}}
