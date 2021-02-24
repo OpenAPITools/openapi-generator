@@ -537,6 +537,116 @@ namespace {{packageName}}.Client
             return result;
         }
         {{/useRestSharp}}
+
+        {{#useWebRequest}}
+           /// <summary>
+        /// Provides all logic for constructing a new WebRequest.
+        /// At this point, all information for querying the service is known. Here, it is simply
+        /// mapped into the WebRequest.
+        /// </summary>
+        /// <param name="method">The http verb.</param>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>[private] A new WebRequest instance.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        private WebRequest NewRequest(
+            HttpMethod method,
+            String path,
+            RequestOptions options,
+            IReadableConfiguration configuration)
+        {
+            if (path == null) throw new ArgumentNullException("path");
+            if (options == null) throw new ArgumentNullException("options");
+            if (configuration == null) throw new ArgumentNullException("configuration");
+
+            WebRequestPathBuilder builder = new WebRequestPathBuilder(_baseUrl, path);
+
+            builder.AddPathParameters(options.PathParameters);
+
+            // In case of POST or PUT pass query parameters in request body
+            if (method != HttpMethod.Post && method != HttpMethod.Put)
+            {
+                builder.AddQueryParameters(options.QueryParameters);
+            }
+
+            HttpWebRequest request = WebRequest.CreateHttp(builder.GetFullUri());
+            request.Method = method.ToString();
+
+
+            if (configuration.DefaultHeaders != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeaders)
+                {
+                    request.Headers.Add(headerParam.Key, headerParam.Value);
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                foreach (var headerParam in options.HeaderParameters)
+                {
+                    foreach (var value in headerParam.Value)
+                    {
+                        request.Headers.Add(headerParam.Key, value);
+                    }
+                }
+            }
+
+            // Only POST and PUT have a body that is meaningful
+            if (method == HttpMethod.Post || method == HttpMethod.Put)
+            {
+                if (options.Data != null)
+                {
+                    var dataContent = Encoding.UTF8.GetBytes(options.Data.ToString());
+                    using (var requestStream = request.GetRequestStream())
+                    {
+                        requestStream.Write(dataContent);
+                    }
+                }
+                else
+                {
+                    // Form boundary from RestSharp to keep it as invariant as possible
+                    string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
+                    MultipartFormDataContent bodyContent = new MultipartFormDataContent(boundary);
+
+                    if (options.FormParameters != null)
+                    {
+                        foreach (var formParam in options.FormParameters)
+                        {
+                            bodyContent.Add(new StringContent(formParam.Value), formParam.Key);
+                        }
+                    }
+
+                    if (options.FileParameters != null)
+                    {
+                        foreach (var fileParam in options.FileParameters)
+                        {
+                            var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
+                            var fileStream = fileParam.Value as FileStream;
+                            if (fileStream != null)
+                                bodyContent.Add( new ByteArrayContent(bytes), fileParam.Key,System.IO.Path.GetFileName(fileStream.Name));
+                            else
+                                bodyContent.Add( new ByteArrayContent(bytes), fileParam.Key,"no_file_name_provided");
+                        }
+                    }
+                }
+            }
+
+            if (options.Cookies != null && options.Cookies.Count > 0)
+            {
+                foreach (var cookie in options.Cookies)
+                {
+                    request.CookieContainer.Add(new Cookie(cookie.Name, cookie.Value));
+                }
+            }
+
+            return request;
+        }
+        {{/useWebRequest}}
+
+
         {{#supportsAsync}}
         {{#useRestSharp}}
         private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
