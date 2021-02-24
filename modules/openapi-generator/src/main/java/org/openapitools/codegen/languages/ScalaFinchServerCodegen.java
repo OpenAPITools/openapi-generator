@@ -31,7 +31,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";

@@ -20,10 +20,15 @@ public class StoreApiHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(StoreApiHandler.class);
 
-    private final StoreApi apiImpl;
+    private final StoreApi api;
 
+    public StoreApiHandler(StoreApi api) {
+        this.api = api;
+    }
+
+    @Deprecated
     public StoreApiHandler() {
-        this.apiImpl = new StoreApiImpl();
+        this(new StoreApiImpl());
     }
 
     public void mount(RouterBuilder builder) {
@@ -43,7 +48,7 @@ public class StoreApiHandler {
 
         logger.debug("Parameter orderId is {}", orderId);
 
-        apiImpl.deleteOrder(orderId)
+        api.deleteOrder(orderId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -63,7 +68,7 @@ public class StoreApiHandler {
 
 
 
-        apiImpl.getInventory()
+        api.getInventory()
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -85,7 +90,7 @@ public class StoreApiHandler {
 
         logger.debug("Parameter orderId is {}", orderId);
 
-        apiImpl.getOrderById(orderId)
+        api.getOrderById(orderId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -108,7 +113,7 @@ public class StoreApiHandler {
 
         logger.debug("Parameter order is {}", order);
 
-        apiImpl.placeOrder(order)
+        api.placeOrder(order)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

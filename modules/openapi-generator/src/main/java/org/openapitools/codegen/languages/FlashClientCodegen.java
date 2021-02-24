@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
 
     protected String packageName = "org.openapitools";
     protected String packageVersion;

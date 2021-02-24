@@ -33,7 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
 |array|array|
-|map|map|
+|map|array|
 
 
 ## LANGUAGE PRIMITIVES

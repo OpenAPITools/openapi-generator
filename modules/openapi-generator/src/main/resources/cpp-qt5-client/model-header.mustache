@@ -35,10 +35,10 @@ public:
     void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) override;
     void fromJson(QString jsonString) override;
 {{^isEnum}}{{#vars}}
-    {{{dataType}}} {{getter}}() const;
-    void {{setter}}(const {{{dataType}}} &{{name}});
-    bool is_{{name}}_Set() const;
-    bool is_{{name}}_Valid() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is_{{name}}_Set() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is_{{name}}_Valid() const;
 {{/vars}}{{/isEnum}}{{#isEnum}}
 {{#allowableValues}}
     enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{

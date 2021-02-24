@@ -15,7 +15,6 @@ import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionFor
 {{#apis}}
 import { Observable{{classname}} } from './ObservableAPI{{extensionForDeno}}';
 
-
 {{#operations}}
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
 {{#useInversify}}
@@ -54,10 +53,10 @@ export class Promise{{classname}} {
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-    	const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
         return result.toPromise();
     }
-	
+
 {{/operation}}
 
 }

@@ -38,7 +38,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "src";

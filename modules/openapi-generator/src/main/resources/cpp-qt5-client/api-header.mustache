@@ -10,7 +10,7 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QStringList> 
+#include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
 #include <QVariant>
@@ -58,7 +58,7 @@ public:
     {{/required}}
     {{/allParams}}
     */{{/hasParams}}
-    void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}{{/operations}}
 
 private:

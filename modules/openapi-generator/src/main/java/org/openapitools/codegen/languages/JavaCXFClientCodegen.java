@@ -33,7 +33,7 @@ import java.util.Map;
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the

@@ -44,7 +44,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
     public static final String EXPORTED_NAME = "exportedName";
     public static final String SERVER_HOST = "serverHost";
     public static final String SERVER_PORT = "serverPort";

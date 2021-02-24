@@ -29,7 +29,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USER_INFO_PATH = "userInfoPath";
-    private static final Logger LOGGER = LoggerFactory.getLogger(Apache2ConfigCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Apache2ConfigCodegen.class);
 
     protected String userInfoPath = "/var/www/html/";
 

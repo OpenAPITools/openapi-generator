@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
