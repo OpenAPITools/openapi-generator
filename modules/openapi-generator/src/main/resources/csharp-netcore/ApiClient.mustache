@@ -639,25 +639,27 @@ namespace {{packageName}}.Client
                 {
                     foreach (var value in headerParam.Value)
                     {
-                        request.Headers.Add(headerParam.Key, value);
+                        // Todo make content headers actually content headers
+                        request.Headers.TryAddWithoutValidation(headerParam.Key, value);
                     }
                 }
             }
 
             List<Tuple<HttpContent, string, string>> contentList = new List<Tuple<HttpContent, string, string>>();
 
-            if (options.FormParameters != null)
+            if (options.FormParameters != null && options.FormParameters.Count > 0)
             {
                 contentList.Add(new Tuple<HttpContent, string, string>(new FormUrlEncodedContent(options.FormParameters), null, null));
             }
 
             if (options.Data != null)
             {
+                var serializer = new CustomJsonCodec(SerializerSettings, configuration);
                 contentList.Add(
-                    new Tuple<HttpContent, string, string>(new StringContent(options.Data.ToString(), new UTF8Encoding(), "application/json"), null, null));
+                    new Tuple<HttpContent, string, string>(new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(), "application/json"), null, null));
             }
 
-            if (options.FileParameters != null)
+            if (options.FileParameters != null && options.FileParameters.Count > 0)
             {
                 foreach (var fileParam in options.FileParameters)
                 {
@@ -668,7 +670,7 @@ namespace {{packageName}}.Client
                 }
             }
 
-            if (contentList.Count > 0)
+            if (contentList.Count > 1)
             {
                 string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
                 var multipartContent = new MultipartFormDataContent(boundary);
