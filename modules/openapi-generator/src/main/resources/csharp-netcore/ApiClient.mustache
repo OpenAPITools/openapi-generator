@@ -207,8 +207,10 @@ namespace {{packageName}}.Client
     {
         private readonly String _baseUrl;
 {{#useHttpClient}}
+    {{#reUseHttpClient}}
         private readonly HttpClientHandler _httpClientHandler;
         private readonly HttpClient _httpClient;
+    {{/reUseHttpClient}}
 {{/useHttpClient}}
 
         /// <summary>
@@ -249,8 +251,10 @@ namespace {{packageName}}.Client
         {
             _baseUrl = {{packageName}}.Client.GlobalConfiguration.Instance.BasePath;
 {{#useHttpClient}}
+    {{#reUseHttpClient}}
             _httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(_httpClientHandler);
+    {{/reUseHttpClient}}
 {{/useHttpClient}}
         }
 
@@ -266,8 +270,10 @@ namespace {{packageName}}.Client
 
             _baseUrl = basePath;
 {{#useHttpClient}}
+    {{#reUseHttpClient}}
             _httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(_httpClientHandler);
+    {{/reUseHttpClient}}
 {{/useHttpClient}}
         }
 
