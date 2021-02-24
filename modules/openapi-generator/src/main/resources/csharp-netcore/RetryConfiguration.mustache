@@ -2,6 +2,9 @@ using Polly;
 {{#useRestSharp}}
 using RestSharp;
 {{/useRestSharp}}
+{{#useHttpClient}}
+using System.Net.Http;
+{{/useHttpClient}}
 
 namespace {{packageName}}.Client
 {
@@ -21,5 +24,16 @@ namespace {{packageName}}.Client
         /// </summary>
         public static AsyncPolicy<IRestResponse> AsyncRetryPolicy { get; set; }
 {{/useRestSharp}}
+{{#useHttpClient}}
+        /// <summary>
+        /// Retry policy
+        /// </summary>
+        public static Policy<HttpResponseMessage> RetryPolicy { get; set; }
+
+        /// <summary>
+        /// Async retry policy
+        /// </summary>
+        public static AsyncPolicy<HttpResponseMessage> AsyncRetryPolicy { get; set; }
+{{/useHttpClient}}
     }
 }
