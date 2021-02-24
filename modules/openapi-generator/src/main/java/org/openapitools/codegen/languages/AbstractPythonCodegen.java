@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +38,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract public class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
@@ -114,26 +114,6 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
-
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
-            setProjectName((String) additionalProperties.get(CodegenConstants.PROJECT_NAME));
-        } else {
-            // default: set project based on package name
-            // e.g. petstore_api (package name) => petstore-api (project name)
-            setProjectName(packageName.replaceAll("_", "-"));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
-            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-
-        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
-        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
     }
 
     @Override
@@ -628,5 +608,95 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        String type = null;
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            type = toModelName(openAPIType);
+        }
+        return type;
+    }
+
+
+    @Override
+    public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(name);
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        // underscore the model file name
+        // PhoneNumber => phone_number
+        return underscore(dropDots(toModelName(name)));
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return "test_" + toModelFilename(name);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
+
+        // e.g. PhoneNumberApi.py => phone_number_api.py
+        return underscore(name + "_" + apiNameSuffix);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return "test_" + toApiFilename(name);
+    }
+
+    @Override
+    public String toApiName(String name) {
+        return super.toApiName(name);
+    }
+
+    @Override
+    public String toApiVarName(String name) {
+        if (name.length() == 0) {
+            return "default_api";
+        }
+        return underscore(name + "_" + apiNameSuffix);
+    }
+
+    protected static String dropDots(String str) {
+        return str.replaceAll("\\.", "_");
     }
 }

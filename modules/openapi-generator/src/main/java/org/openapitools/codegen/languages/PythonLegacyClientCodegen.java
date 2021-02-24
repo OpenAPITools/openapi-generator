@@ -167,16 +167,34 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
         Boolean excludeTests = false;
 
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
+            setProjectName((String) additionalProperties.get(CodegenConstants.PROJECT_NAME));
+        } else {
+            // default: set project based on package name
+            // e.g. petstore_api (package name) => petstore-api (project name)
+            setProjectName(packageName.replaceAll("_", "-"));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        }
+
+        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+
         if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }
-
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
             generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
-
 
         if (generateSourceCodeOnly) {
             // tests in <package>/test
@@ -263,10 +281,6 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
 
-    }
-
-    protected static String dropDots(String str) {
-        return str.replaceAll("\\.", "_");
     }
 
     @Override
@@ -398,93 +412,6 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     @Override
     public String modelTestFileFolder() {
         return outputFolder + File.separatorChar + testFolder;
-    }
-
-
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            type = toModelName(openAPIType);
-        }
-        return type;
-    }
-
-
-    @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // remove dollar sign
-        name = name.replaceAll("$", "");
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        // underscore the model file name
-        // PhoneNumber => phone_number
-        return underscore(dropDots(toModelName(name)));
-    }
-
-    @Override
-    public String toModelTestFilename(String name) {
-        return "test_" + toModelFilename(name);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
-
-        // e.g. PhoneNumberApi.py => phone_number_api.py
-        return underscore(name + "_" + apiNameSuffix);
-    }
-
-    @Override
-    public String toApiTestFilename(String name) {
-        return "test_" + toApiFilename(name);
-    }
-
-    @Override
-    public String toApiName(String name) {
-        return super.toApiName(name);
-    }
-
-    @Override
-    public String toApiVarName(String name) {
-        if (name.length() == 0) {
-            return "default_api";
-        }
-        return underscore(name + "_" + apiNameSuffix);
     }
 
 
