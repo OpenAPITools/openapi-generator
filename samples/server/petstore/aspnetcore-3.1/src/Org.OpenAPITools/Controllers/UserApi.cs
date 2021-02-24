@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
-        public virtual IActionResult LoginUser([FromQuery (Name = "")][Required()]string username, [FromQuery (Name = "")][Required()]string password)
+        public virtual IActionResult LoginUser([FromQuery (Name = "username")][Required()]string username, [FromQuery (Name = "password")][Required()]string password)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("FindPetsByStatus")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
-        public virtual IActionResult FindPetsByStatus([FromQuery (Name = "")][Required()]List<string> status)
+        public virtual IActionResult FindPetsByStatus([FromQuery (Name = "status")][Required()]List<string> status)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
-        public virtual IActionResult FindPetsByTags([FromQuery (Name = "")][Required()]List<string> tags)
+        public virtual IActionResult FindPetsByTags([FromQuery (Name = "tags")][Required()]List<string> tags)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
