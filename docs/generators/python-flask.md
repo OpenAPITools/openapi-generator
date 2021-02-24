@@ -42,13 +42,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Dict</li>
 <li>List</li>
 <li>bool</li>
-<li>byte</li>
-<li>bytearray</li>
+<li>bytes</li>
 <li>date</li>
 <li>datetime</li>
+<li>dict</li>
 <li>file</li>
 <li>float</li>
 <li>int</li>
+<li>list</li>
 <li>object</li>
 <li>str</li>
 </ul>
@@ -56,9 +57,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>
+<li>async</li>
+<li>auth_settings</li>
+<li>await</li>
+<li>body_params</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
@@ -71,21 +77,27 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>false</li>
 <li>finally</li>
 <li>for</li>
+<li>form_params</li>
 <li>from</li>
 <li>global</li>
+<li>header_params</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>
 <li>is</li>
 <li>lambda</li>
+<li>local_var_files</li>
 <li>none</li>
 <li>nonlocal</li>
 <li>not</li>
 <li>or</li>
 <li>pass</li>
+<li>path_params</li>
 <li>print</li>
 <li>property</li>
+<li>query_params</li>
 <li>raise</li>
+<li>resource_path</li>
 <li>return</li>
 <li>self</li>
 <li>true</li>
