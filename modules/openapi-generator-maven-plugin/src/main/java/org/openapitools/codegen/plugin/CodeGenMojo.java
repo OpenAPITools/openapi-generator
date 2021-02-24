@@ -758,7 +758,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
+                                               " to store the checksum of the input spec.");
+                }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
 
@@ -790,7 +793,7 @@ public class CodeGenMojo extends AbstractMojo {
         File inputSpecTempFile = inputSpecFile;
 
         if (inputSpecRemoteUrl != null) {
-            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+            inputSpecTempFile = java.nio.file.Files.createTempFile("openapi-spec", ".tmp").toFile();
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
