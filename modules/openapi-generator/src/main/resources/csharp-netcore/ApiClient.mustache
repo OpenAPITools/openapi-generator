@@ -163,6 +163,9 @@ namespace {{packageName}}.Client
     {{>visibility}} partial class ApiClient : ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
         private readonly String _baseUrl;
+{{#useHttpClient}}
+        private readonly HttpClient _httpClient;
+{{/useHttpClient}}
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object. 
@@ -201,6 +204,9 @@ namespace {{packageName}}.Client
         public ApiClient()
         {
             _baseUrl = {{packageName}}.Client.GlobalConfiguration.Instance.BasePath;
+{{#useHttpClient}}
+            _httpClient = new HttpClient();
+{{/useHttpClient}}
         }
 
         /// <summary>
@@ -214,6 +220,9 @@ namespace {{packageName}}.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
+{{#useHttpClient}}
+            _httpClient = new HttpClient();
+{{/useHttpClient}}
         }
 
         {{#useRestSharp}}
