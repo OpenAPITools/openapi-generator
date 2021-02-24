@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **IntegerProp** | Pointer to **NullableInt32** |  | [optional] 
 **NumberProp** | Pointer to **NullableFloat32** |  | [optional] 
-**BooleanProp** | Pointer to **NullableBool** |  | [optional] 
+**BooleanProp** | Pointer to **NullableBool** |  | [optional] [default to false]
 **StringProp** | Pointer to **NullableString** |  | [optional] 
 **DateProp** | Pointer to **NullableString** |  | [optional] 
 **DatetimeProp** | Pointer to **NullableTime** |  | [optional] 

@@ -1868,6 +1868,7 @@ components:
           nullable: true
           type: number
         boolean_prop:
+          default: false
           nullable: true
           type: boolean
         string_prop:
