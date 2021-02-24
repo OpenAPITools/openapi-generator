@@ -34,8 +34,18 @@ public class HealthCheckResult  {
     return nullableMessage.orElse(null);
   }
 
+  @JsonProperty("NullableMessage")
+  public JsonNullable<String> getNullableMessage_JsonNullable() {
+    return nullableMessage;
+  }
+
   public void setNullableMessage(String nullableMessage) {
       this.nullableMessage = JsonNullable.<String>of(nullableMessage);
+  }
+
+  @JsonProperty("NullableMessage")
+  public void setNullableMessage_JsonNullable(JsonNullable<String> nullableMessage) {
+    this.nullableMessage = nullableMessage;
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

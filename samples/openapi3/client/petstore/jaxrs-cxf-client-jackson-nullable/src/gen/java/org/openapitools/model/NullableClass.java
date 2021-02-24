@@ -69,8 +69,18 @@ public class NullableClass extends HashMap<String, Object> {
     return integerProp.orElse(null);
   }
 
+  @JsonProperty("integer_prop")
+  public JsonNullable<Integer> getIntegerProp_JsonNullable() {
+    return integerProp;
+  }
+
   public void setIntegerProp(Integer integerProp) {
       this.integerProp = JsonNullable.<Integer>of(integerProp);
+  }
+
+  @JsonProperty("integer_prop")
+  public void setIntegerProp_JsonNullable(JsonNullable<Integer> integerProp) {
+    this.integerProp = integerProp;
   }
 
   public NullableClass integerProp(Integer integerProp) {
@@ -90,8 +100,18 @@ public class NullableClass extends HashMap<String, Object> {
     return numberProp.orElse(null);
   }
 
+  @JsonProperty("number_prop")
+  public JsonNullable<BigDecimal> getNumberProp_JsonNullable() {
+    return numberProp;
+  }
+
   public void setNumberProp(BigDecimal numberProp) {
       this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
+  }
+
+  @JsonProperty("number_prop")
+  public void setNumberProp_JsonNullable(JsonNullable<BigDecimal> numberProp) {
+    this.numberProp = numberProp;
   }
 
   public NullableClass numberProp(BigDecimal numberProp) {
@@ -111,8 +131,18 @@ public class NullableClass extends HashMap<String, Object> {
     return booleanProp.orElse(null);
   }
 
+  @JsonProperty("boolean_prop")
+  public JsonNullable<Boolean> getBooleanProp_JsonNullable() {
+    return booleanProp;
+  }
+
   public void setBooleanProp(Boolean booleanProp) {
       this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
+  }
+
+  @JsonProperty("boolean_prop")
+  public void setBooleanProp_JsonNullable(JsonNullable<Boolean> booleanProp) {
+    this.booleanProp = booleanProp;
   }
 
   public NullableClass booleanProp(Boolean booleanProp) {
@@ -132,8 +162,18 @@ public class NullableClass extends HashMap<String, Object> {
     return stringProp.orElse(null);
   }
 
+  @JsonProperty("string_prop")
+  public JsonNullable<String> getStringProp_JsonNullable() {
+    return stringProp;
+  }
+
   public void setStringProp(String stringProp) {
       this.stringProp = JsonNullable.<String>of(stringProp);
+  }
+
+  @JsonProperty("string_prop")
+  public void setStringProp_JsonNullable(JsonNullable<String> stringProp) {
+    this.stringProp = stringProp;
   }
 
   public NullableClass stringProp(String stringProp) {
@@ -153,8 +193,18 @@ public class NullableClass extends HashMap<String, Object> {
     return dateProp.orElse(null);
   }
 
+  @JsonProperty("date_prop")
+  public JsonNullable<LocalDate> getDateProp_JsonNullable() {
+    return dateProp;
+  }
+
   public void setDateProp(LocalDate dateProp) {
       this.dateProp = JsonNullable.<LocalDate>of(dateProp);
+  }
+
+  @JsonProperty("date_prop")
+  public void setDateProp_JsonNullable(JsonNullable<LocalDate> dateProp) {
+    this.dateProp = dateProp;
   }
 
   public NullableClass dateProp(LocalDate dateProp) {
@@ -174,8 +224,18 @@ public class NullableClass extends HashMap<String, Object> {
     return datetimeProp.orElse(null);
   }
 
+  @JsonProperty("datetime_prop")
+  public JsonNullable<Date> getDatetimeProp_JsonNullable() {
+    return datetimeProp;
+  }
+
   public void setDatetimeProp(Date datetimeProp) {
       this.datetimeProp = JsonNullable.<Date>of(datetimeProp);
+  }
+
+  @JsonProperty("datetime_prop")
+  public void setDatetimeProp_JsonNullable(JsonNullable<Date> datetimeProp) {
+    this.datetimeProp = datetimeProp;
   }
 
   public NullableClass datetimeProp(Date datetimeProp) {
@@ -195,8 +255,18 @@ public class NullableClass extends HashMap<String, Object> {
     return arrayNullableProp.orElse(null);
   }
 
+  @JsonProperty("array_nullable_prop")
+  public JsonNullable<List<Object>> getArrayNullableProp_JsonNullable() {
+    return arrayNullableProp;
+  }
+
   public void setArrayNullableProp(List<Object> arrayNullableProp) {
       this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
+  }
+
+  @JsonProperty("array_nullable_prop")
+  public void setArrayNullableProp_JsonNullable(JsonNullable<List<Object>> arrayNullableProp) {
+    this.arrayNullableProp = arrayNullableProp;
   }
 
   public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
@@ -221,8 +291,18 @@ public class NullableClass extends HashMap<String, Object> {
     return arrayAndItemsNullableProp.orElse(null);
   }
 
+  @JsonProperty("array_and_items_nullable_prop")
+  public JsonNullable<List<Object>> getArrayAndItemsNullableProp_JsonNullable() {
+    return arrayAndItemsNullableProp;
+  }
+
   public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
       this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
+  }
+
+  @JsonProperty("array_and_items_nullable_prop")
+  public void setArrayAndItemsNullableProp_JsonNullable(JsonNullable<List<Object>> arrayAndItemsNullableProp) {
+    this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
   public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
@@ -270,8 +350,18 @@ public class NullableClass extends HashMap<String, Object> {
     return objectNullableProp.orElse(null);
   }
 
+  @JsonProperty("object_nullable_prop")
+  public JsonNullable<Map<String, Object>> getObjectNullableProp_JsonNullable() {
+    return objectNullableProp;
+  }
+
   public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
       this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
+  }
+
+  @JsonProperty("object_nullable_prop")
+  public void setObjectNullableProp_JsonNullable(JsonNullable<Map<String, Object>> objectNullableProp) {
+    this.objectNullableProp = objectNullableProp;
   }
 
   public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
@@ -296,8 +386,18 @@ public class NullableClass extends HashMap<String, Object> {
     return objectAndItemsNullableProp.orElse(null);
   }
 
+  @JsonProperty("object_and_items_nullable_prop")
+  public JsonNullable<Map<String, Object>> getObjectAndItemsNullableProp_JsonNullable() {
+    return objectAndItemsNullableProp;
+  }
+
   public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
       this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
+  }
+
+  @JsonProperty("object_and_items_nullable_prop")
+  public void setObjectAndItemsNullableProp_JsonNullable(JsonNullable<Map<String, Object>> objectAndItemsNullableProp) {
+    this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
   public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {

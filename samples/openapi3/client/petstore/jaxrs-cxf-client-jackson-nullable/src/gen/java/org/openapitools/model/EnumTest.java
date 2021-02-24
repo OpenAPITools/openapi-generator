@@ -276,8 +276,18 @@ public enum EnumNumberEnum {
     return outerEnum.orElse(null);
   }
 
+  @JsonProperty("outerEnum")
+  public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
+    return outerEnum;
+  }
+
   public void setOuterEnum(OuterEnum outerEnum) {
       this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+  }
+
+  @JsonProperty("outerEnum")
+  public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
+    this.outerEnum = outerEnum;
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {

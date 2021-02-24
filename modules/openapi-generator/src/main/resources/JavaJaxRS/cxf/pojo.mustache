@@ -91,6 +91,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     return {{name}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }{{/isEnum}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+
+  @JsonProperty("{{baseName}}")
+  public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
+    return {{name}};
+  }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
@@ -101,6 +108,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     this.{{name}} = {{name}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+
+  @JsonProperty("{{baseName}}")
+  public void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
+    this.{{name}} = {{name}};
+  }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
