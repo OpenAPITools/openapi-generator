@@ -1,6 +1,5 @@
 {{>header}}
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -72,24 +71,22 @@ class {{classname}} {
         {{#isContainer}}
         {{#isArray}}
         const type = FullType(Built{{#uniqueItems}}Built{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]);
-        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
+        bodyData = _serializers.serialize({{paramName}}, specifiedType: type);
         {{/isArray}}
         {{#isMap}}
         const type = FullType(BuiltMap, [FullType(String), FullType({{baseType}})]);
-        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
+        bodyData = _serializers.serialize({{paramName}}, specifiedType: type);
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        final serializedBody = {{paramName}};
+        bodyData = {{paramName}};
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, {{paramName}});
+        bodyData = _serializers.serializeWith(bodySerializer, {{paramName}});
         {{/isPrimitiveType}}
         {{/isContainer}}
-        final json{{paramName}} = json.encode(serializedBody);
-        bodyData = json{{paramName}};
         {{/bodyParam}}
 
         return _dio.request<dynamic>(
@@ -130,20 +127,12 @@ class {{classname}} {
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
             final serializer = _serializers.serializerForType({{{returnType}}}) as Serializer<{{{returnType}}}>;
-            final data = _serializers.deserializeWith<{{{returnType}}}>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data);
         {{/returnTypeIsPrimitive}}
         {{/returnSimpleType}}
         {{^returnSimpleType}}
             const type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as {{{returnType}}};
+            final data = _serializers.deserialize(response.data, specifiedType: type) as {{{returnType}}};
         {{/returnSimpleType}}
         {{/isResponseFile}}
 
