@@ -281,7 +281,7 @@ public enum EnumNumberEnum {
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
     return this;
   }
 
