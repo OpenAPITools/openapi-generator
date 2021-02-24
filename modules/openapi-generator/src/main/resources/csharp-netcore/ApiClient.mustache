@@ -674,7 +674,14 @@ namespace {{packageName}}.Client
                 var multipartContent = new MultipartFormDataContent(boundary);
                 foreach (var content in contentList)
                 {
-                   multipartContent.Add(content.Item1, content.Item2, content.Item3);
+                   if(content.Item2 != null)
+                   {
+                     multipartContent.Add(content.Item1, content.Item2, content.Item3);
+                   }
+                   else
+                   {
+                     multipartContent.Add(content.Item1);
+                   }
                 }
 
                 request.Content = multipartContent;
@@ -754,7 +761,7 @@ namespace {{packageName}}.Client
 
             if (configuration.UserAgent != null)
             {
-                client.DefaultRequestHeaders.Add("User-Agent", configuration.UserAgent);
+                client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
             }
 
             if (configuration.ClientCertificates != null)
@@ -762,7 +769,7 @@ namespace {{packageName}}.Client
                 handler.ClientCertificates.AddRange(configuration.ClientCertificates);
             }
 
-            var cookieContainer = req.Properties["CookieContainer"] as List<Cookie>;
+            var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
             if (cookieContainer != null)
             {
@@ -794,7 +801,7 @@ namespace {{packageName}}.Client
                 response = await client.SendAsync(req, cancellationToken).ConfigureAwait(false);
             }
 
-            object responseData = null;
+            object responseData = deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
