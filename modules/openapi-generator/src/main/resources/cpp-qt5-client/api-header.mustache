@@ -10,7 +10,7 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QStringList> 
+#include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
 
@@ -47,7 +47,7 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 {{#operations}}{{#operation}}
-    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
 
 private:
     QString _scheme, _host;
