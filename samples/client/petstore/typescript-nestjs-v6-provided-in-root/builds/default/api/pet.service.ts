@@ -27,7 +27,7 @@ export class PetService {
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
-        this.configuration = configuration;
+        this.configuration = configuration || this.configuration;
         this.basePath = configuration?.basePath || this.basePath;
     }
 

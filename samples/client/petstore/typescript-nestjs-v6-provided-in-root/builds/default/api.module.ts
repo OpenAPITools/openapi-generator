@@ -5,7 +5,7 @@ import { PetService } from './api/pet.service';
 import { StoreService } from './api/store.service';
 import { UserService } from './api/user.service';
 
-@Global
+@Global()
 @Module({
   imports:      [ HttpModule ],
   exports:      [
