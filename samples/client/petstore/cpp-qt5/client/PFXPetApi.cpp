@@ -35,7 +35,7 @@ QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
 QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
 defaultConf.append(PFXServerConfiguration(
-    "http://petstore.swagger.io/v2",
+    QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
 _serverConfigs.insert("addPet",defaultConf);
@@ -113,15 +113,15 @@ void PFXPetApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     /**
      * Appends a new ServerConfiguration to the config map for a specific operation.
      * @param operation The id to the target operation.
-     * @param URL A string that contains the URL of the server
+     * @param url A string that contains the URL of the server
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      * returns the index of the new server config on success and -1 if the operation is not found
      */
-int PFXPetApi::addServerConfiguration(const QString &operation, const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
     if(_serverConfigs.contains(operation)){
         _serverConfigs[operation].append(PFXServerConfiguration(
-                    URL,
+                    url,
                     description,
                     variables));
         return _serverConfigs[operation].size()-1;
@@ -132,13 +132,13 @@ int PFXPetApi::addServerConfiguration(const QString &operation, const QString &U
 
     /**
      * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-     * @param URL A string that contains the URL of the server
+     * @param url A string that contains the URL of the server
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-void PFXPetApi::setNewServerForAllOperations(const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
         for(auto e : _serverIndices.keys()){
-            setServerIndex(e, addServerConfiguration(e, URL, description, variables));
+            setServerIndex(e, addServerConfiguration(e, url, description, variables));
         }
 } 
     /**
@@ -147,9 +147,9 @@ void PFXPetApi::setNewServerForAllOperations(const QString &URL, const QString &
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-void PFXPetApi::setNewServer(const QString &operation, const QString &URL, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+void PFXPetApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
 
-    setServerIndex(operation, addServerConfiguration(operation, URL, description, variables));
+    setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 
 }
 

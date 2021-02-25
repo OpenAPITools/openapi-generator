@@ -28,7 +28,7 @@ QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfigu
 QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
 {{#vendorExtensions.x-cpp-global-server-list}}
 defaultConf.append({{prefix}}ServerConfiguration(
-    "{{{url}}}",
+    QUrl("{{{url}}}"),
     "{{{description}}}{{^description}}No description provided{{/description}}",
     {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
@@ -44,7 +44,7 @@ _serverIndices.insert("{{nickname}}",0);
 {{/servers}}
 {{#servers}}
 serverConf.append({{prefix}}ServerConfiguration(
-    "{{{url}}}",
+    QUrl("{{{url}}}"),
     "{{{description}}}{{^description}}No description provided{{/description}}",
     {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
@@ -107,15 +107,15 @@ void {{classname}}::setNetworkAccessManager(QNetworkAccessManager* manager) {
     /**
      * Appends a new ServerConfiguration to the config map for a specific operation.
      * @param operation The id to the target operation.
-     * @param URL A string that contains the URL of the server
+     * @param url A string that contains the URL of the server
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      * returns the index of the new server config on success and -1 if the operation is not found
      */
-int {{classname}}::addServerConfiguration(const QString &operation, const QString &URL, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
+int {{classname}}::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
     if(_serverConfigs.contains(operation)){
         _serverConfigs[operation].append({{prefix}}ServerConfiguration(
-                    URL,
+                    url,
                     description,
                     variables));
         return _serverConfigs[operation].size()-1;
@@ -126,13 +126,13 @@ int {{classname}}::addServerConfiguration(const QString &operation, const QStrin
 
     /**
      * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-     * @param URL A string that contains the URL of the server
+     * @param url A string that contains the URL of the server
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-void {{classname}}::setNewServerForAllOperations(const QString &URL, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
+void {{classname}}::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
         for(auto e : _serverIndices.keys()){
-            setServerIndex(e, addServerConfiguration(e, URL, description, variables));
+            setServerIndex(e, addServerConfiguration(e, url, description, variables));
         }
 } 
     /**
@@ -141,9 +141,9 @@ void {{classname}}::setNewServerForAllOperations(const QString &URL, const QStri
      * @param description A String that describes the server
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-void {{classname}}::setNewServer(const QString &operation, const QString &URL, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
+void {{classname}}::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
 
-    setServerIndex(operation, addServerConfiguration(operation, URL, description, variables));
+    setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 
 }
 

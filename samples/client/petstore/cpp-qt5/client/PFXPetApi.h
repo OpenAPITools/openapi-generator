@@ -45,9 +45,9 @@ public:
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void setNetworkAccessManager(QNetworkAccessManager* manager);
-    int addServerConfiguration(const QString &operation, const QString &URL, const QString &description = "", const QMap<QString, PFXServerVariable> &variables = QMap<QString, PFXServerVariable>());
-    void setNewServerForAllOperations(const QString &URL, const QString &description = "", const QMap<QString, PFXServerVariable> &variables =  QMap<QString, PFXServerVariable>());
-    void setNewServer(const QString &operation, const QString &URL, const QString &description = "", const QMap<QString, PFXServerVariable> &variables =  QMap<QString, PFXServerVariable>());
+    int addServerConfiguration(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, PFXServerVariable> &variables = QMap<QString, PFXServerVariable>());
+    void setNewServerForAllOperations(const QUrl &url, const QString &description = "", const QMap<QString, PFXServerVariable> &variables =  QMap<QString, PFXServerVariable>());
+    void setNewServer(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, PFXServerVariable> &variables =  QMap<QString, PFXServerVariable>());
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
