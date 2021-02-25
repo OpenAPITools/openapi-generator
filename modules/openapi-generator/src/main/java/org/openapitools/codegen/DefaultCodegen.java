@@ -3319,7 +3319,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
         }
 
-        addVarsRequiredVarsAdditionaProps(p, property);
+        addVarsRequiredVarsAdditionalProps(p, property);
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
@@ -4053,7 +4053,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
 
-            addVarsRequiredVarsAdditionaProps(responseSchema, r);
+            addVarsRequiredVarsAdditionalProps(responseSchema, r);
         }
 
         if (r.baseType == null) {
@@ -4324,7 +4324,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
                 codegenParameter.hasValidation = true;
             }
-            addVarsRequiredVarsAdditionaProps(parameterSchema, codegenParameter);
+            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
 
         } else {
             LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
@@ -6100,7 +6100,7 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         }
 
-        addVarsRequiredVarsAdditionaProps(schema, codegenParameter);
+        addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
         // set the parameter's example value
@@ -6110,7 +6110,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
+    private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         if (!"object".equals(schema.getType())) {
             return;
         }
