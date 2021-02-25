@@ -15,6 +15,7 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+
 import 'package:meta/meta.dart';
 
 part 'api_client.dart';
@@ -77,6 +78,7 @@ part 'model/read_only_first.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
 part 'model/user.dart';
+
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';

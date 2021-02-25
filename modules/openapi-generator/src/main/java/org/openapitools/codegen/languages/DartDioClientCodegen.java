@@ -32,7 +32,8 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartDioClientCodegen extends DartClientCodegen {
+public class DartDioClientCodegen extends AbstractDartCodegen {
+
     private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
@@ -149,7 +150,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
-        defaultProcessOpts();
+        super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -163,47 +164,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
         }
 
-        if (additionalProperties.containsKey(PUB_LIBRARY)) {
-            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_LIBRARY, pubLibrary);
-        }
-
-        if (additionalProperties.containsKey(PUB_NAME)) {
-            this.setPubName((String) additionalProperties.get(PUB_NAME));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_NAME, pubName);
-        }
-
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
-        }
-
-        if (additionalProperties.containsKey(PUB_VERSION)) {
-            this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_VERSION, pubVersion);
-        }
-
-        if (additionalProperties.containsKey(PUB_DESCRIPTION)) {
-            this.setPubDescription((String) additionalProperties.get(PUB_DESCRIPTION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_DESCRIPTION, pubDescription);
-        }
-
-        if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
-            this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_ENUM_EXTENSION));
-        } else {
-            // Not set, use to be passed to template.
-            additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {

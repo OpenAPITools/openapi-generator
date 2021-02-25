@@ -1,3 +1,11 @@
+{{#json_serializable}}
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: true,
+  explicitToJson: true,
+)
+{{/json_serializable}}
 class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
@@ -10,6 +18,7 @@ class {{{classname}}} {
   {{/vars}}
   });
 
+{{^json_serializable}}
   {{#vars}}
   {{#description}}
   /// {{{description}}}
@@ -25,6 +34,34 @@ class {{{classname}}} {
   {{{datatypeWithEnum}}} {{{name}}};
 
   {{/vars}}
+{{/json_serializable}}
+{{#json_serializable}}
+{{#vars}}
+  {{#description}}
+      /// {{{description}}}
+  {{/description}}
+  {{^isEnum}}
+      {{#minimum}}
+          // minimum: {{{minimum}}}
+      {{/minimum}}
+      {{#maximum}}
+          // maximum: {{{maximum}}}
+      {{/maximum}}
+  {{/isEnum}}
+  {{^isBinary}}
+  @JsonKey(
+    nullable: {{#nullable}}true{{/nullable}}{{^nullable}}false{{/nullable}},
+    name: r'{{{baseName}}}',
+    required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+  )
+  {{/isBinary}}
+  {{#isBinary}}
+  @JsonKey(ignore: true)
+  {{/isBinary}}
+  {{{datatypeWithEnum}}} {{{name}}};
+
+{{/vars}}
+{{/json_serializable}}
   @override
   bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
   {{#vars}}
@@ -37,6 +74,7 @@ class {{{classname}}} {
     ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
+{{^json_serializable}}
   @override
   String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
 
@@ -218,6 +256,19 @@ class {{{classname}}} {
     }
     return map;
   }
+{{/json_serializable}}
+{{#json_serializable}}
+
+  factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);
+
+  Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
+{{/json_serializable}}
 }
 {{#vars}}
     {{#isEnum}}
