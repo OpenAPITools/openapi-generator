@@ -46,6 +46,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
         .includeSecurityFeatures(SecurityFeature.BasicAuth)
         .includeSecurityFeatures(SecurityFeature.ApiKey)
         .includeSecurityFeatures(SecurityFeature.BearerToken)
+        .includeSecurityFeatures(SecurityFeature.OAuth2_Implicit)
         );
 
         // set the output folder here
