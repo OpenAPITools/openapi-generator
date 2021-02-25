@@ -17,7 +17,7 @@ class DefaultApi {
 
   /// Performs an HTTP 'GET /foo' operation and returns the [Response].
   Future<Response> fooGetWithHttpInfo() async {
-    final path = '/foo'.replaceAll('{format}', 'json');
+    final path = '/foo';
 
     Object postBody;
 

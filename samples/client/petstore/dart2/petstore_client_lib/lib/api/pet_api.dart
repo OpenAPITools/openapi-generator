@@ -29,7 +29,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = '/pet';
 
     Object postBody = body;
 
@@ -94,7 +94,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = '/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -166,7 +166,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
-    final path = '/pet/findByStatus'.replaceAll('{format}', 'json');
+    final path = '/pet/findByStatus';
 
     Object postBody;
 
@@ -244,7 +244,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
-    final path = '/pet/findByTags'.replaceAll('{format}', 'json');
+    final path = '/pet/findByTags';
 
     Object postBody;
 
@@ -322,7 +322,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = '/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -395,7 +395,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = '/pet';
 
     Object postBody = body;
 
@@ -464,7 +464,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = '/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -554,7 +554,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}/uploadImage'.replaceAll('{format}', 'json')
+    final path = '/pet/{petId}/uploadImage'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
