@@ -75,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): Configuration => {
+export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   }

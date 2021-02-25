@@ -75,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '';
 
-export function apiConfigFactory (): Configuration => {
+export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   }
