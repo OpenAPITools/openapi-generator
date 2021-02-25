@@ -31,7 +31,7 @@ class AnotherFakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/another-fake/dummy'.replaceAll('{format}', 'json');
+    final path = '/another-fake/dummy';
 
     Object postBody = modelClient;
 
