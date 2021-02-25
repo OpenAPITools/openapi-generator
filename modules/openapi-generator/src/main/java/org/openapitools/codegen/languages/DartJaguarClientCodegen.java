@@ -32,7 +32,8 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartJaguarClientCodegen extends DartClientCodegen {
+public class DartJaguarClientCodegen extends AbstractDartCodegen {
+
     private final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
 
     private static final String NULLABLE_FIELDS = "nullableFields";
@@ -150,7 +151,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
-        defaultProcessOpts();
+        super.processOpts();
+
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
         } else {
@@ -172,44 +174,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             additionalProperties.put(IS_FORMAT_PROTO, false);
         }
 
-        if (additionalProperties.containsKey(PUB_LIBRARY)) {
-            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_LIBRARY, pubLibrary);
-        }
-
-        if (additionalProperties.containsKey(PUB_NAME)) {
-            this.setPubName((String) additionalProperties.get(PUB_NAME));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_NAME, pubName);
-        }
         additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
-
-        if (additionalProperties.containsKey(PUB_VERSION)) {
-            this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_VERSION, pubVersion);
-        }
-
-        if (additionalProperties.containsKey(PUB_DESCRIPTION)) {
-            this.setPubDescription((String) additionalProperties.get(PUB_DESCRIPTION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_DESCRIPTION, pubDescription);
-        }
 
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
             this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_ENUM_EXTENSION));
         } else {
             // Not set, use to be passed to template.
             additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         // make api and model doc path available in mustache template
