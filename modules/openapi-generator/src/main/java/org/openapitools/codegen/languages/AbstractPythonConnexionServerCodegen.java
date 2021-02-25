@@ -73,12 +73,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         modelPackage = "models";
         testPackage = "test";
 
-        // TODO may remove these later to default to the setting in abstract python base class instead
-        languageSpecificPrimitives.add("List");
-        languageSpecificPrimitives.add("Dict");
-        typeMapping.put("array", "List");
-        typeMapping.put("map", "Dict");
-
         // set the output folder here
         outputFolder = "generated-code/connexion";
 

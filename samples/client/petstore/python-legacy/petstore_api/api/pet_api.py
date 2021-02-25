@@ -312,7 +312,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: list[str]
+        :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -326,7 +326,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: list[Pet]
+        :rtype: List[Pet]
         """
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
@@ -342,7 +342,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: list[str]
+        :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -363,7 +363,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -417,7 +417,7 @@ class PetApi(object):
         auth_settings = ['petstore_auth']  # noqa: E501
         
         response_types_map = {
-            200: "list[Pet]",
+            200: "List[Pet]",
             400: None,
         }
 
@@ -449,7 +449,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param tags: Tags to filter by (required)
-        :type tags: list[str]
+        :type tags: Set[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -463,7 +463,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: list[Pet]
+        :rtype: Set[Pet]
         """
         kwargs['_return_http_data_only'] = True
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
@@ -479,7 +479,7 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param tags: Tags to filter by (required)
-        :type tags: list[str]
+        :type tags: Set[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -500,7 +500,7 @@ class PetApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(Set[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -554,7 +554,7 @@ class PetApi(object):
         auth_settings = ['petstore_auth']  # noqa: E501
         
         response_types_map = {
-            200: "list[Pet]",
+            200: "Set[Pet]",
             400: None,
         }
 

@@ -69,8 +69,6 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
-        languageSpecificPrimitives.add("list");
-        languageSpecificPrimitives.add("dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -79,6 +77,9 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("bytes");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
+        languageSpecificPrimitives.add("Set");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -86,9 +87,9 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("number", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
-        typeMapping.put("array", "list");
-        typeMapping.put("set", "list");
-        typeMapping.put("map", "dict");
+        typeMapping.put("set", "Set");
+        typeMapping.put("array", "List");
+        typeMapping.put("map", "Dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
