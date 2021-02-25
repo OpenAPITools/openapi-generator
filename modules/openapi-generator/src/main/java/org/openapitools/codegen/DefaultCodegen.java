@@ -1625,7 +1625,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(qp.getStyle())) {
                             paramPart.append("%20");
                         } else {
-                            LOGGER.warn("query parameter '" + param.getName() + "style not support: " + qp.getStyle());
+                            LOGGER.warn("query parameter '{}' style not support: {}", param.getName(), qp.getStyle());
                         }
                     } else {
                         paramPart.append(param.getName());
@@ -2001,7 +2001,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 return getAlias(schemaName);
             } else {
-                LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
+                LOGGER.warn("Error obtaining the datatype from ref: {}. Default to 'object'", unaliasSchema.get$ref());
                 return "object";
             }
         } else { // primitive type or model
@@ -2089,7 +2089,7 @@ public class DefaultCodegen implements CodegenConfig {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
             if (!importMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+                LOGGER.warn("Unknown type found in the schema: {}", schema.getType());
             }
             return schema.getType();
         }
@@ -3058,11 +3058,11 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
-        LOGGER.debug("debugging fromProperty for " + name + " : " + p);
+        LOGGER.debug("debugging fromProperty for {} : {}", name, p);
         NamedSchema ns = new NamedSchema(name, p);
         CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
         if (cpc != null) {
-            LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+            LOGGER.debug("Cached fromProperty for {} : {}", name, p.getName());
             return cpc;
         }
         // unalias schema
@@ -3315,7 +3315,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         addVarsRequiredVarsAdditionaProps(p, property);
-        LOGGER.debug("debugging from property return: " + property);
+        LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
     }
@@ -3328,7 +3328,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
         if (innerProperty == null) {
-            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+            if(LOGGER.isWarnEnabled()) {
+                LOGGER.warn("skipping invalid array property {}", Json.pretty(property));
+            }
             return;
         }
         property.dataFormat = innerProperty.dataFormat;
@@ -3361,7 +3363,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected void updatePropertyForMap(CodegenProperty property, CodegenProperty innerProperty) {
         if (innerProperty == null) {
-            LOGGER.warn("skipping invalid map property " + Json.pretty(property));
+            if(LOGGER.isWarnEnabled()) {
+                LOGGER.warn("skipping invalid map property {}", Json.pretty(property));
+            }
             return;
         }
         if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
@@ -3611,7 +3615,7 @@ public class DefaultCodegen implements CodegenConfig {
                                           String httpMethod,
                                           Operation operation,
                                           List<Server> servers) {
-        LOGGER.debug("fromOperation => operation: " + operation);
+        LOGGER.debug("fromOperation => operation: {}", operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
 
@@ -3791,7 +3795,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
                     cookieParams.add(p.copy());
                 } else {
-                    LOGGER.warn("Unknown parameter type " + p.baseType + " for " + p.baseName);
+                    LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
                 }
 
             }
@@ -4028,7 +4032,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isAnyType)) {
                 r.isAnyType = true;
             } else {
-                LOGGER.debug("Property type is not primitive: " + cp.dataType);
+                LOGGER.debug("Property type is not primitive: {}", cp.dataType);
             }
 
             if (cp.isContainer) {
@@ -4140,8 +4144,8 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.jsonSchema = Json.pretty(parameter);
 
         if (GlobalSettings.getProperty("debugParser") != null) {
-            LOGGER.info("working on Parameter " + parameter.getName());
-            LOGGER.info("JSON schema: " + codegenParameter.jsonSchema);
+            LOGGER.info("working on Parameter {}", parameter.getName());
+            LOGGER.info("JSON schema: {}", codegenParameter.jsonSchema);
         }
 
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
@@ -4166,7 +4170,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameterSchema != null) {
             parameterSchema = unaliasSchema(parameterSchema, Collections.<String, String>emptyMap());
             if (parameterSchema == null) {
-                LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
+                LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
             ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
@@ -4318,7 +4322,7 @@ public class DefaultCodegen implements CodegenConfig {
             addVarsRequiredVarsAdditionaProps(parameterSchema, codegenParameter);
 
         } else {
-            LOGGER.error("ERROR! Not handling  " + parameter + " as Body Parameter at the moment");
+            LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
         }
 
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
@@ -4331,7 +4335,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isCookieParam = true;
         } else {
-            LOGGER.warn("Unknown parameter type: " + parameter.getName());
+            LOGGER.warn("Unknown parameter type: {}", parameter.getName());
         }
 
         // default to UNKNOWN_PARAMETER_NAME if paramName is null
@@ -4358,7 +4362,7 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter, parameter);
 
         postProcessParameter(codegenParameter);
-        LOGGER.debug("debugging codegenParameter return: " + codegenParameter);
+        LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
         return codegenParameter;
     }
 
@@ -4549,7 +4553,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             operationId = sanitizeName(builder.toString());
-            LOGGER.warn("Empty operationId found for path: " + httpMethod + " " + path + ". Renamed to auto-generated operationId: " + operationId);
+            LOGGER.warn("Empty operationId found for path: {} {}. Renamed to auto-generated operationId: {}", httpMethod, path, operationId);
         }
         return operationId;
     }
@@ -4596,7 +4600,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 Schema schema;
                 if (header.getSchema() == null) {
-                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() + "', using a String schema");
+                    LOGGER.warn("No schema defined for Header '{}', using a String schema", headerEntry.getKey());
                     schema = new StringSchema();
                 } else {
                     schema = header.getSchema();
@@ -5333,7 +5337,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isAnyType)) {
             parameter.isAnyType = true;
         } else {
-            LOGGER.debug("Property type is not primitive: " + property.dataType);
+            LOGGER.debug("Property type is not primitive: {}", property.dataType);
         }
 
         if (Boolean.TRUE.equals(property.isFile)) {
@@ -5690,8 +5694,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
-        List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
-        LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
+        List<CodegenParameter> parameters = new ArrayList<>();
+        LOGGER.debug("debugging fromRequestBodyToFormParameters= {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         List<String> allRequired = new ArrayList<String>();
@@ -5722,7 +5726,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
                     } else {
-                        LOGGER.warn("Could not compute datatypeWithEnum from " + codegenParameter.baseType + ", " + codegenParameter.enumName);
+                        LOGGER.warn("Could not compute datatypeWithEnum from {}, {}", codegenParameter.baseType, codegenParameter.enumName);
                     }
                     //TODO fix collectformat for form parameters
                     //collectionFormat = getCollectionFormat(s);
@@ -5892,7 +5896,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                                 "A correct 'consumes' for form parameters should be " +
                                 "'application/x-www-form-urlencoded' or 'multipart/?'");
-                        LOGGER.warn("schema: " + schema);
+                        LOGGER.warn("schema: {}", schema);
                         LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
                         codegenModelName = "UNKNOWN_BASE_TYPE";
                         codegenModelDescription = "UNKNOWN_DESCRIPTION";
@@ -5938,7 +5942,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String name = null;
-        LOGGER.debug("Request body = " + body);
+        LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
@@ -6250,7 +6254,9 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenServerVariable.value = value;
 
                 if (enums != null && !enums.isEmpty() && !enums.contains(value)) {
-                    LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                    if(LOGGER.isWarnEnabled()) { // prevents calculating StringUtils.join when debug isn't enabled
+                        LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", value, StringUtils.join(enums, ","));
+                    }
                 }
             } else {
                 codegenServerVariable.value = variable.getDefault();
