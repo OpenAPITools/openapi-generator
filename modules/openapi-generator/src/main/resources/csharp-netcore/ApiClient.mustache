@@ -31,7 +31,9 @@ using System.Net.Http;
 {{#useHttpClient}}
 using System.Net.Http;
 {{/useHttpClient}}
+{{#supportsRetry}}
 using Polly;
+{{/supportsRetry}}
 
 namespace {{packageName}}.Client
 {
@@ -784,7 +786,7 @@ namespace {{packageName}}.Client
             InterceptRequest(req, handler);
 
             HttpResponseMessage response;
-
+{{#supportsRetry}}
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
@@ -800,8 +802,11 @@ namespace {{packageName}}.Client
             }
             else
             {
+{{/supportsRetry}}
                 response = await client.SendAsync(req, cancellationToken).ConfigureAwait(false);
+{{#supportsRetry}}
             }
+{{/supportsRetry}}
 
             object responseData = deserializer.Deserialize<T>(response);
 
@@ -988,6 +993,7 @@ namespace {{packageName}}.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
+        {{#supportsRetry}}
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
@@ -1000,8 +1006,11 @@ namespace {{packageName}}.Client
             }
             else
             {
+        {{/supportsRetry}}
                 response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+        {{#supportsRetry}}
             }
+        {{/supportsRetry}}
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))

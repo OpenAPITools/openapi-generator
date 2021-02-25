@@ -30,7 +30,9 @@
       {{#useRestSharp}}
     <PackageReference Include="RestSharp" Version="106.11.4" />
       {{/useRestSharp}}
+      {{#supportsRetry}}
     <PackageReference Include="Polly" Version="7.2.0" />
+      {{/supportsRetry}}
     {{#validatable}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     {{/validatable}}
