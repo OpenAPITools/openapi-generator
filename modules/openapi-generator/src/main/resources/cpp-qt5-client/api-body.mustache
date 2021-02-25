@@ -100,7 +100,7 @@ void {{classname}}::setBearerToken(const QString &token){
 }
 
 void {{classname}}::setOauthToken(const QString &token){
-    _oAuthToken = token;
+    _oauthToken = token;
 }
 
 void {{classname}}::setUsername(const QString &username) {
@@ -172,8 +172,8 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{#isOAuth}}
-    if(!_oAuthToken.isEmpty())
-        addHeaders("Authorization", "Bearer " + _oAuthToken);
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
     {{/isOAuth}}{{/authMethods}}
 {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)

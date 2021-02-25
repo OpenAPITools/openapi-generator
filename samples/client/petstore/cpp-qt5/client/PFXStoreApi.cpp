@@ -93,6 +93,10 @@ void PFXStoreApi::setBearerToken(const QString &token){
     _bearerToken = token;
 }
 
+void PFXStoreApi::setOauthToken(const QString &token){
+    _oauthToken = token;
+}
+
 void PFXStoreApi::setUsername(const QString &username) {
     _username = username;
 }

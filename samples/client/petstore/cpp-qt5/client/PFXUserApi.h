@@ -42,6 +42,7 @@ public:
     void setPort(int port);
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBearerToken(const QString &token);
+    void setOauthToken(const QString &token);
     void setUsername(const QString &username);
     void setPassword(const QString &password);
     void setBasePath(const QString &basePath);
@@ -70,6 +71,7 @@ private:
     QMap<QString,QList<PFXServerConfiguration>> _serverConfigs;
     QMap<QString, QString> _apiKeys;
     QString _bearerToken;
+    QString _oauthToken;
     QString _username;
     QString _password;
     int _timeOut;

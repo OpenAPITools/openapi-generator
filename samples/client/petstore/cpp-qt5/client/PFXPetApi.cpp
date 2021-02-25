@@ -105,6 +105,10 @@ void PFXPetApi::setBearerToken(const QString &token){
     _bearerToken = token;
 }
 
+void PFXPetApi::setOauthToken(const QString &token){
+    _oauthToken = token;
+}
+
 void PFXPetApi::setUsername(const QString &username) {
     _username = username;
 }
@@ -148,6 +152,9 @@ void PFXPetApi::abortRequests(){
 void PFXPetApi::addPet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
 
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -192,6 +199,9 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -234,6 +244,9 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     QString fullPath = QString(_serverConfigs["findPetsByStatus"][_serverIndices.value("findPetsByStatus")].URL()+"/pet/findByStatus");
 
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     if (status.size() > 0) {
         if (QString("csv").indexOf("multi") == 0) {
@@ -320,6 +333,9 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     QString fullPath = QString(_serverConfigs["findPetsByTags"][_serverIndices.value("findPetsByTags")].URL()+"/pet/findByTags");
 
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     if (tags.size() > 0) {
         if (QString("csv").indexOf("multi") == 0) {
@@ -452,6 +468,9 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::updatePet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
 
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -496,6 +515,9 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, con
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -538,6 +560,9 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metad
     QString pet_idPathParam("{");
     pet_idPathParam.append("petId").append("}");
     fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
     
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
