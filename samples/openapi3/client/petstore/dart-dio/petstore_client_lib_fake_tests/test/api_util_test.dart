@@ -172,6 +172,15 @@ void main() {
           ListBuilder<num>([0, 1, 2, 3, 4.5, -123.456]).build(),
           const FullType(BuiltList, [FullType(num)]),
         ),
+        'string_map': parameterToString(
+          standardSerializers,
+          MapBuilder<String, String>({
+            'foo': 'foo-value',
+            'bar': 'bar-value',
+            'baz': 'baz-value',
+          }).build(),
+          const FullType(BuiltMap, [FullType(String), FullType(String)]),
+        ),
         'bool': parameterToString(
           standardSerializers,
           true,
@@ -204,6 +213,9 @@ void main() {
             MapEntry('num_list[]', '3'),
             MapEntry('num_list[]', '4.5'),
             MapEntry('num_list[]', '-123.456'),
+            MapEntry('string_map[foo]', 'foo-value'),
+            MapEntry('string_map[bar]', 'bar-value'),
+            MapEntry('string_map[baz]', 'baz-value'),
             MapEntry('bool', 'true'),
             MapEntry('double', '-123.456'),
             MapEntry('date_time', '2020-08-11T12:30:55.123Z'),
