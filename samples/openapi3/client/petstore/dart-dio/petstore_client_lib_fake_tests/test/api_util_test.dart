@@ -8,10 +8,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('api_utils', () {
-    group('parameterToString should return', () {
+    group('encodeFormParameter should return', () {
       test('empty String for null', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             null,
             const FullType(Cat),
@@ -22,7 +22,7 @@ void main() {
 
       test('String for String', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             'foo',
             const FullType(String),
@@ -33,7 +33,7 @@ void main() {
 
       test('List<String> for BuiltList<String>', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             ListBuilder<String>(['foo', 'bar', 'baz']).build(),
             const FullType(BuiltList, [FullType(String)]),
@@ -44,7 +44,7 @@ void main() {
 
       test('Map<String, String> for BuiltList<String, String>', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             MapBuilder<String, String>({
               'foo': 'foo-value',
@@ -63,26 +63,27 @@ void main() {
 
       test('num for num', () {
         expect(
-          parameterToString(standardSerializers, 0, const FullType(int)),
+          encodeFormParameter(standardSerializers, 0, const FullType(int)),
           0,
         );
         expect(
-          parameterToString(standardSerializers, 1, const FullType(int)),
+          encodeFormParameter(standardSerializers, 1, const FullType(int)),
           1,
         );
         expect(
-          parameterToString(standardSerializers, 1.0, const FullType(num)),
+          encodeFormParameter(standardSerializers, 1.0, const FullType(num)),
           1.0,
         );
         expect(
-          parameterToString(standardSerializers, 1.234, const FullType(double)),
+          encodeFormParameter(
+              standardSerializers, 1.234, const FullType(double)),
           1.234,
         );
       });
 
       test('List<num> for BuiltList<num>', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             ListBuilder<num>([0, 1, 2, 3, 4.5, -123.456]).build(),
             const FullType(BuiltList, [FullType(num)]),
@@ -93,7 +94,7 @@ void main() {
 
       test('bool for bool', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             true,
             const FullType(bool),
@@ -101,7 +102,7 @@ void main() {
           true,
         );
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             false,
             const FullType(bool),
@@ -112,7 +113,7 @@ void main() {
 
       test('String for Date', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             DateTime.utc(2020, 8, 11),
             const FullType(DateTime),
@@ -123,7 +124,7 @@ void main() {
 
       test('String for DateTime', () {
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
             const FullType(DateTime),
@@ -136,7 +137,7 @@ void main() {
         // Not sure that is even a valid case,
         // sending complex objects via FormData may not work as expected
         expect(
-          parameterToString(
+          encodeFormParameter(
             standardSerializers,
             (CatBuilder()
                   ..color = 'black'
@@ -152,27 +153,27 @@ void main() {
 
     test('encodes FormData correctly', () {
       final data = FormData.fromMap({
-        'null': parameterToString(
+        'null': encodeFormParameter(
           standardSerializers,
           null,
           const FullType(num),
         ),
-        'empty': parameterToString(
+        'empty': encodeFormParameter(
           standardSerializers,
           '',
           const FullType(String),
         ),
-        'string_list': parameterToString(
+        'string_list': encodeFormParameter(
           standardSerializers,
           ListBuilder<String>(['foo', 'bar', 'baz']).build(),
           const FullType(BuiltList, [FullType(String)]),
         ),
-        'num_list': parameterToString(
+        'num_list': encodeFormParameter(
           standardSerializers,
           ListBuilder<num>([0, 1, 2, 3, 4.5, -123.456]).build(),
           const FullType(BuiltList, [FullType(num)]),
         ),
-        'string_map': parameterToString(
+        'string_map': encodeFormParameter(
           standardSerializers,
           MapBuilder<String, String>({
             'foo': 'foo-value',
@@ -181,17 +182,17 @@ void main() {
           }).build(),
           const FullType(BuiltMap, [FullType(String), FullType(String)]),
         ),
-        'bool': parameterToString(
+        'bool': encodeFormParameter(
           standardSerializers,
           true,
           const FullType(bool),
         ),
-        'double': parameterToString(
+        'double': encodeFormParameter(
           standardSerializers,
           -123.456,
           const FullType(double),
         ),
-        'date_time': parameterToString(
+        'date_time': encodeFormParameter(
           standardSerializers,
           DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
           const FullType(DateTime),
