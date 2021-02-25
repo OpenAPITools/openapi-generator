@@ -53,11 +53,8 @@ class StoreApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
@@ -103,19 +100,26 @@ class StoreApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(BuiltMap, [FullType(String), FullType(int)]);
-    final BuiltMap<String, int> _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as BuiltMap<String, int>;
+    BuiltMap<String, int> _responseData;
+    try {
+      const _responseType = FullType(BuiltMap, [FullType(String), FullType(int)]);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as BuiltMap<String, int>;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<BuiltMap<String, int>>(
       data: _responseData,
@@ -162,19 +166,26 @@ class StoreApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(Order);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as Order;
+    Order _responseData;
+    try {
+      const _responseType = FullType(Order);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as Order;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<Order>(
       data: _responseData,
@@ -223,8 +234,16 @@ class StoreApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(Order);
-    _bodyData = _serializers.serialize(body, specifiedType: _type);
+    try {
+      const _type = FullType(Order);
+      _bodyData = _serializers.serialize(body, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -232,11 +251,21 @@ class StoreApi {
       options: _request,
     );
 
-    const _responseType = FullType(Order);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as Order;
+    Order _responseData;
+    try {
+      const _responseType = FullType(Order);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as Order;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<Order>(
       data: _responseData,

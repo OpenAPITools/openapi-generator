@@ -62,8 +62,16 @@ class UserApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(User);
-    _bodyData = _serializers.serialize(user, specifiedType: _type);
+    try {
+      const _type = FullType(User);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -116,8 +124,16 @@ class UserApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(BuiltList, [FullType(User)]);
-    _bodyData = _serializers.serialize(user, specifiedType: _type);
+    try {
+      const _type = FullType(BuiltList, [FullType(User)]);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -170,8 +186,16 @@ class UserApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(BuiltList, [FullType(User)]);
-    _bodyData = _serializers.serialize(user, specifiedType: _type);
+    try {
+      const _type = FullType(BuiltList, [FullType(User)]);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -222,11 +246,8 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
@@ -266,19 +287,26 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(User);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as User;
+    User _responseData;
+    try {
+      const _responseType = FullType(User);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as User;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<User>(
       data: _responseData,
@@ -328,15 +356,22 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    final String _responseData = _response.data as String;
+    String _responseData;
+    try {
+      _responseData = _response.data as String;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<String>(
       data: _responseData,
@@ -389,11 +424,8 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
@@ -443,8 +475,16 @@ class UserApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(User);
-    _bodyData = _serializers.serialize(user, specifiedType: _type);
+    try {
+      const _type = FullType(User);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,

@@ -36,8 +36,6 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String USE_ENUM_EXTENSION = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
-    public static final String DATE_LIBRARY = "core";
-    public static final String NULLABLE_FIELDS = "true";
     public static final String PUB_AUTHOR_VALUE = "Author";
     public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
     public static final String PUB_HOMEPAGE_VALUE = "Homepage";
@@ -64,8 +62,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
-                .put(DartDioClientCodegen.DATE_LIBRARY, DATE_LIBRARY)
-                .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
+                .put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_DEFAULT)
+                .put(DartDioClientCodegen.DIO_ERROR_WRAPPING, DartDioClientCodegen.DIO_ERROR_WRAPPING_DEFAULT.toString())
+                .put(DartDioClientCodegen.NULLABLE_FIELDS, DartDioClientCodegen.NULLABLE_FIELDS_DEFAULT.toString())
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .build();

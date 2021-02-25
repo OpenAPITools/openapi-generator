@@ -45,12 +45,14 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setPubName(DartDioClientOptionsProvider.PUB_NAME_VALUE);
         verify(clientCodegen).setPubVersion(DartDioClientOptionsProvider.PUB_VERSION_VALUE);
         verify(clientCodegen).setPubDescription(DartDioClientOptionsProvider.PUB_DESCRIPTION_VALUE);
-        //verify(clientCodegen).setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
-        //verify(clientCodegen).setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
-        //verify(clientCodegen).setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
+        verify(clientCodegen).setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
+        verify(clientCodegen).setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
+        verify(clientCodegen).setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
         verify(clientCodegen).setSourceFolder(DartDioClientOptionsProvider.SOURCE_FOLDER_VALUE);
         verify(clientCodegen).setUseEnumExtension(Boolean.parseBoolean(DartDioClientOptionsProvider.USE_ENUM_EXTENSION));
-        verify(clientCodegen).setDateLibrary(DartDioClientOptionsProvider.DATE_LIBRARY);
-        verify(clientCodegen).setNullableFields(Boolean.parseBoolean(DartDioClientOptionsProvider.NULLABLE_FIELDS));
+        verify(clientCodegen).setClientName("Openapi");
+        verify(clientCodegen).setDateLibrary(DartDioClientCodegen.DATE_LIBRARY_DEFAULT);
+        verify(clientCodegen).setNullableFields(DartDioClientCodegen.NULLABLE_FIELDS_DEFAULT);
+        verify(clientCodegen).setDioErrorWrapping(DartDioClientCodegen.DIO_ERROR_WRAPPING_DEFAULT);
     }
 }

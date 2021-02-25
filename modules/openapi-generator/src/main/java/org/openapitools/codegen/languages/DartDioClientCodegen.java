@@ -37,12 +37,22 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
+    public static final Boolean NULLABLE_FIELDS_DEFAULT = false;
+
+    public static final String DIO_ERROR_WRAPPING = "dioErrorWrapping";
+    public static final Boolean DIO_ERROR_WRAPPING_DEFAULT = true;
+
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String DATE_LIBRARY_CORE = "core";
+    public static final String DATE_LIBRARY_TIME_MACHINE = "timemachine";
+    public static final String DATE_LIBRARY_DEFAULT = DATE_LIBRARY_CORE;
 
     private static final String CLIENT_NAME = "clientName";
 
-    private boolean nullableFields = false;
-    private String dateLibrary = "core";
+    private boolean nullableFields;
+    private boolean dioErrorWrapping;
+    private String dateLibrary;
+    private String clientName;
 
     public DartDioClientCodegen() {
         super();
@@ -50,13 +60,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload"));
-        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
-        Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put("core", "Dart core library (DateTime)");
-        dateOptions.put("timemachine", "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
-        dateLibrary.setEnum(dateOptions);
-        cliOptions.add(dateLibrary);
+        cliOptions.add(CliOption.newBoolean(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload", NULLABLE_FIELDS_DEFAULT));
+        cliOptions.add(CliOption.newBoolean(DIO_ERROR_WRAPPING, "Wrap serialization errors in DioErrors", DIO_ERROR_WRAPPING_DEFAULT));
+        final CliOption dateOption = new CliOption(DATE_LIBRARY, "Option. Date library to use");
+        dateOption.setDefault(DATE_LIBRARY_DEFAULT);
+        dateOption.setType("String");
+
+        final Map<String, String> dateOptions = new HashMap<>();
+        dateOptions.put(DATE_LIBRARY_CORE, "Dart core library (DateTime)");
+        dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
+        dateOption.setEnum(dateOptions);
+        cliOptions.add(dateOption);
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -94,12 +108,28 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         this.dateLibrary = library;
     }
 
-    public boolean getNullableFields() {
+    public boolean isNullableFields() {
         return nullableFields;
     }
 
     public void setNullableFields(boolean nullableFields) {
         this.nullableFields = nullableFields;
+    }
+
+    public boolean isDioErrorWrapping() {
+        return dioErrorWrapping;
+    }
+
+    public void setDioErrorWrapping(boolean dioErrorWrapping) {
+        this.dioErrorWrapping = dioErrorWrapping;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     @Override
@@ -157,23 +187,25 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
-            this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(NULLABLE_FIELDS, nullableFields);
+        if (!additionalProperties.containsKey(NULLABLE_FIELDS)) {
+            additionalProperties.put(NULLABLE_FIELDS, NULLABLE_FIELDS_DEFAULT);
         }
+        setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
+
+        if (!additionalProperties.containsKey(DIO_ERROR_WRAPPING)) {
+            additionalProperties.put(DIO_ERROR_WRAPPING, DIO_ERROR_WRAPPING_DEFAULT);
+        }
+        setDioErrorWrapping(convertPropertyToBooleanAndWriteBack(DIO_ERROR_WRAPPING));
+
+        if (!additionalProperties.containsKey(DATE_LIBRARY)) {
+            additionalProperties.put(DATE_LIBRARY, DATE_LIBRARY_DEFAULT);
+        }
+        setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
         }
-
-        if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
-        }
-        // make api and model doc path available in mustache template
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
+        setClientName(additionalProperties.get(CLIENT_NAME).toString());
 
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
@@ -192,19 +224,27 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
-        if ("core".equals(dateLibrary)) {
-            // this option uses the same classes as normal dart generator
-            additionalProperties.put("core", "true");
-        } else if ("timemachine".equals(dateLibrary)) {
-            additionalProperties.put("timeMachine", "true");
-            typeMapping.put("date", "OffsetDate");
-            typeMapping.put("Date", "OffsetDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            typeMapping.put("datetime", "OffsetDateTime");
-            additionalReservedWords.addAll(Sets.newHashSet("OffsetDate", "OffsetDateTime"));
-            importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
-            importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
-            supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
+        configureDateLibrary(libFolder);
+    }
+
+    private void configureDateLibrary(String libFolder) {
+        switch (dateLibrary) {
+            case DATE_LIBRARY_TIME_MACHINE:
+                additionalProperties.put("timeMachine", "true");
+                typeMapping.put("date", "OffsetDate");
+                typeMapping.put("Date", "OffsetDate");
+                typeMapping.put("DateTime", "OffsetDateTime");
+                typeMapping.put("datetime", "OffsetDateTime");
+                additionalReservedWords.addAll(Sets.newHashSet("OffsetDate", "OffsetDateTime"));
+                importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
+                importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
+                supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
+                break;
+            default:
+            case DATE_LIBRARY_CORE:
+                // this option uses the same classes as normal dart generator
+                additionalProperties.put("core", "true");
+                break;
         }
     }
 

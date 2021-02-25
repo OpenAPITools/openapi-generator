@@ -51,19 +51,26 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(InlineResponseDefault);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as InlineResponseDefault;
+    InlineResponseDefault _responseData;
+    try {
+      const _responseType = FullType(InlineResponseDefault);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as InlineResponseDefault;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<InlineResponseDefault>(
       data: _responseData,

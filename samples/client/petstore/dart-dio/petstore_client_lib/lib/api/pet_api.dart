@@ -64,8 +64,16 @@ class PetApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(Pet);
-    _bodyData = _serializers.serialize(body, specifiedType: _type);
+    try {
+      const _type = FullType(Pet);
+      _bodyData = _serializers.serialize(body, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -116,11 +124,8 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
@@ -166,19 +171,26 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(BuiltList, [FullType(Pet)]);
-    final BuiltList<Pet> _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as BuiltList<Pet>;
+    BuiltList<Pet> _responseData;
+    try {
+      const _responseType = FullType(BuiltList, [FullType(Pet)]);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as BuiltList<Pet>;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<BuiltList<Pet>>(
       data: _responseData,
@@ -231,19 +243,26 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(BuiltList, [FullType(Pet)]);
-    final BuiltList<Pet> _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as BuiltList<Pet>;
+    BuiltList<Pet> _responseData;
+    try {
+      const _responseType = FullType(BuiltList, [FullType(Pet)]);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as BuiltList<Pet>;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<BuiltList<Pet>>(
       data: _responseData,
@@ -297,19 +316,26 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(Pet);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as Pet;
+    Pet _responseData;
+    try {
+      const _responseType = FullType(Pet);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as Pet;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<Pet>(
       data: _responseData,
@@ -364,8 +390,16 @@ class PetApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(Pet);
-    _bodyData = _serializers.serialize(body, specifiedType: _type);
+    try {
+      const _type = FullType(Pet);
+      _bodyData = _serializers.serialize(body, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -418,10 +452,18 @@ class PetApi {
 
     dynamic _bodyData;
 
-    _bodyData = <String, dynamic>{
-      if (name != null) r'name': parameterToString(_serializers, name),
-      if (status != null) r'status': parameterToString(_serializers, status),
-    };
+    try {
+      _bodyData = <String, dynamic>{
+        if (name != null) r'name': parameterToString(_serializers, name),
+        if (status != null) r'status': parameterToString(_serializers, status),
+      };
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -474,10 +516,18 @@ class PetApi {
 
     dynamic _bodyData;
 
-    _bodyData = FormData.fromMap(<String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
-      if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
-    });
+    try {
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+        if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+      });
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -485,11 +535,21 @@ class PetApi {
       options: _request,
     );
 
-    const _responseType = FullType(ApiResponse);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as ApiResponse;
+    ApiResponse _responseData;
+    try {
+      const _responseType = FullType(ApiResponse);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as ApiResponse;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<ApiResponse>(
       data: _responseData,

@@ -59,19 +59,26 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
-    const _responseType = FullType(HealthCheckResult);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as HealthCheckResult;
+    HealthCheckResult _responseData;
+    try {
+      const _responseType = FullType(HealthCheckResult);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as HealthCheckResult;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<HealthCheckResult>(
       data: _responseData,
@@ -130,8 +137,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(Pet);
-    _bodyData = _serializers.serialize(pet, specifiedType: _type);
+    try {
+      const _type = FullType(Pet);
+      _bodyData = _serializers.serialize(pet, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -177,7 +192,15 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = body;
+    try {
+      _bodyData = body;
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -185,7 +208,17 @@ class FakeApi {
       options: _request,
     );
 
-    final bool _responseData = _response.data as bool;
+    bool _responseData;
+    try {
+      _responseData = _response.data as bool;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<bool>(
       data: _responseData,
@@ -234,8 +267,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(OuterComposite);
-    _bodyData = _serializers.serialize(outerComposite, specifiedType: _type);
+    try {
+      const _type = FullType(OuterComposite);
+      _bodyData = _serializers.serialize(outerComposite, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -243,11 +284,21 @@ class FakeApi {
       options: _request,
     );
 
-    const _responseType = FullType(OuterComposite);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as OuterComposite;
+    OuterComposite _responseData;
+    try {
+      const _responseType = FullType(OuterComposite);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as OuterComposite;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<OuterComposite>(
       data: _responseData,
@@ -296,7 +347,15 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = body;
+    try {
+      _bodyData = body;
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -304,7 +363,17 @@ class FakeApi {
       options: _request,
     );
 
-    final num _responseData = _response.data as num;
+    num _responseData;
+    try {
+      _responseData = _response.data as num;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<num>(
       data: _responseData,
@@ -353,7 +422,15 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = body;
+    try {
+      _bodyData = body;
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -361,7 +438,17 @@ class FakeApi {
       options: _request,
     );
 
-    final String _responseData = _response.data as String;
+    String _responseData;
+    try {
+      _responseData = _response.data as String;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<String>(
       data: _responseData,
@@ -410,8 +497,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(FileSchemaTestClass);
-    _bodyData = _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
+    try {
+      const _type = FullType(FileSchemaTestClass);
+      _bodyData = _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -459,8 +554,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(User);
-    _bodyData = _serializers.serialize(user, specifiedType: _type);
+    try {
+      const _type = FullType(User);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -506,8 +609,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(ModelClient);
-    _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
+    try {
+      const _type = FullType(ModelClient);
+      _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -515,11 +626,21 @@ class FakeApi {
       options: _request,
     );
 
-    const _responseType = FullType(ModelClient);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as ModelClient;
+    ModelClient _responseData;
+    try {
+      const _responseType = FullType(ModelClient);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as ModelClient;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<ModelClient>(
       data: _responseData,
@@ -586,22 +707,30 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = <String, dynamic>{
-      if (integer != null) r'integer': parameterToString(_serializers, integer),
-      if (int32 != null) r'int32': parameterToString(_serializers, int32),
-      if (int64 != null) r'int64': parameterToString(_serializers, int64),
-      r'number': parameterToString(_serializers, number),
-      if (float != null) r'float': parameterToString(_serializers, float),
-      r'double': parameterToString(_serializers, double_),
-      if (string != null) r'string': parameterToString(_serializers, string),
-      r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
-      r'byte': parameterToString(_serializers, byte),
-      if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
-      if (date != null) r'date': parameterToString(_serializers, date),
-      if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
-      if (password != null) r'password': parameterToString(_serializers, password),
-      if (callback != null) r'callback': parameterToString(_serializers, callback),
-    };
+    try {
+      _bodyData = <String, dynamic>{
+        if (integer != null) r'integer': parameterToString(_serializers, integer),
+        if (int32 != null) r'int32': parameterToString(_serializers, int32),
+        if (int64 != null) r'int64': parameterToString(_serializers, int64),
+        r'number': parameterToString(_serializers, number),
+        if (float != null) r'float': parameterToString(_serializers, float),
+        r'double': parameterToString(_serializers, double_),
+        if (string != null) r'string': parameterToString(_serializers, string),
+        r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
+        r'byte': parameterToString(_serializers, byte),
+        if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
+        if (date != null) r'date': parameterToString(_serializers, date),
+        if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
+        if (password != null) r'password': parameterToString(_serializers, password),
+        if (callback != null) r'callback': parameterToString(_serializers, callback),
+      };
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -660,10 +789,18 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = <String, dynamic>{
-      if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
-      if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
-    };
+    try {
+      _bodyData = <String, dynamic>{
+        if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
+        if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
+      };
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -723,11 +860,8 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 
@@ -769,8 +903,16 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(BuiltMap, [FullType(String), FullType(String)]);
-    _bodyData = _serializers.serialize(requestBody, specifiedType: _type);
+    try {
+      const _type = FullType(BuiltMap, [FullType(String), FullType(String)]);
+      _bodyData = _serializers.serialize(requestBody, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -817,10 +959,18 @@ class FakeApi {
 
     dynamic _bodyData;
 
-    _bodyData = <String, dynamic>{
-      r'param': parameterToString(_serializers, param),
-      r'param2': parameterToString(_serializers, param2),
-    };
+    try {
+      _bodyData = <String, dynamic>{
+        r'param': parameterToString(_serializers, param),
+        r'param2': parameterToString(_serializers, param2),
+      };
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -873,11 +1023,8 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    dynamic _bodyData;
-
     final _response = await _dio.request<dynamic>(
       _request.path,
-      data: _bodyData,
       options: _request,
     );
 

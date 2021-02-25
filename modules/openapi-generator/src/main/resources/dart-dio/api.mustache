@@ -71,64 +71,93 @@ class {{classname}} {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
+    {{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
-    {{#hasFormParams}}
 
-    _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
-      {{#formParams}}
-      {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}parameterToString(_serializers, {{{paramName}}}){{/isFile}},
-      {{/formParams}}
-    }{{#isMultipart}}){{/isMultipart}};
-    {{/hasFormParams}}
-    {{#bodyParam}}
-
-    {{#isPrimitiveType}}
-    _bodyData = {{paramName}};
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{#isContainer}}
-    const _type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]);
-    _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
-    {{/isContainer}}
-    {{^isContainer}}
-    const _type = FullType({{{baseType}}});
-    _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
-    {{/isContainer}}
-    {{/isPrimitiveType}}
-    {{/bodyParam}}
+    try {
+      {{#hasFormParams}}
+      _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
+        {{#formParams}}
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}parameterToString(_serializers, {{{paramName}}}){{/isFile}},
+        {{/formParams}}
+      }{{#isMultipart}}){{/isMultipart}};
+      {{/hasFormParams}}
+      {{#bodyParam}}
+      {{#isPrimitiveType}}
+      _bodyData = {{paramName}};
+      {{/isPrimitiveType}}
+      {{^isPrimitiveType}}
+      {{#isContainer}}
+      const _type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]);
+      _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
+      {{/isContainer}}
+      {{^isContainer}}
+      const _type = FullType({{{baseType}}});
+      _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
+      {{/isContainer}}
+      {{/isPrimitiveType}}
+      {{/bodyParam}}
+    } catch(error) {
+      {{#dioErrorWrapping}}
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+      {{/dioErrorWrapping}}
+      {{^dioErrorWrapping}}
+      rethrow;
+      {{/dioErrorWrapping}}
+    }
+    {{/hasBodyOrFormParams}}
 
     final _response = await _dio.request<dynamic>(
-      _request.path,
-      data: _bodyData,
+      _request.path,{{#hasBodyOrFormParams}}
+      data: _bodyData,{{/hasBodyOrFormParams}}
       options: _request,
     );
     {{#returnType}}
 
-    {{#isResponseFile}}
-    final {{{returnType}}} _responseData = _response.data;
-    {{/isResponseFile}}
-    {{^isResponseFile}}
-    {{#returnSimpleType}}
-    {{#returnTypeIsPrimitive}}
-    final {{{returnType}}} _responseData = _response.data as {{{returnType}}};
-    {{/returnTypeIsPrimitive}}
-    {{^returnTypeIsPrimitive}}
-    const _responseType = FullType({{{returnType}}});
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as {{{returnType}}};
-    {{/returnTypeIsPrimitive}}
-    {{/returnSimpleType}}
-    {{^returnSimpleType}}
-    const _responseType = FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-    final {{{returnType}}} _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as {{{returnType}}};
-    {{/returnSimpleType}}
-    {{/isResponseFile}}
+    {{{returnType}}} _responseData;
+    try {
+      {{#isResponseFile}}
+      _responseData = _response.data;
+      {{/isResponseFile}}
+      {{^isResponseFile}}
+      {{#returnSimpleType}}
+      {{#returnTypeIsPrimitive}}
+      _responseData = _response.data as {{{returnType}}};
+      {{/returnTypeIsPrimitive}}
+      {{^returnTypeIsPrimitive}}
+      const _responseType = FullType({{{returnType}}});
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as {{{returnType}}};
+      {{/returnTypeIsPrimitive}}
+      {{/returnSimpleType}}
+      {{^returnSimpleType}}
+      const _responseType = FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as {{{returnType}}};
+      {{/returnSimpleType}}
+      {{/isResponseFile}}
+    } catch (error) {
+      {{#dioErrorWrapping}}
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+      {{/dioErrorWrapping}}
+      {{^dioErrorWrapping}}
+      rethrow;
+      {{/dioErrorWrapping}}
+    }
 
     return Response<{{{returnType}}}>(
       data: _responseData,

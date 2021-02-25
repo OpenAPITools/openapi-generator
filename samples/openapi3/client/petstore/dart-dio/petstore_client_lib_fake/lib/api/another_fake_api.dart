@@ -54,8 +54,16 @@ class AnotherFakeApi {
 
     dynamic _bodyData;
 
-    const _type = FullType(ModelClient);
-    _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
+    try {
+      const _type = FullType(ModelClient);
+      _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
+    } catch(error) {
+      throw DioError(
+        request: _request,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     final _response = await _dio.request<dynamic>(
       _request.path,
@@ -63,11 +71,21 @@ class AnotherFakeApi {
       options: _request,
     );
 
-    const _responseType = FullType(ModelClient);
-    final _responseData = _serializers.deserialize(
-      _response.data,
-      specifiedType: _responseType,
-    ) as ModelClient;
+    ModelClient _responseData;
+    try {
+      const _responseType = FullType(ModelClient);
+      _responseData = _serializers.deserialize(
+        _response.data,
+        specifiedType: _responseType,
+      ) as ModelClient;
+    } catch (error) {
+      throw DioError(
+        request: _request,
+        response: _response,
+        type: DioErrorType.DEFAULT,
+        error: error,
+      );
+    }
 
     return Response<ModelClient>(
       data: _responseData,
