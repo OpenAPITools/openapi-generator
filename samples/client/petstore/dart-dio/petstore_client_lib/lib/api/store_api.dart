@@ -14,241 +14,240 @@ import 'package:built_collection/built_collection.dart';
 
 class StoreApi {
 
-    final Dio _dio;
+  final Dio _dio;
 
-    final Serializers _serializers;
+  final Serializers _serializers;
 
-    const StoreApi(this._dio, this._serializers);
+  const StoreApi(this._dio, this._serializers);
 
-    /// Delete purchase order by ID
-    ///
-    /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    Future<Response<void>> deleteOrder(
-        String orderId, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString());
+  /// Delete purchase order by ID
+  ///
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  Future<Response<void>> deleteOrder(
+    String orderId, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString()),
+      method: 'DELETE',
+      headers: <String, dynamic>{
+        ...?headers,
+      }..removeWhere((_, dynamic value) => value == null),
+      queryParameters: <String, dynamic>{
+      }..removeWhere((_, dynamic value) => value == null),
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final contentTypes = <String>[];
+    return _response;
+  }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'delete'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        );
-    }
+  /// Returns pet inventories by status
+  ///
+  /// Returns a map of status codes to quantities
+  Future<Response<BuiltMap<String, int>>> getInventory({ 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/store/inventory',
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      }..removeWhere((_, dynamic value) => value == null),
+      queryParameters: <String, dynamic>{
+      }..removeWhere((_, dynamic value) => value == null),
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'api_key',
+            'keyName': 'api_key',
+            'where': 'header',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-    /// Returns pet inventories by status
-    ///
-    /// Returns a map of status codes to quantities
-    Future<Response<BuiltMap<String, int>>> getInventory({ 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/store/inventory';
+    dynamic _bodyData;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    const _responseType = FullType(BuiltMap, [FullType(String), FullType(int)]);
+    final BuiltMap<String, int> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as BuiltMap<String, int>;
 
-        final contentTypes = <String>[];
+    return Response<BuiltMap<String, int>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'apiKey',
-                            'name': 'api_key',
-                            'keyName': 'api_key',
-                            'where': 'header',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            const type = FullType(BuiltMap, [FullType(String), FullType(int)]);
-            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltMap<String, int>;
+  /// Find purchase order by ID
+  ///
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  Future<Response<Order>> getOrderById(
+    int orderId, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString()),
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      }..removeWhere((_, dynamic value) => value == null),
+      queryParameters: <String, dynamic>{
+      }..removeWhere((_, dynamic value) => value == null),
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-            return Response<BuiltMap<String, int>>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    dynamic _bodyData;
 
-    /// Find purchase order by ID
-    ///
-    /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-    Future<Response<Order>> getOrderById(
-        int orderId, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/store/order/{orderId}'.replaceAll('{' r'orderId' '}', orderId.toString());
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    const _responseType = FullType(Order);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Order;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    return Response<Order>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        final contentTypes = <String>[];
+  /// Place an order for a pet
+  ///
+  /// 
+  Future<Response<Order>> placeOrder(
+    Order body, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/store/order',
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      }..removeWhere((_, dynamic value) => value == null),
+      queryParameters: <String, dynamic>{
+      }..removeWhere((_, dynamic value) => value == null),
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(serializer, response.data);
+    dynamic _bodyData;
 
-            return Response<Order>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    const _type = FullType(Order);
+    _bodyData = _serializers.serialize(body, specifiedType: _type);
 
-    /// Place an order for a pet
-    ///
-    /// 
-    Future<Response<Order>> placeOrder(
-        Order body, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/store/order';
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    const _responseType = FullType(Order);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Order;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[];
-
-        final bodySerializer = _serializers.serializerForType(Order) as Serializer<Order>;
-        bodyData = _serializers.serializeWith(bodySerializer, body);
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(serializer, response.data);
-
-            return Response<Order>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    return Response<Order>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
 }
