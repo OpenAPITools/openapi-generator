@@ -43,6 +43,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
+    protected static final String SUPPORTS_RETRY = "supportsRetry";
 
     protected static final String NET_STANDARD = "netStandard";
 
@@ -86,6 +87,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
 
+    protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
@@ -653,6 +655,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
+        syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
