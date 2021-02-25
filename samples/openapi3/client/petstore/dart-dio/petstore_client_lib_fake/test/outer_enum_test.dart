@@ -1,5 +1,5 @@
-import 'package:openapi/model/outer_enum.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for OuterEnum
 void main() {

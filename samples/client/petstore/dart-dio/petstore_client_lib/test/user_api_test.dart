@@ -1,6 +1,5 @@
-import 'package:openapi/api.dart';
-import 'package:openapi/api/user_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for UserApi

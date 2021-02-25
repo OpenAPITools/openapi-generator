@@ -1,5 +1,5 @@
-import 'package:openapi/model/number_only.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for NumberOnly
 void main() {

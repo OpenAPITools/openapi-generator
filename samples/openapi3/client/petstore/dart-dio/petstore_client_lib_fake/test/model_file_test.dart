@@ -1,5 +1,5 @@
-import 'package:openapi/model/model_file.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ModelFile
 void main() {

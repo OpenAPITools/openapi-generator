@@ -1,5 +1,5 @@
-import 'package:openapi/model/order.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for Order
 void main() {

@@ -1,5 +1,5 @@
-import 'package:openapi/model/nullable_class.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for NullableClass
 void main() {

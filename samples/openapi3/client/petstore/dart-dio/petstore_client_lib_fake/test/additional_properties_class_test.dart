@@ -1,5 +1,5 @@
-import 'package:openapi/model/additional_properties_class.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for AdditionalPropertiesClass
 void main() {

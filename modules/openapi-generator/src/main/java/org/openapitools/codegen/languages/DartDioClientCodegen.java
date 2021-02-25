@@ -48,7 +48,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         super();
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
-        this.setTemplateDir(embeddedTemplateDir);
+        apiPackage = "lib.src.api";
+        modelPackage = "lib.src.model";
+        setTemplateDir(embeddedTemplateDir);
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
@@ -175,18 +177,20 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
-        supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
-        supportingFiles.add(new SupportingFile("api_util.mustache", libFolder, "api_util.dart"));
-
-        supportingFiles.add(new SupportingFile("serializers.mustache", libFolder, "serializers.dart"));
-
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        final String authFolder = libFolder + File.separator + "auth";
+        final String libFolder = sourceFolder + File.separator + "lib";
+        supportingFiles.add(new SupportingFile("lib.mustache", libFolder, pubName + ".dart"));
+
+        final String srcFolder = libFolder + File.separator + "src";
+        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
+        supportingFiles.add(new SupportingFile("api_util.mustache", srcFolder, "api_util.dart"));
+        supportingFiles.add(new SupportingFile("serializers.mustache", srcFolder, "serializers.dart"));
+
+        final String authFolder = srcFolder + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
@@ -204,7 +208,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             additionalReservedWords.addAll(Sets.newHashSet("OffsetDate", "OffsetDateTime"));
             importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
             importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
-            supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
+            supportingFiles.add(new SupportingFile("local_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
         }
     }
 
@@ -223,7 +227,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     if (importMapping().containsKey(modelImport)) {
                         modelImports.add(importMapping().get(modelImport));
                     } else {
-                        modelImports.add("package:" + pubName + "/model/" + underscore(modelImport) + ".dart");
+                        modelImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
                     }
                 }
             }
@@ -323,7 +327,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             op.vendorExtensions.put("x-is-multipart", isMultipart);
 
             if (op.getHasFormParams()) {
-                fullImports.add("package:" + pubName + "/api_util.dart");
+                fullImports.add("package:" + pubName + "/src/api_util.dart");
             }
 
             Set<String> imports = new HashSet<>();

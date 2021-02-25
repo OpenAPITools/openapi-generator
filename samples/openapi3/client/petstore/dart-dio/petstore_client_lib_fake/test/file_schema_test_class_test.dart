@@ -1,5 +1,5 @@
-import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for FileSchemaTestClass
 void main() {

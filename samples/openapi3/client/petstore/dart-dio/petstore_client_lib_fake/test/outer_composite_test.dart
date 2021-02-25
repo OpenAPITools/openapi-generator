@@ -1,5 +1,5 @@
-import 'package:openapi/model/outer_composite.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for OuterComposite
 void main() {

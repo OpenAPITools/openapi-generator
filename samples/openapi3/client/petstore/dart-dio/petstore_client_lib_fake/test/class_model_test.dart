@@ -1,5 +1,5 @@
-import 'package:openapi/model/class_model.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ClassModel
 void main() {

@@ -1,7 +1,8 @@
 {{>header}}
 import 'dart:async';
-import 'package:{{pubName}}/auth/auth.dart';
+
 import 'package:dio/dio.dart';
+import 'package:{{pubName}}/src/auth/auth.dart';
 
 class OAuthInterceptor extends AuthInterceptor {
     Map<String, String> tokens = {};

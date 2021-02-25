@@ -1,5 +1,5 @@
-import 'package:openapi/model/enum_test.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for EnumTest
 void main() {

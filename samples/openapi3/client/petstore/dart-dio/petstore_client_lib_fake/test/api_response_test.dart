@@ -1,5 +1,5 @@
-import 'package:openapi/model/api_response.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ApiResponse
 void main() {

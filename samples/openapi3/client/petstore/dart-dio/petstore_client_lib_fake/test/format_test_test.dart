@@ -1,5 +1,5 @@
-import 'package:openapi/model/format_test.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for FormatTest
 void main() {

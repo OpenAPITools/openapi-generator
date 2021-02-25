@@ -1,5 +1,5 @@
-import 'package:openapi/model/outer_enum_integer_default_value.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for OuterEnumIntegerDefaultValue
 void main() {

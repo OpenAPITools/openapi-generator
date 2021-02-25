@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -28,7 +28,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -72,7 +72,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -116,7 +116,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -162,7 +162,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -206,7 +206,7 @@ Get user by user name
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
@@ -247,7 +247,7 @@ Logs user into the system
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | The user name for login
@@ -290,7 +290,7 @@ Logs out current logged in user session
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -332,7 +332,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed

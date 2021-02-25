@@ -1,6 +1,5 @@
-import 'package:openapi/api.dart';
-import 'package:openapi/api/fake_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for FakeApi

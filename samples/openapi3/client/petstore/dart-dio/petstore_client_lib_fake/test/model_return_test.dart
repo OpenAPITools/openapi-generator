@@ -1,5 +1,5 @@
-import 'package:openapi/model/model_return.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ModelReturn
 void main() {

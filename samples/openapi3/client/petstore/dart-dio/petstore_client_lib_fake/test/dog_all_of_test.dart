@@ -1,5 +1,5 @@
-import 'package:openapi/model/dog_all_of.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for DogAllOf
 void main() {
