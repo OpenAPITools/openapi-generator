@@ -42,15 +42,17 @@ class {{classname}} {
         r'User-Agent': r'{{{.}}}',
         {{/httpUserAgent}}
         {{#headerParams}}
-        r'{{baseName}}': {{paramName}},
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/headerParams}}
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
+      {{#hasQueryParams}}
       queryParameters: <String, dynamic>{
         {{#queryParams}}
-        r'{{baseName}}': {{paramName}},
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/queryParams}}
-      }..removeWhere((_, dynamic value) => value == null),
+      },
+      {{/hasQueryParams}}
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
           {{#authMethods}}{

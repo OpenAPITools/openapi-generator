@@ -43,9 +43,7 @@ class FakeApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -103,12 +101,12 @@ class FakeApi {
       path: r'/fake/http-signature-test',
       method: 'GET',
       headers: <String, dynamic>{
-        r'header_1': header1,
+        if (header1 != null) r'header_1': header1,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
-        r'query_1': query1,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (query1 != null) r'query_1': query1,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -159,9 +157,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -216,9 +212,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -278,9 +272,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -335,9 +327,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -392,9 +382,7 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -440,10 +428,10 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'query': query,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -488,9 +476,7 @@ class FakeApi {
       method: 'PATCH',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -563,9 +549,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -635,16 +619,16 @@ class FakeApi {
       path: r'/fake',
       method: 'GET',
       headers: <String, dynamic>{
-        r'enum_header_string_array': enumHeaderStringArray,
-        r'enum_header_string': enumHeaderString,
+        if (enumHeaderStringArray != null) r'enum_header_string_array': enumHeaderStringArray,
+        if (enumHeaderString != null) r'enum_header_string': enumHeaderString,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
-        r'enum_query_string_array': enumQueryStringArray,
-        r'enum_query_string': enumQueryString,
-        r'enum_query_integer': enumQueryInteger,
-        r'enum_query_double': enumQueryDouble,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (enumQueryStringArray != null) r'enum_query_string_array': enumQueryStringArray,
+        if (enumQueryString != null) r'enum_query_string': enumQueryString,
+        if (enumQueryInteger != null) r'enum_query_integer': enumQueryInteger,
+        if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -696,15 +680,15 @@ class FakeApi {
       method: 'DELETE',
       headers: <String, dynamic>{
         r'required_boolean_group': requiredBooleanGroup,
-        r'boolean_group': booleanGroup,
+        if (booleanGroup != null) r'boolean_group': booleanGroup,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'required_string_group': requiredStringGroup,
         r'required_int64_group': requiredInt64Group,
-        r'string_group': stringGroup,
-        r'int64_group': int64Group,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (stringGroup != null) r'string_group': stringGroup,
+        if (int64Group != null) r'int64_group': int64Group,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -751,9 +735,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -799,9 +781,7 @@ class FakeApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -852,14 +832,14 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'pipe': pipe,
         r'ioutil': ioutil,
         r'http': http,
         r'url': url,
         r'context': context,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
