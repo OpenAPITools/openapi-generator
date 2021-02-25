@@ -179,6 +179,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean removeOperationIdPrefix;
     protected boolean skipOperationExample;
 
+    protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
+    protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
+    private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
+
     /**
      * True if the code generator supports multiple class inheritance.
      * This is used to model the parent hierarchy based on the 'allOf' composed schemas.
@@ -683,7 +687,8 @@ public class DefaultCodegen implements CodegenConfig {
                 String prefix = StringUtils.getCommonPrefix(listStr);
                 // exclude trailing characters that should be part of a valid variable
                 // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
-                return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+                final Matcher matcher = COMMON_PREFIX_ENUM_NAME.matcher(prefix);
+                return matcher.replaceAll("");
             } catch (ArrayStoreException e) {
                 // do nothing, just return default value
             }
@@ -6572,9 +6577,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected Schema getAdditionalProperties(Schema schema) {
         return ModelUtils.getAdditionalProperties(openAPI, schema);
     }
-
-    protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
-    protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
 
     /**
      * Check if the given MIME is a JSON MIME.
