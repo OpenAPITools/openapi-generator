@@ -396,7 +396,6 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req, handler);
 
             HttpResponseMessage response;
-
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;

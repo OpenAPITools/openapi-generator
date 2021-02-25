@@ -33,6 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |validatable|Generates self-validatable models.| |true|
+|webRequestLibrary|Which webrequest library to use. Available options are restsharp, webrequest and httpclient.| |restsharp|
 
 ## IMPORT MAPPING
 
