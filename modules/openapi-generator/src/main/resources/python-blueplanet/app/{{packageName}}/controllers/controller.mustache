@@ -28,7 +28,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isFile}}
                 {{^isFile}}
                     {{^isUuid}}
-    :type {{paramName}}: dict | bytes
+    :type {{paramName}}: {{typingDict}} | bytes
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -39,17 +39,17 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: List[{{#isString}}str{{/isString}}{{#isInteger}}int{{/isInteger}}{{#isLong}}int{{/isLong}}{{#isFloat}}float{{/isFloat}}{{#isDouble}}float{{/isDouble}}{{#isByteArray}}str{{/isByteArray}}{{#isBinary}}str{{/isBinary}}{{#isBoolean}}bool{{/isBoolean}}{{#isDate}}str{{/isDate}}{{#isDateTime}}str{{/isDateTime}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
-    :type {{paramName}}: list | bytes
+    :type {{paramName}}: {{typingList}} | bytes
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: Dict[str, {{#isString}}str{{/isString}}{{#isInteger}}int{{/isInteger}}{{#isLong}}int{{/isLong}}{{#isFloat}}float{{/isFloat}}{{#isDouble}}float{{/isDouble}}{{#isByteArray}}str{{/isByteArray}}{{#isBinary}}str{{/isBinary}}{{#isBoolean}}bool{{/isBoolean}}{{#isDate}}str{{/isDate}}{{#isDateTime}}str{{/isDateTime}}]
+    :type {{paramName}}: {{typingDict}}[str, {{#isString}}str{{/isString}}{{#isInteger}}int{{/isInteger}}{{#isLong}}int{{/isLong}}{{#isFloat}}float{{/isFloat}}{{#isDouble}}float{{/isDouble}}{{#isByteArray}}str{{/isByteArray}}{{#isBinary}}str{{/isBinary}}{{#isBoolean}}bool{{/isBoolean}}{{#isDate}}str{{/isDate}}{{#isDateTime}}str{{/isDateTime}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
-    :type {{paramName}}: dict | bytes
+    :type {{paramName}}: {{typingDict}} | bytes
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}

@@ -369,6 +369,10 @@ public class CodegenConstants {
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
+
+    public static final String SUPPORT_PYTHON39 = "supportPython39";
+    public static final String SUPPORT_PYTHON39_DESC = "To support Python 3.9+. E.g. use array, set, dict instead of Array, Set, Dict.";
 }

@@ -1,4 +1,4 @@
-from typing import List
+from typing import {{typingList}}
 
 {{#authMethods}}
 {{#isOAuth}}
@@ -14,7 +14,7 @@ def info_from_{{name}}(token: str) -> dict:
     return {'scopes': ['read:pets', 'write:pets'], 'uid': 'user_id'}
 
 
-def validate_scope_{{name}}(required_scopes: List[str], token_scopes: List[str]) -> bool:
+def validate_scope_{{name}}(required_scopes: {{typingList}}[str], token_scopes: {{typingList}}[str]) -> bool:
     """ Validate required scopes are included in token scope """
     return set(required_scopes).issubset(set(token_scopes))
 

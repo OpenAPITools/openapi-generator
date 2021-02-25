@@ -12,7 +12,7 @@ def add_pet(body):  # noqa: E501
      # noqa: E501
 
     :param body: Pet object that needs to be added to the store
-    :type body: dict | bytes
+    :type body: Dict | bytes
 
     :rtype: None
     """
@@ -81,7 +81,7 @@ def update_pet(body):  # noqa: E501
      # noqa: E501
 
     :param body: Pet object that needs to be added to the store
-    :type body: dict | bytes
+    :type body: Dict | bytes
 
     :rtype: None
     """

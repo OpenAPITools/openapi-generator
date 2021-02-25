@@ -26,7 +26,7 @@ def create_users_with_array_input(body):  # noqa: E501
      # noqa: E501
 
     :param body: List of user object
-    :type body: list | bytes
+    :type body: List | bytes
 
     :rtype: None
     """
@@ -41,7 +41,7 @@ def create_users_with_list_input(body):  # noqa: E501
      # noqa: E501
 
     :param body: List of user object
-    :type body: list | bytes
+    :type body: List | bytes
 
     :rtype: None
     """
