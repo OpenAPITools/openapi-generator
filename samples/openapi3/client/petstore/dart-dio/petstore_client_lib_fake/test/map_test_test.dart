@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for MapTest
 void main() {
-  final instance = MapTest();
+  final instance = MapTestBuilder();
+  // TODO add properties to the builder and call build()
 
   group(MapTest, () {
     // BuiltMap<String, BuiltMap<String, String>> mapMapOfString

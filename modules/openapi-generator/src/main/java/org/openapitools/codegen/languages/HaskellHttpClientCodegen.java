@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "lib";

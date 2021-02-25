@@ -1,22 +1,23 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/model_client.dart';
 
 class AnotherFakeApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    AnotherFakeApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const AnotherFakeApi(this._dio, this._serializers);
 
     /// To test special tags
     ///
@@ -46,9 +47,7 @@ class AnotherFakeApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, modelClient);
-        final jsonmodelClient = json.encode(serializedBody);
-        bodyData = jsonmodelClient;
+        bodyData = _serializers.serializeWith(bodySerializer, modelClient);
 
         return _dio.request<dynamic>(
             _path,
@@ -69,14 +68,12 @@ class AnotherFakeApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(ModelClient) as Serializer<ModelClient>;
-            final data = _serializers.deserializeWith<ModelClient>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<ModelClient>(serializer, response.data);
 
             return Response<ModelClient>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

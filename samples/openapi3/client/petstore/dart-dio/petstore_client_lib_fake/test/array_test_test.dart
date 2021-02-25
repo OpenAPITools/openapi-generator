@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ArrayTest
 void main() {
-  final instance = ArrayTest();
+  final instance = ArrayTestBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ArrayTest, () {
     // BuiltList<String> arrayOfString

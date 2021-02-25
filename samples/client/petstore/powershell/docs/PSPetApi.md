@@ -23,8 +23,6 @@ Add a new pet to the store
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -72,8 +70,6 @@ Deletes a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -124,8 +120,6 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -174,8 +168,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -224,8 +216,6 @@ Returns a single pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: api_key
@@ -274,8 +264,6 @@ Update an existing pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -324,8 +312,6 @@ Updates a pet in the store with form data
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -378,8 +364,6 @@ uploads an image
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth

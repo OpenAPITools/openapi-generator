@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for FileSchemaTestClass
 void main() {
-  final instance = FileSchemaTestClass();
+  final instance = FileSchemaTestClassBuilder();
+  // TODO add properties to the builder and call build()
 
   group(FileSchemaTestClass, () {
     // ModelFile file

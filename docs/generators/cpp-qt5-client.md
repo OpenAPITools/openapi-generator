@@ -206,7 +206,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✓|OAS3
 |ParameterizedServer|✓|OAS3
-|ParameterStyling|✗|OAS3
+|ParameterStyling|✓|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
 

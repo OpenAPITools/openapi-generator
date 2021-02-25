@@ -258,7 +258,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
 
     private static final String INDENT = "        ";
 

@@ -769,7 +769,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
+$request_body = array('key' => 'request_body_example'); // array<string,string> | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($request_body);
@@ -782,7 +782,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**map[string,string]**](../Model/string.md)| request body |
+ **request_body** | [**array<string,string>**](../Model/string.md)| request body |
 
 ### Return type
 

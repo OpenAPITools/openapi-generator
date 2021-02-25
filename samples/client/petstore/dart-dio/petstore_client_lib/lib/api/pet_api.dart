@@ -1,12 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -17,10 +16,12 @@ import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
 class PetApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    PetApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const PetApi(this._dio, this._serializers);
 
     /// Add a new pet to the store
     ///
@@ -51,9 +52,7 @@ class PetApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, body);
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = _serializers.serializeWith(bodySerializer, body);
 
         return _dio.request<dynamic>(
             _path,
@@ -181,18 +180,13 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
+            const type = FullType(BuiltList, [FullType(Pet)]);
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -251,18 +245,13 @@ class PetApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltList;
-            const type = FullType(collectionType, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
+            const type = FullType(BuiltList, [FullType(Pet)]);
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltList<Pet>;
 
             return Response<BuiltList<Pet>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -323,14 +312,12 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Pet>(serializer, response.data);
 
             return Response<Pet>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -369,9 +356,7 @@ class PetApi {
         ];
 
         final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, body);
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = _serializers.serializeWith(bodySerializer, body);
 
         return _dio.request<dynamic>(
             _path,
@@ -517,14 +502,12 @@ class PetApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<ApiResponse>(serializer, response.data);
 
             return Response<ApiResponse>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

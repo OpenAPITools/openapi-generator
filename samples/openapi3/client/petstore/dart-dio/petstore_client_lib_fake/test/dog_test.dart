@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Dog
 void main() {
-  final instance = Dog();
+  final instance = DogBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Dog, () {
     // String className

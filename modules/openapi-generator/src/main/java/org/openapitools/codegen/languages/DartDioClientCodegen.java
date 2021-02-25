@@ -33,14 +33,14 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends DartClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
     public static final String DATE_LIBRARY = "dateLibrary";
 
     private static final String CLIENT_NAME = "clientName";
 
-    private boolean nullableFields = true;
+    private boolean nullableFields = false;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
@@ -49,7 +49,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
+        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put("core", "Dart core library (DateTime)");
@@ -127,6 +127,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
             if (ModelUtils.isArraySchema(schema)) {
+                if (ModelUtils.isSet(schema)) {
+                    return "SetBuilder()";
+                }
                 return "ListBuilder()";
             }
             if (ModelUtils.isMapSchema(schema)) {
@@ -281,6 +284,34 @@ public class DartDioClientCodegen extends DartClientCodegen {
             // enums are generated with built_value and make use of BuiltSet
             model.imports.add("BuiltSet");
         }
+
+        property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
+    }
+
+    private String createBuiltValueSerializerType(CodegenProperty property) {
+        final StringBuilder sb = new StringBuilder("const FullType(");
+        if (property.isContainer) {
+            appendCollection(sb, property);
+        } else {
+            sb.append(property.datatypeWithEnum);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private void appendCollection(StringBuilder sb, CodegenProperty property) {
+        sb.append(property.baseType);
+        sb.append(", [FullType(");
+        if (property.isMap) {
+            // a map always has string keys
+            sb.append("String), FullType(");
+        }
+        if (property.items.isContainer) {
+            appendCollection(sb, property.items);
+        } else {
+            sb.append(property.items.datatypeWithEnum);
+        }
+        sb.append(")]");
     }
 
     @Override
@@ -318,6 +349,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
                     serializer.put("isArray", param.isArray);
+                    serializer.put("uniqueItems", param.uniqueItems);
                     serializer.put("isMap", param.isMap);
                     serializer.put("baseType", param.baseType);
                     serializers.add(serializer);
@@ -347,7 +379,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
             if (op.returnContainer != null) {
                 final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer));
+                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
+                serializer.put("uniqueItems", op.uniqueItems);
                 serializer.put("isMap", Objects.equals("map", op.returnContainer));
                 serializer.put("baseType", op.returnBaseType);
                 serializers.add(serializer);

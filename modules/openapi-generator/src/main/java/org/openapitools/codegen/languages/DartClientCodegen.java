@@ -53,7 +53,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DartClientCodegen extends DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String PUB_LIBRARY = "pubLibrary";
     public static final String PUB_NAME = "pubName";
@@ -141,14 +141,13 @@ public class DartClientCodegen extends DefaultCodegen {
             "double",
             "dynamic"
         );
-        instantiationTypes.put("array", "List");
-        instantiationTypes.put("map", "Map");
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
+        typeMapping.put("set", "Set");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
@@ -468,9 +467,10 @@ public class DartClientCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isMapSchema(schema)) {
+        if (ModelUtils.isMapSchema(schema) || ModelUtils.isSet(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(schema)) {
+        }
+        if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
 
@@ -494,7 +494,8 @@ public class DartClientCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        } else if (ModelUtils.isMapSchema(target)) {
+        }
+        if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
             Schema<?> inner = getAdditionalProperties(target);
@@ -538,12 +539,18 @@ public class DartClientCodegen extends DefaultCodegen {
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
             // Also taking into account potential collection types e.g. List<JustSymbolEnum> -> List<EnumArraysJustSymbolEnum>
+            final String enumName = model.classname + property.enumName;
             if (property.items != null) {
-                // basically inner items e.g. map of maps etc.
-                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + property.items.datatypeWithEnum));
+                // inner items e.g. enums in collections, only works for one level
+                // but same is the case for DefaultCodegen
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, enumName));
+                property.items.setDatatypeWithEnum(enumName);
+                property.items.setEnumName(enumName);
             } else {
-                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, model.classname + property.enumName));
+                // plain enum property
+                property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName, enumName));
             }
+            property.setEnumName(enumName);
         }
     }
 

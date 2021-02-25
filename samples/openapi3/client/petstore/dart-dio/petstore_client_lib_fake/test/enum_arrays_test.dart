@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for EnumArrays
 void main() {
-  final instance = EnumArrays();
+  final instance = EnumArraysBuilder();
+  // TODO add properties to the builder and call build()
 
   group(EnumArrays, () {
     // String justSymbol

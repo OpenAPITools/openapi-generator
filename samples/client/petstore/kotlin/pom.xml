@@ -27,7 +27,7 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>bundle-test</id>
+                        <id>bundle-install</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -35,6 +35,21 @@
                         <configuration>
                             <executable>gradle</executable>
                             <arguments>
+                                <argument>wrapper</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>bundle-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>./gradlew</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-x</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>

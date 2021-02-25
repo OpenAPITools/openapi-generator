@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **int64** | **kotlin.Long** |  |  [optional]
 **float** | **kotlin.Float** |  |  [optional]
 **double** | **kotlin.Double** |  |  [optional]
+**decimal** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional]
 **string** | **kotlin.String** |  |  [optional]
 **binary** | [**org.openapitools.client.infrastructure.OctetByteArray**](org.openapitools.client.infrastructure.OctetByteArray.md) |  |  [optional]
 **dateTime** | **kotlin.String** |  |  [optional]

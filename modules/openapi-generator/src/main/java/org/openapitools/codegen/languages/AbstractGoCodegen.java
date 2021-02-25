@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     protected boolean withGoCodegenComment = false;
@@ -393,7 +393,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String type = null;
 
         if (ref != null && !ref.isEmpty()) {
-            type = openAPIType;
+            type = toModelName(openAPIType);
         } else if ("object".equals(openAPIType) && isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";

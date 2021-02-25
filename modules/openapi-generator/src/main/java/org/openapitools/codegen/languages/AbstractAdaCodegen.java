@@ -43,7 +43,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";

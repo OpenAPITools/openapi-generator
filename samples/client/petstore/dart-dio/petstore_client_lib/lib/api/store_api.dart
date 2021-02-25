@@ -1,12 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
@@ -14,10 +13,12 @@ import 'package:openapi/model/order.dart';
 import 'package:built_collection/built_collection.dart';
 
 class StoreApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    StoreApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const StoreApi(this._dio, this._serializers);
 
     /// Delete purchase order by ID
     ///
@@ -113,18 +114,13 @@ class StoreApi {
             onSendProgress: onSendProgress,
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
-            const collectionType = BuiltMap;
-            const type = FullType(collectionType, [FullType(String), FullType(int)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltMap<String, int>;
+            const type = FullType(BuiltMap, [FullType(String), FullType(int)]);
+            final data = _serializers.deserialize(response.data, specifiedType: type) as BuiltMap<String, int>;
 
             return Response<BuiltMap<String, int>>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -178,14 +174,12 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Order>(serializer, response.data);
 
             return Response<Order>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,
@@ -221,9 +215,7 @@ class StoreApi {
         final contentTypes = <String>[];
 
         final bodySerializer = _serializers.serializerForType(Order) as Serializer<Order>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, body);
-        final jsonbody = json.encode(serializedBody);
-        bodyData = jsonbody;
+        bodyData = _serializers.serializeWith(bodySerializer, body);
 
         return _dio.request<dynamic>(
             _path,
@@ -244,14 +236,12 @@ class StoreApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(Order) as Serializer<Order>;
-            final data = _serializers.deserializeWith<Order>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<Order>(serializer, response.data);
 
             return Response<Order>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

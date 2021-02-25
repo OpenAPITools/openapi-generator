@@ -18,16 +18,16 @@ part 'serializers.g.dart';
 Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}
       ..addBuilderFactory(
 {{#isArray}}
-        const FullType(BuiltList, [FullType({{baseType}})]),
-        () => ListBuilder<{{baseType}}>(),
+        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]),
+        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{baseType}}>(),
 {{/isArray}}
 {{#isMap}}
         const FullType(BuiltMap, [FullType(String), FullType({{baseType}})]),
         () => MapBuilder<String, {{baseType}}>(),
 {{/isMap}}
       ){{/serializers}}{{/apis}}{{/apiInfo}}{{#timeMachine}}
-      ..add(OffsetDateSerializer())
-      ..add(OffsetDateTimeSerializer()){{/timeMachine}}
+      ..add(const OffsetDateSerializer())
+      ..add(const OffsetDateTimeSerializer()){{/timeMachine}}
       ..add(Iso8601DateTimeSerializer()))
     .build();
 

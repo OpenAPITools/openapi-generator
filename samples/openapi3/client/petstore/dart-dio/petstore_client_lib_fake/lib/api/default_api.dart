@@ -1,22 +1,23 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/inline_response_default.dart';
 
 class DefaultApi {
-    final Dio _dio;
-    Serializers _serializers;
 
-    DefaultApi(this._dio, this._serializers);
+    final Dio _dio;
+
+    final Serializers _serializers;
+
+    const DefaultApi(this._dio, this._serializers);
 
     /// 
     ///
@@ -61,14 +62,12 @@ class DefaultApi {
             onReceiveProgress: onReceiveProgress,
         ).then((response) {
             final serializer = _serializers.serializerForType(InlineResponseDefault) as Serializer<InlineResponseDefault>;
-            final data = _serializers.deserializeWith<InlineResponseDefault>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+            final data = _serializers.deserializeWith<InlineResponseDefault>(serializer, response.data);
 
             return Response<InlineResponseDefault>(
                 data: data,
                 headers: response.headers,
+                isRedirect: response.isRedirect,
                 request: response.request,
                 redirects: response.redirects,
                 statusCode: response.statusCode,

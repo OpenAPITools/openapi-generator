@@ -11,12 +11,11 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { HttpService, Inject, Injectable }                      from '@nestjs/common';
+import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 import { Order } from '../model/order';
-import { Configuration }                                     from '../configuration';
-import { COLLECTION_FORMATS }                     from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -26,9 +25,9 @@ export class StoreService {
     public defaultHeaders = new Map()
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpService, configuration: Configuration) {
-        this.configuration = configuration;
-        this.basePath = basePath || configuration.basePath || this.basePath;
+    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+        this.configuration = configuration || this.configuration;
+        this.basePath = configuration?.basePath || this.basePath;
     }
 
     /**
@@ -67,7 +66,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -103,7 +101,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -129,7 +126,7 @@ export class StoreService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -140,7 +137,6 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -166,7 +162,7 @@ export class StoreService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -182,7 +178,6 @@ export class StoreService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<Order>(`${this.basePath}/store/order`,
             order,
             {
