@@ -19,7 +19,7 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
-    final path = '/fake/health'.replaceAll('{format}', 'json');
+    final path = '/fake/health';
 
     Object postBody;
 
@@ -90,7 +90,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/fake/http-signature-test'.replaceAll('{format}', 'json');
+    final path = '/fake/http-signature-test';
 
     Object postBody = pet;
 
@@ -164,7 +164,7 @@ class FakeApi {
   Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/boolean'.replaceAll('{format}', 'json');
+    final path = '/fake/outer/boolean';
 
     Object postBody = body;
 
@@ -231,7 +231,7 @@ class FakeApi {
   Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/composite'.replaceAll('{format}', 'json');
+    final path = '/fake/outer/composite';
 
     Object postBody = outerComposite;
 
@@ -298,7 +298,7 @@ class FakeApi {
   Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/number'.replaceAll('{format}', 'json');
+    final path = '/fake/outer/number';
 
     Object postBody = body;
 
@@ -365,7 +365,7 @@ class FakeApi {
   Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/string'.replaceAll('{format}', 'json');
+    final path = '/fake/outer/string';
 
     Object postBody = body;
 
@@ -434,7 +434,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
     }
 
-    final path = '/fake/body-with-file-schema'.replaceAll('{format}', 'json');
+    final path = '/fake/body-with-file-schema';
 
     Object postBody = fileSchemaTestClass;
 
@@ -497,7 +497,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/fake/body-with-query-params'.replaceAll('{format}', 'json');
+    final path = '/fake/body-with-query-params';
 
     Object postBody = user;
 
@@ -563,7 +563,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = '/fake';
 
     Object postBody = modelClient;
 
@@ -685,7 +685,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = '/fake';
 
     Object postBody;
 
@@ -905,7 +905,7 @@ class FakeApi {
   Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     // Verify required params are set.
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = '/fake';
 
     Object postBody;
 
@@ -1048,7 +1048,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = '/fake';
 
     Object postBody;
 
@@ -1142,7 +1142,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
     }
 
-    final path = '/fake/inline-additionalProperties'.replaceAll('{format}', 'json');
+    final path = '/fake/inline-additionalProperties';
 
     Object postBody = requestBody;
 
@@ -1211,7 +1211,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
     }
 
-    final path = '/fake/jsonFormData'.replaceAll('{format}', 'json');
+    final path = '/fake/jsonFormData';
 
     Object postBody;
 
@@ -1310,7 +1310,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
-    final path = '/fake/test-query-paramters'.replaceAll('{format}', 'json');
+    final path = '/fake/test-query-paramters';
 
     Object postBody;
 
