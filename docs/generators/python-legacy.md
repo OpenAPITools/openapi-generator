@@ -33,15 +33,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>Dict</li>
+<li>List</li>
+<li>Set</li>
 <li>bool</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
-<li>dict</li>
 <li>file</li>
 <li>float</li>
 <li>int</li>
-<li>list</li>
 <li>object</li>
 <li>str</li>
 </ul>
