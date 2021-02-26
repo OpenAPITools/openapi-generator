@@ -746,8 +746,14 @@ namespace {{packageName}}.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+        {{^reUseHttpClient}}
             var handler = new HttpClientHandler();
             var client = new HttpClient();
+        {{/reUseHttpClient}}
+        {{#reUseHttpClient}}
+            var handler = _httpClientHandler;
+            var client = _httpClient;
+        {{/reUseHttpClient}}
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
