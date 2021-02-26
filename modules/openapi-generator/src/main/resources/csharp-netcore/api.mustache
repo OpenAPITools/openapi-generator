@@ -279,7 +279,6 @@ namespace {{packageName}}.{{apiPackage}}
             {{/required}}
             {{/pathParams}}
             {{#queryParams}}
-
             {{#required}}
             {{#isDeepObject}}
             {{#items.vars}}
@@ -293,7 +292,6 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
             {{/isDeepObject}}
             {{/required}}
-
             {{^required}}
             if ({{paramName}} != null)
             {
@@ -304,7 +302,6 @@ namespace {{packageName}}.{{apiPackage}}
                     localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
                 }
                     {{/items.vars}}
-
                 {{^items}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
                 {{/items}}
@@ -314,7 +311,6 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/isDeepObject}}
             }
             {{/required}}
-
             {{/queryParams}}
             {{#headerParams}}
             {{#required}}
