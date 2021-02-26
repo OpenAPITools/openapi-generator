@@ -86,11 +86,11 @@ class PetApi(baseUrl: String) {
 
 
   /**
-   * Filter by multiple Pet properties via Map
+   * Filter by multiple Pet properties using Map
    *
    * Expected answers:
    *   code 200 : Seq[Pet] (successful operation)
-   *   code 400 :  (Invalid tag value)
+   *   code 400 :  (Invalid property)
    *
    * @param filters Pet properties to filter by
    */
