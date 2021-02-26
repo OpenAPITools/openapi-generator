@@ -60,18 +60,23 @@ String parameterToString(dynamic value) {
   }
   if (value is EnumClass) {
     return EnumClassTypeTransformer().encode(value).toString();
+
   }
   if (value is OuterEnum) {
     return OuterEnumTypeTransformer().encode(value).toString();
+
   }
   if (value is OuterEnumDefaultValue) {
     return OuterEnumDefaultValueTypeTransformer().encode(value).toString();
+
   }
   if (value is OuterEnumInteger) {
     return OuterEnumIntegerTypeTransformer().encode(value).toString();
+
   }
   if (value is OuterEnumIntegerDefaultValue) {
     return OuterEnumIntegerDefaultValueTypeTransformer().encode(value).toString();
+
   }
   return value.toString();
 }
