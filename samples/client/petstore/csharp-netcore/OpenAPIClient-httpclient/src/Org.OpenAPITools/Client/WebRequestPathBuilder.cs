@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Client
                 {
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + parameter.Value + "&";
+                        _query = _query + parameter.Key + "=" + value + "&";
                     }
                 }
             }
