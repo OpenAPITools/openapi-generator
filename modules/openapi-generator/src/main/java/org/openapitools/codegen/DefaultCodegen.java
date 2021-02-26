@@ -4346,14 +4346,20 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            Map<String, Schema<?>> properties = schema.getProperties();
-            codegenParameter.items.vars =
-                    properties.entrySet().stream()
-                            .map(entry -> {
-                                CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
-                                property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
-                                return property;
-                            }).collect(Collectors.toList());
+            // TODO Check why schema is actually null for a schema of type object defined inline
+            if(schema != null) {
+                Map<String, Schema<?>> properties = schema.getProperties();
+                codegenParameter.items.vars =
+                        properties.entrySet().stream()
+                                .map(entry -> {
+                                    CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                    property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                    return property;
+                                }).collect(Collectors.toList());
+            }
+            else {
+                LOGGER.warn("No object schema found for deepObject parameter" + codegenParameter + " deepObject won't have specific properties");
+            }
         }
 
         // set the parameter example value
