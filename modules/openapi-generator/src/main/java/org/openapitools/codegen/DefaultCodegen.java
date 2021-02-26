@@ -4190,7 +4190,8 @@ public class DefaultCodegen implements CodegenConfig {
             // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
             codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
-            // TODO revise collectionFormat
+            // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
+            // https://swagger.io/docs/specification/serialization/
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
@@ -4347,6 +4348,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
             // TODO Check why schema is actually null for a schema of type object defined inline
+            // https://swagger.io/docs/specification/serialization/
             if(schema != null) {
                 Map<String, Schema<?>> properties = schema.getProperties();
                 codegenParameter.items.vars =
