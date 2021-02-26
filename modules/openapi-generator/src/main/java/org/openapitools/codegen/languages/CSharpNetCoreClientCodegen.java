@@ -47,15 +47,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     protected static final String NET_STANDARD = "netStandard";
 
+    // HTTP libraries
+    protected static final String RESTSHARP = "restsharp";
+    protected static final String HTTPCLIENT = "httpclient";
+
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
-
-    protected static final String WEBREQUEST_LIBRARY = "webRequestLibrary";
-    protected static final String WEBREQUEST_RESTSHARP = "restsharp";
-    protected static final String WEBREQUEST_HTTPCLIENT = "httpclient";
-    protected static final String WEBREQUEST_WEBREQUEST = "webrequest";
 
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -102,7 +101,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String packageTags;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
-    protected CliOption webRequestType = new CliOption(WEBREQUEST_LIBRARY, "Which webrequest library to use. Available options are restsharp, webrequest and httpclient.");
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
 
@@ -297,18 +295,21 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
-        webRequestType.addEnum(WEBREQUEST_RESTSHARP, "restsharp (default)");
-        webRequestType.addEnum(WEBREQUEST_HTTPCLIENT, "httpclient (dotnet builtin, shared client)");
-        webRequestType.addEnum(WEBREQUEST_WEBREQUEST, "webrequest (dotnet builtin)");
-        webRequestType.setDefault(WEBREQUEST_RESTSHARP);
-        webRequestType.setOptValue(WEBREQUEST_RESTSHARP);
-        addOption(webRequestType.getOpt(), webRequestType.getDescription(), webRequestType.getOptValue());
-
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
+
+        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Beta support)");
+        supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set RESTSHARP as the default
+        libraryOption.setDefault(RESTSHARP);
+        cliOptions.add(libraryOption);
+        setLibrary(RESTSHARP);
     }
 
     @Override
@@ -578,25 +579,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         clientPackage = "Client";
 
-        setCliOption(webRequestType);
-
-        if (additionalProperties.containsKey(WEBREQUEST_LIBRARY)) {
-            switch ((String) additionalProperties.get(WEBREQUEST_LIBRARY)) {
-                case WEBREQUEST_RESTSHARP:
-                    additionalProperties.put("useRestSharp", true);
-                    needsCustomHttpMethod = true;
-                    break;
-
-                case WEBREQUEST_HTTPCLIENT:
-                    additionalProperties.put("useHttpClient", true);
-                    needsUriBuilder = true;
-                    break;
-
-                case WEBREQUEST_WEBREQUEST:
-                    additionalProperties.put("useWebRequest", true);
-                    needsUriBuilder = true;
-                    break;
-            }
+        if (RESTSHARP.equals(getLibrary())) {
+            additionalProperties.put("useRestSharp", true);
+            needsCustomHttpMethod = true;
+        } else if (HTTPCLIENT.equals(getLibrary())) {
+            additionalProperties.put("useHttpClient", true);
+            needsUriBuilder = true;
         }
 
         String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
@@ -733,27 +721,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-    }
-
-    private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
-        if (additionalProperties.containsKey(cliOption.getOpt())) {
-            // TODO Hack - not sure why the empty strings become boolean.
-            Object obj = additionalProperties.get(cliOption.getOpt());
-            if (!SchemaTypeUtil.BOOLEAN_TYPE.equals(cliOption.getType())) {
-                if (obj instanceof Boolean) {
-                    obj = "";
-                    additionalProperties.put(cliOption.getOpt(), obj);
-                }
-            }
-            cliOption.setOptValue(obj.toString());
-        } else {
-            additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
-        }
-        if (cliOption.getOptValue() == null) {
-            cliOption.setOptValue(cliOption.getDefault());
-            throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
-                    ". " + cliOption.getDescription());
-        }
     }
 
     public void setNetStandard(Boolean netStandard) {
