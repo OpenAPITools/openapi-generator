@@ -2,12 +2,12 @@ group '{{groupId}}'
 version '{{artifactVersion}}'
 
 wrapper {
-    gradleVersion = '6.8.2'
+    gradleVersion = '6.8.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.4.20'
+    ext.kotlin_version = '1.4.30'
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.7.2'
     {{/jvm-retrofit2}}
@@ -73,7 +73,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
     {{/jackson}}
     {{#kotlinx_serialization}}
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
     {{/kotlinx_serialization}}
     {{#jvm-okhttp3}}
     compile "com.squareup.okhttp3:okhttp:3.12.13"
