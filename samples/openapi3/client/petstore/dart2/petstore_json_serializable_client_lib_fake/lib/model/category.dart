@@ -30,7 +30,7 @@ class Category {
   int id;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'default-name',
     name: r'name',
     required: true,
   )

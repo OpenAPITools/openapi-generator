@@ -75,42 +75,42 @@ class NullableClass {
   DateTime datetimeProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_nullable_prop',
     required: false,
   )
   List<Object> arrayNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_and_items_nullable_prop',
     required: false,
   )
   List<Object> arrayAndItemsNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_items_nullable',
     required: false,
   )
   List<Object> arrayItemsNullable;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_nullable_prop',
     required: false,
   )
   Map<String, Object> objectNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_and_items_nullable_prop',
     required: false,
   )
   Map<String, Object> objectAndItemsNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_items_nullable',
     required: false,
   )

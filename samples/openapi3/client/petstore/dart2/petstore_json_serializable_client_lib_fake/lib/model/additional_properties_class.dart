@@ -23,14 +23,14 @@ class AdditionalPropertiesClass {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_property',
     required: false,
   )
   Map<String, String> mapProperty;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_of_map_property',
     required: false,
   )

@@ -31,7 +31,7 @@ class Cat {
   String className;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'red',
     name: r'color',
     required: false,
   )

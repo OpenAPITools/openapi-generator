@@ -63,7 +63,7 @@ class Order {
   OrderStatusEnum status;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: false,
     name: r'complete',
     required: false,
   )
