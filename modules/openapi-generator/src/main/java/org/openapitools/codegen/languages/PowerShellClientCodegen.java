@@ -604,7 +604,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
        this.iconUri = iconUri;
    }
 
-   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; };
+   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; }
 
     @Override
     public void processOpts() {
