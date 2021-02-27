@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
+  
   private String bar;
 
   @JsonProperty("foo")
+  
   private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
@@ -26,7 +28,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   **/
-    public String getBar() {
+  public String getBar() {
     return bar;
   }
 
@@ -43,7 +45,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   **/
-    public String getFoo() {
+  public String getFoo() {
     return foo;
   }
 

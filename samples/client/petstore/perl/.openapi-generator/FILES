@@ -29,12 +29,6 @@ docs/Foo.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
@@ -89,12 +83,6 @@ lib/WWW/OpenAPIClient/Object/Foo.pm
 lib/WWW/OpenAPIClient/Object/FormatTest.pm
 lib/WWW/OpenAPIClient/Object/HasOnlyReadOnly.pm
 lib/WWW/OpenAPIClient/Object/HealthCheckResult.pm
-lib/WWW/OpenAPIClient/Object/InlineObject.pm
-lib/WWW/OpenAPIClient/Object/InlineObject1.pm
-lib/WWW/OpenAPIClient/Object/InlineObject2.pm
-lib/WWW/OpenAPIClient/Object/InlineObject3.pm
-lib/WWW/OpenAPIClient/Object/InlineObject4.pm
-lib/WWW/OpenAPIClient/Object/InlineObject5.pm
 lib/WWW/OpenAPIClient/Object/InlineResponseDefault.pm
 lib/WWW/OpenAPIClient/Object/List.pm
 lib/WWW/OpenAPIClient/Object/MapTest.pm

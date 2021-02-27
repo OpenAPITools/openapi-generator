@@ -144,11 +144,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                         <target>1.8</target>
@@ -157,7 +152,6 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>
@@ -166,17 +160,12 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                     {{/java8}}
                     {{^java8}}
                         <source>1.7</source>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
                 <executions>
                     <execution>
@@ -328,7 +317,7 @@
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <google-api-client-version>1.30.2</google-api-client-version>
         <jersey-common-version>2.25.1</jersey-common-version>
-        <jackson-version>2.10.4</jackson-version>
+        <jackson-version>2.12.1</jackson-version>
         <jackson-databind-version>2.10.4</jackson-databind-version>
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>

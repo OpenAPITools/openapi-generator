@@ -149,8 +149,9 @@ module {{moduleName}}
           data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
         end
       else
-        # models, e.g. Pet
-        {{moduleName}}.const_get(return_type).build_from_hash(data)
+        # models (e.g. Pet) or oneOf
+        klass = {{moduleName}}.const_get(return_type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(data) : klass.build_from_hash(data)
       end
     end
 
@@ -181,7 +182,7 @@ module {{moduleName}}
         case auth_setting[:in]
         when 'header' then header_params[auth_setting[:key]] = auth_setting[:value]
         when 'query'  then query_params[auth_setting[:key]] = auth_setting[:value]
-        else fail ArgumentError, 'Authentication token must be in `query` of `header`'
+        else fail ArgumentError, 'Authentication token must be in `query` or `header`'
         end
       end
     end

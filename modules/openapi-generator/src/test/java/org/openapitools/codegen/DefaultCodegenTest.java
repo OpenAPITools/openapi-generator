@@ -35,6 +35,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -515,7 +516,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void updateCodegenPropertyEnumWithExtention() {
+    public void updateCodegenPropertyEnumWithExtension() {
         {
             CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("dog", "cat"), Arrays.asList("DOGVAR", "CATVAR"));
             (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
@@ -694,7 +695,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
 
-        Assert.assertEquals(codegenParameter2.example, "example3: parameter value");
+        Assert.assertEquals(codegenParameter2.example, "An example3 value");
     }
 
     @Test
@@ -921,7 +922,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaAllOfDiscriminatorMapLegacy() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        // codegen.discriminatorExplicitMappingVerbose remains false in the legacy use case
+        // codegen.legacyDiscriminatorBehavior remains false in the legacy use case
         codegen.setOpenAPI(openAPI);
         Schema sc;
         String modelName;
@@ -1386,9 +1387,9 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
-        Assert.assertEquals(getNames(model.getVars()), Collections.emptyList());
-        Assert.assertEquals(model.parent, "MessageEventCore");
-        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
+        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id","message"));
+        Assert.assertNull(model.parent);
+        Assert.assertNull(model.allParents);
     }
 
     class CodegenWithMultipleInheritance extends DefaultCodegen {
@@ -1398,7 +1399,6 @@ public class DefaultCodegenTest {
             supportsMultipleInheritance = true;
         }
     }
-
 
     @Test
     public void testAllOfParent() {
@@ -2400,6 +2400,12 @@ public class DefaultCodegenTest {
         CodegenProperty mapWithAddPropsFalse;
         CodegenProperty mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         modelName = "ObjectModelWithRefAddPropsInProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
@@ -2423,6 +2429,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2443,6 +2453,12 @@ public class DefaultCodegenTest {
         CodegenParameter mapWithAddPropsFalse;
         CodegenParameter mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2466,6 +2482,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.queryParams.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2486,6 +2506,12 @@ public class DefaultCodegenTest {
         CodegenResponse mapWithAddPropsFalse;
         CodegenResponse mapWithAddPropsSchema;
 
+        // make sure isGenerateAliasAsModel is false
+        boolean isGenerateAliasAsModel = ModelUtils.isGenerateAliasAsModel();
+        if (isGenerateAliasAsModel) {
+            GlobalSettings.setProperty("generateAliasAsModel", "false");
+        }
+
         path = "/ref_additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
@@ -2509,6 +2535,10 @@ public class DefaultCodegenTest {
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
         mapWithAddPropsSchema = co.responses.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+
+        if (isGenerateAliasAsModel) { // restore the setting
+            GlobalSettings.setProperty("generateAliasAsModel", "true");
+        }
     }
 
     @Test
@@ -2526,6 +2556,23 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.isString, false);
         assertEquals(cm.isDate, true);
+
+        modelName = "NullModel";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isNull, true);
+
+        modelName = "ObjectWithTypeNullProperties";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getVars().get(0).isNull, true);
+        assertEquals(cm.getVars().get(1).getItems().isNull, true);
+        assertEquals(cm.getAdditionalProperties().isNull, true);
+
+        modelName = "ArrayOfNulls";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getItems().isNull, true);
 
         modelName = "ObjectWithDateWithValidation";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -2588,6 +2635,241 @@ public class DefaultCodegenTest {
         assertEquals(co.bodyParams.get(0).isDateTime, true);
         assertEquals(co.responses.get(0).isString, false);
         assertEquals(co.responses.get(0).isDateTime, true);
+
+        path = "/null/{param}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isNull, true);
+        assertEquals(co.bodyParams.get(0).isNull, true);
+        assertEquals(co.responses.get(0).isNull, true);
+
+        path = "/ref_null/{param}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).isNull, true);
+        assertEquals(co.bodyParams.get(0).isNull, true);
+        assertEquals(co.responses.get(0).isNull, true);
+    }
+
+    @Test
+    public void testModelGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema sc;
+        CodegenModel cm;
+
+        List<String> modelNames = Arrays.asList(
+                "ArrayWithMaxItems",
+                "ArrayWithMinItems",
+                "ArrayWithUniqueItems",
+                "ObjectWithMinProperties",
+                "ObjectWithMaxProperties",
+                "StringWithMinLength",
+                "DateWithMinLength",
+                "DateTimeWithMinLength",
+                "ByteWithMinLength",
+                "BinaryWithMinLength",
+                "StringWithMaxLength",
+                "DateWithMaxLength",
+                "DateTimeWithMaxLength",
+                "ByteWithMaxLength",
+                "BinaryWithMaxLength",
+                "IntegerWithMultipleOf",
+                "Integer32WithMultipleOf",
+                "Integer64WithMultipleOf",
+                "NumberWithMultipleOf",
+                "NumberFloatWithMultipleOf",
+                "NumberDoubleWithMultipleOf",
+                "StringWithPattern",
+                "DateWithPattern",
+                "DateTimeWithPattern",
+                "ByteWithPattern",
+                "BinaryWithPattern",
+                "IntegerWithMinimum",
+                "Integer32WithMinimum",
+                "Integer64WithMinimum",
+                "NumberWithMinimum",
+                "NumberFloatWithMinimum",
+                "NumberDoubleWithMinimum",
+                "IntegerWithMaximum",
+                "Integer32WithMaximum",
+                "Integer64WithMaximum",
+                "NumberWithMaximum",
+                "NumberFloatWithMaximum",
+                "NumberDoubleWithMaximum",
+                "IntegerWithExclusiveMaximum",
+                "Integer32WithExclusiveMaximum",
+                "Integer64WithExclusiveMaximum",
+                "NumberWithExclusiveMaximum",
+                "NumberFloatWithExclusiveMaximum",
+                "NumberDoubleWithExclusiveMaximum",
+                "IntegerWithExclusiveMinimum",
+                "Integer32WithExclusiveMinimum",
+                "Integer64WithExclusiveMinimum",
+                "NumberWithExclusiveMinimum",
+                "NumberFloatWithExclusiveMinimum",
+                "NumberDoubleWithExclusiveMinimum"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testPropertyGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ObjectWithPropertiesThatHaveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        List<CodegenProperty> props = cm.getVars();
+        assertEquals(props.size(), 50);
+        for (CodegenProperty prop : props) {
+            assertEquals(prop.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testQueryParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/queryParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        List<CodegenParameter> params = co.queryParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testHeaderParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/headerParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        List<CodegenParameter> params = co.headerParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testCookieParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/cookieParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        List<CodegenParameter> params = co.cookieParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testPathParametersGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path = "/pathParametersWithValidation";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+        List<CodegenParameter> params = co.pathParams;
+        assertEquals(params.size(), 50);
+        for (CodegenParameter param : params) {
+            assertEquals(param.getHasValidation(), true);
+        }
+    }
+
+    @Test
+    public void testBodyAndResponseGetHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7651.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        List<String> modelNames = Arrays.asList(
+                "ArrayWithMaxItems",
+                "ArrayWithMinItems",
+                "ArrayWithUniqueItems",
+                "ObjectWithMinProperties",
+                "ObjectWithMaxProperties",
+                "StringWithMinLength",
+                "DateWithMinLength",
+                "DateTimeWithMinLength",
+                "ByteWithMinLength",
+                "BinaryWithMinLength",
+                "StringWithMaxLength",
+                "DateWithMaxLength",
+                "DateTimeWithMaxLength",
+                "ByteWithMaxLength",
+                "BinaryWithMaxLength",
+                "StringWithPattern",
+                "DateWithPattern",
+                "DateTimeWithPattern",
+                "ByteWithPattern",
+                "BinaryWithPattern",
+                "IntegerWithMultipleOf",
+                "Integer32WithMultipleOf",
+                "Integer64WithMultipleOf",
+                "NumberWithMultipleOf",
+                "NumberFloatWithMultipleOf",
+                "NumberDoubleWithMultipleOf",
+                "IntegerWithMinimum",
+                "Integer32WithMinimum",
+                "Integer64WithMinimum",
+                "NumberWithMinimum",
+                "NumberFloatWithMinimum",
+                "NumberDoubleWithMinimum",
+                "IntegerWithMaximum",
+                "Integer32WithMaximum",
+                "Integer64WithMaximum",
+                "NumberWithMaximum",
+                "NumberFloatWithMaximum",
+                "NumberDoubleWithMaximum",
+                "IntegerWithExclusiveMaximum",
+                "Integer32WithExclusiveMaximum",
+                "Integer64WithExclusiveMaximum",
+                "NumberWithExclusiveMaximum",
+                "NumberFloatWithExclusiveMaximum",
+                "NumberDoubleWithExclusiveMaximum",
+                "IntegerWithExclusiveMinimum",
+                "Integer32WithExclusiveMinimum",
+                "Integer64WithExclusiveMinimum",
+                "NumberWithExclusiveMinimum",
+                "NumberFloatWithExclusiveMinimum",
+                "NumberDoubleWithExclusiveMinimum"
+        );
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        for (String modelName : modelNames) {
+            path = "/"+modelName;
+            operation = openAPI.getPaths().get(path).getPost();
+            co = codegen.fromOperation(path, "POST", operation, null);
+            assertEquals(co.bodyParam.getHasValidation(), true);
+            assertEquals(co.responses.get(0).getHasValidation(), true);
+        }
     }
 
     @Test

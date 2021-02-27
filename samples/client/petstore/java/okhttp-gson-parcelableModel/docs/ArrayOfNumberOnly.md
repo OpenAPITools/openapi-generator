@@ -6,7 +6,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**arrayNumber** | [**List&lt;BigDecimal&gt;**](BigDecimal.md) |  |  [optional]
+**arrayNumber** | **List&lt;BigDecimal&gt;** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

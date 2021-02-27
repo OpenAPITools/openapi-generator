@@ -1,32 +1,20 @@
 {{#description}}/// {{{description}}}{{/description}}
+{{^json_serializable}}
 class {{{classname}}} {
   /// Instantiate a new enum with the provided [value].
   const {{{classname}}}._(this.value);
 
   /// The underlying value of this enum member.
-  {{#isEnum}}
-  final String value;
-  {{/isEnum}}
-  {{^isEnum}}
   final {{{dataType}}} value;
-  {{/isEnum}}
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is {{{classname}}} && other.value == value ||
-      other is {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} && other == value;
+  String toString() => value{{^isString}}.toString(){{/isString}};
 
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
-
-  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} toJson() => value;
+  {{{dataType}}} toJson() => value;
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}} = {{{classname}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}._({{#isString}}r{{/isString}}{{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -34,12 +22,12 @@ class {{{classname}}} {
   static const values = <{{{classname}}}>[
   {{#allowableValues}}
     {{#enumVars}}
-    {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}},
+    {{{name}}},
     {{/enumVars}}
   {{/allowableValues}}
   ];
 
-  static {{{classname}}} fromJson({{{dataType}}} value) =>
+  static {{{classname}}} fromJson(dynamic value) =>
     {{{classname}}}TypeTransformer().decode(value);
 
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -57,7 +45,7 @@ class {{{classname}}}TypeTransformer {
 
   factory {{{classname}}}TypeTransformer() => _instance ??= {{{classname}}}TypeTransformer._();
 
-  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} encode({{{classname}}} data) => data.value;
+  {{{dataType}}} encode({{{classname}}} data) => data.value;
 
   /// Decodes a [dynamic value][data] to a {{{classname}}}.
   ///
@@ -71,7 +59,7 @@ class {{{classname}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}: return {{{classname}}}.{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}};
+      case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
       default:
@@ -84,4 +72,12 @@ class {{{classname}}}TypeTransformer {
 
   /// Singleton [{{{classname}}}TypeTransformer] instance.
   static {{{classname}}}TypeTransformer _instance;
+}{{/json_serializable}}{{#json_serializable}}
+enum {{{classname}}} {
+    {{#allowableValues}}
+        {{#enumVars}}
+                {{{name}}},
+        {{/enumVars}}
+    {{/allowableValues}}
 }
+{{/json_serializable}}

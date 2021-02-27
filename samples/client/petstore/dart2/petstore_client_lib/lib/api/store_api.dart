@@ -25,13 +25,13 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future deleteOrderWithHttpInfo(String orderId) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json')
+    final path = '/store/order/{orderId}'
       .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
     Object postBody;
@@ -39,7 +39,6 @@ class StoreApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -77,7 +76,7 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future deleteOrder(String orderId) async {
+  Future<void> deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -90,14 +89,13 @@ class StoreApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
-    final path = '/store/inventory'.replaceAll('{format}', 'json');
+    final path = '/store/inventory';
 
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -160,7 +158,7 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{orderId}'.replaceAll('{format}', 'json')
+    final path = '/store/order/{orderId}'
       .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
     Object postBody;
@@ -168,7 +166,6 @@ class StoreApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -234,14 +231,13 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/store/order'.replaceAll('{format}', 'json');
+    final path = '/store/order';
 
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;

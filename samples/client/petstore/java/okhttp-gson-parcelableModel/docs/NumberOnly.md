@@ -6,7 +6,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**justNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+**justNumber** | **BigDecimal** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

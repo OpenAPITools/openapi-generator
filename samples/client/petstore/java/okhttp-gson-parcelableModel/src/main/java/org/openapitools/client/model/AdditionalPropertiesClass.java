@@ -34,7 +34,7 @@ import android.os.Parcel;
  * AdditionalPropertiesClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesClass {
+public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
   private Map<String, String> mapString = null;
@@ -425,7 +425,6 @@ public class AdditionalPropertiesClass {
   public int hashCode() {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
-
 
   @Override
   public String toString() {

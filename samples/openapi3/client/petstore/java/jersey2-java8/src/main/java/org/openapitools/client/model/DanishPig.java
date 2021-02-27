@@ -83,7 +83,6 @@ public class DanishPig {
     return Objects.hash(className);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

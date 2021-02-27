@@ -29,12 +29,6 @@ docs/Foo.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineObject.md
-docs/InlineObject1.md
-docs/InlineObject2.md
-docs/InlineObject3.md
-docs/InlineObject4.md
-docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
@@ -95,12 +89,6 @@ petstore_api/models/foo.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
-petstore_api/models/inline_object.py
-petstore_api/models/inline_object1.py
-petstore_api/models/inline_object2.py
-petstore_api/models/inline_object3.py
-petstore_api/models/inline_object4.py
-petstore_api/models/inline_object5.py
 petstore_api/models/inline_response_default.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py

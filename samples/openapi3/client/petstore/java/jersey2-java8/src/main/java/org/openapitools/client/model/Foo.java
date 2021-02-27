@@ -84,7 +84,6 @@ public class Foo {
     return Objects.hash(bar);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

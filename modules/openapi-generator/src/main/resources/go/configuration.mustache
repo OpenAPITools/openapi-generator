@@ -70,6 +70,9 @@ type APIKey struct {
 type AWSv4 struct {
 	AccessKey string
 	SecretKey string
+	SessionToken string
+	Region string
+	Service string
 }
 
 {{/withAWSV4Signature}}

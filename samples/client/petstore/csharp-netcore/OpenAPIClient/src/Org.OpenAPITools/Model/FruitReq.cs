@@ -156,7 +156,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                }
                 matchedTypes.Add("AppleReq");
                 match++;
             }
@@ -168,7 +173,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                }
                 matchedTypes.Add("BananaReq");
                 match++;
             }

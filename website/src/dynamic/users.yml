@@ -199,6 +199,11 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
+  pinned: false
+-
   caption: "Here"
   image: "img/companies/here.png"
   infoLink: "https://developer.here.com/"
@@ -247,6 +252,11 @@
   caption: "LVM Versicherungen"
   image: "img/companies/lvm_versicherungen.png"
   infoLink: "https://www.lvm.de"
+  pinned: false
+-
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
   pinned: false
 -
   caption: M3, Inc.
@@ -409,6 +419,11 @@
   infoLink: "http://www.tui-infotec.com/"
   pinned: false
 -
+  caption: "Twitter"
+  image: "img/companies/twitter.png"
+  infoLink: "https://twitter.com"
+  pinned: false
+-
   caption: "unblu inc."
   image: "img/companies/unblu.svg"
   infoLink: "https://www.unblu.com/"
@@ -417,6 +432,11 @@
   caption: "Veamly"
   image: "img/companies/veamly.png"
   infoLink: "https://www.veamly.com/"
+  pinned: false
+-
+  caption: "viadee"
+  image: "img/companies/viadee.jpg"
+  infoLink: "https://www.viadee.de"
   pinned: false
 -
   caption: Vonage

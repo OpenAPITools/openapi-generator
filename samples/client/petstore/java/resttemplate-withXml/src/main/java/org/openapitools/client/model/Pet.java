@@ -80,11 +80,16 @@ public class Pet {
   /**
    * pet status in the store
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("available")
     AVAILABLE("available"),
     
+    @XmlEnumValue("pending")
     PENDING("pending"),
     
+    @XmlEnumValue("sold")
     SOLD("sold");
 
     private String value;
@@ -309,7 +314,6 @@ public class Pet {
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
-
 
   @Override
   public String toString() {

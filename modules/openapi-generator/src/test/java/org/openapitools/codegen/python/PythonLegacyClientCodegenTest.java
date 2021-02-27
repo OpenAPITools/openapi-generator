@@ -24,11 +24,13 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class PythonLegacyClientCodegenTest {
 
@@ -91,6 +93,25 @@ public class PythonLegacyClientCodegenTest {
         Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_with_modifiers '/^pattern\d{3}$/i
         Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+    }
+
+
+
+    @Test(description = "test generated example values for string properties")
+    public void testGeneratedExampleValues() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final Schema dummyUserSchema = openAPI.getComponents().getSchemas().get("DummyUser");
+        final Schema nameSchema = (Schema) dummyUserSchema.getProperties().get("name");
+        final Schema numberSchema = (Schema) dummyUserSchema.getProperties().get("number");
+        final Schema addressSchema = (Schema) dummyUserSchema.getProperties().get("address");
+        final String namePattern = codegen.patternCorrection(nameSchema.getPattern());
+        final String numberPattern = codegen.patternCorrection(numberSchema.getPattern());
+        final String addressPattern = codegen.patternCorrection(addressSchema.getPattern());
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
     }
 
     @Test(description = "test single quotes escape")

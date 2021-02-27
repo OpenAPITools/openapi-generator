@@ -1,4 +1,3 @@
-# coding: utf-8
 """
     OpenAPI Extension with dynamic servers
 
@@ -18,6 +17,7 @@ import os
 import re
 import typing
 from urllib.parse import quote
+from urllib3.fields import RequestField
 
 
 from dynamic_servers import rest
@@ -66,7 +66,7 @@ class ApiClient(object):
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
         if configuration is None:
-            configuration = Configuration()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
@@ -171,6 +171,9 @@ class ApiClient(object):
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
+            if header_params['Content-Type'].startswith("multipart"):
+                post_params = self.parameters_to_multipart(post_params,
+                                                          (dict) )
 
         # body
         if body:
@@ -198,8 +201,6 @@ class ApiClient(object):
             e.body = e.body.decode('utf-8')
             raise e
 
-        content_type = response_data.getheader('content-type')
-
         self.last_response = response_data
 
         return_data = response_data
@@ -208,15 +209,17 @@ class ApiClient(object):
             return (return_data)
             return return_data
 
-        if response_type not in ["file", "bytes"]:
-            match = None
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
         # deserialize response data
         if response_type:
+            if response_type != (file_type,):
+                encoding = "utf-8"
+                content_type = response_data.getheader('content-type')
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                    if match:
+                        encoding = match.group(1)
+                response_data.data = response_data.data.decode(encoding)
+
             return_data = self.deserialize(
                 response_data,
                 response_type,
@@ -231,9 +234,29 @@ class ApiClient(object):
             return (return_data, response_data.status,
                     response_data.getheaders())
 
+    def parameters_to_multipart(self, params, collection_types):
+        """Get parameters as list of tuples, formatting as json if value is collection_types
+
+        :param params: Parameters as list of two-tuples
+        :param dict collection_types: Parameter collection types
+        :return: Parameters as list of tuple or urllib3.fields.RequestField
+        """
+        new_params = []
+        if collection_types is None:
+            collection_types = (dict)
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
+            if isinstance(v, collection_types): # v is instance of collection_type, formatting as application/json
+                 v = json.dumps(v, ensure_ascii=False).encode("utf-8")
+                 field = RequestField(k, v)
+                 field.make_multipart(content_type="application/json; charset=utf-8")
+                 new_params.append(field)
+            else:
+                 new_params.append((k, v))
+        return new_params
+
     @classmethod
     def sanitize_for_serialization(cls, obj):
-        """Builds a JSON POST object.
+        """Prepares data for transmission before it is sent with the rest client
         If obj is None, return None.
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
@@ -241,6 +264,7 @@ class ApiClient(object):
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
         If obj is OpenAPI model, return the properties dict.
+        If obj is io.IOBase, return the bytes
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
@@ -248,6 +272,8 @@ class ApiClient(object):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
+        elif isinstance(obj, io.IOBase):
+            return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
             return obj
         elif isinstance(obj, (datetime, date)):
@@ -491,6 +517,12 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
+    @staticmethod
+    def get_file_data_and_close_file(file_instance: io.IOBase) -> bytes:
+        file_data = file_instance.read()
+        file_instance.close()
+        return file_data
+
     def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
@@ -516,12 +548,11 @@ class ApiClient(object):
                         "for %s must be open." % param_name
                     )
                 filename = os.path.basename(file_instance.name)
-                filedata = file_instance.read()
+                filedata = self.get_file_data_and_close_file(file_instance)
                 mimetype = (mimetypes.guess_type(filename)[0] or
                             'application/octet-stream')
                 params.append(
                     tuple([param_name, tuple([filename, filedata, mimetype])]))
-                file_instance.close()
 
         return params
 

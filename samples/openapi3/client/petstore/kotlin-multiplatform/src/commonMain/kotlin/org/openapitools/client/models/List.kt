@@ -17,10 +17,10 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
  * 
- * @param `123minusList` 
+ * @param `123list` 
  */
 @Serializable
 data class List (
-    @SerialName(value = "123-list") val `123minusList`: kotlin.String? = null
+    @SerialName(value = "123-list") val `123list`: kotlin.String? = null
 )
 

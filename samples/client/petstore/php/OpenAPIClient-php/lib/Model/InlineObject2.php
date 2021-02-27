@@ -235,7 +235,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess, \JsonSerializable
         $allowedValues = $this->getEnumFormStringAllowableValues();
         if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
-                "invalid value for 'enum_form_string', must be one of '%s'",
+                "invalid value '%s' for 'enum_form_string', must be one of '%s'",
+                $this->container['enum_form_string'],
                 implode("', '", $allowedValues)
             );
         }
@@ -311,7 +312,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess, \JsonSerializable
         if (!is_null($enum_form_string) && !in_array($enum_form_string, $allowedValues, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value for 'enum_form_string', must be one of '%s'",
+                    "Invalid value '%s' for 'enum_form_string', must be one of '%s'",
+                    $enum_form_string,
                     implode("', '", $allowedValues)
                 )
             );

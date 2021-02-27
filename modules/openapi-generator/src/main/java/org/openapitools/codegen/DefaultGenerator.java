@@ -266,9 +266,9 @@ public class DefaultGenerator implements Generator {
         // TODO: Allow user to define _which_ servers object in the array to target.
         // Configures contextPath/basePath according to api document's servers
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
-        contextPath = config.escapeText(url.getPath()).replaceAll("/$", ""); // for backward compatibility
+        contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
-        basePath = config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())).replaceAll("/$", "");
+        basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
     }
 
     private void configureOpenAPIInfo() {
@@ -426,7 +426,7 @@ public class DefaultGenerator implements Generator {
 
         Boolean skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
-                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
+                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
         // process models only
         for (String name : modelKeys) {
@@ -448,9 +448,9 @@ public class DefaultGenerator implements Generator {
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
                         // if skipFormModel sets to true, still generate the model and log the result
-                        LOGGER.info("Model {} (marked as unused due to form parameters) is generated due to the system property skipFormModel=false (default)", name);
+                        LOGGER.info("Model {} (marked as unused due to form parameters) is generated due to the global property `skipFormModel` set to false", name);
                     } else {
-                        LOGGER.info("Model {} not generated since it's marked as unused (due to form parameters) and skipFormModel (system property) set to true", name);
+                        LOGGER.info("Model {} not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)", name);
                         // TODO: Should this be added to dryRun? If not, this seems like a weird place to return early from processing.
                         continue;
                     }
@@ -517,17 +517,19 @@ public class DefaultGenerator implements Generator {
                 }
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
-                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                if (modelTemplate != null && modelTemplate.containsKey("model")) {
-                    CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias && !(config instanceof PythonClientCodegen))  {
-                        // alias to number, string, enum, etc, which should not be generated as model
-                        // for PythonClientCodegen, all aliases are generated as models
-                        continue;  // Don't create user-defined classes for aliases
+                List<Object> modelList = (List<Object>) models.get("models");
+                if (modelList != null && !modelList.isEmpty()) {
+                    Map<String, Object> modelTemplate = (Map<String, Object>) modelList.get(0);
+                    if (modelTemplate != null && modelTemplate.containsKey("model")) {
+                        CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                        if (m.isAlias && !(config instanceof PythonClientCodegen))  {
+                            // alias to number, string, enum, etc, which should not be generated as model
+                            // for PythonClientCodegen, all aliases are generated as models
+                            continue;  // Don't create user-defined classes for aliases
+                        }
                     }
+                    allModels.add(modelTemplate);
                 }
-
-                allModels.add(modelTemplate);
 
                 // to generate model files
                 generateModel(files, models, modelName);
@@ -550,7 +552,7 @@ public class DefaultGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
+    void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
             LOGGER.info("Skipping generation of APIs.");
@@ -578,7 +580,7 @@ public class DefaultGenerator implements Generator {
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
                 URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
                 operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
+                operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
                 operation.put("apiPackage", config.apiPackage());
@@ -754,7 +756,7 @@ public class DefaultGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
+    Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -769,7 +771,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
-        if (url.getPort() != 80 && url.getPort() != 443 ) {
+        if (url.getPort() != 80 && url.getPort() != 443 && url.getPort() != -1) {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
@@ -804,6 +806,7 @@ public class DefaultGenerator implements Generator {
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
         if (servers != null && !servers.isEmpty()) {
+            servers.forEach(server -> server.url = removeTrailingSlash(server.url));
             bundle.put("servers", servers);
             bundle.put("hasServers", true);
         }
@@ -829,9 +832,8 @@ public class DefaultGenerator implements Generator {
 
     @Override
     public List<File> generate() {
-
         if (openAPI == null) {
-            throw new RuntimeException("missing OpenAPI input!");
+            throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
 
         if (config == null) {
@@ -922,6 +924,9 @@ public class DefaultGenerator implements Generator {
                 generateFilesMetadata(files);
             }
         }
+
+        // post-process
+        config.postProcess();
 
         // reset GlobalSettings, so that the running thread can be reused for another generator-run
         GlobalSettings.reset();
@@ -1476,6 +1481,10 @@ public class DefaultGenerator implements Generator {
                 LOGGER.warn("Failed to write FILES metadata to track generated files.");
             }
         }
+    }
+
+    private String removeTrailingSlash(String value) {
+        return StringUtils.removeEnd(value, "/");
     }
 
 }

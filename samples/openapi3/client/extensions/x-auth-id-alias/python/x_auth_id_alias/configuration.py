@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Extension x-auth-id-alias
 
@@ -75,6 +73,8 @@ class Configuration(object):
     :param server_operation_variables: Mapping from operation ID to a mapping with
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum values before.
+    :param ssl_ca_cert: str - the path to a file of concatenated CA certificates 
+      in PEM format
 
     :Example:
 
@@ -102,11 +102,13 @@ conf = x_auth_id_alias.Configuration(
 
     def __init__(self, host=None,
                  api_key=None, api_key_prefix=None,
+                 access_token=None,
                  username=None, password=None,
                  discard_unknown_keys=False,
                  disabled_client_side_validations="",
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
+                 ssl_ca_cert=None,
                  ):
         """Constructor
         """
@@ -125,6 +127,7 @@ conf = x_auth_id_alias.Configuration(
         """Temp file folder for downloading files
         """
         # Authentication Settings
+        self.access_token = access_token
         self.api_key = {}
         if api_key:
             self.api_key = api_key
@@ -172,7 +175,7 @@ conf = x_auth_id_alias.Configuration(
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
         """
-        self.ssl_ca_cert = None
+        self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
         """
         self.cert_file = None

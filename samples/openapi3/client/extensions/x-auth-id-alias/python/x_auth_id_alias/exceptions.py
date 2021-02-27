@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Extension x-auth-id-alias
 
@@ -124,6 +122,30 @@ class ApiException(OpenApiException):
             error_message += "HTTP response body: {0}\n".format(self.body)
 
         return error_message
+
+
+class NotFoundException(ApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        super(NotFoundException, self).__init__(status, reason, http_resp)
+
+
+class UnauthorizedException(ApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        super(UnauthorizedException, self).__init__(status, reason, http_resp)
+
+
+class ForbiddenException(ApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        super(ForbiddenException, self).__init__(status, reason, http_resp)
+
+
+class ServiceException(ApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        super(ServiceException, self).__init__(status, reason, http_resp)
 
 
 def render_path(path_to_item):

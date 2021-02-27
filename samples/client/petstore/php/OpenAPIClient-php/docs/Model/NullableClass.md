@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **array_nullable_prop** | **object[]** |  | [optional]
 **array_and_items_nullable_prop** | **object[]** |  | [optional]
 **array_items_nullable** | **object[]** |  | [optional]
-**object_nullable_prop** | **map[string,object]** |  | [optional]
-**object_and_items_nullable_prop** | **map[string,object]** |  | [optional]
-**object_items_nullable** | **map[string,object]** |  | [optional]
+**object_nullable_prop** | **array<string,object>** |  | [optional]
+**object_and_items_nullable_prop** | **array<string,object>** |  | [optional]
+**object_items_nullable** | **array<string,object>** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

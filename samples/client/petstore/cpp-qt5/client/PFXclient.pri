@@ -17,7 +17,9 @@ HEADERS += \
     $${PWD}/PFXHttpRequest.h \
     $${PWD}/PFXObject.h \
     $${PWD}/PFXEnum.h \
-    $${PWD}/PFXHttpFileElement.h
+    $${PWD}/PFXHttpFileElement.h \
+    $${PWD}/PFXServerConfiguration.h \
+    $${PWD}/PFXServerVariable.h
 
 SOURCES += \
 # Models

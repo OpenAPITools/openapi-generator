@@ -37,7 +37,7 @@ import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -55,6 +55,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
+    protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
+    protected String projectUri;
+    protected String licenseUri;
+    protected String releaseNotes;
+    protected String tags;
+    protected String iconUri; 
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -501,6 +507,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
         cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        cliOptions.add(new CliOption("tags","Tags applied to the generated PowerShell module. These help with module discovery in online galleries"));
+        cliOptions.add(new CliOption("projectUri","A URL to the main website for this project"));
+        cliOptions.add(new CliOption("licenseUri","A URL to the license for the generated PowerShell module"));
+        cliOptions.add(new CliOption("iconUri","A URL to an icon representing the generated PowerShell module"));
+        cliOptions.add(new CliOption("releaseNotes","Release notes of the generated PowerShell module"));
+        cliOptions.add(new CliOption("skipVerbParsing", "Set skipVerbParsing to not try get powershell verbs of operation names"));
+
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -509,10 +522,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "when the 'additionalProperties' keyword is not present in a schema, " +
-                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
-                        "Note: this mode is not compliant with the JSON schema specification. " +
-                        "This is the original openapi-generator behavior.");
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
@@ -574,6 +584,28 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return this.discardReadOnly;
     }
 
+    public void setTags(String tags){
+         this.tags = tags;
+    }
+
+    public void setLicenseUri(String licenseUri){
+        this.licenseUri = licenseUri;
+   }
+
+   public void setProjectUri(String projectUri){
+    this.projectUri = projectUri;
+   }
+
+   public void setReleaseNotes(String releaseNotes){
+       this.releaseNotes = releaseNotes;
+   }
+
+   public void setIconUri(String iconUri){
+       this.iconUri = iconUri;
+   }
+
+   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; }
+
     @Override
     public void processOpts() {
         this.setLegacyDiscriminatorBehavior(false);
@@ -600,6 +632,50 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             setDiscardReadOnly(convertPropertyToBooleanAndWriteBack("discardReadOnly"));
         } else {
             additionalProperties.put("discardReadOnly", discardReadOnly);
+        }
+
+        if (additionalProperties.containsKey("skipVerbParsing")) {
+            setSkipVerbParsing(convertPropertyToBoolean("skipVerbParsing"));
+        } else {
+            additionalProperties.put("skipVerbParsing", skipVerbParsing);
+        }
+        
+        if (additionalProperties.containsKey("tags")) {
+            String[] entries = ((String) additionalProperties.get("tags")).split(",");
+            String prefix = "";
+            StringBuilder tagStr =  new StringBuilder("@(");
+            for (String entry : entries) {
+                tagStr.append(prefix);
+                prefix = ",";
+                tagStr.append(String.format(Locale.ROOT, "'%s' ",entry));
+            }
+            tagStr.append(")");
+            setTags(tagStr.toString());
+            additionalProperties.put("tags",tagStr.toString());
+        }
+
+        if (additionalProperties.containsKey("releaseNotes")) {
+            setReleaseNotes((String) additionalProperties.get("releaseNotes"));
+        } else {
+            additionalProperties.put("releaseNotes", releaseNote);
+        }
+
+        if (additionalProperties.containsKey("licenseUri")) {
+            setLicenseUri((String) additionalProperties.get("licenseUri"));
+        } else {
+            additionalProperties.put("licenseUri", licenseUri);
+        }
+
+        if (additionalProperties.containsKey("projectUri")) {
+            setProjectUri((String) additionalProperties.get("projectUri"));
+        } else {
+            additionalProperties.put("projectUri", tags);
+        }
+
+        if (additionalProperties.containsKey("iconUri")) {
+            setIconUri((String) additionalProperties.get("iconUri"));
+        } else {
+            additionalProperties.put("iconUri", iconUri);
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
@@ -1006,7 +1082,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return "\"" + codegenParameter.example + "\"";
                 } else {
-                    return "\"" + codegenParameter.paramName + "_example\"";
+                    if (Boolean.TRUE.equals(codegenParameter.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenParameter.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenParameter.paramName + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenParameter.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenParameter.dataType)) { // boolean
@@ -1048,7 +1129,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
+                        List<Object> enumValues = (List<Object>) codegenProperty.allowableValues.get("values");
+                        return "\"" + String.valueOf(enumValues.get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenProperty.name + "_example\"";
+                    }
                 }
             } else if ("Boolean".equals(codegenProperty.dataType) ||
                     "System.Nullable[Boolean]".equals(codegenProperty.dataType)) { // boolean
@@ -1097,7 +1183,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             processedModelMap.put(model, 1);
         }
 
-        example = "(Initialize-" + codegenModel.name;
+        example = "(Initialize-" + codegenModel.name + " ";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.allVars) {
             propertyExamples.add("-" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
@@ -1146,20 +1232,22 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     private String toMethodName(String operationId) {
         String methodName = camelize(operationId);
 
-        // check if method name starts with powershell verbs
-        for (String verb : (HashSet<String>) powershellVerbs) {
-            if (methodName.startsWith(verb)) {
-                methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
-                LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
-                return methodName;
+        if (!skipVerbParsing) {
+            // check if method name starts with powershell verbs
+            for (String verb : (HashSet<String>) powershellVerbs) {
+                if (methodName.startsWith(verb)) {
+                    methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
+                    LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
-        }
 
-        for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
-            if (methodName.startsWith(entry.getKey())) {
-                methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
-                LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
-                return methodName;
+            for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
+                if (methodName.startsWith(entry.getKey())) {
+                    methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
+                    LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
+                    return methodName;
+                }
             }
         }
 

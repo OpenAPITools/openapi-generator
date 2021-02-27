@@ -28,12 +28,6 @@ models/Foo.ts
 models/FormatTest.ts
 models/HasOnlyReadOnly.ts
 models/HealthCheckResult.ts
-models/InlineObject.ts
-models/InlineObject1.ts
-models/InlineObject2.ts
-models/InlineObject3.ts
-models/InlineObject4.ts
-models/InlineObject5.ts
 models/InlineResponseDefault.ts
 models/List.ts
 models/MapTest.ts

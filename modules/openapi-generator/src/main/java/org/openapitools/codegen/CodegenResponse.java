@@ -57,6 +57,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean isBinary = false;
     public boolean isFile = false;
+    public boolean isNull;
     public Object schema;
     public String jsonSchema;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -77,6 +78,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
+    private boolean hasValidation;
 
     @Override
     public int hashCode() {
@@ -84,9 +86,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars,
+                vars, requiredVars, isNull, hasValidation,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
+                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
+                is1xx, is2xx, is3xx, is4xx, is5xx);
     }
 
     @Override
@@ -121,6 +124,13 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                isNull == that.isNull &&
+                hasValidation == that.hasValidation &&
+                is1xx == that.is1xx &&
+                is2xx == that.is2xx &&
+                is3xx == that.is3xx &&
+                is4xx == that.is4xx &&
+                is5xx == that.is5xx &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -362,6 +372,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
         sb.append(", code='").append(code).append('\'');
+        sb.append(", is1xx='").append(is1xx).append('\'');
+        sb.append(", is2xx='").append(is2xx).append('\'');
+        sb.append(", is3xx='").append(is3xx).append('\'');
+        sb.append(", is4xx='").append(is4xx).append('\'');
+        sb.append(", is5xx='").append(is5xx).append('\'');
         sb.append(", message='").append(message).append('\'');
         sb.append(", examples=").append(examples);
         sb.append(", dataType='").append(dataType).append('\'');
@@ -412,6 +427,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", vars='").append(vars).append('\'');
         sb.append(", requiredVars='").append(requiredVars).append('\'');
+        sb.append(", isNull='").append(isNull);
+        sb.append(", hasValidation='").append(hasValidation);
         sb.append('}');
         return sb.toString();
     }
@@ -421,4 +438,31 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isWildcard() {
         return "0".equals(code) || "default".equals(code);
     }
+
+    /*
+     * Boolean value indicating whether the status code is a range
+     *
+     * @return True if the status code is a range (e.g. 2XX)
+     */
+    public boolean isRange() {
+        if (code != null && code.length() == 3 && "XX".equalsIgnoreCase(code.substring(1)))
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean getIsNull() {
+        return isNull;
+    }
+
+    @Override
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 }

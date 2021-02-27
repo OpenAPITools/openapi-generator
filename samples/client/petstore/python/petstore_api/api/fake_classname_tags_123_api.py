@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -13,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -104,7 +102,7 @@ class FakeClassnameTags123Api(object):
                 body
             return self.call_with_http_info(**kwargs)
 
-        self.test_classname = Endpoint(
+        self.test_classname = _Endpoint(
             settings={
                 'response_type': (Client,),
                 'auth': [

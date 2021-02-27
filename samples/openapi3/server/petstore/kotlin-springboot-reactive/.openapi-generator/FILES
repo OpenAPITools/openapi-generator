@@ -14,8 +14,6 @@ src/main/kotlin/org/openapitools/api/UserApi.kt
 src/main/kotlin/org/openapitools/api/UserApiService.kt
 src/main/kotlin/org/openapitools/api/UserApiServiceImpl.kt
 src/main/kotlin/org/openapitools/model/Category.kt
-src/main/kotlin/org/openapitools/model/InlineObject.kt
-src/main/kotlin/org/openapitools/model/InlineObject1.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt

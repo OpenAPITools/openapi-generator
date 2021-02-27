@@ -37,7 +37,7 @@ export interface FindPetsByStatusRequest {
 }
 
 export interface FindPetsByTagsRequest {
-    tags: Array<string>;
+    tags: Set<string>;
 }
 
 export interface GetPetByIdRequest {
@@ -203,7 +203,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest): Promise<runtime.ApiResponse<Set<Pet>>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
@@ -211,7 +211,7 @@ export class PetApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.tags) {
-            queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+            queryParameters['tags'] = Array.from(requestParameters.tags).join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -232,14 +232,14 @@ export class PetApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));
     }
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
+    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Set<Pet>> {
         const response = await this.findPetsByTagsRaw(requestParameters);
         return await response.value();
     }

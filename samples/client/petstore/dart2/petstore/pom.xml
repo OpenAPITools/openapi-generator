@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>Dart2PetstoreClientTests</artifactId>
+    <artifactId>Dart2PetstoreClientOAS2Tests</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Dart2 Petstore Client</name>
+    <name>Dart2 Petstore Client OAS2</name>
     <build>
         <plugins>
             <plugin>

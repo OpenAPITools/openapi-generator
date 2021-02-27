@@ -11,7 +11,7 @@
 
 #include "PFXUserApi.h"
 #include "PFXHelpers.h"
-
+#include "PFXServerConfiguration.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 
@@ -25,9 +25,64 @@ PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, con
       _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {}
+      isRequestCompressionEnabled(false) {
+      initializeServerConfigs();
+      }
 
 PFXUserApi::~PFXUserApi() {
+}
+
+void PFXUserApi::initializeServerConfigs(){
+
+//Default server
+QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
+//varying endpoint server 
+QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+defaultConf.append(PFXServerConfiguration(
+    "http://petstore.swagger.io/v2",
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
+_serverConfigs.insert("createUser",defaultConf);
+_serverIndices.insert("createUser",0);
+
+_serverConfigs.insert("createUsersWithArrayInput",defaultConf);
+_serverIndices.insert("createUsersWithArrayInput",0);
+
+_serverConfigs.insert("createUsersWithListInput",defaultConf);
+_serverIndices.insert("createUsersWithListInput",0);
+
+_serverConfigs.insert("deleteUser",defaultConf);
+_serverIndices.insert("deleteUser",0);
+
+_serverConfigs.insert("getUserByName",defaultConf);
+_serverIndices.insert("getUserByName",0);
+
+_serverConfigs.insert("loginUser",defaultConf);
+_serverIndices.insert("loginUser",0);
+
+_serverConfigs.insert("logoutUser",defaultConf);
+_serverIndices.insert("logoutUser",0);
+
+_serverConfigs.insert("updateUser",defaultConf);
+_serverIndices.insert("updateUser",0);
+
+
+}
+
+/**
+* returns 0 on success and -1, -2 or -3 on failure.
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+*/
+int PFXUserApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+    auto it = _serverConfigs.find(operation);
+    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+      return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    }
+    return -3;
+}
+void PFXUserApi::setServerIndex(const QString &operation, int serverIndex){
+    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+        _serverIndices[operation] = serverIndex;
 }
 
 void PFXUserApi::setScheme(const QString &scheme) {
@@ -40,6 +95,22 @@ void PFXUserApi::setHost(const QString &host) {
 
 void PFXUserApi::setPort(int port) {
     _port = port;
+}
+
+void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
+    _apiKeys.insert(apiKeyName,apiKey);
+}
+
+void PFXUserApi::setBearerToken(const QString &token){
+    _bearerToken = token;
+}
+
+void PFXUserApi::setUsername(const QString &username) {
+    _username = username;
+}
+
+void PFXUserApi::setPassword(const QString &password) {
+    _password = password;
 }
 
 void PFXUserApi::setBasePath(const QString &basePath) {
@@ -74,22 +145,81 @@ void PFXUserApi::abortRequests(){
     emit abortRequestsSignal();
 }
 
+QString PFXUserApi::getParamStylePrefix(QString style){
+
+        if(style == "matrix"){ 
+            return ";";
+        }else if(style == "label"){
+            return ".";
+        }else if(style == "form"){
+            return "&"; 
+        }else if(style == "simple"){
+            return "";
+        }else if(style == "spaceDelimited"){
+            return "&"; 
+        }else if(style == "pipeDelimited"){
+            return "&"; 
+        }else
+            return "none";
+}
+
+QString PFXUserApi::getParamStyleSuffix(QString style){
+
+        if(style == "matrix"){ 
+            return "=";
+        }else if(style == "label"){
+            return "";
+        }else if(style == "form"){
+            return "=";
+        }else if(style == "simple"){
+            return "";
+        }else if(style == "spaceDelimited"){
+            return "=";
+        }else if(style == "pipeDelimited"){
+            return "=";
+        }else
+            return "none";
+}
+
+QString PFXUserApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+
+        if(style == "matrix"){ 
+            return (isExplode) ? ";" + name + "=" : ",";
+
+        }else if(style == "label"){
+            return (isExplode) ? "." : ",";
+
+        }else if(style == "form"){
+            return (isExplode) ? "&" + name + "=" : ","; 
+
+        }else if(style == "simple"){
+            return ",";
+        }else if(style == "spaceDelimited"){
+            return (isExplode) ? "&" + name + "=" : " ";
+
+        }else if(style == "pipeDelimited"){
+            return (isExplode) ? "&" + name + "=" : "|";
+
+        }else if(style == "deepObject"){
+            return (isExplode) ? "&" : "none";
+
+        }else
+            return "none";
+}
+
 void PFXUserApi::createUser(const PFXUser &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user");
+    QString fullPath = QString(_serverConfigs["createUser"][_serverIndices.value("createUser")].URL()+"/user");
+    
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    QString output = body.asJson();
-    input.request_body.append(output);
 
+    QByteArray output = body.asJson().toUtf8();
+    input.request_body.append(output);
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
@@ -120,22 +250,19 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/createWithArray");
+    QString fullPath = QString(_serverConfigs["createUsersWithArrayInput"][_serverIndices.value("createUsersWithArrayInput")].URL()+"/user/createWithArray");
+    
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
+
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
-
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
@@ -166,22 +293,19 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
 }
 
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/createWithList");
+    QString fullPath = QString(_serverConfigs["createUsersWithListInput"][_serverIndices.value("createUsersWithListInput")].URL()+"/user/createWithList");
+    
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
+
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
-
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
@@ -212,15 +336,20 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 }
 
 void PFXUserApi::deleteUser(const QString &username) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["deleteUser"][_serverIndices.value("deleteUser")].URL()+"/user/{username}");
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
+    fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -257,15 +386,20 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::getUserByName(const QString &username) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["getUserByName"][_serverIndices.value("getUserByName")].URL()+"/user/{username}");
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
+    fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -303,24 +437,34 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::loginUser(const QString &username, const QString &password) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/login");
+    QString fullPath = QString(_serverConfigs["loginUser"][_serverIndices.value("loginUser")].URL()+"/user/login");
+    
 
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "";
+    if(queryStyle == "") 
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    queryDelimiter = getParamStyleDelimiter(queryStyle, "username", false); 
     if (fullPath.indexOf("?") > 0)
-        fullPath.append("&");
+        fullPath.append(queryPrefix);
     else
         fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("username")).append("=").append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
+    fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+    queryStyle = "";
+    if(queryStyle == "") 
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    queryDelimiter = getParamStyleDelimiter(queryStyle, "password", false); 
     if (fullPath.indexOf("?") > 0)
-        fullPath.append("&");
+        fullPath.append(queryPrefix);
     else
         fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("password")).append("=").append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
+
+    fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -359,12 +503,9 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::logoutUser() {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/logout");
+    QString fullPath = QString(_serverConfigs["logoutUser"][_serverIndices.value("logoutUser")].URL()+"/user/logout");
+    
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -401,24 +542,29 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
-    QString fullPath = QString("%1://%2%3%4%5")
-                           .arg(_scheme)
-                           .arg(_host)
-                           .arg(_port ? ":" + QString::number(_port) : "")
-                           .arg(_basePath)
-                           .arg("/user/{username}");
+    QString fullPath = QString(_serverConfigs["updateUser"][_serverIndices.value("updateUser")].URL()+"/user/{username}");
+    
     QString usernamePathParam("{");
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"username"+pathSuffix : pathPrefix;
+    fullPath.replace(usernamePathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");
 
-    QString output = body.asJson();
-    input.request_body.append(output);
 
+    QByteArray output = body.asJson().toUtf8();
+    input.request_body.append(output);
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);

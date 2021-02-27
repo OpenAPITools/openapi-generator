@@ -63,7 +63,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_2_1,
             FrameworkStrategy.NETCOREAPP_3_0,
             FrameworkStrategy.NETCOREAPP_3_1,
-            FrameworkStrategy.NETFRAMEWORK_4_7
+            FrameworkStrategy.NETFRAMEWORK_4_7,
+            FrameworkStrategy.NET_5_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -200,10 +201,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "when the 'additionalProperties' keyword is not present in a schema, " +
-                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
-                        "Note: this mode is not compliant with the JSON schema specification. " +
-                        "This is the original openapi-generator behavior.");
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
@@ -790,8 +788,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         // string
-        String var = value.replaceAll("_", " ");
-        //var = WordUtils.capitalizeFully(var);
+        String var = value.replaceAll(" ", "_");
         var = camelize(var);
         var = var.replaceAll("\\W+", "");
 
@@ -912,6 +909,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
+        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1009,5 +1008,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
     }
 }

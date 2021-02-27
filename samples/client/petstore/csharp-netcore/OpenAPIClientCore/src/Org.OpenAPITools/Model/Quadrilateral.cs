@@ -148,7 +148,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
@@ -160,7 +165,12 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }

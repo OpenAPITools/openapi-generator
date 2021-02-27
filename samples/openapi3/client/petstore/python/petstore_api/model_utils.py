@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -1400,7 +1398,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 configuration,
                 spec_property_naming,
                 key_type=False,
-                must_convert=True
+                must_convert=True,
+                check_type=_check_type
             )
             return converted_instance
         else:
@@ -1420,7 +1419,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 configuration,
                 spec_property_naming,
                 key_type=False,
-                must_convert=False
+                must_convert=False,
+                check_type=_check_type
             )
             return converted_instance
 
@@ -1493,10 +1493,13 @@ def model_to_dict(model_instance, serialize=True):
                 # exist in attribute_map
                 attr = model_instance.attribute_map.get(attr, attr)
             if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: model_to_dict(x, serialize=serialize)
-                    if hasattr(x, '_data_store') else x, value
-                ))
+                if not value or isinstance(value[0], PRIMITIVE_TYPES):
+                    # empty list or primitive types
+                    result[attr] = value
+                elif isinstance(value[0], ModelSimple):
+                    result[attr] = [x.value for x in value]
+                else:
+                    result[attr] = [model_to_dict(x, serialize=serialize) for x in value]
             elif isinstance(value, dict):
                 result[attr] = dict(map(
                     lambda item: (item[0],

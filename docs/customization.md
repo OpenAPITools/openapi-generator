@@ -188,7 +188,7 @@ The default is generate *everything* supported by the specific library. Once you
 To control the specific files being generated, you can pass a CSV list of what you want:
 ```sh
 # generate the User and Pet models only
---global-property models="User,Pet"
+--global-property models="User:Pet"
 
 # generate the User model and the supportingFile `StringUtil.java`:
 --global-property models=User,supportingFiles=StringUtil.java
@@ -205,7 +205,7 @@ These options default to true and don't limit the generation of the feature opti
 --global-property models,modelDocs=false
 
 # generate only User and Pet models (no tests and no documentation)
---global-property models="User,Pet",modelTests=false
+--global-property models="User:Pet",modelTests=false
 
 # generate only apis (without tests)
 --global-property apis,apiTests=false

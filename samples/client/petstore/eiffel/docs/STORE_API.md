@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **STRING_32**| ID of the order that needs to be deleted | 
+ **order_id** | **STRING_32**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -41,7 +41,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **inventory**
-> inventory : detachable STRING_TABLE[INTEGER_32]
+> inventory : detachable STRING_TABLE [INTEGER_32]
 	
 
 Returns pet inventories by status
@@ -54,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**STRING_TABLE[INTEGER_32]**
+**STRING_TABLE [INTEGER_32]**
 
 ### Authorization
 
@@ -80,7 +80,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **INTEGER_64**| ID of pet that needs to be fetched | 
+ **order_id** | **INTEGER_64**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -98,7 +98,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> place_order (order: ORDER ): detachable ORDER
+> place_order (body: ORDER ): detachable ORDER
 	
 
 Place an order for a pet
@@ -108,7 +108,7 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**ORDER**](ORDER.md)| order placed for purchasing the pet | 
+ **body** | [**ORDER**](ORDER.md)| order placed for purchasing the pet | 
 
 ### Return type
 

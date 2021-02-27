@@ -5,12 +5,13 @@ import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.openapi.RouterFactory;
-import io.vertx.ext.web.openapi.RouterFactoryOptions;
+import io.vertx.ext.web.openapi.RouterBuilder;
+import io.vertx.ext.web.openapi.RouterBuilderOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 {{#apiInfo}}{{#apis}}
-import {{apiPackage}}.{{classname}}Handler;{{/apis}}{{/apiInfo}}
+import {{apiPackage}}.{{classname}}Handler;
+import {{apiPackage}}.{{classname}}Impl;{{/apis}}{{/apiInfo}}
 
 public class HttpServerVerticle extends AbstractVerticle {
 
@@ -18,20 +19,20 @@ public class HttpServerVerticle extends AbstractVerticle {
     private static final String specFile = "src/main/resources/openapi.yaml";
 
     {{#apiInfo}}{{#apis}}
-    private final {{classname}}Handler {{classVarName}}Handler = new {{classname}}Handler();{{/apis}}{{/apiInfo}}
+    private final {{classname}}Handler {{classVarName}}Handler = new {{classname}}Handler(new {{classname}}Impl());{{/apis}}{{/apiInfo}}
 
     @Override
     public void start(Promise<Void> startPromise) {
-        RouterFactory.create(vertx, specFile)
-            .map(factory -> {
-              factory.setOptions(new RouterFactoryOptions()
+        RouterBuilder.create(vertx, specFile)
+            .map(builder -> {
+              builder.setOptions(new RouterBuilderOptions()
                   // For production use case, you need to enable this flag and provide the proper security handler
                   .setRequireSecurityHandlers(false)
               );
               {{#apiInfo}}{{#apis}}
-              {{classVarName}}Handler.mount(factory);{{/apis}}{{/apiInfo}}
+              {{classVarName}}Handler.mount(builder);{{/apis}}{{/apiInfo}}
 
-              Router router = factory.createRouter();
+              Router router = builder.createRouter();
               router.errorHandler(400, this::validationFailureHandler);
 
               return router;

@@ -40,6 +40,8 @@ paths:
       description: ''
       operationId: addPet
       responses:
+        '200':
+          description: Successful operation
         '405':
           description: Invalid input
       security:
@@ -55,6 +57,8 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: Successful operation
         '400':
           description: Invalid ID supplied
         '404':
@@ -130,6 +134,7 @@ paths:
             type: array
             items:
               type: string
+            uniqueItems: true
       responses:
         '200':
           description: successful operation
@@ -139,11 +144,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+                uniqueItems: true
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+                uniqueItems: true
         '400':
           description: Invalid tag value
       security:
@@ -197,6 +204,8 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Successful operation
         '405':
           description: Invalid input
       security:
@@ -235,6 +244,8 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Successful operation
         '400':
           description: Invalid pet value
       security:
@@ -1100,16 +1111,16 @@ paths:
       summary: test http signature authentication
       operationId: fake-http-signature-test
       parameters:
-        - name: query_1 
+        - name: query_1
           in: query
           description: query parameter
-          required: optional 
+          required: optional
           schema:
             type: string
-        - name: header_1 
-          in: header 
+        - name: header_1
+          in: header
           description: header parameter
-          required: optional 
+          required: optional
           schema:
             type: string
       security:
@@ -1198,7 +1209,7 @@ components:
       bearerFormat: JWT
     http_signature_test:
       type: http
-      scheme: signature 
+      scheme: signature
   schemas:
     Foo:
       type: object
@@ -1305,6 +1316,7 @@ components:
             wrapped: true
           items:
             type: string
+          uniqueItems: true
         tags:
           type: array
           xml:
@@ -1615,6 +1627,8 @@ components:
           type: array
           items:
             type: string
+          minItems: 0
+          maxItems: 3
         array_array_of_integer:
           type: array
           items:

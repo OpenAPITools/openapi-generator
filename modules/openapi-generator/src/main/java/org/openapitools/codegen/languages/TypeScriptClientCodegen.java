@@ -41,7 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 
 public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";

@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
@@ -143,7 +143,111 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "_Imaginary",
                         "_Noreturn",
                         "_Static_assert",
-                        "_Thread_local")
+                        "_Thread_local",
+
+                        // cpp reserved keywords
+                        // ref: https://en.cppreference.com/w/cpp/keyword
+                        "alignas",
+                        "alignof",
+                        "and",
+                        "and_eq",
+                        "asm",
+                        "atomic_cancel",
+                        "atomic_commit",
+                        "atomic_noexcept",
+                        //"auto",
+                        "bitand",
+                        "bitor",
+                        "bool",
+                        //"break",
+                        //"case",
+                        "catch",
+                        //"char",
+                        "char8_t",
+                        "char16_t",
+                        "char32_t",
+                        "class",
+                        "compl",
+                        "concept",
+                        //"const",
+                        "consteval",
+                        "constexpr",
+                        "constinit",
+                        "const_cast",
+                        //"continue",
+                        "co_await",
+                        "co_return",
+                        "co_yield",
+                        "decltype",
+                        //"default",
+                        "delete",
+                        //"do",
+                        //"double",
+                        "dynamic_cast",
+                        //"else",
+                        //"enum",
+                        "explicit",
+                        "export",
+                        //"extern",
+                        "false",
+                        //"float",
+                        //"for",
+                        "friend",
+                        //"goto",
+                        //"if",
+                        //"inline",
+                        //"int",
+                        //"long",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "noexcept",
+                        "not",
+                        "not_eq",
+                        "nullptr",
+                        "operator",
+                        "or",
+                        "or_eq",
+                        "private",
+                        "protected",
+                        "public",
+                        "reflexpr",
+                        //"register",
+                        "reinterpret_cast",
+                        "requires",
+                        //"return",
+                        //"short",
+                        //"signed",
+                        //"sizeof",
+                        //"static",
+                        "static_assert",
+                        "static_cast",
+                        //"struct",
+                        //"switch",
+                        "synchronized",
+                        "template",
+                        "this",
+                        "thread_local",
+                        "throw",
+                        "true",
+                        "try",
+                        //"typedef",
+                        "typeid",
+                        "typename",
+                        //"union",
+                        //"unsigned",
+                        "using",
+                        "virtual",
+                        //"void",
+                        //"volatile",
+                        "wchar_t",
+                        //"while",
+                        "xor",
+                        "xor_eq",
+                        "final",
+                        "override",
+                        "transaction_safe",
+                        "transaction_safe_dynamic")
         );
 
         instantiationTypes.clear();
@@ -793,5 +897,20 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
+        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
+        System.out.println("################################################################################");
     }
 }

@@ -30,9 +30,9 @@ import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 import org.openapitools.client.JSON;
-
-
 /**
  * Animal
  */

@@ -33,7 +33,7 @@ import java.util.Map;
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -138,6 +138,14 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
+
+        //Add imports for Jackson when model has inner enum
+        if (additionalProperties.containsKey("jackson")) {
+            if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonCreator");
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override

@@ -27,7 +27,7 @@ import java.util.*;
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, isContainer,
-            isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
+            isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
@@ -101,6 +101,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Number multipleOf;
     private Integer maxProperties;
     private Integer minProperties;
+    public boolean isNull;
 
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
@@ -147,6 +148,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.minimum = this.minimum;
         output.pattern = this.pattern;
         output.additionalProperties = this.additionalProperties;
+        output.isNull = this.isNull;
 
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -193,6 +195,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isMap = this.isMap;
         output.isExplode = this.isExplode;
         output.style = this.style;
+        output.isDeepObject = this.isDeepObject;
         output.contentType = this.contentType;
 
         return output;
@@ -200,7 +203,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, isDeepObject, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull);
     }
 
     @Override
@@ -244,6 +247,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 hasValidation == that.hasValidation &&
                 isNullable == that.isNullable &&
                 required == that.required &&
+                isNull == that.isNull &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -259,6 +263,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(enumName, that.enumName) &&
                 Objects.equals(style, that.style) &&
+                Objects.equals(isDeepObject, that.isDeepObject) &&
                 Objects.equals(example, that.example) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(_enum, that._enum) &&
@@ -308,6 +313,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", style='").append(style).append('\'');
+        sb.append(", deepObject='").append(isDeepObject).append('\'');
         sb.append(", example='").append(example).append('\'');
         sb.append(", jsonSchema='").append(jsonSchema).append('\'');
         sb.append(", isString=").append(isString);
@@ -357,6 +363,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", uniqueItems=").append(uniqueItems);
         sb.append(", contentType=").append(contentType);
         sb.append(", multipleOf=").append(multipleOf);
+        sb.append(", isNull=").append(isNull);
         sb.append('}');
         return sb.toString();
     }
@@ -568,5 +575,21 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setRequiredVars(List<CodegenProperty> requiredVars) {
         this.requiredVars = requiredVars;
     }
+
+    @Override
+    public boolean getIsNull() {
+        return isNull;
+    }
+
+    @Override
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 }
 

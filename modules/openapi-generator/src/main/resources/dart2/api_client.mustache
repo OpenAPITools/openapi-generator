@@ -7,17 +7,17 @@ class ApiClient {
   {{#authMethods}}
   {{#isBasic}}
   {{#isBasicBasic}}
-    _authentications['{{{name}}}'] = HttpBasicAuth();
+    _authentications[r'{{{name}}}'] = HttpBasicAuth();
   {{/isBasicBasic}}
   {{#isBasicBearer}}
-    _authentications['{{{name}}}'] = HttpBearerAuth();
+    _authentications[r'{{{name}}}'] = HttpBearerAuth();
   {{/isBasicBearer}}
   {{/isBasic}}
   {{#isApiKey}}
-    _authentications['{{{name}}}'] = ApiKeyAuth({{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{^isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}{{/isKeyInCookie}}, '{{{keyParamName}}}');
+    _authentications[r'{{{name}}}'] = ApiKeyAuth({{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{^isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}{{/isKeyInCookie}}, '{{{keyParamName}}}');
   {{/isApiKey}}
   {{#isOAuth}}
-    _authentications['{{{name}}}'] = OAuth();
+    _authentications[r'{{{name}}}'] = OAuth();
   {{/isOAuth}}
   {{/authMethods}}
   {{/hasAuthMethods}}
@@ -48,6 +48,13 @@ class ApiClient {
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
   }
+
+  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
+
+  /// returns an unmodifiable view of the authentications, since none should be added
+  /// nor deleted
+  Map<String, Authentication> get authentications =>
+      Map.unmodifiable(_authentications);
 
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces.  Necessary for reg expressions as well.
@@ -172,7 +179,8 @@ class ApiClient {
           {{#model}}
         case '{{{classname}}}':
             {{#isEnum}}
-          return {{{classname}}}TypeTransformer().decode(value);
+          {{#native_serialization}}return {{{classname}}}TypeTransformer().decode(value);{{/native_serialization}}
+          {{#json_serializable}} return _$enumDecode(_${{{classname}}}EnumMap, value);{{/json_serializable}}
             {{/isEnum}}
             {{^isEnum}}
           return {{{classname}}}.fromJson(value);
@@ -186,6 +194,12 @@ class ApiClient {
             return value
               .map((v) => _deserialize(v, newTargetType, growable: growable))
               .toList(growable: true == growable);
+          }
+          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+            final newTargetType = match[1];
+            return value
+              .map((v) => _deserialize(v, newTargetType, growable: growable))
+              .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             final newTargetType = match[1];
