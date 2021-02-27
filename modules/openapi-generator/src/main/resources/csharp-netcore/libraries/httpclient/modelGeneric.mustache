@@ -186,7 +186,7 @@
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
+        public override bool Equals(object??? input)
         {
             {{#useCompareNetObjects}}
             return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;

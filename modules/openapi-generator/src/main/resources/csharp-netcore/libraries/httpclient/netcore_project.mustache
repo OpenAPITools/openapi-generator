@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--<GenerateAssemblyInfo>false</GenerateAssemblyInfo>--> <!-- removing GenerateAssemblyInfo due to https://github.com/dotnet/project-system/issues/3934 --> 
-    <!--<TargetFramework>{{targetFramework}}</TargetFramework>-->
-    <TargetFramework>net5.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -31,7 +30,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />    
     {{#validatable}}
-    <!--<PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />-->
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
     {{/validatable}}
   </ItemGroup>
 
