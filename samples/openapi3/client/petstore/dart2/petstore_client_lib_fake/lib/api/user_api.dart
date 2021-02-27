@@ -31,7 +31,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user'.replaceAll('{format}', 'json');
+    final path = '/user';
 
     Object postBody = user;
 
@@ -96,7 +96,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithArray'.replaceAll('{format}', 'json');
+    final path = '/user/createWithArray';
 
     Object postBody = user;
 
@@ -159,7 +159,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithList'.replaceAll('{format}', 'json');
+    final path = '/user/createWithList';
 
     Object postBody = user;
 
@@ -224,7 +224,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
+    final path = '/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -290,7 +290,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
+    final path = '/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -367,7 +367,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
-    final path = '/user/login'.replaceAll('{format}', 'json');
+    final path = '/user/login';
 
     Object postBody;
 
@@ -433,7 +433,7 @@ class UserApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
-    final path = '/user/logout'.replaceAll('{format}', 'json');
+    final path = '/user/logout';
 
     Object postBody;
 
@@ -499,7 +499,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
+    final path = '/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody = user;

@@ -355,7 +355,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     String length(Object os) {
         int l = 1;
         for (CodegenParameter o : ((ExtendedCodegenOperation) os).allParams) {
-            CodegenParameter q = (CodegenParameter) o;
+            CodegenParameter q = o;
             if (q.required)
                 l++;
         }

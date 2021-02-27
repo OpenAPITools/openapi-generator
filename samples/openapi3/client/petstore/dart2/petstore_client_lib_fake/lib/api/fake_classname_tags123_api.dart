@@ -31,7 +31,7 @@ class FakeClassnameTags123Api {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake_classname_test'.replaceAll('{format}', 'json');
+    final path = '/fake_classname_test';
 
     Object postBody = modelClient;
 
