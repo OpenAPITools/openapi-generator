@@ -615,7 +615,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<HealthCheckResult> apiResponse = new ApiResponse<HealthCheckResult>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<HealthCheckResult>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<HealthCheckResult>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -708,7 +708,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<bool> apiResponse = new ApiResponse<bool>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -801,7 +801,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<OuterComposite> apiResponse = new ApiResponse<OuterComposite>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<OuterComposite>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<OuterComposite>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -894,7 +894,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<decimal> apiResponse = new ApiResponse<decimal>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<decimal>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<decimal>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -987,7 +987,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1073,7 +1073,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<List<OuterEnum>> apiResponse = new ApiResponse<List<OuterEnum>>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OuterEnum>>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OuterEnum>>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1140,7 +1140,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1213,7 +1213,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1308,7 +1308,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1450,7 +1450,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1552,7 +1552,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1642,7 +1642,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1709,7 +1709,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1781,7 +1781,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
@@ -1871,7 +1871,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }

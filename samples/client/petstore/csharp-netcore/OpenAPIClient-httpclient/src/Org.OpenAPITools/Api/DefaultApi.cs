@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Api
             ApiResponse<InlineResponseDefault> apiResponse = new ApiResponse<InlineResponseDefault>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<InlineResponseDefault>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<InlineResponseDefault>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
