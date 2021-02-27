@@ -312,7 +312,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
