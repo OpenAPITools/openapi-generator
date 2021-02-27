@@ -1752,6 +1752,7 @@ components:
         boolean_prop:
           type: boolean
           nullable: true
+          default: false
         string_prop:
           type: string
           nullable: true
