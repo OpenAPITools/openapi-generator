@@ -33,42 +33,42 @@ class NullableClass {
   });
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'integer_prop',
     required: false,
   )
   int integerProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'number_prop',
     required: false,
   )
   num numberProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'boolean_prop',
     required: false,
   )
   bool booleanProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'string_prop',
     required: false,
   )
   String stringProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'date_prop',
     required: false,
   )
   DateTime dateProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'datetime_prop',
     required: false,
   )
