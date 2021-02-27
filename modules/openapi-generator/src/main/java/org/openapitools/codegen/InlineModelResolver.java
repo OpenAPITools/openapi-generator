@@ -118,7 +118,7 @@ public class InlineModelResolver {
 
         Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
         if (model instanceof ObjectSchema) {
-            Schema obj = (Schema) model;
+            Schema obj = model;
             if (obj.getType() == null || "object".equals(obj.getType())) {
                 if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                     flattenProperties(openAPI, obj.getProperties(), pathname);
@@ -213,7 +213,7 @@ public class InlineModelResolver {
 
             Schema model = parameter.getSchema();
             if (model instanceof ObjectSchema) {
-                Schema obj = (Schema) model;
+                Schema obj = model;
                 if (obj.getType() == null || "object".equals(obj.getType())) {
                     if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                         flattenProperties(openAPI, obj.getProperties(), pathname);
@@ -431,7 +431,7 @@ public class InlineModelResolver {
                 flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
                 flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
             } else if (model instanceof Schema) {
-                Schema m = (Schema) model;
+                Schema m = model;
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(openAPI, properties, modelName);
                 fixStringModel(m);
