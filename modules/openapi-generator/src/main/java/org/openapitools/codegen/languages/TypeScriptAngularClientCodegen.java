@@ -40,8 +40,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
-    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key};
-    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}; 
+    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
+    public static enum PROVIDED_IN_LEVEL {none, root, any, platform} 
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
 

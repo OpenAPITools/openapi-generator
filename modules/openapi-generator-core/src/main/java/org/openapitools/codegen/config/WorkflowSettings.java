@@ -308,7 +308,7 @@ public class WorkflowSettings {
         private String ignoreFileOverride;
 
         // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
-        private Map<String, String> globalProperties = new HashMap<>();;
+        private Map<String, String> globalProperties = new HashMap<>();
 
         private Builder() {
         }
