@@ -1,3 +1,36 @@
+This library requires some post procesing. You can use this PowerShell script to run the generator and process the results.
+
+If you are not using .Net Standard, consider setting validatable to false in your generator-config.json due to this bug: https://github.com/dotnet/project-system/issues/3934
+
+```
+java -jar "../openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar" generate `
+    -g csharp-netcore `
+    -i "your-swagger-file.yml" `
+    -c generator-config.json `
+    -o output `
+    -t templates `
+    --library httpclient
+
+$files = Get-ChildItem output -Recurse | Where-Object {-Not($_.PSIsContainer)}
+foreach ($file in $files)
+{
+    $content=Get-Content $file.PSPath
+
+    if (-Not($content)){
+        continue;
+    }
+
+    # if null reference types are enabled
+    $content=$content -replace '\?{3,4}', '?' # replace every three to four consecutive occurrences of '?' with a single one
+
+    # if null reference types are not enabled
+    # $content=$content.Replace("????", "?") # reference type
+    # $content=$content.Replace("???", "") # value type
+
+    Set-Content $file.PSPath $content    
+}
+```
+
 # {{packageName}} - the C# library for the {{appName}}
 
 {{#appDescriptionWithNewLines}}

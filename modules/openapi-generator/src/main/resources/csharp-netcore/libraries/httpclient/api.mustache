@@ -315,7 +315,7 @@ namespace {{packageName}}.{{apiPackage}}
             ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
-                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawContent, {{packageName}}.Client.ClientUtils.JsonSerializerSettings);
 
             return apiResponse;
         }
