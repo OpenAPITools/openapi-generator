@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The deserialized content
         /// </summary>
-        public T? Content { get; set; }
+        public T??? Content { get; set; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The reason phrase contained in the api response
         /// </summary>
-        public string? ReasonPhrase { get; }
+        public string??? ReasonPhrase { get; }
 
         /// <summary>
         /// The headers contained in the api response

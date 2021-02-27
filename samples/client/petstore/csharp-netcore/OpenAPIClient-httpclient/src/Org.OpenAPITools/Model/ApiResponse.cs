@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as ApiResponse).AreEqual;
         }

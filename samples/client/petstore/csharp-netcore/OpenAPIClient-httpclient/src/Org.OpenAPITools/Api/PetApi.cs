@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -488,7 +488,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -606,7 +606,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -724,7 +724,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<List<Pet>> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<List<Pet>> apiResponse = new ApiResponse<List<Pet>>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pet>>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -825,7 +825,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<Pet> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<Pet> apiResponse = new ApiResponse<Pet>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Pet>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -917,7 +917,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -999,7 +999,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<Object> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -1113,7 +1113,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
@@ -1226,7 +1226,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<ApiResponse> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<ApiResponse> apiResponse = new ApiResponse<ApiResponse>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponse>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);

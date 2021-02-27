@@ -172,7 +172,7 @@ namespace Org.OpenAPITools.Api
 
             string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            ApiResponse<ModelClient> apiResponse = new(responseMessage, responseContent);
+            ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
 
             if (apiResponse.IsSuccessStatusCode)
                 apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<ModelClient>(apiResponse.RawContent, CocApi.Client.ClientUtils.JsonSerializerSettings);
