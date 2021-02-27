@@ -1291,8 +1291,13 @@ def get_allof_instances(self, model_args, constant_args):
         self: the class we are handling
         model_args (dict): var_name to var_value
             used to make instances
-        constant_args (dict): var_name to var_value
-            used to make instances
+        constant_args (dict):
+            metadata arguments:
+            _check_type
+            _path_to_item
+            _spec_property_naming
+            _configuration
+            _visited_composed_classes
 
     Returns
         composed_instances (list)
@@ -1300,20 +1305,8 @@ def get_allof_instances(self, model_args, constant_args):
     composed_instances = []
     for allof_class in self._composed_schemas['allOf']:
 
-        # no need to handle changing js keys to python because
-        # for composed schemas, allof parameters are included in the
-        # composed schema and were changed to python keys in __new__
-        # extract a dict of only required keys from fixed_model_args
-        kwargs = {}
-        var_names = set(allof_class.openapi_types.keys())
-        for var_name in var_names:
-            if var_name in model_args:
-                kwargs[var_name] = model_args[var_name]
-
-        # and use it to make the instance
-        kwargs.update(constant_args)
         try:
-            allof_instance = allof_class(**kwargs)
+            allof_instance = allof_class(**model_args, **constant_args)
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(
@@ -1378,26 +1371,9 @@ def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
             fixed_model_args = change_keys_js_to_python(
                 model_kwargs, oneof_class)
 
-            # Extract a dict with the properties that are declared in the oneOf schema.
-            # Undeclared properties (e.g. properties that are allowed because of the
-            # additionalProperties attribute in the OAS document) are not added to
-            # the dict.
-            kwargs = {}
-            var_names = set(oneof_class.openapi_types.keys())
-            for var_name in var_names:
-                if var_name in fixed_model_args:
-                    kwargs[var_name] = fixed_model_args[var_name]
-
-            # do not try to make a model with no input args
-            if len(kwargs) == 0:
-                continue
-
-            # and use it to make the instance
-            kwargs.update(constant_kwargs)
-
         try:
             if not single_value_input:
-                oneof_instance = oneof_class(**kwargs)
+                oneof_instance = oneof_class(**model_kwargs, **constant_kwargs)
             else:
                 if issubclass(oneof_class, ModelSimple):
                     oneof_instance = oneof_class(model_arg, **constant_kwargs)
@@ -1454,24 +1430,8 @@ def get_anyof_instances(self, model_args, constant_args):
             # none_type deserialization is handled in the __new__ method
             continue
 
-        # transform js keys to python keys in fixed_model_args
-        fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
-
-        # extract a dict of only required keys from these_model_vars
-        kwargs = {}
-        var_names = set(anyof_class.openapi_types.keys())
-        for var_name in var_names:
-            if var_name in fixed_model_args:
-                kwargs[var_name] = fixed_model_args[var_name]
-
-        # do not try to make a model with no input args
-        if len(kwargs) == 0:
-            continue
-
-        # and use it to make the instance
-        kwargs.update(constant_args)
         try:
-            anyof_instance = anyof_class(**kwargs)
+            anyof_instance = anyof_class(**model_args, **constant_kwargs)
             anyof_instances.append(anyof_instance)
         except Exception:
             pass
@@ -1494,13 +1454,16 @@ def get_additional_properties_model_instances(
     - additionalProperties: False
     Then for object payloads every property is an additional property
     and they are not allowed, so only empty dict is allowed
+
+    Note: this is no longer used because properties must be set on all matching schemas
+    so when a property is assigned toa composed instance, it must be set on all
+    composed instances regardless of additionalProperties presence
+    keeping it to prevent breaking changes in v5.0.1
+    TODO remove this and cls._additional_properties_model_instances in 6.0.0
     """
     additional_properties_model_instances = []
     if self.additional_properties_type is not None:
         additional_properties_model_instances.append(self)
-        for instance in composed_instances:
-            if self.additional_properties_type is not None:
-                additional_properties_model_instances.append(instance)
     return additional_properties_model_instances
 
 
