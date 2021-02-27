@@ -2726,7 +2726,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         String modelName = "ObjectWithPropertiesThatHaveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);;
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
         List<CodegenProperty> props = cm.getVars();

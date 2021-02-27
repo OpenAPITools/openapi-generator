@@ -49,7 +49,7 @@ namespace {{apiPackage}}
         public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         { 
-	    {{#cookieParams}} 
+            {{#cookieParams}}
             var {{paramName}} = Request.Cookies["{{paramName}}"];
             {{/cookieParams}}
 

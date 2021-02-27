@@ -28,7 +28,7 @@ type _Whale Whale
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWhale(className string, ) *Whale {
+func NewWhale(className string) *Whale {
 	this := Whale{}
 	this.ClassName = className
 	return &this
@@ -108,7 +108,7 @@ func (o *Whale) SetHasTeeth(v bool) {
 
 // GetClassName returns the ClassName field value
 func (o *Whale) GetClassName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

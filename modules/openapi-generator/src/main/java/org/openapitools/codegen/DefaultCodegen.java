@@ -78,7 +78,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
 
@@ -177,6 +177,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    protected boolean skipOperationExample;
 
     /**
      * True if the code generator supports multiple class inheritance.
@@ -316,6 +317,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
             this.setRemoveOperationIdPrefix(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SKIP_OPERATION_EXAMPLE)) {
+            this.setSkipOperationExample(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.SKIP_OPERATION_EXAMPLE).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)) {
@@ -3547,14 +3553,18 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // generate examples
-            String exampleStatusCode = "200";
-            for (String key : operation.getResponses().keySet()) {
-                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                    exampleStatusCode = key;
+            // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
+            if (!isSkipOperationExample()) {
+                // generate examples
+                String exampleStatusCode = "200";
+                for (String key : operation.getResponses().keySet()) {
+                    if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                        exampleStatusCode = key;
+                    }
                 }
+                op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
             }
-            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
+
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -3768,7 +3778,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // ensure unique params
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(p, allParams)) {
+                    while (!isParameterNameUnique(p, allParams)) {
                         p.paramName = generateNextName(p.paramName);
                     }
                 }
@@ -3794,7 +3804,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!prependFormOrBodyParameters) {
             for (CodegenParameter cp : formParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -3803,7 +3813,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (CodegenParameter cp : bodyParams) {
                 if (ensureUniqueParams) {
-                    if (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, allParams)) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -4954,8 +4964,16 @@ public class DefaultCodegen implements CodegenConfig {
         return removeOperationIdPrefix;
     }
 
+    public boolean isSkipOperationExample() {
+        return skipOperationExample;
+    }
+
     public void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
+    }
+
+    public void setSkipOperationExample(boolean skipOperationExample) {
+        this.skipOperationExample = skipOperationExample;
     }
 
     public boolean isHideGenerationTimestamp() {
@@ -6379,7 +6397,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel cm = new CodegenModel();
 
-        cm.discriminator = createDiscriminator("", (Schema) cs, openAPI);
+        cm.discriminator = createDiscriminator("", cs, openAPI);
         if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }

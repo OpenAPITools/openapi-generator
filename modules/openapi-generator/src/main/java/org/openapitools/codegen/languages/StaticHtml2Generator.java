@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
 
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
     protected String phpInvokerPackage = "OpenAPITools\\Client"; // default for PHP

@@ -65,7 +65,7 @@ import java.util.stream.Stream;
 public class GenerateBatch extends OpenApiGeneratorCommand {
     private static AtomicInteger failures = new AtomicInteger(0);
     private static AtomicInteger successes = new AtomicInteger(0);
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;

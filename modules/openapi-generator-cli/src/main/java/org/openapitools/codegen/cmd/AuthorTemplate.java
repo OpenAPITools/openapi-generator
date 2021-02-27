@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @Command(name = "template", description = "Retrieve templates for local modification")
 public class AuthorTemplate extends OpenApiGeneratorCommand {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorTemplate.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthorTemplate.class);
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see list command for list)",

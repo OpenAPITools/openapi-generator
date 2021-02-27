@@ -120,7 +120,7 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/angular2-typescript-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 

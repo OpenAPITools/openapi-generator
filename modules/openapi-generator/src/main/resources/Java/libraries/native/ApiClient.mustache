@@ -157,8 +157,28 @@ public class ApiClient {
    * Ctor.
    */
   public ApiClient() {
-    builder = HttpClient.newBuilder();
-    mapper = new ObjectMapper();
+    this.builder = createDefaultHttpClientBuilder();
+    this.mapper = createDefaultObjectMapper();
+    updateBaseUri(getDefaultBaseUri());
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  /**
+   * Ctor.
+   */
+  public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
+    this.builder = builder;
+    this.mapper = mapper;
+    updateBaseUri(baseUri);
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  protected ObjectMapper createDefaultObjectMapper() {
+    ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
@@ -168,17 +188,25 @@ public class ApiClient {
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
     {{#openApiNullable}}
-    JsonNullableModule jnm = new JsonNullableModule();
-    mapper.registerModule(jnm);
+    mapper.registerModule(new JsonNullableModule());
     {{/openApiNullable}}
-    URI baseURI = URI.create("{{{basePath}}}");
-    scheme = baseURI.getScheme();
-    host = baseURI.getHost();
-    port = baseURI.getPort();
-    basePath = baseURI.getRawPath();
-    interceptor = null;
-    readTimeout = null;
-    responseInterceptor = null;
+    return mapper;
+  }
+
+  protected String getDefaultBaseUri() {
+    return "{{{basePath}}}";
+  }
+
+  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+    return HttpClient.newBuilder();
+  }
+
+  public void updateBaseUri(String baseUri) {
+    URI uri = URI.create(baseUri);
+    scheme = uri.getScheme();
+    host = uri.getHost();
+    port = uri.getPort();
+    basePath = uri.getRawPath();
   }
 
   /**

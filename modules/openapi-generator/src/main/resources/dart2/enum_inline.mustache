@@ -1,7 +1,8 @@
 {{#description}}/// {{{description}}}{{/description}}
-class {{{classname}}}{{{enumName}}} {
+{{^json_serializable}}
+class {{{enumName}}} {
   /// Instantiate a new enum with the provided [value].
-  const {{{classname}}}{{{enumName}}}._(this.value);
+  const {{{enumName}}}._(this.value);
 
   /// The underlying value of this enum member.
   final {{{dataType}}} value;
@@ -13,12 +14,12 @@ class {{{classname}}}{{{enumName}}} {
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{#isString}}r{{/isString}}{{{value}}});
+  static const {{{name}}} = {{{enumName}}}._({{#isString}}r{{/isString}}{{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
-  /// List of all possible values in this [enum][{{{classname}}}{{{enumName}}}].
-  static const values = <{{{classname}}}{{{enumName}}}>[
+  /// List of all possible values in this [enum][{{{enumName}}}].
+  static const values = <{{{enumName}}}>[
   {{#allowableValues}}
     {{#enumVars}}
     {{{name}}},
@@ -26,27 +27,27 @@ class {{{classname}}}{{{enumName}}} {
   {{/allowableValues}}
   ];
 
-  static {{{classname}}}{{{enumName}}} fromJson(dynamic value) =>
-    {{{classname}}}{{{enumName}}}TypeTransformer().decode(value);
+  static {{{enumName}}} fromJson(dynamic value) =>
+    {{{enumName}}}TypeTransformer().decode(value);
 
-  static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <{{{classname}}}{{{enumName}}}>[]
+      ? true == emptyIsNull ? null : <{{{enumName}}}>[]
       : json
-          .map((value) => {{{classname}}}{{{enumName}}}.fromJson(value))
+          .map((value) => {{{enumName}}}.fromJson(value))
           .toList(growable: true == growable);
 }
 
-/// Transformation class that can [encode] an instance of [{{{classname}}}{{{enumName}}}] to {{{dataType}}},
-/// and [decode] dynamic data back to [{{{classname}}}{{{enumName}}}].
-class {{{classname}}}{{{enumName}}}TypeTransformer {
-  const {{{classname}}}{{{enumName}}}TypeTransformer._();
+/// Transformation class that can [encode] an instance of [{{{enumName}}}] to {{{dataType}}},
+/// and [decode] dynamic data back to [{{{enumName}}}].
+class {{{enumName}}}TypeTransformer {
+  const {{{enumName}}}TypeTransformer._();
 
-  factory {{{classname}}}{{{enumName}}}TypeTransformer() => _instance ??= {{{classname}}}{{{enumName}}}TypeTransformer._();
+  factory {{{enumName}}}TypeTransformer() => _instance ??= {{{enumName}}}TypeTransformer._();
 
-  {{{dataType}}} encode({{{classname}}}{{{enumName}}} data) => data.value;
+  {{{dataType}}} encode({{{enumName}}} data) => data.value;
 
-  /// Decodes a [dynamic value][data] to a {{{classname}}}{{{enumName}}}.
+  /// Decodes a [dynamic value][data] to a {{{enumName}}}.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -54,11 +55,11 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  {{{classname}}}{{{enumName}}} decode(dynamic data, {bool allowNull}) {
+  {{{enumName}}} decode(dynamic data, {bool allowNull}) {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}{{{enumName}}}.{{{name}}};
+      case {{#isString}}r{{/isString}}{{{value}}}: return {{{enumName}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
       default:
@@ -69,6 +70,13 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
     return null;
   }
 
-  /// Singleton [{{{classname}}}{{{enumName}}}TypeTransformer] instance.
-  static {{{classname}}}{{{enumName}}}TypeTransformer _instance;
-}
+  /// Singleton [{{{enumName}}}TypeTransformer] instance.
+  static {{{enumName}}}TypeTransformer _instance;
+}{{/json_serializable}}{{#json_serializable}}
+enum {{{enumName}}} {
+{{#allowableValues}}
+{{#enumVars}}
+  {{{name}}},
+{{/enumVars}}
+{{/allowableValues}}
+}{{/json_serializable}}

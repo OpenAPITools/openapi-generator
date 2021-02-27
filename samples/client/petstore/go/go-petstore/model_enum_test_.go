@@ -27,7 +27,7 @@ type EnumTest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnumTest(enumStringRequired string, ) *EnumTest {
+func NewEnumTest(enumStringRequired string) *EnumTest {
 	this := EnumTest{}
 	this.EnumStringRequired = enumStringRequired
 	return &this
@@ -75,7 +75,7 @@ func (o *EnumTest) SetEnumString(v string) {
 
 // GetEnumStringRequired returns the EnumStringRequired field value
 func (o *EnumTest) GetEnumStringRequired() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
