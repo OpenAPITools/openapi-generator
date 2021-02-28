@@ -4,25 +4,16 @@
             self.__dict__[name] = value
             return
 
-        # set the attribute on the correct instance
-        model_instances = self._var_name_to_model_instances.get(
-            name, self._additional_properties_model_instances)
-        if model_instances:
-            for model_instance in model_instances:
-                if model_instance == self:
-                    self.set_attribute(name, value)
-                else:
-                    setattr(model_instance, name, value)
-                if name not in self._var_name_to_model_instances:
-                    # we assigned an additional property
-                    self.__dict__['_var_name_to_model_instances'][name] = [model_instance]
-            return None
-
-        raise ApiAttributeError(
-            "{0} has no attribute '{1}'".format(
-                type(self).__name__, name),
-            [e for e in [self._path_to_item, name] if e]
-        )
+        # attribute must be set on composed instances and self
+        for model_instance in self._composed_instances:
+            if model_instance == self:
+                self.set_attribute(name, value)
+            else:
+                setattr(model_instance, name, value)
+        if name not in self._var_name_to_model_instances:
+            # we assigned an additional property
+            self.__dict__['_var_name_to_model_instances'][name] = self._composed_instances
+        return None
 
     __unset_attribute_value__ = object()
 

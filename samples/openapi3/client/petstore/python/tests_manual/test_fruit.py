@@ -63,6 +63,8 @@ class TestFruit(unittest.TestCase):
         # setting a value that doesn't exist works because additional_properties_type allows any type
         other_fruit = Fruit(length_cm=length_cm, color=color)
         blah = 'blah'
+        import pdb
+        pdb.set_trace()
         other_fruit['a'] = blah
         assert other_fruit.a == blah
 
