@@ -27,10 +27,8 @@ from petstore_api.model_utils import (  # noqa: F401
 )
 
 def lazy_import():
-    from petstore_api.model.address import Address
     from petstore_api.model.animal import Animal
     from petstore_api.model.cat_all_of import CatAllOf
-    globals()['Address'] = Address
     globals()['Animal'] = Animal
     globals()['CatAllOf'] = CatAllOf
 
@@ -229,7 +227,6 @@ class Cat(ModelComposed):
           'anyOf': [
           ],
           'allOf': [
-              Address,
               Animal,
               CatAllOf,
           ],

@@ -1646,11 +1646,6 @@ def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
 
         single_value_input = allows_single_value_input(oneof_class)
 
-        if not single_value_input:
-            # transform js keys from input data to python keys in fixed_model_args
-            fixed_model_args = change_keys_js_to_python(
-                model_kwargs, oneof_class)
-
         try:
             if not single_value_input:
                 oneof_instance = oneof_class(**model_kwargs, **constant_kwargs)
