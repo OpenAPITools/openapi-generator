@@ -27,6 +27,20 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
+                        <id>go-get</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>get</argument>
+                                <argument>github.com/gin-gonic/gin</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>go-test</id>
                         <phase>integration-test</phase>
                         <goals>
