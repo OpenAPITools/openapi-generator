@@ -584,6 +584,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             needsCustomHttpMethod = true;
         } else if (HTTPCLIENT.equals(getLibrary())) {
             additionalProperties.put("useHttpClient", true);
+            setLibrary(HTTPCLIENT);
             needsUriBuilder = true;
         }
 
@@ -607,7 +608,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         strategy.configureAdditionalProperties(additionalProperties);
-
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
         setTargetFramework(strategy.name);
         setTestTargetFramework(strategy.testTargetFramework);
