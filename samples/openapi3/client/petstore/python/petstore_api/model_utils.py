@@ -1710,61 +1710,6 @@ def get_anyof_instances(self, model_args, constant_args):
     return anyof_instances
 
 
-def get_additional_properties_model_instances(
-        composed_instances, self):
-    """
-    additional properties must be evaluated at the schema level
-    so self's additional properties are most important
-    If self is a composed schema with:
-    - no properties defined in self
-    - additionalProperties: False
-    Then for object payloads every property is an additional property
-    and they are not allowed, so only empty dict is allowed
-
-    Note: this is no longer used because properties must be set on all matching schemas
-    so when a property is assigned toa composed instance, it must be set on all
-    composed instances regardless of additionalProperties presence
-    keeping it to prevent breaking changes in v5.0.1
-    TODO remove this and cls._additional_properties_model_instances in 6.0.0
-    """
-    additional_properties_model_instances = []
-    if self.additional_properties_type is not None:
-        additional_properties_model_instances.append(self)
-    return additional_properties_model_instances
-
-
-def get_var_name_to_model_instances(self, composed_instances):
-    var_name_to_model_instances = {}
-    all_instances = [self]
-    all_instances.extend(composed_instances)
-    for instance in all_instances:
-        for var_name in instance.openapi_types:
-            if var_name not in var_name_to_model_instances:
-                var_name_to_model_instances[var_name] = [instance]
-            else:
-                var_name_to_model_instances[var_name].append(instance)
-    return var_name_to_model_instances
-
-
-def get_unused_args(self, composed_instances, model_args):
-    unused_args = dict(model_args)
-    # arguments apssed to self were already converted to python names
-    # before __init__ was called
-    for var_name_py in self.attribute_map:
-        if var_name_py in unused_args:
-            del unused_args[var_name_py]
-    for instance in composed_instances:
-        if instance.__class__ in self._composed_schemas['allOf']:
-            for var_name_py in instance.attribute_map:
-                if var_name_py in unused_args:
-                    del unused_args[var_name_py]
-        else:
-            for var_name_js in instance.attribute_map.values():
-                if var_name_js in unused_args:
-                    del unused_args[var_name_js]
-    return unused_args
-
-
 def validate_get_composed_info(constant_args, model_args, self):
     """
     For composed schemas, generate schema instances for
@@ -1808,30 +1753,37 @@ def validate_get_composed_info(constant_args, model_args, self):
     composed_instances.extend(anyof_instances)
 
     # map variable names to composed_instances
-    var_name_to_model_instances = get_var_name_to_model_instances(
-        self, composed_instances)
+    var_name_to_model_instances = {}
+    for prop_name in model_args:
+        var_name_to_model_instances[prop_name] = [self] + composed_instances
 
-    # set additional_properties_model_instances
-    additional_properties_model_instances = (
-        get_additional_properties_model_instances(composed_instances, self)
-    )
+    """
+    set additional_properties_model_instances
+    additional properties must be evaluated at the schema level
+    so self's additional properties are most important
+    If self is a composed schema with:
+    - no properties defined in self
+    - additionalProperties: False
+    Then for object payloads every property is an additional property
+    and they are not allowed, so only empty dict is allowed
 
-    # set any remaining values
-    unused_args = get_unused_args(self, composed_instances, model_args)
-    if len(unused_args) > 0 and \
-            len(additional_properties_model_instances) == 0 and \
-            (self._configuration is None or
-                not self._configuration.discard_unknown_keys):
-        raise ApiValueError(
-            "Invalid input arguments input when making an instance of "
-            "class %s. Not all inputs were used. The unused input data "
-            "is %s" % (self.__class__.__name__, unused_args)
-        )
+    Properties must be set on all matching schemas
+    so when a property is assigned toa composed instance, it must be set on all
+    composed instances regardless of additionalProperties presence
+    keeping it to prevent breaking changes in v5.0.1
+    TODO remove cls._additional_properties_model_instances in 6.0.0
+    """
+    additional_properties_model_instances = []
+    if self.additional_properties_type is not None:
+        additional_properties_model_instances = [self]
 
-    # no need to add additional_properties to var_name_to_model_instances here
-    # because additional_properties_model_instances will direct us to that
-    # instance when we use getattr or setattr
-    # and we update var_name_to_model_instances in setattr
+    """
+    no need to set properties on self in here, they will be set in __init__
+    By here all composed schema oneOf/anyOf/allOf instances have their properties set using
+    model_args
+    TODO remove unused unused_args argument in 6.0.0
+    """
+    unused_args = []
 
     return [
       composed_instances,
