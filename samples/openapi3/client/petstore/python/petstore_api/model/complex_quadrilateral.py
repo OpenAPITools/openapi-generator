@@ -113,14 +113,12 @@ class ComplexQuadrilateral(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, quadrilateral_type, *args, **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """ComplexQuadrilateral - a model defined in OpenAPI
 
-        Args:
+        Keyword Args:
             shape_type (str):
             quadrilateral_type (str):
-
-        Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.

@@ -2077,12 +2077,16 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+      required:
+        - cultivar
       nullable: true
     banana:
       type: object
       properties:
         lengthCm:
           type: number
+      required:
+        - lengthCm
     mammal:
       oneOf:
         - $ref: '#/components/schemas/whale'

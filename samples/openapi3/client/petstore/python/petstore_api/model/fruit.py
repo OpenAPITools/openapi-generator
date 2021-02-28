@@ -90,10 +90,10 @@ class Fruit(ModelComposed):
         """
         lazy_import()
         return {
-            'color': (str,),  # noqa: E501
             'cultivar': (str,),  # noqa: E501
-            'origin': (str,),  # noqa: E501
             'length_cm': (float,),  # noqa: E501
+            'color': (str,),  # noqa: E501
+            'origin': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -102,10 +102,10 @@ class Fruit(ModelComposed):
 
 
     attribute_map = {
-        'color': 'color',  # noqa: E501
         'cultivar': 'cultivar',  # noqa: E501
-        'origin': 'origin',  # noqa: E501
         'length_cm': 'lengthCm',  # noqa: E501
+        'color': 'color',  # noqa: E501
+        'origin': 'origin',  # noqa: E501
     }
 
     required_properties = set([
@@ -125,6 +125,8 @@ class Fruit(ModelComposed):
         """Fruit - a model defined in OpenAPI
 
         Keyword Args:
+            cultivar (str):
+            length_cm (float):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -156,9 +158,7 @@ class Fruit(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional]  # noqa: E501
-            cultivar (str): [optional]  # noqa: E501
             origin (str): [optional]  # noqa: E501
-            length_cm (float): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -192,6 +192,8 @@ class Fruit(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
+            'cultivar': cultivar,
+            'length_cm': length_cm,
         }
         model_args = {}
         model_args.update(required_args)
