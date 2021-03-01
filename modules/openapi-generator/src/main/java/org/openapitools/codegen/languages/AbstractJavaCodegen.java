@@ -70,6 +70,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String JACKSON = "jackson";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -1178,7 +1179,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
-        if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
+        if (codegenModel.discriminator != null && additionalProperties.containsKey(JACKSON)) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
         }

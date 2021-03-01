@@ -194,7 +194,7 @@ public class JavaCXFClientCodegenTest {
     @Test
     public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabled() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        codegen.additionalProperties().put("jackson", true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
         codegen.processOpts();
 
@@ -212,7 +212,7 @@ public class JavaCXFClientCodegenTest {
     @Test
     public void testPostProcessNullableModelPropertyWithOpenApiNullableDisabled() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        codegen.additionalProperties().put("jackson", true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, false);
         codegen.processOpts();
 
@@ -230,7 +230,7 @@ public class JavaCXFClientCodegenTest {
     @Test
     public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabledForRequiredProperties() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        codegen.additionalProperties().put("jackson", true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
         codegen.processOpts();
 
@@ -246,9 +246,9 @@ public class JavaCXFClientCodegenTest {
     }
 
     @Test
-    public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabledForOptionalNotNullableProperties() throws Exception {
+    public void testPostProcessNotNullableModelPropertyWithOpenApiNullableEnabled() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        codegen.additionalProperties().put("jackson", true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
         codegen.processOpts();
 
@@ -266,7 +266,7 @@ public class JavaCXFClientCodegenTest {
     @Test
     public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabledButJacksonDisabled() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        codegen.additionalProperties().put("jackson", false);
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, false);
         codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
         codegen.processOpts();
 

@@ -110,8 +110,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
             this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
         }
 
-        if (additionalProperties.containsKey("jackson")) {
-            useJackson = convertPropertyToBooleanAndWriteBack("jackson");
+        if (additionalProperties.containsKey(JACKSON)) {
+            useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
         }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
