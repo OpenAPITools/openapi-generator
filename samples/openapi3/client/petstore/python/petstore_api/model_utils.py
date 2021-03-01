@@ -1723,7 +1723,7 @@ def get_anyof_instances(self, model_args, constant_args):
             continue
 
         try:
-            anyof_instance = anyof_class(**model_args, **constant_kwargs)
+            anyof_instance = anyof_class(**model_args, **constant_args)
             anyof_instances.append(anyof_instance)
         except Exception:
             pass
