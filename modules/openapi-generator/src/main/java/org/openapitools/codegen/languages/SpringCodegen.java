@@ -233,7 +233,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();
-
+        useOneOfInterfaces = true;
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         //TODO: add doc templates
@@ -577,6 +577,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+
+    @Override
+    protected String getCodegenModelName(CodegenProperty codegenProperty) {
+        return codegenProperty.getComplexType();
+    }
+
+    @Override
+    protected void addAdditionalImports(Set<String> imports, String complexType) {
+        //nothing to do for spring
+    }
+
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -892,6 +903,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
         if (fixLong || fixDouble || fixFloat) {
             p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+        }
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", importMapping.get(i));
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
         }
     }
 
