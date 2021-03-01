@@ -48,7 +48,7 @@ public class OneOfImplementorAdditionalData {
     private List<String> additionalInterfaces = new ArrayList<String>();
     private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
     private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
 
     public OneOfImplementorAdditionalData(String implementorName) {
         this.implementorName = implementorName;

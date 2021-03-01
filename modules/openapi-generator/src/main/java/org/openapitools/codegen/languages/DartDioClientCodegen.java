@@ -32,15 +32,16 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartDioClientCodegen extends DartClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
+public class DartDioClientCodegen extends AbstractDartCodegen {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
     public static final String DATE_LIBRARY = "dateLibrary";
 
     private static final String CLIENT_NAME = "clientName";
 
-    private boolean nullableFields = true;
+    private boolean nullableFields = false;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
@@ -49,7 +50,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
+        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Make all fields nullable in the JSON payload"));
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put("core", "Dart core library (DateTime)");
@@ -126,6 +127,19 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
+            if (ModelUtils.isArraySchema(schema)) {
+                if (ModelUtils.isSet(schema)) {
+                    return "SetBuilder()";
+                }
+                return "ListBuilder()";
+            }
+            if (ModelUtils.isMapSchema(schema)) {
+                return "MapBuilder()";
+            }
+            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+                // this is currently not supported and would create compile errors
+                return null;
+            }
             if (ModelUtils.isStringSchema(schema)) {
                 return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
@@ -136,7 +150,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
-        defaultProcessOpts();
+        super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -150,47 +164,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
         }
 
-        if (additionalProperties.containsKey(PUB_LIBRARY)) {
-            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_LIBRARY, pubLibrary);
-        }
-
-        if (additionalProperties.containsKey(PUB_NAME)) {
-            this.setPubName((String) additionalProperties.get(PUB_NAME));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_NAME, pubName);
-        }
-
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
-        }
-
-        if (additionalProperties.containsKey(PUB_VERSION)) {
-            this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_VERSION, pubVersion);
-        }
-
-        if (additionalProperties.containsKey(PUB_DESCRIPTION)) {
-            this.setPubDescription((String) additionalProperties.get(PUB_DESCRIPTION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_DESCRIPTION, pubDescription);
-        }
-
-        if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
-            this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_ENUM_EXTENSION));
-        } else {
-            // Not set, use to be passed to template.
-            additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -271,6 +246,34 @@ public class DartDioClientCodegen extends DartClientCodegen {
             // enums are generated with built_value and make use of BuiltSet
             model.imports.add("BuiltSet");
         }
+
+        property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
+    }
+
+    private String createBuiltValueSerializerType(CodegenProperty property) {
+        final StringBuilder sb = new StringBuilder("const FullType(");
+        if (property.isContainer) {
+            appendCollection(sb, property);
+        } else {
+            sb.append(property.datatypeWithEnum);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private void appendCollection(StringBuilder sb, CodegenProperty property) {
+        sb.append(property.baseType);
+        sb.append(", [FullType(");
+        if (property.isMap) {
+            // a map always has string keys
+            sb.append("String), FullType(");
+        }
+        if (property.items.isContainer) {
+            appendCollection(sb, property.items);
+        } else {
+            sb.append(property.items.datatypeWithEnum);
+        }
+        sb.append(")]");
     }
 
     @Override
@@ -279,6 +282,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
+        Set<Map<String, Object>> serializers = new HashSet<>();
         Set<String> modelImports = new HashSet<>();
         Set<String> fullImports = new HashSet<>();
 
@@ -304,6 +308,14 @@ public class DartDioClientCodegen extends DartClientCodegen {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
+                if (param.isContainer) {
+                    final Map<String, Object> serializer = new HashMap<>();
+                    serializer.put("isArray", param.isArray);
+                    serializer.put("uniqueItems", param.uniqueItems);
+                    serializer.put("isMap", param.isMap);
+                    serializer.put("baseType", param.baseType);
+                    serializers.add(serializer);
+                }
             }
 
             op.vendorExtensions.put("x-is-json", isJson);
@@ -317,7 +329,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
                 if (needToImport(item)) {
-                    if (importMapping().containsKey(item) && needToImport(item)) {
+                    if (importMapping().containsKey(item)) {
                         fullImports.add(importMapping().get(item));
                     } else {
                         imports.add(underscore(item));
@@ -326,10 +338,20 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
             modelImports.addAll(imports);
             op.imports = imports;
+
+            if (op.returnContainer != null) {
+                final Map<String, Object> serializer = new HashMap<>();
+                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
+                serializer.put("uniqueItems", op.uniqueItems);
+                serializer.put("isMap", Objects.equals("map", op.returnContainer));
+                serializer.put("baseType", op.returnBaseType);
+                serializers.add(serializer);
+            }
         }
 
         objs.put("modelImports", modelImports);
         objs.put("fullImports", fullImports);
+        objs.put("serializers", serializers);
 
         return objs;
     }

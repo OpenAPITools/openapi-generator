@@ -3,20 +3,21 @@ import 'package:test/test.dart';
 
 // tests for MixedPropertiesAndAdditionalPropertiesClass
 void main() {
-  final instance = MixedPropertiesAndAdditionalPropertiesClass();
+  final instance = MixedPropertiesAndAdditionalPropertiesClassBuilder();
+  // TODO add properties to the builder and call build()
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
-    // String uuid (default value: null)
+    // String uuid
     test('to test the property `uuid`', () async {
       // TODO
     });
 
-    // DateTime dateTime (default value: null)
+    // DateTime dateTime
     test('to test the property `dateTime`', () async {
       // TODO
     });
 
-    // BuiltMap<String, Animal> map (default value: const {})
+    // BuiltMap<String, Animal> map
     test('to test the property `map`', () async {
       // TODO
     });

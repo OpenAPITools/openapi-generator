@@ -45,9 +45,7 @@ class Name {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (name != null) {
       json[r'name'] = name;
-    }
     if (snakeCase != null) {
       json[r'snake_case'] = snakeCase;
     }

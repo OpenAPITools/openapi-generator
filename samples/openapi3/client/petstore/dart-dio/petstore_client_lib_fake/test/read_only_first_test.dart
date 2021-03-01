@@ -3,15 +3,16 @@ import 'package:test/test.dart';
 
 // tests for ReadOnlyFirst
 void main() {
-  final instance = ReadOnlyFirst();
+  final instance = ReadOnlyFirstBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ReadOnlyFirst, () {
-    // String bar (default value: null)
+    // String bar
     test('to test the property `bar`', () async {
       // TODO
     });
 
-    // String baz (default value: null)
+    // String baz
     test('to test the property `baz`', () async {
       // TODO
     });

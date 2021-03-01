@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -732,7 +732,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
+                        return "\"" + String.valueOf(((List<Object>) codegenProperty.allowableValues.get("values")).get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenProperty.name + "_example\"";
+                    }
                 }
             } else { // numeric
                 if (StringUtils.isEmpty(codegenProperty.example)) {
@@ -756,9 +760,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         String example;
         example = codegenModel.name + "$new(";
         List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
+        // required properties first
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
         }
+
+        // optional properties second
+        for (CodegenProperty codegenProperty : codegenModel.optionalVars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+        }
+
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
         return example;

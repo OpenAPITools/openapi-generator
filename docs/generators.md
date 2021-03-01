@@ -16,6 +16,7 @@ The following generators are available:
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tizen](generators/cpp-tizen.md)  
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
+* [crystal (beta)](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
 * [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  
@@ -68,6 +69,7 @@ The following generators are available:
 * [typescript-fetch](generators/typescript-fetch.md)  
 * [typescript-inversify](generators/typescript-inversify.md)  
 * [typescript-jquery](generators/typescript-jquery.md)  
+* [typescript-nestjs (experimental)](generators/typescript-nestjs.md)  
 * [typescript-node](generators/typescript-node.md)  
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
@@ -92,7 +94,7 @@ The following generators are available:
 * [java-pkmst](generators/java-pkmst.md)  
 * [java-play-framework](generators/java-play-framework.md)  
 * [java-undertow-server](generators/java-undertow-server.md)  
-* [java-vertx](generators/java-vertx.md)  
+* [java-vertx (deprecated)](generators/java-vertx.md)  
 * [java-vertx-web (beta)](generators/java-vertx-web.md)  
 * [jaxrs-cxf](generators/jaxrs-cxf.md)  
 * [jaxrs-cxf-cdi](generators/jaxrs-cxf-cdi.md)  
@@ -141,6 +143,7 @@ The following generators are available:
 ## SCHEMA generators
 * [avro-schema (beta)](generators/avro-schema.md)  
 * [graphql-schema](generators/graphql-schema.md)  
+* [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 

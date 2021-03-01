@@ -21,13 +21,12 @@ export class JQueryHttpLibrary implements HttpLibrary {
             data: body
         };
 
-		// If we want a blob, we have to set the xhrFields' responseType AND add a 
-		// custom converter to overwrite the default deserialization of JQuery...
+        // If we want a blob, we have to set the xhrFields' responseType AND add a
+        // custom converter to overwrite the default deserialization of JQuery...
         requestOptions["xhrFields"] = { responseType: 'blob' };
         requestOptions["converters"] = {} 
         requestOptions["converters"]["* blob"] = (result:any) => result;
         requestOptions["dataType"] = "blob";
-
 
         if (request.getHeaders()['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
@@ -41,7 +40,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
                 }
             }
         })(headerParams);
-        
+
         if (request.getHeaders()["Cookie"]) {
             throw new HttpException("Setting the \"Cookie\"-Header field is blocked by every major browser when using jquery.ajax requests. Please switch to another library like fetch to enable this option");
         }
@@ -49,9 +48,9 @@ export class JQueryHttpLibrary implements HttpLibrary {
         if (body && body.constructor.name == "FormData") {
             requestOptions.contentType = false;
         }
-        
+
         const sentRequest = $.ajax(requestOptions);
-        
+
         const resultPromise = new Promise<ResponseContext>((resolve, reject) => {
             sentRequest.done((data, _, jqXHR) => {
                 const result = new ResponseContext(
@@ -65,7 +64,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
                 const headers = this.getResponseHeaders(jqXHR)
                 const result = new ResponseContext(jqXHR.status, headers, jqXHR.responseText);
                 resolve(result);
-            })    
+            })
         })
         return from(resultPromise);
     }
@@ -79,7 +78,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
           var key = header.shift();
           if (key.length == 0) return
           // chrome60+ force lowercase, other browsers can be different
-          key = key.toLowerCase(); 
+          key = key.toLowerCase();
           responseHeaders[key] = header.join(": ");
         });
         return responseHeaders

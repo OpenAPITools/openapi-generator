@@ -3,10 +3,11 @@ import 'package:test/test.dart';
 
 // tests for InlineResponseDefault
 void main() {
-  final instance = InlineResponseDefault();
+  final instance = InlineResponseDefaultBuilder();
+  // TODO add properties to the builder and call build()
 
   group(InlineResponseDefault, () {
-    // Foo string (default value: null)
+    // Foo string
     test('to test the property `string`', () async {
       // TODO
     });

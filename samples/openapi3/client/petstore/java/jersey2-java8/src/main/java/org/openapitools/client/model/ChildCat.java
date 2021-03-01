@@ -175,7 +175,6 @@ public class ChildCat extends ParentPet {
     return Objects.hash(name, petType, super.hashCode(), additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

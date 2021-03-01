@@ -18,7 +18,6 @@ public struct Pet: Codable {
     public var id: Int64?
     public var category: Category?
     public var name: String?
-
     @available(*, deprecated, message: "This property is deprecated.")
     public var photoUrls: [String]
     public var tags: [Tag]?

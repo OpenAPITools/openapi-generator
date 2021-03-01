@@ -31,7 +31,7 @@ data class Order (
     var id: kotlin.Long? = null,
     var petId: kotlin.Long? = null,
     var quantity: kotlin.Int? = null,
-    var shipDate: java.time.LocalDateTime? = null,
+    var shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     var status: Order.Status? = null,
     var complete: kotlin.Boolean? = null

@@ -3,10 +3,11 @@ import 'package:test/test.dart';
 
 // tests for NumberOnly
 void main() {
-  final instance = NumberOnly();
+  final instance = NumberOnlyBuilder();
+  // TODO add properties to the builder and call build()
 
   group(NumberOnly, () {
-    // num justNumber (default value: null)
+    // num justNumber
     test('to test the property `justNumber`', () async {
       // TODO
     });

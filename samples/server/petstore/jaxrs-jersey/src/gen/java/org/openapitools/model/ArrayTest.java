@@ -66,7 +66,7 @@ public class ArrayTest   {
    **/
   @JsonProperty("array_of_string")
   @ApiModelProperty(value = "")
-  
+   @Size(min=0,max=3)
   public List<String> getArrayOfString() {
     return arrayOfString;
   }

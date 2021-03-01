@@ -45,6 +45,13 @@ class ApiClient {
      _defaultHeaderMap[key] = value;
   }
 
+  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
+
+  /// returns an unmodifiable view of the authentications, since none should be added
+  /// nor deleted
+  Map<String, Authentication> get authentications =>
+      Map.unmodifiable(_authentications);
+
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces.  Necessary for reg expressions as well.
     targetType = targetType.replaceAll(' ', '');
@@ -194,6 +201,7 @@ class ApiClient {
           return EnumArrays.fromJson(value);
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
+          
         case 'EnumTest':
           return EnumTest.fromJson(value);
         case 'FileSchemaTestClass':
@@ -234,12 +242,16 @@ class ApiClient {
           return OuterComposite.fromJson(value);
         case 'OuterEnum':
           return OuterEnumTypeTransformer().decode(value);
+          
         case 'OuterEnumDefaultValue':
           return OuterEnumDefaultValueTypeTransformer().decode(value);
+          
         case 'OuterEnumInteger':
           return OuterEnumIntegerTypeTransformer().decode(value);
+          
         case 'OuterEnumIntegerDefaultValue':
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
+          
         case 'Pet':
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':
@@ -257,6 +269,12 @@ class ApiClient {
             return value
               .map((v) => _deserialize(v, newTargetType, growable: growable))
               .toList(growable: true == growable);
+          }
+          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+            final newTargetType = match[1];
+            return value
+              .map((v) => _deserialize(v, newTargetType, growable: growable))
+              .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             final newTargetType = match[1];

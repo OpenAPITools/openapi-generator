@@ -204,6 +204,44 @@ public class DartDioModelTest {
         Assert.assertTrue(property2.isContainer);
     }
 
+    @Test(description = "convert a model with set property")
+    public void setPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("urls", new ArraySchema().items(new StringSchema()).uniqueItems(true))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "BuiltSet<String>");
+        Assert.assertEquals(property2.name, "urls");
+        Assert.assertEquals(property2.baseType, "BuiltSet");
+        Assert.assertEquals(property2.containerType, "set");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema model = new Schema()
@@ -390,5 +428,57 @@ public class DartDioModelTest {
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
+    }
+
+    @Test(description = "correctly generate collection default values")
+    public void collectionDefaultValues() {
+        final ArraySchema array = new ArraySchema();
+        array.setDefault("[]");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("arrayNoDefault", new ArraySchema())
+                .addProperties("arrayEmptyDefault", array)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty arrayNoDefault = cm.vars.get(0);
+        Assert.assertEquals(arrayNoDefault.name, "arrayNoDefault");
+        Assert.assertNull(arrayNoDefault.defaultValue);
+
+        final CodegenProperty arrayEmptyDefault = cm.vars.get(1);
+        Assert.assertEquals(arrayEmptyDefault.name, "arrayEmptyDefault");
+        Assert.assertEquals(arrayEmptyDefault.defaultValue, "ListBuilder()");
+
+        final CodegenProperty mapNoDefault = cm.vars.get(2);
+        Assert.assertEquals(mapNoDefault.name, "mapNoDefault");
+        Assert.assertNull(mapNoDefault.defaultValue);
+    }
+
+    @Test(description = "correctly generate date/datetime default values, currently null")
+    public void dateDefaultValues() {
+        final DateSchema date = new DateSchema();
+        date.setDefault("2021-01-01");
+        final DateTimeSchema dateTime = new DateTimeSchema();
+        dateTime.setDefault("2021-01-01T14:00:00Z");
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("date", date)
+                .addProperties("dateTime", dateTime)
+                .addProperties("mapNoDefault", new MapSchema());
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty dateDefault = cm.vars.get(0);
+        Assert.assertEquals(dateDefault.name, "date");
+        Assert.assertNull(dateDefault.defaultValue);
+
+        final CodegenProperty dateTimeDefault = cm.vars.get(1);
+        Assert.assertEquals(dateTimeDefault.name, "dateTime");
+        Assert.assertNull(dateTimeDefault.defaultValue);
     }
 }

@@ -38,9 +38,7 @@ class Category {
     if (id != null) {
       json[r'id'] = id;
     }
-    if (name != null) {
       json[r'name'] = name;
-    }
     return json;
   }
 

@@ -40,7 +40,7 @@ import java.util.Locale;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
     public AbstractRubyCodegen() {
         super();
@@ -172,9 +172,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(final String name) {
-        String varName;
-        // sanitize name
-        varName = sanitizeName(name);
+        String varName = sanitizeName(name);
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
@@ -207,7 +205,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -241,15 +239,16 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
+                    try(BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8))) {
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
                     }
-                    LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: `{}`", command);
                 }
             } catch (Exception e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

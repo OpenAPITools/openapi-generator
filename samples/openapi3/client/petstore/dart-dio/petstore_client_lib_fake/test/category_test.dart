@@ -3,10 +3,11 @@ import 'package:test/test.dart';
 
 // tests for Category
 void main() {
-  final instance = Category();
+  final instance = CategoryBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Category, () {
-    // int id (default value: null)
+    // int id
     test('to test the property `id`', () async {
       // TODO
     });

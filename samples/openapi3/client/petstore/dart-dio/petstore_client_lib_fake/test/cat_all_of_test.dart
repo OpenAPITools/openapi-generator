@@ -3,10 +3,11 @@ import 'package:test/test.dart';
 
 // tests for CatAllOf
 void main() {
-  final instance = CatAllOf();
+  final instance = CatAllOfBuilder();
+  // TODO add properties to the builder and call build()
 
   group(CatAllOf, () {
-    // bool declawed (default value: null)
+    // bool declawed
     test('to test the property `declawed`', () async {
       // TODO
     });

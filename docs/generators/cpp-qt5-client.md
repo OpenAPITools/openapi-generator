@@ -206,7 +206,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✓|OAS3
 |ParameterizedServer|✓|OAS3
-|ParameterStyling|✗|OAS3
+|ParameterStyling|✓|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
 
@@ -232,10 +232,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

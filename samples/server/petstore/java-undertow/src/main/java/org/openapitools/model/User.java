@@ -1,3 +1,13 @@
+/*
+ * OpenAPI Petstore
+ *
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ * OpenAPI document version: 1.0.0
+ * 
+ *
+ * AUTO-GENERATED FILE, DO NOT MODIFY!
+ */
 package org.openapitools.model;
 
 import java.util.Objects;
@@ -10,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A User who is purchasing from the pet store
- **/
+ */
 
 @ApiModel(description = "A User who is purchasing from the pet store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
@@ -26,7 +36,7 @@ public class User   {
   private Integer userStatus;
 
   /**
-   **/
+   */
   public User id(Long id) {
     this.id = id;
     return this;
@@ -43,7 +53,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User username(String username) {
     this.username = username;
     return this;
@@ -60,7 +70,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User firstName(String firstName) {
     this.firstName = firstName;
     return this;
@@ -77,7 +87,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User lastName(String lastName) {
     this.lastName = lastName;
     return this;
@@ -94,7 +104,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User email(String email) {
     this.email = email;
     return this;
@@ -111,7 +121,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User password(String password) {
     this.password = password;
     return this;
@@ -128,7 +138,7 @@ public class User   {
   }
 
   /**
-   **/
+   */
   public User phone(String phone) {
     this.phone = phone;
     return this;
@@ -146,7 +156,7 @@ public class User   {
 
   /**
    * User Status
-   **/
+   */
   public User userStatus(Integer userStatus) {
     this.userStatus = userStatus;
     return this;

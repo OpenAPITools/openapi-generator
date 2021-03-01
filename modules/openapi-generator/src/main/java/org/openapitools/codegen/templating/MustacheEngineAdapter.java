@@ -20,6 +20,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -28,6 +30,8 @@ import java.util.Map;
 
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -64,9 +68,11 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     @SuppressWarnings({"java:S108"}) // catch-all is expected, and is later thrown
     public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
+            final String templateName = name + "." + extension;
             try {
-                return new StringReader(generator.getFullTemplateContents(name + "." + extension));
-            } catch (Exception ignored) {
+                return new StringReader(generator.getFullTemplateContents(templateName));
+            } catch (Exception exception) {
+                LOGGER.error("Failed to read full template {}, {}", templateName, exception.getMessage());
             }
         }
 

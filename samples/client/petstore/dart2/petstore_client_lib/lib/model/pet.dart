@@ -62,12 +62,8 @@ class Pet {
     if (category != null) {
       json[r'category'] = category;
     }
-    if (name != null) {
       json[r'name'] = name;
-    }
-    if (photoUrls != null) {
       json[r'photoUrls'] = photoUrls;
-    }
     if (tags != null) {
       json[r'tags'] = tags;
     }
@@ -124,13 +120,6 @@ class PetStatusEnum {
 
   /// The underlying value of this enum member.
   final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is PetStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
 
   @override
   String toString() => value;

@@ -54,9 +54,13 @@ public class MapTest {
   /**
    * Gets or Sets inner
    */
+  @XmlType(name="InnerEnum")
+  @XmlEnum(String.class)
   public enum InnerEnum {
+    @XmlEnumValue("UPPER")
     UPPER("UPPER"),
     
+    @XmlEnumValue("lower")
     LOWER("lower");
 
     private String value;
@@ -259,7 +263,6 @@ public class MapTest {
   public int hashCode() {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
-
 
   @Override
   public String toString() {

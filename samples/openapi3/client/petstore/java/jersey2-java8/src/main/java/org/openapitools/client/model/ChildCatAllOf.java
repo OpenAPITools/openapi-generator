@@ -127,7 +127,6 @@ public class ChildCatAllOf {
     return Objects.hash(name, petType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

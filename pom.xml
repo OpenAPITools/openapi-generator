@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.1.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1181,6 +1181,9 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <module>samples/client/petstore/crystal</module>
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
@@ -1221,9 +1224,10 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <!-- TODO comment out below when the test for typescript-nestjs is ready
+                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
@@ -1231,8 +1235,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1256,8 +1258,7 @@
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
                 <module>samples/server/petstore/jaxrs-spec-interface-response</module>
-                <module>samples/server/petstore/java-vertx/rx</module>
-                <module>samples/server/petstore/java-vertx/async</module>
+                <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-pkmst</module>
                 <module>samples/server/petstore/java-play-framework</module>
@@ -1299,7 +1300,6 @@
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/java-vertx-web</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
             </modules>
@@ -1335,6 +1335,7 @@
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/java/webclient</module>
                 <module>samples/client/petstore/java/vertx</module>
+                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
@@ -1374,17 +1375,21 @@
                 <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin</module>
+                <module>samples/client/petstore/kotlin-gson</module>
+                <module>samples/client/petstore/kotlin-jackson</module>
+                <module>samples/client/petstore/kotlin-json-request-string</module>
+                <module>samples/client/petstore/kotlin-jvm-okhttp4-coroutines</module>
+                <module>samples/client/petstore/kotlin-moshi-codegen</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
-                <!--<module>samples/client/petstore/kotlin/</module>-->
+                <module>samples/client/petstore/kotlin-nonpublic</module>
+                <module>samples/client/petstore/kotlin-nullable</module>
+                <module>samples/client/petstore/kotlin-okhttp3</module>
                 <module>samples/client/petstore/kotlin-retrofit2</module>
                 <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
-                <module>samples/client/petstore/kotlin-jackson/</module>
-                <module>samples/client/petstore/kotlin-gson/</module>
-                <module>samples/client/petstore/kotlin-nonpublic/</module>
-                <module>samples/client/petstore/kotlin-nullable/</module>
-                <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
-                <module>samples/client/petstore/kotlin-json-request-string/</module>
+                <module>samples/client/petstore/kotlin-string</module>
+                <module>samples/client/petstore/kotlin-threetenbp</module>
+                <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
@@ -1429,13 +1434,31 @@
                 </property>
             </activation>
             <modules>
+                <!-- swift 5 samples -->
+                <module>samples/client/petstore/swift5/alamofireLibrary</module>
+                <module>samples/client/petstore/swift5/combineLibrary</module>
+                <module>samples/client/petstore/swift5/default</module>
+                <module>samples/client/petstore/swift5/deprecated</module>
+                <module>samples/client/petstore/swift5/nonPublicApi</module>
+                <module>samples/client/petstore/swift5/objcCompatible</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary</module>
+                <module>samples/client/petstore/swift5/readonlyProperties</module>
+                <module>samples/client/petstore/swift5/resultLibrary</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary</module>
+                <!-- swift 5 tests -->
+                <!-- temporarily commment them because they are flaky
+                <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/urlsessionLibrary/SwaggerClientTests</module>
+                -->
+                <!-- swift 1.x, 3.x, 4.x client generators have been deprecated
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
-                <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
@@ -1516,7 +1539,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.23</swagger-parser-version>
+        <swagger-parser-version>2.0.24</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
