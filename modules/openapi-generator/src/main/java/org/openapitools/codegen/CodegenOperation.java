@@ -115,6 +115,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one body parameter or at least one form parameter
+     *
+     * @return true if body or form parameter exists, false otherwise
+     */
+    public boolean getHasBodyOrFormParams() {
+        return getHasBodyParam() || getHasFormParams();
+    }
+
+    /**
      * Check if there's at least one form parameter
      *
      * @return true if any cookie parameter exists, false otherwise

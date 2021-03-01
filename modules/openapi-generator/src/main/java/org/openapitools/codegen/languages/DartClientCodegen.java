@@ -37,10 +37,9 @@ public class DartClientCodegen extends AbstractDartCodegen {
     public DartClientCodegen() {
         super();
 
-        final CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY,
+        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_NATIVE);
-        serializationLibrary.setType("String");
 
         final Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");

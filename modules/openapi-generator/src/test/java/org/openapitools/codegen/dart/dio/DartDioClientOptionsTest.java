@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.dartdio;
+package org.openapitools.codegen.dart.dio;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;

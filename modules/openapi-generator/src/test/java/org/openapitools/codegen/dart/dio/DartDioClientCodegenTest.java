@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.dartdio;
+package org.openapitools.codegen.dart.dio;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
