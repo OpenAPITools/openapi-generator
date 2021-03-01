@@ -2055,19 +2055,26 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    ComposedSchemaWithPropsAndNoAddProps:
+      properties:
+        color:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      # This definition will only allow in object payloads that set color and no other properties because
+      # additionalProperties are evaluated at the schema level and do not include composed schema
+      # properties. Only color is defined here, all others are additional
+      additionalProperties: false
     fruit:
+      description: a schema that tests oneOf and includes a schema level property
       properties:
         color:
           type: string
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      # Below additionalProperties is set to false to validate the use
-      # case when a composed schema has additionalProperties set to false.
-      # This definition will only allow in object payloads that set color because
-      # additionalProperties are evaluated at the schema level and do not include composed schema
-      # properties. Only color is defined here, all others are additional
-      additionalProperties: false
     apple:
       type: object
       properties:
