@@ -76,9 +76,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
