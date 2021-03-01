@@ -185,7 +185,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
             }
         }
 
-        modelPackage = packageName;
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            modelPackage = packageName;
+        }
         apiPackage = packageName;
 
         /*
@@ -225,6 +227,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
         boolean addedReflectImport = false;
+        boolean addedModelImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -239,6 +242,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
+                }
+                
+                // import "models" directory if needed
+                if (!addedModelImport && param.isModel && !modelPackage.equals(apiPackage)) {
+                    addedModelImport = true;
+                    objs.put("hasDifferentModelDir", true);
                 }
             }
         }
@@ -296,7 +305,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        }
+        return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     public void setSourceFolder(String sourceFolder) {
