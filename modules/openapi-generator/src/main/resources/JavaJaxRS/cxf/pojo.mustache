@@ -71,16 +71,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{^vendorExtensions.x-is-jackson-optional-nullable}}
   @JsonProperty("{{baseName}}")
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isArray}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isContainer}}{{#isContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isArray}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
-    return {{name}};
-  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if ({{name}} == null) {
       return null;
