@@ -2154,6 +2154,8 @@ components:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
     fruitReq:
+      description: a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas
+        also, this schem accepts null as a value
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'
