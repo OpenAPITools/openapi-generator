@@ -268,9 +268,12 @@ public enum EnumNumberEnum {
    * Get outerEnum
    * @return outerEnum
   **/
-  @JsonProperty("outerEnum")
+  @JsonIgnore
   public OuterEnum getOuterEnum() {
-    return outerEnum;
+    if (outerEnum == null) {
+      return null;
+    }
+    return outerEnum.orElse(null);
   }
 
   public void setOuterEnum(OuterEnum outerEnum) {

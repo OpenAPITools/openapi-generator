@@ -26,9 +26,12 @@ public class HealthCheckResult  {
    * Get nullableMessage
    * @return nullableMessage
   **/
-  @JsonProperty("NullableMessage")
+  @JsonIgnore
   public String getNullableMessage() {
-    return nullableMessage;
+    if (nullableMessage == null) {
+      return null;
+    }
+    return nullableMessage.orElse(null);
   }
 
   public void setNullableMessage(String nullableMessage) {

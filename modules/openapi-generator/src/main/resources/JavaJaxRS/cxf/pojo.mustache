@@ -61,10 +61,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   {{/maximum}}
    * @return {{name}}
   **/
-  @JsonProperty("{{baseName}}")
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
+{{#vendorExtensions.x-is-jackson-optional-nullable}}
+{{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
+  @JsonIgnore
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{^vendorExtensions.x-is-jackson-optional-nullable}}
+  @JsonProperty("{{baseName}}")
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;
@@ -75,7 +81,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}} == null) {
+      return null;
+    }
+    return {{name}}.orElse(null);
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     return {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }{{/isEnum}}
 
   {{^isReadOnly}}
