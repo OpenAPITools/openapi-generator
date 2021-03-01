@@ -128,11 +128,13 @@ enum EnumTestEnumStringEnum {
 
 
 
+
 enum EnumTestEnumStringRequiredEnum {
   UPPER,
   lower,
   empty,
 }
+
 
 
 
@@ -143,8 +145,10 @@ enum EnumTestEnumIntegerEnum {
 
 
 
+
 enum EnumTestEnumNumberEnum {
   number1Period1,
   numberNegative1Period2,
 }
+
 

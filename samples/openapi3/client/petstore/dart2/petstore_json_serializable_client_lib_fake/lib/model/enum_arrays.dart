@@ -67,8 +67,10 @@ enum EnumArraysJustSymbolEnum {
 
 
 
+
 enum EnumArraysArrayEnumEnum {
   fish,
   crab,
 }
+
 

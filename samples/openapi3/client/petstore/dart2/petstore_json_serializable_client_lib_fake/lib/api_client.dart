@@ -73,7 +73,7 @@ class ApiClient {
   Future<Response> invokeAPI(
     String path,
     String method,
-    Iterable<QueryParam> queryParams,
+    List<QueryParam> queryParams,
     Object body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
@@ -298,12 +298,12 @@ class ApiClient {
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    authNames.forEach((authName) {
+    for(final authName in authNames) {
       final auth = _authentications[authName];
       if (auth == null) {
         throw ArgumentError('Authentication undefined: $authName');
       }
       auth.applyToParams(queryParams, headerParams);
-    });
+    }
   }
 }
