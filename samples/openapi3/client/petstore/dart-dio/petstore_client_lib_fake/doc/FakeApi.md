@@ -9,21 +9,21 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **get** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **get** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **post** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **post** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **post** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **post** /fake/outer/string | 
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **put** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **put** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **patch** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **get** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **get** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **put** /fake/test-query-paramters | 
+[**fakeHealthGet**](FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
+[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
+[**testClientModel**](FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
+[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumParameters**](FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
+[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData**](FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
 
 
 # **fakeHealthGet**
