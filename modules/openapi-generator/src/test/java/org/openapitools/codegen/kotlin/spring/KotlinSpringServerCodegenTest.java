@@ -235,11 +235,22 @@ public class KotlinSpringServerCodegenTest {
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
         );
 
-        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"), "suspend fun");
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"), "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "ApiUtil");
 
-        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"), "ResponseEntity<Flow<kotlin.String>>");
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"), "exchange");
-
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "import kotlinx.coroutines.flow.Flow");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "suspend fun", "ApiUtil");
     }
 }
