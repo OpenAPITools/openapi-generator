@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-    private static final AtomicLong lastWarning = new AtomicLong(0);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
