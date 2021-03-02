@@ -115,7 +115,7 @@ void main() {
           },
           headers: {
             'content-type': 'application/json',
-            'content-length': 204,
+            'content-length': Matchers.integer,
           },
           handler: (response) => response.reply(200, ''),
         );
@@ -151,7 +151,7 @@ void main() {
           },
           headers: {
             'content-type': 'application/json',
-            'content-length': 38,
+            'content-length': Matchers.integer,
           },
           handler: (response) => response.reply(200, ''),
         );

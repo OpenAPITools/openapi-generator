@@ -39,7 +39,7 @@ void main() {
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
-            'content-length': 255,
+            'content-length': Matchers.integer,
           },
           handler: (response) => response.reply(200, null),
         );
@@ -72,7 +72,7 @@ void main() {
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
-            'content-length': 79,
+            'content-length': Matchers.integer,
           },
           handler: (response) => response.reply(200, null),
         );
