@@ -587,20 +587,20 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (integer != null) r'integer': parameterToString(_serializers, integer),
-      if (int32 != null) r'int32': parameterToString(_serializers, int32),
-      if (int64 != null) r'int64': parameterToString(_serializers, int64),
-      r'number': parameterToString(_serializers, number),
-      if (float != null) r'float': parameterToString(_serializers, float),
-      r'double': parameterToString(_serializers, double_),
-      if (string != null) r'string': parameterToString(_serializers, string),
-      r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
-      r'byte': parameterToString(_serializers, byte),
+      if (integer != null) r'integer': encodeFormParameter(_serializers, integer, const FullType(int)),
+      if (int32 != null) r'int32': encodeFormParameter(_serializers, int32, const FullType(int)),
+      if (int64 != null) r'int64': encodeFormParameter(_serializers, int64, const FullType(int)),
+      r'number': encodeFormParameter(_serializers, number, const FullType(num)),
+      if (float != null) r'float': encodeFormParameter(_serializers, float, const FullType(double)),
+      r'double': encodeFormParameter(_serializers, double_, const FullType(double)),
+      if (string != null) r'string': encodeFormParameter(_serializers, string, const FullType(String)),
+      r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
+      r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
       if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
-      if (date != null) r'date': parameterToString(_serializers, date),
-      if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
-      if (password != null) r'password': parameterToString(_serializers, password),
-      if (callback != null) r'callback': parameterToString(_serializers, callback),
+      if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(DateTime)),
+      if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
+      if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
+      if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -661,8 +661,8 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
-      if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
+      if (enumFormStringArray != null) r'enum_form_string_array': encodeFormParameter(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)])),
+      if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -818,8 +818,8 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      r'param': parameterToString(_serializers, param),
-      r'param2': parameterToString(_serializers, param2),
+      r'param': encodeFormParameter(_serializers, param, const FullType(String)),
+      r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(

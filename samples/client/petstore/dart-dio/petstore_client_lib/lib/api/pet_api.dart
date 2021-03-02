@@ -419,8 +419,8 @@ class PetApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (name != null) r'name': parameterToString(_serializers, name),
-      if (status != null) r'status': parameterToString(_serializers, status),
+      if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
+      if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -475,7 +475,7 @@ class PetApi {
     dynamic _bodyData;
 
     _bodyData = FormData.fromMap(<String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
       if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
     });
 
