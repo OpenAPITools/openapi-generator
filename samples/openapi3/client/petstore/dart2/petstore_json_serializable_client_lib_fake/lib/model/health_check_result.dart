@@ -22,7 +22,7 @@ class HealthCheckResult {
   });
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'NullableMessage',
     required: false,
   )

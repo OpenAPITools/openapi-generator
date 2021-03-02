@@ -25,28 +25,28 @@ class MapTest {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_map_of_string',
     required: false,
   )
   Map<String, Map<String, String>> mapMapOfString;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_of_enum_string',
     required: false,
   )
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'direct_map',
     required: false,
   )
   Map<String, bool> directMap;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'indirect_map',
     required: false,
   )

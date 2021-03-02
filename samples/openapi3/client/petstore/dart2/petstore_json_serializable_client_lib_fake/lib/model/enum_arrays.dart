@@ -30,7 +30,7 @@ class EnumArrays {
   EnumArraysJustSymbolEnum justSymbol;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_enum',
     required: false,
   )

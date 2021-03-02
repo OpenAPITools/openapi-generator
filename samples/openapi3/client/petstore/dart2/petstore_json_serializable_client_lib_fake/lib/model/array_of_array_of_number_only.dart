@@ -22,7 +22,7 @@ class ArrayOfArrayOfNumberOnly {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'ArrayArrayNumber',
     required: false,
   )

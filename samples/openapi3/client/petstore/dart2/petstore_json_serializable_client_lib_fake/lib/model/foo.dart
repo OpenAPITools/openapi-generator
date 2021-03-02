@@ -22,7 +22,7 @@ class Foo {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'bar',
     name: r'bar',
     required: false,
   )
