@@ -37,9 +37,7 @@ class UserApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -91,9 +89,7 @@ class UserApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -145,9 +141,7 @@ class UserApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -199,9 +193,7 @@ class UserApi {
       method: 'DELETE',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -250,9 +242,7 @@ class UserApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -310,11 +300,11 @@ class UserApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'username': username,
         r'password': password,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -366,9 +356,7 @@ class UserApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -418,9 +406,7 @@ class UserApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {

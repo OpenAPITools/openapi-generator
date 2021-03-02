@@ -36,9 +36,7 @@ class AnotherFakeApi {
       method: 'PATCH',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
