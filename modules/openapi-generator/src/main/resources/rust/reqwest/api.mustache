@@ -80,7 +80,7 @@ pub enum {{{operationIdCamelCase}}}Error {
 /// {{{.}}}
 {{/notes}}
 {{#vendorExtensions.x-group-parameters}}
-pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
     // unbox the parameters
     {{#allParams}}
     let {{paramName}} = params.{{paramName}};
@@ -111,12 +111,13 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#isApiKey}}
     {{#isKeyInQuery}}
     if let Some(ref local_var_apikey) = configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.query(&[("{{{keyParamName}}}", local_var_value)]);
+        if let Some(local_var_key) = local_var_apikey.get_key("{{{keyParamName}}}") {
+            let local_var_value = match local_var_apikey.get_prefix("{{{keyParamName}}}") {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.query(&[("{{{keyParamName}}}", local_var_value)]);
+        }
     }
     {{/isKeyInQuery}}
     {{/isApiKey}}
@@ -150,12 +151,13 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#isApiKey}}
     {{#isKeyInHeader}}
     if let Some(ref local_var_apikey) = configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.header("{{{keyParamName}}}", local_var_value);
+        if let Some(local_var_key) = local_var_apikey.get_key("{{{keyParamName}}}") {
+            let local_var_value = match local_var_apikey.get_prefix("{{{keyParamName}}}") {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("{{{keyParamName}}}", local_var_value);
+        }
     };
     {{/isKeyInHeader}}
     {{/isApiKey}}
