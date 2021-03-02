@@ -38,7 +38,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   DateTime dateTime;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map',
     required: false,
   )

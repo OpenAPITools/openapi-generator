@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Allows RestSharp to Serialize/Deserialize JSON using our custom logic, but only when ContentType is JSON.
     /// </summary>
-    internal class CustomJsonCodec  : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer 
+    internal class CustomJsonCodec : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
         private static readonly string _contentType = "application/json";
@@ -183,6 +183,7 @@ namespace Org.OpenAPITools.Client
                 }
             }
         };
+
         /// <summary>
         /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
         /// </summary>
@@ -527,9 +528,6 @@ namespace Org.OpenAPITools.Client
             }
             return result;
         }
-
-
-
 
         private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {

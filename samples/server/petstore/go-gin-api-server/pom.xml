@@ -27,30 +27,30 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>gofmt-test</id>
+                        <id>go-get</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>gofmt</executable>
+                            <executable>go</executable>
                             <arguments>
-                                <argument>-w</argument>
-                                <argument>./main.go</argument>
+                                <argument>get</argument>
+                                <argument>github.com/gin-gonic/gin</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>gofmt-file-test</id>
+                        <id>go-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>gofmt</executable>
+                            <executable>go</executable>
                             <arguments>
-                                <argument>-w</argument>
-                                <argument>./go/</argument>
+                                <argument>test</argument>
+                                <argument>-v</argument>
                             </arguments>
                         </configuration>
                     </execution>

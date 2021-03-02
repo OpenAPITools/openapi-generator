@@ -30,7 +30,7 @@ class FileSchemaTestClass {
   ModelFile file;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'files',
     required: false,
   )

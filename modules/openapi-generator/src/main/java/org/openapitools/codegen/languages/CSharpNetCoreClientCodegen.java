@@ -583,8 +583,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;
         } else if (HTTPCLIENT.equals(getLibrary())) {
+            setLibrary(HTTPCLIENT);
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
+        } else {
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
         }
 
         String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
@@ -607,7 +610,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         strategy.configureAdditionalProperties(additionalProperties);
-
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
         setTargetFramework(strategy.name);
         setTestTargetFramework(strategy.testTargetFramework);
