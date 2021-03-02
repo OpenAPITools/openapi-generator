@@ -10,7 +10,7 @@ import 'package:{{pubName}}/src/local_date_serializer.dart';{{/useDateLibTimeMac
 {{/model}}{{/models}}
 part 'serializers.g.dart';
 
-@SerializersFor(const [{{#models}}{{#model}}
+@SerializersFor([{{#models}}{{#model}}
   {{classname}},{{/model}}{{/models}}
 ])
 Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}

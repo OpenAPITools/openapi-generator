@@ -54,7 +54,7 @@ import 'package:openapi/src/model/user.dart';
 
 part 'serializers.g.dart';
 
-@SerializersFor(const [
+@SerializersFor([
   AdditionalPropertiesClass,
   Animal,
   ApiResponse,

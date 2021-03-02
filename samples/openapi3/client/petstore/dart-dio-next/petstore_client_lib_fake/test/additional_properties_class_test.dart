@@ -16,8 +16,5 @@ void main() {
     test('to test the property `mapOfMapProperty`', () async {
       // TODO
     });
-
-
   });
-
 }
