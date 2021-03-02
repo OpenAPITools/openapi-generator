@@ -57,7 +57,7 @@ class EnumTest {
   EnumTestEnumNumberEnum enumNumber;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'outerEnum',
     required: false,
   )

@@ -48,14 +48,14 @@ class Pet {
   String name;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'photoUrls',
     required: true,
   )
   Set<String> photoUrls;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'tags',
     required: false,
   )
