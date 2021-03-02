@@ -42,6 +42,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
 class _$OrderSerializer implements StructuredSerializer<Order> {
   @override
   final Iterable<Type> types = const [Order, _$Order];
+
   @override
   final String wireName = r'Order';
 

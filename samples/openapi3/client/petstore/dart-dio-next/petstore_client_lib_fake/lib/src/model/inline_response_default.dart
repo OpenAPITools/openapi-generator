@@ -32,6 +32,7 @@ class _$InlineResponseDefaultSerializer
     InlineResponseDefault,
     _$InlineResponseDefault
   ];
+
   @override
   final String wireName = r'InlineResponseDefault';
 

@@ -24,6 +24,7 @@ abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
 class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
   @override
   final Iterable<Type> types = const [DogAllOf, _$DogAllOf];
+
   @override
   final String wireName = r'DogAllOf';
 

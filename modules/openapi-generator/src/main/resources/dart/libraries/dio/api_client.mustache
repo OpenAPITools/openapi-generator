@@ -1,7 +1,7 @@
 {{>header}}
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';{{#useBuiltValue}}
 import 'package:built_value/serializer.dart';
-import 'package:{{pubName}}/src/serializers.dart';
+import 'package:{{pubName}}/src/serializers.dart';{{/useBuiltValue}}
 import 'package:{{pubName}}/src/auth/api_key_auth.dart';
 import 'package:{{pubName}}/src/auth/basic_auth.dart';
 import 'package:{{pubName}}/src/auth/oauth.dart';
@@ -11,15 +11,16 @@ class {{clientName}} {
   static const String basePath = r'{{{basePath}}}';
 
   final Dio dio;
-
+{{#useBuiltValue}}
   final Serializers serializers;
 
+{{/useBuiltValue}}
   {{clientName}}({
-    Dio? dio,
-    Serializers? serializers,
+    Dio? dio,{{#useBuiltValue}}
+    Serializers? serializers,{{/useBuiltValue}}
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  : this.serializers = serializers ?? standardSerializers,
+  })  : {{#useBuiltValue}}this.serializers = serializers ?? standardSerializers,{{/useBuiltValue}}
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
@@ -58,6 +59,6 @@ class {{clientName}} {
   /// Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   {{classname}} get{{classname}}() {
-    return {{classname}}(dio, serializers);
+    return {{classname}}(dio{{#useBuiltValue}}, serializers{{/useBuiltValue}});
   }{{/apis}}{{/apiInfo}}
 }

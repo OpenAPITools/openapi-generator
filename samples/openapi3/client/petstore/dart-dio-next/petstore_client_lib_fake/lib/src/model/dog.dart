@@ -32,6 +32,7 @@ abstract class Dog implements Built<Dog, DogBuilder> {
 class _$DogSerializer implements StructuredSerializer<Dog> {
   @override
   final Iterable<Type> types = const [Dog, _$Dog];
+
   @override
   final String wireName = r'Dog';
 

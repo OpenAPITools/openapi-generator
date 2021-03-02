@@ -46,6 +46,7 @@ abstract class User implements Built<User, UserBuilder> {
 class _$UserSerializer implements StructuredSerializer<User> {
   @override
   final Iterable<Type> types = const [User, _$User];
+
   @override
   final String wireName = r'User';
 

@@ -29,6 +29,7 @@ class _$ArrayOfNumberOnlySerializer
     implements StructuredSerializer<ArrayOfNumberOnly> {
   @override
   final Iterable<Type> types = const [ArrayOfNumberOnly, _$ArrayOfNumberOnly];
+
   @override
   final String wireName = r'ArrayOfNumberOnly';
 

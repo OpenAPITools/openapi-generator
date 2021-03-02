@@ -80,7 +80,7 @@ class {{classname}} {
     dynamic _bodyData;
 
     try {
-{{#useBuiltValue}}{{>serialization/serialize_built_value}}{{/useBuiltValue}}
+{{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
     } catch(error) {
       throw DioError(
         request: _options.compose(
@@ -109,7 +109,7 @@ class {{classname}} {
     {{{returnType}}} _responseData;
 
     try {
-{{#useBuiltValue}}{{>serialization/deserialize_built_value}}{{/useBuiltValue}}
+{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
     } catch (error) {
       throw DioError(
         request: _options.compose(

@@ -27,6 +27,7 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
 class _$AnimalSerializer implements StructuredSerializer<Animal> {
   @override
   final Iterable<Type> types = const [Animal, _$Animal];
+
   @override
   final String wireName = r'Animal';
 

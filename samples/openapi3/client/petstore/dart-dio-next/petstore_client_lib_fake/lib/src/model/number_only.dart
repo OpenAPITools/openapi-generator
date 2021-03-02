@@ -24,6 +24,7 @@ abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
 class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
   @override
   final Iterable<Type> types = const [NumberOnly, _$NumberOnly];
+
   @override
   final String wireName = r'NumberOnly';
 

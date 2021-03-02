@@ -24,6 +24,7 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
 class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
   @override
   final Iterable<Type> types = const [ModelClient, _$ModelClient];
+
   @override
   final String wireName = r'ModelClient';
 

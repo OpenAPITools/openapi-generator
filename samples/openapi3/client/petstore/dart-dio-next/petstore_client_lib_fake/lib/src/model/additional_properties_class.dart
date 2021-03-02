@@ -37,6 +37,7 @@ class _$AdditionalPropertiesClassSerializer
     AdditionalPropertiesClass,
     _$AdditionalPropertiesClass
   ];
+
   @override
   final String wireName = r'AdditionalPropertiesClass';
 

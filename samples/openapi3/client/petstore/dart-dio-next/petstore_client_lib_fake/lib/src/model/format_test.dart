@@ -72,6 +72,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
 class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
   @override
   final Iterable<Type> types = const [FormatTest, _$FormatTest];
+
   @override
   final String wireName = r'FormatTest';
 

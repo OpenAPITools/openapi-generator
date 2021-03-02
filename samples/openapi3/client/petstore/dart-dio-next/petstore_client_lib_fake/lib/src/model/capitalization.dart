@@ -44,6 +44,7 @@ class _$CapitalizationSerializer
     implements StructuredSerializer<Capitalization> {
   @override
   final Iterable<Type> types = const [Capitalization, _$Capitalization];
+
   @override
   final String wireName = r'Capitalization';
 

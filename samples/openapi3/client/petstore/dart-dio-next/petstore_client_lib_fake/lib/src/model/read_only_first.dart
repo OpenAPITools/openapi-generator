@@ -30,6 +30,7 @@ abstract class ReadOnlyFirst
 class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
   @override
   final Iterable<Type> types = const [ReadOnlyFirst, _$ReadOnlyFirst];
+
   @override
   final String wireName = r'ReadOnlyFirst';
 

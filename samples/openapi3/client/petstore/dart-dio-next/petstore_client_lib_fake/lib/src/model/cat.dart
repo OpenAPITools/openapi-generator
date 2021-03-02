@@ -32,6 +32,7 @@ abstract class Cat implements Built<Cat, CatBuilder> {
 class _$CatSerializer implements StructuredSerializer<Cat> {
   @override
   final Iterable<Type> types = const [Cat, _$Cat];
+
   @override
   final String wireName = r'Cat';
 

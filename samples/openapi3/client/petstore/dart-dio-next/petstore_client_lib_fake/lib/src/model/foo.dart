@@ -24,6 +24,7 @@ abstract class Foo implements Built<Foo, FooBuilder> {
 class _$FooSerializer implements StructuredSerializer<Foo> {
   @override
   final Iterable<Type> types = const [Foo, _$Foo];
+
   @override
   final String wireName = r'Foo';
 

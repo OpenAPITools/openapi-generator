@@ -30,6 +30,7 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
 class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
   @override
   final Iterable<Type> types = const [ApiResponse, _$ApiResponse];
+
   @override
   final String wireName = r'ApiResponse';
 

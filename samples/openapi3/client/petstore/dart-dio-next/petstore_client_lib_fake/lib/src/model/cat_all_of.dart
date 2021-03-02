@@ -24,6 +24,7 @@ abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
 class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
   @override
   final Iterable<Type> types = const [CatAllOf, _$CatAllOf];
+
   @override
   final String wireName = r'CatAllOf';
 

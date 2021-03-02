@@ -35,6 +35,7 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 class _$MapTestSerializer implements StructuredSerializer<MapTest> {
   @override
   final Iterable<Type> types = const [MapTest, _$MapTest];
+
   @override
   final String wireName = r'MapTest';
 

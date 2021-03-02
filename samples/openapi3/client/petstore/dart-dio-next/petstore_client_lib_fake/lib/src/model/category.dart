@@ -27,6 +27,7 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 class _$CategorySerializer implements StructuredSerializer<Category> {
   @override
   final Iterable<Type> types = const [Category, _$Category];
+
   @override
   final String wireName = r'Category';
 

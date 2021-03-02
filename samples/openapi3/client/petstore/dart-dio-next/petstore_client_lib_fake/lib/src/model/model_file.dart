@@ -25,6 +25,7 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
 class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
   @override
   final Iterable<Type> types = const [ModelFile, _$ModelFile];
+
   @override
   final String wireName = r'ModelFile';
 

@@ -34,6 +34,7 @@ class _$OuterCompositeSerializer
     implements StructuredSerializer<OuterComposite> {
   @override
   final Iterable<Type> types = const [OuterComposite, _$OuterComposite];
+
   @override
   final String wireName = r'OuterComposite';
 

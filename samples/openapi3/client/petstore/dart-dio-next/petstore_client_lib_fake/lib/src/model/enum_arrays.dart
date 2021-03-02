@@ -30,6 +30,7 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
   @override
   final Iterable<Type> types = const [EnumArrays, _$EnumArrays];
+
   @override
   final String wireName = r'EnumArrays';
 

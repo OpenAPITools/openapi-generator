@@ -27,6 +27,7 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 class _$TagSerializer implements StructuredSerializer<Tag> {
   @override
   final Iterable<Type> types = const [Tag, _$Tag];
+
   @override
   final String wireName = r'Tag';
 

@@ -47,6 +47,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
     MixedPropertiesAndAdditionalPropertiesClass,
     _$MixedPropertiesAndAdditionalPropertiesClass
   ];
+
   @override
   final String wireName = r'MixedPropertiesAndAdditionalPropertiesClass';
 

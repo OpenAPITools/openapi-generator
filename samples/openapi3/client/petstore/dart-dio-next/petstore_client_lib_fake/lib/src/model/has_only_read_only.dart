@@ -31,6 +31,7 @@ class _$HasOnlyReadOnlySerializer
     implements StructuredSerializer<HasOnlyReadOnly> {
   @override
   final Iterable<Type> types = const [HasOnlyReadOnly, _$HasOnlyReadOnly];
+
   @override
   final String wireName = r'HasOnlyReadOnly';
 

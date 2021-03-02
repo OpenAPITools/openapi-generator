@@ -34,6 +34,7 @@ class _$ArrayOfArrayOfNumberOnlySerializer
     ArrayOfArrayOfNumberOnly,
     _$ArrayOfArrayOfNumberOnly
   ];
+
   @override
   final String wireName = r'ArrayOfArrayOfNumberOnly';
 

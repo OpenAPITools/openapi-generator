@@ -31,6 +31,7 @@ class _$Model200ResponseSerializer
     implements StructuredSerializer<Model200Response> {
   @override
   final Iterable<Type> types = const [Model200Response, _$Model200Response];
+
   @override
   final String wireName = r'Model200Response';
 

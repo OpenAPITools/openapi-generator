@@ -62,6 +62,7 @@ abstract class NullableClass
 class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
   @override
   final Iterable<Type> types = const [NullableClass, _$NullableClass];
+
   @override
   final String wireName = r'NullableClass';
 

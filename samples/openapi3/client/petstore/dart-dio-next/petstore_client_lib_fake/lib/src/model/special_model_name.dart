@@ -28,6 +28,7 @@ class _$SpecialModelNameSerializer
     implements StructuredSerializer<SpecialModelName> {
   @override
   final Iterable<Type> types = const [SpecialModelName, _$SpecialModelName];
+
   @override
   final String wireName = r'SpecialModelName';
 

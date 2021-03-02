@@ -162,7 +162,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
-        supportingFiles.add(new SupportingFile("serializers.mustache", srcFolder, "serializers.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -204,7 +204,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
                 importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                    supportingFiles.add(new SupportingFile("local_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/local_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:

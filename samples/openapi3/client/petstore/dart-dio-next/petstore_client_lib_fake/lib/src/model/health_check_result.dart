@@ -28,6 +28,7 @@ class _$HealthCheckResultSerializer
     implements StructuredSerializer<HealthCheckResult> {
   @override
   final Iterable<Type> types = const [HealthCheckResult, _$HealthCheckResult];
+
   @override
   final String wireName = r'HealthCheckResult';
 

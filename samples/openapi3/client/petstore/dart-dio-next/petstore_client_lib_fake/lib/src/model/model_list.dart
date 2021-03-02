@@ -24,6 +24,7 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 class _$ModelListSerializer implements StructuredSerializer<ModelList> {
   @override
   final Iterable<Type> types = const [ModelList, _$ModelList];
+
   @override
   final String wireName = r'ModelList';
 

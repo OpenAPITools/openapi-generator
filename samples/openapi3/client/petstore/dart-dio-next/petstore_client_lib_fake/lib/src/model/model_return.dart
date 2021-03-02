@@ -24,6 +24,7 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
   @override
   final Iterable<Type> types = const [ModelReturn, _$ModelReturn];
+
   @override
   final String wireName = r'ModelReturn';
 

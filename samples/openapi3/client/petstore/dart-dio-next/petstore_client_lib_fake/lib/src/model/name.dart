@@ -33,6 +33,7 @@ abstract class Name implements Built<Name, NameBuilder> {
 class _$NameSerializer implements StructuredSerializer<Name> {
   @override
   final Iterable<Type> types = const [Name, _$Name];
+
   @override
   final String wireName = r'Name';
 

@@ -36,6 +36,7 @@ class _$FileSchemaTestClassSerializer
     FileSchemaTestClass,
     _$FileSchemaTestClass
   ];
+
   @override
   final String wireName = r'FileSchemaTestClass';
 

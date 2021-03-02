@@ -20,7 +20,6 @@ class Openapi {
   static const String basePath = r'http://petstore.swagger.io:80/v2';
 
   final Dio dio;
-
   final Serializers serializers;
 
   Openapi({

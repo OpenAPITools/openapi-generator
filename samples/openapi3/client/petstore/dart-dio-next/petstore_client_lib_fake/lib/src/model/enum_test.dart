@@ -58,6 +58,7 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
   @override
   final Iterable<Type> types = const [EnumTest, _$EnumTest];
+
   @override
   final String wireName = r'EnumTest';
 

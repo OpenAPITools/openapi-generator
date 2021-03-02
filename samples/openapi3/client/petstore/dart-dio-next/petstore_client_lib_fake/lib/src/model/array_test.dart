@@ -32,6 +32,7 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
   @override
   final Iterable<Type> types = const [ArrayTest, _$ArrayTest];
+
   @override
   final String wireName = r'ArrayTest';
 

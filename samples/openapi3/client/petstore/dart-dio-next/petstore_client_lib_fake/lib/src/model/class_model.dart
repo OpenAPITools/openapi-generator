@@ -24,6 +24,7 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
 class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
   @override
   final Iterable<Type> types = const [ClassModel, _$ClassModel];
+
   @override
   final String wireName = r'ClassModel';
 
