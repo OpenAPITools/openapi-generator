@@ -263,7 +263,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
         pathDelimiter = getParamStyleDelimiter(pathStyle, "{{baseName}}", {{isExplode}});
-        {{^collectionFormat}}
+    {{^collectionFormat}}
         {{^isPrimitiveType}}
         QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
         QJsonObject parameter = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJsonObject();
@@ -311,27 +311,29 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         {{#isPrimitiveType}}
         QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
         fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}})));
-    {{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
+        {{/isPrimitiveType}}
+    {{/collectionFormat}}
+    {{#collectionFormat}}
         if ({{{paramName}}}{{^required}}.value<{{{dataType}}}>(){{/required}}.size() > 0) {
-                QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
-                qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
-                    if (count > 0) {
-                        fullPath.append(pathDelimiter);
-                    }
-                    fullPath.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
-                    count++;
+            QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                if (count > 0) {
+                    fullPath.append(pathDelimiter);
                 }
-                fullPath.replace({{paramName}}PathParam, paramString);
+                fullPath.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
+                count++;
+            }
+            fullPath.replace({{paramName}}PathParam, paramString);
         }
     {{/collectionFormat}}
-}
+    }
 
-{{/pathParams}}
+    {{/pathParams}}
     {{#hasQueryParams}}
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     {{/hasQueryParams}}
-{{#queryParams}}
+    {{#queryParams}}
     {{^required}}if(!{{paramName}}.isNull()){{/required}}
     {
         queryStyle = "{{style}}";
@@ -340,7 +342,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
         queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
-{{^collectionFormat}}
+    {{^collectionFormat}}
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
         else
@@ -394,7 +396,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         fullPath.append(paramString);
         {{/isPrimitiveType}}{{#isPrimitiveType}}
         fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}})));
-    {{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
+    {{/isPrimitiveType}}
+    {{/collectionFormat}}
+    {{#collectionFormat}}
         if ({{{paramName}}}{{^required}}.value<{{{dataType}}}>(){{/required}}.size() > 0) {
             if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
                 foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
@@ -472,7 +476,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             }
         }
     {{/collectionFormat}}
-}
+    }
 
 {{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);

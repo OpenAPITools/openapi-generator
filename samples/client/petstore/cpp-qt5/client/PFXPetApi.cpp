@@ -344,7 +344,6 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
         queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false); 
-
         if (status.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
                 foreach (QString t, status) {
@@ -421,7 +420,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                 }   
             }
         }
-}
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -480,7 +479,6 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
         queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false); 
-
         if (tags.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
                 foreach (QString t, tags) {
@@ -557,7 +555,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                 }   
             }
         }
-}
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
