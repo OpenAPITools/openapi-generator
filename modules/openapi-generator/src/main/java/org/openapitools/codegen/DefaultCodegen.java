@@ -6397,7 +6397,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel cm = new CodegenModel();
 
-        cm.discriminator = createDiscriminator("", (Schema) cs, openAPI);
+        cm.discriminator = createDiscriminator("", cs, openAPI);
         if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }

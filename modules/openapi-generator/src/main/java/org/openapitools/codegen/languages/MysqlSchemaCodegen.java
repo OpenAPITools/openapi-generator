@@ -1196,7 +1196,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 this.identifierNamingConvention = naming;
                 break;
             default:
-                LOGGER.warn("\"" + (String) naming + "\" is invalid \"identifierNamingConvention\" argument. Current \"" + (String) this.identifierNamingConvention + "\" used instead.");
+                LOGGER.warn("\"" + naming + "\" is invalid \"identifierNamingConvention\" argument. Current \"" + this.identifierNamingConvention + "\" used instead.");
         }
     }
 

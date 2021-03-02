@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Iterables;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -387,7 +388,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     continue;
                 }
 
-                for (CodegenProperty param : model.vars) {
+                for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
                     if (!param.isNullable || param.isMap || param.isArray ||
                             param.isFreeFormObject || param.isAnyType) {

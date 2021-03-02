@@ -17,12 +17,8 @@
 
 namespace test_namespace {
 
-PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+PFXUserApi::PFXUserApi(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -39,7 +35,7 @@ QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
 QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
 defaultConf.append(PFXServerConfiguration(
-    "http://petstore.swagger.io/v2",
+    QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
 _serverConfigs.insert("createUser",defaultConf);
@@ -85,18 +81,6 @@ void PFXUserApi::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void PFXUserApi::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void PFXUserApi::setHost(const QString &host) {
-    _host = host;
-}
-
-void PFXUserApi::setPort(int port) {
-    _port = port;
-}
-
 void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -113,9 +97,6 @@ void PFXUserApi::setPassword(const QString &password) {
     _password = password;
 }
 
-void PFXUserApi::setBasePath(const QString &basePath) {
-    _basePath = basePath;
-}
 
 void PFXUserApi::setTimeOut(const int timeOut) {
     _timeOut = timeOut;
@@ -127,6 +108,49 @@ void PFXUserApi::setWorkingDirectory(const QString &path) {
 
 void PFXUserApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     _manager = manager;  
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config map for a specific operation.
+     * @param operation The id to the target operation.
+     * @param url A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     * returns the index of the new server config on success and -1 if the operation is not found
+     */
+int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+    if(_serverConfigs.contains(operation)){
+        _serverConfigs[operation].append(PFXServerConfiguration(
+                    url,
+                    description,
+                    variables));
+        return _serverConfigs[operation].size()-1;
+    }else{
+        return -1;
+    }
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+     * @param url A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+        for(auto e : _serverIndices.keys()){
+            setServerIndex(e, addServerConfiguration(e, url, description, variables));
+        }
+} 
+    /**
+     * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+     * @param URL A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXUserApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+
+    setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
+
 }
 
 void PFXUserApi::addHeaders(const QString &key, const QString &value) {

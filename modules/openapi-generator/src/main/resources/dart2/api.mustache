@@ -61,7 +61,7 @@ class {{{classname}}} {
     {{/allParams}}
 
   {{/hasParams}}
-    final path = '{{{path}}}'.replaceAll('{format}', 'json'){{#pathParams}}
+    final path = '{{{path}}}'{{#pathParams}}
       .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
