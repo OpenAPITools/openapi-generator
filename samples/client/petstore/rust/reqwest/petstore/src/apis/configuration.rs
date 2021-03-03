@@ -11,31 +11,49 @@
 
 use reqwest;
 
-pub struct Configuration {
+pub struct Configuration<A: ApiKey> {
     pub base_path: String,
     pub user_agent: Option<String>,
     pub client: reqwest::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
-    pub api_key: Option<ApiKey>,
+    pub api_key: Option<A>,
     // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);
 
-pub struct ApiKey {
-    pub prefix: Option<String>,
-    pub key: String,
+pub trait ApiKey {
+    fn get_prefix(&self, name: &str) -> Option<String>,
+    fn get_key(&self, name: &str) -> Option<String>,
 }
 
-impl Configuration {
+impl ApiKey for String {
+    fn get_prefix(&self, _: &str) -> Option<String> {
+      None
+    }
+    fn get_key(&self, _: &str) -> Option<String> {
+      self.cloned()
+    }
+}
+
+impl ApiKey for std::collection::HashMap<String, String> {
+    fn get_prefix(&self, _: &str) -> Option<String> {
+      None
+    }
+    fn get_key(&self, name: &str) -> Option<String> {
+      self.get(name).cloned()
+    }
+}
+
+impl<A: ApiKey> Configuration<A> {
     pub fn new() -> Configuration {
         Configuration::default()
     }
 }
 
-impl Default for Configuration {
+impl<A: ApiKey> Default for Configuration<A> {
     fn default() -> Self {
         Configuration {
             base_path: "http://petstore.swagger.io/v2".to_owned(),

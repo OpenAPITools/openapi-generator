@@ -207,7 +207,7 @@ pub enum UploadFileError {
 }
 
 
-pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+pub async fn add_pet<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
     // unbox the parameters
     let body = params.body;
 
@@ -242,7 +242,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     }
 }
 
-pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+pub async fn delete_pet<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
     // unbox the parameters
     let pet_id = params.pet_id;
     let api_key = params.api_key;
@@ -281,7 +281,7 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
 }
 
 /// Multiple status values can be provided with comma separated strings
-pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+pub async fn find_pets_by_status<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
     // unbox the parameters
     let status = params.status;
 
@@ -317,7 +317,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+pub async fn find_pets_by_tags<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
     // unbox the parameters
     let tags = params.tags;
 
@@ -353,7 +353,7 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
 }
 
 /// Returns a single pet
-pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+pub async fn get_pet_by_id<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
     // unbox the parameters
     let pet_id = params.pet_id;
 
@@ -367,12 +367,13 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_apikey) = configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+        if let Some(local_var_key) = local_var_apikey.get_key("api_key") {
+            let local_var_value = match local_var_apikey.get_prefix("api_key") {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+        }
     };
 
     let local_var_req = local_var_req_builder.build()?;
@@ -392,7 +393,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     }
 }
 
-pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+pub async fn update_pet<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
     // unbox the parameters
     let body = params.body;
 
@@ -427,7 +428,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     }
 }
 
-pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+pub async fn update_pet_with_form<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
     // unbox the parameters
     let pet_id = params.pet_id;
     let name = params.name;
@@ -471,7 +472,7 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     }
 }
 
-pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+pub async fn upload_file<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
     // unbox the parameters
     let pet_id = params.pet_id;
     let additional_metadata = params.additional_metadata;

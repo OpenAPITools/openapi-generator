@@ -195,7 +195,7 @@ pub enum UpdateUserError {
 
 
 /// This can only be done by the logged in user.
-pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
+pub async fn create_user<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
     // unbox the parameters
     let body = params.body;
 
@@ -227,7 +227,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     }
 }
 
-pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
+pub async fn create_users_with_array_input<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
     // unbox the parameters
     let body = params.body;
 
@@ -259,7 +259,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     }
 }
 
-pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
+pub async fn create_users_with_list_input<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
     // unbox the parameters
     let body = params.body;
 
@@ -292,7 +292,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
 }
 
 /// This can only be done by the logged in user.
-pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
+pub async fn delete_user<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
     // unbox the parameters
     let username = params.username;
 
@@ -323,7 +323,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     }
 }
 
-pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
+pub async fn get_user_by_name<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
     // unbox the parameters
     let username = params.username;
 
@@ -354,7 +354,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     }
 }
 
-pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
+pub async fn login_user<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
     // unbox the parameters
     let username = params.username;
     let password = params.password;
@@ -388,7 +388,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     }
 }
 
-pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
+pub async fn logout_user<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
     // unbox the parameters
 
 
@@ -419,7 +419,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
 }
 
 /// This can only be done by the logged in user.
-pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
+pub async fn update_user<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
     // unbox the parameters
     let username = params.username;
     let body = params.body;
