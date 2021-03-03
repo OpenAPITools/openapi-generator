@@ -187,14 +187,19 @@ class {{{classname}}} {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
     {{#isArray}}
       final l = json.decode(response.body);
-      return {{{returnType}}}.from(l.map((model) => Pet.fromJson(model)));
+      return {{{returnType}}}.of(l.map((model) => Pet.fromJson(model)));
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
       return {{{returnType}}}.from(json.decode(response.body));
     {{/isMap}}
     {{^isMap}}
+    {{#isPrimitiveType}}
+      return json.decode(response.body);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
       return {{{returnType}}}.fromJson(json.decode(response.body));
+    {{/isPrimitiveType}}
     {{/isMap}}
     {{/isArray}}
     }
