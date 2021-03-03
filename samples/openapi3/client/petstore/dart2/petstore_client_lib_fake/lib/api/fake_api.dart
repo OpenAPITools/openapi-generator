@@ -19,7 +19,7 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
-    final path = '/fake/health';
+    final path = r'/fake/health';
 
     Object postBody;
 
@@ -65,7 +65,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
+      return HealthCheckResult.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -90,7 +90,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/fake/http-signature-test';
+    final path = r'/fake/http-signature-test';
 
     Object postBody = pet;
 
@@ -164,7 +164,7 @@ class FakeApi {
   Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/boolean';
+    final path = r'/fake/outer/boolean';
 
     Object postBody = body;
 
@@ -215,7 +215,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
+      return bool.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -231,7 +231,7 @@ class FakeApi {
   Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/composite';
+    final path = r'/fake/outer/composite';
 
     Object postBody = outerComposite;
 
@@ -282,7 +282,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
+      return OuterComposite.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -298,7 +298,7 @@ class FakeApi {
   Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/number';
+    final path = r'/fake/outer/number';
 
     Object postBody = body;
 
@@ -349,7 +349,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
+      return num.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -365,7 +365,7 @@ class FakeApi {
   Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/string';
+    final path = r'/fake/outer/string';
 
     Object postBody = body;
 
@@ -416,7 +416,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return String.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -434,7 +434,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
     }
 
-    final path = '/fake/body-with-file-schema';
+    final path = r'/fake/body-with-file-schema';
 
     Object postBody = fileSchemaTestClass;
 
@@ -497,7 +497,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/fake/body-with-query-params';
+    final path = r'/fake/body-with-query-params';
 
     Object postBody = user;
 
@@ -563,7 +563,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody = modelClient;
 
@@ -616,7 +616,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
+      return ModelClient.fromJson(json.decode(response.body));
     }
     return null;
   }
@@ -685,7 +685,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -905,7 +905,7 @@ class FakeApi {
   Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     // Verify required params are set.
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1048,7 +1048,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1142,7 +1142,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
     }
 
-    final path = '/fake/inline-additionalProperties';
+    final path = r'/fake/inline-additionalProperties';
 
     Object postBody = requestBody;
 
@@ -1211,7 +1211,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
     }
 
-    final path = '/fake/jsonFormData';
+    final path = r'/fake/jsonFormData';
 
     Object postBody;
 
@@ -1310,7 +1310,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
-    final path = '/fake/test-query-paramters';
+    final path = r'/fake/test-query-paramters';
 
     Object postBody;
 

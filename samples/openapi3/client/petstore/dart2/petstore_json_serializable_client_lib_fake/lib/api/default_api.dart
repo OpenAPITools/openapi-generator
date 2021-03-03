@@ -64,6 +64,6 @@ class DefaultApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return InlineResponseDefault.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 }

@@ -139,7 +139,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Find purchase order by ID
@@ -214,7 +214,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Order.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Place an order for a pet
@@ -284,6 +284,6 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Order.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 }

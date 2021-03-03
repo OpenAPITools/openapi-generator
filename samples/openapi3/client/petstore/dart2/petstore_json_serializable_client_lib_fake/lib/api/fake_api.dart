@@ -67,7 +67,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return HealthCheckResult.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// test http signature authentication
@@ -217,7 +217,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return bool.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Test serialization of object with outer number type
@@ -284,7 +284,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return OuterComposite.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Test serialization of outer number types
@@ -351,7 +351,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return num.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Test serialization of outer string types
@@ -418,7 +418,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return String.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -618,7 +618,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

@@ -197,11 +197,8 @@ class {{{classname}}} {
       return {{{returnType}}}.fromJson(json.decode(response.body));
     {{/isMap}}
     {{/isArray}}
-    {{#isString}}
-      return json.decode(response.body);
-    {{/isString}}
     }
-    return Future.value(null);
+    return null;
     {{/returnType}}
   }
   {{/operation}}

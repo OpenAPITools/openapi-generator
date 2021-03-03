@@ -86,6 +86,6 @@ class AnotherFakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 }

@@ -344,7 +344,7 @@ class UserApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return User.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Logs user into the system
@@ -426,7 +426,7 @@ class UserApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return String.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return null;
   }
 
   /// Logs out current logged in user session
