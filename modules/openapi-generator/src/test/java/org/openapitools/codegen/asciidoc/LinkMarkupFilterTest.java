@@ -2,6 +2,7 @@ package org.openapitools.codegen.asciidoc;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
 
 import org.mockito.MockitoAnnotations;
@@ -32,7 +33,7 @@ public class LinkMarkupFilterTest extends LambdaTest {
     @Test
     public void testLinkMarkupFilterLinksFoundFileOk() throws IOException {
 
-        File tempFile = File.createTempFile("LinkMarkupFilterTestDummyfile", ".adoc");
+        File tempFile = Files.createTempFile("LinkMarkupFilterTestDummyfile", ".adoc").toFile();
         tempFile.deleteOnExit();
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();

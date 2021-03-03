@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ClassModel
 void main() {
-  final instance = ClassModel();
+  final instance = ClassModelBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ClassModel, () {
     // String class_

@@ -28,17 +28,17 @@ function Get-FunctionsToExport {
             throw $ParserErr
         } else {
             foreach ($name in 'Begin', 'Process', 'End') {
-	            foreach ($Statement in $Ast."${name}Block".Statements) {
-		            if (
+                foreach ($Statement in $Ast."${name}Block".Statements) {
+                    if (
                         [String]::IsNullOrWhiteSpace($Statement.Name) -or
                         $Statement.Extent.ToString() -notmatch
                         ('function\W+{0}' -f $Statement.Name)
                     ) {
-			            continue
-		            }
+                        continue
+                    }
 
-		            $Statement.Name
-	            }
+                    $Statement.Name
+                }
             }
         }
     }

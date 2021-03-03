@@ -235,7 +235,7 @@ void PetApiTests::updatePetWithFormTest() {
     });
 
     QString name("gorilla");
-    api.updatePetWithForm(id, name, nullptr);
+    api.updatePetWithForm(id, name);
     QTimer::singleShot(5000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(petUpdated, "didn't finish within timeout");

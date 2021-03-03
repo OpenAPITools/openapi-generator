@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for ModelList
 void main() {
-  final instance = ModelList();
+  final instance = ModelListBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ModelList, () {
     // String n123list

@@ -52,7 +52,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
                         {{/isArray}}
@@ -81,7 +81,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                                 {{/isString}}
                             {{/isPrimitiveType}}

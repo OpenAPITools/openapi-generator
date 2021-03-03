@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -140,6 +140,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary",
+                        // 'Property 'hash' with type 'String' cannot override a property with type 'Int' (when objcCompatible=true)
+                        "hash",
                         // Cannot override with a stored property 'className'
                         "className"
                 )
@@ -626,7 +628,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
-                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
@@ -1104,5 +1106,17 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
         return example;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
+        System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("################################################################################");
     }
 }

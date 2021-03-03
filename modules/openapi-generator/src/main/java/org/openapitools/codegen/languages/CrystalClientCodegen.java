@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CrystalClientCodegen extends DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CrystalClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CrystalClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 

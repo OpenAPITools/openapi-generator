@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Pet
 void main() {
-  final instance = Pet();
+  final instance = PetBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Pet, () {
     // int id

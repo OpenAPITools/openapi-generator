@@ -94,7 +94,7 @@ The following generators are available:
 * [java-pkmst](generators/java-pkmst.md)  
 * [java-play-framework](generators/java-play-framework.md)  
 * [java-undertow-server](generators/java-undertow-server.md)  
-* [java-vertx](generators/java-vertx.md)  
+* [java-vertx (deprecated)](generators/java-vertx.md)  
 * [java-vertx-web (beta)](generators/java-vertx-web.md)  
 * [jaxrs-cxf](generators/jaxrs-cxf.md)  
 * [jaxrs-cxf-cdi](generators/jaxrs-cxf-cdi.md)  

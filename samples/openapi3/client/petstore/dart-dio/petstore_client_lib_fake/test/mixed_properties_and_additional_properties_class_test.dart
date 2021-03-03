@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for MixedPropertiesAndAdditionalPropertiesClass
 void main() {
-  final instance = MixedPropertiesAndAdditionalPropertiesClass();
+  final instance = MixedPropertiesAndAdditionalPropertiesClassBuilder();
+  // TODO add properties to the builder and call build()
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
     // String uuid

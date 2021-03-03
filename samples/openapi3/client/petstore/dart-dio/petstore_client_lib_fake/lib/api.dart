@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
@@ -22,31 +22,37 @@ import 'package:openapi/api/store_api.dart';
 import 'package:openapi/api/user_api.dart';
 
 
-final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
+final _defaultInterceptors = [
+  OAuthInterceptor(),
+  BasicAuthInterceptor(),
+  ApiKeyAuthInterceptor(),
+];
 
 class Openapi {
 
-    Dio dio;
-    Serializers serializers;
-    String basePath = 'http://petstore.swagger.io:80/v2';
+    static const String basePath = r'http://petstore.swagger.io:80/v2';
 
-    Openapi({this.dio, Serializers serializers, String basePathOverride, List<Interceptor> interceptors}) {
-        if (dio == null) {
-            BaseOptions options = new BaseOptions(
+    final Dio dio;
+
+    final Serializers serializers;
+
+    Openapi({
+      Dio dio,
+      Serializers serializers,
+      String basePathOverride,
+      List<Interceptor> interceptors,
+    })  : this.serializers = serializers ?? standardSerializers,
+          this.dio = dio ??
+              Dio(BaseOptions(
                 baseUrl: basePathOverride ?? basePath,
                 connectTimeout: 5000,
                 receiveTimeout: 3000,
-            );
-            this.dio = new Dio(options);
-        }
-
-        if (interceptors == null) {
-            this.dio.interceptors.addAll(_defaultInterceptors);
-        } else {
-            this.dio.interceptors.addAll(interceptors);
-        }
-
-        this.serializers = serializers ?? standardSerializers;
+              )) {
+      if (interceptors == null) {
+        this.dio.interceptors.addAll(_defaultInterceptors);
+      } else {
+        this.dio.interceptors.addAll(interceptors);
+      }
     }
 
     void setOAuthToken(String name, String token) {

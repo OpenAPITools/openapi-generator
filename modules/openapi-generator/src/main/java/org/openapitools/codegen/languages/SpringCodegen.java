@@ -45,7 +45,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
         OptionalFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -832,6 +832,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonCreator");
             }
+        }
+
+        // Add imports for java.util.Arrays
+        if (property.isByteArray) {
+            model.imports.add("Arrays");
         }
     }
 

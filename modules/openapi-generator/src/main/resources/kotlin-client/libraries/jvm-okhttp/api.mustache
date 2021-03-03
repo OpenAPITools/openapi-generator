@@ -41,6 +41,37 @@ import {{packageName}}.infrastructure.toMultiValue
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+        val localVariableConfig = {{operationId}}RequestConfig({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        val localVarResponse = request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Any?{{/returnType}}>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation {{operationId}}
+    *
+    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return RequestConfig
+    */
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    fun {{operationId}}RequestConfig({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : RequestConfig {
         val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to {{{paramName}}}{{^-last}}, {{/-last}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
         val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mutableMapOf()
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -68,30 +99,16 @@ import {{packageName}}.infrastructure.toMultiValue
         {{#headerParams}}
         {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
         {{/headerParams}}
+        
         val localVariableConfig = RequestConfig(
-            RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{{paramName}}}"){{/pathParams}},
+            method = RequestMethod.{{httpMethod}},
+            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val localVarResponse = request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Any?{{/returnType}}>(
-            localVariableConfig,
-            localVariableBody
+            headers = localVariableHeaders,
+            body = localVariableBody
         )
 
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
+        return localVariableConfig
     }
 
     {{/operation}}

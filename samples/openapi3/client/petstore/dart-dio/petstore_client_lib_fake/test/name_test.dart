@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Name
 void main() {
-  final instance = Name();
+  final instance = NameBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Name, () {
     // int name

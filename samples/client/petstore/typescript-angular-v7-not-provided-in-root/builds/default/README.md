@@ -120,7 +120,7 @@ export class AppModule {}
 import { DefaultApi } from '';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 

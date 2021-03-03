@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -81,10 +79,10 @@ class FruitReq(ModelComposed):
         """
         lazy_import()
         return {
-            'cultivar': (str,),  # noqa: E501
-            'length_cm': (float,),  # noqa: E501
             'mealy': (bool,),  # noqa: E501
             'sweet': (bool,),  # noqa: E501
+            'cultivar': (str,),  # noqa: E501
+            'length_cm': (float,),  # noqa: E501
         }
 
     @cached_property
@@ -93,10 +91,10 @@ class FruitReq(ModelComposed):
 
 
     attribute_map = {
-        'cultivar': 'cultivar',  # noqa: E501
-        'length_cm': 'lengthCm',  # noqa: E501
         'mealy': 'mealy',  # noqa: E501
         'sweet': 'sweet',  # noqa: E501
+        'cultivar': 'cultivar',  # noqa: E501
+        'length_cm': 'lengthCm',  # noqa: E501
     }
 
     required_properties = set([
@@ -115,11 +113,7 @@ class FruitReq(ModelComposed):
     def __init__(self, *args, **kwargs):  # noqa: E501
         """FruitReq - a model defined in OpenAPI
 
-        Args:
-
         Keyword Args:
-            cultivar (str): defaults to nulltype.Null  # noqa: E501
-            length_cm (float): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -152,10 +146,10 @@ class FruitReq(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             mealy (bool): [optional]  # noqa: E501
             sweet (bool): [optional]  # noqa: E501
+            cultivar (str): [optional]  # noqa: E501
+            length_cm (float): [optional]  # noqa: E501
         """
 
-        cultivar = kwargs.get('cultivar', nulltype.Null)
-        length_cm = kwargs.get('length_cm', nulltype.Null)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -187,14 +181,7 @@ class FruitReq(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
-            'cultivar': cultivar,
-            'length_cm': length_cm,
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
         model_args = {}
         model_args.update(required_args)
         model_args.update(kwargs)

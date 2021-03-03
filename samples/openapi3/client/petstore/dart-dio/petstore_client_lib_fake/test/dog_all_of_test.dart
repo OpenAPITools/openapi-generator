@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for DogAllOf
 void main() {
-  final instance = DogAllOf();
+  final instance = DogAllOfBuilder();
+  // TODO add properties to the builder and call build()
 
   group(DogAllOf, () {
     // String breed

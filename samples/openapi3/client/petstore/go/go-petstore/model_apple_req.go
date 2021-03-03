@@ -27,7 +27,7 @@ type _AppleReq AppleReq
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAppleReq(cultivar string, ) *AppleReq {
+func NewAppleReq(cultivar string) *AppleReq {
 	this := AppleReq{}
 	this.Cultivar = cultivar
 	return &this
@@ -43,7 +43,7 @@ func NewAppleReqWithDefaults() *AppleReq {
 
 // GetCultivar returns the Cultivar field value
 func (o *AppleReq) GetCultivar() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
