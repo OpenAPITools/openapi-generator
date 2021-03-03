@@ -109,12 +109,12 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
     {{#isEnum}}
         {{^isContainer}}
 
-{{>enum_inline}}
+{{>serialization/built_value/enum_inline}}
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
-{{>enum_inline}}
+{{>serialization/built_value/enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
