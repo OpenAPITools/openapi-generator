@@ -4196,7 +4196,8 @@ public class DefaultCodegen implements CodegenConfig {
             // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
             codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
-            // TODO revise collectionFormat
+            // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
+            // https://swagger.io/docs/specification/serialization/
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
@@ -4352,14 +4353,21 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            Map<String, Schema<?>> properties = schema.getProperties();
-            codegenParameter.items.vars =
-                    properties.entrySet().stream()
-                            .map(entry -> {
-                                CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
-                                property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
-                                return property;
-                            }).collect(Collectors.toList());
+            // TODO Check why schema is actually null for a schema of type object defined inline
+            // https://swagger.io/docs/specification/serialization/
+            if(schema != null) {
+                Map<String, Schema<?>> properties = schema.getProperties();
+                codegenParameter.items.vars =
+                        properties.entrySet().stream()
+                                .map(entry -> {
+                                    CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                    property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                    return property;
+                                }).collect(Collectors.toList());
+            }
+            else {
+                LOGGER.warn("No object schema found for deepObject parameter" + codegenParameter + " deepObject won't have specific properties");
+            }
         }
 
         // set the parameter example value
