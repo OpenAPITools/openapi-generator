@@ -55,6 +55,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
     protected Set<String> additionalReservedWords;
 
+    private static final String LINTER_LIBRARY_OPT = "linterLibrary";
+    private static final String USE_EFFECTIVE_DART = "effective_dart";
+
     public AbstractDartCodegen() {
         super();
 
@@ -177,6 +180,15 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
 
+        final CliOption linterLibrary = new CliOption(
+                LINTER_LIBRARY_OPT,
+                "Specify linter library");
+        linterLibrary.setType("String");
+
+        final Map<String, String> effectiveDart = new HashMap<>();
+        effectiveDart.put(USE_EFFECTIVE_DART, "Use effective_dart");
+        linterLibrary.setEnum(effectiveDart);
+        cliOptions.add(linterLibrary);
     }
 
     @Override
@@ -270,6 +282,21 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // check to not overwrite a custom templateDir
         if (templateDir == null) {
             embeddedTemplateDir = templateDir = "dart2";
+        }
+
+        setLintingLibrary();
+    }
+
+    private void setLintingLibrary() {
+
+        final String lintingLibrary = additionalProperties.get(LINTER_LIBRARY_OPT).toString();
+
+        switch (lintingLibrary) {
+            case USE_EFFECTIVE_DART:
+                additionalProperties.put(USE_EFFECTIVE_DART, "true");
+                // effective_dart requires adding analysis_options
+                supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
+                break;
         }
     }
 

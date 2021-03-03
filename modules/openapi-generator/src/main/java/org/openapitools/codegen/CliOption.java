@@ -144,4 +144,16 @@ public class CliOption {
         }
         return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        return "CliOption{" +
+                "opt='" + opt + '\'' +
+                ", description='" + description + '\'' +
+                ", type='" + type + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", optValue='" + optValue + '\'' +
+                ", enumValues=" + enumValues +
+                '}';
+    }
 }

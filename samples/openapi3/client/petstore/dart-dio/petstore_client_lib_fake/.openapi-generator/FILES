@@ -1,6 +1,7 @@
 .gitignore
 README.md
 analysis_options.yaml
+analysis_options.yaml
 doc/AdditionalPropertiesClass.md
 doc/Animal.md
 doc/AnotherFakeApi.md
