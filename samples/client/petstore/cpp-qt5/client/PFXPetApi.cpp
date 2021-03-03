@@ -271,6 +271,8 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
         emit addPetSignalE(error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
@@ -326,6 +328,8 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
         emit deletePetSignalE(error_type, error_str);
         emit deletePetSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
@@ -459,6 +463,8 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         emit findPetsByStatusSignalE(output, error_type, error_str);
         emit findPetsByStatusSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
@@ -592,6 +598,8 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         emit findPetsByTagsSignalE(output, error_type, error_str);
         emit findPetsByTagsSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::getPetById(const qint64 &pet_id) {
@@ -647,6 +655,8 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
         emit getPetByIdSignalE(output, error_type, error_str);
         emit getPetByIdSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::updatePet(const PFXPet &body) {
@@ -689,6 +699,8 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
         emit updatePetSignalE(error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status) {
@@ -739,6 +751,8 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
         emit updatePetWithFormSignalE(error_type, error_str);
         emit updatePetWithFormSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metadata, const PFXHttpFileElement &file) {
@@ -791,6 +805,8 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
         emit uploadFileSignalE(output, error_type, error_str);
         emit uploadFileSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 } // namespace test_namespace

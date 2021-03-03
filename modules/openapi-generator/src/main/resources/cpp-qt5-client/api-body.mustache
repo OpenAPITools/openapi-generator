@@ -684,6 +684,8 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 {{/operation}}

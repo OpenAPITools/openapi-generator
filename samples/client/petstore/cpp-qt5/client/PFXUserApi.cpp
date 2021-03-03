@@ -271,6 +271,8 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
         emit createUserSignalE(error_type, error_str);
         emit createUserSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
@@ -314,6 +316,8 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
         emit createUsersWithArrayInputSignalE(error_type, error_str);
         emit createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
@@ -357,6 +361,8 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
         emit createUsersWithListInputSignalE(error_type, error_str);
         emit createUsersWithListInputSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::deleteUser(const QString &username) {
@@ -407,6 +413,8 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
         emit deleteUserSignalE(error_type, error_str);
         emit deleteUserSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::getUserByName(const QString &username) {
@@ -458,6 +466,8 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
         emit getUserByNameSignalE(output, error_type, error_str);
         emit getUserByNameSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::loginUser(const QString &username, const QString &password) {
@@ -524,6 +534,8 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
         emit loginUserSignalE(output, error_type, error_str);
         emit loginUserSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::logoutUser() {
@@ -563,6 +575,8 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
         emit logoutUserSignalE(error_type, error_str);
         emit logoutUserSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
@@ -616,6 +630,8 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
         emit updateUserSignalE(error_type, error_str);
         emit updateUserSignalEFull(worker, error_type, error_str);
     }
+
+    emit callbackExecutedSignal();
 }
 
 } // namespace test_namespace

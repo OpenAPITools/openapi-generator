@@ -126,6 +126,7 @@ signals:
     void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
     void abortRequestsSignal(); 
+    void callbackExecutedSignal();
 };
 
 } // namespace test_namespace
