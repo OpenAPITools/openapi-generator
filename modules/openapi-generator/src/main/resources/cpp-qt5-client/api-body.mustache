@@ -227,7 +227,7 @@ QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool 
 
 {{#operations}}
 {{#operation}}
-void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
     {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
     if(_apiKeys.contains("{{name}}")){
@@ -250,220 +250,235 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
     }{{/isBasicBasic}}{{/authMethods}}
+
     {{#pathParams}}
-    QString {{paramName}}PathParam("{");
-    {{paramName}}PathParam.append("{{baseName}}").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "{{style}}";    
-    if(pathStyle == "") 
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "{{baseName}}", {{isExplode}});
+    {{^required}}if(!{{paramName}}.isNull()){{/required}}
+    {
+        QString {{paramName}}PathParam("{");
+        {{paramName}}PathParam.append("{{baseName}}").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "{{style}}";    
+        if(pathStyle == "") 
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "{{baseName}}", {{isExplode}});
     {{^collectionFormat}}
-    {{^isPrimitiveType}}
-    QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
-    QJsonObject parameter = {{paramName}}.asJsonObject();
-    qint32 count = 0;
-    foreach(const QString& key, parameter.keys()) {
-        if (count > 0) {
-            pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
-            paramString.append(pathDelimiter);
+        {{^isPrimitiveType}}
+        QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
+        QJsonObject parameter = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
+                paramString.append(pathDelimiter);
+            }
+            QString assignOperator = ({{isExplode}}) ? "=" : ",";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(key+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    paramString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
         }
-        QString assignOperator = ({{isExplode}}) ? "=" : ",";
-        switch(parameter.value(key).type()) {
-            case QJsonValue::String:
-            {
-                paramString.append(key+assignOperator+parameter.value(key).toString());
-                break;
-            }
-            case QJsonValue::Double:
-            {
-                paramString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
-                break;
-            }
-            case QJsonValue::Bool:
-            {
-                paramString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
-                break;
-            }
-            case QJsonValue::Array:
-            {
-                paramString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
-                break;
-            }
-            case QJsonValue::Object:
-            {
-                paramString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
-                break;
-            }
-            case QJsonValue::Null:
-            case QJsonValue::Undefined:
-                break;
-        }
-        count++;
-    }
-    fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(paramString));
-    {{/isPrimitiveType}}
-    {{#isPrimitiveType}}
-    QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
-    fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
-    if ({{{paramName}}}.size() > 0) {
+        fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(paramString));
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
+        fullPath.replace({{paramName}}PathParam, paramString+QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}})));
+        {{/isPrimitiveType}}
+    {{/collectionFormat}}
+    {{#collectionFormat}}
+        if ({{{paramName}}}{{^required}}.value<{{{dataType}}}>(){{/required}}.size() > 0) {
             QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
                 if (count > 0) {
                     fullPath.append(pathDelimiter);
                 }
                 fullPath.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
                 count++;
             }
-              fullPath.replace({{paramName}}PathParam, paramString);
+            fullPath.replace({{paramName}}PathParam, paramString);
+        }
+    {{/collectionFormat}}
     }
-{{/collectionFormat}}{{/pathParams}}
+
+    {{/pathParams}}
     {{#hasQueryParams}}
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     {{/hasQueryParams}}
-{{#queryParams}}
-    queryStyle = "{{style}}";
-    if(queryStyle == "") 
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
-{{^collectionFormat}} 
-    if (fullPath.indexOf("?") > 0)
-        fullPath.append(queryPrefix);
-    else
-        fullPath.append("?");
-    {{^isPrimitiveType}}
-    QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
-    QJsonObject parameter = {{paramName}}.asJsonObject();
-    qint32 count = 0;
-    foreach(const QString& key, parameter.keys()) {
-        if (count > 0) {
-            queryDelimiter =  ((queryStyle == "form" || queryStyle == "deepObject") && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
-            paramString.append(queryDelimiter);
+    {{#queryParams}}
+    {{^required}}if(!{{paramName}}.isNull()){{/required}}
+    {
+        queryStyle = "{{style}}";
+        if(queryStyle == "") 
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
+    {{^collectionFormat}}
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        {{^isPrimitiveType}}
+        QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
+        QJsonObject parameter = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                queryDelimiter =  ((queryStyle == "form" || queryStyle == "deepObject") && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
+                paramString.append(queryDelimiter);
+            }
+            QString assignOperator;
+            if (queryStyle == "form")
+                assignOperator = ({{isExplode}}) ? "=" : ",";
+            else if (queryStyle == "deepObject")
+                assignOperator = ({{isExplode}}) ? "=" : "none";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
         }
-        QString assignOperator;
-        if (queryStyle == "form")
-            assignOperator = ({{isExplode}}) ? "=" : ",";
-        else if (queryStyle == "deepObject")
-            assignOperator = ({{isExplode}}) ? "=" : "none";
-        switch(parameter.value(key).type()) {
-            case QJsonValue::String:
-            {
-                paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+parameter.value(key).toString());
-                break;
-            }
-            case QJsonValue::Double:
-            {
-                paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QString::number(parameter.value(key).toDouble()));
-                break;
-            }
-            case QJsonValue::Bool:
-            {
-                paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toBool()).toString());
-                break;
-            }
-            case QJsonValue::Array:
-            {
-                paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toArray()).toString());
-                break;
-            }
-            case QJsonValue::Object:
-            {
-                paramString.append(((queryStyle == "form") ? key : QString("{{baseName}}").append("[").append(key).append("]"))+assignOperator+QVariant(parameter.value(key).toObject()).toString());
-                break;
-            }
-            case QJsonValue::Null:
-            case QJsonValue::Undefined:
-                break;
-        }
-        count++;
-    }
-    fullPath.append(paramString);
-    {{/isPrimitiveType}}{{#isPrimitiveType}}
-    fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
-    if ({{{paramName}}}.size() > 0) {
-        if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
-            foreach ({{{baseType}}} t, {{paramName}}) {
+        fullPath.append(paramString);
+        {{/isPrimitiveType}}{{#isPrimitiveType}}
+        fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}})));
+    {{/isPrimitiveType}}
+    {{/collectionFormat}}
+    {{#collectionFormat}}
+        if ({{{paramName}}}{{^required}}.value<{{{dataType}}}>(){{/required}}.size() > 0) {
+            if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
+                }
+            } else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
                 if (fullPath.indexOf("?") > 0)
-                    fullPath.append(queryPrefix);
+                    fullPath.append("&");
                 else
-                    fullPath.append("?");
-                fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
-            }
-        } else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
-            qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
-                if (count > 0) {
-                    fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }
-        } else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
-            qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
-                if (count > 0) {
-                    fullPath.append("\t");
+            } else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }
-        } else if (QString("{{collectionFormat}}").indexOf("csv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
-            qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("{{collectionFormat}}").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }
-        } else if (QString("{{collectionFormat}}").indexOf("pipes") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
-            qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("{{collectionFormat}}").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
+            } else if (QString("{{collectionFormat}}").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
+                qint32 count = 0;
+                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::{{cppNamespace}}::toStringValue(t));
+                    count++;
+                }   
             }
-        } else if (QString("{{collectionFormat}}").indexOf("deepObject") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
-            qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
-                }
-                fullPath.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }   
         }
+    {{/collectionFormat}}
     }
-{{/collectionFormat}}{{/queryParams}}
+
+{{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
@@ -481,142 +496,171 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     formSuffix = getParamStyleSuffix(formStyle);
     formDelimiter = getParamStyleDelimiter(formStyle, "{{baseName}}", {{isExplode}});
     {{/first}}
+
+    {{^required}}if(!{{paramName}}.isNull()){{/required}}
+    {
 {{^isFile}}
-    input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
-    input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isArray}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isArray}}{{#isMap}}
-    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMap}}
+        input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}));
+{{/isFile}}
+{{#isFile}}
+        input.add_file("{{baseName}}", {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.local_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.request_filename, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.mime_type);
+{{/isFile}}
+    }
+
+{{/formParams}}
+{{#bodyParams}}
+{{#isContainer}}
+{{#isArray}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}).toArray());{{/isArray}}{{#isMap}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}).toObject());{{/isMap}}
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
 {{/isContainer}}{{^isContainer}}{{#isString}}
-    QByteArray output = {{paramName}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
-    QByteArray output = {{paramName}}.asJson().toUtf8();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
-    QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
+    QByteArray output = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
+    QByteArray output = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJson().toUtf8();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+    QByteArray output = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
-{{/isContainer}}{{/bodyParams}}{{#headerParams}}
-{{^collectionFormat}}{{^isPrimitiveType}}
-    QString headerString;
-    QJsonObject parameter = {{paramName}}.asJsonObject();
-    qint32 count = 0;
-    foreach(const QString& key, parameter.keys()) {
-        if (count > 0) {
-            headerString.append(",");
+{{/isContainer}}
+{{/bodyParams}}
+{{#headerParams}}
+    {{^required}}if(!{{paramName}}.isNull()){{/required}}
+    {
+    {{^collectionFormat}}
+    {{^isPrimitiveType}}
+        QString headerString;
+        QJsonObject parameter = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJsonObject();
+        qint32 count = 0;
+        foreach(const QString& key, parameter.keys()) {
+            if (count > 0) {
+                headerString.append(",");
+            }
+            QString assignOperator = ({{isExplode}}) ? "=" : ",";
+            switch(parameter.value(key).type()) {
+                case QJsonValue::String:
+                {
+                    headerString.append(key+assignOperator+parameter.value(key).toString());
+                    break;
+                }
+                case QJsonValue::Double:
+                {
+                    headerString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
+                    break;
+                }
+                case QJsonValue::Bool:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
+                    break;
+                }
+                case QJsonValue::Array:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
+                    break;
+                }
+                case QJsonValue::Object:
+                {
+                    headerString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
+                    break;
+                }
+                case QJsonValue::Null:
+                case QJsonValue::Undefined:
+                    break;
+            }
+            count++;
         }
-        QString assignOperator = ({{isExplode}}) ? "=" : ",";
-        switch(parameter.value(key).type()) {
-            case QJsonValue::String:
-            {
-                headerString.append(key+assignOperator+parameter.value(key).toString());
-                break;
-            }
-            case QJsonValue::Double:
-            {
-                headerString.append(key+assignOperator+QString::number(parameter.value(key).toDouble()));
-                break;
-            }
-            case QJsonValue::Bool:
-            {
-                headerString.append(key+assignOperator+QVariant(parameter.value(key).toBool()).toString());
-                break;
-            }
-            case QJsonValue::Array:
-            {
-                headerString.append(key+assignOperator+QVariant(parameter.value(key).toArray()).toString());
-                break;
-            }
-            case QJsonValue::Object:
-            {
-                headerString.append(key+assignOperator+QVariant(parameter.value(key).toObject()).toString());
-                break;
-            }
-            case QJsonValue::Null:
-            case QJsonValue::Undefined:
-                break;
+        input.headers.insert("{{baseName}}", headerString);
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+        if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}).isEmpty()) {
+            input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}));
         }
-        count++;
-    }
-    input.headers.insert("{{baseName}}", headerString);
-{{/isPrimitiveType}}{{#isPrimitiveType}}
-    if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
-        input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
-    }
-{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
-    QString headerString;
-    if ({{{paramName}}}.size() > 0) {
-    qint32 count = 0;
-    foreach ({{{baseType}}} t, {{paramName}}) {
-        if (count > 0) {
-            headerString.append(",");
+    {{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
+        QString headerString;
+        if ({{{paramName}}}{{^required}}.value<{{{dataType}}}>(){{/required}}.size() > 0) {
+        qint32 count = 0;
+        foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+            if (count > 0) {
+                headerString.append(",");
+            }
+            headerString.append(::{{cppNamespace}}::toStringValue(t));
+            count++;
         }
-        headerString.append(::{{cppNamespace}}::toStringValue(t));
-        count++;
-    }
-    input.headers.insert("{{baseName}}", headerString);
-    }
-{{/collectionFormat}}
+        input.headers.insert("{{baseName}}", headerString);
+        }
+    {{/collectionFormat}}
+}
 {{/headerParams}}
 {{#cookieParams}}
-if(QString("{{style}}").indexOf("form") == 0){
-{{^collectionFormat}}{{^isPrimitiveType}}{{^isExplode}}
-    QString cookieString = "{{baseName}}=";
-    QJsonObject parameter = {{paramName}}.asJsonObject();
-    qint32 count = 0;
-    foreach(const QString& key, parameter.keys()) {
-        if (count > 0) {
-            cookieString.append(",");
+    {{^required}}if(!{{paramName}}.isNull()){{/required}}
+    {
+        if(QString("{{style}}").indexOf("form") == 0){
+        {{^collectionFormat}}
+        {{^isPrimitiveType}}
+        {{^isExplode}}
+            QString cookieString = "{{baseName}}=";
+            QJsonObject parameter = {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}.asJsonObject();
+            qint32 count = 0;
+            foreach(const QString& key, parameter.keys()) {
+                if (count > 0) {
+                    cookieString.append(",");
+                }
+                switch(parameter.value(key).type()) {
+                    case QJsonValue::String:
+                    {
+                        cookieString.append(key+","+parameter.value(key).toString());
+                        break;
+                    }
+                    case QJsonValue::Double:
+                    {
+                        cookieString.append(key+","+QString::number(parameter.value(key).toDouble()));
+                        break;
+                    }
+                    case QJsonValue::Bool:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toBool()).toString());
+                        break;
+                    }
+                    case QJsonValue::Array:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toArray()).toString());
+                        break;
+                    }
+                    case QJsonValue::Object:
+                    {
+                        cookieString.append(key+","+QVariant(parameter.value(key).toObject()).toString());
+                        break;
+                    }
+                    case QJsonValue::Null:
+                    case QJsonValue::Undefined:
+                        break;
+                }
+                count++;
+            }
+            input.headers.insert("Cookie", cookieString);
+        {{/isExplode}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+            if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}).isEmpty()) {
+                input.headers.insert("Cookie", "{{baseName}}="+::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}));
+            }
+        {{/isPrimitiveType}}
+        {{/collectionFormat}}
+        {{#collectionFormat}}
+        {{^isExplode}}
+            QString cookieString = "{{baseName}}=";
+            if ({{{paramName}}}.size() > 0) {
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value<{{{dataType}}}>(){{/required}}) {
+                if (count > 0) {
+                    cookieString.append(",");
+                }
+                cookieString.append(::{{cppNamespace}}::toStringValue(t));
+                count++;
+            }
+            input.headers.insert("Cookie", cookieString);
+            }
+        {{/isExplode}}{{/collectionFormat}}
         }
-        switch(parameter.value(key).type()) {
-            case QJsonValue::String:
-            {
-                cookieString.append(key+","+parameter.value(key).toString());
-                break;
-            }
-            case QJsonValue::Double:
-            {
-                cookieString.append(key+","+QString::number(parameter.value(key).toDouble()));
-                break;
-            }
-            case QJsonValue::Bool:
-            {
-                cookieString.append(key+","+QVariant(parameter.value(key).toBool()).toString());
-                break;
-            }
-            case QJsonValue::Array:
-            {
-                cookieString.append(key+","+QVariant(parameter.value(key).toArray()).toString());
-                break;
-            }
-            case QJsonValue::Object:
-            {
-                cookieString.append(key+","+QVariant(parameter.value(key).toObject()).toString());
-                break;
-            }
-            case QJsonValue::Null:
-            case QJsonValue::Undefined:
-                break;
-        }
-        count++;
     }
-    input.headers.insert("Cookie", cookieString);
-{{/isExplode}}{{/isPrimitiveType}}{{#isPrimitiveType}}
-    if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
-        input.headers.insert("Cookie", "{{baseName}}="+::{{cppNamespace}}::toStringValue({{paramName}}));
-    }
-{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}{{^isExplode}}
-    QString cookieString = "{{baseName}}=";
-    if ({{{paramName}}}.size() > 0) {
-    qint32 count = 0;
-    foreach ({{{baseType}}} t, {{paramName}}) {
-        if (count > 0) {
-            cookieString.append(",");
-        }
-        cookieString.append(::{{cppNamespace}}::toStringValue(t));
-        count++;
-    }
-    input.headers.insert("Cookie", cookieString);
-    }
-{{/isExplode}}{{/collectionFormat}}
-}
 {{/cookieParams}}
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 

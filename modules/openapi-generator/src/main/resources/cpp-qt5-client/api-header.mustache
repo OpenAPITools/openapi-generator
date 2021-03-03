@@ -13,6 +13,7 @@
 #include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
+#include <QVariant>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -46,7 +47,18 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 {{#operations}}{{#operation}}
-    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+{{#hasParams}}    /**
+    {{#allParams}}
+    {{#required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [required]
+    {{/required}}
+    {{^required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [optional]
+    {{/required}}
+    {{/allParams}}
+    */{{/hasParams}}
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/operation}}{{/operations}}
 
 private:
     QMap<QString,int> _serverIndices;
