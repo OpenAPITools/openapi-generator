@@ -22,52 +22,43 @@ PFXPetApi::PFXPetApi(const int timeOut)
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
-      initializeServerConfigs();
-      }
+    initializeServerConfigs();
+}
 
 PFXPetApi::~PFXPetApi() {
 }
 
 void PFXPetApi::initializeServerConfigs(){
 
-//Default server
-QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
-//varying endpoint server 
-QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
-defaultConf.append(PFXServerConfiguration(
+    //Default server
+    QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
+    //varying endpoint server
+    QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
+    defaultConf.append(PFXServerConfiguration(
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
-_serverConfigs.insert("addPet",defaultConf);
-_serverIndices.insert("addPet",0);
-
-_serverConfigs.insert("deletePet",defaultConf);
-_serverIndices.insert("deletePet",0);
-
-_serverConfigs.insert("findPetsByStatus",defaultConf);
-_serverIndices.insert("findPetsByStatus",0);
-
-_serverConfigs.insert("findPetsByTags",defaultConf);
-_serverIndices.insert("findPetsByTags",0);
-
-_serverConfigs.insert("getPetById",defaultConf);
-_serverIndices.insert("getPetById",0);
-
-_serverConfigs.insert("updatePet",defaultConf);
-_serverIndices.insert("updatePet",0);
-
-_serverConfigs.insert("updatePetWithForm",defaultConf);
-_serverIndices.insert("updatePetWithForm",0);
-
-_serverConfigs.insert("uploadFile",defaultConf);
-_serverIndices.insert("uploadFile",0);
-
-
+    _serverConfigs.insert("addPet",defaultConf);
+    _serverIndices.insert("addPet",0);
+    _serverConfigs.insert("deletePet",defaultConf);
+    _serverIndices.insert("deletePet",0);
+    _serverConfigs.insert("findPetsByStatus",defaultConf);
+    _serverIndices.insert("findPetsByStatus",0);
+    _serverConfigs.insert("findPetsByTags",defaultConf);
+    _serverIndices.insert("findPetsByTags",0);
+    _serverConfigs.insert("getPetById",defaultConf);
+    _serverIndices.insert("getPetById",0);
+    _serverConfigs.insert("updatePet",defaultConf);
+    _serverIndices.insert("updatePet",0);
+    _serverConfigs.insert("updatePetWithForm",defaultConf);
+    _serverIndices.insert("updatePetWithForm",0);
+    _serverConfigs.insert("uploadFile",defaultConf);
+    _serverIndices.insert("uploadFile",0);
 }
 
 /**
 * returns 0 on success and -1, -2 or -3 on failure.
-* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
 */
 int PFXPetApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
     auto it = _serverConfigs.find(operation);
@@ -107,17 +98,17 @@ void PFXPetApi::setWorkingDirectory(const QString &path) {
 }
 
 void PFXPetApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
-    _manager = manager;  
+    _manager = manager;
 }
 
-    /**
-     * Appends a new ServerConfiguration to the config map for a specific operation.
-     * @param operation The id to the target operation.
-     * @param url A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     * returns the index of the new server config on success and -1 if the operation is not found
-     */
+/**
+    * Appends a new ServerConfiguration to the config map for a specific operation.
+    * @param operation The id to the target operation.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    * returns the index of the new server config on success and -1 if the operation is not found
+    */
 int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
     if(_serverConfigs.contains(operation)){
         _serverConfigs[operation].append(PFXServerConfiguration(
@@ -130,27 +121,26 @@ int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url,
     }
 }
 
-    /**
-     * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-     * @param url A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     */
+/**
+    * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
 void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-        for(auto e : _serverIndices.keys()){
-            setServerIndex(e, addServerConfiguration(e, url, description, variables));
-        }
-} 
-    /**
-     * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
-     * @param URL A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     */
+    for(auto e : _serverIndices.keys()){
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+}
+
+/**
+    * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+    * @param URL A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
 void PFXPetApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
-
 }
 
 void PFXPetApi::addHeaders(const QString &key, const QString &value) {
@@ -170,65 +160,66 @@ void PFXPetApi::abortRequests(){
 }
 
 QString PFXPetApi::getParamStylePrefix(QString style){
-
-        if(style == "matrix"){ 
-            return ";";
-        }else if(style == "label"){
-            return ".";
-        }else if(style == "form"){
-            return "&"; 
-        }else if(style == "simple"){
-            return "";
-        }else if(style == "spaceDelimited"){
-            return "&"; 
-        }else if(style == "pipeDelimited"){
-            return "&"; 
-        }else
-            return "none";
+    if(style == "matrix"){
+        return ";";
+    }else if(style == "label"){
+        return ".";
+    }else if(style == "form"){
+        return "&";
+    }else if(style == "simple"){
+        return "";
+    }else if(style == "spaceDelimited"){
+        return "&";
+    }else if(style == "pipeDelimited"){
+        return "&";
+    }else{
+        return "none";
+    }
 }
 
 QString PFXPetApi::getParamStyleSuffix(QString style){
-
-        if(style == "matrix"){ 
-            return "=";
-        }else if(style == "label"){
-            return "";
-        }else if(style == "form"){
-            return "=";
-        }else if(style == "simple"){
-            return "";
-        }else if(style == "spaceDelimited"){
-            return "=";
-        }else if(style == "pipeDelimited"){
-            return "=";
-        }else
-            return "none";
+    if(style == "matrix"){
+        return "=";
+    }else if(style == "label"){
+        return "";
+    }else if(style == "form"){
+        return "=";
+    }else if(style == "simple"){
+        return "";
+    }else if(style == "spaceDelimited"){
+        return "=";
+    }else if(style == "pipeDelimited"){
+        return "=";
+    }else{
+        return "none";
+    }
 }
 
 QString PFXPetApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
 
-        if(style == "matrix"){ 
-            return (isExplode) ? ";" + name + "=" : ",";
+    if(style == "matrix"){
+        return (isExplode) ? ";" + name + "=" : ",";
 
-        }else if(style == "label"){
-            return (isExplode) ? "." : ",";
+    }else if(style == "label"){
+        return (isExplode) ? "." : ",";
 
-        }else if(style == "form"){
-            return (isExplode) ? "&" + name + "=" : ","; 
+    }else if(style == "form"){
+        return (isExplode) ? "&" + name + "=" : ",";
 
-        }else if(style == "simple"){
-            return ",";
-        }else if(style == "spaceDelimited"){
-            return (isExplode) ? "&" + name + "=" : " ";
+    }else if(style == "simple"){
+        return ",";
+    }else if(style == "spaceDelimited"){
+        return (isExplode) ? "&" + name + "=" : " ";
 
-        }else if(style == "pipeDelimited"){
-            return (isExplode) ? "&" + name + "=" : "|";
+    }else if(style == "pipeDelimited"){
+        return (isExplode) ? "&" + name + "=" : "|";
 
-        }else if(style == "deepObject"){
-            return (isExplode) ? "&" : "none";
+    }else if(style == "deepObject"){
+        return (isExplode) ? "&" : "none";
 
-        }else
-            return "none";
+    }else {
+        return "none";
+    }
 }
 
 void PFXPetApi::addPet(const PFXPet &body) {
@@ -246,7 +237,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -281,8 +272,8 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";    
-        if(pathStyle == "") 
+        QString pathStyle = "";
+        if(pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -305,7 +296,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -339,11 +330,11 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     
     {
         queryStyle = "form";
-        if(queryStyle == "") 
+        if(queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false); 
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false);
         if (status.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
                 foreach (QString t, status) {
@@ -417,7 +408,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
                     }
                     fullPath.append(::test_namespace::toStringValue(t));
                     count++;
-                }   
+                }
             }
         }
     }
@@ -430,7 +421,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -474,11 +465,11 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     
     {
         queryStyle = "form";
-        if(queryStyle == "") 
+        if(queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false); 
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false);
         if (tags.size() > 0) {
             if (QString("csv").indexOf("multi") == 0) {
                 foreach (QString t, tags) {
@@ -552,7 +543,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
                     }
                     fullPath.append(::test_namespace::toStringValue(t));
                     count++;
-                }   
+                }
             }
         }
     }
@@ -565,7 +556,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -614,8 +605,8 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";    
-        if(pathStyle == "") 
+        QString pathStyle = "";
+        if(pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -632,7 +623,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::getPetByIdCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -674,7 +665,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -709,8 +700,8 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";    
-        if(pathStyle == "") 
+        QString pathStyle = "";
+        if(pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -739,7 +730,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
@@ -774,8 +765,8 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";    
-        if(pathStyle == "") 
+        QString pathStyle = "";
+        if(pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -804,7 +795,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
