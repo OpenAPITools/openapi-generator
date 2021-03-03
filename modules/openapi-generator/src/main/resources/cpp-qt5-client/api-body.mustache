@@ -14,20 +14,20 @@ namespace {{this}} {
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
-      initializeServerConfigs();
-      }
+    initializeServerConfigs();
+}
 
 {{classname}}::~{{classname}}() {
 }
 
 void {{classname}}::initializeServerConfigs(){
 
-//Default server
-QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
-//varying endpoint server 
-QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+    //Default server
+    QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
+    //varying endpoint server
+    QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
 {{#vendorExtensions.x-cpp-global-server-list}}
-defaultConf.append({{prefix}}ServerConfiguration(
+    defaultConf.append({{prefix}}ServerConfiguration(
     QUrl("{{{url}}}"),
     "{{{description}}}{{^description}}No description provided{{/description}}",
     {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
@@ -36,32 +36,29 @@ defaultConf.append({{prefix}}ServerConfiguration(
     {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
 {{/vendorExtensions.x-cpp-global-server-list}}
 {{#operations}}
-  {{#operation}}
-  {{^servers}}
-_serverConfigs.insert("{{nickname}}",defaultConf);
-_serverIndices.insert("{{nickname}}",0);
-
-{{/servers}}
-{{#servers}}
-serverConf.append({{prefix}}ServerConfiguration(
+   {{#operation}}
+   {{^servers}}
+    _serverConfigs.insert("{{nickname}}",defaultConf);
+    _serverIndices.insert("{{nickname}}",0);
+    {{/servers}}
+    {{#servers}}
+    serverConf.append({{prefix}}ServerConfiguration(
     QUrl("{{{url}}}"),
     "{{{description}}}{{^description}}No description provided{{/description}}",
     {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
     QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
     {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
-{{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
-_serverIndices.insert("{{nickname}}",0);{{/-last}}
-
+    {{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
+    _serverIndices.insert("{{nickname}}",0);{{/-last}}
 {{/servers}}
 {{/operation}}
 {{/operations}}
-
 }
 
 /**
 * returns 0 on success and -1, -2 or -3 on failure.
-* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found 
+* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
 */
 int {{classname}}::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
     auto it = _serverConfigs.find(operation);
@@ -101,17 +98,17 @@ void {{classname}}::setWorkingDirectory(const QString &path) {
 }
 
 void {{classname}}::setNetworkAccessManager(QNetworkAccessManager* manager) {
-    _manager = manager;  
+    _manager = manager;
 }
 
-    /**
-     * Appends a new ServerConfiguration to the config map for a specific operation.
-     * @param operation The id to the target operation.
-     * @param url A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     * returns the index of the new server config on success and -1 if the operation is not found
-     */
+/**
+    * Appends a new ServerConfiguration to the config map for a specific operation.
+    * @param operation The id to the target operation.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    * returns the index of the new server config on success and -1 if the operation is not found
+    */
 int {{classname}}::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
     if(_serverConfigs.contains(operation)){
         _serverConfigs[operation].append({{prefix}}ServerConfiguration(
@@ -124,27 +121,26 @@ int {{classname}}::addServerConfiguration(const QString &operation, const QUrl &
     }
 }
 
-    /**
-     * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-     * @param url A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     */
+/**
+    * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+    * @param url A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
 void {{classname}}::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
-        for(auto e : _serverIndices.keys()){
-            setServerIndex(e, addServerConfiguration(e, url, description, variables));
-        }
-} 
-    /**
-     * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
-     * @param URL A string that contains the URL of the server
-     * @param description A String that describes the server
-     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-     */
+    for(auto e : _serverIndices.keys()){
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+}
+
+/**
+    * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+    * @param URL A string that contains the URL of the server
+    * @param description A String that describes the server
+    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+    */
 void {{classname}}::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
-
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
-
 }
 
 void {{classname}}::addHeaders(const QString &key, const QString &value) {
@@ -164,65 +160,66 @@ void {{classname}}::abortRequests(){
 }
 
 QString {{classname}}::getParamStylePrefix(QString style){
-
-        if(style == "matrix"){ 
-            return ";";
-        }else if(style == "label"){
-            return ".";
-        }else if(style == "form"){
-            return "&"; 
-        }else if(style == "simple"){
-            return "";
-        }else if(style == "spaceDelimited"){
-            return "&"; 
-        }else if(style == "pipeDelimited"){
-            return "&"; 
-        }else
-            return "none";
+    if(style == "matrix"){
+        return ";";
+    }else if(style == "label"){
+        return ".";
+    }else if(style == "form"){
+        return "&";
+    }else if(style == "simple"){
+        return "";
+    }else if(style == "spaceDelimited"){
+        return "&";
+    }else if(style == "pipeDelimited"){
+        return "&";
+    }else{
+        return "none";
+    }
 }
 
 QString {{classname}}::getParamStyleSuffix(QString style){
-
-        if(style == "matrix"){ 
-            return "=";
-        }else if(style == "label"){
-            return "";
-        }else if(style == "form"){
-            return "=";
-        }else if(style == "simple"){
-            return "";
-        }else if(style == "spaceDelimited"){
-            return "=";
-        }else if(style == "pipeDelimited"){
-            return "=";
-        }else
-            return "none";
+    if(style == "matrix"){
+        return "=";
+    }else if(style == "label"){
+        return "";
+    }else if(style == "form"){
+        return "=";
+    }else if(style == "simple"){
+        return "";
+    }else if(style == "spaceDelimited"){
+        return "=";
+    }else if(style == "pipeDelimited"){
+        return "=";
+    }else{
+        return "none";
+    }
 }
 
 QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool isExplode){
 
-        if(style == "matrix"){ 
-            return (isExplode) ? ";" + name + "=" : ",";
+    if(style == "matrix"){
+        return (isExplode) ? ";" + name + "=" : ",";
 
-        }else if(style == "label"){
-            return (isExplode) ? "." : ",";
+    }else if(style == "label"){
+        return (isExplode) ? "." : ",";
 
-        }else if(style == "form"){
-            return (isExplode) ? "&" + name + "=" : ","; 
+    }else if(style == "form"){
+        return (isExplode) ? "&" + name + "=" : ",";
 
-        }else if(style == "simple"){
-            return ",";
-        }else if(style == "spaceDelimited"){
-            return (isExplode) ? "&" + name + "=" : " ";
+    }else if(style == "simple"){
+        return ",";
+    }else if(style == "spaceDelimited"){
+        return (isExplode) ? "&" + name + "=" : " ";
 
-        }else if(style == "pipeDelimited"){
-            return (isExplode) ? "&" + name + "=" : "|";
+    }else if(style == "pipeDelimited"){
+        return (isExplode) ? "&" + name + "=" : "|";
 
-        }else if(style == "deepObject"){
-            return (isExplode) ? "&" : "none";
+    }else if(style == "deepObject"){
+        return (isExplode) ? "&" : "none";
 
-        }else
-            return "none";
+    }else {
+        return "none";
+    }
 }
 
 {{#operations}}
@@ -257,8 +254,8 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString {{paramName}}PathParam("{");
         {{paramName}}PathParam.append("{{baseName}}").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "{{style}}";    
-        if(pathStyle == "") 
+        QString pathStyle = "{{style}}";
+        if(pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -337,11 +334,11 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{^required}}if(!{{paramName}}.isNull()){{/required}}
     {
         queryStyle = "{{style}}";
-        if(queryStyle == "") 
+        if(queryStyle == "")
             queryStyle = "form";
         queryPrefix = getParamStylePrefix(queryStyle);
         querySuffix = getParamStyleSuffix(queryStyle);
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}}); 
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "{{baseName}}", {{isExplode}});
     {{^collectionFormat}}
         if (fullPath.indexOf("?") > 0)
             fullPath.append(queryPrefix);
@@ -472,7 +469,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                     }
                     fullPath.append(::{{cppNamespace}}::toStringValue(t));
                     count++;
-                }   
+                }
             }
         }
     {{/collectionFormat}}
@@ -490,7 +487,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#first}}
     QString formPrefix,formSuffix, formDelimiter;
     QString formStyle = "{{style}}";
-    if(formStyle == "") 
+    if(formStyle == "")
         formStyle = "form";
     formPrefix = getParamStylePrefix(formStyle);
     formSuffix = getParamStyleSuffix(formStyle);
@@ -665,7 +662,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
-    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
     worker->execute(&input);
 }
 
