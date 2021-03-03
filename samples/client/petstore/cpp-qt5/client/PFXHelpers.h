@@ -20,6 +20,7 @@
 #include <QJsonValue>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QVariant>
 
 #include "PFXEnum.h"
