@@ -591,9 +591,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
-            final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
-            if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            Schema currentParentModel = allDefinitions.get(codegenModel.parentSchema);
+            while (currentParentModel != null) {
+                final CodegenModel currentParentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
+
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -620,6 +622,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         codegenModel.parentVars.add(parentVar);
                     }
                 }
+                currentParentModel = allDefinitions.get(currentParentCodegenModel.parentSchema);
             }
         }
 
