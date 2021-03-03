@@ -25,6 +25,7 @@ void main() {
       test('complete', () async {
         server.onPost(
           '/fake',
+          (request) => request.reply(200, null),
           data: {
             'number': '3',
             'double': '-13.57',
@@ -42,7 +43,6 @@ void main() {
             'content-type': 'application/x-www-form-urlencoded',
             'content-length': 255,
           },
-          handler: (response) => response.reply(200, null),
         );
 
         final response = await client.getFakeApi().testEndpointParameters(
@@ -65,6 +65,7 @@ void main() {
       test('minimal', () async {
         server.onPost(
           '/fake',
+          (request) => request.reply(200, null),
           data: {
             'byte': '0',
             'double': '-13.57',
@@ -75,7 +76,6 @@ void main() {
             'content-type': 'application/x-www-form-urlencoded',
             'content-length': 79,
           },
-          handler: (response) => response.reply(200, null),
         );
 
         final response = await client.getFakeApi().testEndpointParameters(
@@ -95,6 +95,7 @@ void main() {
         // form data in the body but some weird map
         server.onGet(
           '/fake',
+          (request) => request.reply(200, null),
           data: {
             'enum_form_string': 'formString',
             'enum_form_string_array': '[foo, bar]',
@@ -102,7 +103,6 @@ void main() {
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
           },
-          handler: (response) => response.reply(200, null),
         );
 
         final response = await client.getFakeApi().testEnumParameters(
