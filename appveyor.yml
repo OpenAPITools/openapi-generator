@@ -35,12 +35,16 @@ install:
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build_script:
   - dotnet --info
+  # build C# aspnetcore 5.0 server
+  - dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
   # build C# aspnetcore 3.1 server
   - dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
   # build C# aspnetcore 3.0 server
   - dotnet build samples\server\petstore\aspnetcore-3.0\Org.OpenAPITools.sln
   # build C# aspnetcore 2.2 server
   - dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
+  # build C# API client (httpclient)
+  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
   # build C# API client (netcore)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
@@ -62,6 +66,8 @@ build_script:
   # run the locally installed openapi-generator-gradle-plugin
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --stacktrace
 test_script:
+  # test c# API client (httpclient)
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj

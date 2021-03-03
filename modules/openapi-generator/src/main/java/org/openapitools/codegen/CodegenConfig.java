@@ -214,6 +214,10 @@ public interface CodegenConfig {
 
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
 
+    boolean isSkipOperationExample();
+
+    void setSkipOperationExample(boolean skipOperationExample);
+
     public boolean isHideGenerationTimestamp();
 
     public void setHideGenerationTimestamp(boolean hideGenerationTimestamp);

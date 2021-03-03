@@ -17,12 +17,8 @@
 
 namespace test_namespace {
 
-PFXPetApi::PFXPetApi(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
-    : _scheme(scheme),
-      _host(host),
-      _port(port),
-      _basePath(basePath),
-      _timeOut(timeOut),
+PFXPetApi::PFXPetApi(const int timeOut)
+    : _timeOut(timeOut),
       _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {
@@ -39,7 +35,7 @@ QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
 //varying endpoint server 
 QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
 defaultConf.append(PFXServerConfiguration(
-    "http://petstore.swagger.io/v2",
+    QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
 _serverConfigs.insert("addPet",defaultConf);
@@ -85,18 +81,6 @@ void PFXPetApi::setServerIndex(const QString &operation, int serverIndex){
         _serverIndices[operation] = serverIndex;
 }
 
-void PFXPetApi::setScheme(const QString &scheme) {
-    _scheme = scheme;
-}
-
-void PFXPetApi::setHost(const QString &host) {
-    _host = host;
-}
-
-void PFXPetApi::setPort(int port) {
-    _port = port;
-}
-
 void PFXPetApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
     _apiKeys.insert(apiKeyName,apiKey);
 }
@@ -113,9 +97,6 @@ void PFXPetApi::setPassword(const QString &password) {
     _password = password;
 }
 
-void PFXPetApi::setBasePath(const QString &basePath) {
-    _basePath = basePath;
-}
 
 void PFXPetApi::setTimeOut(const int timeOut) {
     _timeOut = timeOut;
@@ -127,6 +108,49 @@ void PFXPetApi::setWorkingDirectory(const QString &path) {
 
 void PFXPetApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     _manager = manager;  
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config map for a specific operation.
+     * @param operation The id to the target operation.
+     * @param url A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     * returns the index of the new server config on success and -1 if the operation is not found
+     */
+int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+    if(_serverConfigs.contains(operation)){
+        _serverConfigs[operation].append(PFXServerConfiguration(
+                    url,
+                    description,
+                    variables));
+        return _serverConfigs[operation].size()-1;
+    }else{
+        return -1;
+    }
+}
+
+    /**
+     * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+     * @param url A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+        for(auto e : _serverIndices.keys()){
+            setServerIndex(e, addServerConfiguration(e, url, description, variables));
+        }
+} 
+    /**
+     * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+     * @param URL A string that contains the URL of the server
+     * @param description A String that describes the server
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+void PFXPetApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+
+    setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
+
 }
 
 void PFXPetApi::addHeaders(const QString &key, const QString &value) {
@@ -211,7 +235,6 @@ void PFXPetApi::addPet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
     
 
-
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -249,31 +272,35 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
+void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
     QString fullPath = QString(_serverConfigs["deletePet"][_serverIndices.value("deletePet")].URL()+"/pet/{petId}");
     
-    QString pet_idPathParam("{");
-    pet_idPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "";    
-    if(pathStyle == "") 
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
-    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
-    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
+    
+    {
+        QString pet_idPathParam("{");
+        pet_idPathParam.append("petId").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "";    
+        if(pathStyle == "") 
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+        fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
 
-
-
-    if (!::test_namespace::toStringValue(api_key).isEmpty()) {
-        input.headers.insert("api_key", ::test_namespace::toStringValue(api_key));
+    if(!api_key.isNull())
+    {
+        if (!::test_namespace::toStringValue(api_key.value<QString>()).isEmpty()) {
+            input.headers.insert("api_key", ::test_namespace::toStringValue(api_key.value<QString>()));
+        }
     }
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
@@ -309,87 +336,89 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     
 
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if(queryStyle == "") 
+    
+    {
         queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false); 
-
-    if (status.size() > 0) {
-        if (QString("csv").indexOf("multi") == 0) {
-            foreach (QString t, status) {
+        if(queryStyle == "") 
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false); 
+        if (status.size() > 0) {
+            if (QString("csv").indexOf("multi") == 0) {
+                foreach (QString t, status) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("status=").append(::test_namespace::toStringValue(t));
+                }
+            } else if (QString("csv").indexOf("ssv") == 0) {
                 if (fullPath.indexOf("?") > 0)
-                    fullPath.append(queryPrefix);
+                    fullPath.append("&");
                 else
-                    fullPath.append("?");
-                fullPath.append("status=").append(::test_namespace::toStringValue(t));
-            }
-        } else if (QString("csv").indexOf("ssv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, status) {
-                if (count > 0) {
-                    fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, status) {
+                    if (count > 0) {
+                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("tsv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, status) {
-                if (count > 0) {
-                    fullPath.append("\t");
+            } else if (QString("csv").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, status) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("csv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, status) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("csv").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, status) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("pipes") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, status) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("csv").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, status) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
+            } else if (QString("csv").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, status) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
+                }   
             }
-        } else if (QString("csv").indexOf("deepObject") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, status) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
-                }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }   
         }
     }
 
@@ -442,87 +471,89 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     
 
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if(queryStyle == "") 
+    
+    {
         queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false); 
-
-    if (tags.size() > 0) {
-        if (QString("csv").indexOf("multi") == 0) {
-            foreach (QString t, tags) {
+        if(queryStyle == "") 
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false); 
+        if (tags.size() > 0) {
+            if (QString("csv").indexOf("multi") == 0) {
+                foreach (QString t, tags) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("tags=").append(::test_namespace::toStringValue(t));
+                }
+            } else if (QString("csv").indexOf("ssv") == 0) {
                 if (fullPath.indexOf("?") > 0)
-                    fullPath.append(queryPrefix);
+                    fullPath.append("&");
                 else
-                    fullPath.append("?");
-                fullPath.append("tags=").append(::test_namespace::toStringValue(t));
-            }
-        } else if (QString("csv").indexOf("ssv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, tags) {
-                if (count > 0) {
-                    fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, tags) {
+                    if (count > 0) {
+                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("tsv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, tags) {
-                if (count > 0) {
-                    fullPath.append("\t");
+            } else if (QString("csv").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, tags) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("csv") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, tags) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("csv").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, tags) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }
-        } else if (QString("csv").indexOf("pipes") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, tags) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
+            } else if (QString("csv").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, tags) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
                 }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
+            } else if (QString("csv").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
+                qint32 count = 0;
+                foreach (QString t, tags) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::test_namespace::toStringValue(t));
+                    count++;
+                }   
             }
-        } else if (QString("csv").indexOf("deepObject") == 0) {
-            if (fullPath.indexOf("?") > 0)
-                fullPath.append("&");
-            else
-                fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-            qint32 count = 0;
-            foreach (QString t, tags) {
-                if (count > 0) {
-                    fullPath.append(queryDelimiter);
-                }
-                fullPath.append(::test_namespace::toStringValue(t));
-                count++;
-            }   
         }
     }
 
@@ -577,18 +608,21 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
     
-    QString pet_idPathParam("{");
-    pet_idPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "";    
-    if(pathStyle == "") 
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
-    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
-    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
+    
+    {
+        QString pet_idPathParam("{");
+        pet_idPathParam.append("petId").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "";    
+        if(pathStyle == "") 
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+        fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -629,7 +663,6 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
     
 
-
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -667,28 +700,43 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status) {
+void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, const QVariant &status) {
     QString fullPath = QString(_serverConfigs["updatePetWithForm"][_serverIndices.value("updatePetWithForm")].URL()+"/pet/{petId}");
     
-    QString pet_idPathParam("{");
-    pet_idPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "";    
-    if(pathStyle == "") 
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
-    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
-    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
+    
+    {
+        QString pet_idPathParam("{");
+        pet_idPathParam.append("petId").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "";    
+        if(pathStyle == "") 
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+        fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    input.add_var("name", ::test_namespace::toStringValue(name));    input.add_var("status", ::test_namespace::toStringValue(status));    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+
+    if(!name.isNull())
+    {
+        input.add_var("name", ::test_namespace::toStringValue(name.value<QString>()));
+    }
+
+
+    if(!status.isNull())
+    {
+        input.add_var("status", ::test_namespace::toStringValue(status.value<QString>()));
+    }
+
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
@@ -717,29 +765,43 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metadata, const PFXHttpFileElement &file) {
+void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_metadata, const QVariant &file) {
     QString fullPath = QString(_serverConfigs["uploadFile"][_serverIndices.value("uploadFile")].URL()+"/pet/{petId}/uploadImage");
     
-    QString pet_idPathParam("{");
-    pet_idPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "";    
-    if(pathStyle == "") 
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
-    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
-    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
+    
+    {
+        QString pet_idPathParam("{");
+        pet_idPathParam.append("petId").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "";    
+        if(pathStyle == "") 
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+        fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
+    }
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
 
-    input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata));
-    input.add_file("file", file.local_filename, file.request_filename, file.mime_type);    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+
+    if(!additional_metadata.isNull())
+    {
+        input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata.value<QString>()));
+    }
+
+
+    if(!file.isNull())
+    {
+        input.add_file("file", file.value<PFXHttpFileElement>().local_filename, file.value<PFXHttpFileElement>().request_filename, file.value<PFXHttpFileElement>().mime_type);
+    }
+
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 

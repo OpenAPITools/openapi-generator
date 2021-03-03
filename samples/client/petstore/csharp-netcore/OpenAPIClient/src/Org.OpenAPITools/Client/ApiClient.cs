@@ -24,9 +24,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharp;
 using RestSharp.Deserializers;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
 using Polly;
 
@@ -96,6 +96,7 @@ namespace Org.OpenAPITools.Client
         internal object Deserialize(IRestResponse response, Type type)
         {
             IList<Parameter> headers = response.Headers;
+
             if (type == typeof(byte[])) // return byte array
             {
                 return response.RawBytes;
@@ -104,6 +105,7 @@ namespace Org.OpenAPITools.Client
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
+                var bytes = response.RawBytes;
                 if (headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -116,12 +118,12 @@ namespace Org.OpenAPITools.Client
                         if (match.Success)
                         {
                             string fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
-                            File.WriteAllBytes(fileName, response.RawBytes);
+                            File.WriteAllBytes(fileName, bytes);
                             return new FileStream(fileName, FileMode.Open);
                         }
                     }
                 }
-                var stream = new MemoryStream(response.RawBytes);
+                var stream = new MemoryStream(bytes);
                 return stream;
             }
 

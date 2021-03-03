@@ -62,7 +62,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     protected static $openAPITypes = [
         'uuid' => 'string',
         'date_time' => '\DateTime',
-        'map' => 'map[string,\OpenAPI\Client\Model\Animal]'
+        'map' => 'array<string,\OpenAPI\Client\Model\Animal>'
     ];
 
     /**
@@ -272,7 +272,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Gets map
      *
-     * @return map[string,\OpenAPI\Client\Model\Animal]|null
+     * @return array<string,\OpenAPI\Client\Model\Animal>|null
      */
     public function getMap()
     {
@@ -282,7 +282,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Sets map
      *
-     * @param map[string,\OpenAPI\Client\Model\Animal]|null $map map
+     * @param array<string,\OpenAPI\Client\Model\Animal>|null $map map
      *
      * @return self
      */

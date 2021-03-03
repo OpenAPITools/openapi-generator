@@ -69,9 +69,9 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
         'array_nullable_prop' => 'object[]',
         'array_and_items_nullable_prop' => 'object[]',
         'array_items_nullable' => 'object[]',
-        'object_nullable_prop' => 'map[string,object]',
-        'object_and_items_nullable_prop' => 'map[string,object]',
-        'object_items_nullable' => 'map[string,object]'
+        'object_nullable_prop' => 'array<string,object>',
+        'object_and_items_nullable_prop' => 'array<string,object>',
+        'object_items_nullable' => 'array<string,object>'
     ];
 
     /**
@@ -494,7 +494,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets object_nullable_prop
      *
-     * @return map[string,object]|null
+     * @return array<string,object>|null
      */
     public function getObjectNullableProp()
     {
@@ -504,7 +504,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets object_nullable_prop
      *
-     * @param map[string,object]|null $object_nullable_prop object_nullable_prop
+     * @param array<string,object>|null $object_nullable_prop object_nullable_prop
      *
      * @return self
      */
@@ -518,7 +518,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets object_and_items_nullable_prop
      *
-     * @return map[string,object]|null
+     * @return array<string,object>|null
      */
     public function getObjectAndItemsNullableProp()
     {
@@ -528,7 +528,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets object_and_items_nullable_prop
      *
-     * @param map[string,object]|null $object_and_items_nullable_prop object_and_items_nullable_prop
+     * @param array<string,object>|null $object_and_items_nullable_prop object_and_items_nullable_prop
      *
      * @return self
      */
@@ -542,7 +542,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets object_items_nullable
      *
-     * @return map[string,object]|null
+     * @return array<string,object>|null
      */
     public function getObjectItemsNullable()
     {
@@ -552,7 +552,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets object_items_nullable
      *
-     * @param map[string,object]|null $object_items_nullable object_items_nullable
+     * @param array<string,object>|null $object_items_nullable object_items_nullable
      *
      * @return self
      */

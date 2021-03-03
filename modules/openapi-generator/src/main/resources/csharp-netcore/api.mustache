@@ -285,7 +285,17 @@ namespace {{packageName}}.{{apiPackage}}
             {{^required}}
             if ({{paramName}} != null)
             {
+                {{#isDeepObject}}
+                    {{#items.vars}}
+                if ({{paramName}}.{{name}} != null)
+                {
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+                }
+                    {{/items.vars}}
+                {{/isDeepObject}}
+                {{^isDeepObject}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+                {{/isDeepObject}}
             }
             {{/required}}
             {{/queryParams}}

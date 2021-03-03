@@ -9,10 +9,10 @@ namespace app\Models;
  */
 class AdditionalPropertiesClass {
 
-    /** @var map[string,string] $mapProperty */
+    /** @var array<string,string> $mapProperty */
     private $mapProperty;
 
-    /** @var map[string,map[string,string]] $mapOfMapProperty */
+    /** @var array<string,array<string,string>> $mapOfMapProperty */
     private $mapOfMapProperty;
 
 }

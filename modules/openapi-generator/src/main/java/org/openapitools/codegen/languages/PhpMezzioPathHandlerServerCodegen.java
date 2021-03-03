@@ -34,7 +34,7 @@ import java.io.File;
 import java.util.*;
 
 public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpMezzioPathHandlerServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpMezzioPathHandlerServerCodegen.class);
 
     // TODO: Rename to x- prefixed vendor extensions, per specification.
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";

@@ -60,8 +60,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
-        'map_property' => 'map[string,string]',
-        'map_of_map_property' => 'map[string,map[string,string]]'
+        'map_property' => 'array<string,string>',
+        'map_of_map_property' => 'array<string,array<string,string>>'
     ];
 
     /**
@@ -218,7 +218,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Gets map_property
      *
-     * @return map[string,string]|null
+     * @return array<string,string>|null
      */
     public function getMapProperty()
     {
@@ -228,7 +228,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets map_property
      *
-     * @param map[string,string]|null $map_property map_property
+     * @param array<string,string>|null $map_property map_property
      *
      * @return self
      */
@@ -242,7 +242,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Gets map_of_map_property
      *
-     * @return map[string,map[string,string]]|null
+     * @return array<string,array<string,string>>|null
      */
     public function getMapOfMapProperty()
     {
@@ -252,7 +252,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets map_of_map_property
      *
-     * @param map[string,map[string,string]]|null $map_of_map_property map_of_map_property
+     * @param array<string,array<string,string>>|null $map_of_map_property map_of_map_property
      *
      * @return self
      */

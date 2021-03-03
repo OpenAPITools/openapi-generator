@@ -11,12 +11,11 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { HttpService, Inject, Injectable }                      from '@nestjs/common';
+import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 import { Order } from '../model/order';
-import { Configuration }                                     from '../configuration';
-import { COLLECTION_FORMATS }                     from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -26,9 +25,9 @@ export class StoreService {
     public defaultHeaders = new Map()
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpService, configuration: Configuration) {
-        this.configuration = configuration;
-        this.basePath = basePath || configuration.basePath || this.basePath;
+    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+        this.configuration = configuration || this.configuration;
+        this.basePath = configuration?.basePath || this.basePath;
     }
 
     /**

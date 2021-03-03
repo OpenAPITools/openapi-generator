@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";

@@ -10,9 +10,10 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QStringList> 
+#include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
+#include <QVariant>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -22,23 +23,22 @@ class {{classname}} : public QObject {
     Q_OBJECT
 
 public:
-    {{classname}}(const QString &scheme = "{{scheme}}", const QString &host = "{{serverHost}}", int port = {{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}0{{/serverPort}}, const QString &basePath = "{{basePathWithoutHost}}", const int timeOut = 0);
+    {{classname}}(const int timeOut = 0);
     ~{{classname}}();
 
     void initializeServerConfigs();
     int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
     void setServerIndex(const QString &operation, int serverIndex);
-    void setScheme(const QString &scheme);
-    void setHost(const QString &host);
-    void setPort(int port);
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBearerToken(const QString &token);
     void setUsername(const QString &username);
     void setPassword(const QString &password);
-    void setBasePath(const QString &basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void setNetworkAccessManager(QNetworkAccessManager* manager);
+    int addServerConfiguration(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServerForAllOperations(const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    void setNewServer(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
@@ -47,12 +47,20 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 {{#operations}}{{#operation}}
-    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/operation}}{{/operations}}
+{{#hasParams}}    /**
+    {{#allParams}}
+    {{#required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [required]
+    {{/required}}
+    {{^required}}
+    * @param[in]  {{paramName}} {{{dataType}}} [optional]
+    {{/required}}
+    {{/allParams}}
+    */{{/hasParams}}
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const QVariant &{{/required}}{{paramName}}{{^required}} = QVariant(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/operation}}{{/operations}}
 
 private:
-    QString _scheme, _host;
-    int _port;
-    QString _basePath;
     QMap<QString,int> _serverIndices;
     QMap<QString,QList<{{prefix}}ServerConfiguration>> _serverConfigs;
     QMap<QString, QString> _apiKeys;

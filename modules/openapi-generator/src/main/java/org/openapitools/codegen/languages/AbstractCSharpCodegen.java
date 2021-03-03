@@ -83,7 +83,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> valueTypes = new HashSet<String>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
         super();

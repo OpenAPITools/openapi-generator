@@ -40,7 +40,7 @@ import java.util.Locale;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
     public AbstractRubyCodegen() {
         super();

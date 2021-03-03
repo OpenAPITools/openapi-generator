@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for SpecialModelName
 void main() {
-  final instance = SpecialModelName();
+  final instance = SpecialModelNameBuilder();
+  // TODO add properties to the builder and call build()
 
   group(SpecialModelName, () {
     // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket

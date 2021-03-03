@@ -31,9 +31,9 @@ type _{{{classname}}} {{{classname}}}
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{/required}}{{/vars}}) *{{classname}} {
+func New{{classname}}({{#requiredVars}}{{nameInCamelCase}} {{dataType}}{{^-last}}, {{/-last}}{{/requiredVars}}) *{{classname}} {
 	this := {{classname}}{}
-{{#vars}}
+{{#allVars}}
 {{#required}}
 	this.{{name}} = {{nameInCamelCase}}
 {{/required}}
@@ -51,7 +51,7 @@ func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{
 {{/vendorExtensions.x-golang-is-container}}
 {{/defaultValue}}
 {{/required}}
-{{/vars}}
+{{/allVars}}
 	return &this
 }
 
@@ -85,7 +85,7 @@ func New{{classname}}WithDefaults() *{{classname}} {
 // If the value is explicit nil, the zero value for {{vendorExtensions.x-go-base-type}} will be returned
 {{/isNullable}}
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
-	if o == nil {{#isNullable}}{{^vendorExtensions.x-golang-is-container}}|| o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+	if o == nil{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-go-base-type}}
 		return ret
 	}

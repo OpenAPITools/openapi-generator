@@ -202,6 +202,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val removeOperationIdPrefix = project.objects.property<Boolean?>()
 
     /**
+     * Skip examples defined in the operation
+     */
+    val skipOperationExample = project.objects.property<Boolean?>()
+
+    /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
      *
      * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results

@@ -162,8 +162,28 @@ public class ApiClient {
    * Ctor.
    */
   public ApiClient() {
-    builder = HttpClient.newBuilder();
-    mapper = new ObjectMapper();
+    this.builder = createDefaultHttpClientBuilder();
+    this.mapper = createDefaultObjectMapper();
+    updateBaseUri(getDefaultBaseUri());
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  /**
+   * Ctor.
+   */
+  public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
+    this.builder = builder;
+    this.mapper = mapper;
+    updateBaseUri(baseUri);
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  protected ObjectMapper createDefaultObjectMapper() {
+    ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
@@ -172,16 +192,24 @@ public class ApiClient {
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
-    JsonNullableModule jnm = new JsonNullableModule();
-    mapper.registerModule(jnm);
-    URI baseURI = URI.create("http://petstore.swagger.io:80/v2");
-    scheme = baseURI.getScheme();
-    host = baseURI.getHost();
-    port = baseURI.getPort();
-    basePath = baseURI.getRawPath();
-    interceptor = null;
-    readTimeout = null;
-    responseInterceptor = null;
+    mapper.registerModule(new JsonNullableModule());
+    return mapper;
+  }
+
+  protected String getDefaultBaseUri() {
+    return "http://petstore.swagger.io:80/v2";
+  }
+
+  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+    return HttpClient.newBuilder();
+  }
+
+  public void updateBaseUri(String baseUri) {
+    URI uri = URI.create(baseUri);
+    scheme = uri.getScheme();
+    host = uri.getHost();
+    port = uri.getPort();
+    basePath = uri.getRawPath();
   }
 
   /**

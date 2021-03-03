@@ -41,7 +41,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
     protected String gemName;

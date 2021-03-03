@@ -48,7 +48,7 @@ import java.util.regex.Matcher;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class PythonClientCodegen extends PythonLegacyClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
 
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
@@ -965,17 +965,17 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             example = objExample.toString();
         }
         // checks if the current schema has already been passed in. If so, breaks the current recursive pass
-        if (seenSchemas.contains(schema)){
+        if (seenSchemas.contains(schema)) {
             if (modelName != null) {
                 return fullPrefix + modelName + closeChars;
             } else {
                 // this is a recursive schema
                 // need to add a reasonable example to avoid
                 // infinite recursion
-                if(ModelUtils.isNullable(schema)) {
+                if (ModelUtils.isNullable(schema)) {
                     // if the schema is nullable, then 'None' is a valid value
                     return fullPrefix + "None" + closeChars;
-                } else if(ModelUtils.isArraySchema(schema)) {
+                } else if (ModelUtils.isArraySchema(schema)) {
                     // the schema is an array, add an empty array
                     return fullPrefix + "[]" + closeChars;
                 } else {

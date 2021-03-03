@@ -1,11 +1,24 @@
+{{#json_serializable}}
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: true,
+  explicitToJson: true,
+)
+{{/json_serializable}}
 class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
+    {{!
+        A field is @required in Dart when it is
+        required && !nullable && !defaultValue in OAS
+    }}
+    {{#required}}{{^isNullable}}{{^defaultValue}}@required {{/defaultValue}}{{/isNullable}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
   {{/vars}}
   });
 
+{{^json_serializable}}
   {{#vars}}
   {{#description}}
   /// {{{description}}}
@@ -21,6 +34,34 @@ class {{{classname}}} {
   {{{datatypeWithEnum}}} {{{name}}};
 
   {{/vars}}
+{{/json_serializable}}
+{{#json_serializable}}
+{{#vars}}
+  {{#description}}
+      /// {{{description}}}
+  {{/description}}
+  {{^isEnum}}
+      {{#minimum}}
+          // minimum: {{{minimum}}}
+      {{/minimum}}
+      {{#maximum}}
+          // maximum: {{{maximum}}}
+      {{/maximum}}
+  {{/isEnum}}
+  {{^isBinary}}
+  @JsonKey(
+    {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
+    name: r'{{{baseName}}}',
+    required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+  )
+  {{/isBinary}}
+  {{#isBinary}}
+  @JsonKey(ignore: true)
+  {{/isBinary}}
+  {{{datatypeWithEnum}}} {{{name}}};
+
+{{/vars}}
+{{/json_serializable}}
   @override
   bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
   {{#vars}}
@@ -33,39 +74,44 @@ class {{{classname}}} {
     ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
+{{^json_serializable}}
   @override
   String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
   {{#vars}}
+    {{^required}}
     if ({{{name}}} != null) {
+    {{/required}}
     {{#isDateTime}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : {{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
     {{/isDateTime}}
     {{#isDate}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : _dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = _dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = {{{name}}};
+      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}};
       {{/isDate}}
     {{/isDateTime}}
+    {{^required}}
     }
+    {{/required}}
   {{/vars}}
     return json;
   }
@@ -83,10 +129,10 @@ class {{{classname}}} {
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
             : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
     {{^pattern}}
           : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
   {{/isDateTime}}
   {{#isDate}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -95,10 +141,10 @@ class {{{classname}}} {
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
             : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
     {{^pattern}}
           : DateTime.parse(json[r'{{{baseName}}}']),
-	{{/pattern}}
+    {{/pattern}}
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
@@ -130,7 +176,7 @@ class {{{classname}}} {
               {{/items.complexType}}
               {{^items.complexType}}
           : (json[r'{{{baseName}}}'] as Map).cast<String, List>(),
-  	          {{/items.complexType}}
+              {{/items.complexType}}
           {{/items.isArray}}
           {{^items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -151,7 +197,7 @@ class {{{classname}}} {
     {{^complexType}}
       {{#isArray}}
         {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
         {{/isEnum}}
         {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -176,7 +222,7 @@ class {{{classname}}} {
         {{{name}}}: json[r'{{{baseName}}}'],
     {{/isEnum}}
     {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
@@ -210,6 +256,19 @@ class {{{classname}}} {
     }
     return map;
   }
+{{/json_serializable}}
+{{#json_serializable}}
+
+  factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);
+
+  Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
+{{/json_serializable}}
 }
 {{#vars}}
     {{#isEnum}}
