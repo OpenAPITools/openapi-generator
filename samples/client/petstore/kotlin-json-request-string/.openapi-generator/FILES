@@ -21,6 +21,8 @@ src/main/kotlin/org/openapitools/client/infrastructure/ApiAbstractions.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiInfrastructureResponse.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApplicationDelegates.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt

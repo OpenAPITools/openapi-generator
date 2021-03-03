@@ -22,6 +22,8 @@ src/main/kotlin/org/openapitools/client/auth/OAuth.kt
 src/main/kotlin/org/openapitools/client/auth/OAuthFlow.kt
 src/main/kotlin/org/openapitools/client/auth/OAuthOkHttpClient.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
