@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Org.OpenAPITools\Org.OpenAPITools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="linux-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**/*" />
+  </ItemGroup>
 </Project>
