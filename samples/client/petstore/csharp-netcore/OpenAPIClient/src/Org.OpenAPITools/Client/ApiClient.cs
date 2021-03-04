@@ -483,7 +483,7 @@ namespace Org.OpenAPITools.Client
             {
                 Type type = typeof(T);
                 MethodInfo method = type.GetMethod("FromJson");
-                response.Data = method.Invoke(null, new object[] { response.Content });
+                response.Data = (T) method.Invoke(null, new object[] { response.Content });
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
@@ -597,7 +597,7 @@ namespace Org.OpenAPITools.Client
             {
                 Type type = typeof(T);
                 MethodInfo method = type.GetMethod("FromJson");
-                response.Data = method.Invoke(null, new object[] { response.Content });
+                response.Data = (T) method.Invoke(null, new object[] { response.Content });
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
