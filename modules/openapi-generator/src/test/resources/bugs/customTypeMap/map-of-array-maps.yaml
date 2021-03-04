@@ -1,0 +1,39 @@
+---
+openapi: 3.0.1
+info:
+  title: API
+  description: API
+  license:
+    name: custom
+  version: v0.0.1
+servers:
+  - url: http://127.0.0.1
+    description: Generated server url
+paths:
+  "/test/data":
+    get:
+      tags:
+        - test-data
+      operationId: getData
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/TestModel"
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64

@@ -3665,6 +3665,7 @@ public class DefaultCodegen implements CodegenConfig {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
+
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -3675,8 +3676,10 @@ public class DefaultCodegen implements CodegenConfig {
                     imports.add(typeMapping.get(r.containerType));
                 }
 
-                if ("map".equals(r.containerType) && r.additionalProperties != null && r.additionalProperties.complexType != null) {
-                    imports.add(r.additionalProperties.complexType);
+                if (r.additionalProperties != null) {
+                    Set<String> additionalTypes = new HashSet<String>();
+                    findAdditionalTypes(r.additionalProperties, additionalTypes);
+                    imports.addAll(additionalTypes);
                 }
 
                 op.responses.add(r);
@@ -4940,6 +4943,28 @@ public class DefaultCodegen implements CodegenConfig {
     public String apiTestFilename(String templateName, String tag) {
         String suffix = apiTestTemplateFiles().get(templateName);
         return apiTestFileFolder() + File.separator + toApiTestFilename(tag) + suffix;
+    }
+
+    /**
+     * Recursive method that traverses nested additional properties to search for additional type references.
+     * @param prop      a set of additional properties
+     * @param result    the set of complex type references that have been found, initially an empty set
+     * @return
+     */
+    private Set<String> findAdditionalTypes(CodegenProperty prop, Set<String> result) {
+        if (prop.complexType != null) {
+            result.add(prop.complexType);
+        }
+
+        if (prop.dataType != null) {
+            result.add(prop.dataType);
+        }
+
+        if (prop.additionalProperties != null) {
+            findAdditionalTypes(prop.additionalProperties, result);
+        }
+
+        return result;
     }
 
     public boolean shouldOverwrite(String filename) {
