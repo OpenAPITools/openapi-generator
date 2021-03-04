@@ -102,7 +102,7 @@ signals:
     void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
     void abortRequestsSignal(); 
-    void callbackExecutedSignal();
+    void allPendingRequestsCompleted();
 };
 
 } // namespace test_namespace

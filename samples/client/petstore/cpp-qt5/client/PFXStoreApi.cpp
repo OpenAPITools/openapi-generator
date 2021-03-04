@@ -244,6 +244,12 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -267,8 +273,6 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
         emit deleteOrderSignalE(error_type, error_str);
         emit deleteOrderSignalEFull(worker, error_type, error_str);
     }
-
-    emit callbackExecutedSignal();
 }
 
 void PFXStoreApi::getInventory() {
@@ -289,6 +293,12 @@ void PFXStoreApi::getInventory() {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -322,8 +332,6 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
         emit getInventorySignalE(output, error_type, error_str);
         emit getInventorySignalEFull(worker, error_type, error_str);
     }
-
-    emit callbackExecutedSignal();
 }
 
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
@@ -351,6 +359,12 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -375,8 +389,6 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
         emit getOrderByIdSignalE(output, error_type, error_str);
         emit getOrderByIdSignalEFull(worker, error_type, error_str);
     }
-
-    emit callbackExecutedSignal();
 }
 
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
@@ -396,6 +408,12 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -420,8 +438,6 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
         emit placeOrderSignalE(output, error_type, error_str);
         emit placeOrderSignalEFull(worker, error_type, error_str);
     }
-
-    emit callbackExecutedSignal();
 }
 
 } // namespace test_namespace

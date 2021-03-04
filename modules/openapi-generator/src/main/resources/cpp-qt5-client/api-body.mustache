@@ -622,6 +622,12 @@ if(QString("{{style}}").indexOf("form") == 0){
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -684,8 +690,6 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
     }
-
-    emit callbackExecutedSignal();
 }
 
 {{/operation}}
