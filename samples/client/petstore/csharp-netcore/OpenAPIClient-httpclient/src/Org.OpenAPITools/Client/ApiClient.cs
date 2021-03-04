@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Client
         private readonly String _baseUrl;
 
         /// <summary>
-        /// Specifies the settings on a <see cref="JsonSerializer" /> object. 
+        /// Specifies the settings on a <see cref="JsonSerializer" /> object.
         /// These settings can be adjusted to accomodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
@@ -327,11 +327,21 @@ namespace Org.OpenAPITools.Client
                 Cookies = new List<Cookie>()
             };
 
+            // process response headers, e.g. Access-Control-Allow-Methods
             if (response.Headers != null)
             {
                 foreach (var responseHeader in response.Headers)
                 {
+                    transformed.Headers.Add(responseHeader.Key, ClientUtils.ParameterToString(responseHeader.Value));
+                }
+            }
 
+            // process response content headers, e.g. Content-Type
+            if (response.Content.Headers != null)
+            {
+                foreach (var responseHeader in response.Content.Headers)
+                {
+                    transformed.Headers.Add(responseHeader.Key, ClientUtils.ParameterToString(responseHeader.Value));
                 }
             }
 

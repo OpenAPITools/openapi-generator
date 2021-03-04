@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Client
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
-            
+
             var dateTime = DateTime.Now;
             String Digest = String.Empty;
 
