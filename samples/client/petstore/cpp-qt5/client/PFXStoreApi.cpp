@@ -241,7 +241,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -289,7 +289,7 @@ void PFXStoreApi::getInventory() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -358,7 +358,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -406,7 +406,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();

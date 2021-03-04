@@ -237,7 +237,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -302,7 +302,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -433,7 +433,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -574,7 +574,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -647,7 +647,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::getPetByIdCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -695,7 +695,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -766,7 +766,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
@@ -837,7 +837,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();

@@ -662,7 +662,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
-    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater); 
+    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<{{prefix}}HttpRequestWorker>().count() == 0){
             emit allPendingRequestsCompleted();
