@@ -186,8 +186,16 @@ class {{{classname}}} {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
     {{#isArray}}
-      final l = json.decode(response.body);
-      return {{{returnType}}}.of(l.map((model) => Pet.fromJson(model)));
+      {{#uniqueItems}}
+      return (json.decode(response.body) as List)
+        .map((i) => {{{returnBaseType}}}.fromJson(i))
+        .toSet();
+      {{/uniqueItems}}
+      {{^uniqueItems}}
+      return (json.decode(response.body) as List)
+        .map((i) => {{{returnBaseType}}}.fromJson(i))
+        .toList();
+      {{/uniqueItems}}
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
@@ -195,7 +203,7 @@ class {{{classname}}} {
     {{/isMap}}
     {{^isMap}}
     {{#returnTypeIsPrimitive}}
-      return json.decode(response.body);
+      return response.body as {{{returnBaseType}}};
     {{/returnTypeIsPrimitive}}
     {{^returnTypeIsPrimitive}}
       return {{{returnType}}}.fromJson(json.decode(response.body));

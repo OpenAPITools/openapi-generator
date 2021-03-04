@@ -215,7 +215,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return json.decode(response.body);
+      return response.body as bool;
     }
     return null;
   }
@@ -349,7 +349,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return json.decode(response.body);
+      return response.body as num;
     }
     return null;
   }
@@ -416,7 +416,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return json.decode(response.body);
+      return response.body as String;
     }
     return null;
   }

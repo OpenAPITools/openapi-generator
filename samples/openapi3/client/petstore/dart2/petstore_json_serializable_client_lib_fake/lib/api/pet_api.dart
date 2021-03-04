@@ -221,8 +221,9 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      final l = json.decode(response.body);
-      return List<Pet>.of(l.map((model) => Pet.fromJson(model)));
+      return (json.decode(response.body) as List)
+        .map((i) => Pet.fromJson(i))
+        .toList();
     }
     return null;
   }
@@ -298,8 +299,9 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      final l = json.decode(response.body);
-      return Set<Pet>.of(l.map((model) => Pet.fromJson(model)));
+      return (json.decode(response.body) as List)
+        .map((i) => Pet.fromJson(i))
+        .toSet();
     }
     return null;
   }
