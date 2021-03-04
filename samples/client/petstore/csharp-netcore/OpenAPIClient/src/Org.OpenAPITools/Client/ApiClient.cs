@@ -481,9 +481,9 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                T instance = (T)Activator.CreateInstance(typeof(T));
-                MethodInfo method = typeof(T).GetMethod("FromJson");
-                method.Invoke(instance, new object[] { response.Content });
+                Type type = typeof(T);
+                MethodInfo method = type.GetMethod("FromJson");
+                method.Invoke(null, new object[] { response.Content });
                 response.Data = instance;
             }
             else if (typeof(T).Name == "Stream") // for binary response
@@ -596,9 +596,9 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                T instance = (T)Activator.CreateInstance(typeof(T));
-                MethodInfo method = typeof(T).GetMethod("FromJson");
-                method.Invoke(instance, new object[] { response.Content });
+                Type type = typeof(T);
+                MethodInfo method = type.GetMethod("FromJson");
+                method.Invoke(null, new object[] { response.Content });
                 response.Data = instance;
             }
             else if (typeof(T).Name == "Stream") // for binary response
