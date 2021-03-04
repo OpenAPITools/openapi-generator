@@ -194,12 +194,12 @@ class {{{classname}}} {
       return {{{returnType}}}.from(json.decode(response.body));
     {{/isMap}}
     {{^isMap}}
-    {{#isPrimitiveType}}
+    {{#returnTypeIsPrimitive}}
       return json.decode(response.body);
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
       return {{{returnType}}}.fromJson(json.decode(response.body));
-    {{/isPrimitiveType}}
+    {{/returnTypeIsPrimitive}}
     {{/isMap}}
     {{/isArray}}
     }
