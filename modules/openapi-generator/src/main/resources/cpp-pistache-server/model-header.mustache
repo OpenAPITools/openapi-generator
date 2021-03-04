@@ -63,7 +63,7 @@ protected:
     bool m_{{name}}IsSet;{{/required}}
     {{/vars}}
     {{#isEnum}}
-    e{{classname}} m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
+    {{classname}}::e{{classname}} m_value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
     {{/isEnum}}
 };
 

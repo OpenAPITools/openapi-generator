@@ -2,6 +2,8 @@
 {{#models}}{{#model}}
 
 #include "{{classname}}.h"
+{{#isEnum}}#include <stdexcept>
+#include <sstream>{{/isEnum}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -33,15 +35,15 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
         j["{{baseName}}"] = o.m_{{name}};{{/required}}
     {{/vars}}
     {{#isEnum}}{{#allowableValues}}
-    switch (m_value)
+    switch (o.getValue())
     {
         {{#enumVars}}
         {{#-first}}
-        case e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
+        case {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
             j = "INVALID_VALUE_OPENAPI_GENERATED";
             break;
         {{/-first}}
-        case e{{classname}}::{{name}}:
+        case {{classname}}::e{{classname}}::{{name}}:
             j = "{{value}}";
             break;
         {{/enumVars}}
@@ -61,7 +63,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     auto s = j.get<std::string>();
     {{#enumVars}}
     {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == "{{value}}") {
-     m_value = e{{classname}}::{{name}};
+     o.setValue({{classname}}::e{{classname}}::{{name}});
     } {{#-last}} else {
      std::stringstream ss;
      ss << "Unexpected value " << s << " in json"
