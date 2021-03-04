@@ -222,7 +222,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       final l = json.decode(response.body);
-      return List<Pet>.from(l.map((model) => Pet.fromJson(model)));
+      return List<Pet>.of(l.map((model) => Pet.fromJson(model)));
     }
     return null;
   }
@@ -299,7 +299,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       final l = json.decode(response.body);
-      return List<Pet>.from(l.map((model) => Pet.fromJson(model)));
+      return List<Pet>.of(l.map((model) => Pet.fromJson(model)));
     }
     return null;
   }
