@@ -237,7 +237,6 @@ void PFXPetApi::addPet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -245,9 +244,6 @@ void PFXPetApi::addPet(const PFXPet &body) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -306,7 +302,6 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -314,9 +309,6 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -441,7 +433,6 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -449,9 +440,6 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -586,7 +574,6 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -594,9 +581,6 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -663,7 +647,6 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::getPetByIdCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -671,9 +654,6 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -715,7 +695,6 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -723,9 +702,6 @@ void PFXPetApi::updatePet(const PFXPet &body) {
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -790,7 +766,6 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -798,9 +773,6 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, co
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -865,7 +837,6 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
-<<<<<<< HEAD
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -873,9 +844,6 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_meta
         }
     });
 
-=======
-    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 

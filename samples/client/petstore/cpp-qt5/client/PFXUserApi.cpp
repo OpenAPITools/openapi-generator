@@ -237,7 +237,6 @@ void PFXUserApi::createUser(const PFXUser &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -245,9 +244,6 @@ void PFXUserApi::createUser(const PFXUser &body) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -288,7 +284,6 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -296,9 +291,6 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -339,7 +331,6 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -347,9 +338,6 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -402,7 +390,6 @@ void PFXUserApi::deleteUser(const QString &username) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -410,9 +397,6 @@ void PFXUserApi::deleteUser(const QString &username) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -465,7 +449,6 @@ void PFXUserApi::getUserByName(const QString &username) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -473,9 +456,6 @@ void PFXUserApi::getUserByName(const QString &username) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -547,7 +527,6 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -555,9 +534,6 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -597,7 +573,6 @@ void PFXUserApi::logoutUser() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -605,9 +580,6 @@ void PFXUserApi::logoutUser() {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -663,7 +635,6 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
-<<<<<<< HEAD
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -671,9 +642,6 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         }
     });
 
-=======
-    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 

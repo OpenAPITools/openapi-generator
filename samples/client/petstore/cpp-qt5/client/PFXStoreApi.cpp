@@ -241,7 +241,6 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-<<<<<<< HEAD
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -249,9 +248,6 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
         }
     });
 
-=======
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -293,7 +289,6 @@ void PFXStoreApi::getInventory() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-<<<<<<< HEAD
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -301,9 +296,6 @@ void PFXStoreApi::getInventory() {
         }
     });
 
-=======
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -366,7 +358,6 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-<<<<<<< HEAD
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -374,9 +365,6 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
         }
     });
 
-=======
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
@@ -418,7 +406,6 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-<<<<<<< HEAD
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker>().count() == 0){
@@ -426,9 +413,6 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
         }
     });
 
-=======
-    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
->>>>>>> upstream/master
     worker->execute(&input);
 }
 
