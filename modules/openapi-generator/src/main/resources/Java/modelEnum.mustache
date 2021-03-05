@@ -20,7 +20,7 @@ import com.google.gson.stream.JsonWriter;
 @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
 @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
 {{/jsonb}}
-public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#allowableValues}}{{#enumVars}}
     {{#enumDescription}}
   /**
