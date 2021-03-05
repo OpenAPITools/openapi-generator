@@ -242,6 +242,12 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -284,6 +290,12 @@ void PFXStoreApi::getInventory() {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -347,6 +359,12 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
@@ -389,6 +407,12 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
     worker->execute(&input);
 }
 
