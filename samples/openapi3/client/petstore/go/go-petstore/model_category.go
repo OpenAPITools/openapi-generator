@@ -27,7 +27,7 @@ type _Category Category
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCategory(name string, ) *Category {
+func NewCategory(name string) *Category {
 	this := Category{}
 	this.Name = name
 	return &this
@@ -77,7 +77,7 @@ func (o *Category) SetId(v int64) {
 
 // GetName returns the Name field value
 func (o *Category) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

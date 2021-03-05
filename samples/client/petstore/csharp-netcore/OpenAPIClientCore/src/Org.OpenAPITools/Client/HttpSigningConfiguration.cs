@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Client
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
-            
+
             var dateTime = DateTime.Now;
             String Digest = String.Empty;
 
@@ -329,9 +329,22 @@ namespace Org.OpenAPITools.Client
 
 #if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
             var byteCount = 0;
-            if (configuration.KeyPassPhrase != null)
+            if (KeyPassPhrase != null)
             {
-                ecdsa.ImportEncryptedPkcs8PrivateKey(keyPassPhrase, keyBytes, out byteCount);
+                IntPtr unmanagedString = IntPtr.Zero;
+                try
+                {
+                    // convert secure string to byte array
+                    unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(KeyPassPhrase);
+                    ecdsa.ImportEncryptedPkcs8PrivateKey(Encoding.UTF8.GetBytes(Marshal.PtrToStringUni(unmanagedString)), keyBytes, out byteCount);
+                }
+                finally
+                {
+                    if (unmanagedString != IntPtr.Zero)
+                    {
+                        Marshal.ZeroFreeBSTR(unmanagedString);
+                    }
+                }
             }
             else
             {

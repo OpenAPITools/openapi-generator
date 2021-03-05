@@ -48,6 +48,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String GENERATE_BODY = "generateBody";
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
+    public static final String TARGET_FRAMEWORK= "targetFramework";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -68,7 +69,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0, 4.0.0, 5.0.0");
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -123,7 +124,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
 
-        embeddedTemplateDir = templateDir = "aspnetcore/2.1";
+        embeddedTemplateDir = templateDir = "aspnetcore/3.0";
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -190,6 +191,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("2.2", "ASP.NET Core 2.2");
         aspnetCoreVersion.addEnum("3.0", "ASP.NET Core 3.0");
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
+        aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.setDefault("3.1");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
@@ -367,7 +369,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
         }
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
@@ -535,7 +537,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0")) {
             compatibilityVersion = null;
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             compatibilityVersion = null;
@@ -552,6 +554,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "5.0":
             case "3.1":
                 return "3.0";
 
@@ -593,17 +596,25 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
+        } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {// default, do nothing
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net5.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
             } else {
                 additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
+            additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
         }
     }
 
     private void setUseNewtonsoft() {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
+            LOGGER.warn("ASP.NET core version 2.X support has been deprecated. Please use ASP.NET core version 3.1 instead");
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default json library.");
             useNewtonsoft = false;
             additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
@@ -617,7 +628,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setUseEndpointRouting() {
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so switching to old style endpoint routing.");
             useDefaultRouting = false;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRouting);
@@ -633,7 +644,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setSwashbuckleVersion() {
         setCliOption(swashbuckleVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing default Swashbuckle version to 5.0.0.");
             swashbuckleVersion.setOptValue("5.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());

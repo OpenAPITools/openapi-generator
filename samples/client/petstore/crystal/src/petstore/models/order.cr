@@ -57,7 +57,7 @@ module Petstore
       end
 
       def valid?(value)
-        !value || allowable_values.include?(value)
+        !value || allowable_values.includes?(value)
       end
     end
 
@@ -129,7 +129,7 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
-        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
+        if !attributes[self.class.attribute_map[key]]? && self.class.openapi_nullable.includes?(key)
           self.send("#{key}=", nil)
         elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
@@ -207,7 +207,7 @@ module Petstore
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?
-          is_nullable = self.class.openapi_nullable.include?(attr)
+          is_nullable = self.class.openapi_nullable.includes?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
 

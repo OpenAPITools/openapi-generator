@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
 
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";

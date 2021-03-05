@@ -39,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
 
     // source folder where to write the files
     protected String resourceFolder = "src" + File.separator + "gatling" + File.separator + "resources";

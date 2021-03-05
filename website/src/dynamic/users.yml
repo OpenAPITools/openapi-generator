@@ -199,6 +199,11 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
+  pinned: false
+-
   caption: "Here"
   image: "img/companies/here.png"
   infoLink: "https://developer.here.com/"
@@ -247,6 +252,11 @@
   caption: "LVM Versicherungen"
   image: "img/companies/lvm_versicherungen.png"
   infoLink: "https://www.lvm.de"
+  pinned: false
+-
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
   pinned: false
 -
   caption: M3, Inc.
@@ -362,6 +372,11 @@
   caption: "REST United"
   image: "img/companies/rest-united.png"
   infoLink: "https://restunited.com/"
+  pinned: false
+-
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
   pinned: false
 -
   caption: "SmartHR"

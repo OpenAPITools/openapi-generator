@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for EnumTest
 void main() {
-  final instance = EnumTest();
+  final instance = EnumTestBuilder();
+  // TODO add properties to the builder and call build()
 
   group(EnumTest, () {
     // String enumString

@@ -47,13 +47,19 @@ public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
+  @XmlType(name="KindEnum")
+  @XmlEnum(String.class)
   public enum KindEnum {
+    @XmlEnumValue("lions")
     LIONS("lions"),
     
+    @XmlEnumValue("tigers")
     TIGERS("tigers"),
     
+    @XmlEnumValue("leopards")
     LEOPARDS("leopards"),
     
+    @XmlEnumValue("jaguars")
     JAGUARS("jaguars");
 
     private String value;

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
@@ -17,12 +17,54 @@ abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     @BuiltValueField(wireName: r'sourceURI')
     String get sourceURI;
 
-    // Boilerplate code needed to wire-up generated code
     ModelFile._();
 
     static void _initializeBuilder(ModelFileBuilder b) => b;
 
     factory ModelFile([void updates(ModelFileBuilder b)]) = _$ModelFile;
-    static Serializer<ModelFile> get serializer => _$modelFileSerializer;
+
+    @BuiltValueSerializer(custom: true)
+    static Serializer<ModelFile> get serializer => _$ModelFileSerializer();
+}
+
+class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
+
+    @override
+    final Iterable<Type> types = const [ModelFile, _$ModelFile];
+    @override
+    final String wireName = r'ModelFile';
+
+    @override
+    Iterable<Object> serialize(Serializers serializers, ModelFile object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object>[];
+        if (object.sourceURI != null) {
+            result
+                ..add(r'sourceURI')
+                ..add(serializers.serialize(object.sourceURI,
+                    specifiedType: const FullType(String)));
+        }
+        return result;
+    }
+
+    @override
+    ModelFile deserialize(Serializers serializers, Iterable<Object> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ModelFileBuilder();
+
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final dynamic value = iterator.current;
+            switch (key) {
+                case r'sourceURI':
+                    result.sourceURI = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    break;
+            }
+        }
+        return result.build();
+    }
 }
 

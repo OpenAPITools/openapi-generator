@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";

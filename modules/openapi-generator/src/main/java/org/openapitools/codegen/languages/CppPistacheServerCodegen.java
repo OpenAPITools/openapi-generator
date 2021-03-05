@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
 
     protected String implFolder = "impl";
     protected boolean isAddExternalLibs = true;
