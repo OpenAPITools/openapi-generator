@@ -5,10 +5,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**FakeHealthGet**](FakeApi.md#FakeHealthGet) | **Get** /fake/health | Health check endpoint
+[**FakeHttpSignatureTest**](FakeApi.md#FakeHttpSignatureTest) | **Get** /fake/http-signature-test | test http signature authentication
 [**FakeOuterBooleanSerialize**](FakeApi.md#FakeOuterBooleanSerialize) | **Post** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#FakeOuterCompositeSerialize) | **Post** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
+[**FakePropertyEnumIntegerSerialize**](FakeApi.md#FakePropertyEnumIntegerSerialize) | **Post** /fake/property/enum-int | 
 [**TestBodyWithFileSchema**](FakeApi.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -74,6 +76,72 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FakeHttpSignatureTest
+
+> FakeHttpSignatureTest(ctx).Pet(pet).Query1(query1).Header1(header1).Execute()
+
+test http signature authentication
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
+    query1 := "query1_example" // string | query parameter (optional)
+    header1 := "header1_example" // string | header parameter (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeHttpSignatureTest(context.Background()).Pet(pet).Query1(query1).Header1(header1).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeHttpSignatureTest``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeHttpSignatureTestRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
+ **query1** | **string** | query parameter | 
+ **header1** | **string** | header parameter | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -329,6 +397,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 **string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FakePropertyEnumIntegerSerialize
+
+> OuterObjectWithEnumProperty FakePropertyEnumIntegerSerialize(ctx).OuterObjectWithEnumProperty(outerObjectWithEnumProperty).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    outerObjectWithEnumProperty := *openapiclient.NewOuterObjectWithEnumProperty(openapiclient.OuterEnumInteger(0)) // OuterObjectWithEnumProperty | Input enum (int) as post body
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakePropertyEnumIntegerSerialize(context.Background()).OuterObjectWithEnumProperty(outerObjectWithEnumProperty).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakePropertyEnumIntegerSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakePropertyEnumIntegerSerialize`: OuterObjectWithEnumProperty
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakePropertyEnumIntegerSerialize`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakePropertyEnumIntegerSerializeRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md) | Input enum (int) as post body | 
+
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
 
 ### Authorization
 

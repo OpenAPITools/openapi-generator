@@ -142,7 +142,7 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://127.0.0.1/no_variable",
+				URL: "https://127.0.0.1/no_varaible",
 				Description: "The local server without variables",
 			},
 		},

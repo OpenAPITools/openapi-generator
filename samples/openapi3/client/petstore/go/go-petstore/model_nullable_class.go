@@ -37,8 +37,6 @@ type NullableClass struct {
 // will change when the set of required properties is changed
 func NewNullableClass() *NullableClass {
 	this := NullableClass{}
-	var booleanProp bool = false
-	this.BooleanProp = *NewNullableBool(&booleanProp)
 	return &this
 }
 
@@ -47,8 +45,6 @@ func NewNullableClass() *NullableClass {
 // but it doesn't guarantee that properties required by API are set
 func NewNullableClassWithDefaults() *NullableClass {
 	this := NullableClass{}
-	var booleanProp bool = false
-	this.BooleanProp = *NewNullableBool(&booleanProp)
 	return &this
 }
 

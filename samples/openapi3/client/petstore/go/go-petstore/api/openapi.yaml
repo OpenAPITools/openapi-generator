@@ -32,7 +32,7 @@ servers:
       - v1
       - v2
 - description: The local server without variables
-  url: https://127.0.0.1/no_variable
+  url: https://127.0.0.1/no_varaible
 tags:
 - description: Everything about your Pets
   name: pet
@@ -56,10 +56,11 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
+        "200":
+          description: Successful operation
         "405":
           description: Invalid input
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -71,6 +72,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
+        "200":
+          description: Successful operation
         "400":
           description: Invalid ID supplied
         "404":
@@ -78,7 +81,6 @@ paths:
         "405":
           description: Validation exception
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -125,7 +127,6 @@ paths:
         "400":
           description: Invalid status value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -148,6 +149,7 @@ paths:
           items:
             type: string
           type: array
+          uniqueItems: true
         style: form
       responses:
         "200":
@@ -157,16 +159,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
+                uniqueItems: true
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
+                uniqueItems: true
           description: successful operation
         "400":
           description: Invalid tag value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -194,6 +197,8 @@ paths:
           type: integer
         style: simple
       responses:
+        "200":
+          description: Successful operation
         "400":
           description: Invalid pet value
       security:
@@ -261,6 +266,8 @@ paths:
                   type: string
               type: object
       responses:
+        "200":
+          description: Successful operation
         "405":
           description: Invalid input
       security:
@@ -911,6 +918,26 @@ paths:
           description: Output number
       tags:
       - fake
+  /fake/property/enum-int:
+    post:
+      description: Test serialization of enum (int) properties with examples
+      operationId: fakePropertyEnumIntegerSerialize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+        description: Input enum (int) as post body
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+          description: Output enum (int)
+      tags:
+      - fake
   /fake/outer/string:
     post:
       description: Test serialization of outer string types
@@ -1175,6 +1202,36 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /fake/http-signature-test:
+    get:
+      operationId: fake-http-signature-test
+      parameters:
+      - description: query parameter
+        explode: true
+        in: query
+        name: query_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: header parameter
+        explode: false
+        in: header
+        name: header_1
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          description: The instance started successfully
+      security:
+      - http_signature_test: []
+      summary: test http signature authentication
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -1301,13 +1358,9 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
-        arbitraryTypeValue: ""
-        arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
-        arbitraryObject: '{}'
         email: email
-        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1330,22 +1383,6 @@ components:
           description: User Status
           format: int32
           type: integer
-        arbitraryObject:
-          description: test code generation for objects Value must be a map of strings
-            to values. It cannot be the 'null' value.
-          type: object
-        arbitraryNullableObject:
-          description: test code generation for nullable objects. Value must be a
-            map of strings to values or the 'null' value.
-          nullable: true
-          type: object
-        arbitraryTypeValue:
-          description: test code generation for any type Value can be any type - string,
-            number, boolean, array or object.
-        arbitraryNullableTypeValue:
-          description: test code generation for any type Value can be any type - string,
-            number, boolean, array, object or the 'null' value.
-          nullable: true
       type: object
       xml:
         name: User
@@ -1392,6 +1429,7 @@ components:
           items:
             type: string
           type: array
+          uniqueItems: true
           xml:
             name: photoUrl
             wrapped: true
@@ -1478,12 +1516,7 @@ components:
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
-    Address:
-      additionalProperties:
-        type: integer
-      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1528,6 +1561,9 @@ components:
           maximum: 123.4
           minimum: 67.8
           type: number
+        decimal:
+          format: number
+          type: string
         string:
           pattern: /[a-z]/i
           type: string
@@ -1712,6 +1748,8 @@ components:
         array_of_string:
           items:
             type: string
+          maxItems: 3
+          minItems: 0
           type: array
         array_array_of_integer:
           items:
@@ -1775,6 +1813,7 @@ components:
       - 0
       - 1
       - 2
+      example: 2
       type: integer
     OuterEnumDefaultValue:
       default: placed
@@ -1868,7 +1907,6 @@ components:
           nullable: true
           type: number
         boolean_prop:
-          default: false
           nullable: true
           type: boolean
         string_prop:
@@ -1915,85 +1953,14 @@ components:
             type: object
           type: object
       type: object
-    fruit:
-      oneOf:
-      - $ref: '#/components/schemas/apple'
-      - $ref: '#/components/schemas/banana'
+    OuterObjectWithEnumProperty:
+      example:
+        value: 2
       properties:
-        color:
-          type: string
-    apple:
-      properties:
-        cultivar:
-          type: string
-      type: object
-    banana:
-      additionalProperties: true
-      properties:
-        lengthCm:
-          type: number
-      type: object
-    mammal:
-      discriminator:
-        mapping:
-          whale: '#/components/schemas/whale'
-          zebra: '#/components/schemas/zebra'
-        propertyName: className
-      oneOf:
-      - $ref: '#/components/schemas/whale'
-      - $ref: '#/components/schemas/zebra'
-    whale:
-      properties:
-        hasBaleen:
-          type: boolean
-        hasTeeth:
-          type: boolean
-        className:
-          type: string
+        value:
+          $ref: '#/components/schemas/OuterEnumInteger'
       required:
-      - className
-      type: object
-    zebra:
-      properties:
-        type:
-          enum:
-          - plains
-          - mountain
-          - grevys
-          type: string
-        className:
-          type: string
-      required:
-      - className
-      type: object
-    gmFruit:
-      anyOf:
-      - $ref: '#/components/schemas/apple'
-      - $ref: '#/components/schemas/banana'
-      properties:
-        color:
-          type: string
-    fruitReq:
-      oneOf:
-      - $ref: '#/components/schemas/appleReq'
-      - $ref: '#/components/schemas/bananaReq'
-    appleReq:
-      properties:
-        cultivar:
-          type: string
-        mealy:
-          type: boolean
-      required:
-      - cultivar
-      type: object
-    bananaReq:
-      properties:
-        lengthCm:
-          type: number
-        sweet:
-          type: boolean
-      required:
-      - lengthCm
+      - value
       type: object
     inline_response_default:
       example:

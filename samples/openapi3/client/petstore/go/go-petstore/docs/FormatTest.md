@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Number** | **float32** |  | 
 **Float** | Pointer to **float32** |  | [optional] 
 **Double** | Pointer to **float64** |  | [optional] 
+**Decimal** | Pointer to **float64** |  | [optional] 
 **String** | Pointer to **string** |  | [optional] 
 **Byte** | **string** |  | 
 **Binary** | Pointer to ***os.File** |  | [optional] 
@@ -183,6 +184,31 @@ SetDouble sets Double field to given value.
 `func (o *FormatTest) HasDouble() bool`
 
 HasDouble returns a boolean if a field has been set.
+
+### GetDecimal
+
+`func (o *FormatTest) GetDecimal() float64`
+
+GetDecimal returns the Decimal field if non-nil, zero value otherwise.
+
+### GetDecimalOk
+
+`func (o *FormatTest) GetDecimalOk() (*float64, bool)`
+
+GetDecimalOk returns a tuple with the Decimal field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDecimal
+
+`func (o *FormatTest) SetDecimal(v float64)`
+
+SetDecimal sets Decimal field to given value.
+
+### HasDecimal
+
+`func (o *FormatTest) HasDecimal() bool`
+
+HasDecimal returns a boolean if a field has been set.
 
 ### GetString
 
