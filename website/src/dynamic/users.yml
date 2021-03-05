@@ -374,6 +374,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
+  pinned: false
+-
   caption: "SmartHR"
   image: "img/companies/smarthr.png"
   infoLink: "https://smarthr.co.jp/"
