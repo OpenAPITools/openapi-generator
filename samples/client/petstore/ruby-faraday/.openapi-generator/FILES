@@ -47,6 +47,7 @@ docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -106,6 +107,7 @@ lib/petstore/models/outer_enum.rb
 lib/petstore/models/outer_enum_default_value.rb
 lib/petstore/models/outer_enum_integer.rb
 lib/petstore/models/outer_enum_integer_default_value.rb
+lib/petstore/models/outer_object_with_enum_property.rb
 lib/petstore/models/pet.rb
 lib/petstore/models/read_only_first.rb
 lib/petstore/models/special_model_name.rb
@@ -115,4 +117,5 @@ lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb
 spec/configuration_spec.rb
+spec/models/outer_object_with_enum_property_spec.rb
 spec/spec_helper.rb

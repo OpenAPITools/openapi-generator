@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -282,6 +283,50 @@ Name | Type | Description  | Notes
 ### Return type
 
 **String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: */*
+
+
+## fakePropertyEnumIntegerSerialize
+
+> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+
+
+
+Test serialization of enum (int) properties with examples
+
+### Example
+
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let outerObjectWithEnumProperty = new OpenApiPetstore.OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
+apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty).then((data) => {
+  console.log('API called successfully. Returned data: ' + data);
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
 
 ### Authorization
 

@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
+import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
 import User from '../model/User';
 
@@ -303,6 +304,51 @@ export default class FakeApi {
      */
     fakeOuterStringSerialize(opts) {
       return this.fakeOuterStringSerializeWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterObjectWithEnumProperty} and HTTP response
+     */
+    fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty) {
+      let postBody = outerObjectWithEnumProperty;
+      // verify the required parameter 'outerObjectWithEnumProperty' is set
+      if (outerObjectWithEnumProperty === undefined || outerObjectWithEnumProperty === null) {
+        throw new Error("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = OuterObjectWithEnumProperty;
+      return this.apiClient.callApi(
+        '/fake/property/enum-int', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterObjectWithEnumProperty}
+     */
+    fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty) {
+      return this.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

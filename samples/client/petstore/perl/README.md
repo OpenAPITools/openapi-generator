@@ -271,6 +271,7 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
@@ -334,6 +335,7 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
@@ -373,6 +375,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -445,6 +448,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [WWW::OpenAPIClient::Object::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)

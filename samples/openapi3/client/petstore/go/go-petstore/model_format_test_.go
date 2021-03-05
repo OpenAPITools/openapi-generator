@@ -24,7 +24,6 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	Decimal *float64 `json:"decimal,omitempty"`
 	String *string `json:"string,omitempty"`
 	Byte string `json:"byte"`
 	Binary **os.File `json:"binary,omitempty"`
@@ -36,7 +35,10 @@ type FormatTest struct {
 	PatternWithDigits *string `json:"pattern_with_digits,omitempty"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FormatTest FormatTest
 
 // NewFormatTest instantiates a new FormatTest object
 // This constructor will assign default values to properties that have it defined,
@@ -241,38 +243,6 @@ func (o *FormatTest) HasDouble() bool {
 // SetDouble gets a reference to the given float64 and assigns it to the Double field.
 func (o *FormatTest) SetDouble(v float64) {
 	o.Double = &v
-}
-
-// GetDecimal returns the Decimal field value if set, zero value otherwise.
-func (o *FormatTest) GetDecimal() float64 {
-	if o == nil || o.Decimal == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Decimal
-}
-
-// GetDecimalOk returns a tuple with the Decimal field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *FormatTest) GetDecimalOk() (*float64, bool) {
-	if o == nil || o.Decimal == nil {
-		return nil, false
-	}
-	return o.Decimal, true
-}
-
-// HasDecimal returns a boolean if a field has been set.
-func (o *FormatTest) HasDecimal() bool {
-	if o != nil && o.Decimal != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDecimal gets a reference to the given float64 and assigns it to the Decimal field.
-func (o *FormatTest) SetDecimal(v float64) {
-	o.Decimal = &v
 }
 
 // GetString returns the String field value if set, zero value otherwise.
@@ -559,9 +529,6 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if o.Double != nil {
 		toSerialize["double"] = o.Double
 	}
-	if o.Decimal != nil {
-		toSerialize["decimal"] = o.Decimal
-	}
 	if o.String != nil {
 		toSerialize["string"] = o.String
 	}
@@ -589,7 +556,43 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if o.PatternWithDigitsAndDelimiter != nil {
 		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
+	varFormatTest := _FormatTest{}
+
+	if err = json.Unmarshal(bytes, &varFormatTest); err == nil {
+		*o = FormatTest(varFormatTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "integer")
+		delete(additionalProperties, "int32")
+		delete(additionalProperties, "int64")
+		delete(additionalProperties, "number")
+		delete(additionalProperties, "float")
+		delete(additionalProperties, "double")
+		delete(additionalProperties, "string")
+		delete(additionalProperties, "byte")
+		delete(additionalProperties, "binary")
+		delete(additionalProperties, "date")
+		delete(additionalProperties, "dateTime")
+		delete(additionalProperties, "uuid")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pattern_with_digits")
+		delete(additionalProperties, "pattern_with_digits_and_delimiter")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFormatTest struct {

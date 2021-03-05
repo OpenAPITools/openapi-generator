@@ -81,12 +81,10 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **Get** /foo | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **Get** /fake/health | Health check endpoint
-*FakeApi* | [**FakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **Get** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
-*FakeApi* | [**FakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakepropertyenumintegerserialize) | **Post** /fake/property/enum-int | 
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -125,9 +123,13 @@ Class | Method | HTTP request | Description
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
  - [ApiResponse](docs/ApiResponse.md)
+ - [Apple](docs/Apple.md)
+ - [AppleReq](docs/AppleReq.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [Banana](docs/Banana.md)
+ - [BananaReq](docs/BananaReq.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -143,10 +145,14 @@ Class | Method | HTTP request | Description
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FormatTest](docs/FormatTest.md)
+ - [Fruit](docs/Fruit.md)
+ - [FruitReq](docs/FruitReq.md)
+ - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [List](docs/List.md)
+ - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
@@ -159,13 +165,14 @@ Class | Method | HTTP request | Description
  - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
- - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
 ## Documentation For Authorization

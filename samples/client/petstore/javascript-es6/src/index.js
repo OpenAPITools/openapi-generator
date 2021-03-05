@@ -51,6 +51,7 @@ import OuterEnum from './model/OuterEnum';
 import OuterEnumDefaultValue from './model/OuterEnumDefaultValue';
 import OuterEnumInteger from './model/OuterEnumInteger';
 import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
+import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
@@ -330,6 +331,12 @@ export {
      * @property {module:model/OuterEnumIntegerDefaultValue}
      */
     OuterEnumIntegerDefaultValue,
+
+    /**
+     * The OuterObjectWithEnumProperty model constructor.
+     * @property {module:model/OuterObjectWithEnumProperty}
+     */
+    OuterObjectWithEnumProperty,
 
     /**
      * The Pet model constructor.
