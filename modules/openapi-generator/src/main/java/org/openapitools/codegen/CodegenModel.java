@@ -912,7 +912,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isModel='").append(isModel).append('\'');
         sb.append(", isNull='").append(isNull);
         sb.append(", hasValidation='").append(hasValidation);
-        sb.append(", getAdditionalPropertiesIsAnyType='").append(getAdditionalPropertiesIsAnyType());
+        sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append('}');
         return sb.toString();
     }
