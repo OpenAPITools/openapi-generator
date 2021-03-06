@@ -2365,22 +2365,26 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), true);
 
         modelName = "AdditionalPropertiesTrue";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), true);
 
         modelName = "AdditionalPropertiesFalse";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), null);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), false);
 
         modelName = "AdditionalPropertiesSchema";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
         assertEquals(cm.getAdditionalProperties(), stringCp);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), false);
     }
 
     @Test
