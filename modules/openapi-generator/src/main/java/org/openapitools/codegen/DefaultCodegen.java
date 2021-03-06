@@ -2607,16 +2607,21 @@ public class DefaultCodegen implements CodegenConfig {
                 isAdditionalPropertiesTrue = true;
                 CodegenProperty cp = fromProperty("",  new Schema());
                 property.setAdditionalProperties(cp);
+                property.setAdditionalPropertiesIsAnyType(true);
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
                 CodegenProperty cp = fromProperty("", new Schema());
                 property.setAdditionalProperties(cp);
+                property.setAdditionalPropertiesIsAnyType(true);
             }
         } else {
             CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
             property.setAdditionalProperties(cp);
+            if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
+                property.setAdditionalPropertiesIsAnyType(true);
+            }
         }
         if (m != null && isAdditionalPropertiesTrue) {
             m.isAdditionalPropertiesTrue = true;
