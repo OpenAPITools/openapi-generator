@@ -1,0 +1,257 @@
+[case testTupleGet]
+from typing import Tuple
+
+def f(x: Tuple[Tuple[int, bool], bool]) -> int:
+    return x[0][0]
+[out]
+def f(x):
+    x :: tuple[tuple[int, bool], bool]
+    r0 :: tuple[int, bool]
+    r1 :: int
+L0:
+    r0 = x[0]
+    r1 = r0[0]
+    return r1
+
+[case testTupleNew]
+from typing import Tuple
+
+def f() -> int:
+    t = (True, 1)
+    return t[1]
+[out]
+def f():
+    r0, t :: tuple[bool, int]
+    r1 :: int
+L0:
+    r0 = (1, 2)
+    t = r0
+    r1 = t[1]
+    return r1
+
+[case testTupleLen]
+from typing import Tuple
+def f(x: Tuple[bool, bool, int]) -> int:
+    return len(x)
+[out]
+def f(x):
+    x :: tuple[bool, bool, int]
+L0:
+    return 6
+
+[case testSequenceTuple]
+from typing import List
+def f(x: List[bool]) -> bool:
+    return tuple(x)[1]
+[out]
+def f(x):
+    x :: list
+    r0 :: tuple
+    r1 :: object
+    r2 :: bool
+L0:
+    r0 = PyList_AsTuple(x)
+    r1 = CPySequenceTuple_GetItem(r0, 2)
+    r2 = unbox(bool, r1)
+    return r2
+
+[case testSequenceTupleLen]
+from typing import Tuple
+def f(x: Tuple[int, ...]) -> int:
+  return len(x)
+[out]
+def f(x):
+    x :: tuple
+    r0 :: ptr
+    r1 :: native_int
+    r2 :: short_int
+L0:
+    r0 = get_element_ptr x ob_size :: PyVarObject
+    r1 = load_mem r0, x :: native_int*
+    r2 = r1 << 1
+    return r2
+
+[case testSequenceTupleForced]
+from typing import Tuple
+def f() -> int:
+    t = (1, 2) # type: Tuple[int, ...]
+    return t[1]
+[out]
+def f():
+    r0 :: tuple[int, int]
+    r1 :: object
+    t :: tuple
+    r2 :: object
+    r3 :: int
+L0:
+    r0 = (2, 4)
+    r1 = box(tuple[int, int], r0)
+    t = r1
+    r2 = CPySequenceTuple_GetItem(t, 2)
+    r3 = unbox(int, r2)
+    return r3
+
+[case testTupleDisplay]
+from typing import Sequence, Tuple
+def f(x: Sequence[int], y: Sequence[int]) -> Tuple[int, ...]:
+    return (1, 2, *x, *y, 3)
+[out]
+def f(x, y):
+    x, y :: object
+    r0 :: list
+    r1, r2 :: object
+    r3, r4, r5 :: ptr
+    r6, r7, r8 :: object
+    r9 :: int32
+    r10 :: bit
+    r11 :: tuple
+L0:
+    r0 = PyList_New(2)
+    r1 = box(short_int, 2)
+    r2 = box(short_int, 4)
+    r3 = get_element_ptr r0 ob_item :: PyListObject
+    r4 = load_mem r3, r0 :: ptr*
+    set_mem r4, r1, r0 :: builtins.object*
+    r5 = r4 + WORD_SIZE*1
+    set_mem r5, r2, r0 :: builtins.object*
+    r6 = CPyList_Extend(r0, x)
+    r7 = CPyList_Extend(r0, y)
+    r8 = box(short_int, 6)
+    r9 = PyList_Append(r0, r8)
+    r10 = r9 >= 0 :: signed
+    r11 = PyList_AsTuple(r0)
+    return r11
+
+[case testTupleFor]
+from typing import Tuple, List
+def f(xs: Tuple[str, ...]) -> None:
+    for x in xs:
+        pass
+[out]
+def f(xs):
+    xs :: tuple
+    r0 :: short_int
+    r1 :: ptr
+    r2 :: native_int
+    r3 :: short_int
+    r4 :: bit
+    r5 :: object
+    r6, x :: str
+    r7 :: short_int
+L0:
+    r0 = 0
+L1:
+    r1 = get_element_ptr xs ob_size :: PyVarObject
+    r2 = load_mem r1, xs :: native_int*
+    r3 = r2 << 1
+    r4 = r0 < r3 :: signed
+    if r4 goto L2 else goto L4 :: bool
+L2:
+    r5 = CPySequenceTuple_GetItem(xs, r0)
+    r6 = cast(str, r5)
+    x = r6
+L3:
+    r7 = r0 + 2
+    r0 = r7
+    goto L1
+L4:
+    return 1
+
+[case testNamedTupleAttribute]
+from typing import NamedTuple
+
+NT = NamedTuple('NT', [('x', int), ('y', int)])
+
+def f(nt: NT, b: bool) -> int:
+    if b:
+        return nt.x
+    return nt.y
+[out]
+def f(nt, b):
+    nt :: tuple
+    b :: bool
+    r0 :: object
+    r1 :: int
+    r2 :: object
+    r3 :: int
+L0:
+    if b goto L1 else goto L2 :: bool
+L1:
+    r0 = CPySequenceTuple_GetItem(nt, 0)
+    r1 = unbox(int, r0)
+    return r1
+L2:
+    r2 = CPySequenceTuple_GetItem(nt, 2)
+    r3 = unbox(int, r2)
+    return r3
+
+
+[case testTupleOperatorIn]
+def f(i: int) -> bool:
+    return i in [1, 2, 3]
+[out]
+def f(i):
+    i :: int
+    r0 :: native_int
+    r1, r2 :: bit
+    r3 :: bool
+    r4 :: bit
+    r5 :: bool
+    r6 :: native_int
+    r7, r8 :: bit
+    r9 :: bool
+    r10 :: bit
+    r11 :: bool
+    r12 :: native_int
+    r13, r14 :: bit
+    r15 :: bool
+    r16 :: bit
+L0:
+    r0 = i & 1
+    r1 = r0 == 0
+    if r1 goto L1 else goto L2 :: bool
+L1:
+    r2 = i == 2
+    r3 = r2
+    goto L3
+L2:
+    r4 = CPyTagged_IsEq_(i, 2)
+    r3 = r4
+L3:
+    if r3 goto L4 else goto L5 :: bool
+L4:
+    r5 = r3
+    goto L9
+L5:
+    r6 = i & 1
+    r7 = r6 == 0
+    if r7 goto L6 else goto L7 :: bool
+L6:
+    r8 = i == 4
+    r9 = r8
+    goto L8
+L7:
+    r10 = CPyTagged_IsEq_(i, 4)
+    r9 = r10
+L8:
+    r5 = r9
+L9:
+    if r5 goto L10 else goto L11 :: bool
+L10:
+    r11 = r5
+    goto L15
+L11:
+    r12 = i & 1
+    r13 = r12 == 0
+    if r13 goto L12 else goto L13 :: bool
+L12:
+    r14 = i == 6
+    r15 = r14
+    goto L14
+L13:
+    r16 = CPyTagged_IsEq_(i, 6)
+    r15 = r16
+L14:
+    r11 = r15
+L15:
+    return r11

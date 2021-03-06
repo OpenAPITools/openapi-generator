@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: typing-extensions
+Version: 3.7.4.3
+Summary: Backported and Experimental Type Hints for Python 3.5+
+Home-page: https://github.com/python/typing/blob/master/typing_extensions/README.rst
+Author: Guido van Rossum, Jukka Lehtosalo, Lukasz Langa, Michael Lee
+Author-email: levkivskyi@gmail.com
+License: PSF
+Keywords: typing function annotations type hints hinting checking checker typehints typehinting typechecking backport
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Python Software Foundation License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Software Development
+Requires-Dist: typing (>=3.7.4) ; python_version < "3.5"
+
+Typing Extensions -- Backported and Experimental Type Hints for Python
+
+The ``typing`` module was added to the standard library in Python 3.5 on
+a provisional basis and will no longer be provisional in Python 3.7. However,
+this means users of Python 3.5 - 3.6 who are unable to upgrade will not be
+able to take advantage of new types added to the ``typing`` module, such as
+``typing.Text`` or ``typing.Coroutine``.
+
+The ``typing_extensions`` module contains both backports of these changes
+as well as experimental types that will eventually be added to the ``typing``
+module, such as ``Protocol`` or ``TypedDict``.
+
+Users of other Python versions should continue to install and use
+the ``typing`` module from PyPi instead of using this one unless specifically
+writing code that must be compatible with multiple Python versions or requires
+experimental types.
+
+

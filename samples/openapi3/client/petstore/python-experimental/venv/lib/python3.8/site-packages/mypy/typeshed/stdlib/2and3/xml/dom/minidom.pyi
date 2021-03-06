@@ -1,0 +1,6 @@
+from typing import Any, Optional, Text, Union
+from xml.sax.xmlreader import XMLReader
+
+def parse(file: str, parser: Optional[XMLReader] = ..., bufsize: Optional[int] = ...): ...
+def parseString(string: Union[bytes, Text], parser: Optional[XMLReader] = ...): ...
+def __getattr__(name: str) -> Any: ...  # incomplete

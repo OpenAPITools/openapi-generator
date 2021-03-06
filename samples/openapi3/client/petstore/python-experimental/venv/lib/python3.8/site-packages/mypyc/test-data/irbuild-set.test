@@ -1,0 +1,263 @@
+[case testNewSet]
+from typing import Set
+def f() -> Set[int]:
+    return {1, 2, 3}
+[out]
+def f():
+    r0 :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+    r4 :: object
+    r5 :: int32
+    r6 :: bit
+    r7 :: object
+    r8 :: int32
+    r9 :: bit
+L0:
+    r0 = PySet_New(0)
+    r1 = box(short_int, 2)
+    r2 = PySet_Add(r0, r1)
+    r3 = r2 >= 0 :: signed
+    r4 = box(short_int, 4)
+    r5 = PySet_Add(r0, r4)
+    r6 = r5 >= 0 :: signed
+    r7 = box(short_int, 6)
+    r8 = PySet_Add(r0, r7)
+    r9 = r8 >= 0 :: signed
+    return r0
+
+[case testNewEmptySet]
+from typing import Set
+def f() -> Set[int]:
+    return set()
+[out]
+def f():
+    r0 :: set
+L0:
+    r0 = PySet_New(0)
+    return r0
+
+[case testNewSetFromIterable]
+from typing import Set, List
+def f(l: List[T]) -> Set[T]:
+    return set(l)
+[out]
+def f(l):
+    l :: list
+    r0 :: set
+L0:
+    r0 = PySet_New(l)
+    return r0
+
+[case testSetSize]
+from typing import Set
+def f() -> int:
+    return len({1, 2, 3})
+[out]
+def f():
+    r0 :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+    r4 :: object
+    r5 :: int32
+    r6 :: bit
+    r7 :: object
+    r8 :: int32
+    r9 :: bit
+    r10 :: ptr
+    r11 :: native_int
+    r12 :: short_int
+L0:
+    r0 = PySet_New(0)
+    r1 = box(short_int, 2)
+    r2 = PySet_Add(r0, r1)
+    r3 = r2 >= 0 :: signed
+    r4 = box(short_int, 4)
+    r5 = PySet_Add(r0, r4)
+    r6 = r5 >= 0 :: signed
+    r7 = box(short_int, 6)
+    r8 = PySet_Add(r0, r7)
+    r9 = r8 >= 0 :: signed
+    r10 = get_element_ptr r0 used :: PySetObject
+    r11 = load_mem r10, r0 :: native_int*
+    r12 = r11 << 1
+    return r12
+
+[case testSetContains]
+from typing import Set
+def f() -> bool:
+    x = {3, 4}
+    return (5 in x)
+[out]
+def f():
+    r0 :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+    r4 :: object
+    r5 :: int32
+    r6 :: bit
+    x :: set
+    r7 :: object
+    r8 :: int32
+    r9 :: bit
+    r10 :: bool
+L0:
+    r0 = PySet_New(0)
+    r1 = box(short_int, 6)
+    r2 = PySet_Add(r0, r1)
+    r3 = r2 >= 0 :: signed
+    r4 = box(short_int, 8)
+    r5 = PySet_Add(r0, r4)
+    r6 = r5 >= 0 :: signed
+    x = r0
+    r7 = box(short_int, 10)
+    r8 = PySet_Contains(x, r7)
+    r9 = r8 >= 0 :: signed
+    r10 = truncate r8: int32 to builtins.bool
+    return r10
+
+[case testSetRemove]
+from typing import Set
+def f() -> Set[int]:
+    x = set()  # type: Set[int]
+    x.remove(1)
+    return x
+[out]
+def f():
+    r0, x :: set
+    r1 :: object
+    r2 :: bit
+L0:
+    r0 = PySet_New(0)
+    x = r0
+    r1 = box(short_int, 2)
+    r2 = CPySet_Remove(x, r1)
+    return x
+
+[case testSetDiscard]
+from typing import Set
+def f() -> Set[int]:
+    x = set()  # type: Set[int]
+    x.discard(1)
+    return x
+[out]
+def f():
+    r0, x :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+L0:
+    r0 = PySet_New(0)
+    x = r0
+    r1 = box(short_int, 2)
+    r2 = PySet_Discard(x, r1)
+    r3 = r2 >= 0 :: signed
+    return x
+
+[case testSetAdd]
+from typing import Set
+def f() -> Set[int]:
+    x = set()  # type: Set[int]
+    x.add(1)
+    return x
+[out]
+def f():
+    r0, x :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+L0:
+    r0 = PySet_New(0)
+    x = r0
+    r1 = box(short_int, 2)
+    r2 = PySet_Add(x, r1)
+    r3 = r2 >= 0 :: signed
+    return x
+
+[case testSetClear]
+from typing import Set
+def f() -> Set[int]:
+    x = set()  # type: Set[int]
+    x.clear()
+    return x
+[out]
+def f():
+    r0, x :: set
+    r1 :: int32
+    r2 :: bit
+L0:
+    r0 = PySet_New(0)
+    x = r0
+    r1 = PySet_Clear(x)
+    r2 = r1 >= 0 :: signed
+    return x
+
+[case testSetPop]
+from typing import Set
+def f(s : Set[int]) -> int:
+    return s.pop()
+[out]
+def f(s):
+    s :: set
+    r0 :: object
+    r1 :: int
+L0:
+    r0 = PySet_Pop(s)
+    r1 = unbox(int, r0)
+    return r1
+
+[case testSetUpdate]
+from typing import Set, List
+def update(s: Set[int], x: List[int]) -> None:
+    s.update(x)
+[out]
+def update(s, x):
+    s :: set
+    x :: list
+    r0 :: int32
+    r1 :: bit
+L0:
+    r0 = _PySet_Update(s, x)
+    r1 = r0 >= 0 :: signed
+    return 1
+
+[case testSetDisplay]
+from typing import Set
+def f(x: Set[int], y: Set[int]) -> Set[int]:
+    return {1, 2, *x, *y, 3}
+[out]
+def f(x, y):
+    x, y, r0 :: set
+    r1 :: object
+    r2 :: int32
+    r3 :: bit
+    r4 :: object
+    r5 :: int32
+    r6 :: bit
+    r7 :: int32
+    r8 :: bit
+    r9 :: int32
+    r10 :: bit
+    r11 :: object
+    r12 :: int32
+    r13 :: bit
+L0:
+    r0 = PySet_New(0)
+    r1 = box(short_int, 2)
+    r2 = PySet_Add(r0, r1)
+    r3 = r2 >= 0 :: signed
+    r4 = box(short_int, 4)
+    r5 = PySet_Add(r0, r4)
+    r6 = r5 >= 0 :: signed
+    r7 = _PySet_Update(r0, x)
+    r8 = r7 >= 0 :: signed
+    r9 = _PySet_Update(r0, y)
+    r10 = r9 >= 0 :: signed
+    r11 = box(short_int, 6)
+    r12 = PySet_Add(r0, r11)
+    r13 = r12 >= 0 :: signed
+    return r0
+
