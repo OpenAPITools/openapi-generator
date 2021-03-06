@@ -1,4 +1,0 @@
-_distutils_hack
-dist
-pkg_resources
-setuptools
