@@ -114,7 +114,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "abstract", "arguments", "boolean", "break", "byte",
                         "case", "catch", "char", "class", "const",
@@ -552,6 +552,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return name;
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
     }
 
     @Override

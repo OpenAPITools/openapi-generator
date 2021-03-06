@@ -1,9 +1,9 @@
-# OpenApiPetstore.InlineResponseDefault
+# OpenApiPetstore.Return
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**string** | [**Foo**](Foo.md) |  | [optional] 
+**_return** | **Number** |  | [optional] 
 
 

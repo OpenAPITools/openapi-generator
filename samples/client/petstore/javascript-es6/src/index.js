@@ -41,7 +41,6 @@ import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
-import ModelReturn from './model/ModelReturn';
 import Name from './model/Name';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
@@ -53,6 +52,7 @@ import OuterEnumInteger from './model/OuterEnumInteger';
 import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
+import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
 import User from './model/User';
@@ -272,12 +272,6 @@ export {
     Model200Response,
 
     /**
-     * The ModelReturn model constructor.
-     * @property {module:model/ModelReturn}
-     */
-    ModelReturn,
-
-    /**
      * The Name model constructor.
      * @property {module:model/Name}
      */
@@ -342,6 +336,12 @@ export {
      * @property {module:model/ReadOnlyFirst}
      */
     ReadOnlyFirst,
+
+    /**
+     * The Return model constructor.
+     * @property {module:model/Return}
+     */
+    Return,
 
     /**
      * The SpecialModelName model constructor.
