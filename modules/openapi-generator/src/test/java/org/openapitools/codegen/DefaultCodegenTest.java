@@ -2411,24 +2411,32 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         mapWithAddPropsUnset = cm.getVars().get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = cm.getVars().get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = cm.getVars().get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         modelName = "ObjectModelWithAddPropsInProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         mapWithAddPropsUnset = cm.getVars().get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = cm.getVars().get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = cm.getVars().get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         if (isGenerateAliasAsModel) { // restore the setting
             GlobalSettings.setProperty("generateAliasAsModel", "true");
