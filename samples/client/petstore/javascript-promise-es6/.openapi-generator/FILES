@@ -34,7 +34,6 @@ docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
-docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
@@ -47,6 +46,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/Return.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -92,7 +92,6 @@ src/model/List.js
 src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
 src/model/Model200Response.js
-src/model/ModelReturn.js
 src/model/Name.js
 src/model/NullableClass.js
 src/model/NumberOnly.js
@@ -104,6 +103,8 @@ src/model/OuterEnumInteger.js
 src/model/OuterEnumIntegerDefaultValue.js
 src/model/Pet.js
 src/model/ReadOnlyFirst.js
+src/model/Return.js
 src/model/SpecialModelName.js
 src/model/Tag.js
 src/model/User.js
+test/model/Return.spec.js
