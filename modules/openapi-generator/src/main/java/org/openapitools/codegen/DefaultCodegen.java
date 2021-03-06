@@ -2597,7 +2597,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
-        // process 'additionalProperties'
         CodegenModel m = null;
         if (property instanceof CodegenModel) {
             m = (CodegenModel) property;
