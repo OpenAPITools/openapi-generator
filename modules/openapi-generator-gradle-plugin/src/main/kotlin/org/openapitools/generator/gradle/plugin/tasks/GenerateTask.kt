@@ -189,7 +189,7 @@ open class GenerateTask : DefaultTask() {
      */
     @Optional
     @Input
-    val additionalProperties = project.objects.mapProperty<String, String>()
+    val additionalProperties = project.objects.mapProperty<String, Any>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
