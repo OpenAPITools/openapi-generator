@@ -347,10 +347,13 @@ namespace Org.OpenAPITools.Client
 
             if (response != null)
             {
-                foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
-                {
-                   transformed.Cookies.Add(cookie);
+                try {
+                    foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                    {
+                       transformed.Cookies.Add(cookie);
+                    }
                 }
+                catch (PlatformNotSupportedException) {}
             }
 
             return transformed;
