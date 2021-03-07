@@ -25,7 +25,7 @@ void main() {
       test('complete', () async {
         server.onGet(
           '/pet/5',
-          handler: (response) => response.reply(200, {
+          (request) => request.reply(200, {
             'id': 5,
             'name': 'Paula',
             'status': 'sold',
@@ -66,7 +66,7 @@ void main() {
       test('minimal', () async {
         server.onGet(
           '/pet/5',
-          handler: (response) => response.reply(200, {
+          (request) => request.reply(200, {
             'id': 5,
             'name': 'Paula',
             'photoUrls': <String>[],
@@ -90,6 +90,7 @@ void main() {
       test('complete', () async {
         server.onPost(
           '/pet',
+          (request) => request.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
@@ -117,7 +118,6 @@ void main() {
             'content-type': 'application/json',
             'content-length': Matchers.integer,
           },
-          handler: (response) => response.reply(200, ''),
         );
 
         final response = await client.getPetApi().addPet(
@@ -144,6 +144,7 @@ void main() {
       test('minimal', () async {
         server.onPost(
           '/pet',
+          (request) => request.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
@@ -153,7 +154,6 @@ void main() {
             'content-type': 'application/json',
             'content-length': Matchers.integer,
           },
-          handler: (response) => response.reply(200, ''),
         );
 
         final response = await client.getPetApi().addPet(
@@ -169,16 +169,7 @@ void main() {
       test('findByStatus', () async {
         server.onRoute(
           '/pet/findByStatus',
-          request: Request(
-            method: RequestMethods.GET,
-            queryParameters: <String, dynamic>{
-              'status': <String>[
-                'available',
-                'sold',
-              ],
-            },
-          ),
-          handler: (response) => response.reply(200, [
+          (request) => request.reply(200, [
             {
               'id': 5,
               'name': 'Paula',
@@ -192,6 +183,15 @@ void main() {
               'photoUrls': <String>[],
             },
           ]),
+          request: Request(
+            method: RequestMethods.GET,
+            queryParameters: <String, dynamic>{
+              'status': <String>[
+                'available',
+                'sold',
+              ],
+            },
+          ),
         );
 
         final response = await client.getPetApi().findPetsByStatus(
