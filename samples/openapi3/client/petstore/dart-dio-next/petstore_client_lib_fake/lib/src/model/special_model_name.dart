@@ -33,9 +33,9 @@ class _$SpecialModelNameSerializer
   final String wireName = r'SpecialModelName';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SpecialModelName object,
+  Iterable<Object?> serialize(Serializers serializers, SpecialModelName object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object
             .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket !=
         null) {
@@ -43,7 +43,7 @@ class _$SpecialModelNameSerializer
         ..add(r'$special[property.name]')
         ..add(serializers.serialize(
             object
-                .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket!,
+                .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
             specifiedType: const FullType(int)));
     }
     return result;
@@ -51,7 +51,7 @@ class _$SpecialModelNameSerializer
 
   @override
   SpecialModelName deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = SpecialModelNameBuilder();
 
@@ -59,7 +59,7 @@ class _$SpecialModelNameSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'$special[property.name]':
           result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket =

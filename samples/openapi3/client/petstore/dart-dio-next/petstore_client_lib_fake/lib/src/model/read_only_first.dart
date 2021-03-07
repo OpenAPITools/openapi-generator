@@ -35,19 +35,19 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
   final String wireName = r'ReadOnlyFirst';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ReadOnlyFirst object,
+  Iterable<Object?> serialize(Serializers serializers, ReadOnlyFirst object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.bar != null) {
       result
         ..add(r'bar')
-        ..add(serializers.serialize(object.bar!,
+        ..add(serializers.serialize(object.bar,
             specifiedType: const FullType(String)));
     }
     if (object.baz != null) {
       result
         ..add(r'baz')
-        ..add(serializers.serialize(object.baz!,
+        ..add(serializers.serialize(object.baz,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -55,7 +55,7 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
 
   @override
   ReadOnlyFirst deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ReadOnlyFirstBuilder();
 
@@ -63,7 +63,7 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'bar':
           result.bar = serializers.deserialize(value,

@@ -16,9 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -213,18 +211,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 additionalProperties.put("useDateLibCore", "true");
                 break;
         }
-    }
-
-    @Override
-    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
-        return super.addMustacheLambdas()
-                .put("escapeBuiltValueEnum", (fragment, writer) -> {
-                    // Raw strings don't work correctly in built_value enum strings.
-                    // Dollar signs need to be escaped in to make them work.
-                    // @BuiltValueEnumConst(wireName: r'$') produces '$' in generated code.
-                    // @BuiltValueEnumConst(wireName: r'\$') produces '\$' in generated code.
-                    writer.write(fragment.execute().replace("$", "\\$"));
-                });
     }
 
     @Override

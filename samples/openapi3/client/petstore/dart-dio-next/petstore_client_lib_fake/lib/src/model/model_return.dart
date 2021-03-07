@@ -29,20 +29,20 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
   final String wireName = r'ModelReturn';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ModelReturn object,
+  Iterable<Object?> serialize(Serializers serializers, ModelReturn object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.return_ != null) {
       result
         ..add(r'return')
-        ..add(serializers.serialize(object.return_!,
+        ..add(serializers.serialize(object.return_,
             specifiedType: const FullType(int)));
     }
     return result;
   }
 
   @override
-  ModelReturn deserialize(Serializers serializers, Iterable<Object> serialized,
+  ModelReturn deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ModelReturnBuilder();
 
@@ -50,7 +50,7 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'return':
           result.return_ = serializers.deserialize(value,

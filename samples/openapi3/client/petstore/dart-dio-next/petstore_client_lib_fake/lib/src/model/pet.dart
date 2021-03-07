@@ -49,19 +49,19 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
   final String wireName = r'Pet';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Pet object,
+  Iterable<Object?> serialize(Serializers serializers, Pet object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.id != null) {
       result
         ..add(r'id')
-        ..add(serializers.serialize(object.id!,
+        ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
     if (object.category != null) {
       result
         ..add(r'category')
-        ..add(serializers.serialize(object.category!,
+        ..add(serializers.serialize(object.category,
             specifiedType: const FullType(Category)));
     }
     result
@@ -75,20 +75,20 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
     if (object.tags != null) {
       result
         ..add(r'tags')
-        ..add(serializers.serialize(object.tags!,
+        ..add(serializers.serialize(object.tags,
             specifiedType: const FullType(BuiltList, [FullType(Tag)])));
     }
     if (object.status != null) {
       result
         ..add(r'status')
-        ..add(serializers.serialize(object.status!,
+        ..add(serializers.serialize(object.status,
             specifiedType: const FullType(PetStatusEnum)));
     }
     return result;
   }
 
   @override
-  Pet deserialize(Serializers serializers, Iterable<Object> serialized,
+  Pet deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = PetBuilder();
 
@@ -96,7 +96,7 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'id':
           result.id = serializers.deserialize(value,

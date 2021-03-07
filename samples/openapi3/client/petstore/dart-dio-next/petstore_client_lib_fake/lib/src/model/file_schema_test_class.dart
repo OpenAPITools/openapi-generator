@@ -41,20 +41,20 @@ class _$FileSchemaTestClassSerializer
   final String wireName = r'FileSchemaTestClass';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, FileSchemaTestClass object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.file != null) {
       result
         ..add(r'file')
-        ..add(serializers.serialize(object.file!,
+        ..add(serializers.serialize(object.file,
             specifiedType: const FullType(ModelFile)));
     }
     if (object.files != null) {
       result
         ..add(r'files')
-        ..add(serializers.serialize(object.files!,
+        ..add(serializers.serialize(object.files,
             specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));
     }
     return result;
@@ -62,7 +62,7 @@ class _$FileSchemaTestClassSerializer
 
   @override
   FileSchemaTestClass deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = FileSchemaTestClassBuilder();
 
@@ -70,7 +70,7 @@ class _$FileSchemaTestClassSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'file':
           result.file.replace(serializers.deserialize(value,

@@ -52,26 +52,26 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
   final String wireName = r'MixedPropertiesAndAdditionalPropertiesClass';
 
   @override
-  Iterable<Object> serialize(Serializers serializers,
+  Iterable<Object?> serialize(Serializers serializers,
       MixedPropertiesAndAdditionalPropertiesClass object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.uuid != null) {
       result
         ..add(r'uuid')
-        ..add(serializers.serialize(object.uuid!,
+        ..add(serializers.serialize(object.uuid,
             specifiedType: const FullType(String)));
     }
     if (object.dateTime != null) {
       result
         ..add(r'dateTime')
-        ..add(serializers.serialize(object.dateTime!,
+        ..add(serializers.serialize(object.dateTime,
             specifiedType: const FullType(DateTime)));
     }
     if (object.map != null) {
       result
         ..add(r'map')
-        ..add(serializers.serialize(object.map!,
+        ..add(serializers.serialize(object.map,
             specifiedType: const FullType(
                 BuiltMap, [FullType(String), FullType(Animal)])));
     }
@@ -80,7 +80,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
 
   @override
   MixedPropertiesAndAdditionalPropertiesClass deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = MixedPropertiesAndAdditionalPropertiesClassBuilder();
 
@@ -88,7 +88,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'uuid':
           result.uuid = serializers.deserialize(value,

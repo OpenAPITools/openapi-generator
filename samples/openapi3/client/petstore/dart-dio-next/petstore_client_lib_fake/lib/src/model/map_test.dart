@@ -40,13 +40,13 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
   final String wireName = r'MapTest';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, MapTest object,
+  Iterable<Object?> serialize(Serializers serializers, MapTest object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.mapMapOfString != null) {
       result
         ..add(r'map_map_of_string')
-        ..add(serializers.serialize(object.mapMapOfString!,
+        ..add(serializers.serialize(object.mapMapOfString,
             specifiedType: const FullType(BuiltMap, [
               FullType(String),
               FullType(BuiltMap, [FullType(String), FullType(String)])
@@ -55,21 +55,21 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
     if (object.mapOfEnumString != null) {
       result
         ..add(r'map_of_enum_string')
-        ..add(serializers.serialize(object.mapOfEnumString!,
+        ..add(serializers.serialize(object.mapOfEnumString,
             specifiedType: const FullType(BuiltMap,
                 [FullType(String), FullType(MapTestMapOfEnumStringEnum)])));
     }
     if (object.directMap != null) {
       result
         ..add(r'direct_map')
-        ..add(serializers.serialize(object.directMap!,
+        ..add(serializers.serialize(object.directMap,
             specifiedType:
                 const FullType(BuiltMap, [FullType(String), FullType(bool)])));
     }
     if (object.indirectMap != null) {
       result
         ..add(r'indirect_map')
-        ..add(serializers.serialize(object.indirectMap!,
+        ..add(serializers.serialize(object.indirectMap,
             specifiedType:
                 const FullType(BuiltMap, [FullType(String), FullType(bool)])));
     }
@@ -77,7 +77,7 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
   }
 
   @override
-  MapTest deserialize(Serializers serializers, Iterable<Object> serialized,
+  MapTest deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = MapTestBuilder();
 
@@ -85,7 +85,7 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'map_map_of_string':
           result.mapMapOfString.replace(serializers.deserialize(value,

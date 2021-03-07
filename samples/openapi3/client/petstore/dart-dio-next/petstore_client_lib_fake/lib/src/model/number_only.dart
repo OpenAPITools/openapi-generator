@@ -29,20 +29,20 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
   final String wireName = r'NumberOnly';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, NumberOnly object,
+  Iterable<Object?> serialize(Serializers serializers, NumberOnly object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.justNumber != null) {
       result
         ..add(r'JustNumber')
-        ..add(serializers.serialize(object.justNumber!,
+        ..add(serializers.serialize(object.justNumber,
             specifiedType: const FullType(num)));
     }
     return result;
   }
 
   @override
-  NumberOnly deserialize(Serializers serializers, Iterable<Object> serialized,
+  NumberOnly deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = NumberOnlyBuilder();
 
@@ -50,7 +50,7 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'JustNumber':
           result.justNumber = serializers.deserialize(value,

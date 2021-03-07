@@ -38,9 +38,9 @@ class _$NameSerializer implements StructuredSerializer<Name> {
   final String wireName = r'Name';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Name object,
+  Iterable<Object?> serialize(Serializers serializers, Name object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     result
       ..add(r'name')
       ..add(serializers.serialize(object.name,
@@ -48,26 +48,26 @@ class _$NameSerializer implements StructuredSerializer<Name> {
     if (object.snakeCase != null) {
       result
         ..add(r'snake_case')
-        ..add(serializers.serialize(object.snakeCase!,
+        ..add(serializers.serialize(object.snakeCase,
             specifiedType: const FullType(int)));
     }
     if (object.property != null) {
       result
         ..add(r'property')
-        ..add(serializers.serialize(object.property!,
+        ..add(serializers.serialize(object.property,
             specifiedType: const FullType(String)));
     }
     if (object.n123number != null) {
       result
         ..add(r'123Number')
-        ..add(serializers.serialize(object.n123number!,
+        ..add(serializers.serialize(object.n123number,
             specifiedType: const FullType(int)));
     }
     return result;
   }
 
   @override
-  Name deserialize(Serializers serializers, Iterable<Object> serialized,
+  Name deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = NameBuilder();
 
@@ -75,7 +75,7 @@ class _$NameSerializer implements StructuredSerializer<Name> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'name':
           result.name = serializers.deserialize(value,

@@ -29,20 +29,20 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
   final String wireName = r'ClassModel';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ClassModel object,
+  Iterable<Object?> serialize(Serializers serializers, ClassModel object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.class_ != null) {
       result
         ..add(r'_class')
-        ..add(serializers.serialize(object.class_!,
+        ..add(serializers.serialize(object.class_,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  ClassModel deserialize(Serializers serializers, Iterable<Object> serialized,
+  ClassModel deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ClassModelBuilder();
 
@@ -50,7 +50,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'_class':
           result.class_ = serializers.deserialize(value,

@@ -77,25 +77,25 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
   final String wireName = r'FormatTest';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, FormatTest object,
+  Iterable<Object?> serialize(Serializers serializers, FormatTest object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.integer != null) {
       result
         ..add(r'integer')
-        ..add(serializers.serialize(object.integer!,
+        ..add(serializers.serialize(object.integer,
             specifiedType: const FullType(int)));
     }
     if (object.int32 != null) {
       result
         ..add(r'int32')
-        ..add(serializers.serialize(object.int32!,
+        ..add(serializers.serialize(object.int32,
             specifiedType: const FullType(int)));
     }
     if (object.int64 != null) {
       result
         ..add(r'int64')
-        ..add(serializers.serialize(object.int64!,
+        ..add(serializers.serialize(object.int64,
             specifiedType: const FullType(int)));
     }
     result
@@ -105,25 +105,25 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
     if (object.float != null) {
       result
         ..add(r'float')
-        ..add(serializers.serialize(object.float!,
+        ..add(serializers.serialize(object.float,
             specifiedType: const FullType(double)));
     }
     if (object.double_ != null) {
       result
         ..add(r'double')
-        ..add(serializers.serialize(object.double_!,
+        ..add(serializers.serialize(object.double_,
             specifiedType: const FullType(double)));
     }
     if (object.decimal != null) {
       result
         ..add(r'decimal')
-        ..add(serializers.serialize(object.decimal!,
+        ..add(serializers.serialize(object.decimal,
             specifiedType: const FullType(double)));
     }
     if (object.string != null) {
       result
         ..add(r'string')
-        ..add(serializers.serialize(object.string!,
+        ..add(serializers.serialize(object.string,
             specifiedType: const FullType(String)));
     }
     result
@@ -133,7 +133,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
     if (object.binary != null) {
       result
         ..add(r'binary')
-        ..add(serializers.serialize(object.binary!,
+        ..add(serializers.serialize(object.binary,
             specifiedType: const FullType(Uint8List)));
     }
     result
@@ -143,13 +143,13 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
     if (object.dateTime != null) {
       result
         ..add(r'dateTime')
-        ..add(serializers.serialize(object.dateTime!,
+        ..add(serializers.serialize(object.dateTime,
             specifiedType: const FullType(DateTime)));
     }
     if (object.uuid != null) {
       result
         ..add(r'uuid')
-        ..add(serializers.serialize(object.uuid!,
+        ..add(serializers.serialize(object.uuid,
             specifiedType: const FullType(String)));
     }
     result
@@ -159,20 +159,20 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
     if (object.patternWithDigits != null) {
       result
         ..add(r'pattern_with_digits')
-        ..add(serializers.serialize(object.patternWithDigits!,
+        ..add(serializers.serialize(object.patternWithDigits,
             specifiedType: const FullType(String)));
     }
     if (object.patternWithDigitsAndDelimiter != null) {
       result
         ..add(r'pattern_with_digits_and_delimiter')
-        ..add(serializers.serialize(object.patternWithDigitsAndDelimiter!,
+        ..add(serializers.serialize(object.patternWithDigitsAndDelimiter,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  FormatTest deserialize(Serializers serializers, Iterable<Object> serialized,
+  FormatTest deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = FormatTestBuilder();
 
@@ -180,7 +180,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'integer':
           result.integer = serializers.deserialize(value,

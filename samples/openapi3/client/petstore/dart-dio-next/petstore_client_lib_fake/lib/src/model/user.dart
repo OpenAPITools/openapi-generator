@@ -51,62 +51,62 @@ class _$UserSerializer implements StructuredSerializer<User> {
   final String wireName = r'User';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, User object,
+  Iterable<Object?> serialize(Serializers serializers, User object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.id != null) {
       result
         ..add(r'id')
-        ..add(serializers.serialize(object.id!,
+        ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
     if (object.username != null) {
       result
         ..add(r'username')
-        ..add(serializers.serialize(object.username!,
+        ..add(serializers.serialize(object.username,
             specifiedType: const FullType(String)));
     }
     if (object.firstName != null) {
       result
         ..add(r'firstName')
-        ..add(serializers.serialize(object.firstName!,
+        ..add(serializers.serialize(object.firstName,
             specifiedType: const FullType(String)));
     }
     if (object.lastName != null) {
       result
         ..add(r'lastName')
-        ..add(serializers.serialize(object.lastName!,
+        ..add(serializers.serialize(object.lastName,
             specifiedType: const FullType(String)));
     }
     if (object.email != null) {
       result
         ..add(r'email')
-        ..add(serializers.serialize(object.email!,
+        ..add(serializers.serialize(object.email,
             specifiedType: const FullType(String)));
     }
     if (object.password != null) {
       result
         ..add(r'password')
-        ..add(serializers.serialize(object.password!,
+        ..add(serializers.serialize(object.password,
             specifiedType: const FullType(String)));
     }
     if (object.phone != null) {
       result
         ..add(r'phone')
-        ..add(serializers.serialize(object.phone!,
+        ..add(serializers.serialize(object.phone,
             specifiedType: const FullType(String)));
     }
     if (object.userStatus != null) {
       result
         ..add(r'userStatus')
-        ..add(serializers.serialize(object.userStatus!,
+        ..add(serializers.serialize(object.userStatus,
             specifiedType: const FullType(int)));
     }
     return result;
   }
 
   @override
-  User deserialize(Serializers serializers, Iterable<Object> serialized,
+  User deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = UserBuilder();
 
@@ -114,7 +114,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'id':
           result.id = serializers.deserialize(value,

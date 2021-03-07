@@ -38,9 +38,9 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
     final String wireName = r'{{classname}}';
 
     @override
-    Iterable<Object> serialize(Serializers serializers, {{{classname}}} object,
+    Iterable<Object?> serialize(Serializers serializers, {{{classname}}} object,
         {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object>[];
+        final result = <Object?>[];
         {{#vars}}
         {{#required}}
         {{!
@@ -57,7 +57,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             {{! Non-required properties are only serialized if not null. }}
             result
                 ..add(r'{{baseName}}')
-                ..add(serializers.serialize(object.{{{name}}}!,
+                ..add(serializers.serialize(object.{{{name}}},
                     specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
         }
         {{/required}}
@@ -66,7 +66,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
     }
 
     @override
-    {{classname}} deserialize(Serializers serializers, Iterable<Object> serialized,
+    {{classname}} deserialize(Serializers serializers, Iterable<Object?> serialized,
         {FullType specifiedType = FullType.unspecified}) {
         final result = {{classname}}Builder();
 
@@ -74,7 +74,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
         while (iterator.moveNext()) {
             final key = iterator.current as String;
             iterator.moveNext();
-            final Object value = iterator.current;
+            final Object? value = iterator.current;
             switch (key) {
                 {{#vars}}
                 case r'{{baseName}}':

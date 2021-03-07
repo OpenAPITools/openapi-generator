@@ -37,19 +37,19 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
   final String wireName = r'ArrayTest';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ArrayTest object,
+  Iterable<Object?> serialize(Serializers serializers, ArrayTest object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.arrayOfString != null) {
       result
         ..add(r'array_of_string')
-        ..add(serializers.serialize(object.arrayOfString!,
+        ..add(serializers.serialize(object.arrayOfString,
             specifiedType: const FullType(BuiltList, [FullType(String)])));
     }
     if (object.arrayArrayOfInteger != null) {
       result
         ..add(r'array_array_of_integer')
-        ..add(serializers.serialize(object.arrayArrayOfInteger!,
+        ..add(serializers.serialize(object.arrayArrayOfInteger,
             specifiedType: const FullType(BuiltList, [
               FullType(BuiltList, [FullType(int)])
             ])));
@@ -57,7 +57,7 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
     if (object.arrayArrayOfModel != null) {
       result
         ..add(r'array_array_of_model')
-        ..add(serializers.serialize(object.arrayArrayOfModel!,
+        ..add(serializers.serialize(object.arrayArrayOfModel,
             specifiedType: const FullType(BuiltList, [
               FullType(BuiltList, [FullType(ReadOnlyFirst)])
             ])));
@@ -66,7 +66,7 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
   }
 
   @override
-  ArrayTest deserialize(Serializers serializers, Iterable<Object> serialized,
+  ArrayTest deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ArrayTestBuilder();
 
@@ -74,7 +74,7 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'array_of_string':
           result.arrayOfString.replace(serializers.deserialize(value,

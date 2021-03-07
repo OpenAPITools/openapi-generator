@@ -37,9 +37,9 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
   final String wireName = r'Dog';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Dog object,
+  Iterable<Object?> serialize(Serializers serializers, Dog object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     result
       ..add(r'className')
       ..add(serializers.serialize(object.className,
@@ -47,20 +47,20 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
     if (object.color != null) {
       result
         ..add(r'color')
-        ..add(serializers.serialize(object.color!,
+        ..add(serializers.serialize(object.color,
             specifiedType: const FullType(String)));
     }
     if (object.breed != null) {
       result
         ..add(r'breed')
-        ..add(serializers.serialize(object.breed!,
+        ..add(serializers.serialize(object.breed,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  Dog deserialize(Serializers serializers, Iterable<Object> serialized,
+  Dog deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = DogBuilder();
 
@@ -68,7 +68,7 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'className':
           result.className = serializers.deserialize(value,

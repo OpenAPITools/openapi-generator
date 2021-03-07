@@ -29,20 +29,20 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
   final String wireName = r'DogAllOf';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, DogAllOf object,
+  Iterable<Object?> serialize(Serializers serializers, DogAllOf object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.breed != null) {
       result
         ..add(r'breed')
-        ..add(serializers.serialize(object.breed!,
+        ..add(serializers.serialize(object.breed,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  DogAllOf deserialize(Serializers serializers, Iterable<Object> serialized,
+  DogAllOf deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = DogAllOfBuilder();
 
@@ -50,7 +50,7 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'breed':
           result.breed = serializers.deserialize(value,

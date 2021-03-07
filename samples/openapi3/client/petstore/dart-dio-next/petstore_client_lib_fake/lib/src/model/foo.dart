@@ -29,20 +29,20 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
   final String wireName = r'Foo';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Foo object,
+  Iterable<Object?> serialize(Serializers serializers, Foo object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.bar != null) {
       result
         ..add(r'bar')
-        ..add(serializers.serialize(object.bar!,
+        ..add(serializers.serialize(object.bar,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  Foo deserialize(Serializers serializers, Iterable<Object> serialized,
+  Foo deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = FooBuilder();
 
@@ -50,7 +50,7 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'bar':
           result.bar = serializers.deserialize(value,

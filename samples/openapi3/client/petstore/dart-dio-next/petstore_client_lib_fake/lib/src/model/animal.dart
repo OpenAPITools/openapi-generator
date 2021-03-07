@@ -32,9 +32,9 @@ class _$AnimalSerializer implements StructuredSerializer<Animal> {
   final String wireName = r'Animal';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Animal object,
+  Iterable<Object?> serialize(Serializers serializers, Animal object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     result
       ..add(r'className')
       ..add(serializers.serialize(object.className,
@@ -42,14 +42,14 @@ class _$AnimalSerializer implements StructuredSerializer<Animal> {
     if (object.color != null) {
       result
         ..add(r'color')
-        ..add(serializers.serialize(object.color!,
+        ..add(serializers.serialize(object.color,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  Animal deserialize(Serializers serializers, Iterable<Object> serialized,
+  Animal deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = AnimalBuilder();
 
@@ -57,7 +57,7 @@ class _$AnimalSerializer implements StructuredSerializer<Animal> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'className':
           result.className = serializers.deserialize(value,

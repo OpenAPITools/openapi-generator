@@ -47,50 +47,50 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
   final String wireName = r'Order';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Order object,
+  Iterable<Object?> serialize(Serializers serializers, Order object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.id != null) {
       result
         ..add(r'id')
-        ..add(serializers.serialize(object.id!,
+        ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
     if (object.petId != null) {
       result
         ..add(r'petId')
-        ..add(serializers.serialize(object.petId!,
+        ..add(serializers.serialize(object.petId,
             specifiedType: const FullType(int)));
     }
     if (object.quantity != null) {
       result
         ..add(r'quantity')
-        ..add(serializers.serialize(object.quantity!,
+        ..add(serializers.serialize(object.quantity,
             specifiedType: const FullType(int)));
     }
     if (object.shipDate != null) {
       result
         ..add(r'shipDate')
-        ..add(serializers.serialize(object.shipDate!,
+        ..add(serializers.serialize(object.shipDate,
             specifiedType: const FullType(DateTime)));
     }
     if (object.status != null) {
       result
         ..add(r'status')
-        ..add(serializers.serialize(object.status!,
+        ..add(serializers.serialize(object.status,
             specifiedType: const FullType(OrderStatusEnum)));
     }
     if (object.complete != null) {
       result
         ..add(r'complete')
-        ..add(serializers.serialize(object.complete!,
+        ..add(serializers.serialize(object.complete,
             specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
-  Order deserialize(Serializers serializers, Iterable<Object> serialized,
+  Order deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = OrderBuilder();
 
@@ -98,7 +98,7 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'id':
           result.id = serializers.deserialize(value,

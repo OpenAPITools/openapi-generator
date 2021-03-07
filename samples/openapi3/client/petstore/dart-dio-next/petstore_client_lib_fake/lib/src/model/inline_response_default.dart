@@ -37,14 +37,14 @@ class _$InlineResponseDefaultSerializer
   final String wireName = r'InlineResponseDefault';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, InlineResponseDefault object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.string != null) {
       result
         ..add(r'string')
-        ..add(serializers.serialize(object.string!,
+        ..add(serializers.serialize(object.string,
             specifiedType: const FullType(Foo)));
     }
     return result;
@@ -52,7 +52,7 @@ class _$InlineResponseDefaultSerializer
 
   @override
   InlineResponseDefault deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = InlineResponseDefaultBuilder();
 
@@ -60,7 +60,7 @@ class _$InlineResponseDefaultSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'string':
           result.string.replace(serializers.deserialize(value,

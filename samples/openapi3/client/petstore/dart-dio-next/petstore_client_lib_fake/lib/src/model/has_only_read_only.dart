@@ -36,19 +36,19 @@ class _$HasOnlyReadOnlySerializer
   final String wireName = r'HasOnlyReadOnly';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, HasOnlyReadOnly object,
+  Iterable<Object?> serialize(Serializers serializers, HasOnlyReadOnly object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.bar != null) {
       result
         ..add(r'bar')
-        ..add(serializers.serialize(object.bar!,
+        ..add(serializers.serialize(object.bar,
             specifiedType: const FullType(String)));
     }
     if (object.foo != null) {
       result
         ..add(r'foo')
-        ..add(serializers.serialize(object.foo!,
+        ..add(serializers.serialize(object.foo,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -56,7 +56,7 @@ class _$HasOnlyReadOnlySerializer
 
   @override
   HasOnlyReadOnly deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = HasOnlyReadOnlyBuilder();
 
@@ -64,7 +64,7 @@ class _$HasOnlyReadOnlySerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'bar':
           result.bar = serializers.deserialize(value,

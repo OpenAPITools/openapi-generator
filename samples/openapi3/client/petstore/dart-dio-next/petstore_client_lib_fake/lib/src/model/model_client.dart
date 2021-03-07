@@ -29,20 +29,20 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
   final String wireName = r'ModelClient';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ModelClient object,
+  Iterable<Object?> serialize(Serializers serializers, ModelClient object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.client != null) {
       result
         ..add(r'client')
-        ..add(serializers.serialize(object.client!,
+        ..add(serializers.serialize(object.client,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  ModelClient deserialize(Serializers serializers, Iterable<Object> serialized,
+  ModelClient deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ModelClientBuilder();
 
@@ -50,7 +50,7 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'client':
           result.client = serializers.deserialize(value,

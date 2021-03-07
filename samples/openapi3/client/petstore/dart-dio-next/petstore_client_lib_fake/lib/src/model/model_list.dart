@@ -29,20 +29,20 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
   final String wireName = r'ModelList';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ModelList object,
+  Iterable<Object?> serialize(Serializers serializers, ModelList object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.n123list != null) {
       result
         ..add(r'123-list')
-        ..add(serializers.serialize(object.n123list!,
+        ..add(serializers.serialize(object.n123list,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  ModelList deserialize(Serializers serializers, Iterable<Object> serialized,
+  ModelList deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ModelListBuilder();
 
@@ -50,7 +50,7 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'123-list':
           result.n123list = serializers.deserialize(value,

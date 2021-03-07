@@ -29,20 +29,20 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
   final String wireName = r'CatAllOf';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, CatAllOf object,
+  Iterable<Object?> serialize(Serializers serializers, CatAllOf object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.declawed != null) {
       result
         ..add(r'declawed')
-        ..add(serializers.serialize(object.declawed!,
+        ..add(serializers.serialize(object.declawed,
             specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
-  CatAllOf deserialize(Serializers serializers, Iterable<Object> serialized,
+  CatAllOf deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = CatAllOfBuilder();
 
@@ -50,7 +50,7 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'declawed':
           result.declawed = serializers.deserialize(value,

@@ -34,13 +34,13 @@ class _$ArrayOfNumberOnlySerializer
   final String wireName = r'ArrayOfNumberOnly';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ArrayOfNumberOnly object,
+  Iterable<Object?> serialize(Serializers serializers, ArrayOfNumberOnly object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.arrayNumber != null) {
       result
         ..add(r'ArrayNumber')
-        ..add(serializers.serialize(object.arrayNumber!,
+        ..add(serializers.serialize(object.arrayNumber,
             specifiedType: const FullType(BuiltList, [FullType(num)])));
     }
     return result;
@@ -48,7 +48,7 @@ class _$ArrayOfNumberOnlySerializer
 
   @override
   ArrayOfNumberOnly deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ArrayOfNumberOnlyBuilder();
 
@@ -56,7 +56,7 @@ class _$ArrayOfNumberOnlySerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'ArrayNumber':
           result.arrayNumber.replace(serializers.deserialize(value,

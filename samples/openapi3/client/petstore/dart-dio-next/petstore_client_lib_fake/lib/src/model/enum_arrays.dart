@@ -35,19 +35,19 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
   final String wireName = r'EnumArrays';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, EnumArrays object,
+  Iterable<Object?> serialize(Serializers serializers, EnumArrays object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.justSymbol != null) {
       result
         ..add(r'just_symbol')
-        ..add(serializers.serialize(object.justSymbol!,
+        ..add(serializers.serialize(object.justSymbol,
             specifiedType: const FullType(EnumArraysJustSymbolEnum)));
     }
     if (object.arrayEnum != null) {
       result
         ..add(r'array_enum')
-        ..add(serializers.serialize(object.arrayEnum!,
+        ..add(serializers.serialize(object.arrayEnum,
             specifiedType: const FullType(
                 BuiltList, [FullType(EnumArraysArrayEnumEnum)])));
     }
@@ -55,7 +55,7 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
   }
 
   @override
-  EnumArrays deserialize(Serializers serializers, Iterable<Object> serialized,
+  EnumArrays deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = EnumArraysBuilder();
 
@@ -63,7 +63,7 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'just_symbol':
           result.justSymbol = serializers.deserialize(value,
@@ -86,7 +86,7 @@ class EnumArraysJustSymbolEnum extends EnumClass {
   @BuiltValueEnumConst(wireName: r'>=')
   static const EnumArraysJustSymbolEnum greaterThanEqual =
       _$enumArraysJustSymbolEnum_greaterThanEqual;
-  @BuiltValueEnumConst(wireName: r'\$')
+  @BuiltValueEnumConst(wireName: r'$')
   static const EnumArraysJustSymbolEnum dollar =
       _$enumArraysJustSymbolEnum_dollar;
 

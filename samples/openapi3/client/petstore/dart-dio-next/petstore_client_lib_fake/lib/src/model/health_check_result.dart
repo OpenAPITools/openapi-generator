@@ -33,13 +33,13 @@ class _$HealthCheckResultSerializer
   final String wireName = r'HealthCheckResult';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, HealthCheckResult object,
+  Iterable<Object?> serialize(Serializers serializers, HealthCheckResult object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.nullableMessage != null) {
       result
         ..add(r'NullableMessage')
-        ..add(serializers.serialize(object.nullableMessage!,
+        ..add(serializers.serialize(object.nullableMessage,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -47,7 +47,7 @@ class _$HealthCheckResultSerializer
 
   @override
   HealthCheckResult deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = HealthCheckResultBuilder();
 
@@ -55,7 +55,7 @@ class _$HealthCheckResultSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'NullableMessage':
           result.nullableMessage = serializers.deserialize(value,

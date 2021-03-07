@@ -39,25 +39,25 @@ class _$OuterCompositeSerializer
   final String wireName = r'OuterComposite';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, OuterComposite object,
+  Iterable<Object?> serialize(Serializers serializers, OuterComposite object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.myNumber != null) {
       result
         ..add(r'my_number')
-        ..add(serializers.serialize(object.myNumber!,
+        ..add(serializers.serialize(object.myNumber,
             specifiedType: const FullType(num)));
     }
     if (object.myString != null) {
       result
         ..add(r'my_string')
-        ..add(serializers.serialize(object.myString!,
+        ..add(serializers.serialize(object.myString,
             specifiedType: const FullType(String)));
     }
     if (object.myBoolean != null) {
       result
         ..add(r'my_boolean')
-        ..add(serializers.serialize(object.myBoolean!,
+        ..add(serializers.serialize(object.myBoolean,
             specifiedType: const FullType(bool)));
     }
     return result;
@@ -65,7 +65,7 @@ class _$OuterCompositeSerializer
 
   @override
   OuterComposite deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = OuterCompositeBuilder();
 
@@ -73,7 +73,7 @@ class _$OuterCompositeSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'my_number':
           result.myNumber = serializers.deserialize(value,

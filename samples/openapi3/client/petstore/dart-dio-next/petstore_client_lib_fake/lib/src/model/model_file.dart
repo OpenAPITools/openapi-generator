@@ -30,20 +30,20 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
   final String wireName = r'ModelFile';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ModelFile object,
+  Iterable<Object?> serialize(Serializers serializers, ModelFile object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.sourceURI != null) {
       result
         ..add(r'sourceURI')
-        ..add(serializers.serialize(object.sourceURI!,
+        ..add(serializers.serialize(object.sourceURI,
             specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
-  ModelFile deserialize(Serializers serializers, Iterable<Object> serialized,
+  ModelFile deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = ModelFileBuilder();
 
@@ -51,7 +51,7 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'sourceURI':
           result.sourceURI = serializers.deserialize(value,

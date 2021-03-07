@@ -49,43 +49,43 @@ class _$CapitalizationSerializer
   final String wireName = r'Capitalization';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Capitalization object,
+  Iterable<Object?> serialize(Serializers serializers, Capitalization object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.smallCamel != null) {
       result
         ..add(r'smallCamel')
-        ..add(serializers.serialize(object.smallCamel!,
+        ..add(serializers.serialize(object.smallCamel,
             specifiedType: const FullType(String)));
     }
     if (object.capitalCamel != null) {
       result
         ..add(r'CapitalCamel')
-        ..add(serializers.serialize(object.capitalCamel!,
+        ..add(serializers.serialize(object.capitalCamel,
             specifiedType: const FullType(String)));
     }
     if (object.smallSnake != null) {
       result
         ..add(r'small_Snake')
-        ..add(serializers.serialize(object.smallSnake!,
+        ..add(serializers.serialize(object.smallSnake,
             specifiedType: const FullType(String)));
     }
     if (object.capitalSnake != null) {
       result
         ..add(r'Capital_Snake')
-        ..add(serializers.serialize(object.capitalSnake!,
+        ..add(serializers.serialize(object.capitalSnake,
             specifiedType: const FullType(String)));
     }
     if (object.sCAETHFlowPoints != null) {
       result
         ..add(r'SCA_ETH_Flow_Points')
-        ..add(serializers.serialize(object.sCAETHFlowPoints!,
+        ..add(serializers.serialize(object.sCAETHFlowPoints,
             specifiedType: const FullType(String)));
     }
     if (object.ATT_NAME != null) {
       result
         ..add(r'ATT_NAME')
-        ..add(serializers.serialize(object.ATT_NAME!,
+        ..add(serializers.serialize(object.ATT_NAME,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -93,7 +93,7 @@ class _$CapitalizationSerializer
 
   @override
   Capitalization deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = CapitalizationBuilder();
 
@@ -101,7 +101,7 @@ class _$CapitalizationSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'smallCamel':
           result.smallCamel = serializers.deserialize(value,

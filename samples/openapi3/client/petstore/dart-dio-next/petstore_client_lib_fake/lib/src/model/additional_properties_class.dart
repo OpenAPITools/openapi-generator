@@ -42,21 +42,21 @@ class _$AdditionalPropertiesClassSerializer
   final String wireName = r'AdditionalPropertiesClass';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, AdditionalPropertiesClass object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object?>[];
     if (object.mapProperty != null) {
       result
         ..add(r'map_property')
-        ..add(serializers.serialize(object.mapProperty!,
+        ..add(serializers.serialize(object.mapProperty,
             specifiedType: const FullType(
                 BuiltMap, [FullType(String), FullType(String)])));
     }
     if (object.mapOfMapProperty != null) {
       result
         ..add(r'map_of_map_property')
-        ..add(serializers.serialize(object.mapOfMapProperty!,
+        ..add(serializers.serialize(object.mapOfMapProperty,
             specifiedType: const FullType(BuiltMap, [
               FullType(String),
               FullType(BuiltMap, [FullType(String), FullType(String)])
@@ -67,7 +67,7 @@ class _$AdditionalPropertiesClassSerializer
 
   @override
   AdditionalPropertiesClass deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = AdditionalPropertiesClassBuilder();
 
@@ -75,7 +75,7 @@ class _$AdditionalPropertiesClassSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case r'map_property':
           result.mapProperty.replace(serializers.deserialize(value,
