@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
             {
                 case "BasquePig":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
                     {
                         newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                     }
@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
                     return newPig;
                 case "DanishPig":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
                     {
                         newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                     }
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
                 {
                     newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                 }
@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
                 {
                     newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                 }

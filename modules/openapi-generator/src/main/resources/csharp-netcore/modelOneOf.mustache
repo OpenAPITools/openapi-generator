@@ -113,7 +113,7 @@
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof({{{modelName}}}).GetProperty("AdditionalProperties") == null)
                     {
                         new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.SerializerSettings));
                     }
@@ -137,7 +137,7 @@
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof({{{.}}}).GetProperty("AdditionalProperties") == null)
                 {
                     new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
                 }

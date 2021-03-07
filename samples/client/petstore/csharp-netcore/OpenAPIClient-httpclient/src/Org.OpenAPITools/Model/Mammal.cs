@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
             {
                 case "Pig":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof(Pig).GetProperty("AdditionalProperties") == null)
                     {
                         newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
                     }
@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
                     return newMammal;
                 case "whale":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof(Whale).GetProperty("AdditionalProperties") == null)
                     {
                         newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
                     }
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
                     return newMammal;
                 case "zebra":
                     // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                    if (typeof(Zebra).GetProperty("AdditionalProperties") == null)
                     {
                         newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
                     }
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Pig).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
                 }
@@ -237,7 +237,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Whale).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
                 }
@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Zebra).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
                 }

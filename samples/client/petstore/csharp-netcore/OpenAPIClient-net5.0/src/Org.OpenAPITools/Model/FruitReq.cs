@@ -157,7 +157,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(AppleReq).GetProperty("AdditionalProperties") == null)
                 {
                     newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
                 }
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(BananaReq).GetProperty("AdditionalProperties") == null)
                 {
                     newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
                 }

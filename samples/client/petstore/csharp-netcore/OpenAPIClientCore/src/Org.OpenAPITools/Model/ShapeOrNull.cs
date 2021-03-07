@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
                 }
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
                 }

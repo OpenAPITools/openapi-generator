@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Apple).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
                 }
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Banana).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
                 }

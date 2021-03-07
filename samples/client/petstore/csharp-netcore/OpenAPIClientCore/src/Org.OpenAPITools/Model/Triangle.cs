@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(EquilateralTriangle).GetProperty("AdditionalProperties") == null)
                 {
                     newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
                 }
@@ -195,7 +195,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(IsoscelesTriangle).GetProperty("AdditionalProperties") == null)
                 {
                     newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
                 }
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newTriangle.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(ScaleneTriangle).GetProperty("AdditionalProperties") == null)
                 {
                     newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
                 }
