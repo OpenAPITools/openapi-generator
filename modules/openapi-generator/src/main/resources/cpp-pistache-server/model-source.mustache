@@ -47,7 +47,7 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
             j = "{{value}}";
             break;
         {{/enumVars}}
-}{{/allowableValues}}{{/isEnum}}
+    }{{/allowableValues}}{{/isEnum}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
