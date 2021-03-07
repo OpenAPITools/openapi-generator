@@ -148,20 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newShape.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
-                    }
+                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
                     return newShape;
                 case "Triangle":
-                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newShape.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
-                    }
+                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
                     return newShape;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Shape. Possible values: Quadrilateral Triangle", discriminatorValue));
@@ -173,12 +163,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShape.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
-                }
+                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -190,12 +175,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShape.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
-                }
+                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -306,6 +286,23 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
+
+        /// <summary>
+        ///  Custom JSON serializer for objects with additional properties
+        /// </summary>
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+            {
+                NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
     }
 
 }

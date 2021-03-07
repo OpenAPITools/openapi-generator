@@ -148,20 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "BasquePig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
-                    }
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                     return newPig;
                 case "DanishPig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newPig.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
-                    }
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                     return newPig;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
@@ -173,12 +163,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
-                }
+                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -190,12 +175,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
-                }
+                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
                 matchedTypes.Add("DanishPig");
                 match++;
             }
@@ -306,6 +286,23 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
+
+        /// <summary>
+        ///  Custom JSON serializer for objects with additional properties
+        /// </summary>
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+            {
+                NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
     }
 
 }

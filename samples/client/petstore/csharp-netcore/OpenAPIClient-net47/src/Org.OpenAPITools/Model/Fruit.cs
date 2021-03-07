@@ -147,12 +147,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
-                }
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Apple");
                 match++;
             }
@@ -164,12 +159,7 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
-                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
-                {
-                    newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
-                }
+                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
                 matchedTypes.Add("Banana");
                 match++;
             }
