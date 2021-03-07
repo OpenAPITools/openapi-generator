@@ -14,19 +14,19 @@
 import ApiClient from '../ApiClient';
 
 /**
- * The ModelReturn model module.
- * @module model/ModelReturn
+ * The Return model module.
+ * @module model/Return
  * @version 1.0.0
  */
-class ModelReturn {
+class Return {
     /**
-     * Constructs a new <code>ModelReturn</code>.
+     * Constructs a new <code>Return</code>.
      * Model for testing reserved words
-     * @alias module:model/ModelReturn
+     * @alias module:model/Return
      */
     constructor() { 
         
-        ModelReturn.initialize(this);
+        Return.initialize(this);
     }
 
     /**
@@ -38,15 +38,15 @@ class ModelReturn {
     }
 
     /**
-     * Constructs a <code>ModelReturn</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Return</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ModelReturn} obj Optional instance to populate.
-     * @return {module:model/ModelReturn} The populated <code>ModelReturn</code> instance.
+     * @param {module:model/Return} obj Optional instance to populate.
+     * @return {module:model/Return} The populated <code>Return</code> instance.
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new ModelReturn();
+            obj = obj || new Return();
 
             if (data.hasOwnProperty('return')) {
                 obj['return'] = ApiClient.convertToType(data['return'], 'Number');
@@ -61,12 +61,12 @@ class ModelReturn {
 /**
  * @member {Number} return
  */
-ModelReturn.prototype['return'] = undefined;
+Return.prototype['return'] = undefined;
 
 
 
 
 
 
-export default ModelReturn;
+export default Return;
 

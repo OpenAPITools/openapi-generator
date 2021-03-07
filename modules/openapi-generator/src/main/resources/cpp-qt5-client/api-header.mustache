@@ -87,6 +87,7 @@ signals:
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 
     void abortRequestsSignal(); 
+    void allPendingRequestsCompleted();
 };
 
 {{#cppNamespaceDeclarations}}

@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new OpenApiPetstore.ModelReturn();
+    instance = new OpenApiPetstore.Return();
   });
 
   var getProperty = function(object, getter, property) {
@@ -47,16 +47,16 @@
       object[property] = value;
   }
 
-  describe('ModelReturn', function() {
-    it('should create an instance of ModelReturn', function() {
-      // uncomment below and update the code to test ModelReturn
-      //var instane = new OpenApiPetstore.ModelReturn();
-      //expect(instance).to.be.a(OpenApiPetstore.ModelReturn);
+  describe('Return', function() {
+    it('should create an instance of Return', function() {
+      // uncomment below and update the code to test Return
+      //var instane = new OpenApiPetstore.Return();
+      //expect(instance).to.be.a(OpenApiPetstore.Return);
     });
 
     it('should have the property _return (base name: "return")', function() {
       // uncomment below and update the code to test the property _return
-      //var instane = new OpenApiPetstore.ModelReturn();
+      //var instance = new OpenApiPetstore.Return();
       //expect(instance).to.be();
     });
 
