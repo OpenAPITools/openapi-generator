@@ -224,4 +224,23 @@
         {
             return false;
         }
+        {{#isAdditionalPropertiesTrue}}
+
+        /// <summary>
+        ///  Custom JSON serializer for objects with additional properties
+        /// </summary>
+        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+            {
+                NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            }
+        };
+        {{/isAdditionalPropertiesTrue}}
     }

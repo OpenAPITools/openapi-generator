@@ -86,8 +86,7 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Banana>(f3.ActualInstance);
 
             Fruit f4 = Fruit.FromJson("{\"origin\":\"Japan\"}");
-            // since banana allows additional properties, it will apple's JSON payload as well
-            Assert.IsType<Banana>(f4.ActualInstance);
+            Assert.IsType<Apple>(f4.ActualInstance);
 
             // test custom deserializer
             Fruit f5 = JsonConvert.DeserializeObject<Fruit>("{\"lengthCm\":98}");
@@ -95,6 +94,26 @@ namespace Org.OpenAPITools.Test
 
             // test custom serializer
             Assert.Equal("{\"lengthCm\":98.0}", JsonConvert.SerializeObject(f5));
+        }
+
+        /// <summary>
+        /// Apple tests
+        /// </summary>
+        [Fact]
+        public void TestApple()
+        {
+            Apple a = JsonConvert.DeserializeObject<Apple>("{\"origin\":\"Japan\"}");
+            Assert.Equal("{\"origin\":\"Japan\"}", JsonConvert.SerializeObject(a));
+        }
+
+        /// <summary>
+        /// Banana tests
+        /// </summary>
+        [Fact]
+        public void TestBanana()
+        {
+            Banana a = JsonConvert.DeserializeObject<Banana>("{\"origin\":\"Japan\"}");
+            Assert.Equal("{\"origin\":\"Japan\"}", JsonConvert.SerializeObject(a));
         }
 
         /// <summary>
