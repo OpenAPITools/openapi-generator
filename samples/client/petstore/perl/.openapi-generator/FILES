@@ -110,4 +110,3 @@ lib/WWW/OpenAPIClient/Role.pm
 lib/WWW/OpenAPIClient/Role/AutoDoc.pm
 lib/WWW/OpenAPIClient/StoreApi.pm
 lib/WWW/OpenAPIClient/UserApi.pm
-t/OuterObjectWithEnumPropertyTest.t

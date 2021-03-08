@@ -111,4 +111,3 @@ lib/model/tag.dart
 lib/model/user.dart
 lib/serializers.dart
 pubspec.yaml
-test/outer_object_with_enum_property_test.dart

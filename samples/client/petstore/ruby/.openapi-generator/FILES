@@ -117,5 +117,4 @@ lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb
 spec/configuration_spec.rb
-spec/models/outer_object_with_enum_property_spec.rb
 spec/spec_helper.rb

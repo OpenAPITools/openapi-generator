@@ -117,5 +117,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_outer_object_with_enum_property.py
 tox.ini
