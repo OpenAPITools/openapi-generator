@@ -534,6 +534,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
