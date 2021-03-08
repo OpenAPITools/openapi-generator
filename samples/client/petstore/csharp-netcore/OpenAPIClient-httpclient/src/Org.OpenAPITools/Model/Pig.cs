@@ -148,26 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "BasquePig":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
-                    }
-                    else
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    }
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                     return newPig;
                 case "DanishPig":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
-                    }
-                    else
-                    {
-                        newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
-                    }
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                     return newPig;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));

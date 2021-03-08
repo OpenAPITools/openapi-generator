@@ -157,26 +157,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
-                    {
-                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.SerializerSettings));
-                    }
-                    else
-                    {
-                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
-                    }
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
                     return newNullableShape;
                 case "Triangle":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
-                    {
-                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.SerializerSettings));
-                    }
-                    else
-                    {
-                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
-                    }
+                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
                     return newNullableShape;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));

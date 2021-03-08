@@ -174,37 +174,13 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "EquilateralTriangle":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(EquilateralTriangle).GetProperty("AdditionalProperties") == null)
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
-                    }
-                    else
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
-                    }
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
                     return newTriangle;
                 case "IsoscelesTriangle":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(IsoscelesTriangle).GetProperty("AdditionalProperties") == null)
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
-                    }
-                    else
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
-                    }
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
                     return newTriangle;
                 case "ScaleneTriangle":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(ScaleneTriangle).GetProperty("AdditionalProperties") == null)
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
-                    }
-                    else
-                    {
-                        newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
-                    }
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
                     return newTriangle;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));

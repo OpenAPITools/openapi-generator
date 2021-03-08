@@ -148,26 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "ComplexQuadrilateral":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(ComplexQuadrilateral).GetProperty("AdditionalProperties") == null)
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
-                    }
-                    else
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    }
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                     return newQuadrilateral;
                 case "SimpleQuadrilateral":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(SimpleQuadrilateral).GetProperty("AdditionalProperties") == null)
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
-                    }
-                    else
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    }
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                     return newQuadrilateral;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));

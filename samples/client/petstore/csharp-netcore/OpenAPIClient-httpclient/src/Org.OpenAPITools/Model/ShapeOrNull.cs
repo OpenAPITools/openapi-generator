@@ -157,26 +157,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "Quadrilateral":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
-                    }
-                    else
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    }
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                     return newShapeOrNull;
                 case "Triangle":
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
-                    }
-                    else
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    }
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                     return newShapeOrNull;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
