@@ -1,5 +1,6 @@
 # ChildCatAllOf
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
