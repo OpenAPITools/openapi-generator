@@ -45,6 +45,7 @@ docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -56,6 +57,7 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 mono_nunit_test.sh
+src/Org.OpenAPITools.Test/Model/OuterObjectWithEnumPropertyTests.cs
 src/Org.OpenAPITools.Test/packages.config
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
@@ -110,6 +112,7 @@ src/Org.OpenAPITools/Model/OuterEnum.cs
 src/Org.OpenAPITools/Model/OuterEnumDefaultValue.cs
 src/Org.OpenAPITools/Model/OuterEnumInteger.cs
 src/Org.OpenAPITools/Model/OuterEnumIntegerDefaultValue.cs
+src/Org.OpenAPITools/Model/OuterObjectWithEnumProperty.cs
 src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/Return.cs

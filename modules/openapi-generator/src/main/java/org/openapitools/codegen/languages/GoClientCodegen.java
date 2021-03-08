@@ -606,7 +606,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenModel.isEnum) {
             Map<String, Object> allowableValues = codegenModel.allowableValues;
             List<Object> values = (List<Object>) allowableValues.get("values");
-            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+            String example = String.valueOf(values.get(0));
+            if (codegenModel.isString) {
+                example = "\"" + example + "\"";
+            }
+            return goImportAlias + "." + model + "(" + example + ")";
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);
