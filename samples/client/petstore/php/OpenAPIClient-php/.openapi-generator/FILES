@@ -112,4 +112,3 @@ lib/Model/Tag.php
 lib/Model/User.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Model/OuterObjectWithEnumPropertyTest.php

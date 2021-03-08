@@ -109,4 +109,3 @@ src/model/Return.js
 src/model/SpecialModelName.js
 src/model/Tag.js
 src/model/User.js
-test/model/OuterObjectWithEnumProperty.spec.js
