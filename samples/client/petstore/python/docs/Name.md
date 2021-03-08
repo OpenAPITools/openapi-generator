@@ -1,6 +1,7 @@
 # Name
 
 Model for testing model name same as property name
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

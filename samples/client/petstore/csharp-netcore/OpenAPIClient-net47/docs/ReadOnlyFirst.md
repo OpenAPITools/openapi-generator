@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.ReadOnlyFirst
+
 ## Properties
 
 Name | Type | Description | Notes

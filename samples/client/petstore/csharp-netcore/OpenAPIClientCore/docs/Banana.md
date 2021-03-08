@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Banana
+
 ## Properties
 
 Name | Type | Description | Notes

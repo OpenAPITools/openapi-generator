@@ -221,11 +221,11 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (json.decode(response.body) as List)
-        .map((i) => Pet.fromJson(i))
-        .toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+        .cast<Pet>()
+        .toList(growable: false);
     }
-    return null;
+    return Future.value(null);
   }
 
   /// Finds Pets by tags
@@ -299,11 +299,11 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (json.decode(response.body) as List)
-        .map((i) => Pet.fromJson(i))
-        .toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+        .cast<Pet>()
+        .toList(growable: false);
     }
-    return null;
+    return Future.value(null);
   }
 
   /// Find pet by ID
@@ -376,9 +376,9 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return Pet.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
+        }
+    return Future.value(null);
   }
 
   /// Update an existing pet
@@ -624,8 +624,8 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return ApiResponse.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+        }
+    return Future.value(null);
   }
 }

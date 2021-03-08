@@ -185,6 +185,19 @@ class {{{classname}}} {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    {{#native_serialization}}
+    {{#isArray}}
+      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
+        .cast<{{{returnBaseType}}}>()
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
+    {{/isArray}}
+    {{^isArray}}
+    {{#isMap}}
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+    {{/isMap}}
+    {{^isMap}}
+      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+    {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
     {{#isArray}}
       {{#uniqueItems}}
       return (json.decode(response.body) as List)
@@ -210,8 +223,9 @@ class {{{classname}}} {
     {{/returnTypeIsPrimitive}}
     {{/isMap}}
     {{/isArray}}
+    {{/json_serializable}}
     }
-    return null;
+    return Future.value(null);
     {{/returnType}}
   }
   {{/operation}}

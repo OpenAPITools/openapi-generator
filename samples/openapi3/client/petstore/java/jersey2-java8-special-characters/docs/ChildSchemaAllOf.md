@@ -2,6 +2,7 @@
 
 # ChildSchemaAllOf
 
+
 ## Properties
 
 Name | Type | Description | Notes

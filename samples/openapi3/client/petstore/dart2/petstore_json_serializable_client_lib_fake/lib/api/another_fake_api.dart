@@ -84,8 +84,9 @@ class AnotherFakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
+
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future.value(null);
   }
 }

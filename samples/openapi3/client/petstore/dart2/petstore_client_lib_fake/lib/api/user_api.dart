@@ -342,9 +342,9 @@ class UserApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return User.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+        }
+    return Future.value(null);
   }
 
   /// Logs user into the system
@@ -424,9 +424,9 @@ class UserApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return response.body as String;
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+        }
+    return Future.value(null);
   }
 
   /// Logs out current logged in user session

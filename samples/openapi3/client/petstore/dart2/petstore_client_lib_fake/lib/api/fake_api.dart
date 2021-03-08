@@ -65,9 +65,9 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return HealthCheckResult.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
+        }
+    return Future.value(null);
   }
 
   /// test http signature authentication
@@ -215,9 +215,9 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return response.body as bool;
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
+        }
+    return Future.value(null);
   }
 
   /// Test serialization of object with outer number type
@@ -282,9 +282,9 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return OuterComposite.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
+        }
+    return Future.value(null);
   }
 
   /// Test serialization of outer number types
@@ -349,9 +349,9 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return response.body as num;
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
+        }
+    return Future.value(null);
   }
 
   /// Test serialization of outer string types
@@ -416,9 +416,79 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return response.body as String;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+        }
+    return Future.value(null);
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    // Verify required params are set.
+    if (outerObjectWithEnumProperty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
     }
-    return null;
+
+    final path = r'/fake/property/enum-int';
+
+    Object postBody = outerObjectWithEnumProperty;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['application/json'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
+        }
+    return Future.value(null);
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -616,9 +686,9 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return ModelClient.fromJson(json.decode(response.body));
-    }
-    return null;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
+        }
+    return Future.value(null);
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

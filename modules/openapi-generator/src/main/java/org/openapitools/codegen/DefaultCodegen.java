@@ -2579,27 +2579,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // process 'additionalProperties'
-        if (schema.getAdditionalProperties() == null) {
-            if (disallowAdditionalPropertiesIfNotPresent) {
-                m.isAdditionalPropertiesTrue = false;
-            } else {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("",  new Schema());
-                m.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("", new Schema());
-                m.setAdditionalProperties(cp);
-            } else {
-                m.isAdditionalPropertiesTrue = false;
-            }
-        } else {
-            m.isAdditionalPropertiesTrue = false;
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            m.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, m);
 
         // post process model properties
         if (m.vars != null) {
@@ -2616,15 +2596,48 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    /**
-     * Recursively look in Schema sc for the discriminator discPropName
-     * and return a CodegenProperty with the dataType and required params set
-     * the returned CodegenProperty may not be required and it may not be of type string
-     *
-     * @param composedSchemaName The name of the sc Schema
-     * @param sc                 The Schema that may contain the discriminator
-     * @param discPropName       The String that is the discriminator propertyName in the schema
-     */
+    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+        CodegenModel m = null;
+        if (property instanceof CodegenModel) {
+            m = (CodegenModel) property;
+        }
+        boolean isAdditionalPropertiesTrue = false;
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                isAdditionalPropertiesTrue = true;
+                CodegenProperty cp = fromProperty("",  new Schema());
+                property.setAdditionalProperties(cp);
+                property.setAdditionalPropertiesIsAnyType(true);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                isAdditionalPropertiesTrue = true;
+                CodegenProperty cp = fromProperty("", new Schema());
+                property.setAdditionalProperties(cp);
+                property.setAdditionalPropertiesIsAnyType(true);
+            }
+        } else {
+            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            property.setAdditionalProperties(cp);
+            if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
+                property.setAdditionalPropertiesIsAnyType(true);
+            }
+        }
+        if (m != null && isAdditionalPropertiesTrue) {
+            m.isAdditionalPropertiesTrue = true;
+        }
+    }
+
+
+        /**
+         * Recursively look in Schema sc for the discriminator discPropName
+         * and return a CodegenProperty with the dataType and required params set
+         * the returned CodegenProperty may not be required and it may not be of type string
+         *
+         * @param composedSchemaName The name of the sc Schema
+         * @param sc                 The Schema that may contain the discriminator
+         * @param discPropName       The String that is the discriminator propertyName in the schema
+         */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
@@ -6134,20 +6147,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
         }
-        if (schema.getAdditionalProperties() == null) {
-            if (!disallowAdditionalPropertiesIfNotPresent) {
-                CodegenProperty cp = fromProperty("",  new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                CodegenProperty cp = fromProperty("", new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else {
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            property.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, property);
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {

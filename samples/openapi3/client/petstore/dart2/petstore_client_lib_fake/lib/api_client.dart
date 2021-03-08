@@ -241,6 +241,8 @@ class ApiClient {
         case 'OuterEnumIntegerDefaultValue':
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
           
+        case 'OuterObjectWithEnumProperty':
+          return OuterObjectWithEnumProperty.fromJson(value);
         case 'Pet':
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':

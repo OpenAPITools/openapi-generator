@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.User
+
 ## Properties
 
 Name | Type | Description | Notes

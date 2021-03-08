@@ -1,6 +1,6 @@
 @XmlType(name="{{datatypeWithEnum}}")
 @XmlEnum({{dataType}}.class)
-public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
 
     {{#allowableValues}}
     {{#enumVars}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}

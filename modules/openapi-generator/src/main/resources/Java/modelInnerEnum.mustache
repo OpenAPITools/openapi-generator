@@ -12,7 +12,7 @@
   @XmlType(name="{{datatypeWithEnum}}")
   @XmlEnum({{dataType}}.class)
 {{/withXml}}
-  public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+  {{>additionalEnumTypeAnnotations}}public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
       {{#enumVars}}
     {{#enumDescription}}
