@@ -733,7 +733,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.hasVars = hasVars;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
