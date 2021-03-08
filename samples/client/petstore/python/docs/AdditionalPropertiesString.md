@@ -1,5 +1,6 @@
 # AdditionalPropertiesString
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

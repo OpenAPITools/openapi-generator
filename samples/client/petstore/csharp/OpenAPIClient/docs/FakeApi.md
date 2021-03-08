@@ -81,6 +81,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -158,6 +159,7 @@ void (empty response body)
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -231,6 +233,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -306,6 +309,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -380,6 +384,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -453,6 +458,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -601,6 +607,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -673,6 +680,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -748,6 +756,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -853,6 +862,7 @@ void (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -942,6 +952,7 @@ No authorization required
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -1030,6 +1041,7 @@ void (empty response body)
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -1101,6 +1113,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1175,6 +1188,7 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1256,6 +1270,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

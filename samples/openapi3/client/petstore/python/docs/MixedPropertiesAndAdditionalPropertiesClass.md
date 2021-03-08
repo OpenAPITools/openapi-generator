@@ -1,5 +1,6 @@
 # MixedPropertiesAndAdditionalPropertiesClass
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
