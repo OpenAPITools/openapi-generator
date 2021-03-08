@@ -360,7 +360,7 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
-    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
+    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
 
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
