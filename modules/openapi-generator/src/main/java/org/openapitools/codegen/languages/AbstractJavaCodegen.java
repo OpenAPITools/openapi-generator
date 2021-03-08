@@ -938,6 +938,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return super.toDefaultValue(schema);
             }
             return null;
+        } else if (ModelUtils.isComposedSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return super.toDefaultValue(schema);
+            }
+            return null;
         }
 
         return super.toDefaultValue(schema);
