@@ -11,6 +11,7 @@ import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/file_schema_test_class.dart';
 import 'package:openapi/model/outer_composite.dart';
+import 'package:openapi/model/outer_object_with_enum_property.dart';
 import 'package:openapi/model/user.dart';
 import 'package:openapi/model/health_check_result.dart';
 import 'package:openapi/model/pet.dart';
@@ -354,6 +355,66 @@ class FakeApi {
     final String _responseData = _response.data as String;
 
     return Response<String>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// 
+  ///
+  /// Test serialization of enum (int) properties with examples
+  Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize(
+    OuterObjectWithEnumProperty outerObjectWithEnumProperty, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/fake/property/enum-int',
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    const _type = FullType(OuterObjectWithEnumProperty);
+    _bodyData = _serializers.serialize(outerObjectWithEnumProperty, specifiedType: _type);
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    const _responseType = FullType(OuterObjectWithEnumProperty);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as OuterObjectWithEnumProperty;
+
+    return Response<OuterObjectWithEnumProperty>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

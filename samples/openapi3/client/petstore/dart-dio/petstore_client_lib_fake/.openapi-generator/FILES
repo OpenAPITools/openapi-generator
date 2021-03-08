@@ -43,6 +43,7 @@ doc/OuterEnum.md
 doc/OuterEnumDefaultValue.md
 doc/OuterEnumInteger.md
 doc/OuterEnumIntegerDefaultValue.md
+doc/OuterObjectWithEnumProperty.md
 doc/Pet.md
 doc/PetApi.md
 doc/ReadOnlyFirst.md
@@ -102,6 +103,7 @@ lib/model/outer_enum.dart
 lib/model/outer_enum_default_value.dart
 lib/model/outer_enum_integer.dart
 lib/model/outer_enum_integer_default_value.dart
+lib/model/outer_object_with_enum_property.dart
 lib/model/pet.dart
 lib/model/read_only_first.dart
 lib/model/special_model_name.dart
@@ -109,3 +111,4 @@ lib/model/tag.dart
 lib/model/user.dart
 lib/serializers.dart
 pubspec.yaml
+test/outer_object_with_enum_property_test.dart
