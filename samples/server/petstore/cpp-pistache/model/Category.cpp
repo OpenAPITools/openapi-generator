@@ -43,6 +43,7 @@ void to_json(nlohmann::json& j, const Category& o)
         j["id"] = o.m_Id;
     if(o.nameIsSet())
         j["name"] = o.m_Name;
+    
 }
 
 void from_json(const nlohmann::json& j, Category& o)
@@ -57,6 +58,7 @@ void from_json(const nlohmann::json& j, Category& o)
         j.at("name").get_to(o.m_Name);
         o.m_NameIsSet = true;
     } 
+    
 }
 
 int64_t Category::getId() const
@@ -93,6 +95,7 @@ void Category::unsetName()
 {
     m_NameIsSet = false;
 }
+
 
 }
 }
