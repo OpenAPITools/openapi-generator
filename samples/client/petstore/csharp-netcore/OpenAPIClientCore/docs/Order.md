@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Order
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -335,6 +335,14 @@ CREATE TABLE IF NOT EXISTS `OuterComposite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `OuterObjectWithEnumProperty` generated from model 'OuterObjectWithEnumProperty'
+--
+
+CREATE TABLE IF NOT EXISTS `OuterObjectWithEnumProperty` (
+  `value` TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Pet` generated from model 'Pet'
 --
 

@@ -1,6 +1,7 @@
 # TypeHolderExample
 
 a model to test required properties with an example and length one enum
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

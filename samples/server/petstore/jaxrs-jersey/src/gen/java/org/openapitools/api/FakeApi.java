@@ -16,6 +16,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterObjectWithEnumProperty;
 import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
@@ -138,6 +139,18 @@ public class FakeApi  {
     public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  String body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
+    }
+    @POST
+    @Path("/property/enum-int")
+    @Consumes({ "application/json" })
+    @Produces({ "*/*" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of enum (int) properties with examples", response = OuterObjectWithEnumProperty.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
+    })
+    public Response fakePropertyEnumIntegerSerialize(@ApiParam(value = "Input enum (int) as post body", required = true) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
     @PUT
     @Path("/body-with-file-schema")

@@ -2365,22 +2365,26 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), true);
 
         modelName = "AdditionalPropertiesTrue";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), true);
 
         modelName = "AdditionalPropertiesFalse";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties(), null);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), false);
 
         modelName = "AdditionalPropertiesSchema";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
         assertEquals(cm.getAdditionalProperties(), stringCp);
+        assertEquals(cm.getAdditionalPropertiesIsAnyType(), false);
     }
 
     @Test
@@ -2411,24 +2415,32 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         mapWithAddPropsUnset = cm.getVars().get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = cm.getVars().get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = cm.getVars().get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         modelName = "ObjectModelWithAddPropsInProps";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         mapWithAddPropsUnset = cm.getVars().get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = cm.getVars().get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = cm.getVars().get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = cm.getVars().get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         if (isGenerateAliasAsModel) { // restore the setting
             GlobalSettings.setProperty("generateAliasAsModel", "true");
@@ -2464,24 +2476,32 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "POST", operation, null);
         mapWithAddPropsUnset = co.queryParams.get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = co.queryParams.get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = co.queryParams.get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = co.queryParams.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         path = "/additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
         mapWithAddPropsUnset = co.queryParams.get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = co.queryParams.get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = co.queryParams.get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = co.queryParams.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         if (isGenerateAliasAsModel) { // restore the setting
             GlobalSettings.setProperty("generateAliasAsModel", "true");
@@ -2517,24 +2537,32 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "POST", operation, null);
         mapWithAddPropsUnset = co.responses.get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = co.responses.get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = co.responses.get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = co.responses.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         path = "/additional_properties/";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
         mapWithAddPropsUnset = co.responses.get(0);
         assertEquals(mapWithAddPropsUnset.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsUnset.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsTrue = co.responses.get(1);
         assertEquals(mapWithAddPropsTrue.getAdditionalProperties(), anyTypeSchema);
+        assertEquals(mapWithAddPropsTrue.getAdditionalPropertiesIsAnyType(), true);
         mapWithAddPropsFalse = co.responses.get(2);
         assertEquals(mapWithAddPropsFalse.getAdditionalProperties(), null);
+        assertEquals(mapWithAddPropsFalse.getAdditionalPropertiesIsAnyType(), false);
         mapWithAddPropsSchema = co.responses.get(3);
         assertEquals(mapWithAddPropsSchema.getAdditionalProperties(), stringCp);
+        assertEquals(mapWithAddPropsSchema.getAdditionalPropertiesIsAnyType(), false);
 
         if (isGenerateAliasAsModel) { // restore the setting
             GlobalSettings.setProperty("generateAliasAsModel", "true");

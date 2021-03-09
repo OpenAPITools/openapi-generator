@@ -174,11 +174,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Pig).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Pig");
                 match++;
@@ -191,11 +194,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Whale).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Whale");
                 match++;
@@ -208,11 +214,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Zebra).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Zebra");
                 match++;

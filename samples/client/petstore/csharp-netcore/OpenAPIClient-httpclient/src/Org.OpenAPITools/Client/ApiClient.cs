@@ -347,10 +347,13 @@ namespace Org.OpenAPITools.Client
 
             if (response != null)
             {
-                foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
-                {
-                   transformed.Cookies.Add(cookie);
+                try {
+                    foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                    {
+                       transformed.Cookies.Add(cookie);
+                    }
                 }
+                catch (PlatformNotSupportedException) {}
             }
 
             return transformed;
@@ -428,10 +431,7 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                T instance = (T) Activator.CreateInstance(typeof(T));
-                MethodInfo method = typeof(T).GetMethod("FromJson");
-                method.Invoke(instance, new object[] {response.Content});
-                responseData = instance;
+                responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
