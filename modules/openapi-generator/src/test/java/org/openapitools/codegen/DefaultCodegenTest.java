@@ -3028,4 +3028,28 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         assertEquals(cm.getAdditionalProperties().getHasVars(), true);
     }
+
+    @Test
+    public void testHasVarsInParameter() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/array_with_validations_in_items/{items}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getHasVars(), false);
+        assertEquals(co.bodyParam.getHasVars(), false);
+
+        path = "/object_with_optional_and_required_props/{objectData}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getHasVars(), true);
+        assertEquals(co.bodyParam.getHasVars(), true);
+    }
 }
