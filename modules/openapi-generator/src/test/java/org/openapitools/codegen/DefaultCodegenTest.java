@@ -3017,13 +3017,15 @@ public class DefaultCodegenTest {
             assertEquals(cm.vars.get(0).getHasVars(), false);
         }
 
-        modelNames = Arrays.asList(
-                "ObjectPropContainsProps"
-        );
-        for (String modelName : modelNames) {
-            sc = openAPI.getComponents().getSchemas().get(modelName);
-            cm = codegen.fromModel(modelName, sc);
-            assertEquals(cm.getHasVars(), true);
-        }
+        String modelName;
+        modelName = "ArrayWithObjectWithPropsInItems";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getItems().getHasVars(), true);
+
+        modelName = "ObjectWithObjectWithPropsInAdditionalProperties";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getAdditionalProperties().getHasVars(), true);
     }
 }
