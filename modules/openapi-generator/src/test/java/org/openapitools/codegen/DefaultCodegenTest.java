@@ -3052,4 +3052,27 @@ public class DefaultCodegenTest {
         assertEquals(co.pathParams.get(0).getHasVars(), true);
         assertEquals(co.bodyParam.getHasVars(), true);
     }
+
+    @Test
+    public void testHasVarsInResponse() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.responses.get(0).getHasVars(), false);
+
+        path = "/object_with_optional_and_required_props/{objectData}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        // does not have vars because the inline schema was extracted into a component ref
+        assertEquals(co.responses.get(0).getHasVars(), false);
+    }
 }
