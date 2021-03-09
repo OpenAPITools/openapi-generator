@@ -2955,4 +2955,124 @@ public class DefaultCodegenTest {
         assertEquals(cp.isModel, true);
         assertEquals(cp.complexType, "objectData");
     }
+
+    @Test
+    public void testHasVarsInModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        Schema sc;
+        CodegenModel cm;
+        List<String> modelNames;
+
+        modelNames = Arrays.asList(
+                "ArrayWithValidationsInItems",
+                "ObjectWithValidationsInAdditionalProperties",
+                "AdditionalPropertiesUnset",
+                "AdditionalPropertiesTrue",
+                "AdditionalPropertiesFalse",
+                "AdditionalPropertiesSchema"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasVars(), false);
+        }
+
+        modelNames = Arrays.asList(
+                "ObjectModelWithRefAddPropsInProps",
+                "ObjectModelWithAddPropsInProps",
+                "ObjectWithOptionalAndRequiredProps",
+                "ObjectPropContainsProps"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasVars(), true);
+        }
+    }
+
+    @Test
+    public void testHasVarsInProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        Schema sc;
+        CodegenModel cm;
+        List<String> modelNames;
+
+        modelNames = Arrays.asList(
+                "ObjectWithValidationsInArrayPropItems",
+                "ObjectModelWithRefAddPropsInProps",
+                "ObjectModelWithAddPropsInProps",
+                "ObjectWithOptionalAndRequiredProps"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.vars.get(0).getHasVars(), false);
+        }
+
+        String modelName;
+        modelName = "ArrayWithObjectWithPropsInItems";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getItems().getHasVars(), true);
+
+        modelName = "ObjectWithObjectWithPropsInAdditionalProperties";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.getAdditionalProperties().getHasVars(), true);
+    }
+
+    @Test
+    public void testHasVarsInParameter() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/array_with_validations_in_items/{items}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getHasVars(), false);
+        assertEquals(co.bodyParam.getHasVars(), false);
+
+        path = "/object_with_optional_and_required_props/{objectData}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.pathParams.get(0).getHasVars(), true);
+        assertEquals(co.bodyParam.getHasVars(), true);
+    }
+
+    @Test
+    public void testHasVarsInResponse() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+
+        path = "/additional_properties/";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        assertEquals(co.responses.get(0).getHasVars(), false);
+
+        path = "/object_with_optional_and_required_props/{objectData}";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        // does not have vars because the inline schema was extracted into a component ref
+        assertEquals(co.responses.get(0).getHasVars(), false);
+    }
 }
