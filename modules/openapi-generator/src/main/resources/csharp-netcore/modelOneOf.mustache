@@ -113,11 +113,6 @@
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
                     new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.SerializerSettings));
-                    }
                     return new{{classname}};
                 {{/mappedModels}}
                 default:
@@ -133,11 +128,14 @@
 
             try
             {
-                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof({{{.}}}).GetProperty("AdditionalProperties") == null)
                 {
                     new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
+                }
+                else
+                {
+                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("{{{.}}}");
                 match++;
