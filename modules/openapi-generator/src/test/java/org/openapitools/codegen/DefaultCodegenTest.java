@@ -2992,6 +2992,38 @@ public class DefaultCodegenTest {
             cm = codegen.fromModel(modelName, sc);
             assertEquals(cm.getHasVars(), true);
         }
+    }
 
+    @Test
+    public void testHasVarsInProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        Schema sc;
+        CodegenModel cm;
+        List<String> modelNames;
+
+        modelNames = Arrays.asList(
+                "ObjectWithValidationsInArrayPropItems",
+                "ObjectModelWithRefAddPropsInProps",
+                "ObjectModelWithAddPropsInProps",
+                "ObjectWithOptionalAndRequiredProps"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.vars.get(0).getHasVars(), false);
+        }
+
+        modelNames = Arrays.asList(
+                "ObjectPropContainsProps"
+        );
+        for (String modelName : modelNames) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasVars(), true);
+        }
     }
 }
