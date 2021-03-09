@@ -967,7 +967,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         name = camelize(sanitizeName(name));
 
         // for param name reserved word or word starting with number, append _
-        if (paramNameReservedWords.contains(name)) {
+        if (paramNameReservedWords.contains(name) || name.matches("^\\d.*")) {
             LOGGER.warn(name + " (reserved word or special variable name) cannot be used in naming. Renamed to " + escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
