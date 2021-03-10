@@ -51,7 +51,6 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
-docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
@@ -69,6 +68,7 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Return.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -152,7 +152,6 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
-src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NullableClass.java
 src/main/java/org/openapitools/client/model/NullableShape.java
@@ -169,6 +168,7 @@ src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/Return.java
 src/main/java/org/openapitools/client/model/ScaleneTriangle.java
 src/main/java/org/openapitools/client/model/Shape.java
 src/main/java/org/openapitools/client/model/ShapeInterface.java
@@ -181,3 +181,4 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/model/ReturnTest.java

@@ -52,7 +52,6 @@ src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/gen/java/org/openapitools/model/Model200Response.java
 src/gen/java/org/openapitools/model/ModelApiResponse.java
-src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NumberOnly.java
 src/gen/java/org/openapitools/model/Order.java
@@ -60,6 +59,7 @@ src/gen/java/org/openapitools/model/OuterComposite.java
 src/gen/java/org/openapitools/model/OuterEnum.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
+src/gen/java/org/openapitools/model/Return.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
 src/gen/java/org/openapitools/model/TypeHolderDefault.java

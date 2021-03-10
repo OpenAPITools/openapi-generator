@@ -142,7 +142,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         hideGenerationTimestamp = false;
 
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         // special words
                         "object",
@@ -160,8 +160,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null")
-        );
+                        "native", "super", "while", "null"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -631,6 +630,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
     }
 
     @Override

@@ -5,21 +5,28 @@
 The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
 
 ## oneOf schemas
+* [Null](Null.md)
 * [Quadrilateral](Quadrilateral.md)
 * [Triangle](Triangle.md)
-
-NOTE: this class is nullable.
 
 ## Example
 ```java
 // Import classes:
 import org.openapitools.client.model.ShapeOrNull;
+import org.openapitools.client.model.Null;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 
 public class Example {
     public static void main(String[] args) {
         ShapeOrNull exampleShapeOrNull = new ShapeOrNull();
+
+        // create a new Null
+        Null exampleNull = new Null();
+        // set ShapeOrNull to Null
+        exampleShapeOrNull.setActualInstance(exampleNull);
+        // to get back the Null set earlier
+        Null testNull = (Null) exampleShapeOrNull.getActualInstance();
 
         // create a new Quadrilateral
         Quadrilateral exampleQuadrilateral = new Quadrilateral();

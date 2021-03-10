@@ -33,7 +33,6 @@ app/apimodels/MapTest.java
 app/apimodels/MixedPropertiesAndAdditionalPropertiesClass.java
 app/apimodels/Model200Response.java
 app/apimodels/ModelApiResponse.java
-app/apimodels/ModelReturn.java
 app/apimodels/Name.java
 app/apimodels/NumberOnly.java
 app/apimodels/Order.java
@@ -41,6 +40,7 @@ app/apimodels/OuterComposite.java
 app/apimodels/OuterEnum.java
 app/apimodels/Pet.java
 app/apimodels/ReadOnlyFirst.java
+app/apimodels/Return.java
 app/apimodels/SpecialModelName.java
 app/apimodels/Tag.java
 app/apimodels/TypeHolderDefault.java

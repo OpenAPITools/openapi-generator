@@ -120,7 +120,7 @@ public class ModelApiResponse {
 
 
   /**
-   * Return true if this ApiResponse object is equal to o.
+   * Return true if this _ApiResponse object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -130,10 +130,10 @@ public class ModelApiResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(this.code, _apiResponse.code) &&
-        Objects.equals(this.type, _apiResponse.type) &&
-        Objects.equals(this.message, _apiResponse.message);
+    ModelApiResponse apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, apiResponse.code) &&
+        Objects.equals(this.type, apiResponse.type) &&
+        Objects.equals(this.message, apiResponse.message);
   }
 
   @Override

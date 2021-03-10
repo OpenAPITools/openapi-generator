@@ -39,7 +39,6 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
-docs/ModelReturn.md
 docs/Name.md
 docs/NumberOnly.md
 docs/Order.md
@@ -48,6 +47,7 @@ docs/OuterEnum.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/Return.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -130,7 +130,6 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
-src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
 src/main/java/org/openapitools/client/model/Order.java
@@ -138,9 +137,11 @@ src/main/java/org/openapitools/client/model/OuterComposite.java
 src/main/java/org/openapitools/client/model/OuterEnum.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/Return.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/TypeHolderDefault.java
 src/main/java/org/openapitools/client/model/TypeHolderExample.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/XmlItem.java
+src/test/java/org/openapitools/client/model/ReturnTest.java
