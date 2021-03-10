@@ -226,7 +226,7 @@ class PetApi {
         .map((i) => Pet.fromJson(i))
         .toList();
     }
-    return Future.value(null);
+    return Future<List<Pet>>.value(null);
   }
 
   /// Finds Pets by tags
@@ -305,7 +305,7 @@ class PetApi {
         .map((i) => Pet.fromJson(i))
         .toSet();
     }
-    return Future.value(null);
+    return Future<Set<Pet>>.value(null);
   }
 
   /// Find pet by ID
@@ -381,7 +381,7 @@ class PetApi {
 
       return Pet.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<Pet>.value(null);
   }
 
   /// Update an existing pet
@@ -630,7 +630,7 @@ class PetApi {
 
       return ApiResponse.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<ApiResponse>.value(null);
   }
 
   /// uploads an image (required)
@@ -729,6 +729,6 @@ class PetApi {
 
       return ApiResponse.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<ApiResponse>.value(null);
   }
 }

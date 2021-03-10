@@ -345,7 +345,7 @@ class UserApi {
 
       return User.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<User>.value(null);
   }
 
   /// Logs user into the system
@@ -428,7 +428,7 @@ class UserApi {
 
       return response.body as String;
     }
-    return Future.value(null);
+    return Future<String>.value(null);
   }
 
   /// Logs out current logged in user session

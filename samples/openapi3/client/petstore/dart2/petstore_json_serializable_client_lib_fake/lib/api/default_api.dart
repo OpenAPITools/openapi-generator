@@ -65,6 +65,6 @@ class DefaultApi {
 
       return InlineResponseDefault.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<InlineResponseDefault>.value(null);
   }
 }

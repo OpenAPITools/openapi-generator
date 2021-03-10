@@ -139,7 +139,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
     }
-    return Future.value(null);
+    return Future<Map<String, int>>.value(null);
   }
 
   /// Find purchase order by ID
@@ -214,7 +214,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
         }
-    return Future.value(null);
+    return Future<Order>.value(null);
   }
 
   /// Place an order for a pet
@@ -284,6 +284,6 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
         }
-    return Future.value(null);
+    return Future<Order>.value(null);
   }
 }

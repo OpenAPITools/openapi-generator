@@ -67,7 +67,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
         }
-    return Future.value(null);
+    return Future<HealthCheckResult>.value(null);
   }
 
   /// test http signature authentication
@@ -217,7 +217,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
         }
-    return Future.value(null);
+    return Future<bool>.value(null);
   }
 
   /// Test serialization of object with outer number type
@@ -284,7 +284,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
         }
-    return Future.value(null);
+    return Future<OuterComposite>.value(null);
   }
 
   /// Test serialization of outer number types
@@ -351,7 +351,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
         }
-    return Future.value(null);
+    return Future<num>.value(null);
   }
 
   /// Test serialization of outer string types
@@ -418,7 +418,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
         }
-    return Future.value(null);
+    return Future<String>.value(null);
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -488,7 +488,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
         }
-    return Future.value(null);
+    return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -688,7 +688,7 @@ class FakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
         }
-    return Future.value(null);
+    return Future<ModelClient>.value(null);
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

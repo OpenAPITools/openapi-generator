@@ -140,7 +140,7 @@ class StoreApi {
 
       return Map<String, int>.from(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<Map<String, int>>.value(null);
   }
 
   /// Find purchase order by ID
@@ -216,7 +216,7 @@ class StoreApi {
 
       return Order.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<Order>.value(null);
   }
 
   /// Place an order for a pet
@@ -287,6 +287,6 @@ class StoreApi {
 
       return Order.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<Order>.value(null);
   }
 }

@@ -225,7 +225,7 @@ class PetApi {
         .cast<Pet>()
         .toList(growable: false);
     }
-    return Future.value(null);
+    return Future<List<Pet>>.value(null);
   }
 
   /// Finds Pets by tags
@@ -303,7 +303,7 @@ class PetApi {
         .cast<Pet>()
         .toList(growable: false);
     }
-    return Future.value(null);
+    return Future<List<Pet>>.value(null);
   }
 
   /// Find pet by ID
@@ -378,7 +378,7 @@ class PetApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
         }
-    return Future.value(null);
+    return Future<Pet>.value(null);
   }
 
   /// Update an existing pet
@@ -626,6 +626,6 @@ class PetApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
         }
-    return Future.value(null);
+    return Future<ApiResponse>.value(null);
   }
 }

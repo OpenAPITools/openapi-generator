@@ -344,7 +344,7 @@ class UserApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
         }
-    return Future.value(null);
+    return Future<User>.value(null);
   }
 
   /// Logs user into the system
@@ -426,7 +426,7 @@ class UserApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
         }
-    return Future.value(null);
+    return Future<String>.value(null);
   }
 
   /// Logs out current logged in user session

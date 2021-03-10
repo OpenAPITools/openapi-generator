@@ -86,6 +86,6 @@ class FakeClassnameTags123Api {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
         }
-    return Future.value(null);
+    return Future<ModelClient>.value(null);
   }
 }

@@ -225,7 +225,7 @@ class {{{classname}}} {
     {{/isArray}}
     {{/json_serializable}}
     }
-    return Future.value(null);
+    return Future<{{{returnType}}}>.value(null);
     {{/returnType}}
   }
   {{/operation}}

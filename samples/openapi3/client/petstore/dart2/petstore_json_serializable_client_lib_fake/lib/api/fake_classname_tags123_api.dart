@@ -87,6 +87,6 @@ class FakeClassnameTags123Api {
 
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<ModelClient>.value(null);
   }
 }

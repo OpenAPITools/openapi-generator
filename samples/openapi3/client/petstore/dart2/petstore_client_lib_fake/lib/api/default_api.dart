@@ -64,6 +64,6 @@ class DefaultApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'InlineResponseDefault') as InlineResponseDefault;
         }
-    return Future.value(null);
+    return Future<InlineResponseDefault>.value(null);
   }
 }

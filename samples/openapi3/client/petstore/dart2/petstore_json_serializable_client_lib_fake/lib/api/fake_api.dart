@@ -68,7 +68,7 @@ class FakeApi {
 
       return HealthCheckResult.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<HealthCheckResult>.value(null);
   }
 
   /// test http signature authentication
@@ -219,7 +219,7 @@ class FakeApi {
 
       return response.body as bool;
     }
-    return Future.value(null);
+    return Future<bool>.value(null);
   }
 
   /// Test serialization of object with outer number type
@@ -287,7 +287,7 @@ class FakeApi {
 
       return OuterComposite.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<OuterComposite>.value(null);
   }
 
   /// Test serialization of outer number types
@@ -355,7 +355,7 @@ class FakeApi {
 
       return response.body as num;
     }
-    return Future.value(null);
+    return Future<num>.value(null);
   }
 
   /// Test serialization of outer string types
@@ -423,7 +423,7 @@ class FakeApi {
 
       return response.body as String;
     }
-    return Future.value(null);
+    return Future<String>.value(null);
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -494,7 +494,7 @@ class FakeApi {
 
       return OuterObjectWithEnumProperty.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -695,7 +695,7 @@ class FakeApi {
 
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return Future.value(null);
+    return Future<ModelClient>.value(null);
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
