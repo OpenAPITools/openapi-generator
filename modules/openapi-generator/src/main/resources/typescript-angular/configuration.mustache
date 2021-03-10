@@ -60,23 +60,24 @@ export class {{configurationClassName}} {
 {{#authMethods}}
 
         // init default {{name}} credential
-        if (!this.credentials['{{name}}']) {
+        if (!this.credentials.{{name}}) {
 {{#isApiKey}}
-            this.credentials['{{name}}'] = () => {
+            this.credentials.{{name}} = () => {
                 {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
-                return this.apiKeys['{{name}}'] || this.apiKeys['{{keyParamName}}'];
+                // @ts-ignore
+                return this.apiKeys?.{{name}} || this.apiKeys['{{keyParamName}}'];
             };
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
-            this.credentials['{{name}}'] = () => {
+            this.credentials.{{name}} = () => {
                 if (this.username || this.password) {
                     return btoa(this.username + ':' + this.password);
                 }
             };
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-            this.credentials['{{name}}'] = () => {
+            this.credentials.{{name}} = () => {
                 return typeof this.accessToken === 'function'
                     ? this.accessToken()
                     : this.accessToken;
@@ -84,7 +85,7 @@ export class {{configurationClassName}} {
     {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-            this.credentials['{{name}}'] = () => {
+            this.credentials.{{name}} = () => {
                 return typeof this.accessToken === 'function'
                     ? this.accessToken()
                     : this.accessToken;
@@ -101,7 +102,7 @@ export class {{configurationClassName}} {
      * @param contentTypes - the array of content types that are available for selection
      * @returns the selected content-type or <code>undefined</code> if no selection could be made.
      */
-    public selectHeaderContentType (contentTypes: string[]): string | undefined {
+    public selectHeaderContentType(contentTypes: string[]): string | undefined {
         if (contentTypes.length === 0) {
             return undefined;
         }
