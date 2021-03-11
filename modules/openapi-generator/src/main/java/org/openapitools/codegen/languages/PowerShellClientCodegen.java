@@ -1322,7 +1322,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("#                                                                              #");
         System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
         System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for PowerShell Developers https://bit.ly/3qBWfRJ         #");
+        System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
         System.out.println("################################################################################");
     }
 }
