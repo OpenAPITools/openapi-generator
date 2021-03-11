@@ -95,7 +95,7 @@ public class {{{classname}}}Example {
         // overriding the host and port, timeout, etc.
         {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{>javaExample}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}

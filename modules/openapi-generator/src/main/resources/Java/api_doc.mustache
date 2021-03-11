@@ -57,7 +57,7 @@ public class Example {
 
         {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{>javaExample}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
         try {
             {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}

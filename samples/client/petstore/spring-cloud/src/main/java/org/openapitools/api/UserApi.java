@@ -41,7 +41,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser( @ApiParam(value = "Created user object", required=true) @Valid @RequestBody User body);
 
 
     /**
@@ -56,7 +56,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user/createWithArray"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput( @ApiParam(value = "List of user object", required=true, example="[]") @Valid @RequestBody List<User> body);
 
 
     /**
@@ -71,7 +71,7 @@ public interface UserApi {
     @PostMapping(
         value = "/user/createWithList"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput( @ApiParam(value = "List of user object", required=true, example="[]") @Valid @RequestBody List<User> body);
 
 
     /**
@@ -89,7 +89,7 @@ public interface UserApi {
     @DeleteMapping(
         value = "/user/{username}"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser( @ApiParam(value = "The name that needs to be deleted", required=true, example="username_example") @PathVariable("username") String username);
 
 
     /**
@@ -109,7 +109,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName( @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true, example="username_example") @PathVariable("username") String username);
 
 
     /**
@@ -128,7 +128,7 @@ public interface UserApi {
         value = "/user/login",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull  @ApiParam(value = "The user name for login", required=true, example="username_example") @Valid @RequestParam(value = "username", required = true) String username,@NotNull  @ApiParam(value = "The password for login in clear text", required=true, example="password_example") @Valid @RequestParam(value = "password", required = true) String password);
 
 
     /**
@@ -161,6 +161,6 @@ public interface UserApi {
     @PutMapping(
         value = "/user/{username}"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser( @ApiParam(value = "name that need to be deleted", required=true, example="username_example") @PathVariable("username") String username, @ApiParam(value = "Updated user object", required=true) @Valid @RequestBody User body);
 
 }
