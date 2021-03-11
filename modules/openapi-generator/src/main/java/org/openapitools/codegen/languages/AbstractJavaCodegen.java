@@ -1131,6 +1131,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+        codegenModel.name = name;  // reserved words are ok here, so we override the renaming in the superclass method.
         return codegenModel;
     }
 
