@@ -3107,7 +3107,7 @@ public class DefaultCodegen implements CodegenConfig {
         try {
             property.example = toExampleValue(p);
         } catch (Exception e) {
-            LOGGER.error("Error in generating `example` for the property " + property.baseName + ". Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.");
+            LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
             LOGGER.debug("Exception from toExampleValue: " + e);
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
