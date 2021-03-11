@@ -5,7 +5,5 @@ import 'package:openapi/openapi.dart';
 void main() {
 
   group(OuterEnumDefaultValue, () {
-
   });
-
 }
