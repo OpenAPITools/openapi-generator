@@ -53,8 +53,7 @@ String parameterToString(dynamic value) {
     {{#model}}
       {{#isEnum}}
   if (value is {{{classname}}}) {
-{{#native_serialization}}    return {{{classname}}}TypeTransformer().encode(value).toString();{{/native_serialization}}
-{{#json_serializable}}    return _${{{classname}}}EnumMap[value];{{/json_serializable}}
+{{#native_serialization}}    return {{{classname}}}TypeTransformer().encode(value).toString();{{/native_serialization}}{{#json_serializable}}    return value.toString();{{/json_serializable}}
   }
       {{/isEnum}}
     {{/model}}

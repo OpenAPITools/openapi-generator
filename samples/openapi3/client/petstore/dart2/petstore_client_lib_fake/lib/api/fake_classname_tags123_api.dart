@@ -31,7 +31,7 @@ class FakeClassnameTags123Api {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake_classname_test';
+    final path = r'/fake_classname_test';
 
     Object postBody = modelClient;
 
@@ -85,7 +85,7 @@ class FakeClassnameTags123Api {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
-    }
-    return null;
+        }
+    return Future<ModelClient>.value(null);
   }
 }
