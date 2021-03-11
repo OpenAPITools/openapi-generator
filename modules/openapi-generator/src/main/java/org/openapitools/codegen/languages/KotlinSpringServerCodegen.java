@@ -419,9 +419,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
             }
 
-            supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
-            supportingFiles.add(new SupportingFile("springBootApplication.mustache",
+            if (!this.interfaceOnly) {
+                supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
+                supportingFiles.add(new SupportingFile("springBootApplication.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+            }
         }
 
         // spring uses the jackson lib, and we disallow configuration.
