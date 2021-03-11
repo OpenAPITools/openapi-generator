@@ -518,6 +518,10 @@ null (empty response body)
 
 uploads an image
 
+Use this endpoint to upload an image.
+
+This is a complex description that I'd like to see in docstrings.
+
 ### Example
 
 ```java

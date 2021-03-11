@@ -56,7 +56,7 @@ public class FakeApi {
 
   /**
    * Health check endpoint
-   * 
+   *
    * @return HealthCheckResult
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -71,7 +71,7 @@ public class FakeApi {
 
   /**
    * Health check endpoint
-   * 
+   *
    * @return ApiResponse&lt;HealthCheckResult&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -117,6 +117,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer boolean types
+   *
    * @param body Input boolean as post body (optional)
    * @return Boolean
    * @throws ApiException if fails to make API call
@@ -133,6 +134,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer boolean types
+   *
    * @param body Input boolean as post body (optional)
    * @return ApiResponse&lt;Boolean&gt;
    * @throws ApiException if fails to make API call
@@ -179,6 +181,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
+   *
    * @param outerComposite Input composite as post body (optional)
    * @return OuterComposite
    * @throws ApiException if fails to make API call
@@ -195,6 +198,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
+   *
    * @param outerComposite Input composite as post body (optional)
    * @return ApiResponse&lt;OuterComposite&gt;
    * @throws ApiException if fails to make API call
@@ -241,6 +245,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer number types
+   *
    * @param body Input number as post body (optional)
    * @return BigDecimal
    * @throws ApiException if fails to make API call
@@ -257,6 +262,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer number types
+   *
    * @param body Input number as post body (optional)
    * @return ApiResponse&lt;BigDecimal&gt;
    * @throws ApiException if fails to make API call
@@ -303,6 +309,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
+   *
    * @param body Input string as post body (optional)
    * @return String
    * @throws ApiException if fails to make API call
@@ -319,6 +326,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
+   *
    * @param body Input string as post body (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
@@ -364,7 +372,7 @@ public class FakeApi {
   }
   /**
    * Array of Enums
-   * 
+   *
    * @return List&lt;OuterEnum&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -379,7 +387,7 @@ public class FakeApi {
 
   /**
    * Array of Enums
-   * 
+   *
    * @return ApiResponse&lt;List&lt;OuterEnum&gt;&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -425,6 +433,7 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   *
    * @param fileSchemaTestClass  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -440,6 +449,7 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   *
    * @param fileSchemaTestClass  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -488,7 +498,7 @@ public class FakeApi {
   }
   /**
    * 
-   * 
+   *
    * @param query  (required)
    * @param user  (required)
    * @throws ApiException if fails to make API call
@@ -504,7 +514,7 @@ public class FakeApi {
 
   /**
    * 
-   * 
+   *
    * @param query  (required)
    * @param user  (required)
    * @return ApiResponse&lt;Void&gt;
@@ -561,6 +571,7 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
+   *
    * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
@@ -577,6 +588,7 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
+   *
    * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
@@ -627,7 +639,11 @@ public class FakeApi {
   }
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters
+   * 假端點
+   * 偽のエンドポイント
+   * 가짜 엔드 포인트
+   *
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -656,7 +672,11 @@ public class FakeApi {
 
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters
+   * 假端點
+   * 偽のエンドポイント
+   * 가짜 엔드 포인트
+   *
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -763,6 +783,7 @@ if (paramCallback != null)
   /**
    * To test enum parameters
    * To test enum parameters
+   *
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
    * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
@@ -786,6 +807,7 @@ if (paramCallback != null)
   /**
    * To test enum parameters
    * To test enum parameters
+   *
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
    * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
@@ -1020,7 +1042,7 @@ if (booleanGroup != null)
   }
   /**
    * test inline additionalProperties
-   * 
+   *
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -1035,7 +1057,7 @@ if (booleanGroup != null)
 
   /**
    * test inline additionalProperties
-   * 
+   *
    * @param requestBody request body (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -1084,7 +1106,7 @@ if (booleanGroup != null)
   }
   /**
    * test json serialization of form data
-   * 
+   *
    * @param param field1 (required)
    * @param param2 field2 (required)
    * @throws ApiException if fails to make API call
@@ -1100,7 +1122,7 @@ if (booleanGroup != null)
 
   /**
    * test json serialization of form data
-   * 
+   *
    * @param param field1 (required)
    * @param param2 field2 (required)
    * @return ApiResponse&lt;Void&gt;
@@ -1160,6 +1182,7 @@ if (param2 != null)
   /**
    * 
    * To test the collection format in query parameters
+   *
    * @param pipe  (required)
    * @param ioutil  (required)
    * @param http  (required)
@@ -1179,6 +1202,7 @@ if (param2 != null)
   /**
    * 
    * To test the collection format in query parameters
+   *
    * @param pipe  (required)
    * @param ioutil  (required)
    * @param http  (required)

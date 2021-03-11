@@ -250,7 +250,10 @@ paths:
       tags:
         - pet
       summary: uploads an image
-      description: ''
+      description: |-
+         Use this endpoint to upload an image.
+
+         This is a complex description that I'd like to see in docstrings.
       operationId: uploadFile
       parameters:
         - name: petId

@@ -3679,6 +3679,9 @@ public class DefaultCodegen implements CodegenConfig {
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
+        if (op.unescapedNotes != null) {
+            op.vendorExtensions.put("x-multiline-notes", escapeTextWhileAllowingNewLines(op.unescapedNotes).split("\n"));
+        }
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
         op.hasProduces = false;

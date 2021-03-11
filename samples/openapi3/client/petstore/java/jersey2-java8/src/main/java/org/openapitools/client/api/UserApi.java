@@ -48,6 +48,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
+   *
    * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -63,6 +64,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
+   *
    * @param user Created user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -111,7 +113,7 @@ public class UserApi {
   }
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -126,7 +128,7 @@ public class UserApi {
 
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param user List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -175,7 +177,7 @@ public class UserApi {
   }
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -190,7 +192,7 @@ public class UserApi {
 
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param user List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -240,6 +242,7 @@ public class UserApi {
   /**
    * Delete user
    * This can only be done by the logged in user.
+   *
    * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -256,6 +259,7 @@ public class UserApi {
   /**
    * Delete user
    * This can only be done by the logged in user.
+   *
    * @param username The name that needs to be deleted (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -306,7 +310,7 @@ public class UserApi {
   }
   /**
    * Get user by user name
-   * 
+   *
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    * @throws ApiException if fails to make API call
@@ -324,7 +328,7 @@ public class UserApi {
 
   /**
    * Get user by user name
-   * 
+   *
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return ApiResponse&lt;User&gt;
    * @throws ApiException if fails to make API call
@@ -378,7 +382,7 @@ public class UserApi {
   }
   /**
    * Logs user into the system
-   * 
+   *
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return String
@@ -396,7 +400,7 @@ public class UserApi {
 
   /**
    * Logs user into the system
-   * 
+   *
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return ApiResponse&lt;String&gt;
@@ -456,7 +460,7 @@ public class UserApi {
   }
   /**
    * Logs out current logged in user session
-   * 
+   *
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -470,7 +474,7 @@ public class UserApi {
 
   /**
    * Logs out current logged in user session
-   * 
+   *
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -514,6 +518,7 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
+   *
    * @param username name that need to be deleted (required)
    * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
@@ -531,6 +536,7 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
+   *
    * @param username name that need to be deleted (required)
    * @param user Updated user object (required)
    * @return ApiResponse&lt;Void&gt;

@@ -48,6 +48,7 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
+   *
    * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
@@ -64,6 +65,7 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
+   *
    * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call

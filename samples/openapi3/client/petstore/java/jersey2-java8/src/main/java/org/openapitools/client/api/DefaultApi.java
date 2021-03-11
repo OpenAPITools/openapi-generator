@@ -47,7 +47,7 @@ public class DefaultApi {
 
   /**
    * 
-   * 
+   *
    * @return InlineResponseDefault
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -62,7 +62,7 @@ public class DefaultApi {
 
   /**
    * 
-   * 
+   *
    * @return ApiResponse&lt;InlineResponseDefault&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
