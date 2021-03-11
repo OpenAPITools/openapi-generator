@@ -46,5 +46,8 @@ void main() {
     test('to test the property `outerEnumIntegerDefaultValue`', () async {
       // TODO
     });
+
+
   });
+
 }

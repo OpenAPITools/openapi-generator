@@ -3,5 +3,9 @@ import 'package:openapi/openapi.dart';
 
 // tests for OuterEnumIntegerDefaultValue
 void main() {
-  group(OuterEnumIntegerDefaultValue, () {});
+
+  group(OuterEnumIntegerDefaultValue, () {
+
+  });
+
 }

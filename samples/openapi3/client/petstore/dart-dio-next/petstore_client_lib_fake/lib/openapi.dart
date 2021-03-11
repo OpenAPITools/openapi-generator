@@ -54,6 +54,7 @@ export 'package:openapi/src/model/outer_enum.dart';
 export 'package:openapi/src/model/outer_enum_default_value.dart';
 export 'package:openapi/src/model/outer_enum_integer.dart';
 export 'package:openapi/src/model/outer_enum_integer_default_value.dart';
+export 'package:openapi/src/model/outer_object_with_enum_property.dart';
 export 'package:openapi/src/model/pet.dart';
 export 'package:openapi/src/model/read_only_first.dart';
 export 'package:openapi/src/model/special_model_name.dart';

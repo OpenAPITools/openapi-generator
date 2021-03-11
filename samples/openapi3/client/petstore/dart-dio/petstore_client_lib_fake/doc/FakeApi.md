@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
-[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **post** /fake/property/enum-int | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
 [**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model

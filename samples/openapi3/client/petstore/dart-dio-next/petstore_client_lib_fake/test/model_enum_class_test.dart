@@ -3,5 +3,9 @@ import 'package:openapi/openapi.dart';
 
 // tests for ModelEnumClass
 void main() {
-  group(ModelEnumClass, () {});
+
+  group(ModelEnumClass, () {
+
+  });
+
 }
