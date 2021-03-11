@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
+import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
 import User from '../model/User';
 
@@ -272,6 +273,47 @@ export default class FakeApi {
       let returnType = 'String';
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the fakePropertyEnumIntegerSerialize operation.
+     * @callback module:api/FakeApi~fakePropertyEnumIntegerSerializeCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/OuterObjectWithEnumProperty} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:api/FakeApi~fakePropertyEnumIntegerSerializeCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/OuterObjectWithEnumProperty}
+     */
+    fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, callback) {
+      let postBody = outerObjectWithEnumProperty;
+      // verify the required parameter 'outerObjectWithEnumProperty' is set
+      if (outerObjectWithEnumProperty === undefined || outerObjectWithEnumProperty === null) {
+        throw new Error("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = OuterObjectWithEnumProperty;
+      return this.apiClient.callApi(
+        '/fake/property/enum-int', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

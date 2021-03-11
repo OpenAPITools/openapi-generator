@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Pig
+
 ## Properties
 
 Name | Type | Description | Notes
