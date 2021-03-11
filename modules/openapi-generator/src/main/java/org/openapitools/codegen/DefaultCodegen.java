@@ -6155,6 +6155,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (objSchema.getRequired() != null) {
                 requiredVars.addAll(objSchema.getRequired());
             }
+            if (objSchema.getProperties() != null && objSchema.getProperties().size() > 0) {
+                property.setHasVars(true);
+            }
             addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
             List<CodegenProperty> requireCpVars = property.getVars()
                     .stream()

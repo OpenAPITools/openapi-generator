@@ -95,8 +95,6 @@ namespace Org.OpenAPITools.Client
         /// <returns>Object representation of the JSON string.</returns>
         internal object Deserialize(IRestResponse response, Type type)
         {
-            IList<Parameter> headers = response.Headers;
-
             if (type == typeof(byte[])) // return byte array
             {
                 return response.RawBytes;
@@ -106,13 +104,13 @@ namespace Org.OpenAPITools.Client
             if (type == typeof(Stream))
             {
                 var bytes = response.RawBytes;
-                if (headers != null)
+                if (response.Headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
-                    foreach (var header in headers)
+                    foreach (var header in response.Headers)
                     {
                         var match = regex.Match(header.ToString());
                         if (match.Success)
