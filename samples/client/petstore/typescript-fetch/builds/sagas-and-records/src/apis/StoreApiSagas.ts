@@ -16,7 +16,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 import {
@@ -41,7 +41,7 @@ export function *storeApiAllSagas() {
 
 //region deleteOrder
 
-export interface PayloadDeleteOrder extends PayloadDeleteOrderRequest {
+export interface PayloadDeleteOrder extends PayloadDeleteOrderRequest, BasePayloadApiAction {
 }
 
 export interface PayloadDeleteOrderRequest {
@@ -50,7 +50,7 @@ export interface PayloadDeleteOrderRequest {
 
 export const deleteOrderRequest = createSagaAction<PayloadDeleteOrderRequest>("deleteOrderRequest");
 export const deleteOrderSuccess = createSagaAction<void>("deleteOrderSuccess");
-export const deleteOrderFailure = createSagaAction<any>("deleteOrderFailure");
+export const deleteOrderFailure = createSagaAction<{error: any, requestPayload: PayloadDeleteOrder}>("deleteOrderFailure");
 
 export const deleteOrder = createSagaAction<PayloadDeleteOrder>("deleteOrder");
 
@@ -59,10 +59,11 @@ export function *deleteOrderSaga() {
 }
 
 export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             orderId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(deleteOrderRequest(_action_.payload));
 
@@ -74,20 +75,21 @@ export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
 
         return undefined;
     } catch (error) {
-        yield put(deleteOrderFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(deleteOrderFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getInventory
 
-export interface PayloadGetInventory {
+export interface PayloadGetInventoryBasePayloadApiAction {
 }
 
 
 export const getInventoryRequest = createSagaAction<void>("getInventoryRequest");
 export const getInventorySuccess = createSagaAction<{ [key: string]: number; }>("getInventorySuccess");
-export const getInventoryFailure = createSagaAction<any>("getInventoryFailure");
+export const getInventoryFailure = createSagaAction<{error: any, requestPayload: PayloadGetInventory}>("getInventoryFailure");
 
 export const getInventory = createSagaAction<PayloadGetInventory>("getInventory");
 
@@ -96,6 +98,7 @@ export function *getInventorySaga() {
 }
 
 export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 
         yield put(getInventoryRequest());
@@ -108,14 +111,15 @@ export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
 
         return response;
     } catch (error) {
-        yield put(getInventoryFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getInventoryFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getOrderById
 
-export interface PayloadGetOrderById extends PayloadGetOrderByIdRequest, BasePayloadApiAction {
+export interface PayloadGetOrderById extends PayloadGetOrderByIdRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadGetOrderByIdRequest {
@@ -125,7 +129,7 @@ export interface PayloadGetOrderByIdRequest {
 export const getOrderByIdRequest = createSagaAction<PayloadGetOrderByIdRequest>("getOrderByIdRequest");
 export const getOrderByIdSuccess = createSagaAction<OrderRecord>("getOrderByIdSuccess");
 export const getOrderByIdSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getOrderByIdSuccess_Entities");
-export const getOrderByIdFailure = createSagaAction<any>("getOrderByIdFailure");
+export const getOrderByIdFailure = createSagaAction<{error: any, requestPayload: PayloadGetOrderById}>("getOrderByIdFailure");
 
 export const getOrderById = createSagaAction<PayloadGetOrderById>("getOrderById");
 
@@ -134,11 +138,12 @@ export function *getOrderByIdSaga() {
 }
 
 export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             orderId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getOrderByIdRequest(requestPayload));
 
@@ -159,14 +164,15 @@ export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(getOrderByIdFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getOrderByIdFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region placeOrder
 
-export interface PayloadPlaceOrder extends PayloadPlaceOrderRequest, BasePayloadApiAction {
+export interface PayloadPlaceOrder extends PayloadPlaceOrderRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadPlaceOrderRequest {
@@ -176,7 +182,7 @@ export interface PayloadPlaceOrderRequest {
 export const placeOrderRequest = createSagaAction<PayloadPlaceOrderRequest>("placeOrderRequest");
 export const placeOrderSuccess = createSagaAction<OrderRecord>("placeOrderSuccess");
 export const placeOrderSuccess_Entities = createSagaAction<NormalizedRecordEntities>("placeOrderSuccess_Entities");
-export const placeOrderFailure = createSagaAction<any>("placeOrderFailure");
+export const placeOrderFailure = createSagaAction<{error: any, requestPayload: PayloadPlaceOrder}>("placeOrderFailure");
 
 export const placeOrder = createSagaAction<PayloadPlaceOrder>("placeOrder");
 
@@ -185,11 +191,12 @@ export function *placeOrderSaga() {
 }
 
 export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(placeOrderRequest(requestPayload));
 
@@ -210,7 +217,8 @@ export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(placeOrderFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(placeOrderFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

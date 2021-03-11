@@ -16,7 +16,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 import {
@@ -44,7 +44,7 @@ export function *petPartApiAllSagas() {
 
 //region getFakePetPartType
 
-export interface PayloadGetFakePetPartType extends PayloadGetFakePetPartTypeRequest {
+export interface PayloadGetFakePetPartType extends PayloadGetFakePetPartTypeRequest, BasePayloadApiAction {
 }
 
 export interface PayloadGetFakePetPartTypeRequest {
@@ -53,7 +53,7 @@ export interface PayloadGetFakePetPartTypeRequest {
 
 export const getFakePetPartTypeRequest = createSagaAction<PayloadGetFakePetPartTypeRequest>("getFakePetPartTypeRequest");
 export const getFakePetPartTypeSuccess = createSagaAction<PetPartType>("getFakePetPartTypeSuccess");
-export const getFakePetPartTypeFailure = createSagaAction<any>("getFakePetPartTypeFailure");
+export const getFakePetPartTypeFailure = createSagaAction<{error: any, requestPayload: PayloadGetFakePetPartType}>("getFakePetPartTypeFailure");
 
 export const getFakePetPartType = createSagaAction<PayloadGetFakePetPartType>("getFakePetPartType");
 
@@ -62,10 +62,11 @@ export function *getFakePetPartTypeSaga() {
 }
 
 export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPartType>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             fakePetPartId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getFakePetPartTypeRequest(_action_.payload));
 
@@ -79,14 +80,15 @@ export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPar
 
         return successReturnValue;
     } catch (error) {
-        yield put(getFakePetPartTypeFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getFakePetPartTypeFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getMatchingParts
 
-export interface PayloadGetMatchingParts extends PayloadGetMatchingPartsRequest, BasePayloadApiAction {
+export interface PayloadGetMatchingParts extends PayloadGetMatchingPartsRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadGetMatchingPartsRequest {
@@ -101,7 +103,7 @@ export interface PayloadGetMatchingPartsRequest {
 export const getMatchingPartsRequest = createSagaAction<PayloadGetMatchingPartsRequest>("getMatchingPartsRequest");
 export const getMatchingPartsSuccess = createSagaAction<MatchingPartsRecord>("getMatchingPartsSuccess");
 export const getMatchingPartsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getMatchingPartsSuccess_Entities");
-export const getMatchingPartsFailure = createSagaAction<any>("getMatchingPartsFailure");
+export const getMatchingPartsFailure = createSagaAction<{error: any, requestPayload: PayloadGetMatchingParts}>("getMatchingPartsFailure");
 
 export const getMatchingParts = createSagaAction<PayloadGetMatchingParts>("getMatchingParts");
 
@@ -110,8 +112,9 @@ export function *getMatchingPartsSaga() {
 }
 
 export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingParts>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             fakePetPartId,
             _long,
@@ -119,7 +122,7 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
             _short,
             name,
             connectedPart,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getMatchingPartsRequest(requestPayload));
 
@@ -145,7 +148,8 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
 
         return successReturnValue;
     } catch (error) {
-        yield put(getMatchingPartsFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getMatchingPartsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

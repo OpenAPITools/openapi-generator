@@ -16,7 +16,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 import {
@@ -43,7 +43,7 @@ export function *behaviorApiAllSagas() {
 
 //region getBehaviorPermissions
 
-export interface PayloadGetBehaviorPermissions extends PayloadGetBehaviorPermissionsRequest {
+export interface PayloadGetBehaviorPermissions extends PayloadGetBehaviorPermissionsRequest, BasePayloadApiAction {
 }
 
 export interface PayloadGetBehaviorPermissionsRequest {
@@ -52,7 +52,7 @@ export interface PayloadGetBehaviorPermissionsRequest {
 
 export const getBehaviorPermissionsRequest = createSagaAction<PayloadGetBehaviorPermissionsRequest>("getBehaviorPermissionsRequest");
 export const getBehaviorPermissionsSuccess = createSagaAction<{ [key: string]: boolean; }>("getBehaviorPermissionsSuccess");
-export const getBehaviorPermissionsFailure = createSagaAction<any>("getBehaviorPermissionsFailure");
+export const getBehaviorPermissionsFailure = createSagaAction<{error: any, requestPayload: PayloadGetBehaviorPermissions}>("getBehaviorPermissionsFailure");
 
 export const getBehaviorPermissions = createSagaAction<PayloadGetBehaviorPermissions>("getBehaviorPermissions");
 
@@ -61,10 +61,11 @@ export function *getBehaviorPermissionsSaga() {
 }
 
 export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehaviorPermissions>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             behaviorId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getBehaviorPermissionsRequest(_action_.payload));
 
@@ -78,14 +79,15 @@ export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehavi
 
         return successReturnValue;
     } catch (error) {
-        yield put(getBehaviorPermissionsFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getBehaviorPermissionsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getBehaviorType
 
-export interface PayloadGetBehaviorType extends PayloadGetBehaviorTypeRequest {
+export interface PayloadGetBehaviorType extends PayloadGetBehaviorTypeRequest, BasePayloadApiAction {
 }
 
 export interface PayloadGetBehaviorTypeRequest {
@@ -94,7 +96,7 @@ export interface PayloadGetBehaviorTypeRequest {
 
 export const getBehaviorTypeRequest = createSagaAction<PayloadGetBehaviorTypeRequest>("getBehaviorTypeRequest");
 export const getBehaviorTypeSuccess = createSagaAction<BehaviorType>("getBehaviorTypeSuccess");
-export const getBehaviorTypeFailure = createSagaAction<any>("getBehaviorTypeFailure");
+export const getBehaviorTypeFailure = createSagaAction<{error: any, requestPayload: PayloadGetBehaviorType}>("getBehaviorTypeFailure");
 
 export const getBehaviorType = createSagaAction<PayloadGetBehaviorType>("getBehaviorType");
 
@@ -103,10 +105,11 @@ export function *getBehaviorTypeSaga() {
 }
 
 export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             behaviorId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getBehaviorTypeRequest(_action_.payload));
 
@@ -120,7 +123,8 @@ export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>
 
         return successReturnValue;
     } catch (error) {
-        yield put(getBehaviorTypeFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getBehaviorTypeFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

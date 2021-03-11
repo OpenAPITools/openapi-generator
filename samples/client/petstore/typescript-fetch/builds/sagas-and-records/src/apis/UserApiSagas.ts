@@ -16,7 +16,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 import {
@@ -48,7 +48,7 @@ export function *userApiAllSagas() {
 
 //region createUser
 
-export interface PayloadCreateUser extends PayloadCreateUserRequest {
+export interface PayloadCreateUser extends PayloadCreateUserRequest, BasePayloadApiAction {
 }
 
 export interface PayloadCreateUserRequest {
@@ -57,7 +57,7 @@ export interface PayloadCreateUserRequest {
 
 export const createUserRequest = createSagaAction<PayloadCreateUserRequest>("createUserRequest");
 export const createUserSuccess = createSagaAction<void>("createUserSuccess");
-export const createUserFailure = createSagaAction<any>("createUserFailure");
+export const createUserFailure = createSagaAction<{error: any, requestPayload: PayloadCreateUser}>("createUserFailure");
 
 export const createUser = createSagaAction<PayloadCreateUser>("createUser");
 
@@ -66,10 +66,11 @@ export function *createUserSaga() {
 }
 
 export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(createUserRequest(_action_.payload));
 
@@ -81,14 +82,15 @@ export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
 
         return undefined;
     } catch (error) {
-        yield put(createUserFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(createUserFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region createUsersWithArrayInput
 
-export interface PayloadCreateUsersWithArrayInput extends PayloadCreateUsersWithArrayInputRequest {
+export interface PayloadCreateUsersWithArrayInput extends PayloadCreateUsersWithArrayInputRequest, BasePayloadApiAction {
 }
 
 export interface PayloadCreateUsersWithArrayInputRequest {
@@ -97,7 +99,7 @@ export interface PayloadCreateUsersWithArrayInputRequest {
 
 export const createUsersWithArrayInputRequest = createSagaAction<PayloadCreateUsersWithArrayInputRequest>("createUsersWithArrayInputRequest");
 export const createUsersWithArrayInputSuccess = createSagaAction<void>("createUsersWithArrayInputSuccess");
-export const createUsersWithArrayInputFailure = createSagaAction<any>("createUsersWithArrayInputFailure");
+export const createUsersWithArrayInputFailure = createSagaAction<{error: any, requestPayload: PayloadCreateUsersWithArrayInput}>("createUsersWithArrayInputFailure");
 
 export const createUsersWithArrayInput = createSagaAction<PayloadCreateUsersWithArrayInput>("createUsersWithArrayInput");
 
@@ -106,10 +108,11 @@ export function *createUsersWithArrayInputSaga() {
 }
 
 export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreateUsersWithArrayInput>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(createUsersWithArrayInputRequest(_action_.payload));
 
@@ -121,14 +124,15 @@ export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreate
 
         return undefined;
     } catch (error) {
-        yield put(createUsersWithArrayInputFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(createUsersWithArrayInputFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region createUsersWithListInput
 
-export interface PayloadCreateUsersWithListInput extends PayloadCreateUsersWithListInputRequest {
+export interface PayloadCreateUsersWithListInput extends PayloadCreateUsersWithListInputRequest, BasePayloadApiAction {
 }
 
 export interface PayloadCreateUsersWithListInputRequest {
@@ -137,7 +141,7 @@ export interface PayloadCreateUsersWithListInputRequest {
 
 export const createUsersWithListInputRequest = createSagaAction<PayloadCreateUsersWithListInputRequest>("createUsersWithListInputRequest");
 export const createUsersWithListInputSuccess = createSagaAction<void>("createUsersWithListInputSuccess");
-export const createUsersWithListInputFailure = createSagaAction<any>("createUsersWithListInputFailure");
+export const createUsersWithListInputFailure = createSagaAction<{error: any, requestPayload: PayloadCreateUsersWithListInput}>("createUsersWithListInputFailure");
 
 export const createUsersWithListInput = createSagaAction<PayloadCreateUsersWithListInput>("createUsersWithListInput");
 
@@ -146,10 +150,11 @@ export function *createUsersWithListInputSaga() {
 }
 
 export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateUsersWithListInput>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(createUsersWithListInputRequest(_action_.payload));
 
@@ -161,14 +166,15 @@ export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateU
 
         return undefined;
     } catch (error) {
-        yield put(createUsersWithListInputFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(createUsersWithListInputFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region deleteUser
 
-export interface PayloadDeleteUser extends PayloadDeleteUserRequest {
+export interface PayloadDeleteUser extends PayloadDeleteUserRequest, BasePayloadApiAction {
 }
 
 export interface PayloadDeleteUserRequest {
@@ -177,7 +183,7 @@ export interface PayloadDeleteUserRequest {
 
 export const deleteUserRequest = createSagaAction<PayloadDeleteUserRequest>("deleteUserRequest");
 export const deleteUserSuccess = createSagaAction<void>("deleteUserSuccess");
-export const deleteUserFailure = createSagaAction<any>("deleteUserFailure");
+export const deleteUserFailure = createSagaAction<{error: any, requestPayload: PayloadDeleteUser}>("deleteUserFailure");
 
 export const deleteUser = createSagaAction<PayloadDeleteUser>("deleteUser");
 
@@ -186,10 +192,11 @@ export function *deleteUserSaga() {
 }
 
 export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             username,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(deleteUserRequest(_action_.payload));
 
@@ -201,14 +208,15 @@ export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
 
         return undefined;
     } catch (error) {
-        yield put(deleteUserFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(deleteUserFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getUserByName
 
-export interface PayloadGetUserByName extends PayloadGetUserByNameRequest, BasePayloadApiAction {
+export interface PayloadGetUserByName extends PayloadGetUserByNameRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadGetUserByNameRequest {
@@ -218,7 +226,7 @@ export interface PayloadGetUserByNameRequest {
 export const getUserByNameRequest = createSagaAction<PayloadGetUserByNameRequest>("getUserByNameRequest");
 export const getUserByNameSuccess = createSagaAction<UserRecord>("getUserByNameSuccess");
 export const getUserByNameSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getUserByNameSuccess_Entities");
-export const getUserByNameFailure = createSagaAction<any>("getUserByNameFailure");
+export const getUserByNameFailure = createSagaAction<{error: any, requestPayload: PayloadGetUserByName}>("getUserByNameFailure");
 
 export const getUserByName = createSagaAction<PayloadGetUserByName>("getUserByName");
 
@@ -227,11 +235,12 @@ export function *getUserByNameSaga() {
 }
 
 export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             username,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getUserByNameRequest(requestPayload));
 
@@ -252,14 +261,15 @@ export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(getUserByNameFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getUserByNameFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region loginUser
 
-export interface PayloadLoginUser extends PayloadLoginUserRequest {
+export interface PayloadLoginUser extends PayloadLoginUserRequest, BasePayloadApiAction {
 }
 
 export interface PayloadLoginUserRequest {
@@ -269,7 +279,7 @@ export interface PayloadLoginUserRequest {
 
 export const loginUserRequest = createSagaAction<PayloadLoginUserRequest>("loginUserRequest");
 export const loginUserSuccess = createSagaAction<string>("loginUserSuccess");
-export const loginUserFailure = createSagaAction<any>("loginUserFailure");
+export const loginUserFailure = createSagaAction<{error: any, requestPayload: PayloadLoginUser}>("loginUserFailure");
 
 export const loginUser = createSagaAction<PayloadLoginUser>("loginUser");
 
@@ -278,11 +288,12 @@ export function *loginUserSaga() {
 }
 
 export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             username,
             password,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(loginUserRequest(_action_.payload));
 
@@ -296,20 +307,21 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
 
         return response;
     } catch (error) {
-        yield put(loginUserFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(loginUserFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region logoutUser
 
-export interface PayloadLogoutUser {
+export interface PayloadLogoutUserBasePayloadApiAction {
 }
 
 
 export const logoutUserRequest = createSagaAction<void>("logoutUserRequest");
 export const logoutUserSuccess = createSagaAction<void>("logoutUserSuccess");
-export const logoutUserFailure = createSagaAction<any>("logoutUserFailure");
+export const logoutUserFailure = createSagaAction<{error: any, requestPayload: PayloadLogoutUser}>("logoutUserFailure");
 
 export const logoutUser = createSagaAction<PayloadLogoutUser>("logoutUser");
 
@@ -318,6 +330,7 @@ export function *logoutUserSaga() {
 }
 
 export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 
         yield put(logoutUserRequest());
@@ -329,14 +342,15 @@ export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
 
         return undefined;
     } catch (error) {
-        yield put(logoutUserFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(logoutUserFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region updateUser
 
-export interface PayloadUpdateUser extends PayloadUpdateUserRequest {
+export interface PayloadUpdateUser extends PayloadUpdateUserRequest, BasePayloadApiAction {
 }
 
 export interface PayloadUpdateUserRequest {
@@ -346,7 +360,7 @@ export interface PayloadUpdateUserRequest {
 
 export const updateUserRequest = createSagaAction<PayloadUpdateUserRequest>("updateUserRequest");
 export const updateUserSuccess = createSagaAction<void>("updateUserSuccess");
-export const updateUserFailure = createSagaAction<any>("updateUserFailure");
+export const updateUserFailure = createSagaAction<{error: any, requestPayload: PayloadUpdateUser}>("updateUserFailure");
 
 export const updateUser = createSagaAction<PayloadUpdateUser>("updateUser");
 
@@ -355,11 +369,12 @@ export function *updateUserSaga() {
 }
 
 export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             username,
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(updateUserRequest(_action_.payload));
 
@@ -372,7 +387,8 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 
         return undefined;
     } catch (error) {
-        yield put(updateUserFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(updateUserFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

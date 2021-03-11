@@ -86,9 +86,14 @@ export abstract class ApiRecordUtils<TAPI, TREC extends RecordOf<any>> {
 
 export const allApiActionFailures: SagaActionDefinition<any>[] = [];
 
-export interface BasePayloadApiAction {
+export interface BaseEntitySupportPayloadApiAction {
     toInlined?: boolean;
     toEntities?: boolean;
+    markErrorsAsHandled?: boolean;
+}
+
+export interface BasePayloadApiAction {
+    markErrorsAsHandled?: boolean;
 }
 
 export interface SagaActionDefinition<TPayload> extends ActionDefinition<TPayload> {

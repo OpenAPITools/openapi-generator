@@ -16,7 +16,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 import {
@@ -64,7 +64,7 @@ export function *petApiAllSagas() {
 
 //region addPet
 
-export interface PayloadAddPet extends PayloadAddPetRequest {
+export interface PayloadAddPet extends PayloadAddPetRequest, BasePayloadApiAction {
 }
 
 export interface PayloadAddPetRequest {
@@ -73,7 +73,7 @@ export interface PayloadAddPetRequest {
 
 export const addPetRequest = createSagaAction<PayloadAddPetRequest>("addPetRequest");
 export const addPetSuccess = createSagaAction<void>("addPetSuccess");
-export const addPetFailure = createSagaAction<any>("addPetFailure");
+export const addPetFailure = createSagaAction<{error: any, requestPayload: PayloadAddPet}>("addPetFailure");
 
 export const addPet = createSagaAction<PayloadAddPet>("addPet");
 
@@ -82,10 +82,11 @@ export function *addPetSaga() {
 }
 
 export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             dummyCat,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(addPetRequest(_action_.payload));
 
@@ -97,14 +98,15 @@ export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
 
         return undefined;
     } catch (error) {
-        yield put(addPetFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(addPetFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region deletePet
 
-export interface PayloadDeletePet extends PayloadDeletePetRequest {
+export interface PayloadDeletePet extends PayloadDeletePetRequest, BasePayloadApiAction {
 }
 
 export interface PayloadDeletePetRequest {
@@ -114,7 +116,7 @@ export interface PayloadDeletePetRequest {
 
 export const deletePetRequest = createSagaAction<PayloadDeletePetRequest>("deletePetRequest");
 export const deletePetSuccess = createSagaAction<void>("deletePetSuccess");
-export const deletePetFailure = createSagaAction<any>("deletePetFailure");
+export const deletePetFailure = createSagaAction<{error: any, requestPayload: PayloadDeletePet}>("deletePetFailure");
 
 export const deletePet = createSagaAction<PayloadDeletePet>("deletePet");
 
@@ -123,11 +125,12 @@ export function *deletePetSaga() {
 }
 
 export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             petId,
             apiKey,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(deletePetRequest(_action_.payload));
 
@@ -140,14 +143,15 @@ export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
 
         return undefined;
     } catch (error) {
-        yield put(deletePetFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(deletePetFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region findPetsByIds
 
-export interface PayloadFindPetsByIds extends PayloadFindPetsByIdsRequest, BasePayloadApiAction {
+export interface PayloadFindPetsByIds extends PayloadFindPetsByIdsRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadFindPetsByIdsRequest {
@@ -157,7 +161,7 @@ export interface PayloadFindPetsByIdsRequest {
 export const findPetsByIdsRequest = createSagaAction<PayloadFindPetsByIdsRequest>("findPetsByIdsRequest");
 export const findPetsByIdsSuccess = createSagaAction<List<PetRecord>>("findPetsByIdsSuccess");
 export const findPetsByIdsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("findPetsByIdsSuccess_Entities");
-export const findPetsByIdsFailure = createSagaAction<any>("findPetsByIdsFailure");
+export const findPetsByIdsFailure = createSagaAction<{error: any, requestPayload: PayloadFindPetsByIds}>("findPetsByIdsFailure");
 
 export const findPetsByIds = createSagaAction<PayloadFindPetsByIds>("findPetsByIds");
 
@@ -166,11 +170,12 @@ export function *findPetsByIdsSaga() {
 }
 
 export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             ids,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(findPetsByIdsRequest(requestPayload));
 
@@ -191,14 +196,15 @@ export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(findPetsByIdsFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(findPetsByIdsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region findPetsByStatus
 
-export interface PayloadFindPetsByStatus extends PayloadFindPetsByStatusRequest, BasePayloadApiAction {
+export interface PayloadFindPetsByStatus extends PayloadFindPetsByStatusRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadFindPetsByStatusRequest {
@@ -208,7 +214,7 @@ export interface PayloadFindPetsByStatusRequest {
 export const findPetsByStatusRequest = createSagaAction<PayloadFindPetsByStatusRequest>("findPetsByStatusRequest");
 export const findPetsByStatusSuccess = createSagaAction<List<PetRecord>>("findPetsByStatusSuccess");
 export const findPetsByStatusSuccess_Entities = createSagaAction<NormalizedRecordEntities>("findPetsByStatusSuccess_Entities");
-export const findPetsByStatusFailure = createSagaAction<any>("findPetsByStatusFailure");
+export const findPetsByStatusFailure = createSagaAction<{error: any, requestPayload: PayloadFindPetsByStatus}>("findPetsByStatusFailure");
 
 export const findPetsByStatus = createSagaAction<PayloadFindPetsByStatus>("findPetsByStatus");
 
@@ -217,11 +223,12 @@ export function *findPetsByStatusSaga() {
 }
 
 export function *findPetsByStatusSagaImp(_action_: Action<PayloadFindPetsByStatus>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             status,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(findPetsByStatusRequest(requestPayload));
 
@@ -242,14 +249,15 @@ export function *findPetsByStatusSagaImp(_action_: Action<PayloadFindPetsByStatu
 
         return successReturnValue;
     } catch (error) {
-        yield put(findPetsByStatusFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(findPetsByStatusFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region findPetsByTags
 
-export interface PayloadFindPetsByTags extends PayloadFindPetsByTagsRequest, BasePayloadApiAction {
+export interface PayloadFindPetsByTags extends PayloadFindPetsByTagsRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadFindPetsByTagsRequest {
@@ -259,7 +267,7 @@ export interface PayloadFindPetsByTagsRequest {
 export const findPetsByTagsRequest = createSagaAction<PayloadFindPetsByTagsRequest>("findPetsByTagsRequest");
 export const findPetsByTagsSuccess = createSagaAction<List<PetRecord>>("findPetsByTagsSuccess");
 export const findPetsByTagsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("findPetsByTagsSuccess_Entities");
-export const findPetsByTagsFailure = createSagaAction<any>("findPetsByTagsFailure");
+export const findPetsByTagsFailure = createSagaAction<{error: any, requestPayload: PayloadFindPetsByTags}>("findPetsByTagsFailure");
 
 export const findPetsByTags = createSagaAction<PayloadFindPetsByTags>("findPetsByTags");
 
@@ -268,11 +276,12 @@ export function *findPetsByTagsSaga() {
 }
 
 export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             tags,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(findPetsByTagsRequest(requestPayload));
 
@@ -293,14 +302,15 @@ export function *findPetsByTagsSagaImp(_action_: Action<PayloadFindPetsByTags>) 
 
         return successReturnValue;
     } catch (error) {
-        yield put(findPetsByTagsFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(findPetsByTagsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region findPetsByUserIds
 
-export interface PayloadFindPetsByUserIds extends PayloadFindPetsByUserIdsRequest, BasePayloadApiAction {
+export interface PayloadFindPetsByUserIds extends PayloadFindPetsByUserIdsRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadFindPetsByUserIdsRequest {
@@ -310,7 +320,7 @@ export interface PayloadFindPetsByUserIdsRequest {
 export const findPetsByUserIdsRequest = createSagaAction<PayloadFindPetsByUserIdsRequest>("findPetsByUserIdsRequest");
 export const findPetsByUserIdsSuccess = createSagaAction<List<UserRecord>>("findPetsByUserIdsSuccess");
 export const findPetsByUserIdsSuccess_Entities = createSagaAction<NormalizedRecordEntities>("findPetsByUserIdsSuccess_Entities");
-export const findPetsByUserIdsFailure = createSagaAction<any>("findPetsByUserIdsFailure");
+export const findPetsByUserIdsFailure = createSagaAction<{error: any, requestPayload: PayloadFindPetsByUserIds}>("findPetsByUserIdsFailure");
 
 export const findPetsByUserIds = createSagaAction<PayloadFindPetsByUserIds>("findPetsByUserIds");
 
@@ -319,11 +329,12 @@ export function *findPetsByUserIdsSaga() {
 }
 
 export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUserIds>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             ids,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(findPetsByUserIdsRequest(requestPayload));
 
@@ -344,14 +355,15 @@ export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUser
 
         return successReturnValue;
     } catch (error) {
-        yield put(findPetsByUserIdsFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(findPetsByUserIdsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region getPetById
 
-export interface PayloadGetPetById extends PayloadGetPetByIdRequest, BasePayloadApiAction {
+export interface PayloadGetPetById extends PayloadGetPetByIdRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadGetPetByIdRequest {
@@ -361,7 +373,7 @@ export interface PayloadGetPetByIdRequest {
 export const getPetByIdRequest = createSagaAction<PayloadGetPetByIdRequest>("getPetByIdRequest");
 export const getPetByIdSuccess = createSagaAction<PetRecord>("getPetByIdSuccess");
 export const getPetByIdSuccess_Entities = createSagaAction<NormalizedRecordEntities>("getPetByIdSuccess_Entities");
-export const getPetByIdFailure = createSagaAction<any>("getPetByIdFailure");
+export const getPetByIdFailure = createSagaAction<{error: any, requestPayload: PayloadGetPetById}>("getPetByIdFailure");
 
 export const getPetById = createSagaAction<PayloadGetPetById>("getPetById");
 
@@ -370,11 +382,12 @@ export function *getPetByIdSaga() {
 }
 
 export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             petId,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(getPetByIdRequest(requestPayload));
 
@@ -395,14 +408,15 @@ export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(getPetByIdFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(getPetByIdFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region updatePet
 
-export interface PayloadUpdatePet extends PayloadUpdatePetRequest {
+export interface PayloadUpdatePet extends PayloadUpdatePetRequest, BasePayloadApiAction {
 }
 
 export interface PayloadUpdatePetRequest {
@@ -411,7 +425,7 @@ export interface PayloadUpdatePetRequest {
 
 export const updatePetRequest = createSagaAction<PayloadUpdatePetRequest>("updatePetRequest");
 export const updatePetSuccess = createSagaAction<void>("updatePetSuccess");
-export const updatePetFailure = createSagaAction<any>("updatePetFailure");
+export const updatePetFailure = createSagaAction<{error: any, requestPayload: PayloadUpdatePet}>("updatePetFailure");
 
 export const updatePet = createSagaAction<PayloadUpdatePet>("updatePet");
 
@@ -420,10 +434,11 @@ export function *updatePetSaga() {
 }
 
 export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             body,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(updatePetRequest(_action_.payload));
 
@@ -435,14 +450,15 @@ export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
 
         return undefined;
     } catch (error) {
-        yield put(updatePetFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(updatePetFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region updatePetWithForm
 
-export interface PayloadUpdatePetWithForm extends PayloadUpdatePetWithFormRequest {
+export interface PayloadUpdatePetWithForm extends PayloadUpdatePetWithFormRequest, BasePayloadApiAction {
 }
 
 export interface PayloadUpdatePetWithFormRequest {
@@ -453,7 +469,7 @@ export interface PayloadUpdatePetWithFormRequest {
 
 export const updatePetWithFormRequest = createSagaAction<PayloadUpdatePetWithFormRequest>("updatePetWithFormRequest");
 export const updatePetWithFormSuccess = createSagaAction<void>("updatePetWithFormSuccess");
-export const updatePetWithFormFailure = createSagaAction<any>("updatePetWithFormFailure");
+export const updatePetWithFormFailure = createSagaAction<{error: any, requestPayload: PayloadUpdatePetWithForm}>("updatePetWithFormFailure");
 
 export const updatePetWithForm = createSagaAction<PayloadUpdatePetWithForm>("updatePetWithForm");
 
@@ -462,12 +478,13 @@ export function *updatePetWithFormSaga() {
 }
 
 export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithForm>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
         const {
             petId,
             name,
             status,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(updatePetWithFormRequest(_action_.payload));
 
@@ -481,14 +498,15 @@ export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithF
 
         return undefined;
     } catch (error) {
-        yield put(updatePetWithFormFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(updatePetWithFormFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
 //endregion
 //region uploadFile
 
-export interface PayloadUploadFile extends PayloadUploadFileRequest, BasePayloadApiAction {
+export interface PayloadUploadFile extends PayloadUploadFileRequest, BaseEntitySupportPayloadApiAction {
 }
 
 export interface PayloadUploadFileRequest {
@@ -500,7 +518,7 @@ export interface PayloadUploadFileRequest {
 export const uploadFileRequest = createSagaAction<PayloadUploadFileRequest>("uploadFileRequest");
 export const uploadFileSuccess = createSagaAction<ModelApiResponseRecord>("uploadFileSuccess");
 export const uploadFileSuccess_Entities = createSagaAction<NormalizedRecordEntities>("uploadFileSuccess_Entities");
-export const uploadFileFailure = createSagaAction<any>("uploadFileFailure");
+export const uploadFileFailure = createSagaAction<{error: any, requestPayload: PayloadUploadFile}>("uploadFileFailure");
 
 export const uploadFile = createSagaAction<PayloadUploadFile>("uploadFile");
 
@@ -509,13 +527,14 @@ export function *uploadFileSaga() {
 }
 
 export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
         const {
             petId,
             additionalMetadata,
             file,
-        } = _action_.payload;
+        } = _payloadRest_;
 
         yield put(uploadFileRequest(requestPayload));
 
@@ -538,7 +557,8 @@ export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
 
         return successReturnValue;
     } catch (error) {
-        yield put(uploadFileFailure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put(uploadFileFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

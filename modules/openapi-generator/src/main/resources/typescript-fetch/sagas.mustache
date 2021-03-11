@@ -5,7 +5,7 @@
 import {Api} from './';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
 import {Action} from "redux-ts-simple";
 
 {{#imports.0}}
@@ -55,11 +55,11 @@ export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas
 //region {{nickname}}
 
 {{#returnTypeSupportsEntities}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BaseEntitySupportPayloadApiAction {
 }
 {{/returnTypeSupportsEntities}}
 {{^returnTypeSupportsEntities}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}{{#allParams.0}} extends Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}} {
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}{{#allParams.0}} extends Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
 }
 {{/returnTypeSupportsEntities}}
 
@@ -81,7 +81,7 @@ export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEnt
 {{^returnType}}
 export const {{nickname}}Success = createSagaAction<void>("{{nickname}}Success");
 {{/returnType}}
-export const {{nickname}}Failure = createSagaAction<any>("{{nickname}}Failure");
+export const {{nickname}}Failure = createSagaAction<{error: any, requestPayload: Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}}>("{{nickname}}Failure");
 
 export const {{nickname}} = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>("{{nickname}}");
 
@@ -90,16 +90,17 @@ export function *{{nickname}}Saga() {
 }
 
 export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
     try {
 {{#returnTypeSupportsEntities}}
-        const {toEntities, toInlined = !toEntities, ...requestPayload} = _action_.payload;
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
 {{/returnTypeSupportsEntities}}
 {{#allParams.0}}
         const {
 {{#allParams}}
             {{paramName}},
 {{/allParams}}
-        } = _action_.payload;
+        } = _payloadRest_;
 {{/allParams.0}}
 
         yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
@@ -228,7 +229,8 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
         return undefined;
 {{/returnType}}
     } catch (error) {
-        yield put({{nickname}}Failure(error));
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put({{nickname}}Failure({error, requestPayload: _action_.payload}));
         return error;
     }
 }
