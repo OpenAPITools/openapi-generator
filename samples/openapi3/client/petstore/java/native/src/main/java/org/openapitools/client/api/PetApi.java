@@ -597,7 +597,7 @@ public class PetApi {
   }
   /**
    * uploads an image
-   * 
+   * Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
@@ -611,7 +611,7 @@ public class PetApi {
 
   /**
    * uploads an image
-   * 
+   * Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)

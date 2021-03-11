@@ -47,7 +47,7 @@ public class DefaultApi {
 
   /**
    * 
-   * 
+   *
    * @param mySchemaNameCharacters  (optional)
    * @return MySchemaNameCharacters
    * @throws ApiException if fails to make API call
@@ -63,7 +63,7 @@ public class DefaultApi {
 
   /**
    * 
-   * 
+   *
    * @param mySchemaNameCharacters  (optional)
    * @return ApiResponse&lt;MySchemaNameCharacters&gt;
    * @throws ApiException if fails to make API call

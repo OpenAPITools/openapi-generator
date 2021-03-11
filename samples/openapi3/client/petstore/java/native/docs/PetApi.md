@@ -1051,6 +1051,8 @@ ApiResponse<Void>
 
 uploads an image
 
+Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
+
 ### Example
 
 ```java
@@ -1122,6 +1124,8 @@ Name | Type | Description  | Notes
 > ApiResponse<ModelApiResponse> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, file)
 
 uploads an image
+
+Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
 
 ### Example
 

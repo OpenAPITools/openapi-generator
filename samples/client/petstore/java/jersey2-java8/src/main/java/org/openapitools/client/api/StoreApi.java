@@ -48,6 +48,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   *
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -64,6 +65,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   *
    * @param orderId ID of the order that needs to be deleted (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -115,6 +117,7 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
+   *
    * @return Map&lt;String, Integer&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -130,6 +133,7 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
+   *
    * @return ApiResponse&lt;Map&lt;String, Integer&gt;&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -175,6 +179,7 @@ public class StoreApi {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   *
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -193,6 +198,7 @@ public class StoreApi {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   *
    * @param orderId ID of pet that needs to be fetched (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
@@ -246,7 +252,7 @@ public class StoreApi {
   }
   /**
    * Place an order for a pet
-   * 
+   *
    * @param body order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -263,7 +269,7 @@ public class StoreApi {
 
   /**
    * Place an order for a pet
-   * 
+   *
    * @param body order placed for purchasing the pet (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call

@@ -170,6 +170,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// uploads an image
         /// </summary>
+        /// <remarks>
+        /// Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
+        /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
@@ -181,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// uploads an image
         /// </summary>
         /// <remarks>
-        /// 
+        /// Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -391,7 +394,7 @@ namespace Org.OpenAPITools.Api
         /// uploads an image
         /// </summary>
         /// <remarks>
-        /// 
+        /// Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -405,7 +408,7 @@ namespace Org.OpenAPITools.Api
         /// uploads an image
         /// </summary>
         /// <remarks>
-        /// 
+        /// Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -1589,7 +1592,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// uploads an image 
+        /// uploads an image Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -1603,7 +1606,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// uploads an image 
+        /// uploads an image Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -1659,7 +1662,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// uploads an image 
+        /// uploads an image Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
@@ -1674,7 +1677,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// uploads an image 
+        /// uploads an image Use this endpoint to upload an image.  This is a complex description that I&#39;d like to see in docstrings.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>

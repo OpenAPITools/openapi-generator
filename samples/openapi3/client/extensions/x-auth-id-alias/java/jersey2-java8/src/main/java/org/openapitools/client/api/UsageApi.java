@@ -47,6 +47,7 @@ public class UsageApi {
   /**
    * Use any API key
    * Use any API key
+   *
    * @return Object
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -62,6 +63,7 @@ public class UsageApi {
   /**
    * Use any API key
    * Use any API key
+   *
    * @return ApiResponse&lt;Object&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -107,6 +109,7 @@ public class UsageApi {
   /**
    * Use both API keys
    * Use both API keys
+   *
    * @return Object
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -122,6 +125,7 @@ public class UsageApi {
   /**
    * Use both API keys
    * Use both API keys
+   *
    * @return ApiResponse&lt;Object&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -167,6 +171,7 @@ public class UsageApi {
   /**
    * Use API key in header
    * Use API key in header
+   *
    * @return Object
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -182,6 +187,7 @@ public class UsageApi {
   /**
    * Use API key in header
    * Use API key in header
+   *
    * @return ApiResponse&lt;Object&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -227,6 +233,7 @@ public class UsageApi {
   /**
    * Use API key in query
    * Use API key in query
+   *
    * @return Object
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -242,6 +249,7 @@ public class UsageApi {
   /**
    * Use API key in query
    * Use API key in query
+   *
    * @return ApiResponse&lt;Object&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details

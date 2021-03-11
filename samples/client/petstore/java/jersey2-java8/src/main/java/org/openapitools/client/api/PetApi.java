@@ -50,7 +50,7 @@ public class PetApi {
 
   /**
    * Add a new pet to the store
-   * 
+   *
    * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -66,7 +66,7 @@ public class PetApi {
 
   /**
    * Add a new pet to the store
-   * 
+   *
    * @param body Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -116,7 +116,7 @@ public class PetApi {
   }
   /**
    * Deletes a pet
-   * 
+   *
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
    * @throws ApiException if fails to make API call
@@ -133,7 +133,7 @@ public class PetApi {
 
   /**
    * Deletes a pet
-   * 
+   *
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
    * @return ApiResponse&lt;Void&gt;
@@ -188,6 +188,7 @@ public class PetApi {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
+   *
    * @param status Status values that need to be considered for filter (required)
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
@@ -205,6 +206,7 @@ public class PetApi {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
+   *
    * @param status Status values that need to be considered for filter (required)
    * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
@@ -258,6 +260,7 @@ public class PetApi {
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   *
    * @param tags Tags to filter by (required)
    * @return Set&lt;Pet&gt;
    * @throws ApiException if fails to make API call
@@ -277,6 +280,7 @@ public class PetApi {
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   *
    * @param tags Tags to filter by (required)
    * @return ApiResponse&lt;Set&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
@@ -332,6 +336,7 @@ public class PetApi {
   /**
    * Find pet by ID
    * Returns a single pet
+   *
    * @param petId ID of pet to return (required)
    * @return Pet
    * @throws ApiException if fails to make API call
@@ -350,6 +355,7 @@ public class PetApi {
   /**
    * Find pet by ID
    * Returns a single pet
+   *
    * @param petId ID of pet to return (required)
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
@@ -403,7 +409,7 @@ public class PetApi {
   }
   /**
    * Update an existing pet
-   * 
+   *
    * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -421,7 +427,7 @@ public class PetApi {
 
   /**
    * Update an existing pet
-   * 
+   *
    * @param body Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
@@ -473,7 +479,7 @@ public class PetApi {
   }
   /**
    * Updates a pet in the store with form data
-   * 
+   *
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
@@ -490,7 +496,7 @@ public class PetApi {
 
   /**
    * Updates a pet in the store with form data
-   * 
+   *
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
@@ -546,7 +552,7 @@ if (status != null)
   }
   /**
    * uploads an image
-   * 
+   *
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
@@ -564,7 +570,7 @@ if (status != null)
 
   /**
    * uploads an image
-   * 
+   *
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
@@ -622,7 +628,7 @@ if (file != null)
   }
   /**
    * uploads an image (required)
-   * 
+   *
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
    * @param additionalMetadata Additional data to pass to server (optional)
@@ -640,7 +646,7 @@ if (file != null)
 
   /**
    * uploads an image (required)
-   * 
+   *
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
    * @param additionalMetadata Additional data to pass to server (optional)
