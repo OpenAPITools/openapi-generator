@@ -1,6 +1,7 @@
 # ObjectModelWithRefProps
 
 a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

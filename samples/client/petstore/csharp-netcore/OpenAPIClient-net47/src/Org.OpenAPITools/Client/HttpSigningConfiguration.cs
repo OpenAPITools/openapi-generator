@@ -137,16 +137,16 @@ namespace Org.OpenAPITools.Client
                 }
 #else
                 if (parameter.Value.Count > 1)
-                    { // array
+                { // array
                     foreach (var value in parameter.Value)
                     {
                         httpValues.Add(parameter.Key + "[]", value);
                     }
-                    }
-                    else
-                    {
-                        httpValues.Add(parameter.Key, parameter.Value[0]);
-                    }
+                }
+                else
+                {
+                    httpValues.Add(parameter.Key, parameter.Value[0]);
+                }
 #endif
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
@@ -256,7 +256,6 @@ namespace Org.OpenAPITools.Client
             var authorizationHeaderValue = string.Format("Signature keyId=\"{0}\",algorithm=\"{1}\"",
                 KeyId, cryptographicScheme);
 
-
             if (HttpSignatureHeader.ContainsKey(HEADER_CREATED))
             {
                 authorizationHeaderValue += string.Format(",created={0}", HttpSignatureHeader[HEADER_CREATED]);
@@ -278,7 +277,6 @@ namespace Org.OpenAPITools.Client
         private byte[] GetStringHash(string hashName, string stringToBeHashed)
         {
             var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(hashName);
-
             var bytes = Encoding.UTF8.GetBytes(stringToBeHashed);
             var stringHash = hashAlgorithm.ComputeHash(bytes);
             return stringHash;
@@ -298,7 +296,6 @@ namespace Org.OpenAPITools.Client
             {
                 var signedbytes = rsa.SignHash(stringToSign, HashAlgorithm, RSASignaturePadding.Pss);
                 return Convert.ToBase64String(signedbytes);
-
             }
             else if (SigningAlgorithm == "PKCS1-v15")
             {
@@ -472,16 +469,22 @@ namespace Org.OpenAPITools.Client
 
                 //-------- read PEM encryption info. lines and extract salt -----
                 if (!str.ReadLine().StartsWith("Proc-Type: 4,ENCRYPTED"))
+                {
                     return null;
+                }
                 String saltline = str.ReadLine();
                 if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
+                {
                     return null;
+                }
                 String saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
                 byte[] salt = new byte[saltstr.Length / 2];
                 for (int i = 0; i < salt.Length; i++)
                     salt[i] = Convert.ToByte(saltstr.Substring(i * 2, 2), 16);
                 if (!(str.ReadLine() == ""))
+                {
                     return null;
+                }
 
                 //------ remaining b64 data is encrypted RSA key ----
                 String encryptedstr = str.ReadToEnd();
@@ -497,7 +500,9 @@ namespace Org.OpenAPITools.Client
 
                 byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
+                {
                     return null;
+                }
 
                 //------ Decrypt the encrypted 3des-encrypted RSA private key ------
                 byte[] rsakey = DecryptKey(binkey, deskey, salt); //OpenSSL uses salt value in PEM header also as 3DES IV
@@ -519,18 +524,28 @@ namespace Org.OpenAPITools.Client
             {
                 twobytes = binr.ReadUInt16();
                 if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
+                {
                     binr.ReadByte();    //advance 1 byte
+                }
                 else if (twobytes == 0x8230)
+                {
                     binr.ReadInt16();   //advance 2 bytes
+                }
                 else
+                {
                     return null;
+                }
 
                 twobytes = binr.ReadUInt16();
                 if (twobytes != 0x0102) //version number
+                {
                     return null;
+                }
                 bt = binr.ReadByte();
                 if (bt != 0x00)
+                {
                     return null;
+                }
 
                 //------  all private key components are Integer sequences ----
                 elems = GetIntegerSize(binr);
@@ -575,7 +590,10 @@ namespace Org.OpenAPITools.Client
             {
                 return null;
             }
-            finally { binr.Close(); }
+            finally
+            {
+                binr.Close();
+            }
         }
 
         private int GetIntegerSize(BinaryReader binr)
@@ -585,12 +603,16 @@ namespace Org.OpenAPITools.Client
             byte highbyte = 0x00;
             int count = 0;
             bt = binr.ReadByte();
-            if (bt != 0x02)     //expect integer
+            if (bt != 0x02) //expect integer
+            {
                 return 0;
+            }
             bt = binr.ReadByte();
 
             if (bt == 0x81)
+            {
                 count = binr.ReadByte();    // data size in next byte
+            }
             else if (bt == 0x82)
             {
                 highbyte = binr.ReadByte(); // data size in next 2 bytes
@@ -603,7 +625,8 @@ namespace Org.OpenAPITools.Client
                 count = bt;     // we already have the data size
             }
             while (binr.ReadByte() == 0x00)
-            {   //remove high order zeros in data
+            {
+                //remove high order zeros in data
                 count -= 1;
             }
             binr.BaseStream.Seek(-1, SeekOrigin.Current);
@@ -636,7 +659,9 @@ namespace Org.OpenAPITools.Client
             {
                 // ----  Now hash consecutively for count times ------
                 if (j == 0)
+                {
                     result = data00;    //initialize
+                }
                 else
                 {
                     Array.Copy(result, hashtarget, result.Length);
@@ -714,7 +739,7 @@ namespace Org.OpenAPITools.Client
                 key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
             {
 
-                /*this type of key can hold many type different types of private key, but here due lack of pem header
+                /* this type of key can hold many type different types of private key, but here due lack of pem header
                 Considering this as EC key
                 */
                 //TODO :- update the key based on oid

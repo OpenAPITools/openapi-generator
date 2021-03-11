@@ -43,7 +43,8 @@ public class Pet   {
   /**
    * pet status in the store
    */
-  public enum StatusEnum {
+  @com.fasterxml.jackson.annotation.JsonFormat
+public enum StatusEnum {
     AVAILABLE("available"),
     
     PENDING("pending"),

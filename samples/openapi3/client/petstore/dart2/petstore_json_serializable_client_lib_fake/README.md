@@ -66,6 +66,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](doc//FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](doc//FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc//FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**testBodyWithFileSchema**](doc//FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](doc//FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](doc//FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -139,6 +140,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumDefaultValue](doc//OuterEnumDefaultValue.md)
  - [OuterEnumInteger](doc//OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](doc//OuterEnumIntegerDefaultValue.md)
+ - [OuterObjectWithEnumProperty](doc//OuterObjectWithEnumProperty.md)
  - [Pet](doc//Pet.md)
  - [ReadOnlyFirst](doc//ReadOnlyFirst.md)
  - [SpecialModelName](doc//SpecialModelName.md)

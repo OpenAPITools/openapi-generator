@@ -74,6 +74,7 @@ part 'model/outer_enum.dart';
 part 'model/outer_enum_default_value.dart';
 part 'model/outer_enum_integer.dart';
 part 'model/outer_enum_integer_default_value.dart';
+part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/special_model_name.dart';

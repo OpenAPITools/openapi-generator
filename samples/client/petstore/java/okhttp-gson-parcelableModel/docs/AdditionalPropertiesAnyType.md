@@ -2,6 +2,7 @@
 
 # AdditionalPropertiesAnyType
 
+
 ## Properties
 
 Name | Type | Description | Notes

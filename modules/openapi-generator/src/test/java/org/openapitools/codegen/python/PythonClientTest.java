@@ -39,7 +39,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
@@ -290,8 +292,9 @@ public class PythonClientTest {
     // should not start with 'null'. need help from the community to investigate further
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final PythonClientCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
+
         final Schema model = new ArraySchema()
                 .items(new Schema().$ref("#/components/schemas/Children"))
                 .description("an array model");
@@ -312,6 +315,12 @@ public class PythonClientTest {
         Assert.assertEquals(cm.parent, "list");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+
+        final Map<String, Integer> childExample = new HashMap<>();
+        childExample.put("number", 3);
+        final List<Map<String, Integer>> example =  Arrays.asList(childExample);
+        String exampleValue = codegen.toExampleValue(model, example);
+        Assert.assertEquals("[Children(number=1,),]", exampleValue.replaceAll("\\s+",""));
     }
 
     // should not start with 'null'. need help from the community to investigate further

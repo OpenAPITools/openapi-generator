@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **post** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **post** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **post** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **post** /fake/property/enum-int | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **put** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **put** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **patch** /fake | To test \&quot;client\&quot; model
@@ -270,6 +271,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 **String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fakePropertyEnumIntegerSerialize**
+> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+
+
+
+Test serialization of enum (int) properties with examples
+
+### Example 
+```dart
+import 'package:openapi/api.dart';
+
+var api_instance = new FakeApi();
+var outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
+
+try { 
+    var result = api_instance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+    print(result);
+} catch (e) {
+    print('Exception when calling FakeApi->fakePropertyEnumIntegerSerialize: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
 
 ### Authorization
 
