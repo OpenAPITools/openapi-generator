@@ -315,7 +315,7 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
 //endregion
 //region logoutUser
 
-export interface PayloadLogoutUserBasePayloadApiAction {
+export interface PayloadLogoutUser extends BasePayloadApiAction {
 }
 
 

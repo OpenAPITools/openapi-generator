@@ -59,7 +59,7 @@ export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{
 }
 {{/returnTypeSupportsEntities}}
 {{^returnTypeSupportsEntities}}
-export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}{{#allParams.0}} extends Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
 }
 {{/returnTypeSupportsEntities}}
 

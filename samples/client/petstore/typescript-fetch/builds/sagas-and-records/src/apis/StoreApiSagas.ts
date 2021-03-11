@@ -83,7 +83,7 @@ export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
 //endregion
 //region getInventory
 
-export interface PayloadGetInventoryBasePayloadApiAction {
+export interface PayloadGetInventory extends BasePayloadApiAction {
 }
 
 
