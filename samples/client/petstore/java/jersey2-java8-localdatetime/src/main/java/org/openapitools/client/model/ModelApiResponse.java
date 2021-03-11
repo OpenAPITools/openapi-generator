@@ -121,7 +121,7 @@ public class ModelApiResponse {
 
 
   /**
-   * Return true if this _ApiResponse object is equal to o.
+   * Return true if this ApiResponse object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
