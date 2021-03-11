@@ -80,6 +80,10 @@ void PFXUserApi::setBearerToken(const QString &token){
     _bearerToken = token;
 }
 
+void PFXUserApi::setOauthToken(const QString &token){
+    _oauthToken = token;
+}
+
 void PFXUserApi::setUsername(const QString &username) {
     _username = username;
 }

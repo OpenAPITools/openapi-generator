@@ -80,6 +80,10 @@ void PFXPetApi::setBearerToken(const QString &token){
     _bearerToken = token;
 }
 
+void PFXPetApi::setOauthToken(const QString &token){
+    _oauthToken = token;
+}
+
 void PFXPetApi::setUsername(const QString &username) {
     _username = username;
 }
@@ -225,6 +229,9 @@ QString PFXPetApi::getParamStyleDelimiter(QString style, QString name, bool isEx
 void PFXPetApi::addPet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -272,6 +279,20 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::deletePet(const qint64 &pet_id, const QVariant &api_key) {
     QString fullPath = QString(_serverConfigs["deletePet"][_serverIndices.value("deletePet")].URL()+"/pet/{petId}");
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
+    QString pet_idPathParam("{");
+    pet_idPathParam.append("petId").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
     
     {
@@ -336,6 +357,9 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 
 void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     QString fullPath = QString(_serverConfigs["findPetsByStatus"][_serverIndices.value("findPetsByStatus")].URL()+"/pet/findByStatus");
+    
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
     
 
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
@@ -477,6 +501,9 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 
 void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     QString fullPath = QString(_serverConfigs["findPetsByTags"][_serverIndices.value("findPetsByTags")].URL()+"/pet/findByTags");
+    
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
     
 
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
@@ -683,6 +710,9 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::updatePet(const PFXPet &body) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
 
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -730,6 +760,20 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QVariant &name, const QVariant &status) {
     QString fullPath = QString(_serverConfigs["updatePetWithForm"][_serverIndices.value("updatePetWithForm")].URL()+"/pet/{petId}");
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
+    QString pet_idPathParam("{");
+    pet_idPathParam.append("petId").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
     
     {
@@ -801,6 +845,20 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::uploadFile(const qint64 &pet_id, const QVariant &additional_metadata, const QVariant &file) {
     QString fullPath = QString(_serverConfigs["uploadFile"][_serverIndices.value("uploadFile")].URL()+"/pet/{petId}/uploadImage");
     
+    if(!_oauthToken.isEmpty())
+        addHeaders("Authorization", "Bearer " + _oauthToken);
+    
+    QString pet_idPathParam("{");
+    pet_idPathParam.append("petId").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "";    
+    if(pathStyle == "") 
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    QString paramString = (pathStyle == "matrix") ? pathPrefix+"petId"+pathSuffix : pathPrefix;
+    fullPath.replace(pet_idPathParam, paramString+QUrl::toPercentEncoding(::test_namespace::toStringValue(pet_id)));
 
     
     {
