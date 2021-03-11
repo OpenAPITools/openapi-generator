@@ -299,11 +299,6 @@
   infoLink: "https://www.nokia.com/"
   pinned: false
 -
-  caption: "PLAID, Inc."
-  image: "img/companies/plaidcojp.jpg"
-  infoLink: "https://plaid.co.jp/"
-  pinned: false
--
   caption: Options Clearing Corporation (OCC)
   image: "img/companies/occ.jpg"
   infoLink: "https://www.theocc.com/"
@@ -327,6 +322,16 @@
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Plaid
+  image: "img/companies/plaid.png"
+  infoLink: "https://www.plaid.com/"
   pinned: false
 -
   caption: Ponicode
