@@ -148,11 +148,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
                 {
                     newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("BasquePig");
                 match++;
@@ -165,11 +168,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newPig.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
                 {
                     newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("DanishPig");
                 match++;

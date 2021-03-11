@@ -421,6 +421,76 @@ class FakeApi {
     return null;
   }
 
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    // Verify required params are set.
+    if (outerObjectWithEnumProperty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
+    }
+
+    final path = '/fake/property/enum-int';
+
+    Object postBody = outerObjectWithEnumProperty;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['application/json'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
+    }
+    return null;
+  }
+
   /// For this test, the body for this request much reference a schema named `File`.
   ///
   /// Note: This method returns the HTTP [Response].

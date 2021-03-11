@@ -631,6 +631,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [openVALIDATION](https://openvalidation.io/)
 - [Oracle](https://www.oracle.com/)
 - [Paxos](https://www.paxos.com)
+- [Plaid](https://plaid.com)
 - [PLAID, Inc.](https://plaid.co.jp/)
 - [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
