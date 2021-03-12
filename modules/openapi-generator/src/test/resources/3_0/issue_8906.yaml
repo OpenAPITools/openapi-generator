@@ -1,0 +1,107 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "for schemas with properties and required ensure correct hasVars, hasRequired, vars, and requiredVars"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags:
+  - name: items
+    description: Everything about your Pets
+paths: {}
+components:
+  schemas:
+    EmptyObject:
+      type: object
+    ObjectWithOptionalB:
+      type: object
+      properties:
+        b:
+          type: string
+    AnyTypeNoPropertiesNoRequired:
+      description: "NoPropertiesNoRequired"
+    AnyTypeHasPropertiesNoRequired:
+      properties:
+        a:
+          type: string
+    AnyTypeNoPropertiesHasRequired:
+      required:
+        - a
+    AnyTypeHasPropertiesHasRequired:
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ObjectNoPropertiesNoRequired:
+      type: object
+    ObjectHasPropertiesNoRequired:
+      type: object
+      properties:
+        a:
+          type: string
+    ObjectNoPropertiesHasRequired:
+      type: object
+      required:
+        - a
+    ObjectHasPropertiesHasRequired:
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedNoAllofPropsNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+    ComposedNoAllofPropsHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      properties:
+        a:
+          type: string
+      allof:
+        - $ref: '#/components/schemas/EmptyObject'
+    ComposedNoAllofPropsNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      required:
+        - a
+    ComposedNoAllofPropsHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedHasAllofPropNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+    ComposedHasAllofPropHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      properties:
+        a:
+          type: string
+      allof:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+    ComposedHasAllofPropNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      required:
+        - a
+    ComposedHasAllofPropHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+  securitySchemes: {}
