@@ -1316,7 +1316,9 @@ public class ModelUtils {
             }
         }
 
-        if (refedWithoutDiscriminator.size() == 1 && hasAmbiguousParents) {
+        // We have a single ref and no discriminator. Print the warning regardless of whether parents are ambiguous
+        // Even if the parents are unambiguous we do not generate an inheritance relationship currently
+        if (refedWithoutDiscriminator.size() == 1) {
             // allOf with a single $ref (no discriminator)
             // TODO to be removed in 5.x or 6.x release
             LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
