@@ -16,6 +16,7 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
 
 import {
     User,
@@ -46,8 +47,6 @@ knownRecordFactories.set(UserRecordProps.recType, UserRecord);
 export const UserRecordEntityProps = {
     ...UserRecordProps,
     recType: "UserApiRecordEntity" as "UserApiRecordEntity",
-    subUser: null as string | null,
-    subUser2: "-1",
 };
 
 export type UserRecordEntityPropsType = typeof UserRecordEntityProps;
@@ -68,6 +67,36 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
         });
     }
 
+    public *toInlined(entityId?: string) {
+        if (!entityId) {return undefined; }
+        const entity = yield select(apiEntityUserSelector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+        }
+
+        return UserRecord({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string>) {
+        let entities = List<UserRecord>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
+    }
+
     public toApi(record: UserRecord): User {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
@@ -78,5 +107,5 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 export const userRecordUtils = new UserRecordUtils();
 
 export const apiEntitiesUserSelector = (state: any) => getApiEntitiesState(state).user as Map<string, UserRecordEntity>;
-export const apiEntityUserSelector = (state: any, {id}: {id: string}) => apiEntitiesUserSelector(state).get(id);
+export const apiEntityUserSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesUserSelector(state).get(id);
 

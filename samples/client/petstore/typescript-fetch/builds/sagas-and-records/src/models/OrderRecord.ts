@@ -16,6 +16,7 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
 
 import {
     Order,
@@ -63,6 +64,36 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
         });
     }
 
+    public *toInlined(entityId?: string) {
+        if (!entityId) {return undefined; }
+        const entity = yield select(apiEntityOrderSelector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+        }
+
+        return OrderRecord({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string>) {
+        let entities = List<OrderRecord>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
+    }
+
     public toApi(record: OrderRecord): Order {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
@@ -73,5 +104,5 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 export const orderRecordUtils = new OrderRecordUtils();
 
 export const apiEntitiesOrderSelector = (state: any) => getApiEntitiesState(state).order as Map<string, OrderRecordEntity>;
-export const apiEntityOrderSelector = (state: any, {id}: {id: string}) => apiEntitiesOrderSelector(state).get(id);
+export const apiEntityOrderSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesOrderSelector(state).get(id);
 

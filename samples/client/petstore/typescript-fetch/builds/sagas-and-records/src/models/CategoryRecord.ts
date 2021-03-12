@@ -16,6 +16,7 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
 
 import {
     Category,
@@ -58,6 +59,36 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
         });
     }
 
+    public *toInlined(entityId?: string) {
+        if (!entityId) {return undefined; }
+        const entity = yield select(apiEntityCategorySelector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+        }
+
+        return CategoryRecord({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string>) {
+        let entities = List<CategoryRecord>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
+    }
+
     public toApi(record: CategoryRecord): Category {
         const apiObject = super.toApi(record);
         if (record.id) { apiObject.id = parseFloat(record.id); } 
@@ -68,5 +99,5 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 export const categoryRecordUtils = new CategoryRecordUtils();
 
 export const apiEntitiesCategorySelector = (state: any) => getApiEntitiesState(state).category as Map<string, CategoryRecordEntity>;
-export const apiEntityCategorySelector = (state: any, {id}: {id: string}) => apiEntitiesCategorySelector(state).get(id);
+export const apiEntityCategorySelector = (state: any, {id}: {id?: string}) => id && apiEntitiesCategorySelector(state).get(id);
 

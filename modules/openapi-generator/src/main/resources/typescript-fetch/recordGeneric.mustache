@@ -2,6 +2,7 @@ import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, N
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
 
 import {
     {{classname}},
@@ -21,7 +22,7 @@ import {
 {{#modelImports}}
 import {
     {{{.}}}Record,
-    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils,
+    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils
 } from './{{{.}}}Record';
 {{/modelImports}}
 
@@ -69,11 +70,15 @@ export const {{classname}}RecordEntityProps = {
     recType: "{{classname}}ApiRecordEntity" as "{{classname}}ApiRecordEntity",
 {{#vars}}
     {{#isEntity}}
+    {{^keepAsJSObject}}
     {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
+    {{/keepAsJSObject}}
     {{/isEntity}}
     {{#isArray}}
     {{#items.isEntity}}
+    {{^keepAsJSObject}}
     {{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
+    {{/keepAsJSObject}}
     {{/items.isEntity}}
     {{/isArray}}
 {{/vars}}
@@ -125,6 +130,64 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
             {{/isArray}}
 {{/vars}}
         });
+    }
+
+    public *toInlined(entityId?: string) {
+        if (!entityId) {return undefined; }
+        const entity = yield select(apiEntity{{classname}}Selector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+{{#vars}}
+{{#isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{name}}_original,
+{{/keepAsJSObject}}
+{{/isEntity}}
+{{#isArray}}
+{{#items.isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{name}}_original,
+{{/keepAsJSObject}}
+{{/items.isEntity}}
+{{/isArray}}
+{{/vars}}
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+{{#vars}}
+{{#isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toInlined, entity.{{name}}){{^required}} : null{{/required}},
+{{/keepAsJSObject}}
+{{/isEntity}}
+{{#isArray}}
+{{#items.isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toInlinedArray, entity.{{name}}){{^required}} : null{{/required}},
+{{/keepAsJSObject}}
+{{/items.isEntity}}
+{{/isArray}}
+{{/vars}}
+        }
+
+        return {{classname}}Record({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string>) {
+        let entities = List<{{classname}}Record>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
     }
 {{/isEntity}}
 
@@ -203,5 +266,5 @@ export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils 
 
 {{#isEntity}}
 export const apiEntities{{classname}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} as Map<string, {{classname}}RecordEntity>;
-export const apiEntity{{classname}}Selector = (state: any, {id}: {id: string}) => apiEntities{{classname}}Selector(state).get(id);
+export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string}) => id && apiEntities{{classname}}Selector(state).get(id);
 {{/isEntity}}

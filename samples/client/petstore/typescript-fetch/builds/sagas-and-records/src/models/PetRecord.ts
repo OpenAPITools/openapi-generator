@@ -16,6 +16,7 @@ import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
 import {getApiEntitiesState} from "../ApiEntitiesSelectors"
 import {List, Record, RecordOf, Map} from 'immutable';
 import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
 
 import {
     Pet,
@@ -37,11 +38,11 @@ import {
 
 import {
     CategoryRecord,
-    categoryRecordUtils,
+    categoryRecordUtils
 } from './CategoryRecord';
 import {
     TagRecord,
-    tagRecordUtils,
+    tagRecordUtils
 } from './TagRecord';
 
 export const PetRecordProps = {
@@ -114,6 +115,46 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         });
     }
 
+    public *toInlined(entityId?: string) {
+        if (!entityId) {return undefined; }
+        const entity = yield select(apiEntityPetSelector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+            category: category_original,
+            optionalCategory: optionalCategory_original,
+            _entries: _entries_original,
+            tags: tags_original,
+            optionalTags: optionalTags_original,
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+            category: yield call(categoryRecordUtils.toInlined, entity.category),
+            optionalCategory: entity.optionalCategory ? yield call(categoryRecordUtils.toInlined, entity.optionalCategory) : null,
+            _entries: entity._entries ? yield call(categoryRecordUtils.toInlinedArray, entity._entries) : null,
+            tags: yield call(tagRecordUtils.toInlinedArray, entity.tags),
+            optionalTags: entity.optionalTags ? yield call(tagRecordUtils.toInlinedArray, entity.optionalTags) : null,
+        }
+
+        return PetRecord({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string>) {
+        let entities = List<PetRecord>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
+    }
+
     public toApi(record: PetRecord): Pet {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
@@ -131,5 +172,5 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 export const petRecordUtils = new PetRecordUtils();
 
 export const apiEntitiesPetSelector = (state: any) => getApiEntitiesState(state).pet as Map<string, PetRecordEntity>;
-export const apiEntityPetSelector = (state: any, {id}: {id: string}) => apiEntitiesPetSelector(state).get(id);
+export const apiEntityPetSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesPetSelector(state).get(id);
 
