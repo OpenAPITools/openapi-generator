@@ -1309,7 +1309,7 @@ public class ModelUtils {
                     }
                 }
             }
-            if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount == 1) {
+            if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount <= 1) {
                 // One schema is a $ref and the other is the 'null' type, so the parent is obvious.
                 // In this particular case there is no need to specify a discriminator.
                 hasAmbiguousParents = false;
