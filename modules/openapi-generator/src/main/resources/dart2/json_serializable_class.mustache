@@ -1,0 +1,79 @@
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: true,
+  explicitToJson: true,
+)
+class {{{classname}}} {
+  /// Returns a new [{{{classname}}}] instance.
+  {{{classname}}}({
+  {{#vars}}
+    {{!
+        A field is @required in Dart when it is
+        required && !nullable && !defaultValue in OAS
+    }}
+    {{#required}}{{^isNullable}}{{^defaultValue}}@required {{/defaultValue}}{{/isNullable}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
+  {{/vars}}
+  });
+
+{{#vars}}
+  {{#description}}
+      /// {{{description}}}
+  {{/description}}
+  {{^isEnum}}
+      {{#minimum}}
+          // minimum: {{{minimum}}}
+      {{/minimum}}
+      {{#maximum}}
+          // maximum: {{{maximum}}}
+      {{/maximum}}
+  {{/isEnum}}
+  {{^isBinary}}
+  @JsonKey(
+    {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
+    name: r'{{{baseName}}}',
+    required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+  )
+  {{/isBinary}}
+  {{#isBinary}}
+  @JsonKey(ignore: true)
+  {{/isBinary}}
+  {{{datatypeWithEnum}}} {{{name}}};
+
+{{/vars}}
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  {{#vars}}
+     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  int get hashCode =>
+  {{#vars}}
+    ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);
+
+  Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
+}
+{{#vars}}
+    {{#isEnum}}
+        {{^isContainer}}
+
+{{>json_serializable_enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>json_serializable_enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
+{{/vars}}

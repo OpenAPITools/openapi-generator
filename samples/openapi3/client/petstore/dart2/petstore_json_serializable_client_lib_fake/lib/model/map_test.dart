@@ -66,7 +66,6 @@ class MapTest {
     (directMap == null ? 0 : directMap.hashCode) +
     (indirectMap == null ? 0 : indirectMap.hashCode);
 
-
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 
   Map<String, dynamic> toJson() => _$MapTestToJson(this);
@@ -77,7 +76,6 @@ class MapTest {
   }
 
 }
-
 
 
 enum MapTestMapOfEnumStringEnum {

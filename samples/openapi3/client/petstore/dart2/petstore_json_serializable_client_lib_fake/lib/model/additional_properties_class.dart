@@ -46,7 +46,6 @@ class AdditionalPropertiesClass {
     (mapProperty == null ? 0 : mapProperty.hashCode) +
     (mapOfMapProperty == null ? 0 : mapOfMapProperty.hashCode);
 
-
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdditionalPropertiesClassToJson(this);
