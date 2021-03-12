@@ -328,8 +328,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             Schema currentParentModel = allDefinitions.get(codegenModel.parentSchema);
+            // We need to iterate through the whole inheritance structure and check whether we need to inherit properties
             while (currentParentModel != null) {
-                final CodegenModel currentParentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
 
 
@@ -360,7 +360,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
 
-                currentParentModel = allDefinitions.get(currentParentCodegenModel.parentSchema);
+                // Find parent of current parent if it exists. In inheritance its important to take the whole tree into account
+                currentParentModel = allDefinitions.get(parentCodegenModel.parentSchema);
             }
         }
 

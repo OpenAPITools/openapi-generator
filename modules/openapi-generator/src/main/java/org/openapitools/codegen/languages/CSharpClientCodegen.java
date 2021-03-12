@@ -592,8 +592,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             Schema currentParentModel = allDefinitions.get(codegenModel.parentSchema);
+            // We need to iterate through the whole inheritance structure and check whether we need to inherit properties
             while (currentParentModel != null) {
-                final CodegenModel currentParentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
 
                 if (codegenModel.hasEnums) {
@@ -612,6 +612,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 CodegenProperty last = null;
+
+                // Add properties of parent to child if child does not contain the same property (which overrides)
                 for (final CodegenProperty property : parentCodegenModel.vars) {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
@@ -622,7 +624,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         codegenModel.parentVars.add(parentVar);
                     }
                 }
-                currentParentModel = allDefinitions.get(currentParentCodegenModel.parentSchema);
+
+                // Find parent of current parent if it exists. In inheritance its important to take the whole tree into account
+                currentParentModel = allDefinitions.get(parentCodegenModel.parentSchema);
             }
         }
 
