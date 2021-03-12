@@ -67,12 +67,12 @@ class {{{classname}}} {
     {{#isEnum}}
         {{^isContainer}}
 
-{{>json_serializable_enum_inline}}
+{{>serialization/json_serializable/json_serializable_enum_inline}}
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
-{{>json_serializable_enum_inline}}
+{{>serialization/json_serializable/json_serializable_enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}

@@ -223,12 +223,12 @@ class {{{classname}}} {
     {{#isEnum}}
         {{^isContainer}}
 
-{{>native_enum_inline}}
+{{>serialization/native/native_enum_inline}}
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
-{{>native_enum_inline}}
+{{>serialization/native/native_enum_inline}}
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
