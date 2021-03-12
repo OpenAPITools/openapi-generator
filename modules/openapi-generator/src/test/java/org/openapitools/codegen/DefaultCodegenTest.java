@@ -3124,4 +3124,54 @@ public class DefaultCodegenTest {
             assertEquals(cm.getHasRequired(), true);
         }
     }
+
+    @Test
+    public void testHasRequiredInProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName = "CodegenPropertiesModel";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        HashSet<String> modelNamesWithoutRequired = new HashSet(Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "AnyTypeHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired", // Note: this is extracted into another component and is a ref
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedNoAllofPropsHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+        ));
+        for (CodegenProperty var : cm.getVars()) {
+            boolean hasRequired = var.getHasRequired();
+            if (modelNamesWithoutRequired.contains(var.name)) {
+                assertEquals(hasRequired, false);
+            } else if (modelNamesWithRequired.contains(var.name)) {
+                assertEquals(hasRequired, true);
+            } else {
+                // All variables must be in the above sets
+                 assertEquals(true, false);
+            }
+        }
+    }
 }
