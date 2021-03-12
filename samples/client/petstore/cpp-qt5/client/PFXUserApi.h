@@ -12,6 +12,7 @@
 #ifndef PFX_PFXUserApi_H
 #define PFX_PFXUserApi_H
 
+#include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
 
@@ -24,7 +25,6 @@
 #include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
-#include <QVariant>
 
 namespace test_namespace {
 
@@ -158,7 +158,7 @@ signals:
     void logoutUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
-    void abortRequestsSignal(); 
+    void abortRequestsSignal();
     void allPendingRequestsCompleted();
 };
 
