@@ -64,7 +64,7 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntityOrderSelector, {id: entityId});
         if (!entity) {return undefined; }
@@ -83,7 +83,8 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<OrderRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -104,5 +105,5 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 export const orderRecordUtils = new OrderRecordUtils();
 
 export const apiEntitiesOrderSelector = (state: any) => getApiEntitiesState(state).order as Map<string, OrderRecordEntity>;
-export const apiEntityOrderSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesOrderSelector(state).get(id);
+export const apiEntityOrderSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesOrderSelector(state).get(id);
 

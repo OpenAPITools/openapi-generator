@@ -132,7 +132,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntity{{classname}}Selector, {id: entityId});
         if (!entity) {return undefined; }
@@ -179,7 +179,8 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<{{classname}}Record>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -266,5 +267,5 @@ export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils 
 
 {{#isEntity}}
 export const apiEntities{{classname}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} as Map<string, {{classname}}RecordEntity>;
-export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string}) => id && apiEntities{{classname}}Selector(state).get(id);
+export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string | null}) => id && apiEntities{{classname}}Selector(state).get(id);
 {{/isEntity}}

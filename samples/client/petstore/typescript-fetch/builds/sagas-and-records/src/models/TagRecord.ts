@@ -59,7 +59,7 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntityTagSelector, {id: entityId});
         if (!entity) {return undefined; }
@@ -78,7 +78,8 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<TagRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -99,5 +100,5 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 export const tagRecordUtils = new TagRecordUtils();
 
 export const apiEntitiesTagSelector = (state: any) => getApiEntitiesState(state).tag as Map<string, TagRecordEntity>;
-export const apiEntityTagSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesTagSelector(state).get(id);
+export const apiEntityTagSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesTagSelector(state).get(id);
 

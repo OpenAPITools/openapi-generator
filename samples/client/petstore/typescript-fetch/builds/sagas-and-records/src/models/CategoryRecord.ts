@@ -59,7 +59,7 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntityCategorySelector, {id: entityId});
         if (!entity) {return undefined; }
@@ -78,7 +78,8 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<CategoryRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -99,5 +100,5 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 export const categoryRecordUtils = new CategoryRecordUtils();
 
 export const apiEntitiesCategorySelector = (state: any) => getApiEntitiesState(state).category as Map<string, CategoryRecordEntity>;
-export const apiEntityCategorySelector = (state: any, {id}: {id?: string}) => id && apiEntitiesCategorySelector(state).get(id);
+export const apiEntityCategorySelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesCategorySelector(state).get(id);
 

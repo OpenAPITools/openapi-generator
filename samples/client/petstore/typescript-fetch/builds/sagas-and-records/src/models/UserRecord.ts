@@ -67,7 +67,7 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntityUserSelector, {id: entityId});
         if (!entity) {return undefined; }
@@ -86,7 +86,8 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<UserRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -107,5 +108,5 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 export const userRecordUtils = new UserRecordUtils();
 
 export const apiEntitiesUserSelector = (state: any) => getApiEntitiesState(state).user as Map<string, UserRecordEntity>;
-export const apiEntityUserSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesUserSelector(state).get(id);
+export const apiEntityUserSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesUserSelector(state).get(id);
 

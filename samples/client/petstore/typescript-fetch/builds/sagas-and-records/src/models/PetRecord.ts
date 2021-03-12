@@ -115,7 +115,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         });
     }
 
-    public *toInlined(entityId?: string) {
+    public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         const entity = yield select(apiEntityPetSelector, {id: entityId});
         if (!entity) {return undefined; }
@@ -144,7 +144,8 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         });
     }
 
-    public *toInlinedArray(entityIds: List<string>) {
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
         let entities = List<PetRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -172,5 +173,5 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 export const petRecordUtils = new PetRecordUtils();
 
 export const apiEntitiesPetSelector = (state: any) => getApiEntitiesState(state).pet as Map<string, PetRecordEntity>;
-export const apiEntityPetSelector = (state: any, {id}: {id?: string}) => id && apiEntitiesPetSelector(state).get(id);
+export const apiEntityPetSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesPetSelector(state).get(id);
 
