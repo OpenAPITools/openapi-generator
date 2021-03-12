@@ -21,6 +21,13 @@ components:
       properties:
         b:
           type: string
+    ObjectWithRequiredB:
+      type: object
+      properties:
+        b:
+          type: string
+      required:
+        - b
     AnyTypeNoPropertiesNoRequired:
       description: "NoPropertiesNoRequired"
     AnyTypeHasPropertiesNoRequired:
@@ -79,10 +86,10 @@ components:
       properties:
         a:
           type: string
-    ComposedHasAllofPropNoPropertiesNoRequired:
+    ComposedHasAllofOptPropNoPropertiesNoRequired:
       allOf:
-        - $ref: '#/components/schemas/EmptyObject'
-    ComposedHasAllofPropHasPropertiesNoRequired:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+    ComposedHasAllofOptPropHasPropertiesNoRequired:
       allOf:
         - $ref: '#/components/schemas/ObjectWithOptionalB'
       properties:
@@ -90,14 +97,39 @@ components:
           type: string
       allof:
         - $ref: '#/components/schemas/ObjectWithOptionalB'
-    ComposedHasAllofPropNoPropertiesHasRequired:
+    ComposedHasAllofOptPropNoPropertiesHasRequired:
       allOf:
         - $ref: '#/components/schemas/ObjectWithOptionalB'
       required:
         - a
-    ComposedHasAllofPropHasPropertiesHasRequired:
+    ComposedHasAllofOptPropHasPropertiesHasRequired:
       allOf:
         - $ref: '#/components/schemas/ObjectWithOptionalB'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedHasAllofReqPropNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+    ComposedHasAllofReqPropHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+      properties:
+        a:
+          type: string
+      allof:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+    ComposedHasAllofReqPropNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+      required:
+        - a
+    ComposedHasAllofReqPropHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
       type: object
       required:
         - a

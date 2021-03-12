@@ -3075,4 +3075,53 @@ public class DefaultCodegenTest {
         // does not have vars because the inline schema was extracted into a component ref
         assertEquals(co.responses.get(0).getHasVars(), false);
     }
+
+    @Test
+    public void testHasRequiredInModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        Schema sc;
+        CodegenModel cm;
+
+        List<String> modelNamesWithoutRequired = Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired",
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        );
+        for (String modelName : modelNamesWithoutRequired) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasRequired(), false);
+        }
+
+        List<String> modelNamesWithRequired = Arrays.asList(
+                "AnyTypeHasPropertiesHasRequired",
+                "ObjectHasPropertiesHasRequired",
+                "ComposedNoAllofPropsHasPropertiesHasRequired",
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",  // TODO: hasRequired should be false, fix this
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",  // TODO: hasRequired should be false, fix this
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"
+        );
+        for (String modelName : modelNamesWithRequired) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasRequired(), true);
+        }
+    }
 }
