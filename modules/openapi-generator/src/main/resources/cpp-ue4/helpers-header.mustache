@@ -22,8 +22,8 @@ typedef TSharedRef<TJsonWriter<>> JsonWriter;
 class {{dllapi}} HttpFileInput
 {
 public:
-	HttpFileInput(const TCHAR* InFilePath);
-	HttpFileInput(const FString& InFilePath);
+	explicit HttpFileInput(const TCHAR* InFilePath);
+	explicit HttpFileInput(const FString& InFilePath);
 
 	// This will automatically set the content type if not already set
     void SetFilePath(const TCHAR* InFilePath);
