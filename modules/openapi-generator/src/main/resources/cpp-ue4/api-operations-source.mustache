@@ -109,7 +109,7 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	return Path;
 }
 
-void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { {{#consumes}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/consumes}} };
 	//static const TArray<FString> Produces = { {{#produces}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/produces}} };

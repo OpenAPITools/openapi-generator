@@ -25,7 +25,7 @@ class {{dllapi}} Request
 {
 public:
 	virtual ~Request() {}
-	virtual void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const = 0;
+	virtual void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const = 0;
 	virtual FString ComputePath() const = 0;
 };
 

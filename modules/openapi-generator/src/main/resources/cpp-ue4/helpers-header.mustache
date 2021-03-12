@@ -53,7 +53,7 @@ class HttpMultipartFormData
 {
 public:
 	void SetBoundary(const TCHAR* InBoundary);
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest);
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest);
 
 	void AddStringPart(const TCHAR* Name, const TCHAR* Data);
 	void AddJsonPart(const TCHAR* Name, const FString& JsonString);
