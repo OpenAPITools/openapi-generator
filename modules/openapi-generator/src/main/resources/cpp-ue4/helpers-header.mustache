@@ -268,11 +268,15 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Va
 		return false;
 }
 
+{{dllapi}} bool ParseDateTime(const FString& DateTimeString, FDateTime& OutDateTime);
+
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
-		return FDateTime::Parse(TmpValue, Value);
+	{
+		return ParseDateTime(TmpValue, Value);
+	}
 	else
 		return false;
 }
