@@ -353,9 +353,9 @@ use WWW::OpenAPIClient::Object::User;
 
 # for displaying the API response data
 use Data::Dumper;
-use WWW::OpenAPIClient::;
 
-my $api_instance = WWW::OpenAPIClient::->new(
+
+my $api_instance = WWW::OpenAPIClient::AnotherFakeApi->new(
 );
 
 my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
