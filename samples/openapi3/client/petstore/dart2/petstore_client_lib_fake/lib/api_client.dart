@@ -45,16 +45,12 @@ class ApiClient {
      _defaultHeaderMap[key] = value;
   }
 
-  dynamic deserialize(String json, String targetType, {bool growable}) {
-    // Remove all spaces.  Necessary for reg expressions as well.
-    targetType = targetType.replaceAll(' ', '');
+  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
-    return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: true == growable);
-  }
-
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  /// returns an unmodifiable view of the authentications, since none should be added
+  /// nor deleted
+  Map<String, Authentication> get authentications =>
+      Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
@@ -194,6 +190,7 @@ class ApiClient {
           return EnumArrays.fromJson(value);
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
+          
         case 'EnumTest':
           return EnumTest.fromJson(value);
         case 'FileSchemaTestClass':
@@ -234,12 +231,18 @@ class ApiClient {
           return OuterComposite.fromJson(value);
         case 'OuterEnum':
           return OuterEnumTypeTransformer().decode(value);
+          
         case 'OuterEnumDefaultValue':
           return OuterEnumDefaultValueTypeTransformer().decode(value);
+          
         case 'OuterEnumInteger':
           return OuterEnumIntegerTypeTransformer().decode(value);
+          
         case 'OuterEnumIntegerDefaultValue':
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
+          
+        case 'OuterObjectWithEnumProperty':
+          return OuterObjectWithEnumProperty.fromJson(value);
         case 'Pet':
           return Pet.fromJson(value);
         case 'ReadOnlyFirst':
@@ -258,6 +261,12 @@ class ApiClient {
               .map((v) => _deserialize(v, newTargetType, growable: growable))
               .toList(growable: true == growable);
           }
+          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+            final newTargetType = match[1];
+            return value
+              .map((v) => _deserialize(v, newTargetType, growable: growable))
+              .toSet();
+          }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             final newTargetType = match[1];
             return Map.fromIterables(
@@ -272,6 +281,17 @@ class ApiClient {
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
+
+  dynamic deserialize(String json, String targetType, {bool growable}) {
+    // Remove all spaces.  Necessary for reg expressions as well.
+    targetType = targetType.replaceAll(' ', '');
+
+  return targetType == 'String'
+    ? json
+    : _deserialize(jsonDecode(json), targetType, growable: true == growable);
+  }
+
+  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply

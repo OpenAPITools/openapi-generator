@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected String moduleName;

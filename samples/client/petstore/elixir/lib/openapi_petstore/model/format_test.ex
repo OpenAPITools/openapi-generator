@@ -15,6 +15,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"number",
     :"float",
     :"double",
+    :"decimal",
     :"string",
     :"byte",
     :"binary",
@@ -22,7 +23,8 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"dateTime",
     :"uuid",
     :"password",
-    :"BigDecimal"
+    :"pattern_with_digits",
+    :"pattern_with_digits_and_delimiter"
   ]
 
   @type t :: %__MODULE__{
@@ -32,6 +34,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"number" => float(),
     :"float" => float() | nil,
     :"double" => float() | nil,
+    :"decimal" => String.t | nil,
     :"string" => String.t | nil,
     :"byte" => binary(),
     :"binary" => String.t | nil,
@@ -39,7 +42,8 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"dateTime" => DateTime.t | nil,
     :"uuid" => String.t | nil,
     :"password" => String.t,
-    :"BigDecimal" => String.t | nil
+    :"pattern_with_digits" => String.t | nil,
+    :"pattern_with_digits_and_delimiter" => String.t | nil
   }
 end
 

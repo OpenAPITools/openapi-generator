@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Capitalization
 void main() {
-  final instance = Capitalization();
+  final instance = CapitalizationBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Capitalization, () {
     // String smallCamel

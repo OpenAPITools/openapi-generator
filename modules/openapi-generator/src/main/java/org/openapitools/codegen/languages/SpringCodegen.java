@@ -45,7 +45,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
         OptionalFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -163,7 +163,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)"));
-        cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
+        cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
@@ -860,6 +860,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonCreator");
             }
+        }
+
+        // Add imports for java.util.Arrays
+        if (property.isByteArray) {
+            model.imports.add("Arrays");
         }
     }
 

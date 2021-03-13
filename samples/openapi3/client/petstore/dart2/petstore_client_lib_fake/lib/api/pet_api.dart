@@ -29,7 +29,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -94,7 +94,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -166,7 +166,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
-    final path = '/pet/findByStatus'.replaceAll('{format}', 'json');
+    final path = r'/pet/findByStatus';
 
     Object postBody;
 
@@ -222,10 +222,10 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
+        .cast<Pet>()
         .toList(growable: false);
     }
-    return null;
+    return Future<List<Pet>>.value(null);
   }
 
   /// Finds Pets by tags
@@ -236,15 +236,15 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] tags (required):
+  /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Response> findPetsByTagsWithHttpInfo(List<String> tags) async {
+  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags) async {
     // Verify required params are set.
     if (tags == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
-    final path = '/pet/findByTags'.replaceAll('{format}', 'json');
+    final path = r'/pet/findByTags';
 
     Object postBody;
 
@@ -288,9 +288,9 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] tags (required):
+  /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+  Future<Set<Pet>> findPetsByTags(Set<String> tags) async {
     final response = await findPetsByTagsWithHttpInfo(tags);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
@@ -299,11 +299,11 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .map((item) => item as Pet)
-        .toList(growable: false);
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'Set<Pet>') as List)
+        .cast<Pet>()
+        .toSet();
     }
-    return null;
+    return Future<Set<Pet>>.value(null);
   }
 
   /// Find pet by ID
@@ -322,7 +322,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -377,8 +377,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
-    }
-    return null;
+        }
+    return Future<Pet>.value(null);
   }
 
   /// Update an existing pet
@@ -395,7 +395,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -464,7 +464,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -554,7 +554,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}/uploadImage'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}/uploadImage'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -625,8 +625,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    }
-    return null;
+        }
+    return Future<ApiResponse>.value(null);
   }
 
   /// uploads an image (required)
@@ -652,7 +652,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
     }
 
-    final path = '/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{format}', 'json')
+    final path = r'/fake/{petId}/uploadImageWithRequiredFile'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -723,7 +723,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    }
-    return null;
+        }
+    return Future<ApiResponse>.value(null);
   }
 }

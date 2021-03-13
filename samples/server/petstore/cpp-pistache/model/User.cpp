@@ -67,6 +67,7 @@ void to_json(nlohmann::json& j, const User& o)
         j["phone"] = o.m_Phone;
     if(o.userStatusIsSet())
         j["userStatus"] = o.m_UserStatus;
+    
 }
 
 void from_json(const nlohmann::json& j, User& o)
@@ -111,6 +112,7 @@ void from_json(const nlohmann::json& j, User& o)
         j.at("userStatus").get_to(o.m_UserStatus);
         o.m_UserStatusIsSet = true;
     } 
+    
 }
 
 int64_t User::getId() const
@@ -249,6 +251,7 @@ void User::unsetUserStatus()
 {
     m_UserStatusIsSet = false;
 }
+
 
 }
 }

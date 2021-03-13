@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;

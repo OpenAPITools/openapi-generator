@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for HealthCheckResult
 void main() {
-  final instance = HealthCheckResult();
+  final instance = HealthCheckResultBuilder();
+  // TODO add properties to the builder and call build()
 
   group(HealthCheckResult, () {
     // String nullableMessage

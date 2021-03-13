@@ -149,6 +149,8 @@ install:
 script:
   # fail fast
   - set -e
+  # fail if the template files contains tabs
+  - /bin/bash ./bin/utils/detect_tab_in_templates.sh
   # fail if the test files have changes
   - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
   # fail if templates/generators contain carriage return '\r'

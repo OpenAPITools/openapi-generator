@@ -1,5 +1,6 @@
 # HasOnlyReadOnly
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

@@ -1,5 +1,6 @@
 # TypeHolderDefault
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

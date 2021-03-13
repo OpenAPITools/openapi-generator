@@ -30,7 +30,7 @@ import java.util.EnumSet;
 
 public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
 
     @Override
     public CodegenType getTag() {

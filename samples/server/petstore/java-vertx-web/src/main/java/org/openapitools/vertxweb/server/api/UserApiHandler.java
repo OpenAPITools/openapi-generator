@@ -4,7 +4,7 @@ import org.openapitools.vertxweb.server.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;
-import io.vertx.ext.web.openapi.RouterFactory;
+import io.vertx.ext.web.openapi.RouterBuilder;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -20,21 +20,26 @@ public class UserApiHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(UserApiHandler.class);
 
-    private final UserApi apiImpl;
+    private final UserApi api;
 
-    public UserApiHandler() {
-        this.apiImpl = new UserApiImpl();
+    public UserApiHandler(UserApi api) {
+        this.api = api;
     }
 
-    public void mount(RouterFactory factory) {
-        factory.operation("createUser").handler(this::createUser);
-        factory.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);
-        factory.operation("createUsersWithListInput").handler(this::createUsersWithListInput);
-        factory.operation("deleteUser").handler(this::deleteUser);
-        factory.operation("getUserByName").handler(this::getUserByName);
-        factory.operation("loginUser").handler(this::loginUser);
-        factory.operation("logoutUser").handler(this::logoutUser);
-        factory.operation("updateUser").handler(this::updateUser);
+    @Deprecated
+    public UserApiHandler() {
+        this(new UserApiImpl());
+    }
+
+    public void mount(RouterBuilder builder) {
+        builder.operation("createUser").handler(this::createUser);
+        builder.operation("createUsersWithArrayInput").handler(this::createUsersWithArrayInput);
+        builder.operation("createUsersWithListInput").handler(this::createUsersWithListInput);
+        builder.operation("deleteUser").handler(this::deleteUser);
+        builder.operation("getUserByName").handler(this::getUserByName);
+        builder.operation("loginUser").handler(this::loginUser);
+        builder.operation("logoutUser").handler(this::logoutUser);
+        builder.operation("updateUser").handler(this::updateUser);
     }
 
     private void createUser(RoutingContext routingContext) {
@@ -48,7 +53,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUser(user)
+        api.createUser(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -71,7 +76,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUsersWithArrayInput(user)
+        api.createUsersWithArrayInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -94,7 +99,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.createUsersWithListInput(user)
+        api.createUsersWithListInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -116,7 +121,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter username is {}", username);
 
-        apiImpl.deleteUser(username)
+        api.deleteUser(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -138,7 +143,7 @@ public class UserApiHandler {
 
         logger.debug("Parameter username is {}", username);
 
-        apiImpl.getUserByName(username)
+        api.getUserByName(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -162,7 +167,7 @@ public class UserApiHandler {
         logger.debug("Parameter username is {}", username);
         logger.debug("Parameter password is {}", password);
 
-        apiImpl.loginUser(username, password)
+        api.loginUser(username, password)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -182,7 +187,7 @@ public class UserApiHandler {
 
 
 
-        apiImpl.logoutUser()
+        api.logoutUser()
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -207,7 +212,7 @@ public class UserApiHandler {
         logger.debug("Parameter username is {}", username);
         logger.debug("Parameter user is {}", user);
 
-        apiImpl.updateUser(username, user)
+        api.updateUser(username, user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

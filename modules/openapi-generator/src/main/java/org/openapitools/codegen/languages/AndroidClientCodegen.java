@@ -33,7 +33,7 @@ import java.util.HashSet;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
     public static final String USE_ANDROID_MAVEN_GRADLE_PLUGIN = "useAndroidMavenGradlePlugin";
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";

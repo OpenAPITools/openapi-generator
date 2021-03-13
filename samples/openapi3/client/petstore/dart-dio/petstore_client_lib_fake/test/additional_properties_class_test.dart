@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for AdditionalPropertiesClass
 void main() {
-  final instance = AdditionalPropertiesClass();
+  final instance = AdditionalPropertiesClassBuilder();
+  // TODO add properties to the builder and call build()
 
   group(AdditionalPropertiesClass, () {
     // BuiltMap<String, String> mapProperty

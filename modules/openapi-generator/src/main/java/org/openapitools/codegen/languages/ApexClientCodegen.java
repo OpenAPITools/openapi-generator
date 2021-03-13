@@ -42,7 +42,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private static final String API_VERSION = "apiVersion";
     private static final String BUILD_METHOD = "buildMethod";
     private static final String NAMED_CREDENTIAL = "namedCredential";
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
     private String classPrefix = "OAS";
     private String apiVersion = "42.0";
     private String buildMethod = "sfdx";

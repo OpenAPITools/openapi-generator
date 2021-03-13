@@ -143,9 +143,9 @@ namespace Org.OpenAPITools
                 });
             app.UseRouting();
             app.UseEndpoints(endpoints =>
-	            {
-	    	        endpoints.MapControllers();
-	            });
+                {
+                    endpoints.MapControllers();
+                });
         }
     }
 }

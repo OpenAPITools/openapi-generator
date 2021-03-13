@@ -47,7 +47,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private static final String IMPORTS = "imports";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
 

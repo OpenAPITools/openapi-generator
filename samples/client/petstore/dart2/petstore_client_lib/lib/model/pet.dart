@@ -62,12 +62,8 @@ class Pet {
     if (category != null) {
       json[r'category'] = category;
     }
-    if (name != null) {
       json[r'name'] = name;
-    }
-    if (photoUrls != null) {
       json[r'photoUrls'] = photoUrls;
-    }
     if (tags != null) {
       json[r'tags'] = tags;
     }

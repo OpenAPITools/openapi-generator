@@ -50,7 +50,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
@@ -94,6 +94,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.ApiKey,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(

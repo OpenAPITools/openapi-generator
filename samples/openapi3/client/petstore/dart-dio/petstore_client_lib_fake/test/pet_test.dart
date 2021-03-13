@@ -3,7 +3,8 @@ import 'package:test/test.dart';
 
 // tests for Pet
 void main() {
-  final instance = Pet();
+  final instance = PetBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Pet, () {
     // int id
@@ -21,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<String> photoUrls
+    // BuiltSet<String> photoUrls
     test('to test the property `photoUrls`', () async {
       // TODO
     });

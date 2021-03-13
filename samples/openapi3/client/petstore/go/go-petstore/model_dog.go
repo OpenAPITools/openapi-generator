@@ -29,8 +29,11 @@ type _Dog Dog
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDog() *Dog {
+func NewDog(className string) *Dog {
 	this := Dog{}
+	this.ClassName = className
+	var color string = "red"
+	this.Color = &color
 	return &this
 }
 

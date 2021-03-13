@@ -11,12 +11,11 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { HttpService, Inject, Injectable }                      from '@nestjs/common';
+import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../model/user';
-import { Configuration }                                     from '../configuration';
-import { COLLECTION_FORMATS }                     from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -26,9 +25,9 @@ export class UserService {
     public defaultHeaders = new Map()
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpService, configuration: Configuration) {
-        this.configuration = configuration;
-        this.basePath = basePath || configuration.basePath || this.basePath;
+    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+        this.configuration = configuration || this.configuration;
+        this.basePath = configuration?.basePath || this.basePath;
     }
 
     /**
@@ -77,7 +76,6 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<any>(`${this.basePath}/user`,
             user,
             {
@@ -123,7 +121,6 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
             user,
             {
@@ -169,7 +166,6 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
             user,
             {
@@ -210,7 +206,6 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -236,7 +231,7 @@ export class UserService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -247,7 +242,6 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -276,17 +270,17 @@ export class UserService {
 
         let queryParameters = {};   
         if (username !== undefined && username !== null) {
-            queryParameters['username'] <any>username;
+            queryParameters['username'] = <any>username;
         }
         if (password !== undefined && password !== null) {
-            queryParameters['password'] <any>password;
+            queryParameters['password'] = <any>password;
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/xml'
+            'application/xml',
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -297,7 +291,6 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<string>(`${this.basePath}/user/login`,
             {
                 params: queryParameters,
@@ -333,7 +326,6 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-
         return this.httpClient.get<any>(`${this.basePath}/user/logout`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -383,7 +375,6 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-
         return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             user,
             {

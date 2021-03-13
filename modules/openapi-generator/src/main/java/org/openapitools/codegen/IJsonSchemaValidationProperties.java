@@ -98,4 +98,12 @@ public interface IJsonSchemaValidationProperties {
     boolean getHasValidation();
 
     void setHasValidation(boolean hasValidation);
+
+    boolean getAdditionalPropertiesIsAnyType();
+
+    void setAdditionalPropertiesIsAnyType(boolean additionalPropertiesIsAnyType);
+
+    boolean getHasVars();
+
+    void setHasVars(boolean hasVars);
 }

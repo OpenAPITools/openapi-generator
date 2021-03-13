@@ -880,6 +880,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AnimalFarm'
+            examples:
+              simple-list:
+                 summary: Simple list example
+                 description: Should not get into code examples
+                 value:
+                    - className: foo
+                      color: yellow
+                    - className: bar
+                      color: green
         required: false
       responses:
         '200':

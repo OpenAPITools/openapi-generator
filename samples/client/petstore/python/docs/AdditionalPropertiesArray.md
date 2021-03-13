@@ -1,5 +1,6 @@
 # AdditionalPropertiesArray
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
