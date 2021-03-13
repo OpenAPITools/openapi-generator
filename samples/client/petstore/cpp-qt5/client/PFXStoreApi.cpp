@@ -36,14 +36,14 @@ void PFXStoreApi::initializeServerConfigs(){
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
-    _serverConfigs.insert("deleteOrder",defaultConf);
-    _serverIndices.insert("deleteOrder",0);
-    _serverConfigs.insert("getInventory",defaultConf);
-    _serverIndices.insert("getInventory",0);
-    _serverConfigs.insert("getOrderById",defaultConf);
-    _serverIndices.insert("getOrderById",0);
-    _serverConfigs.insert("placeOrder",defaultConf);
-    _serverIndices.insert("placeOrder",0);
+    _serverConfigs.insert("deleteOrder", defaultConf);
+    _serverIndices.insert("deleteOrder", 0);
+    _serverConfigs.insert("getInventory", defaultConf);
+    _serverIndices.insert("getInventory", 0);
+    _serverConfigs.insert("getOrderById", defaultConf);
+    _serverIndices.insert("getOrderById", 0);
+    _serverConfigs.insert("placeOrder", defaultConf);
+    _serverIndices.insert("placeOrder", 0);
 }
 
 /**
@@ -240,7 +240,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -288,7 +288,7 @@ void PFXStoreApi::getInventory() {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -356,7 +356,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -405,7 +405,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });

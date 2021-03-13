@@ -36,8 +36,8 @@ void {{classname}}::initializeServerConfigs(){
 {{#operations}}
    {{#operation}}
    {{^servers}}
-    _serverConfigs.insert("{{nickname}}",defaultConf);
-    _serverIndices.insert("{{nickname}}",0);
+    _serverConfigs.insert("{{nickname}}", defaultConf);
+    _serverIndices.insert("{{nickname}}", 0);
     {{/servers}}
     {{#servers}}
     serverConf.append({{prefix}}ServerConfiguration(
@@ -47,8 +47,8 @@ void {{classname}}::initializeServerConfigs(){
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
     QSet<QString>{ {{#enumValues}}{"{{{.}}}"}{{#-last}} })}, {{/-last}}{{^-last}},{{/-last}}{{/enumValues}}{{^enumValues}}{"{{defaultValue}}"} })},{{/enumValues}}{{#-last}} }));{{/-last}}
     {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
-    {{#-last}}_serverConfigs.insert("{{nickname}}",serverConf);
-    _serverIndices.insert("{{nickname}}",0);{{/-last}}
+    {{#-last}}_serverConfigs.insert("{{nickname}}", serverConf);
+    _serverIndices.insert("{{nickname}}", 0);{{/-last}}
 {{/servers}}
 {{/operation}}
 {{/operations}}
@@ -567,15 +567,15 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
         QString headerString;
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
-        qint32 count = 0;
-        foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
-            if (count > 0) {
-                headerString.append(",");
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                if (count > 0) {
+                    headerString.append(",");
+                }
+                headerString.append(::{{cppNamespace}}::toStringValue(t));
+                count++;
             }
-            headerString.append(::{{cppNamespace}}::toStringValue(t));
-            count++;
-        }
-        input.headers.insert("{{baseName}}", headerString);
+            input.headers.insert("{{baseName}}", headerString);
         }
     {{/collectionFormat}}
     }
@@ -658,7 +658,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<{{prefix}}HttpRequestWorker>().count() == 0){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });

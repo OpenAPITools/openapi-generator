@@ -36,22 +36,22 @@ void PFXUserApi::initializeServerConfigs(){
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
-    _serverConfigs.insert("createUser",defaultConf);
-    _serverIndices.insert("createUser",0);
-    _serverConfigs.insert("createUsersWithArrayInput",defaultConf);
-    _serverIndices.insert("createUsersWithArrayInput",0);
-    _serverConfigs.insert("createUsersWithListInput",defaultConf);
-    _serverIndices.insert("createUsersWithListInput",0);
-    _serverConfigs.insert("deleteUser",defaultConf);
-    _serverIndices.insert("deleteUser",0);
-    _serverConfigs.insert("getUserByName",defaultConf);
-    _serverIndices.insert("getUserByName",0);
-    _serverConfigs.insert("loginUser",defaultConf);
-    _serverIndices.insert("loginUser",0);
-    _serverConfigs.insert("logoutUser",defaultConf);
-    _serverIndices.insert("logoutUser",0);
-    _serverConfigs.insert("updateUser",defaultConf);
-    _serverIndices.insert("updateUser",0);
+    _serverConfigs.insert("createUser", defaultConf);
+    _serverIndices.insert("createUser", 0);
+    _serverConfigs.insert("createUsersWithArrayInput", defaultConf);
+    _serverIndices.insert("createUsersWithArrayInput", 0);
+    _serverConfigs.insert("createUsersWithListInput", defaultConf);
+    _serverIndices.insert("createUsersWithListInput", 0);
+    _serverConfigs.insert("deleteUser", defaultConf);
+    _serverIndices.insert("deleteUser", 0);
+    _serverConfigs.insert("getUserByName", defaultConf);
+    _serverIndices.insert("getUserByName", 0);
+    _serverConfigs.insert("loginUser", defaultConf);
+    _serverIndices.insert("loginUser", 0);
+    _serverConfigs.insert("logoutUser", defaultConf);
+    _serverIndices.insert("logoutUser", 0);
+    _serverConfigs.insert("updateUser", defaultConf);
+    _serverIndices.insert("updateUser", 0);
 }
 
 /**
@@ -238,7 +238,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -286,7 +286,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -334,7 +334,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -392,7 +392,7 @@ void PFXUserApi::deleteUser(const QString &username) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -450,7 +450,7 @@ void PFXUserApi::getUserByName(const QString &username) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -526,7 +526,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -572,7 +572,7 @@ void PFXUserApi::logoutUser() {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
@@ -634,7 +634,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker>().count() == 0){
+        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
