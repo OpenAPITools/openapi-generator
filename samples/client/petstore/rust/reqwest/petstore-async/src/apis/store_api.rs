@@ -102,7 +102,7 @@ pub enum PlaceOrderError {
 
 
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
+pub async fn delete_order<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
     // unbox the parameters
     let order_id = params.order_id;
 
@@ -134,7 +134,7 @@ pub async fn delete_order(configuration: &configuration::Configuration, params: 
 }
 
 /// Returns a map of status codes to quantities
-pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
+pub async fn get_inventory<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
     // unbox the parameters
 
 
@@ -147,12 +147,13 @@ pub async fn get_inventory(configuration: &configuration::Configuration) -> Resu
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_apikey) = configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+        if let Some(local_var_key) = local_var_apikey.get_key("api_key") {
+            let local_var_value = match local_var_apikey.get_prefix("api_key") {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+        }
     };
 
     let local_var_req = local_var_req_builder.build()?;
@@ -173,7 +174,7 @@ pub async fn get_inventory(configuration: &configuration::Configuration) -> Resu
 }
 
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
+pub async fn get_order_by_id<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
     // unbox the parameters
     let order_id = params.order_id;
 
@@ -204,7 +205,7 @@ pub async fn get_order_by_id(configuration: &configuration::Configuration, param
     }
 }
 
-pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
+pub async fn place_order<A: configuration::ApiKey>(configuration: &configuration::Configuration<A>, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
     // unbox the parameters
     let body = params.body;
 
