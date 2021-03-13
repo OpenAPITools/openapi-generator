@@ -61,6 +61,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->array_model: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -79,6 +80,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -123,6 +125,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->boolean: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -141,6 +144,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -233,6 +237,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->create_xml_item: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -251,6 +256,7 @@ No authorization required
 
  - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -296,6 +302,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->number_with_validations: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -314,6 +321,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -363,6 +371,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->object_model_with_ref_props: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -381,6 +390,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -425,6 +435,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->string: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -443,6 +454,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -488,6 +500,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->string_enum: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -506,6 +519,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -558,6 +572,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -576,6 +591,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -627,6 +643,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -646,6 +663,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -693,6 +711,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -711,6 +730,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -752,6 +772,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_endpoint_enums_length_one: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -774,6 +795,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -849,6 +871,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -880,6 +903,7 @@ void (empty response body)
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -936,6 +960,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -961,6 +986,7 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1018,6 +1044,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1041,6 +1068,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1084,6 +1112,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1102,6 +1131,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1144,6 +1174,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1163,6 +1194,7 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

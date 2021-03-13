@@ -1,5 +1,6 @@
 # Parent
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

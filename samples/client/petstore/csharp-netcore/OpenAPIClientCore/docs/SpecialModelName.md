@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.SpecialModelName
+
 ## Properties
 
 Name | Type | Description | Notes

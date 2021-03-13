@@ -29,7 +29,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet';
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -94,7 +94,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -166,7 +166,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
-    final path = '/pet/findByStatus';
+    final path = r'/pet/findByStatus';
 
     Object postBody;
 
@@ -221,11 +221,12 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
-        .cast<Pet>()
-        .toList(growable: false);
+
+      return (json.decode(response.body) as List)
+        .map((i) => Pet.fromJson(i))
+        .toList();
     }
-    return null;
+    return Future<List<Pet>>.value(null);
   }
 
   /// Finds Pets by tags
@@ -244,7 +245,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
-    final path = '/pet/findByTags';
+    final path = r'/pet/findByTags';
 
     Object postBody;
 
@@ -299,11 +300,12 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'Set<Pet>') as List)
-        .cast<Pet>()
+
+      return (json.decode(response.body) as List)
+        .map((i) => Pet.fromJson(i))
         .toSet();
     }
-    return null;
+    return Future<Set<Pet>>.value(null);
   }
 
   /// Find pet by ID
@@ -322,7 +324,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -376,9 +378,10 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
+
+      return Pet.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<Pet>.value(null);
   }
 
   /// Update an existing pet
@@ -395,7 +398,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet';
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -464,7 +467,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -554,7 +557,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}/uploadImage'
+    final path = r'/pet/{petId}/uploadImage'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -624,9 +627,10 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+
+      return ApiResponse.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<ApiResponse>.value(null);
   }
 
   /// uploads an image (required)
@@ -652,7 +656,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
     }
 
-    final path = '/fake/{petId}/uploadImageWithRequiredFile'
+    final path = r'/fake/{petId}/uploadImageWithRequiredFile'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -722,8 +726,9 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+
+      return ApiResponse.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<ApiResponse>.value(null);
   }
 }

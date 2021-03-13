@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.OuterEnumIntegerDefaultValue
+
 ## Properties
 
 Name | Type | Description | Notes

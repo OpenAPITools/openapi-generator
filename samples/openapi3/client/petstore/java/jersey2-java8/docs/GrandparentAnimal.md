@@ -2,6 +2,7 @@
 
 # GrandparentAnimal
 
+
 ## Properties
 
 Name | Type | Description | Notes

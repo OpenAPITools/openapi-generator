@@ -83,7 +83,7 @@
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">{{#headerParams}}
             <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">{{paramName}}</stringProp>
+              <stringProp name="Header.name">{{baseName}}</stringProp>
               <stringProp name="Header.value">${__RandomString(10,qwertyuiopasdfghjklzxcvbnm)}</stringProp>
             </elementProp>{{/headerParams}}{{#consumes.0}}
             <elementProp name="" elementType="Header">
