@@ -11,8 +11,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        //classpath 'com.android.tools.build:gradle:2.3.+'
+        classpath 'com.android.tools.build:gradle:3.2.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
@@ -30,7 +29,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
@@ -43,6 +42,7 @@ android {
         abortOnError false
     }
 
+    // Rename the aar correctly
     libraryVariants.all { variant ->
         variant.outputs.all { output ->
             if (outputFile != null && outputFileName.endsWith('.aar')) {
@@ -50,33 +50,11 @@ android {
             }
         }
     }
-/*
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                    def fileName = "${archivesBaseName}-${version}.aar"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                }
-        }
-    }
-
-    android.libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            // Redirect your apks to new defined location to outputDirPath
-            def outputDirPath = new File("${project.rootDir.absolutePath}/apks/${variant.flavorName}/${variant.buildType.name}")
-                variant.packageApplicationProvider.get().outputDirectory = outputDirPath
-
-                def apkFileName = "${rootProject.name}_${android.defaultConfig.versionName}.apk"
-                output.outputFileName = apkFileName // directly assign the new name back to outputFileName
-        }
-    }*/
 
     testOptions {
         unitTests.returnDefaultValues = true
     }
 }
-
 
 ext {
     swagger_annotations_version = "1.5.0"
@@ -91,15 +69,15 @@ ext {
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.gson:gson:$gson_version"
-    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
-    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
-    compile "com.android.volley:volley:${volley_version}"
-    testCompile "junit:junit:$junit_version"
-    testCompile "org.robolectric:robolectric:${robolectric_version}"
-    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "org.apache.httpcomponents:httpcore:$httpcore_version"
+    implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
+    implementation "org.apache.httpcomponents:httpclient-android:$httpclient_version"
+    implementation "com.android.volley:volley:${volley_version}"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.robolectric:robolectric:${robolectric_version}"
+    testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 afterEvaluate {

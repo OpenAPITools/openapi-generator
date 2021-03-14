@@ -35,7 +35,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
@@ -87,15 +87,15 @@ ext {
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.gson:gson:$gson_version"
-    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
-    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
-    compile "com.android.volley:volley:${volley_version}"
-    testCompile "junit:junit:$junit_version"
-    testCompile "org.robolectric:robolectric:${robolectric_version}"
-    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "org.apache.httpcomponents:httpcore:$httpcore_version"
+    implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
+    implementation "org.apache.httpcomponents:httpclient-android:$httpclient_version"
+    implementation "com.android.volley:volley:${volley_version}"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.robolectric:robolectric:${robolectric_version}"
+    testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 afterEvaluate {
