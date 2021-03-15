@@ -943,6 +943,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(schema);
     }
 
+    @Override
+    public String toDefaultParameterValue(final Schema<?> schema) {
+        Object defaultValue = schema.getDefault();
+        if (defaultValue == null) {
+            return null;
+        }
+        // escape quotes
+        return defaultValue.toString().replace("\"", "\\\"");
+    }
+
     /**
      * Return the example value of the parameter. Overrides the
      * setParameterExampleValue(CodegenParameter, Parameter) method in

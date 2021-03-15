@@ -1830,6 +1830,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the default value of the parameter
+     *
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param schema Parameter schema
+     * @return string presentation of the default value of the parameter
+     */
+    public String toDefaultParameterValue(Schema<?> schema) {
+        // by default works as original method to be backward compatible
+        return toDefaultValue(schema);
+    }
+
+    /**
      * Return property value depending on property type.
      *
      * @param schema property type
@@ -4205,7 +4219,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+            codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
 
             if (parameter.getStyle() != null) {
                 codegenParameter.style = parameter.getStyle().toString();
