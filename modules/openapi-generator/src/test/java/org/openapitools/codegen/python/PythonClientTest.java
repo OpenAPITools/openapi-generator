@@ -156,7 +156,7 @@ public class PythonClientTest {
         Assert.assertEquals(property2.dataType, "[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "list");
+        Assert.assertEquals(property2.baseType, "List");
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -184,7 +184,7 @@ public class PythonClientTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "{str: (str,)}");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -248,7 +248,7 @@ public class PythonClientTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "list");
+        Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -282,7 +282,7 @@ public class PythonClientTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "{str: (Children,)}");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -312,7 +312,7 @@ public class PythonClientTest {
         Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);  // the array model has no vars
-        Assert.assertEquals(cm.parent, "list");
+        Assert.assertEquals(cm.parent, "List");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
 
