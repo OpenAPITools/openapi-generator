@@ -9,8 +9,8 @@ import 'package:openapi/model/tag.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const photo1 = "https://localhost/photo1.jpg";
-  const photo2 = "https://localhost/photo2.jpg";
+  const photo1 = 'https://localhost/photo1.jpg';
+  const photo2 = 'https://localhost/photo2.jpg';
 
   Openapi client;
   DioAdapter server;
@@ -29,26 +29,26 @@ void main() {
       test('complete', () async {
         server.onGet(
           '/pet/5',
-          handler: (response) => response.reply(200, {
-            "id": 5,
-            "name": "Paula",
-            "status": "sold",
-            "category": {
-              "id": 1,
-              "name": "dog",
+          (request) => request.reply(200, {
+            'id': 5,
+            'name': 'Paula',
+            'status': 'sold',
+            'category': {
+              'id': 1,
+              'name': 'dog',
             },
-            "photoUrls": [
-              "$photo1",
-              "$photo2",
+            'photoUrls': [
+              '$photo1',
+              '$photo2',
             ],
-            "tags": [
+            'tags': [
               {
-                "id": 3,
-                "name": "smart",
+                'id': 3,
+                'name': 'smart',
               },
               {
-                "id": 4,
-                "name": "cute",
+                'id': 4,
+                'name': 'cute',
               },
             ]
           }),
@@ -59,10 +59,10 @@ void main() {
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
         expect(response.data.id, 5);
-        expect(response.data.name, "Paula");
+        expect(response.data.name, 'Paula');
         expect(response.data.status, PetStatusEnum.sold);
         expect(response.data.category.id, 1);
-        expect(response.data.category.name, "dog");
+        expect(response.data.category.name, 'dog');
         expect(response.data.photoUrls.length, 2);
         expect(response.data.tags.length, 2);
       });
@@ -70,10 +70,10 @@ void main() {
       test('minimal', () async {
         server.onGet(
           '/pet/5',
-          handler: (response) => response.reply(200, {
-            "id": 5,
-            "name": "Paula",
-            "photoUrls": <String>[],
+          (request) => request.reply(200, {
+            'id': 5,
+            'name': 'Paula',
+            'photoUrls': <String>[],
           }),
         );
 
@@ -82,7 +82,7 @@ void main() {
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
         expect(response.data.id, 5);
-        expect(response.data.name, "Paula");
+        expect(response.data.name, 'Paula');
         expect(response.data.status, isNull);
         expect(response.data.category, isNull);
         expect(response.data.photoUrls, isNotNull);
@@ -94,26 +94,27 @@ void main() {
       test('complete', () async {
         server.onPost(
           '/pet',
+          (request) => request.reply(200, ''),
           data: {
-            "id": 5,
-            "name": "Paula",
-            "status": "sold",
-            "category": {
-              "id": 1,
-              "name": "dog",
+            'id': 5,
+            'name': 'Paula',
+            'status': 'sold',
+            'category': {
+              'id': 1,
+              'name': 'dog',
             },
-            "photoUrls": [
-              "$photo1",
-              "$photo2",
+            'photoUrls': [
+              '$photo1',
+              '$photo2',
             ],
-            "tags": [
+            'tags': [
               {
-                "id": 3,
-                "name": "smart",
+                'id': 3,
+                'name': 'smart',
               },
               {
-                "id": 4,
-                "name": "cute",
+                'id': 4,
+                'name': 'cute',
               },
             ]
           },
@@ -121,24 +122,23 @@ void main() {
             'content-type': 'application/json',
             'content-length': 204,
           },
-          handler: (response) => response.reply(200, ''),
         );
 
         final response = await client.getPetApi().addPet(Pet((p) => p
           ..id = 5
-          ..name = "Paula"
+          ..name = 'Paula'
           ..status = PetStatusEnum.sold
           ..category = (CategoryBuilder()
             ..id = 1
-            ..name = "dog")
+            ..name = 'dog')
           ..photoUrls = SetBuilder<String>(<String>[photo1, photo2])
           ..tags = ListBuilder<Tag>(<Tag>[
             Tag((t) => t
               ..id = 3
-              ..name = "smart"),
+              ..name = 'smart'),
             Tag((t) => t
               ..id = 4
-              ..name = "cute"),
+              ..name = 'cute'),
           ])));
 
         expect(response.statusCode, 200);
@@ -147,23 +147,71 @@ void main() {
       test('minimal', () async {
         server.onPost(
           '/pet',
+          (request) => request.reply(200, ''),
           data: {
-            "id": 5,
-            "name": "Paula",
-            "photoUrls": <String>[],
+            'id': 5,
+            'name': 'Paula',
+            'photoUrls': <String>[],
           },
           headers: {
             'content-type': 'application/json',
             'content-length': 38,
           },
-          handler: (response) => response.reply(200, ''),
         );
 
         final response = await client.getPetApi().addPet(Pet((p) => p
           ..id = 5
-          ..name = "Paula"));
+          ..name = 'Paula'));
 
         expect(response.statusCode, 200);
+      });
+    });
+
+    group('getMultiplePets', () {
+      test('findByStatus', () async {
+        server.onRoute(
+          '/pet/findByStatus',
+          (request) => request.reply(200, [
+            {
+              'id': 5,
+              'name': 'Paula',
+              'status': 'sold',
+              'photoUrls': <String>[],
+            },
+            {
+              'id': 1,
+              'name': 'Mickey',
+              'status': 'available',
+              'photoUrls': <String>[],
+            },
+          ]),
+          request: Request(
+            method: RequestMethods.GET,
+            queryParameters: <String, dynamic>{
+              'status': <String>[
+                'available',
+                'sold',
+              ],
+            },
+          ),
+        );
+
+        final response = await client.getPetApi().findPetsByStatus(
+              ListBuilder<String>(<String>[
+                PetStatusEnum.available.name,
+                PetStatusEnum.sold.name,
+              ]).build(),
+            );
+
+        expect(response.statusCode, 200);
+        expect(response.data, isNotNull);
+        expect(response.data.length, 2);
+        expect(response.data[0].id, 5);
+        expect(response.data[0].name, 'Paula');
+        expect(response.data[0].status, PetStatusEnum.sold);
+        expect(response.data[1].id, 1);
+        expect(response.data[1].name, 'Mickey');
+        expect(response.data[1].status, PetStatusEnum.available);
       });
     });
   });

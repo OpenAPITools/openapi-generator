@@ -596,7 +596,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
-            additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
+            additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion.getOptValue());
         } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {// default, do nothing
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
             useFrameworkReference = true;

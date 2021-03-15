@@ -12,6 +12,7 @@ package petstoreserver
 import (
 	"encoding/json"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"

@@ -150,6 +150,13 @@ $router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 
 /**
+ * post fakePropertyEnumIntegerSerialize
+ * Summary: 
+ * Notes: Test serialization of enum (int) properties with examples
+ */
+$router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSerialize');
+
+/**
  * put testQueryParameterCollectionFormat
  * Summary: 
  * Notes: To test the collection format in query parameters

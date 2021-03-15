@@ -71,7 +71,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (obj == null || getClass() != obj.getClass())
                 return false;
             Parameter p = (Parameter) obj;
-            return key.equals(p.key) && value.equals((String) p.value);
+            return key.equals(p.key) && value.equals(p.value);
         }
     }
 

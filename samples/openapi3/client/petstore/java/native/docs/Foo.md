@@ -2,6 +2,7 @@
 
 # Foo
 
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -35,6 +35,7 @@ export * from './OuterEnum';
 export * from './OuterEnumDefaultValue';
 export * from './OuterEnumInteger';
 export * from './OuterEnumIntegerDefaultValue';
+export * from './OuterObjectWithEnumProperty';
 export * from './Pet';
 export * from './ReadOnlyFirst';
 export * from './Return';

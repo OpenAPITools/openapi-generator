@@ -63,11 +63,16 @@ public class Order {
   /**
    * Order Status
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("placed")
     PLACED("placed"),
     
+    @XmlEnumValue("approved")
     APPROVED("approved"),
     
+    @XmlEnumValue("delivered")
     DELIVERED("delivered");
 
     private String value;

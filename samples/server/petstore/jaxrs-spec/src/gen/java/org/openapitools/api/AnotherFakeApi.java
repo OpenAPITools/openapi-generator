@@ -24,7 +24,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response call123testSpecialTags(@Valid Client body) {
+    public Response call123testSpecialTags(@Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 }

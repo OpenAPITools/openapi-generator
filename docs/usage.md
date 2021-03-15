@@ -11,7 +11,7 @@ This page demonstrates navigating the options via CLI. Commands are presented he
 The `help` option lists all commands available to the CLI.
 
 ```bash
-openapi-generator help
+openapi-generator-cli help
 usage: openapi-generator-cli <command> [<args>]
 
 The most commonly used openapi-generator-cli commands are:
@@ -50,7 +50,7 @@ OPTIONS
 The `list` command outputs a formatted list of every available generator. Pass the `-s/--short` option if you would like a CSV output for easy parsing.
 
 ```bash
-openapi-generator help list
+openapi-generator-cli help list
 NAME
         openapi-generator-cli list - Lists the available generators
 
@@ -72,7 +72,7 @@ OPTIONS
 Example:
 
 ```bash
-openapi-generator list -s | tr ',' '\n'
+openapi-generator-cli list -s | tr ',' '\n'
 ```
 
 For the full list of generators, refer to the [Generators List](./generators.md).
@@ -82,7 +82,7 @@ For the full list of generators, refer to the [Generators List](./generators.md)
 The `config-help` option provides details about 
 
 ```bash
-openapi-generator help config-help
+openapi-generator-cli help config-help
 NAME
         openapi-generator-cli config-help - Config help for chosen lang
 
@@ -121,7 +121,7 @@ You may pass any generator name (see [list](#list) command) to `-g`, and options
 Example:
 
 ```bash
-openapi-generator config-help -g go
+openapi-generator-cli config-help -g go
 ```
 
 Outputs:
@@ -154,7 +154,7 @@ To pass these go client generator-specific options to the `generate` command for
 The `meta` command creates a new Java class and template files, used for creating your own custom templates.
 
 ```bash
-openapi-generator help meta
+openapi-generator-cli help meta
 NAME
         openapi-generator-cli meta - MetaGenerator. Generator for creating a new
         template set and configuration for Codegen. The output will be based on
@@ -187,7 +187,7 @@ For an in-depth example of using the `meta` command, see [Customization](./custo
 The `validate` command allows you to validate an input specification, optionally providing recommendations for error fixes or other improvements (if available).
 
 ```bash
-openapi-generator help validate
+openapi-generator-cli help validate
 NAME
         openapi-generator-cli validate - Validate specification
 
@@ -205,7 +205,7 @@ OPTIONS
 
 Valid Spec Example (using [petstore-v3.0.yaml](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator-gradle-plugin/samples/local-spec/petstore-v3.0.yaml))
 ```bash
-openapi-generator validate -i petstore-v3.0.yaml
+openapi-generator-cli validate -i petstore-v3.0.yaml
 ```
 ```text
 Validating spec (petstore-v3.0.yaml)
@@ -215,7 +215,7 @@ No validation issues detected.
 Invalid Spec Example (using [petstore-v3.0-invalid.yaml](https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator-gradle-plugin/samples/local-spec/petstore-v3.0-invalid.yaml)):
 
 ```bash
-openapi-generator validate -i petstore-v3.0-invalid.yaml
+openapi-generator-cli validate -i petstore-v3.0-invalid.yaml
 ```
 ```text
 Validating spec (petstore-v3.0-invalid.yaml)
@@ -232,7 +232,7 @@ Although not documented in the `help` output, the CLI offers a `completion` comm
 This command takes one or more parameters representing the args list you would otherwise pass to `openapi-generator`. For example:
 
 ```bash
-openapi-generator completion config-help
+openapi-generator-cli completion config-help
 -o
 --output
 --named-header
@@ -251,7 +251,7 @@ The `generate` command is the workhorse of the generator toolset. As such, it ha
 
 
 ```bash
-openapi-generator help generate
+openapi-generator-cli help generate
 NAME
         openapi-generator-cli generate - Generate code with the specified
         generator.
@@ -487,7 +487,7 @@ The following examples use [petstore.yaml](https://raw.githubusercontent.com/ope
 Generator-specific options should be passed as `--additional-properties`:
 
 ```bash
-openapi-generator generate -g go --additional-properties=prependFormOrBodyParameters=true \
+openapi-generator-cli generate -g go --additional-properties=prependFormOrBodyParameters=true \
     -o out -i petstore.yaml
 ```
 
@@ -511,7 +511,7 @@ If you're not using your own templates with star/glob package imports, you will 
 Here's how one might change the `kotlin-spring` server generator's default of `OffsetDateTime` to `LocalDateTime`:
 
 ```bash
-openapi-generator generate \
+openapi-generator-cli generate \
     -i petstore.yaml \
     -g kotlin-spring \
     -o out \
@@ -574,7 +574,7 @@ For example, one of our typescript samples has the following configuration file:
 These settings can be passed via `-c filename`. Here, we've saved the above as `config.json`:
 
 ```bash
-openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
+openapi-generator-cli generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.json
 ```
 
@@ -592,7 +592,7 @@ The settings are passed exactly the same as for `config.json`. The most importan
 The name of the file should be `config.yml` or `config.yaml` (in our example it will be `config.yaml`.
 
 ```bash
-openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
+openapi-generator-cli generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.yaml
 ```
 
@@ -605,7 +605,7 @@ The `batch` command allows you to move all CLI arguments supported by the `gener
 modified by `--includes-base-dir`. Starting with 5.0.0, the `!batch` command supports multiple `!include` properties, either sequential or nested. In order to support multiple `!include` properties in a JSON file, the property name can have a suffix, e.g. `!include1`, `!include2`, etc. The suffix have no meaning other than providing unique property names.
 
 ```bash
-openapi-generator help batch
+openapi-generator-cli help batch
 NAME
         openapi-generator-cli batch - Generate code in batch via external
         configs.
@@ -675,7 +675,7 @@ additionalProperties:
 EOF
 
 # Generate them
-openapi-generator batch *.yaml
+openapi-generator-cli batch *.yaml
 ```
 
 ## author
@@ -683,7 +683,7 @@ openapi-generator batch *.yaml
 This command group contains utilities for authoring generators or customizing templates.
 
 ```
-openapi-generator help author
+openapi-generator-cli help author
 NAME
         openapi-generator-cli author - Utilities for authoring generators or
         customizing templates.
@@ -754,11 +754,11 @@ Example:
 Extract Java templates, limiting to the `webclient` library.
 
 ```
-openapi-generator author template -g java --library webclient
+openapi-generator-cli author template -g java --library webclient
 ```
 
 Extract all Java templates:
 
 ```
-openapi-generator author template -g java
+openapi-generator-cli author template -g java
 ```

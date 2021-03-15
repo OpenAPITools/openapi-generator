@@ -2,6 +2,8 @@
 {{#models}}{{#model}}
 
 #include "{{classname}}.h"
+{{#isEnum}}#include <stdexcept>
+#include <sstream>{{/isEnum}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -32,6 +34,20 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
     {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet(){{#isContainer}} || !o.m_{{name}}.empty(){{/isContainer}})
         j["{{baseName}}"] = o.m_{{name}};{{/required}}
     {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    switch (o.getValue())
+    {
+        {{#enumVars}}
+        {{#-first}}
+        case {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
+            j = "INVALID_VALUE_OPENAPI_GENERATED";
+            break;
+        {{/-first}}
+        case {{classname}}::e{{classname}}::{{name}}:
+            j = "{{value}}";
+            break;
+        {{/enumVars}}
+    }{{/allowableValues}}{{/isEnum}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
@@ -43,6 +59,19 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
         o.m_{{name}}IsSet = true;
     } {{/required}}
     {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    auto s = j.get<std::string>();
+    {{#enumVars}}
+    {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == "{{value}}") {
+     o.setValue({{classname}}::e{{classname}}::{{name}});
+    } {{#-last}} else {
+     std::stringstream ss;
+     ss << "Unexpected value " << s << " in json"
+        << " cannot be converted to enum of type"
+        << " {{classname}}::e{{classname}}";
+     throw std::invalid_argument(ss.str());
+    } {{/-last}}
+{{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
 {{#vars}}{{{dataType}}}{{#isContainer}}&{{/isContainer}} {{classname}}::{{getter}}(){{^isContainer}} const{{/isContainer}}
@@ -64,6 +93,14 @@ void {{classname}}::unset{{name}}()
 }
 {{/required}}
 {{/vars}}
+{{#isEnum}}{{classname}}::e{{classname}} {{classname}}::getValue() const
+{
+    return m_value;
+}
+void {{classname}}::setValue({{classname}}::e{{classname}} value)
+{
+    m_value = value;
+}{{/isEnum}}
 
 {{#modelNamespaceDeclarations}}
 }

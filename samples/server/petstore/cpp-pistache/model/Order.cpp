@@ -59,6 +59,7 @@ void to_json(nlohmann::json& j, const Order& o)
         j["status"] = o.m_Status;
     if(o.completeIsSet())
         j["complete"] = o.m_Complete;
+    
 }
 
 void from_json(const nlohmann::json& j, Order& o)
@@ -93,6 +94,7 @@ void from_json(const nlohmann::json& j, Order& o)
         j.at("complete").get_to(o.m_Complete);
         o.m_CompleteIsSet = true;
     } 
+    
 }
 
 int64_t Order::getId() const
@@ -197,6 +199,7 @@ void Order::unsetComplete()
 {
     m_CompleteIsSet = false;
 }
+
 
 }
 }

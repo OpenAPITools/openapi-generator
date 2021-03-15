@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-    private static final AtomicLong lastWarning = new AtomicLong(0);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
@@ -308,7 +308,7 @@ public class WorkflowSettings {
         private String ignoreFileOverride;
 
         // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
-        private Map<String, String> globalProperties = new HashMap<>();;
+        private Map<String, String> globalProperties = new HashMap<>();
 
         private Builder() {
         }

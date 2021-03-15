@@ -52,6 +52,7 @@ void to_json(nlohmann::json& j, const Pet& o)
         j["tags"] = o.m_Tags;
     if(o.statusIsSet())
         j["status"] = o.m_Status;
+    
 }
 
 void from_json(const nlohmann::json& j, Pet& o)
@@ -78,6 +79,7 @@ void from_json(const nlohmann::json& j, Pet& o)
         j.at("status").get_to(o.m_Status);
         o.m_StatusIsSet = true;
     } 
+    
 }
 
 int64_t Pet::getId() const
@@ -164,6 +166,7 @@ void Pet::unsetStatus()
 {
     m_StatusIsSet = false;
 }
+
 
 }
 }
