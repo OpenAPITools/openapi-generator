@@ -24,7 +24,7 @@ def get_inventory():  # noqa: E501
     Returns a map of status codes to quantities # noqa: E501
 
 
-    :rtype: Dict[str, int]
+    :rtype: dict[str, int]
     """
     return 'do some magic!'
 
@@ -48,7 +48,7 @@ def place_order(body):  # noqa: E501
      # noqa: E501
 
     :param body: order placed for purchasing the pet
-    :type body: Dict | bytes
+    :type body: dict | bytes
 
     :rtype: Order
     """

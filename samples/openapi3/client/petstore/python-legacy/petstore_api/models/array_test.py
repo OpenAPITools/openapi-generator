@@ -33,9 +33,9 @@ class ArrayTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'array_of_string': 'List[str]',
-        'array_array_of_integer': 'List[List[int]]',
-        'array_array_of_model': 'List[List[ReadOnlyFirst]]'
+        'array_of_string': 'list[str]',
+        'array_array_of_integer': 'list[list[int]]',
+        'array_array_of_model': 'list[list[ReadOnlyFirst]]'
     }
 
     attribute_map = {
@@ -68,7 +68,7 @@ class ArrayTest(object):
 
 
         :return: The array_of_string of this ArrayTest.  # noqa: E501
-        :rtype: List[str]
+        :rtype: list[str]
         """
         return self._array_of_string
 
@@ -78,7 +78,7 @@ class ArrayTest(object):
 
 
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
-        :type array_of_string: List[str]
+        :type array_of_string: list[str]
         """
         if (self.local_vars_configuration.client_side_validation and
                 array_of_string is not None and len(array_of_string) > 3):
@@ -95,7 +95,7 @@ class ArrayTest(object):
 
 
         :return: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :rtype: List[List[int]]
+        :rtype: list[list[int]]
         """
         return self._array_array_of_integer
 
@@ -105,7 +105,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_integer: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :type array_array_of_integer: List[List[int]]
+        :type array_array_of_integer: list[list[int]]
         """
 
         self._array_array_of_integer = array_array_of_integer
@@ -116,7 +116,7 @@ class ArrayTest(object):
 
 
         :return: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :rtype: List[List[ReadOnlyFirst]]
+        :rtype: list[list[ReadOnlyFirst]]
         """
         return self._array_array_of_model
 
@@ -126,7 +126,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_model: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :type array_array_of_model: List[List[ReadOnlyFirst]]
+        :type array_array_of_model: list[list[ReadOnlyFirst]]
         """
 
         self._array_array_of_model = array_array_of_model

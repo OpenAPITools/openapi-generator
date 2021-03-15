@@ -39,12 +39,12 @@ class NullableClass(object):
         'string_prop': 'str',
         'date_prop': 'date',
         'datetime_prop': 'datetime',
-        'array_nullable_prop': 'List[object]',
-        'array_and_items_nullable_prop': 'List[object]',
-        'array_items_nullable': 'List[object]',
-        'object_nullable_prop': 'Dict(str, object)',
-        'object_and_items_nullable_prop': 'Dict(str, object)',
-        'object_items_nullable': 'Dict(str, object)'
+        'array_nullable_prop': 'list[object]',
+        'array_and_items_nullable_prop': 'list[object]',
+        'array_items_nullable': 'list[object]',
+        'object_nullable_prop': 'dict(str, object)',
+        'object_and_items_nullable_prop': 'dict(str, object)',
+        'object_items_nullable': 'dict(str, object)'
     }
 
     attribute_map = {
@@ -229,7 +229,7 @@ class NullableClass(object):
 
 
         :return: The array_nullable_prop of this NullableClass.  # noqa: E501
-        :rtype: List[object]
+        :rtype: list[object]
         """
         return self._array_nullable_prop
 
@@ -239,7 +239,7 @@ class NullableClass(object):
 
 
         :param array_nullable_prop: The array_nullable_prop of this NullableClass.  # noqa: E501
-        :type array_nullable_prop: List[object]
+        :type array_nullable_prop: list[object]
         """
 
         self._array_nullable_prop = array_nullable_prop
@@ -250,7 +250,7 @@ class NullableClass(object):
 
 
         :return: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
-        :rtype: List[object]
+        :rtype: list[object]
         """
         return self._array_and_items_nullable_prop
 
@@ -260,7 +260,7 @@ class NullableClass(object):
 
 
         :param array_and_items_nullable_prop: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
-        :type array_and_items_nullable_prop: List[object]
+        :type array_and_items_nullable_prop: list[object]
         """
 
         self._array_and_items_nullable_prop = array_and_items_nullable_prop
@@ -271,7 +271,7 @@ class NullableClass(object):
 
 
         :return: The array_items_nullable of this NullableClass.  # noqa: E501
-        :rtype: List[object]
+        :rtype: list[object]
         """
         return self._array_items_nullable
 
@@ -281,7 +281,7 @@ class NullableClass(object):
 
 
         :param array_items_nullable: The array_items_nullable of this NullableClass.  # noqa: E501
-        :type array_items_nullable: List[object]
+        :type array_items_nullable: list[object]
         """
 
         self._array_items_nullable = array_items_nullable
@@ -292,7 +292,7 @@ class NullableClass(object):
 
 
         :return: The object_nullable_prop of this NullableClass.  # noqa: E501
-        :rtype: Dict(str, object)
+        :rtype: dict(str, object)
         """
         return self._object_nullable_prop
 
@@ -302,7 +302,7 @@ class NullableClass(object):
 
 
         :param object_nullable_prop: The object_nullable_prop of this NullableClass.  # noqa: E501
-        :type object_nullable_prop: Dict(str, object)
+        :type object_nullable_prop: dict(str, object)
         """
 
         self._object_nullable_prop = object_nullable_prop
@@ -313,7 +313,7 @@ class NullableClass(object):
 
 
         :return: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
-        :rtype: Dict(str, object)
+        :rtype: dict(str, object)
         """
         return self._object_and_items_nullable_prop
 
@@ -323,7 +323,7 @@ class NullableClass(object):
 
 
         :param object_and_items_nullable_prop: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
-        :type object_and_items_nullable_prop: Dict(str, object)
+        :type object_and_items_nullable_prop: dict(str, object)
         """
 
         self._object_and_items_nullable_prop = object_and_items_nullable_prop
@@ -334,7 +334,7 @@ class NullableClass(object):
 
 
         :return: The object_items_nullable of this NullableClass.  # noqa: E501
-        :rtype: Dict(str, object)
+        :rtype: dict(str, object)
         """
         return self._object_items_nullable
 
@@ -344,7 +344,7 @@ class NullableClass(object):
 
 
         :param object_items_nullable: The object_items_nullable of this NullableClass.  # noqa: E501
-        :type object_items_nullable: Dict(str, object)
+        :type object_items_nullable: dict(str, object)
         """
 
         self._object_items_nullable = object_items_nullable

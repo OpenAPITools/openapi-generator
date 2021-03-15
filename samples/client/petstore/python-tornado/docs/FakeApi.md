@@ -632,13 +632,13 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    enum_header_string_array = ['enum_header_string_array_example'] # List[str] | Header parameter enum test (string array) (optional)
+    enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
-enum_query_string_array = ['enum_query_string_array_example'] # List[str] | Query parameter enum test (string array) (optional)
+enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # List[str] | Form parameter enum test (string array) (optional) (default to '$')
+enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
     try:
@@ -652,13 +652,13 @@ enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**List[str]**](str.md)| Header parameter enum test (string array) | [optional] 
+ **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
  **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_string_array** | [**List[str]**](str.md)| Query parameter enum test (string array) | [optional] 
+ **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**List[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
@@ -777,7 +777,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    param = {'key': 'param_example'} # Dict(str, str) | request body
+    param = {'key': 'param_example'} # dict(str, str) | request body
 
     try:
         # test inline additionalProperties
@@ -790,7 +790,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Dict(str, str)**](str.md)| request body | 
+ **param** | [**dict(str, str)**](str.md)| request body | 
 
 ### Return type
 
@@ -899,11 +899,11 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    pipe = ['pipe_example'] # List[str] | 
-ioutil = ['ioutil_example'] # List[str] | 
-http = ['http_example'] # List[str] | 
-url = ['url_example'] # List[str] | 
-context = ['context_example'] # List[str] | 
+    pipe = ['pipe_example'] # list[str] | 
+ioutil = ['ioutil_example'] # list[str] | 
+http = ['http_example'] # list[str] | 
+url = ['url_example'] # list[str] | 
+context = ['context_example'] # list[str] | 
 
     try:
         api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
@@ -915,11 +915,11 @@ context = ['context_example'] # List[str] |
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List[str]**](str.md)|  | 
- **ioutil** | [**List[str]**](str.md)|  | 
- **http** | [**List[str]**](str.md)|  | 
- **url** | [**List[str]**](str.md)|  | 
- **context** | [**List[str]**](str.md)|  | 
+ **pipe** | [**list[str]**](str.md)|  | 
+ **ioutil** | [**list[str]**](str.md)|  | 
+ **http** | [**list[str]**](str.md)|  | 
+ **url** | [**list[str]**](str.md)|  | 
+ **context** | [**list[str]**](str.md)|  | 
 
 ### Return type
 

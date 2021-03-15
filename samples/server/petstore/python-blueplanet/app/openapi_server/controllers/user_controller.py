@@ -11,7 +11,7 @@ def create_user(body):  # noqa: E501
     This can only be done by the logged in user. # noqa: E501
 
     :param body: Created user object
-    :type body: Dict | bytes
+    :type body: dict | bytes
 
     :rtype: None
     """
@@ -26,7 +26,7 @@ def create_users_with_array_input(body):  # noqa: E501
      # noqa: E501
 
     :param body: List of user object
-    :type body: List | bytes
+    :type body: list | bytes
 
     :rtype: None
     """
@@ -41,7 +41,7 @@ def create_users_with_list_input(body):  # noqa: E501
      # noqa: E501
 
     :param body: List of user object
-    :type body: List | bytes
+    :type body: list | bytes
 
     :rtype: None
     """
@@ -110,7 +110,7 @@ def update_user(username, body):  # noqa: E501
     :param username: name that need to be deleted
     :type username: str
     :param body: Updated user object
-    :type body: Dict | bytes
+    :type body: dict | bytes
 
     :rtype: None
     """

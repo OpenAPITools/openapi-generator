@@ -36,8 +36,8 @@ class Pet(object):
         'id': 'int',
         'category': 'Category',
         'name': 'str',
-        'photo_urls': 'Set[str]',
-        'tags': 'List[Tag]',
+        'photo_urls': 'set[str]',
+        'tags': 'list[Tag]',
         'status': 'str'
     }
 
@@ -146,7 +146,7 @@ class Pet(object):
 
 
         :return: The photo_urls of this Pet.  # noqa: E501
-        :rtype: Set[str]
+        :rtype: set[str]
         """
         return self._photo_urls
 
@@ -156,7 +156,7 @@ class Pet(object):
 
 
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type photo_urls: Set[str]
+        :type photo_urls: set[str]
         """
         if self.local_vars_configuration.client_side_validation and photo_urls is None:  # noqa: E501
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
@@ -169,7 +169,7 @@ class Pet(object):
 
 
         :return: The tags of this Pet.  # noqa: E501
-        :rtype: List[Tag]
+        :rtype: list[Tag]
         """
         return self._tags
 
@@ -179,7 +179,7 @@ class Pet(object):
 
 
         :param tags: The tags of this Pet.  # noqa: E501
-        :type tags: List[Tag]
+        :type tags: list[Tag]
         """
 
         self._tags = tags

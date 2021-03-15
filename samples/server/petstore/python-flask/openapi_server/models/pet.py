@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict # noqa: F401
+from typing import list, dict # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.category import Category
@@ -29,9 +29,9 @@ class Pet(Model):
         :param name: The name of this Pet.  # noqa: E501
         :type name: str
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type photo_urls: List[str]
+        :type photo_urls: list[str]
         :param tags: The tags of this Pet.  # noqa: E501
-        :type tags: List[Tag]
+        :type tags: list[Tag]
         :param status: The status of this Pet.  # noqa: E501
         :type status: str
         """
@@ -39,8 +39,8 @@ class Pet(Model):
             'id': int,
             'category': Category,
             'name': str,
-            'photo_urls': List[str],
-            'tags': List[Tag],
+            'photo_urls': list[str],
+            'tags': list[Tag],
             'status': str
         }
 
@@ -142,7 +142,7 @@ class Pet(Model):
 
 
         :return: The photo_urls of this Pet.
-        :rtype: List[str]
+        :rtype: list[str]
         """
         return self._photo_urls
 
@@ -152,7 +152,7 @@ class Pet(Model):
 
 
         :param photo_urls: The photo_urls of this Pet.
-        :type photo_urls: List[str]
+        :type photo_urls: list[str]
         """
         if photo_urls is None:
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
@@ -165,7 +165,7 @@ class Pet(Model):
 
 
         :return: The tags of this Pet.
-        :rtype: List[Tag]
+        :rtype: list[Tag]
         """
         return self._tags
 
@@ -175,7 +175,7 @@ class Pet(Model):
 
 
         :param tags: The tags of this Pet.
-        :type tags: List[Tag]
+        :type tags: list[Tag]
         """
 
         self._tags = tags

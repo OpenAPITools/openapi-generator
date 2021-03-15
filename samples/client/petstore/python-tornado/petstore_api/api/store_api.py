@@ -188,7 +188,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: Dict(str, int)
+        :rtype: dict(str, int)
         """
         kwargs['_return_http_data_only'] = True
         return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
@@ -223,7 +223,7 @@ class StoreApi(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(Dict(str, int), status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -269,7 +269,7 @@ class StoreApi(object):
         auth_settings = ['api_key']  # noqa: E501
         
         response_types_map = {
-            200: "Dict(str, int)",
+            200: "dict(str, int)",
         }
 
         return self.api_client.call_api(

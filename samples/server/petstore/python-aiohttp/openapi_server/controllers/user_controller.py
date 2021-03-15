@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import list, dict
 from aiohttp import web
 
 from openapi_server.models.user import User
@@ -24,7 +24,7 @@ async def create_users_with_array_input(request: web.Request, body) -> web.Respo
     
 
     :param body: List of user object
-    :type body: List | bytes
+    :type body: list | bytes
 
     """
     body = [User.from_dict(d) for d in body]
@@ -37,7 +37,7 @@ async def create_users_with_list_input(request: web.Request, body) -> web.Respon
     
 
     :param body: List of user object
-    :type body: List | bytes
+    :type body: list | bytes
 
     """
     body = [User.from_dict(d) for d in body]

@@ -38,7 +38,7 @@ class TypeHolderExample(object):
         'float_item': 'float',
         'integer_item': 'int',
         'bool_item': 'bool',
-        'array_item': 'List[int]'
+        'array_item': 'list[int]'
     }
 
     attribute_map = {
@@ -192,7 +192,7 @@ class TypeHolderExample(object):
 
 
         :return: The array_item of this TypeHolderExample.  # noqa: E501
-        :rtype: List[int]
+        :rtype: list[int]
         """
         return self._array_item
 
@@ -202,7 +202,7 @@ class TypeHolderExample(object):
 
 
         :param array_item: The array_item of this TypeHolderExample.  # noqa: E501
-        :type array_item: List[int]
+        :type array_item: list[int]
         """
         if self.local_vars_configuration.client_side_validation and array_item is None:  # noqa: E501
             raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501

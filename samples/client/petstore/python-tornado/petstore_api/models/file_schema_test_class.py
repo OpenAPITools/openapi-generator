@@ -34,7 +34,7 @@ class FileSchemaTestClass(object):
     """
     openapi_types = {
         'file': 'File',
-        'files': 'List[File]'
+        'files': 'list[File]'
     }
 
     attribute_map = {
@@ -84,7 +84,7 @@ class FileSchemaTestClass(object):
 
 
         :return: The files of this FileSchemaTestClass.  # noqa: E501
-        :rtype: List[File]
+        :rtype: list[File]
         """
         return self._files
 
@@ -94,7 +94,7 @@ class FileSchemaTestClass(object):
 
 
         :param files: The files of this FileSchemaTestClass.  # noqa: E501
-        :type files: List[File]
+        :type files: list[File]
         """
 
         self._files = files
