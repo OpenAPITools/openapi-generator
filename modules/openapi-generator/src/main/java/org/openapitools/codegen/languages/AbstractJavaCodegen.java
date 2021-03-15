@@ -986,23 +986,37 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
-        if (!(codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel))) {
-            Content content = requestBody.getContent();
+        Boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-            MediaType mediaType = content.values().iterator().next();
-            if (mediaType.getExample() != null) {
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            LOGGER.warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        if (mediaType.getExample() != null) {
+            if (isModel) {
+                LOGGER.warn("Ignoring complex example on request body");
+            } else {
                 codegenParameter.example = mediaType.getExample().toString();
                 return;
             }
+        }
 
-            if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-                Example example = mediaType.getExamples().values().iterator().next();
-                if (example.getValue() != null) {
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                if (isModel) {
+                    LOGGER.warn("Ignoring complex example on request body");
+                } else {
                     codegenParameter.example = example.getValue().toString();
                     return;
                 }
             }
         }
+
         setParameterExampleValue(codegenParameter);
     }
 
