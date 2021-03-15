@@ -217,6 +217,7 @@ void PetApiTests::updatePetWithFormTest() {
     // fetch it
     bool petUpdated2 = false;
     connect(&api, &PFXPetApi::getPetByIdSignal, [&](PFXPet pet) {
+        Q_UNUSED(pet);
         petUpdated2 = true;
 //      QVERIFY(pet.getName().compare(QString("gorilla")) == 0);
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
