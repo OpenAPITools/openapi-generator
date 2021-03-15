@@ -52,17 +52,6 @@ class ApiClient {
   Map<String, Authentication> get authentications =>
       Map.unmodifiable(_authentications);
 
-  dynamic deserialize(String json, String targetType, {bool growable}) {
-    // Remove all spaces.  Necessary for reg expressions as well.
-    targetType = targetType.replaceAll(' ', '');
-
-    return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: true == growable);
-  }
-
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
-
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
@@ -292,6 +281,17 @@ class ApiClient {
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
+
+  dynamic deserialize(String json, String targetType, {bool growable}) {
+    // Remove all spaces.  Necessary for reg expressions as well.
+    targetType = targetType.replaceAll(' ', '');
+
+  return targetType == 'String'
+    ? json
+    : _deserialize(jsonDecode(json), targetType, growable: true == growable);
+  }
+
+  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
