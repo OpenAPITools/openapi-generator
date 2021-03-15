@@ -50,7 +50,7 @@ public interface FakeApi  {
     @ApiOperation(value = "creates an XmlItem", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createXmlItem(@Valid XmlItem xmlItem);
+    public void createXmlItem(@Valid @NotNull XmlItem xmlItem);
 
     @POST
     @Path("/outer/boolean")
@@ -90,7 +90,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
+    public void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body);
 
     @PUT
     @Path("/body-with-query-params")
@@ -98,7 +98,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User body);
+    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid @NotNull User body);
 
     /**
      * To test \&quot;client\&quot; model
@@ -113,7 +113,7 @@ public interface FakeApi  {
     @ApiOperation(value = "To test \"client\" model", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClientModel(@Valid Client body);
+    public Client testClientModel(@Valid @NotNull Client body);
 
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -168,7 +168,7 @@ public interface FakeApi  {
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void testInlineAdditionalProperties(@Valid Map<String, String> param);
+    public void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
 
     /**
      * test json serialization of form data
