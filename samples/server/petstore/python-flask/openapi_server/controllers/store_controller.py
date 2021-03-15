@@ -24,7 +24,7 @@ def get_inventory():  # noqa: E501
     Returns a map of status codes to quantities # noqa: E501
 
 
-    :rtype: dict[str, int]
+    :rtype: Dict[str, int]
     """
     return 'do some magic!'
 

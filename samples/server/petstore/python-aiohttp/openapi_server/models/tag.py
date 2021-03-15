@@ -2,7 +2,7 @@
 
 from datetime import date, datetime
 
-from typing import list, list, Type
+from typing import List, List, Type
 
 from openapi_server.models.base_model_ import Model
 from openapi_server import util

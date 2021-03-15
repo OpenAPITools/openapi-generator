@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import list, dict # noqa: F401
+from typing import List, Dict # noqa: F401
 
 from app.openapi_server.models.base_model_ import Model
 from app.openapi_server.models.category import Category  # noqa: F401,E501
@@ -17,7 +17,7 @@ class Pet(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, category: Category=None, name: str=None, photo_urls: list[str]=None, tags: list[Tag]=None, status: str=None):  # noqa: E501
+    def __init__(self, id: int=None, category: Category=None, name: str=None, photo_urls: List[str]=None, tags: List[Tag]=None, status: str=None):  # noqa: E501
         """Pet - a model defined in Swagger
 
         :param id: The id of this Pet.  # noqa: E501
@@ -27,9 +27,9 @@ class Pet(Model):
         :param name: The name of this Pet.  # noqa: E501
         :type name: str
         :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type photo_urls: list[str]
+        :type photo_urls: List[str]
         :param tags: The tags of this Pet.  # noqa: E501
-        :type tags: list[Tag]
+        :type tags: List[Tag]
         :param status: The status of this Pet.  # noqa: E501
         :type status: str
         """
@@ -37,8 +37,8 @@ class Pet(Model):
             'id': int,
             'category': Category,
             'name': str,
-            'photo_urls': list[str],
-            'tags': list[Tag],
+            'photo_urls': List[str],
+            'tags': List[Tag],
             'status': str
         }
 
@@ -135,22 +135,22 @@ class Pet(Model):
         self._name = name
 
     @property
-    def photo_urls(self) -> list[str]:
+    def photo_urls(self) -> List[str]:
         """Gets the photo_urls of this Pet.
 
 
         :return: The photo_urls of this Pet.
-        :rtype: list[str]
+        :rtype: List[str]
         """
         return self._photo_urls
 
     @photo_urls.setter
-    def photo_urls(self, photo_urls: list[str]):
+    def photo_urls(self, photo_urls: List[str]):
         """Sets the photo_urls of this Pet.
 
 
         :param photo_urls: The photo_urls of this Pet.
-        :type photo_urls: list[str]
+        :type photo_urls: List[str]
         """
         if photo_urls is None:
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
@@ -158,22 +158,22 @@ class Pet(Model):
         self._photo_urls = photo_urls
 
     @property
-    def tags(self) -> list[Tag]:
+    def tags(self) -> List[Tag]:
         """Gets the tags of this Pet.
 
 
         :return: The tags of this Pet.
-        :rtype: list[Tag]
+        :rtype: List[Tag]
         """
         return self._tags
 
     @tags.setter
-    def tags(self, tags: list[Tag]):
+    def tags(self, tags: List[Tag]):
         """Sets the tags of this Pet.
 
 
         :param tags: The tags of this Pet.
-        :type tags: list[Tag]
+        :type tags: List[Tag]
         """
 
         self._tags = tags

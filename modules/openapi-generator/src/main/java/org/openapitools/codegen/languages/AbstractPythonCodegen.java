@@ -47,7 +47,7 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
-    protected boolean supportPython39 = true; // whether to support Python 3.9+
+    protected boolean supportPython39; // whether to support Python 3.9+
 
     public AbstractPythonCodegen() {
         super();
@@ -108,7 +108,7 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("null", "none_type");
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SUPPORT_PYTHON39, CodegenConstants.SUPPORT_PYTHON39_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -120,14 +120,7 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        //if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.SUPPORT_PYTHON39))) {
-        if (additionalProperties.containsKey(CodegenConstants.SUPPORT_PYTHON39) &&
-                !Boolean.parseBoolean(String.valueOf(additionalProperties.get(CodegenConstants.SUPPORT_PYTHON39)))) {
-            // option "supportPython39" provided by the user and it's set to false
-            additionalProperties.put("typingList", "List");
-            additionalProperties.put("typingDict", "Dict");
-            setSupportPython39(false);
-        } else { // default to true
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.SUPPORT_PYTHON39))) {
             additionalProperties.put(CodegenConstants.SUPPORT_PYTHON39, Boolean.TRUE);
 
             // Ref: https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
@@ -147,6 +140,10 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
             additionalProperties.put("typingList", "list");
             additionalProperties.put("typingDict", "dict");
             setSupportPython39(true);
+        } else {
+            additionalProperties.put("typingList", "List");
+            additionalProperties.put("typingDict", "Dict");
+            setSupportPython39(false);
         }
         additionalProperties.put(CodegenConstants.SUPPORT_PYTHON39, this.supportPython39);
     }

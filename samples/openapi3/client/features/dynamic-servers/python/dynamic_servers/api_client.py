@@ -118,16 +118,16 @@ class ApiClient(object):
         self,
         resource_path: str,
         method: str,
-        path_params: typing.Optional[typing.dict[str, typing.Any]] = None,
-        query_params: typing.Optional[typing.list[typing.Tuple[str, typing.Any]]] = None,
-        header_params: typing.Optional[typing.dict[str, typing.Any]] = None,
+        path_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
+        query_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
         body: typing.Optional[typing.Any] = None,
-        post_params: typing.Optional[typing.list[typing.Tuple[str, typing.Any]]] = None,
-        files: typing.Optional[typing.dict[str, typing.list[io.IOBase]]] = None,
+        post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
         response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
-        auth_settings: typing.Optional[typing.list[str]] = None,
+        auth_settings: typing.Optional[typing.List[str]] = None,
         _return_http_data_only: typing.Optional[bool] = None,
-        collection_formats: typing.Optional[typing.dict[str, str]] = None,
+        collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
         _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
@@ -335,17 +335,17 @@ class ApiClient(object):
         self,
         resource_path: str,
         method: str,
-        path_params: typing.Optional[typing.dict[str, typing.Any]] = None,
-        query_params: typing.Optional[typing.list[typing.Tuple[str, typing.Any]]] = None,
-        header_params: typing.Optional[typing.dict[str, typing.Any]] = None,
+        path_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
+        query_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
         body: typing.Optional[typing.Any] = None,
-        post_params: typing.Optional[typing.list[typing.Tuple[str, typing.Any]]] = None,
-        files: typing.Optional[typing.dict[str, typing.list[io.IOBase]]] = None,
+        post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
         response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
-        auth_settings: typing.Optional[typing.list[str]] = None,
+        auth_settings: typing.Optional[typing.List[str]] = None,
         async_req: typing.Optional[bool] = None,
         _return_http_data_only: typing.Optional[bool] = None,
-        collection_formats: typing.Optional[typing.dict[str, str]] = None,
+        collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
         _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
@@ -523,7 +523,7 @@ class ApiClient(object):
         file_instance.close()
         return file_data
 
-    def files_parameters(self, files: typing.Optional[typing.dict[str, typing.list[io.IOBase]]] = None):
+    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
         :param files: None or a dict with key=param_name and
