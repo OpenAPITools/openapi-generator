@@ -40,6 +40,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         additionalReservedWords.addAll(
                 Sets.newHashSet(
+                        "StreamedRequest",
                         "ApiClient",
                         "QueryParam",
                         "Authentication",
