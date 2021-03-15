@@ -164,7 +164,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "File",
                 "Client",
                 "Future",
-                "Response"
+                "Response",
+                "StreamedRequest"
         );
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
