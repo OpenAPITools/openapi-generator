@@ -139,12 +139,10 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             additionalProperties.put("typingList", "list");
             additionalProperties.put("typingDict", "dict");
-            additionalProperties.put("typingMap", "map");
             setSupportPython39(true);
         } else {
             additionalProperties.put("typingList", "List");
             additionalProperties.put("typingDict", "Dict");
-            additionalProperties.put("typingMap", "Map");
             setSupportPython39(false);
         }
         additionalProperties.put(CodegenConstants.SUPPORT_PYTHON39, this.supportPython39);
