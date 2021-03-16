@@ -15,25 +15,25 @@ paths:
       operationId: schemasInQueryParams
       parameters:
         - name: AnyTypeNoPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             description: "NoPropertiesNoRequired"
         - name: AnyTypeHasPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             properties:
               a:
                 type: string
         - name: AnyTypeNoPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             required:
               - a
         - name: AnyTypeHasPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             required:
@@ -42,12 +42,12 @@ paths:
               a:
                 type: string
         - name: ObjectNoPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             type: object
         - name: ObjectHasPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             type: object
@@ -55,14 +55,14 @@ paths:
               a:
                 type: string
         - name: ObjectNoPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             type: object
             required:
               - a
         - name: ObjectHasPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             type: object
@@ -72,13 +72,13 @@ paths:
               a:
                 type: string
         - name: ComposedNoAllofPropsNoPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
               - $ref: '#/components/schemas/EmptyObject'
         - name: ComposedNoAllofPropsHasPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -87,7 +87,7 @@ paths:
               a:
                 type: string
         - name: ComposedNoAllofPropsNoPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -95,7 +95,7 @@ paths:
             required:
               - a
         - name: ComposedNoAllofPropsHasPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -106,13 +106,13 @@ paths:
               a:
                 type: string
         - name: ComposedHasAllofOptPropNoPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
               - $ref: '#/components/schemas/ObjectWithOptionalB'
         - name: ComposedHasAllofOptPropHasPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -121,7 +121,7 @@ paths:
               a:
                 type: string
         - name: ComposedHasAllofOptPropNoPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -129,7 +129,7 @@ paths:
             required:
               - a
         - name: ComposedHasAllofOptPropHasPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -140,13 +140,13 @@ paths:
               a:
                 type: string
         - name: ComposedHasAllofReqPropNoPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
               - $ref: '#/components/schemas/ObjectWithRequiredB'
         - name: ComposedHasAllofReqPropHasPropertiesNoRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -155,7 +155,7 @@ paths:
               a:
                 type: string
         - name: ComposedHasAllofReqPropNoPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
@@ -163,7 +163,7 @@ paths:
             required:
               - a
         - name: ComposedHasAllofReqPropHasPropertiesHasRequired
-          in: path
+          in: query
           required: true
           schema:
             allOf:
