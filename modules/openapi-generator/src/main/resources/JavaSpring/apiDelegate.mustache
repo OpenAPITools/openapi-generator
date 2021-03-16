@@ -3,7 +3,9 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 import io.swagger.annotations.*;
+{{#usePagination}}
 import org.springframework.data.domain.Pageable;
+{{/usePagination}}
 {{#jdk8}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
