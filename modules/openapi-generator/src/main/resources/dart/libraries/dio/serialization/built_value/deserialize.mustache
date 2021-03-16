@@ -1,5 +1,5 @@
       {{#isResponseFile}}
-      _responseData = _response.data;
+      _responseData = _response.data as {{{returnType}}};
       {{/isResponseFile}}
       {{^isResponseFile}}
       {{#returnSimpleType}}
