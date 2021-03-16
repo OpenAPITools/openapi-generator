@@ -70,8 +70,6 @@ components:
       properties:
         a:
           type: string
-      allof:
-        - $ref: '#/components/schemas/EmptyObject'
     ComposedNoAllofPropsNoPropertiesHasRequired:
       allOf:
         - $ref: '#/components/schemas/EmptyObject'
@@ -95,8 +93,6 @@ components:
       properties:
         a:
           type: string
-      allof:
-        - $ref: '#/components/schemas/ObjectWithOptionalB'
     ComposedHasAllofOptPropNoPropertiesHasRequired:
       allOf:
         - $ref: '#/components/schemas/ObjectWithOptionalB'
@@ -120,8 +116,6 @@ components:
       properties:
         a:
           type: string
-      allof:
-        - $ref: '#/components/schemas/ObjectWithRequiredB'
     ComposedHasAllofReqPropNoPropertiesHasRequired:
       allOf:
         - $ref: '#/components/schemas/ObjectWithRequiredB'
@@ -182,8 +176,6 @@ components:
           properties:
             a:
               type: string
-          allof:
-            - $ref: '#/components/schemas/EmptyObject'
         ComposedNoAllofPropsNoPropertiesHasRequired:
           allOf:
             - $ref: '#/components/schemas/EmptyObject'
@@ -207,8 +199,6 @@ components:
           properties:
             a:
               type: string
-          allof:
-            - $ref: '#/components/schemas/ObjectWithOptionalB'
         ComposedHasAllofOptPropNoPropertiesHasRequired:
           allOf:
             - $ref: '#/components/schemas/ObjectWithOptionalB'
@@ -232,8 +222,6 @@ components:
           properties:
             a:
               type: string
-          allof:
-            - $ref: '#/components/schemas/ObjectWithRequiredB'
         ComposedHasAllofReqPropNoPropertiesHasRequired:
           allOf:
             - $ref: '#/components/schemas/ObjectWithRequiredB'
