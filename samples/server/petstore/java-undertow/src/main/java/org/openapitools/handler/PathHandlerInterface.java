@@ -89,7 +89,6 @@ public interface PathHandlerInterface {
      * <p>
      * - Parameter type: <b>{@link java.util.List List} of {@link List&lt;String&gt;}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Default value: <b>new ArrayList<String>()</b><br/>
      * - Required: <b>true</b>
      * </p>
      * </li>
@@ -122,7 +121,6 @@ public interface PathHandlerInterface {
      * <p>
      * - Parameter type: <b>{@link java.util.List List} of {@link List&lt;String&gt;}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Default value: <b>new ArrayList<String>()</b><br/>
      * - Required: <b>true</b>
      * </p>
      * </li>

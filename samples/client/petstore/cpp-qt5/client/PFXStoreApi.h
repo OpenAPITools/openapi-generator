@@ -12,6 +12,7 @@
 #ifndef PFX_PFXStoreApi_H
 #define PFX_PFXStoreApi_H
 
+#include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
 
@@ -24,7 +25,6 @@
 #include <QStringList>
 #include <QList>
 #include <QNetworkAccessManager>
-#include <QVariant>
 
 namespace test_namespace {
 
@@ -116,7 +116,7 @@ signals:
     void getOrderByIdSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
-    void abortRequestsSignal(); 
+    void abortRequestsSignal();
     void allPendingRequestsCompleted();
 };
 

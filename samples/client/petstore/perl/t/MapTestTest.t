@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::MapTest');
 
-my $instance = WWW::OpenAPIClient::Object::MapTest->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::MapTest');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::MapTest->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::MapTest');
 
