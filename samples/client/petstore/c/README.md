@@ -58,6 +58,66 @@ Once compiled, you can run it with ``` ./main ```
 
 Note: You don't need to specify includes for models and include folder seperately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
 
+## Documentation for API Endpoints
+
+All URIs are relative to *http://petstore.swagger.io/v2*
+
+Category | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+*PetAPI* | [**PetAPI_addPet**](docs/PetAPI.md#PetAPI_addPet) | **POST** /pet | Add a new pet to the store
+*PetAPI* | [**PetAPI_deletePet**](docs/PetAPI.md#PetAPI_deletePet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetAPI* | [**PetAPI_findPetsByStatus**](docs/PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetAPI* | [**PetAPI_findPetsByTags**](docs/PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetAPI* | [**PetAPI_getPetById**](docs/PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetAPI* | [**PetAPI_updatePet**](docs/PetAPI.md#PetAPI_updatePet) | **PUT** /pet | Update an existing pet
+*PetAPI* | [**PetAPI_updatePetWithForm**](docs/PetAPI.md#PetAPI_updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetAPI* | [**PetAPI_uploadFile**](docs/PetAPI.md#PetAPI_uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*StoreAPI* | [**StoreAPI_deleteOrder**](docs/StoreAPI.md#StoreAPI_deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreAPI* | [**StoreAPI_getInventory**](docs/StoreAPI.md#StoreAPI_getInventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreAPI* | [**StoreAPI_getOrderById**](docs/StoreAPI.md#StoreAPI_getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreAPI* | [**StoreAPI_placeOrder**](docs/StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
+*UserAPI* | [**UserAPI_createUser**](docs/UserAPI.md#UserAPI_createUser) | **POST** /user | Create user
+*UserAPI* | [**UserAPI_createUsersWithArrayInput**](docs/UserAPI.md#UserAPI_createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserAPI* | [**UserAPI_createUsersWithListInput**](docs/UserAPI.md#UserAPI_createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserAPI* | [**UserAPI_deleteUser**](docs/UserAPI.md#UserAPI_deleteUser) | **DELETE** /user/{username} | Delete user
+*UserAPI* | [**UserAPI_getUserByName**](docs/UserAPI.md#UserAPI_getUserByName) | **GET** /user/{username} | Get user by user name
+*UserAPI* | [**UserAPI_loginUser**](docs/UserAPI.md#UserAPI_loginUser) | **GET** /user/login | Logs user into the system
+*UserAPI* | [**UserAPI_logoutUser**](docs/UserAPI.md#UserAPI_logoutUser) | **GET** /user/logout | Logs out current logged in user session
+*UserAPI* | [**UserAPI_updateUser**](docs/UserAPI.md#UserAPI_updateUser) | **PUT** /user/{username} | Updated user
+
+
+## Documentation for Models
+
+ - [api_response_t](docs/api_response.md)
+ - [category_t](docs/category.md)
+ - [order_t](docs/order.md)
+ - [pet_t](docs/pet.md)
+ - [tag_t](docs/tag.md)
+ - [user_t](docs/user.md)
+
+
+## Documentation for Authorization
+
+
+### api_key
+
+- **Type**: API key
+
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+
+### petstore_auth
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
+
+
 ## Author
 
 
