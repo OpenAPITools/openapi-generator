@@ -8,10 +8,184 @@ info:
   version: 1.0.0
 servers:
   - url: http://petstore.swagger.io:80/v2
-tags:
-  - name: items
-    description: Everything about your Pets
-paths: {}
+tags: []
+paths:
+  /schemasInQueryParams:
+    post:
+      operationId: schemasInQueryParams
+      parameters:
+        - name: AnyTypeNoPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            description: "NoPropertiesNoRequired"
+        - name: AnyTypeHasPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            properties:
+              a:
+                type: string
+        - name: AnyTypeNoPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            required:
+              - a
+        - name: AnyTypeHasPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ObjectNoPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            type: object
+        - name: ObjectHasPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+        - name: ObjectNoPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            type: object
+            required:
+              - a
+        - name: ObjectHasPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            type: object
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedNoAllofPropsNoPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+        - name: ComposedNoAllofPropsHasPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            properties:
+              a:
+                type: string
+        - name: ComposedNoAllofPropsNoPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            required:
+              - a
+        - name: ComposedNoAllofPropsHasPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofOptPropNoPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+        - name: ComposedHasAllofOptPropHasPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofOptPropNoPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            required:
+              - a
+        - name: ComposedHasAllofOptPropHasPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofReqPropNoPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+        - name: ComposedHasAllofReqPropHasPropertiesNoRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofReqPropNoPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            required:
+              - a
+        - name: ComposedHasAllofReqPropHasPropertiesHasRequired
+          in: path
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     EmptyObject:
