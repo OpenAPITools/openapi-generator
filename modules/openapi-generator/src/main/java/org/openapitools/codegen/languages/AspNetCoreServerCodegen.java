@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -148,6 +149,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setSupportNullable(Boolean.TRUE);
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_DESCRIPTION,
+                  CodegenConstants.PACKAGE_DESCRIPTION_DESC,
+                  packageDescription);
+
         addOption(CodegenConstants.LICENSE_URL,
                 CodegenConstants.LICENSE_URL_DESC,
                 licenseUrl);

@@ -1,7 +1,8 @@
 <Project Sdk="{{projectSdk}}">
   <PropertyGroup>
-    <Description>{{packageName}}</Description>
-    <Copyright>{{packageName}}</Copyright>
+    <Description>{{^packageDescription}}{{packageName}}{{/packageDescription}}{{packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <Authors>{{packageAuthors}}</Authors>
     <TargetFramework>netcoreapp{{aspnetCoreVersion}}</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
