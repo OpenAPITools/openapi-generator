@@ -127,7 +127,7 @@ void OpenAPIStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpRe
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnDeleteOrderResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -164,7 +164,7 @@ void OpenAPIStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpR
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetInventoryResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -201,7 +201,7 @@ void OpenAPIStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpR
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetOrderByIdResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -238,7 +238,7 @@ void OpenAPIStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpRes
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnPlaceOrderResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{

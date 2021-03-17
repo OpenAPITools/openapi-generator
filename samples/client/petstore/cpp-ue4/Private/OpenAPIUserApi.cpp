@@ -127,7 +127,7 @@ void OpenAPIUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUserResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -164,7 +164,7 @@ void OpenAPIUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpReq
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithArrayInputResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -201,7 +201,7 @@ void OpenAPIUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequ
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithListInputResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -238,7 +238,7 @@ void OpenAPIUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnDeleteUserResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -275,7 +275,7 @@ void OpenAPIUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpR
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnGetUserByNameResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -312,7 +312,7 @@ void OpenAPIUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpRespo
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLoginUserResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -349,7 +349,7 @@ void OpenAPIUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLogoutUserResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -386,7 +386,7 @@ void OpenAPIUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnUpdateUserResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{

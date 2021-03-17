@@ -120,7 +120,7 @@ void {{classname}}::On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpReque
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{

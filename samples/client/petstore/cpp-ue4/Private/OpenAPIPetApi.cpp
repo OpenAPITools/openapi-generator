@@ -127,7 +127,7 @@ void OpenAPIPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponseP
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnAddPetResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -164,7 +164,7 @@ void OpenAPIPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpRespon
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnDeletePetResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -201,7 +201,7 @@ void OpenAPIPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHtt
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByStatusResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -238,7 +238,7 @@ void OpenAPIPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpR
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByTagsResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -275,7 +275,7 @@ void OpenAPIPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpRespo
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnGetPetByIdResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -312,7 +312,7 @@ void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpRespon
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -349,7 +349,7 @@ void OpenAPIPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHt
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetWithFormResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
@@ -386,7 +386,7 @@ void OpenAPIPetApi::OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpRespo
 	if(!Response.IsSuccessful() && AutoRetryCount > 0)
 	{
 		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUploadFileResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
+		Response.AsyncRetry();
 	}
 	else
 	{
