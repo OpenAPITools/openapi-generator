@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import com.squareup.moshi.adapter
 
 internal open class ApiClient(val baseUrl: String) {
     internal companion object {
@@ -106,6 +107,7 @@ internal open class ApiClient(val baseUrl: String) {
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
+    @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
@@ -115,7 +117,7 @@ internal open class ApiClient(val baseUrl: String) {
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
+            JsonMediaType -> Serializer.moshi.adapter<T>().fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
