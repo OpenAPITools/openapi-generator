@@ -56,7 +56,6 @@ class ApiResponse {
     (type == null ? 0 : type.hashCode) +
     (message == null ? 0 : message.hashCode);
 
-
   factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);

@@ -107,7 +107,6 @@ class User {
     (phone == null ? 0 : phone.hashCode) +
     (userStatus == null ? 0 : userStatus.hashCode);
 
-
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);

@@ -36,7 +36,6 @@ class HealthCheckResult {
   int get hashCode =>
     (nullableMessage == null ? 0 : nullableMessage.hashCode);
 
-
   factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$HealthCheckResultToJson(this);

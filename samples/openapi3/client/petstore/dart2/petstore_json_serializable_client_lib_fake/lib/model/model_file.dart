@@ -37,7 +37,6 @@ class ModelFile {
   int get hashCode =>
     (sourceURI == null ? 0 : sourceURI.hashCode);
 
-
   factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelFileToJson(this);
