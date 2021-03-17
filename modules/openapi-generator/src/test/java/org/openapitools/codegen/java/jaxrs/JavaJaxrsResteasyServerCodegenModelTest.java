@@ -50,7 +50,6 @@ public class JavaJaxrsResteasyServerCodegenModelTest extends JavaJaxrsBaseTest {
         String int64Val = "100";
         String floatVal = "3.14159";
         String doubleVal = "3.14159";
-
         // make sure that the operation parameters omit character suffixes
         String route = "/numericqueryparams";
         Operation op = openAPI.getPaths().get(route).getGet();
