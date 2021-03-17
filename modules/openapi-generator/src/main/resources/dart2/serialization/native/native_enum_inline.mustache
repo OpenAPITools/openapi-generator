@@ -1,5 +1,4 @@
 {{#description}}/// {{{description}}}{{/description}}
-{{^json_serializable}}
 class {{{enumName}}} {
   /// Instantiate a new enum with the provided [value].
   const {{{enumName}}}._(this.value);
@@ -72,11 +71,4 @@ class {{{enumName}}}TypeTransformer {
 
   /// Singleton [{{{enumName}}}TypeTransformer] instance.
   static {{{enumName}}}TypeTransformer _instance;
-}{{/json_serializable}}{{#json_serializable}}
-enum {{{enumName}}} {
-{{#allowableValues}}
-{{#enumVars}}
-  {{{name}}},
-{{/enumVars}}
-{{/allowableValues}}
-}{{/json_serializable}}
+}

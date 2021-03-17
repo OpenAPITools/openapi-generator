@@ -31,8 +31,8 @@ typedef TSharedRef<TJsonWriter<>> JsonWriter;
 class OPENAPI_API HttpFileInput
 {
 public:
-	HttpFileInput(const TCHAR* InFilePath);
-	HttpFileInput(const FString& InFilePath);
+	explicit HttpFileInput(const TCHAR* InFilePath);
+	explicit HttpFileInput(const FString& InFilePath);
 
 	// This will automatically set the content type if not already set
     void SetFilePath(const TCHAR* InFilePath);
@@ -62,7 +62,7 @@ class HttpMultipartFormData
 {
 public:
 	void SetBoundary(const TCHAR* InBoundary);
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest);
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest);
 
 	void AddStringPart(const TCHAR* Name, const TCHAR* Data);
 	void AddJsonPart(const TCHAR* Name, const FString& JsonString);
@@ -277,11 +277,15 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Va
 		return false;
 }
 
+OPENAPI_API bool ParseDateTime(const FString& DateTimeString, FDateTime& OutDateTime);
+
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
-		return FDateTime::Parse(TmpValue, Value);
+	{
+		return ParseDateTime(TmpValue, Value);
+	}
 	else
 		return false;
 }

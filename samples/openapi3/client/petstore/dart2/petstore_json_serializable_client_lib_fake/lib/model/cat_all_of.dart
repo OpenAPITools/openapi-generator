@@ -36,7 +36,6 @@ class CatAllOf {
   int get hashCode =>
     (declawed == null ? 0 : declawed.hashCode);
 
-
   factory CatAllOf.fromJson(Map<String, dynamic> json) => _$CatAllOfFromJson(json);
 
   Map<String, dynamic> toJson() => _$CatAllOfToJson(this);
