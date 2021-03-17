@@ -21,7 +21,7 @@ paths:
           schema:
             type: integer
             format: int64
-            default: 21474836487
+            default: 100
         - in: query
           name: float
           schema:

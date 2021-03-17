@@ -47,13 +47,9 @@ public class JavaJaxrsResteasyServerCodegenModelTest extends JavaJaxrsBaseTest {
         final JavaResteasyServerCodegen codegen = new JavaResteasyServerCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String int64Val = "9223372036854775807l";
-        String floatVal = "3.14159f";
-        String doubleVal = "3.14159d";
-
-        int64Val = "21474836487";
-        floatVal = "3.14159";
-        doubleVal = "3.14159";
+        String int64Val = "100";
+        String floatVal = "3.14159";
+        String doubleVal = "3.14159";
 
         // make sure that the operation parameters omit character suffixes
         String route = "/numericqueryparams";
