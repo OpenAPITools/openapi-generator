@@ -46,7 +46,6 @@ class Category {
     (id == null ? 0 : id.hashCode) +
     (name == null ? 0 : name.hashCode);
 
-
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);

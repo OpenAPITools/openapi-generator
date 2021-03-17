@@ -56,7 +56,6 @@ class ArrayTest {
     (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
     (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
 
-
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArrayTestToJson(this);

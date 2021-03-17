@@ -87,7 +87,6 @@ class Order {
     (status == null ? 0 : status.hashCode) +
     (complete == null ? 0 : complete.hashCode);
 
-
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderToJson(this);
@@ -100,7 +99,6 @@ class Order {
 }
 
 /// Order Status
-
 enum OrderStatusEnum {
   placed,
   approved,

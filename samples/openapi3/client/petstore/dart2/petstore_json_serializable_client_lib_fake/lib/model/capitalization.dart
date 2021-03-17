@@ -87,7 +87,6 @@ class Capitalization {
     (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints.hashCode) +
     (ATT_NAME == null ? 0 : ATT_NAME.hashCode);
 
-
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 
   Map<String, dynamic> toJson() => _$CapitalizationToJson(this);
