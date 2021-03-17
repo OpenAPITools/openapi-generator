@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.utils.PostProcessUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -169,6 +170,11 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         }
 
         return objs;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter p) {
+        PostProcessUtils.postProcessParameter(p);
     }
 
     public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
