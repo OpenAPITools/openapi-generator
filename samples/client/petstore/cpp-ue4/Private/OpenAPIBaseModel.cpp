@@ -12,6 +12,8 @@
 
 #include "OpenAPIBaseModel.h"
 
+#include "Async/Async.h"
+
 namespace OpenAPI 
 {
 
@@ -23,6 +25,15 @@ void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
     {
         SetResponseString(TEXT("Request Timeout"));
     }
+}
+
+void Response::AsyncRetry() const
+{
+    // Unfortunately, it is currently usafe to call ProcessRequest() directly here.
+    // This is because the HttpManager will remove all references to this HttpRequest in FHttpManager::Tick including the new request we just added, instead of removing just one. 
+    // This will lead to the request's destruction and eventually a crash.
+    // The only solution is therefore to ensure we are taking an extra reference to the request, and that the request is added after the queue is flushed.
+    Async(EAsyncExecution::TaskGraph, [AddRef = FHttpRequestPtr(GetHttpRequest())](){ AddRef->ProcessRequest(); });
 }
 
 }
