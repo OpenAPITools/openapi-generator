@@ -44,7 +44,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         final Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
-//        serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable. Experimental and subject to breaking changes in minor releases");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
     }
