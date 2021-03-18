@@ -75,6 +75,7 @@ else
   sudo apt-get update
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
+  export DART_POST_PROCESS="dart format"
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
