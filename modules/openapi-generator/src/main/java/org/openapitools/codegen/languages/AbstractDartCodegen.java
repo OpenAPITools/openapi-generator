@@ -63,6 +63,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey
                 ))
                 .excludeGlobalFeatures(
@@ -72,13 +73,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML
                 )
         );
 
