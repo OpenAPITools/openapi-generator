@@ -910,6 +910,13 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
                    _configuration=configuration,
                    _spec_property_naming=spec_property_naming)
 
+    # An attribute named `self` received from the api will conflicts with the reserved `self`
+    # parameter of a class method. During generation, `self` attributes are mapped
+    # to `_self` in models. Here, we map it directly.
+    if "self" in input_value:
+        input_value["_self"] = input_value["self"]
+        del input_value["self"]
+
     if issubclass(model_class, ModelSimple):
         return model_class(model_data, **kw_args)
     elif isinstance(model_data, list):
