@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:openapi/src/auth/auth.dart';
 
 class ApiKeyAuthInterceptor extends AuthInterceptor {
-  Map<String, String> apiKeys = {};
+  final Map<String, String> apiKeys = {};
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

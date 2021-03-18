@@ -12,7 +12,7 @@ class BasicAuthInfo {
 }
 
 class BasicAuthInterceptor extends AuthInterceptor {
-  Map<String, BasicAuthInfo> authInfo = {};
+  final Map<String, BasicAuthInfo> authInfo = {};
 
   @override
   void onRequest(

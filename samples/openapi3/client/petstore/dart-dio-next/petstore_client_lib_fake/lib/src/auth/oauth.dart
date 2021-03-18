@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:openapi/src/auth/auth.dart';
 
 class OAuthInterceptor extends AuthInterceptor {
-  Map<String, String> tokens = {};
+  final Map<String, String> tokens = {};
 
   @override
   void onRequest(
