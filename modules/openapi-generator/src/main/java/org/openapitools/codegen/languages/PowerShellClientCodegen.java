@@ -60,7 +60,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected String licenseUri;
     protected String releaseNotes;
     protected String tags;
-    protected String iconUri; 
+    protected String iconUri;
+    protected Set<String> paramNameReservedWords;
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -415,7 +416,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "local",
                 "private",
                 "where",
-                // special variables 
+                // special variables
                 "args",
                 "consolefilename",
                 "error",
@@ -449,6 +450,30 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "shellid",
                 "stacktrace",
                 "this",
+                "true"
+        ));
+
+        paramNameReservedWords = new HashSet<String>(Arrays.asList(
+                "args",
+                "error",
+                "executioncontext",
+                "false",
+                "home",
+                "host",
+                "input",
+                "myinvocation",
+                "nestedpromptlevel",
+                "null",
+                "pid",
+                "profile",
+                "pscommandpath",
+                "psculture",
+                "pshome",
+                "psscriptroot",
+                "psuiculture",
+                "psversiontable",
+                "shellid",
+                "stacktrace",
                 "true"
         ));
 
@@ -639,7 +664,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         } else {
             additionalProperties.put("skipVerbParsing", skipVerbParsing);
         }
-        
+
         if (additionalProperties.containsKey("tags")) {
             String[] entries = ((String) additionalProperties.get("tags")).split(",");
             String prefix = "";
@@ -937,7 +962,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toParamName(String name) {
-        return toVarName(name);
+        // sanitize and camelize parameter name
+        // pet_id => PetId
+        name = camelize(sanitizeName(name));
+
+        // for param name reserved word or word starting with number, append _
+        if (paramNameReservedWords.contains(name) || name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (reserved word or special variable name) cannot be used in naming. Renamed to " + escapeReservedWord(name));
+            name = escapeReservedWord(name);
+        }
+
+        return name;
     }
 
     @Override
@@ -1313,4 +1348,16 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return null;
     }
 
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
+        System.out.println("################################################################################");
+    }
 }

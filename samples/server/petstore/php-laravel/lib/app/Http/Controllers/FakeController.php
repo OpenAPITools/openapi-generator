@@ -466,6 +466,30 @@ class FakeController extends Controller
         return response('How about implementing fakeOuterStringSerialize as a post method ?');
     }
     /**
+     * Operation fakePropertyEnumIntegerSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakePropertyEnumIntegerSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['outerObjectWithEnumProperty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $outerObjectWithEnumProperty when calling fakePropertyEnumIntegerSerialize');
+        }
+        $outerObjectWithEnumProperty = $input['outerObjectWithEnumProperty'];
+
+
+        return response('How about implementing fakePropertyEnumIntegerSerialize as a post method ?');
+    }
+    /**
      * Operation testQueryParameterCollectionFormat
      *
      * .

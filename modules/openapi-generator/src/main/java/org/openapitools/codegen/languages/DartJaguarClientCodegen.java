@@ -42,26 +42,23 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
     private static final String IS_FORMAT_PROTO = "protoFormat";
     private static final String CLIENT_NAME = "clientName";
 
-    private static Set<String> modelToIgnore = new HashSet<>();
-    private HashMap<String, String> protoTypeMapping = new HashMap<>();
+    private final Set<String> modelToIgnore = new HashSet<>();
+    private final HashMap<String, String> protoTypeMapping = new HashMap<>();
 
-    static {
+    private static final String SERIALIZATION_JSON = "json";
+    private static final String SERIALIZATION_PROTO = "proto";
+
+    private boolean nullableFields = true;
+
+    public DartJaguarClientCodegen() {
+        super();
+
         modelToIgnore.add("datetime");
         modelToIgnore.add("map");
         modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
         modelToIgnore.add("list<int>");
-    }
-
-    private static final String SERIALIZATION_JSON = "json";
-    private static final String SERIALIZATION_PROTO = "proto";
-
-    private boolean nullableFields = true;
-    private String serialization = SERIALIZATION_JSON;
-
-    public DartJaguarClientCodegen() {
-        super();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -161,7 +158,7 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
         }
 
         if (additionalProperties.containsKey(SERIALIZATION_FORMAT)) {
-            serialization = ((String) additionalProperties.get(SERIALIZATION_FORMAT));
+            String serialization = ((String) additionalProperties.get(SERIALIZATION_FORMAT));
             boolean isProto = serialization.equalsIgnoreCase(SERIALIZATION_PROTO);
             additionalProperties.put(IS_FORMAT_JSON, serialization.equalsIgnoreCase(SERIALIZATION_JSON));
             additionalProperties.put(IS_FORMAT_PROTO, isProto);

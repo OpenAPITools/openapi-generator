@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.EnumTest
+
 ## Properties
 
 Name | Type | Description | Notes

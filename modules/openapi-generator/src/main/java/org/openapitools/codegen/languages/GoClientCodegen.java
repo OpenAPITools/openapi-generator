@@ -349,8 +349,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            Object defaultObj = p.getDefault();
+            if (defaultObj != null) {
+                if (defaultObj instanceof java.lang.String) {
+                    return "\"" + escapeText((String) defaultObj) + "\"";
+                }
+                return "\"" + escapeText(defaultObj.toString()) + "\"";
             }
             return null;
         }
@@ -602,7 +606,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenModel.isEnum) {
             Map<String, Object> allowableValues = codegenModel.allowableValues;
             List<Object> values = (List<Object>) allowableValues.get("values");
-            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+            String example = String.valueOf(values.get(0));
+            if (codegenModel.isString) {
+                example = "\"" + example + "\"";
+            }
+            return goImportAlias + "." + model + "(" + example + ")";
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);

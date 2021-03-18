@@ -1257,6 +1257,13 @@ components:
     UserArray:
       content:
         application/json:
+          examples:
+            simple-list:
+              description: Should not get into code examples
+              summary: Simple list example
+              value:
+              - username: foo
+              - username: bar
           schema:
             items:
               $ref: '#/components/schemas/User'

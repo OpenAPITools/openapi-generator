@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.ChildCatAllOf
+
 ## Properties
 
 Name | Type | Description | Notes

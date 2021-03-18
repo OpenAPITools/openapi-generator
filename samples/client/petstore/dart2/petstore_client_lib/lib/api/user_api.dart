@@ -31,7 +31,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/user';
+    final path = r'/user';
 
     Object postBody = body;
 
@@ -96,7 +96,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/user/createWithArray';
+    final path = r'/user/createWithArray';
 
     Object postBody = body;
 
@@ -159,7 +159,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/user/createWithList';
+    final path = r'/user/createWithList';
 
     Object postBody = body;
 
@@ -224,7 +224,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -290,7 +290,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -343,8 +343,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
-    }
-    return null;
+        }
+    return Future<User>.value(null);
   }
 
   /// Logs user into the system
@@ -367,7 +367,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
-    final path = '/user/login';
+    final path = r'/user/login';
 
     Object postBody;
 
@@ -425,15 +425,15 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
-    }
-    return null;
+        }
+    return Future<String>.value(null);
   }
 
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
-    final path = '/user/logout';
+    final path = r'/user/logout';
 
     Object postBody;
 
@@ -499,7 +499,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody = body;

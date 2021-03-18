@@ -430,10 +430,26 @@ void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
 }
 
 void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
-    if (getResponseHeaders().contains(QString("Content-Disposition"))) {
-        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
+    QString contentDispositionHdr;
+    QString contentTypeHdr;
+    QString contentEncodingHdr;
+
+    for(auto hdr: getResponseHeaders().keys()){
+        if(hdr.compare(QString("Content-Disposition"), Qt::CaseInsensitive) == 0){
+            contentDispositionHdr = getResponseHeaders().value(hdr);
+        }
+        if(hdr.compare(QString("Content-Type"), Qt::CaseInsensitive) == 0){
+            contentTypeHdr = getResponseHeaders().value(hdr);
+        }
+        if(hdr.compare(QString("Content-Encoding"), Qt::CaseInsensitive) == 0){
+            contentEncodingHdr = getResponseHeaders().value(hdr);
+        }
+    }
+
+    if (!contentDispositionHdr.isEmpty()) {
+        auto contentDisposition = contentDispositionHdr.split(QString(";"), SKIP_EMPTY_PARTS);
         auto contentType =
-            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
+            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
@@ -447,13 +463,13 @@ void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
             files.insert(filename, felement);
         }
 
-    } else if (getResponseHeaders().contains(QString("Content-Type"))) {
-        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
+    } else if (!contentTypeHdr.isEmpty()) {
+        auto contentType = contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
             // TODO : Handle Multipart responses
         } else {
-            if(headers.contains("Content-Encoding")){
-                auto encoding = headers.value("Content-Encoding").split(QString(";"), SKIP_EMPTY_PARTS);
+            if(!contentEncodingHdr.isEmpty()){
+                auto encoding = contentEncodingHdr.split(QString(";"), SKIP_EMPTY_PARTS);
                 if(encoding.count() > 0){
                     auto compressionTypes = encoding.first().split(',', SKIP_EMPTY_PARTS);
                     if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){

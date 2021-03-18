@@ -24,21 +24,21 @@ class ArrayTest {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_of_string',
     required: false,
   )
   List<String> arrayOfString;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_array_of_integer',
     required: false,
   )
   List<List<int>> arrayArrayOfInteger;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_array_of_model',
     required: false,
   )
@@ -55,7 +55,6 @@ class ArrayTest {
     (arrayOfString == null ? 0 : arrayOfString.hashCode) +
     (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
     (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
-
 
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 

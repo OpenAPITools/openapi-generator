@@ -185,6 +185,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String xmlName;
     public String xmlNamespace;
     public boolean isXmlWrapped = false;
+    private boolean additionalPropertiesIsAnyType;
+    private boolean hasVars;
 
     public String getBaseName() {
         return baseName;
@@ -694,6 +696,26 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 
     @Override
+    public boolean getAdditionalPropertiesIsAnyType() {
+        return additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public void setAdditionalPropertiesIsAnyType(boolean additionalPropertiesIsAnyType) {
+        this.additionalPropertiesIsAnyType = additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public boolean getHasVars() {
+        return this.hasVars;
+    }
+
+    @Override
+    public void setHasVars(boolean hasVars) {
+        this.hasVars = hasVars;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
@@ -782,6 +804,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
         sb.append(", isXmlWrapped=").append(isXmlWrapped);
         sb.append(", isNull=").append(isNull);
+        sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
+        sb.append(", getHasVars=").append(getHasVars());
         sb.append('}');
         return sb.toString();
     }
@@ -831,6 +855,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isXmlAttribute == that.isXmlAttribute &&
                 isXmlWrapped == that.isXmlWrapped &&
                 isNull == that.isNull &&
+                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
+                getHasVars() == that.getHasVars() &&
                 Objects.equals(openApiType, that.openApiType) &&
                 Objects.equals(baseName, that.baseName) &&
                 Objects.equals(complexType, that.complexType) &&
@@ -892,6 +918,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, isNull);
+                xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars);
     }
 }

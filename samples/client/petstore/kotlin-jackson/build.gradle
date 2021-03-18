@@ -30,9 +30,8 @@ test {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1"
     compile "com.squareup.okhttp3:okhttp:4.9.0"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

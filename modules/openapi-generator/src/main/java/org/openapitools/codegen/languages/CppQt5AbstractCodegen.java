@@ -105,6 +105,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("number", "double");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
+        typeMapping.put("set", "QSet");
         typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
         typeMapping.put("ByteArray", "QByteArray");
@@ -122,6 +123,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         systemIncludes.add("QString");
         systemIncludes.add("QList");
         systemIncludes.add("QMap");
+        systemIncludes.add("QSet");
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");

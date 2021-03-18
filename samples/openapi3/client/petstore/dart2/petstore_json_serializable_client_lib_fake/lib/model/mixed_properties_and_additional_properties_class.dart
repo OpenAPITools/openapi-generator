@@ -38,7 +38,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   DateTime dateTime;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map',
     required: false,
   )
@@ -55,7 +55,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     (uuid == null ? 0 : uuid.hashCode) +
     (dateTime == null ? 0 : dateTime.hashCode) +
     (map == null ? 0 : map.hashCode);
-
 
   factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
 

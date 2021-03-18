@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::Tag');
 
-my $instance = WWW::OpenAPIClient::Object::Tag->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::Tag');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::Tag->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::Tag');
 

@@ -61,7 +61,7 @@ class {{{classname}}} {
     {{/allParams}}
 
   {{/hasParams}}
-    final path = '{{{path}}}'{{#pathParams}}
+    final path = r'{{{path}}}'{{#pathParams}}
       .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
@@ -185,21 +185,47 @@ class {{{classname}}} {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      {{#isArray}}
+    {{#native_serialization}}
+    {{#isArray}}
       return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
         .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
-      {{/isArray}}
-      {{^isArray}}
-        {{#isMap}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#isMap}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-        {{/isMap}}
-        {{^isMap}}
+    {{/isMap}}
+    {{^isMap}}
       return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
-        {{/isMap}}
-      {{/isArray}}
+    {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
+    {{#isArray}}
+      {{#uniqueItems}}
+      return (json.decode(response.body) as List)
+        .map((i) => {{{returnBaseType}}}.fromJson(i))
+        .toSet();
+      {{/uniqueItems}}
+      {{^uniqueItems}}
+      return (json.decode(response.body) as List)
+        .map((i) => {{{returnBaseType}}}.fromJson(i))
+        .toList();
+      {{/uniqueItems}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#isMap}}
+      return {{{returnType}}}.from(json.decode(response.body));
+    {{/isMap}}
+    {{^isMap}}
+    {{#returnTypeIsPrimitive}}
+      return response.body as {{{returnBaseType}}};
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+      return {{{returnType}}}.fromJson(json.decode(response.body));
+    {{/returnTypeIsPrimitive}}
+    {{/isMap}}
+    {{/isArray}}
+    {{/json_serializable}}
     }
-    return null;
+    return Future<{{{returnType}}}>.value(null);
     {{/returnType}}
   }
   {{/operation}}

@@ -46,7 +46,6 @@ class Tag {
     (id == null ? 0 : id.hashCode) +
     (name == null ? 0 : name.hashCode);
 
-
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);

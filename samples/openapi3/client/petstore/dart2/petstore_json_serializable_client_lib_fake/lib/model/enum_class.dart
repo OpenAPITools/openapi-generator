@@ -9,11 +9,8 @@
 
 part of openapi.api;
 
-
-
 enum EnumClass {
-                abc,
-                efg,
-                leftParenthesisXyzRightParenthesis,
+  abc,
+  efg,
+  leftParenthesisXyzRightParenthesis,
 }
-

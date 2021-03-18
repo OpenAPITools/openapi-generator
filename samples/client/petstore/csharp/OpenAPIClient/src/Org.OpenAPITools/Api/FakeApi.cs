@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -153,6 +153,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> FakeOuterStringSerializeWithHttpInfo (string body = default(string));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>OuterObjectWithEnumProperty</returns>
+        OuterObjectWithEnumProperty FakePropertyEnumIntegerSerialize (OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>ApiResponse of OuterObjectWithEnumProperty</returns>
+        ApiResponse<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeWithHttpInfo (OuterObjectWithEnumProperty outerObjectWithEnumProperty);
         /// <summary>
         /// 
         /// </summary>
@@ -546,6 +567,29 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync (string body = default(string), CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of OuterObjectWithEnumProperty</returns>
+        System.Threading.Tasks.Task<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (OuterObjectWithEnumProperty)</returns>
+        System.Threading.Tasks.Task<ApiResponse<OuterObjectWithEnumProperty>> FakePropertyEnumIntegerSerializeWithHttpInfoAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -1790,6 +1834,157 @@ namespace Org.OpenAPITools.Api
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>OuterObjectWithEnumProperty</returns>
+        public OuterObjectWithEnumProperty FakePropertyEnumIntegerSerialize (OuterObjectWithEnumProperty outerObjectWithEnumProperty)
+        {
+             ApiResponse<OuterObjectWithEnumProperty> localVarResponse = FakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>ApiResponse of OuterObjectWithEnumProperty</returns>
+        public ApiResponse<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeWithHttpInfo (OuterObjectWithEnumProperty outerObjectWithEnumProperty)
+        {
+            // verify the required parameter 'outerObjectWithEnumProperty' is set
+            if (outerObjectWithEnumProperty == null)
+                throw new ApiException(400, "Missing required parameter 'outerObjectWithEnumProperty' when calling FakeApi->FakePropertyEnumIntegerSerialize");
+
+            var localVarPath = "/fake/property/enum-int";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (outerObjectWithEnumProperty != null && outerObjectWithEnumProperty.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(outerObjectWithEnumProperty); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = outerObjectWithEnumProperty; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakePropertyEnumIntegerSerialize", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<OuterObjectWithEnumProperty>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (OuterObjectWithEnumProperty) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterObjectWithEnumProperty)));
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of OuterObjectWithEnumProperty</returns>
+        public async System.Threading.Tasks.Task<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken))
+        {
+             ApiResponse<OuterObjectWithEnumProperty> localVarResponse = await FakePropertyEnumIntegerSerializeWithHttpInfoAsync(outerObjectWithEnumProperty, cancellationToken);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (OuterObjectWithEnumProperty)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<OuterObjectWithEnumProperty>> FakePropertyEnumIntegerSerializeWithHttpInfoAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'outerObjectWithEnumProperty' is set
+            if (outerObjectWithEnumProperty == null)
+                throw new ApiException(400, "Missing required parameter 'outerObjectWithEnumProperty' when calling FakeApi->FakePropertyEnumIntegerSerialize");
+
+            var localVarPath = "/fake/property/enum-int";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (outerObjectWithEnumProperty != null && outerObjectWithEnumProperty.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(outerObjectWithEnumProperty); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = outerObjectWithEnumProperty; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakePropertyEnumIntegerSerialize", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<OuterObjectWithEnumProperty>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (OuterObjectWithEnumProperty) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterObjectWithEnumProperty)));
         }
 
         /// <summary>
