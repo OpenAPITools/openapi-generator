@@ -66,6 +66,5 @@ void main() {
     test('to test the property `objectItemsNullable`', () async {
       // TODO
     });
-
   });
 }

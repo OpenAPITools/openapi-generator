@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for PetApi
 void main() {
   final instance = Openapi().getPetApi();
@@ -75,6 +74,5 @@ void main() {
     test('test uploadFileWithRequiredFile', () async {
       // TODO
     });
-
   });
 }
