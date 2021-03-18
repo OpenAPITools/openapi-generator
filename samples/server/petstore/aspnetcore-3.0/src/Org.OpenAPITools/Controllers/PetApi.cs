@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -214,7 +215,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("UploadFile")]
         [SwaggerResponse(statusCode: 200, type: typeof(ApiResponse), description: "successful operation")]
-        public virtual IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, [FromForm (Name = "file")]System.IO.Stream file)
+        public virtual IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, IFormFile file)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
