@@ -21,4 +21,4 @@ dependency_overrides:
   http_mock_adapter:
     git:
       url: https://github.com/kuhnroyal/http-mock-adapter.git
-      ref: 3f9f9e38c66f3cea42cb3965e1c14010b020f068
+      ref: 0c8e04d3e0f615b7942b06046b4843d65eae62df
