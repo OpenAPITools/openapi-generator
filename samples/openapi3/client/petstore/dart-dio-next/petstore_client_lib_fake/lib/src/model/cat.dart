@@ -9,6 +9,8 @@ import 'package:built_value/serializer.dart';
 
 part 'cat.g.dart';
 
+// ignore_for_file: unused_import
+
 abstract class Cat implements Built<Cat, CatBuilder> {
   @BuiltValueField(wireName: r'className')
   String get className;

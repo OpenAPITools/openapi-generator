@@ -9,6 +9,8 @@ import 'package:built_value/serializer.dart';
 
 part 'dog.g.dart';
 
+// ignore_for_file: unused_import
+
 abstract class Dog implements Built<Dog, DogBuilder> {
   @BuiltValueField(wireName: r'className')
   String get className;
