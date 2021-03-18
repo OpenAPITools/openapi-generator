@@ -144,7 +144,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
-        typeMapping.put("file", "IFormFile");
 
         setSupportNullable(Boolean.TRUE);
 
@@ -437,6 +436,41 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        if (objs != null) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            if (operations != null) {
+                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                for (CodegenOperation operation : ops) {
+                    if (operation.consumes != null) {
+                        for (Map<String, String> consume : operation.consumes) {
+                            if (consume.containsKey("mediaType")) {
+                                // In a multipart/form-data consuming context binary data is best handled by an IFormFile
+                                if (consume.get("mediaType").equals("multipart/form-data")) {
+                                    for (CodegenParameter param : operation.formParams ) {
+                                        if(param.isBinary) {
+                                            param.dataType = "IFormFile";
+                                            param.baseType = "IFormFile";
+                                        }
+                                    }
+                                    for (CodegenParameter param : operation.allParams ) {
+                                        if(param.isBinary && param.isFormParam) {
+                                            param.dataType = "IFormFile";
+                                            param.baseType = "IFormFile";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
     }
 
     @Override
