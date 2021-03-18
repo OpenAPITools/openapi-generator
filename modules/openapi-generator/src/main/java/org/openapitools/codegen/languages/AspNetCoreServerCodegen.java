@@ -447,26 +447,46 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             if (operations != null) {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
-                    if (operation.consumes != null) {
-                        for (Map<String, String> consume : operation.consumes) {
-                            if (consume.containsKey("mediaType")) {
-                                // In a multipart/form-data consuming context binary data is best handled by an IFormFile
-                                if (consume.get("mediaType").equals("multipart/form-data")) {
-                                    for (CodegenParameter param : operation.formParams ) {
-                                        if(param.isBinary) {
-                                            param.dataType = "IFormFile";
-                                            param.baseType = "IFormFile";
-                                        }
-                                    }
-                                    for (CodegenParameter param : operation.allParams ) {
-                                        if(param.isBinary && param.isFormParam) {
-                                            param.dataType = "IFormFile";
-                                            param.baseType = "IFormFile";
-                                        }
-                                    }
-                                }
+                    if (operation.consumes == null) {
+                        break;
+                    }
+                    if (operation.consumes.size() == 0) {
+                        break;
+                    }
+                    StringBuilder consumesString = new StringBuilder();
+                    for (Map<String, String> consume : operation.consumes) {
+                        if (!consume.containsKey("mediaType")) {
+                            continue;
+                        }
+
+                        if(consumesString.toString().equals("")) {
+                            consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
+                        }
+                        else {
+                            consumesString.append(", \"").append(consume.get("mediaType")).append("\"");
+                        }
+
+                        // In a multipart/form-data consuming context binary data is best handled by an IFormFile
+                        if (!consume.get("mediaType").equals("multipart/form-data")) {
+                            continue;
+                        }
+
+                        for (CodegenParameter param : operation.formParams) {
+                            if (param.isBinary) {
+                                param.dataType = "IFormFile";
+                                param.baseType = "IFormFile";
                             }
                         }
+                        for (CodegenParameter param : operation.allParams) {
+                            if (param.isBinary && param.isFormParam) {
+                                param.dataType = "IFormFile";
+                                param.baseType = "IFormFile";
+                            }
+                        }
+                    }
+
+                    if(!consumesString.toString().equals("")) {
+                        operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }
             }
