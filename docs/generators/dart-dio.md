@@ -135,8 +135,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |BasePath|✓|ToolingExtension
-|Authorizations|✗|ToolingExtension
-|UserAgent|✗|ToolingExtension
+|Authorizations|✓|ToolingExtension
+|UserAgent|✓|ToolingExtension
 |MockServer|✗|ToolingExtension
 
 ### Data Type Feature
