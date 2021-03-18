@@ -89,9 +89,6 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
                         ClientModificationFeature.BasePath
                 )
         );
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.DEPRECATED)
-                .build();
 
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
