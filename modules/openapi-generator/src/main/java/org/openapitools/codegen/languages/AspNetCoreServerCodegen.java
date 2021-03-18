@@ -399,6 +399,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
     }
 
     public void setPackageGuid(String packageGuid) {
