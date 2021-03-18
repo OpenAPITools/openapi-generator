@@ -144,6 +144,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
+        typeMapping.put("file", "IFormFile");
 
         setSupportNullable(Boolean.TRUE);
 
