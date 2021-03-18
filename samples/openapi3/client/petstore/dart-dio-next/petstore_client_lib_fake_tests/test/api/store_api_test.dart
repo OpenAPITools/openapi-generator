@@ -29,6 +29,7 @@ void main() {
             'baz': 0,
           }),
           headers: <String, dynamic>{
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
             'api_key': 'SECRET_API_KEY',
           },
         );

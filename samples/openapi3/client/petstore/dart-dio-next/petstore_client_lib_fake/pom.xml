@@ -91,7 +91,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>pub-test</id>
+                        <id>dart-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -118,7 +118,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>tests-format</id>
+                        <id>tests-dart-format</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -150,7 +150,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>tests-pub-test</id>
+                        <id>tests-dart-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>

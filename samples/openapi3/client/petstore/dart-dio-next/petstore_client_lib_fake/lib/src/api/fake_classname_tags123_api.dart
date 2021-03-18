@@ -63,7 +63,6 @@ class FakeClassnameTags123Api {
         requestOptions: _options.compose(
           _dio.options,
           _path,
-          null,
           queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,

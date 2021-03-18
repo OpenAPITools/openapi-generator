@@ -57,7 +57,6 @@ class UserApi {
         requestOptions: _options.compose(
           _dio.options,
           _path,
-          null,
           queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
@@ -118,7 +117,6 @@ class UserApi {
         requestOptions: _options.compose(
           _dio.options,
           _path,
-          null,
           queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
@@ -179,7 +177,6 @@ class UserApi {
         requestOptions: _options.compose(
           _dio.options,
           _path,
-          null,
           queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
@@ -463,7 +460,6 @@ class UserApi {
         requestOptions: _options.compose(
           _dio.options,
           _path,
-          null,
           queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,

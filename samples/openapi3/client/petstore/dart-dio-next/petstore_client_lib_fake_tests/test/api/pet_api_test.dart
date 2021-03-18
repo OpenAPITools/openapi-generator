@@ -48,6 +48,9 @@ void main() {
               },
             ]
           }),
+          headers: {
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+          },
         );
 
         final response = await client.getPetApi().getPetById(petId: 5);
@@ -71,6 +74,9 @@ void main() {
             'name': 'Paula',
             'photoUrls': <String>[],
           }),
+          headers: {
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+          },
         );
 
         final response = await client.getPetApi().getPetById(petId: 5);
@@ -115,8 +121,8 @@ void main() {
             ]
           },
           headers: {
-            'content-type': 'application/json',
-            'content-length': Matchers.integer,
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+            Headers.contentLengthHeader: Matchers.integer,
           },
         );
 
@@ -151,8 +157,8 @@ void main() {
             'photoUrls': <String>[],
           },
           headers: {
-            'content-type': 'application/json',
-            'content-length': Matchers.integer,
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+            Headers.contentLengthHeader: Matchers.integer,
           },
         );
 
@@ -190,6 +196,9 @@ void main() {
                 'available',
                 'sold',
               ],
+            },
+            headers: <String, dynamic>{
+              Headers.contentTypeHeader: Matchers.pattern('application/json'),
             },
           ),
         );
