@@ -36,6 +36,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
+        [Consumes("application/json")]
+        [Consumes("application/xml")]
         [ValidateModelState]
         [SwaggerOperation("AddPet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
@@ -180,6 +182,8 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Validation exception</response>
         [HttpPut]
         [Route("/v2/pet")]
+        [Consumes("application/json")]
+        [Consumes("application/xml")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
@@ -214,6 +218,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet/{petId}")]
+        [Consumes("application/x-www-form-urlencoded")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePetWithForm")]
         public virtual IActionResult UpdatePetWithForm([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "name")]string name, [FromForm (Name = "status")]string status)
@@ -234,6 +239,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpPost]
         [Route("/v2/pet/{petId}/uploadImage")]
+        [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadFile")]
         [SwaggerResponse(statusCode: 200, type: typeof(ApiResponse), description: "successful operation")]
