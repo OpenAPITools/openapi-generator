@@ -20,6 +20,9 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -50,6 +53,17 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     public DartDioNextClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.Authorizations,
+                        ClientModificationFeature.UserAgent
+                )
+        );
+        generatorMetadata = GeneratorMetadata.newBuilder()
+                .stability(Stability.EXPERIMENTAL)
+                .build();
+
         outputFolder = "generated-code/dart-dio-next";
         embeddedTemplateDir = "dart/libraries/dio";
         this.setTemplateDir(embeddedTemplateDir);
@@ -67,7 +81,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
         final Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(DATE_LIBRARY_CORE, "Dart core library (DateTime)");
+        dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
         dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
