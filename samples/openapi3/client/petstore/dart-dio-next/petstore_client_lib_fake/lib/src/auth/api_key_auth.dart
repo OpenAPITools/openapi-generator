@@ -2,30 +2,29 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:openapi/src/auth/auth.dart';
 
 class ApiKeyAuthInterceptor extends AuthInterceptor {
-    Map<String, String> apiKeys = {};
+  Map<String, String> apiKeys = {};
 
-    @override
-    Future<dynamic> onRequest(RequestOptions options) {
-        final authInfo = getAuthInfo(options, 'apiKey');
-        for (final info in authInfo) {
-            final authName = info['name'] as String;
-            final authKeyName = info['keyName'] as String;
-            final authWhere = info['where'] as String;
-            final apiKey = apiKeys[authName];
-            if (apiKey != null) {
-                if (authWhere == 'query') {
-                    options.queryParameters[authKeyName] = apiKey;
-                } else {
-                    options.headers[authKeyName] = apiKey;
-                }
-            }
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final authInfo = getAuthInfo(options, 'apiKey');
+    for (final info in authInfo) {
+      final authName = info['name'] as String;
+      final authKeyName = info['keyName'] as String;
+      final authWhere = info['where'] as String;
+      final apiKey = apiKeys[authName];
+      if (apiKey != null) {
+        if (authWhere == 'query') {
+          options.queryParameters[authKeyName] = apiKey;
+        } else {
+          options.headers[authKeyName] = apiKey;
         }
-        return super.onRequest(options);
+      }
     }
+    super.onRequest(options, handler);
+  }
 }

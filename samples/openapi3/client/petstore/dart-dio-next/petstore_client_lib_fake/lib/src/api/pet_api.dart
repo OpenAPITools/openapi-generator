@@ -66,7 +66,7 @@ class PetApi {
 
     } catch(error) {
       throw DioError(
-        request: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           null,
@@ -197,12 +197,7 @@ class PetApi {
 
     } catch (error) {
       throw DioError(
-        request: _options.compose(
-          _dio.options,
-          _path,
-          null,
-          queryParameters: _queryParameters,
-        ),
+        requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
@@ -213,7 +208,7 @@ class PetApi {
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
-      request: _response.request,
+      requestOptions: _response.requestOptions,
       redirects: _response.redirects,
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
@@ -278,12 +273,7 @@ class PetApi {
 
     } catch (error) {
       throw DioError(
-        request: _options.compose(
-          _dio.options,
-          _path,
-          null,
-          queryParameters: _queryParameters,
-        ),
+        requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
@@ -294,7 +284,7 @@ class PetApi {
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
-      request: _response.request,
+      requestOptions: _response.requestOptions,
       redirects: _response.redirects,
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
@@ -360,12 +350,7 @@ class PetApi {
 
     } catch (error) {
       throw DioError(
-        request: _options.compose(
-          _dio.options,
-          _path,
-          null,
-          queryParameters: _queryParameters,
-        ),
+        requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
@@ -376,7 +361,7 @@ class PetApi {
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
-      request: _response.request,
+      requestOptions: _response.requestOptions,
       redirects: _response.redirects,
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
@@ -429,7 +414,7 @@ class PetApi {
 
     } catch(error) {
       throw DioError(
-        request: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           null,
@@ -501,7 +486,7 @@ class PetApi {
 
     } catch(error) {
       throw DioError(
-        request: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           null,
@@ -573,7 +558,7 @@ class PetApi {
 
     } catch(error) {
       throw DioError(
-        request: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           null,
@@ -605,12 +590,7 @@ class PetApi {
 
     } catch (error) {
       throw DioError(
-        request: _options.compose(
-          _dio.options,
-          _path,
-          _bodyData,
-          queryParameters: _queryParameters,
-        ),
+        requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
@@ -621,7 +601,7 @@ class PetApi {
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
-      request: _response.request,
+      requestOptions: _response.requestOptions,
       redirects: _response.redirects,
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
@@ -677,7 +657,7 @@ class PetApi {
 
     } catch(error) {
       throw DioError(
-        request: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           null,
@@ -709,12 +689,7 @@ class PetApi {
 
     } catch (error) {
       throw DioError(
-        request: _options.compose(
-          _dio.options,
-          _path,
-          _bodyData,
-          queryParameters: _queryParameters,
-        ),
+        requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
@@ -725,7 +700,7 @@ class PetApi {
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
-      request: _response.request,
+      requestOptions: _response.requestOptions,
       redirects: _response.redirects,
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
