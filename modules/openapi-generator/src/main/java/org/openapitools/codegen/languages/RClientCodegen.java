@@ -774,4 +774,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         example += ")";
         return example;
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
+        System.out.println("################################################################################");
+    }
+
 }
