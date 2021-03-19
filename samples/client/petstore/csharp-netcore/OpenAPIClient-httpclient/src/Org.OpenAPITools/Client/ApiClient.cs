@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Polly;
 
 namespace Org.OpenAPITools.Client
