@@ -265,9 +265,28 @@ namespace Org.OpenAPITools.Client
 
             if (options.Data != null)
             {
-                var serializer = new CustomJsonCodec(SerializerSettings, configuration);
-                contentList.Add(
-                    new Tuple<HttpContent, string, string>(new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(), "application/json"), null, null));
+                if (options.Data is Stream s)
+                {
+                    var contentType = "application/octet-stream";
+                    if (options.HeaderParameters != null)
+                    {
+                        var contentTypes = options.HeaderParameters["Content-Type"];
+                        contentType = contentTypes[0];
+                    }
+
+                    var streamContent = new StreamContent(s);
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    contentList.Add(new Tuple<HttpContent, string, string>(
+                        streamContent, null, null));
+                }
+                else
+                {
+                    var serializer = new CustomJsonCodec(SerializerSettings, configuration);
+                    contentList.Add(
+                        new Tuple<HttpContent, string, string>(
+                            new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(),
+                                "application/json"), null, null));
+                }
             }
 
             if (options.FileParameters != null && options.FileParameters.Count > 0)
@@ -276,8 +295,9 @@ namespace Org.OpenAPITools.Client
                 {
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
                     var fileStream = fileParam.Value as FileStream;
+                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
                     contentList.Add(new Tuple<HttpContent, string, string>(new ByteArrayContent(bytes), fileParam.Key,
-                        fileStream?.Name ?? "no_file_name_provided"));
+                        fileStreamName ?? "no_file_name_provided"));
                 }
             }
 
