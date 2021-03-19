@@ -331,25 +331,40 @@ namespace {{packageName}}.Client
 
             if (options.Data != null)
             {
-                if (options.HeaderParameters != null)
+                if (options.Data is Stream stream)
                 {
-                    var contentTypes = options.HeaderParameters["Content-Type"];
-                    if (contentTypes == null || contentTypes.Any(header => header.Contains("application/json")))
+                    var contentType = "application/octet-stream";
+                    if (options.HeaderParameters != null)
                     {
-                        request.RequestFormat = DataFormat.Json;
+                        var contentTypes = options.HeaderParameters["Content-Type"];
+                        contentType = contentTypes[0];
                     }
-                    else
-                    {
-                        // TODO: Generated client user should add additional handlers. RestSharp only supports XML and JSON, with XML as default.
-                    }
+
+                    var bytes = ClientUtils.ReadAsBytes(stream);
+                    request.AddParameter(contentType, bytes, ParameterType.RequestBody);
                 }
                 else
                 {
-                    // Here, we'll assume JSON APIs are more common. XML can be forced by adding produces/consumes to openapi spec explicitly.
-                    request.RequestFormat = DataFormat.Json;
-                }
+                    if (options.HeaderParameters != null)
+                    {
+                        var contentTypes = options.HeaderParameters["Content-Type"];
+                        if (contentTypes == null || contentTypes.Any(header => header.Contains("application/json")))
+                        {
+                            request.RequestFormat = DataFormat.Json;
+                        }
+                        else
+                        {
+                            // TODO: Generated client user should add additional handlers. RestSharp only supports XML and JSON, with XML as default.
+                        }
+                    }
+                    else
+                    {
+                        // Here, we'll assume JSON APIs are more common. XML can be forced by adding produces/consumes to openapi spec explicitly.
+                        request.RequestFormat = DataFormat.Json;
+                    }
 
-                request.AddJsonBody(options.Data);
+                    request.AddJsonBody(options.Data);
+                }
             }
 
             if (options.FileParameters != null)
