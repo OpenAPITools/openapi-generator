@@ -110,7 +110,7 @@ use {{invokerPackage}}\ObjectSerializer;
      * Operation {{{operationId}}}
 {{#summary}}
      *
-     * {{{summary}}}
+     * {{.}}
 {{/summary}}
      *
 {{#description}}
@@ -148,7 +148,7 @@ use {{invokerPackage}}\ObjectSerializer;
      * Operation {{{operationId}}}WithHttpInfo
 {{#summary}}
      *
-     * {{{summary}}}
+     * {{.}}
 {{/summary}}
      *
 {{#description}}
@@ -208,7 +208,7 @@ use {{invokerPackage}}\ObjectSerializer;
                 );
             }
             {{#returnType}}
-        {{#responses}}
+            {{#responses}}
             {{#-first}}
 
             switch($statusCode) {
@@ -230,7 +230,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{#-last}}
             }
             {{/-last}}
-        {{/responses}}
+            {{/responses}}
 
             $returnType = '{{{returnType}}}';
             if ($returnType === '\SplFileObject') {
@@ -272,8 +272,10 @@ use {{invokerPackage}}\ObjectSerializer;
     /**
      * Operation {{{operationId}}}Async
      *
-     * {{{summary}}}
+{{#summary}}
+     * {{.}}
      *
+{{/summary}}
 {{#description}}
      * {{.}}
      *
@@ -311,8 +313,10 @@ use {{invokerPackage}}\ObjectSerializer;
     /**
      * Operation {{{operationId}}}AsyncWithHttpInfo
      *
-     * {{{summary}}}
+{{#summary}}
+     * {{.}}
      *
+{{/summary}}
 {{#description}}
      * {{.}}
      *
@@ -361,7 +365,7 @@ use {{invokerPackage}}\ObjectSerializer;
                     {{/returnType}}
                     {{^returnType}}
                     return [null, $response->getStatusCode(), $response->getHeaders()];
-                {{/returnType}}
+                    {{/returnType}}
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
