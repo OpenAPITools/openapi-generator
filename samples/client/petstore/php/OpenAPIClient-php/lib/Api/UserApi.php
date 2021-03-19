@@ -92,7 +92,7 @@ class UserApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex)
+    public function setHostIndex($hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -153,7 +153,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -166,11 +166,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -235,7 +235,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -370,7 +370,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -383,11 +383,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -452,7 +452,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -587,7 +587,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -600,11 +600,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -669,7 +669,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -804,7 +804,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -817,11 +817,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -886,7 +886,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1024,7 +1024,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1037,21 +1037,20 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\User' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1062,11 +1061,10 @@ class UserApi
             }
 
             $returnType = '\OpenAPI\Client\Model\User';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1129,11 +1127,10 @@ class UserApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1153,7 +1150,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1293,7 +1290,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1306,21 +1303,20 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('string' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1331,11 +1327,10 @@ class UserApi
             }
 
             $returnType = 'string';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1400,11 +1395,10 @@ class UserApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1424,7 +1418,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1580,7 +1574,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1593,11 +1587,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -1660,7 +1654,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1784,7 +1778,7 @@ class UserApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1797,11 +1791,11 @@ class UserApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -1868,7 +1862,7 @@ class UserApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );

@@ -82,7 +82,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex)
+    public function setHostIndex($hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -187,7 +187,7 @@ use {{invokerPackage}}\ObjectSerializer;
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -200,26 +200,25 @@ use {{invokerPackage}}\ObjectSerializer;
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
             {{#returnType}}
         {{#responses}}
             {{#-first}}
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
             {{/-first}}
             {{#dataType}}
                 {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                     if ('{{{dataType}}}' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -234,11 +233,10 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/responses}}
 
             $returnType = '{{{returnType}}}';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -349,11 +347,10 @@ use {{invokerPackage}}\ObjectSerializer;
             ->then(
                 function ($response) use ($returnType) {
                     {{#returnType}}
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -377,7 +374,7 @@ use {{invokerPackage}}\ObjectSerializer;
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );

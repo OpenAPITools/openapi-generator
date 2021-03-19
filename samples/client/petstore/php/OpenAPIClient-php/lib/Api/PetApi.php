@@ -92,7 +92,7 @@ class PetApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex)
+    public function setHostIndex($hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -161,7 +161,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -174,11 +174,11 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -251,7 +251,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -402,7 +402,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -415,11 +415,11 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -486,7 +486,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -633,7 +633,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -646,21 +646,20 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -671,11 +670,10 @@ class PetApi
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -738,11 +736,10 @@ class PetApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -762,7 +759,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -903,7 +900,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -916,21 +913,20 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -941,11 +937,10 @@ class PetApi
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet[]';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1008,11 +1003,10 @@ class PetApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1032,7 +1026,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1174,7 +1168,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1187,21 +1181,20 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\Pet' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1212,11 +1205,10 @@ class PetApi
             }
 
             $returnType = '\OpenAPI\Client\Model\Pet';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1279,11 +1271,10 @@ class PetApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1303,7 +1294,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1453,7 +1444,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1466,11 +1457,11 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -1543,7 +1534,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1696,7 +1687,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1709,11 +1700,11 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -1782,7 +1773,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1938,7 +1929,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1951,21 +1942,20 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1976,11 +1966,10 @@ class PetApi
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -2047,11 +2036,10 @@ class PetApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -2071,7 +2059,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -2235,7 +2223,7 @@ class PetApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -2248,21 +2236,20 @@ class PetApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -2273,11 +2260,10 @@ class PetApi
             }
 
             $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -2344,11 +2330,10 @@ class PetApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -2368,7 +2353,7 @@ class PetApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );

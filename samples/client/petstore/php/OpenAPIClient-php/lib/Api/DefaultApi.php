@@ -92,7 +92,7 @@ class DefaultApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex)
+    public function setHostIndex($hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -148,7 +148,7 @@ class DefaultApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -161,21 +161,20 @@ class DefaultApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 default:
                     if ('\OpenAPI\Client\Model\InlineResponseDefault' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -186,11 +185,10 @@ class DefaultApi
             }
 
             $returnType = '\OpenAPI\Client\Model\InlineResponseDefault';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -251,11 +249,10 @@ class DefaultApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -275,7 +272,7 @@ class DefaultApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );

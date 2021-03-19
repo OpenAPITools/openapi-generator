@@ -92,7 +92,7 @@ class FakeApi
      *
      * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($hostIndex)
+    public function setHostIndex($hostIndex): void
     {
         $this->hostIndex = $hostIndex;
     }
@@ -152,7 +152,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -165,21 +165,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\HealthCheckResult' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -190,11 +189,10 @@ class FakeApi
             }
 
             $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -255,11 +253,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -279,7 +276,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -405,7 +402,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -418,11 +415,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -491,7 +488,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -640,7 +637,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -653,21 +650,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('bool' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -678,11 +674,10 @@ class FakeApi
             }
 
             $returnType = 'bool';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -745,11 +740,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -769,7 +763,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -895,7 +889,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -908,21 +902,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\OuterComposite' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -933,11 +926,10 @@ class FakeApi
             }
 
             $returnType = '\OpenAPI\Client\Model\OuterComposite';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1000,11 +992,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1024,7 +1015,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1150,7 +1141,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1163,21 +1154,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('float' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1188,11 +1178,10 @@ class FakeApi
             }
 
             $returnType = 'float';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1255,11 +1244,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1279,7 +1267,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1405,7 +1393,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1418,21 +1406,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('string' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1443,11 +1430,10 @@ class FakeApi
             }
 
             $returnType = 'string';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1510,11 +1496,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1534,7 +1519,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1660,7 +1645,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1673,21 +1658,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\OuterObjectWithEnumProperty' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1698,11 +1682,10 @@ class FakeApi
             }
 
             $returnType = '\OpenAPI\Client\Model\OuterObjectWithEnumProperty';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -1765,11 +1748,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -1789,7 +1771,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -1920,7 +1902,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -1933,11 +1915,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -2002,7 +1984,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -2135,7 +2117,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -2148,11 +2130,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -2219,7 +2201,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -2373,7 +2355,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -2386,21 +2368,20 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
-            $responseBody = $response->getBody();
             switch($statusCode) {
                 case 200:
                     if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -2411,11 +2392,10 @@ class FakeApi
             }
 
             $returnType = '\OpenAPI\Client\Model\Client';
-            $responseBody = $response->getBody();
             if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
+                $content = $response->getBody(); //stream goes to serializer
             } else {
-                $content = (string) $responseBody;
+                $content = (string) $response->getBody();
             }
 
             return [
@@ -2478,11 +2458,10 @@ class FakeApi
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
                     if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
-                        $content = (string) $responseBody;
+                        $content = (string) $response->getBody();
                     }
 
                     return [
@@ -2502,7 +2481,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -2663,7 +2642,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -2676,11 +2655,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -2771,7 +2750,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -3060,7 +3039,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -3073,11 +3052,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -3156,7 +3135,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -3363,7 +3342,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -3376,11 +3355,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -3459,7 +3438,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -3671,7 +3650,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -3684,11 +3663,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -3753,7 +3732,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -3890,7 +3869,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -3903,11 +3882,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -3974,7 +3953,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
@@ -4122,7 +4101,7 @@ class FakeApi
             } catch (RequestException $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
+                    (int) $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
                     $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
@@ -4135,11 +4114,11 @@ class FakeApi
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
                         $statusCode,
-                        $request->getUri()
+                        (string) $request->getUri()
                     ),
                     $statusCode,
                     $response->getHeaders(),
-                    $response->getBody()
+                    (string) $response->getBody()
                 );
             }
 
@@ -4212,7 +4191,7 @@ class FakeApi
                         ),
                         $statusCode,
                         $response->getHeaders(),
-                        $response->getBody()
+                        (string) $response->getBody()
                     );
                 }
             );
