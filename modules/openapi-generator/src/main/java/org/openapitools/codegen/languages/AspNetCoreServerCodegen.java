@@ -148,6 +148,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setSupportNullable(Boolean.TRUE);
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_DESCRIPTION,
+                  CodegenConstants.PACKAGE_DESCRIPTION_DESC,
+                  packageDescription);
+
         addOption(CodegenConstants.LICENSE_URL,
                 CodegenConstants.LICENSE_URL_DESC,
                 licenseUrl);

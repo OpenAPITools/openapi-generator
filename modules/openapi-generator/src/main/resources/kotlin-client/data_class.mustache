@@ -15,6 +15,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
 {{/jackson}}
+{{#kotlinx_serialization}}
+import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+{{#hasEnums}}
+{{/hasEnums}}
+{{/kotlinx_serialization}}
 {{#parcelizeModels}}
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -38,7 +45,7 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
@@ -60,11 +67,10 @@ import java.io.Serializable
 {{#vars}}
 {{#isEnum}}
     /**
-    * {{{description}}}
-    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    */
-    {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}){
+     * {{{description}}}
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
         {{^multiplatform}}
@@ -77,16 +83,15 @@ import java.io.Serializable
         {{#jackson}}
         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/jackson}}
+        {{#kotlinx_serialization}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/kotlinx_serialization}}
         {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{#multiplatform}}
-
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
-    {{/multiplatform}}
     }
 {{/isEnum}}
 {{/vars}}
