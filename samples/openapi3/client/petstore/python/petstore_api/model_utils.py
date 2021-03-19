@@ -1736,6 +1736,36 @@ def get_anyof_instances(self, model_args, constant_args):
     return anyof_instances
 
 
+def get_discarded_args(self, composed_instances, model_args):
+    """
+    Gathers the args that were discarded by configuration.discard_unknown_keys
+    """
+    model_arg_keys = model_args.keys()
+    discarded_args = set()
+    # arguments passed to self were already converted to python names
+    # before __init__ was called
+    for instance in composed_instances:
+        if instance.__class__ in self._composed_schemas['allOf']:
+            try:
+                keys = instance.to_dict().keys()
+                discarded_keys = model_args - keys
+                discarded_args.update(discarded_keys)
+            except Exception:
+                # allOf integer schema will throw exception
+                pass
+        else:
+            try:
+                all_keys = set(model_to_dict(instance, serialize=False).keys())
+                js_keys = model_to_dict(instance, serialize=True).keys()
+                all_keys.update(js_keys)
+                discarded_keys = model_arg_keys - all_keys
+                discarded_args.update(discarded_keys)
+            except Exception:
+                # allOf integer schema will throw exception
+                pass
+    return discarded_args
+
+
 def validate_get_composed_info(constant_args, model_args, self):
     """
     For composed schemas, generate schema instances for
@@ -1777,12 +1807,6 @@ def validate_get_composed_info(constant_args, model_args, self):
         composed_instances.append(oneof_instance)
     anyof_instances = get_anyof_instances(self, model_args, constant_args)
     composed_instances.extend(anyof_instances)
-
-    # map variable names to composed_instances
-    var_name_to_model_instances = {}
-    for prop_name in model_args:
-        var_name_to_model_instances[prop_name] = [self] + composed_instances
-
     """
     set additional_properties_model_instances
     additional properties must be evaluated at the schema level
@@ -1807,13 +1831,18 @@ def validate_get_composed_info(constant_args, model_args, self):
     no need to set properties on self in here, they will be set in __init__
     By here all composed schema oneOf/anyOf/allOf instances have their properties set using
     model_args
-    TODO remove unused unused_args argument in 6.0.0
     """
-    unused_args = []
+    discarded_args = get_discarded_args(self, composed_instances, model_args)
+
+    # map variable names to composed_instances
+    var_name_to_model_instances = {}
+    for prop_name in model_args:
+        if prop_name not in discarded_args:
+            var_name_to_model_instances[prop_name] = [self] + composed_instances
 
     return [
       composed_instances,
       var_name_to_model_instances,
       additional_properties_model_instances,
-      unused_args
+      discarded_args
     ]
