@@ -148,10 +148,13 @@ import org.threeten.bp.OffsetTime
                 {{#jackson}}
                 MediaType.parse(mediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
                 {{/jackson}}
+                {{#kotlinx_serialization}}
+                MediaType.parse(mediaType), Serializer.jvmJson.decodeFromString<T>(content)
+                {{/kotlinx_serialization}}
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}.toRequestBody(
+            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(content){{/kotlinx_serialization}}.toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             {{/jvm-okhttp4}}
@@ -358,6 +361,9 @@ import org.threeten.bp.OffsetTime
         {{#jackson}}
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
         {{/jackson}}
+        {{#kotlinx_serialization}}
+        return Serializer.jvmJson.encodeToString(value).replace("\"", "")
+        {{/kotlinx_serialization}}
         {{/toJson}}
         {{^toJson}}
         return value.toString()
