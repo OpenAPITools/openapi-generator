@@ -154,6 +154,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty items;
     private CodegenProperty additionalProperties;
     private boolean isModel;
+    private boolean hasRequiredVars;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -731,6 +732,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setHasVars(boolean hasVars) {
         this.hasVars = hasVars;
+    }
+
+    @Override
+    public boolean getHasRequired() {
+        return this.hasRequired;
+    }
+
+    @Override
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
     }
 
     @Override

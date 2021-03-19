@@ -105,5 +105,9 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getHasVars();
 
-    void setHasVars(boolean hasVars);
+    void setHasVars(boolean hasRequiredVars);
+
+    boolean getHasRequired();
+
+    void setHasRequired(boolean hasRequired);
 }
