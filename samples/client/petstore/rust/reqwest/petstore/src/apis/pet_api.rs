@@ -82,7 +82,10 @@ pub enum UploadFileError {
 }
 
 
-pub fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<AddPetError>> {
+pub fn add_pet(
+    configuration: &configuration::Configuration,
+    body: crate::models::Pet,
+) -> Result<(), Error<AddPetError>> {
 
     let local_var_client = &configuration.client;
 
@@ -112,7 +115,11 @@ pub fn add_pet(configuration: &configuration::Configuration, body: crate::models
     }
 }
 
-pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
+pub fn delete_pet(
+    configuration: &configuration::Configuration,
+    pet_id: i64,
+    api_key: Option<&str>,
+) -> Result<(), Error<DeletePetError>> {
 
     let local_var_client = &configuration.client;
 
@@ -145,7 +152,10 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
 }
 
 /// Multiple status values can be provided with comma separated strings
-pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>> {
+pub fn find_pets_by_status(
+    configuration: &configuration::Configuration,
+    status: Vec<String>,
+) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>> {
 
     let local_var_client = &configuration.client;
 
@@ -176,7 +186,10 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>> {
+pub fn find_pets_by_tags(
+    configuration: &configuration::Configuration,
+    tags: Vec<String>,
+) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>> {
 
     let local_var_client = &configuration.client;
 
@@ -207,7 +220,10 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
 }
 
 /// Returns a single pet
-pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
+pub fn get_pet_by_id(
+    configuration: &configuration::Configuration,
+    pet_id: i64,
+) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
 
     let local_var_client = &configuration.client;
 
@@ -241,7 +257,10 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     }
 }
 
-pub fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<UpdatePetError>> {
+pub fn update_pet(
+    configuration: &configuration::Configuration,
+    body: crate::models::Pet,
+) -> Result<(), Error<UpdatePetError>> {
 
     let local_var_client = &configuration.client;
 
@@ -271,7 +290,12 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
     }
 }
 
-pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
+pub fn update_pet_with_form(
+    configuration: &configuration::Configuration,
+    pet_id: i64,
+    name: Option<&str>,
+    status: Option<&str>,
+) -> Result<(), Error<UpdatePetWithFormError>> {
 
     let local_var_client = &configuration.client;
 
@@ -308,7 +332,12 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
     }
 }
 
-pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
+pub fn upload_file(
+    configuration: &configuration::Configuration,
+    pet_id: i64,
+    additional_metadata: Option<&str>,
+    file: Option<std::path::PathBuf>,
+) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
 
     let local_var_client = &configuration.client;
 
