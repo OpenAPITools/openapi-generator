@@ -44,7 +44,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";

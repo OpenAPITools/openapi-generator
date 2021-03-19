@@ -462,7 +462,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 24);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -504,7 +504,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 24);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
@@ -569,7 +569,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 24);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -623,7 +623,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 24);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
