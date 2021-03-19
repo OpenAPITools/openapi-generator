@@ -22,6 +22,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -46,6 +47,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     public DartDioClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.Authorizations,
+                        ClientModificationFeature.UserAgent
+                )
+        );
+
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
