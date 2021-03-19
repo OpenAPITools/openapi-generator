@@ -2,6 +2,10 @@ README.md
 build.gradle
 docs/EnumApi.md
 docs/PetEnum.md
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 settings.gradle
 src/main/kotlin/org/openapitools/client/apis/EnumApi.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiAbstractions.kt

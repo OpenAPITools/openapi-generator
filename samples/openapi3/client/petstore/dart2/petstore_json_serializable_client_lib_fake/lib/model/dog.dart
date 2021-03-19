@@ -56,7 +56,6 @@ class Dog {
     (color == null ? 0 : color.hashCode) +
     (breed == null ? 0 : breed.hashCode);
 
-
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 
   Map<String, dynamic> toJson() => _$DogToJson(this);

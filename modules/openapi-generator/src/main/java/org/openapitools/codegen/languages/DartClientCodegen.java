@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
@@ -36,6 +37,19 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
     public DartClientCodegen() {
         super();
+
+        additionalReservedWords.addAll(
+                Sets.newHashSet(
+                        "StreamedRequest",
+                        "ApiClient",
+                        "QueryParam",
+                        "Authentication",
+                        "HttpBasicAuth",
+                        "HttpBearerAuth",
+                        "ApiKeyAuth",
+                        "OAuth"
+                )
+        );
 
         final CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");

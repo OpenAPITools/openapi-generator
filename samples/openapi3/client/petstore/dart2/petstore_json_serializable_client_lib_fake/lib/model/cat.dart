@@ -56,7 +56,6 @@ class Cat {
     (color == null ? 0 : color.hashCode) +
     (declawed == null ? 0 : declawed.hashCode);
 
-
   factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 
   Map<String, dynamic> toJson() => _$CatToJson(this);

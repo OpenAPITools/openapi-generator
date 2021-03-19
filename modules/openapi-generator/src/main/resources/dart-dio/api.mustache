@@ -108,7 +108,7 @@ class {{classname}} {
     {{#returnType}}
 
     {{#isResponseFile}}
-    final {{{returnType}}} _responseData = _response.data;
+    final {{{returnType}}} _responseData = _response.data as {{{returnType}}};
     {{/isResponseFile}}
     {{^isResponseFile}}
     {{#returnSimpleType}}

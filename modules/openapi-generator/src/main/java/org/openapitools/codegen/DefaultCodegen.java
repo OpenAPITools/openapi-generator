@@ -2579,6 +2579,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        if (m.requiredVars != null && m.requiredVars.size() > 0){
+            m.setHasRequired(true);
+        }
+
         if (sortModelPropertiesByRequiredFlag) {
             Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
@@ -6170,6 +6174,9 @@ public class DefaultCodegen implements CodegenConfig {
                     .stream()
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
+            if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
+                property.setHasRequired(true);
+            }
         }
         setAddProps(schema, property);
     }
