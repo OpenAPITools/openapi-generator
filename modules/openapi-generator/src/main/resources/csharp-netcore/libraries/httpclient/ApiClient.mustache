@@ -24,6 +24,7 @@ using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using System.Net.Http;
 {{/useWebRequest}}
 using System.Net.Http;
+using System.Net.Http.Headers;
 {{#supportsRetry}}
 using Polly;
 {{/supportsRetry}}
@@ -214,6 +215,32 @@ namespace {{packageName}}.Client
     {{/reUseHttpClient}}
         }
 
+        /// Prepares multipart/form-data content
+        {{! TODO: Add handling of improper usage }}
+        HttpContent PrepareMultipartFormDataContent(RequestOptions options)
+        {
+            string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
+            var multipartContent = new MultipartFormDataContent(boundary);
+            foreach (var formParameter in options.FormParameters)
+            {
+                multipartContent.Add(new StringContent(formParameter.Value), formParameter.Key);
+            }
+
+            if (options.FileParameters != null && options.FileParameters.Count > 0)
+            {
+                foreach (var fileParam in options.FileParameters)
+                {
+                    var fileStream = fileParam.Value as FileStream;
+                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
+                    var content = new StreamContent(fileParam.Value);
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    multipartContent.Add(content, fileParam.Key,
+                        fileStreamName ?? "no_file_name_provided");
+                }
+            }
+            return multipartContent;
+        }
+
         /// <summary>
         /// Provides all logic for constructing a new HttpRequestMessage.
         /// At this point, all information for querying the service is known. Here, it is simply
@@ -270,51 +297,44 @@ namespace {{packageName}}.Client
 
             List<Tuple<HttpContent, string, string>> contentList = new List<Tuple<HttpContent, string, string>>();
 
-            if (options.FormParameters != null && options.FormParameters.Count > 0)
+            string contentType = null;
+            if (options.HeaderParameters != null && options.HeaderParameters.ContainsKey("Content-Type"))
             {
-                contentList.Add(new Tuple<HttpContent, string, string>(new FormUrlEncodedContent(options.FormParameters), null, null));
+                var contentTypes = options.HeaderParameters["Content-Type"];
+                contentType = contentTypes.FirstOrDefault();
             }
 
-            if (options.Data != null)
+            {{!// TODO Add error handling in case of improper usage}}
+            if (contentType == "multipart/form-data")
             {
-                var serializer = new CustomJsonCodec(SerializerSettings, configuration);
-                contentList.Add(
-                    new Tuple<HttpContent, string, string>(new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(), "application/json"), null, null));
+                request.Content = PrepareMultipartFormDataContent(options);
             }
-
-            if (options.FileParameters != null && options.FileParameters.Count > 0)
+            else if (contentType == "application/x-www-form-urlencoded")
             {
-                foreach (var fileParam in options.FileParameters)
-                {
-                    var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
-                    var fileStream = fileParam.Value as FileStream;
-                    contentList.Add(new Tuple<HttpContent, string, string>(new ByteArrayContent(bytes), fileParam.Key,
-                        fileStream?.Name ?? "no_file_name_provided"));
-                }
-            }
-
-            if (contentList.Count > 1)
-            {
-                string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
-                var multipartContent = new MultipartFormDataContent(boundary);
-                foreach (var content in contentList)
-                {
-                   if(content.Item2 != null)
-                   {
-                     multipartContent.Add(content.Item1, content.Item2, content.Item3);
-                   }
-                   else
-                   {
-                     multipartContent.Add(content.Item1);
-                   }
-                }
-
-                request.Content = multipartContent;
+                request.Content = new FormUrlEncodedContent(options.FormParameters);
             }
             else
             {
-                request.Content = contentList.FirstOrDefault()?.Item1;
+                if (options.Data != null)
+                {
+                    if (options.Data is Stream s)
+                    {
+                        contentType ??= "application/octet-stream";
+
+                        var streamContent = new StreamContent(s);
+                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        request.Content = streamContent;
+                    }
+                    else
+                    {
+                        var serializer = new CustomJsonCodec(SerializerSettings, configuration);
+                        request.Content = new StringContent(serializer.Serialize(options.Data), new UTF8Encoding(),
+                            "application/json");
+                    }
+                }
             }
+
+
 
             // TODO provide an alternative that allows cookies per request instead of per API client
             if (options.Cookies != null && options.Cookies.Count > 0)

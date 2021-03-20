@@ -22,6 +22,7 @@ The following environment variables are supported by their respective generators
 * `CPP_POST_PROCESS_FILE`
 * `CSHARP_POST_PROCESS_FILE`
 * `C_POST_PROCESS_FILE`
+* `DART_POST_PROCESS`
 * `DART_POST_PROCESS_FILE`
 * `FSHARP_POST_PROCESS_FILE`
 * `GO_POST_PROCESS_FILE`

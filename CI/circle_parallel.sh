@@ -14,6 +14,18 @@ function cleanup {
 
 trap cleanup EXIT
 
+function installDart {
+  # install dart2
+  sudo apt-get update
+  sudo apt-get install apt-transport-https
+  sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+  sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+  sudo apt-get update
+  sudo apt-get install dart
+  export PATH="$PATH:/usr/lib/dart/bin"
+  export DART_POST_PROCESS="dart format"
+}
+
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
@@ -24,6 +36,8 @@ if [ "$NODE_INDEX" = "1" ]; then
   ls -l /home/circleci/.ivy2/cache
 
 elif [ "$NODE_INDEX" = "2" ]; then
+  installDart
+
   # run ensure-up-to-date sample script on SNAPSHOT version only
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
   if [[ $project_version == *"-SNAPSHOT" ]]; then
@@ -67,14 +81,7 @@ else
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
-  # install dart2
-  sudo apt-get update
-  sudo apt-get install apt-transport-https
-  sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-  sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
-  sudo apt-get update
-  sudo apt-get install dart
-  export PATH="$PATH:/usr/lib/dart/bin"
+  installDart
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error

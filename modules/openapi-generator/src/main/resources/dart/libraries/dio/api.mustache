@@ -1,0 +1,136 @@
+{{>header}}
+import 'dart:async';
+
+{{#useBuiltValue}}import 'package:built_value/serializer.dart';{{/useBuiltValue}}
+import 'package:dio/dio.dart';
+
+{{#operations}}
+{{#modelImports}}import 'package:{{pubName}}/src/model/{{.}}.dart';
+{{/modelImports}}
+{{#fullImports}}import '{{.}}';
+{{/fullImports}}
+
+class {{classname}} {
+
+  final Dio _dio;
+  {{#useBuiltValue}}
+
+  final Serializers _serializers;
+
+  {{/useBuiltValue}}
+  const {{classname}}(this._dio{{#useBuiltValue}}, this._serializers{{/useBuiltValue}});
+
+  {{#operation}}
+  /// {{{summary}}}
+  ///
+  /// {{{notes}}}
+  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+    required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}};
+    final _options = Options(
+      method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
+      {{#isResponseFile}}
+      responseType: ResponseType.bytes,
+      {{/isResponseFile}}
+      headers: <String, dynamic>{
+        {{#httpUserAgent}}
+        r'User-Agent': r'{{{.}}}',
+        {{/httpUserAgent}}
+        {{#headerParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+        {{/headerParams}}
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+          {{#authMethods}}{
+            'type': '{{type}}',
+            'name': '{{name}}',{{#isApiKey}}
+            'keyName': '{{keyParamName}}',
+            'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}
+          },{{/authMethods}}
+        ],{{/hasAuthMethods}}
+        ...?extra,
+      },
+      contentType: [{{^hasConsumes}}
+        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
+        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
+      ].first,
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      {{#queryParams}}
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+      {{/queryParams}}
+    };
+    {{#hasBodyOrFormParams}}
+
+    dynamic _bodyData;
+
+    try {
+{{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
+    } catch(error) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+          queryParameters: _queryParameters,
+        ),
+        type: DioErrorType.other,
+        error: error,
+      );
+    }
+    {{/hasBodyOrFormParams}}
+
+    final _response = await _dio.request<Object>(
+      _path,{{#hasBodyOrFormParams}}
+      data: _bodyData,{{/hasBodyOrFormParams}}
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+    {{#returnType}}
+
+    {{{returnType}}} _responseData;
+
+    try {
+{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+    } catch (error) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.other,
+        error: error,
+      );
+    }
+
+    return Response<{{{returnType}}}>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );{{/returnType}}{{^returnType}}
+    return _response;{{/returnType}}
+  }
+
+  {{/operation}}
+}
+{{/operations}}
