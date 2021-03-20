@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:openapi/src/model/model_client.dart';
 
 class FakeClassnameTags123Api {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -20,7 +19,7 @@ class FakeClassnameTags123Api {
   /// To test class name in snake case
   ///
   /// To test class name in snake case
-  Future<Response<ModelClient>> testClassname({ 
+  Future<Response<ModelClient>> testClassname({
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -52,18 +51,16 @@ class FakeClassnameTags123Api {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -91,7 +88,6 @@ class FakeClassnameTags123Api {
         _response.data!,
         specifiedType: _responseType,
       ) as ModelClient;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -112,5 +108,4 @@ class FakeClassnameTags123Api {
       extra: _response.extra,
     );
   }
-
 }

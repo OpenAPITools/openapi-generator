@@ -14,7 +14,6 @@ import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 
 class PetApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -23,8 +22,8 @@ class PetApi {
 
   /// Add a new pet to the store
   ///
-  /// 
-  Future<Response<void>> addPet({ 
+  ///
+  Future<Response<void>> addPet({
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -55,18 +54,16 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -91,8 +88,8 @@ class PetApi {
 
   /// Deletes a pet
   ///
-  /// 
-  Future<Response<void>> deletePet({ 
+  ///
+  Future<Response<void>> deletePet({
     required int petId,
     String? apiKey,
     CancelToken? cancelToken,
@@ -102,7 +99,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path =
+        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -124,8 +122,7 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     final _response = await _dio.request<Object>(
       _path,
@@ -142,7 +139,7 @@ class PetApi {
   /// Finds Pets by status
   ///
   /// Multiple status values can be provided with comma separated strings
-  Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
+  Future<Response<BuiltList<Pet>>> findPetsByStatus({
     required BuiltList<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -193,7 +190,6 @@ class PetApi {
         _response.data!,
         specifiedType: _responseType,
       ) as BuiltList<Pet>;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -218,7 +214,7 @@ class PetApi {
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<Response<BuiltSet<Pet>>> findPetsByTags({ 
+  Future<Response<BuiltSet<Pet>>> findPetsByTags({
     required BuiltSet<String> tags,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -269,7 +265,6 @@ class PetApi {
         _response.data!,
         specifiedType: _responseType,
       ) as BuiltSet<Pet>;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -294,7 +289,7 @@ class PetApi {
   /// Find pet by ID
   ///
   /// Returns a single pet
-  Future<Response<Pet>> getPetById({ 
+  Future<Response<Pet>> getPetById({
     required int petId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -303,7 +298,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path =
+        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -326,8 +322,7 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     final _response = await _dio.request<Object>(
       _path,
@@ -346,7 +341,6 @@ class PetApi {
         _response.data!,
         specifiedType: _responseType,
       ) as Pet;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -370,8 +364,8 @@ class PetApi {
 
   /// Update an existing pet
   ///
-  /// 
-  Future<Response<void>> updatePet({ 
+  ///
+  Future<Response<void>> updatePet({
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -402,18 +396,16 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -438,8 +430,8 @@ class PetApi {
 
   /// Updates a pet in the store with form data
   ///
-  /// 
-  Future<Response<void>> updatePetWithForm({ 
+  ///
+  Future<Response<void>> updatePetWithForm({
     required int petId,
     String? name,
     String? status,
@@ -450,7 +442,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path =
+        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -471,20 +464,22 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
+        if (name != null)
+          r'name':
+              encodeFormParameter(_serializers, name, const FullType(String)),
+        if (status != null)
+          r'status':
+              encodeFormParameter(_serializers, status, const FullType(String)),
       };
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -509,8 +504,8 @@ class PetApi {
 
   /// uploads an image
   ///
-  /// 
-  Future<Response<ApiResponse>> uploadFile({ 
+  ///
+  Future<Response<ApiResponse>> uploadFile({
     required int petId,
     String? additionalMetadata,
     Uint8List? file,
@@ -521,7 +516,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}/uploadImage'
+        .replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -542,20 +538,21 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+        if (additionalMetadata != null)
+          r'additionalMetadata': encodeFormParameter(
+              _serializers, additionalMetadata, const FullType(String)),
+        if (file != null)
+          r'file': MultipartFile.fromBytes(file, filename: r'file'),
       });
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -583,7 +580,6 @@ class PetApi {
         _response.data!,
         specifiedType: _responseType,
       ) as ApiResponse;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -607,8 +603,8 @@ class PetApi {
 
   /// uploads an image (required)
   ///
-  /// 
-  Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
+  ///
+  Future<Response<ApiResponse>> uploadFileWithRequiredFile({
     required int petId,
     required Uint8List requiredFile,
     String? additionalMetadata,
@@ -619,7 +615,8 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'
+        .replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -640,20 +637,21 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
+        if (additionalMetadata != null)
+          r'additionalMetadata': encodeFormParameter(
+              _serializers, additionalMetadata, const FullType(String)),
+        r'requiredFile':
+            MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
       });
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -681,7 +679,6 @@ class PetApi {
         _response.data!,
         specifiedType: _responseType,
       ) as ApiResponse;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -702,5 +699,4 @@ class PetApi {
       extra: _response.extra,
     );
   }
-
 }

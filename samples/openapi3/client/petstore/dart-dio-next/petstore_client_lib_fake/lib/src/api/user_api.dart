@@ -11,7 +11,6 @@ import 'package:openapi/src/model/user.dart';
 import 'package:built_collection/built_collection.dart';
 
 class UserApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -21,7 +20,7 @@ class UserApi {
   /// Create user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> createUser({ 
+  Future<Response<void>> createUser({
     required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -46,18 +45,16 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -82,8 +79,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
-  /// 
-  Future<Response<void>> createUsersWithArrayInput({ 
+  ///
+  Future<Response<void>> createUsersWithArrayInput({
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -108,18 +105,16 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(BuiltList, [FullType(User)]);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -144,8 +139,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
-  /// 
-  Future<Response<void>> createUsersWithListInput({ 
+  ///
+  Future<Response<void>> createUsersWithListInput({
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -170,18 +165,16 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(BuiltList, [FullType(User)]);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -207,7 +200,7 @@ class UserApi {
   /// Delete user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> deleteUser({ 
+  Future<Response<void>> deleteUser({
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -216,7 +209,8 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'
+        .replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -232,8 +226,7 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     final _response = await _dio.request<Object>(
       _path,
@@ -249,8 +242,8 @@ class UserApi {
 
   /// Get user by user name
   ///
-  /// 
-  Future<Response<User>> getUserByName({ 
+  ///
+  Future<Response<User>> getUserByName({
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -259,7 +252,8 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'
+        .replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -275,8 +269,7 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     final _response = await _dio.request<Object>(
       _path,
@@ -295,7 +288,6 @@ class UserApi {
         _response.data!,
         specifiedType: _responseType,
       ) as User;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -319,8 +311,8 @@ class UserApi {
 
   /// Logs user into the system
   ///
-  /// 
-  Future<Response<String>> loginUser({ 
+  ///
+  Future<Response<String>> loginUser({
     required String username,
     required String password,
     CancelToken? cancelToken,
@@ -364,7 +356,6 @@ class UserApi {
 
     try {
       _responseData = _response.data as String;
-
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -388,8 +379,8 @@ class UserApi {
 
   /// Logs out current logged in user session
   ///
-  /// 
-  Future<Response<void>> logoutUser({ 
+  ///
+  Future<Response<void>> logoutUser({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -413,8 +404,7 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     final _response = await _dio.request<Object>(
       _path,
@@ -431,7 +421,7 @@ class UserApi {
   /// Updated user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> updateUser({ 
+  Future<Response<void>> updateUser({
     required String username,
     required User user,
     CancelToken? cancelToken,
@@ -441,7 +431,8 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'
+        .replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -457,18 +448,16 @@ class UserApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
+    final _queryParameters = <String, dynamic>{};
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
-
-    } catch(error) {
+    } catch (error) {
       throw DioError(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -490,5 +479,4 @@ class UserApi {
 
     return _response;
   }
-
 }
