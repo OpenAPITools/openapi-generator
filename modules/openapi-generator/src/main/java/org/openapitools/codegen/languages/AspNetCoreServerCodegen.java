@@ -442,6 +442,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
+        // We need to postprocess the operations to add proper consumes tags and fix form file handling
         if (objs != null) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
@@ -453,6 +454,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                     if (operation.consumes.size() == 0) {
                         break;
                     }
+
+                    // Build a consumes string for the operation we cannot iterate in the template as we need a ','
+                    // after each entry but the last
+
                     StringBuilder consumesString = new StringBuilder();
                     for (Map<String, String> consume : operation.consumes) {
                         if (!consume.containsKey("mediaType")) {
@@ -471,12 +476,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                             continue;
                         }
 
+                        // Change dataType of binary parameters to IFormFile for formParams in multipart/form-data
                         for (CodegenParameter param : operation.formParams) {
                             if (param.isBinary) {
                                 param.dataType = "IFormFile";
                                 param.baseType = "IFormFile";
                             }
                         }
+
                         for (CodegenParameter param : operation.allParams) {
                             if (param.isBinary && param.isFormParam) {
                                 param.dataType = "IFormFile";
