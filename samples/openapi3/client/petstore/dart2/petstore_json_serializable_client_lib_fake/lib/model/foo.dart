@@ -36,7 +36,6 @@ class Foo {
   int get hashCode =>
     (bar == null ? 0 : bar.hashCode);
 
-
   factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
 
   Map<String, dynamic> toJson() => _$FooToJson(this);

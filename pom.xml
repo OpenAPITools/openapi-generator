@@ -1251,6 +1251,7 @@
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
@@ -1282,6 +1283,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
                 <!-- move to other CI as the following fails often in CircleCI
                 <module>samples/server/petstore/spring-mvc</module>
@@ -1294,6 +1296,7 @@
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
+                <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
@@ -1353,10 +1356,11 @@
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>
+<!--                <module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
             </modules>

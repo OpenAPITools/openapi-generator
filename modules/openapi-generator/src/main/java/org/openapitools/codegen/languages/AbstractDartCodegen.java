@@ -12,17 +12,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
@@ -63,6 +62,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey
                 ))
                 .excludeGlobalFeatures(
@@ -72,13 +72,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML
                 )
         );
 
@@ -657,6 +662,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -668,7 +674,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "dartfmt -w yourcode.dart"
+            // currently supported is "dartfmt -w" and "dart format"
             String command = dartPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
@@ -682,5 +688,32 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public void postProcess() {
+        if (isEnablePostProcessFile()) {
+            // Using the condition here to have way to still disable this
+            // for older Dart generators in CI by default.
+
+            // Post processing the whole dart output is much faster then individual files.
+            // Setting this variable to "dart format" is the suggested way of doing this.
+            final String dartPostProcess = System.getenv("DART_POST_PROCESS");
+            if (!StringUtils.isEmpty(dartPostProcess)) {
+                final String command = dartPostProcess + " " + getOutputDir();
+                try {
+                    Process p = Runtime.getRuntime().exec(command);
+                    int exitValue = p.waitFor();
+                    if (exitValue != 0) {
+                        LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                    } else {
+                        LOGGER.info("Successfully executed: {}", command);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                }
+            }
+        }
+        super.postProcess();
     }
 }

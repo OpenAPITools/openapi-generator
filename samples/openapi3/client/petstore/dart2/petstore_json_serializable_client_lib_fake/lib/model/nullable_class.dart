@@ -146,7 +146,6 @@ class NullableClass {
     (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
     (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
 
-
   factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
 
   Map<String, dynamic> toJson() => _$NullableClassToJson(this);

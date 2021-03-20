@@ -46,7 +46,6 @@ class Animal {
     (className == null ? 0 : className.hashCode) +
     (color == null ? 0 : color.hashCode);
 
-
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
 
   Map<String, dynamic> toJson() => _$AnimalToJson(this);

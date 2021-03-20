@@ -9,7 +9,7 @@ inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: Moshi.Bui
     val serializer = serializerBuilder.build()
     val parser = serializer.adapter(T::class.java)
     val response = errorBody()?.string()
-    if(response != null) {
+    if (response != null) {
         return parser.fromJson(response)
     }
     return null

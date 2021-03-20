@@ -1146,6 +1146,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+          examples:
+            simple-list:
+              summary: Simple list example
+              description: Should not get into code examples
+              value:
+                - username: foo
+                - username: bar
       description: List of user object
       required: true
     Client:

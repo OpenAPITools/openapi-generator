@@ -81,6 +81,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasValidation;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
+    private boolean hasRequired;
 
     @Override
     public int hashCode() {
@@ -91,7 +92,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 vars, requiredVars, isNull, hasValidation,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
-                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars);
+                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired);
     }
 
     @Override
@@ -135,6 +136,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 is5xx == that.is5xx &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
+                getHasRequired() == that.getHasRequired() &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -372,6 +374,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getHasRequired() {
+        return this.hasRequired;
+    }
+
+    @Override
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -435,6 +447,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(additionalPropertiesIsAnyType);
         sb.append(", getHasVars=").append(hasVars);
+        sb.append(", getHasRequired=").append(hasRequired);
         sb.append('}');
         return sb.toString();
     }

@@ -1,0 +1,10 @@
+  /// Returns a new [{{{classname}}}] instance.
+  {{{classname}}}({
+  {{#vars}}
+    {{!
+        A field is @required in Dart when it is
+        required && !nullable && !defaultValue in OAS
+    }}
+    {{#required}}{{^isNullable}}{{^defaultValue}}@required {{/defaultValue}}{{/isNullable}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
+  {{/vars}}
+  });

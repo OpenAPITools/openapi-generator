@@ -1830,6 +1830,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the default value of the parameter
+     *
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param schema Parameter schema
+     * @return string presentation of the default value of the parameter
+     */
+    public String toDefaultParameterValue(Schema<?> schema) {
+        // by default works as original method to be backward compatible
+        return toDefaultValue(schema);
+    }
+
+    /**
      * Return property value depending on property type.
      *
      * @param schema property type
@@ -2565,6 +2579,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        if (m.requiredVars != null && m.requiredVars.size() > 0){
+            m.setHasRequired(true);
+        }
+
         if (sortModelPropertiesByRequiredFlag) {
             Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
@@ -3103,7 +3121,14 @@ public class DefaultCodegen implements CodegenConfig {
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
-        property.example = toExampleValue(p);
+        // put toExampleValue in a try-catch block to log the error as example values are not critical
+        try {
+            property.example = toExampleValue(p);
+        } catch (Exception e) {
+            LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
+            LOGGER.debug("Exception from toExampleValue: {}", e);
+            property.example = "ERROR_TO_EXAMPLE_VALUE";
+        }
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -4198,7 +4223,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+            codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
 
             if (parameter.getStyle() != null) {
                 codegenParameter.style = parameter.getStyle().toString();
@@ -6149,6 +6174,9 @@ public class DefaultCodegen implements CodegenConfig {
                     .stream()
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
+            if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
+                property.setHasRequired(true);
+            }
         }
         setAddProps(schema, property);
     }
