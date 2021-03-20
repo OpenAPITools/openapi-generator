@@ -614,7 +614,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("number".equals(datatype)) {
+        if ("number".equals(datatype) || "boolean".equals(datatype)) {
             return value;
         } else {
             return "\'" + escapeText(value) + "\'";
