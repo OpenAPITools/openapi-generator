@@ -7,60 +7,67 @@ import 'package:built_value/serializer.dart';
 
 part 'special_model_name.g.dart';
 
+abstract class SpecialModelName
+    implements Built<SpecialModelName, SpecialModelNameBuilder> {
+  @BuiltValueField(wireName: r'$special[property.name]')
+  int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
+  SpecialModelName._();
 
-abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
-    @BuiltValueField(wireName: r'$special[property.name]')
-    int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+  static void _initializeBuilder(SpecialModelNameBuilder b) => b;
 
-    SpecialModelName._();
+  factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) =
+      _$SpecialModelName;
 
-    static void _initializeBuilder(SpecialModelNameBuilder b) => b;
-
-    factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
-
-    @BuiltValueSerializer(custom: true)
-    static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
+  @BuiltValueSerializer(custom: true)
+  static Serializer<SpecialModelName> get serializer =>
+      _$SpecialModelNameSerializer();
 }
 
-class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelName> {
-    @override
-    final Iterable<Type> types = const [SpecialModelName, _$SpecialModelName];
+class _$SpecialModelNameSerializer
+    implements StructuredSerializer<SpecialModelName> {
+  @override
+  final Iterable<Type> types = const [SpecialModelName, _$SpecialModelName];
 
-    @override
-    final String wireName = r'SpecialModelName';
+  @override
+  final String wireName = r'SpecialModelName';
 
-    @override
-    Iterable<Object?> serialize(Serializers serializers, SpecialModelName object,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = <Object?>[];
-        if (object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
-            result
-                ..add(r'$special[property.name]')
-                ..add(serializers.serialize(object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
-                    specifiedType: const FullType(int)));
-        }
-        return result;
+  @override
+  Iterable<Object?> serialize(Serializers serializers, SpecialModelName object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    if (object
+            .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket !=
+        null) {
+      result
+        ..add(r'$special[property.name]')
+        ..add(serializers.serialize(
+            object
+                .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
+            specifiedType: const FullType(int)));
     }
+    return result;
+  }
 
-    @override
-    SpecialModelName deserialize(Serializers serializers, Iterable<Object?> serialized,
-        {FullType specifiedType = FullType.unspecified}) {
-        final result = SpecialModelNameBuilder();
+  @override
+  SpecialModelName deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = SpecialModelNameBuilder();
 
-        final iterator = serialized.iterator;
-        while (iterator.moveNext()) {
-            final key = iterator.current as String;
-            iterator.moveNext();
-            final Object? value = iterator.current;
-            switch (key) {
-                case r'$special[property.name]':
-                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    break;
-            }
-        }
-        return result.build();
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case r'$special[property.name]':
+          result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int;
+          break;
+      }
     }
+    return result.build();
+  }
 }
-

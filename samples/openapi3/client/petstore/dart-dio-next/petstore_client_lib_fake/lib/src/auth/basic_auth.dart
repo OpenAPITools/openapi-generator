@@ -27,7 +27,8 @@ class BasicAuthInterceptor extends AuthInterceptor {
       final authName = info['name'] as String;
       final basicAuthInfo = authInfo[authName];
       if (basicAuthInfo != null) {
-        final basicAuth = 'Basic ${base64Encode(utf8.encode('${basicAuthInfo.username}:${basicAuthInfo.password}'))}';
+        final basicAuth =
+            'Basic ${base64Encode(utf8.encode('${basicAuthInfo.username}:${basicAuthInfo.password}'))}';
         options.headers['Authorization'] = basicAuth;
         break;
       }
