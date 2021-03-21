@@ -2091,7 +2091,6 @@ definitions:
         properties:
           interNet:
             type: boolean
-    additionalProperties: false
   GrandparentAnimal:
     type: object
     required:
