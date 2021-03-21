@@ -241,6 +241,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAdditionalPropertiesV2SpecDisallowAdditionalPropertiesIfNotPresentTrue() {
+        // this is the legacy config that most of our tooling uses
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -325,7 +326,7 @@ public class DefaultCodegenTest {
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.supportsAdditionalPropertiesWithComposedSchema = true;
         /*
-        when this DisallowAdditionalPropertiesIfNotPresent is false:
+        When this DisallowAdditionalPropertiesIfNotPresent is false:
         for CodegenModel/CodegenParameter/CodegenProperty/CodegenResponse.getAdditionalProperties
         if the input additionalProperties is False or unset (null)
         .getAdditionalProperties is set to AnyTypeSchema
