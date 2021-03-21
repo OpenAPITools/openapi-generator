@@ -2615,6 +2615,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+        if (schema.equals(new Schema())) {
+            // if we are trying to set additionalProperties on an empty schema stop recursing
+            return;
+        }
+        if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
+            return;
+        }
         CodegenModel m = null;
         if (property instanceof CodegenModel) {
             m = (CodegenModel) property;
@@ -6157,6 +6164,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+        setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
         }
@@ -6178,7 +6186,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property.setHasRequired(true);
             }
         }
-        setAddProps(schema, property);
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
