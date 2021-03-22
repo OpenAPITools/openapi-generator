@@ -64,6 +64,9 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{#versionWithPath}}
+@RequestMapping("/{{version}}")
+{{/versionWithPath}}
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}
@@ -126,6 +129,12 @@ public interface {{classname}} {
         consumes = "{{{vendorExtensions.x-contentType}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}
+        {{#versionWithHeader}}
+        ,headers = "{{versionToken}}={{version}}"
+        {{/versionWithHeader}}
+        {{#versionWithQueryParam}}
+        ,params = "{{versionToken}}={{version}}"
+        {{/versionWithQueryParam}}
     )
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{#-last}}{{#reactive}}, {{/reactive}}{{/-last}}{{/allParams}}{{#reactive}}@ApiIgnore final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, @ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}}{{#unhandledException}} throws Exception{{/unhandledException}} {
         {{#delegate-method}}
