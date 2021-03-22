@@ -73,8 +73,6 @@ public class HealthCheckResult {
     this.nullableMessage = nullableMessage;
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }

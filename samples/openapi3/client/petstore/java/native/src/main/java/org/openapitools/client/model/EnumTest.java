@@ -350,8 +350,6 @@ public class EnumTest {
     this.outerEnum = outerEnum;
   }
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
   }

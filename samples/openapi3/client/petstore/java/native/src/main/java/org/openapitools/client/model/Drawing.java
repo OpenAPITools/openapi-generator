@@ -147,8 +147,6 @@ public class Drawing extends HashMap<String, Fruit> {
     this.nullableShape = nullableShape;
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNullableShape(NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
   }

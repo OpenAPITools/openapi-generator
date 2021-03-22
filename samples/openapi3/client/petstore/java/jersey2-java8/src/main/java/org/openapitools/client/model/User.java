@@ -350,8 +350,6 @@ public class User {
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
   }
 
-  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
     this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
   }
@@ -386,8 +384,6 @@ public class User {
     this.anyTypeProp = anyTypeProp;
   }
 
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnyTypeProp(Object anyTypeProp) {
     this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
   }
@@ -422,8 +418,6 @@ public class User {
     this.anyTypePropNullable = anyTypePropNullable;
   }
 
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnyTypePropNullable(Object anyTypePropNullable) {
     this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
   }

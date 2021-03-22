@@ -171,8 +171,6 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
   }
