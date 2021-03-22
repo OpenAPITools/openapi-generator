@@ -13,6 +13,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
 using {{packageName}}.Authentication;
+using {{packageName}}.Formatters;
 using Microsoft.AspNetCore.Authorization;
 
 namespace {{packageName}}
@@ -56,7 +57,10 @@ namespace {{packageName}}
 
             // Add framework services.
             services
-                .AddMvc({{^useDefaultRouting}}opts => opts.EnableEndpointRouting = false{{/useDefaultRouting}})
+                .AddMvc(opts => {
+                    {{^useDefaultRouting}}opts.EnableEndpointRouting = false;{{/useDefaultRouting}}
+                    opts.InputFormatters.Insert(0, new InputFormatterStream());
+                    })
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}
