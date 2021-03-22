@@ -1,5 +1,7 @@
 ---
 # csharp-netcore test files and image for upload
+- filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/JSONComposedSchemaTests.cs"
+  sha256: 8121ebe1bacc40b4fd33b872099feba693352df2ddf7548ab33fee8e7ec4551c 
 - filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/Api/PetApiTests.cs"
   sha256: dae985015ba461297927d544a78267f2def35e07c3f14ca66468fd61e1fd1c26
 - filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png"

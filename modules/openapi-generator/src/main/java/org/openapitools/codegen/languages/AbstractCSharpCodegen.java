@@ -499,51 +499,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         var.isPrimitiveType = true;
                     }
                 }
-
-                // We're looping all models here.
-                if (model.isEnum) {
-                    // We now need to make allowableValues.enumVars look like the context of CodegenProperty
-                    Boolean isString = false;
-                    Boolean isInteger = false;
-                    Boolean isLong = false;
-                    Boolean isByte = false;
-
-                    if (model.dataType.startsWith("byte")) {
-                        // C# Actually supports byte and short enums, swagger spec only supports byte.
-                        isByte = true;
-                        model.vendorExtensions.put("x-enum-byte", true);
-                    } else if (model.dataType.startsWith("int32")) {
-                        isInteger = true;
-                        model.vendorExtensions.put("x-enum-integer", true);
-                    } else if (model.dataType.startsWith("int64")) {
-                        isLong = true;
-                        model.vendorExtensions.put("x-enum-long", true);
-                    } else {
-                        // C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
-                        isString = true;
-                        model.vendorExtensions.put("x-enum-string", true);
-                    }
-
-                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
-                    // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
-                    List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
-                    for (Map<String, String> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<String, Object>();
-                        mixedVars.putAll(enumVar);
-
-                        mixedVars.put("isString", isString);
-                        mixedVars.put("isLong", isLong);
-                        mixedVars.put("isInteger", isInteger);
-                        mixedVars.put("isByte", isByte);
-
-                        newEnumVars.add(mixedVars);
-                    }
-
-                    if (!newEnumVars.isEmpty()) {
-                        model.allowableValues.put("enumVars", newEnumVars);
-                    }
-                }
             } else {
                 LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
