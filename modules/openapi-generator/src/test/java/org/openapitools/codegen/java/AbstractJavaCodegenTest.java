@@ -440,7 +440,7 @@ public class AbstractJavaCodegenTest {
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
-        
+
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
