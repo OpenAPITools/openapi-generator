@@ -201,6 +201,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpPut]
         [Route("/v2/user/{username}")]
         [Authorize(Policy = "api_key")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
         public virtual IActionResult UpdateUser([FromRoute (Name = "username")][Required]string username, [FromBody]User user)
