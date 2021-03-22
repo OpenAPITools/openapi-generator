@@ -216,7 +216,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
         // this generator supports additional properties in composed schemas
-        supportsAdditionalPropertiesWithComposedSchema = true;
+        // TODO turn this on?
+        // supportsAdditionalPropertiesWithComposedSchema = true;
 
         ImmutableMap.Builder<String, String> frameworkBuilder = new ImmutableMap.Builder<>();
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {

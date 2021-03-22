@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract(Name = "Cat")]
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    public partial class Cat : IEquatable<Cat>, IValidatableObject
+    public partial class Cat : Animal, IEquatable<Cat>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
@@ -43,9 +43,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="declawed">declawed.</param>
-        /// <param name="className">className (required).</param>
+        /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = default(string), string color = "red")
+        public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
         }
@@ -64,6 +64,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Cat {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -73,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -106,7 +107,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                int hashCode = base.GetHashCode();
                 hashCode = hashCode * 59 + this.Declawed.GetHashCode();
                 return hashCode;
             }
@@ -129,6 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
+            foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;
         }
     }

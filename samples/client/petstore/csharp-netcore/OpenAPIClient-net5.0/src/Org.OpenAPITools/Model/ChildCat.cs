@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract(Name = "ChildCat")]
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
-    public partial class ChildCat : IEquatable<ChildCat>, IValidatableObject
+    public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
     {
         /// <summary>
         /// Defines PetType
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat)
+        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
             this.PetType = petType;
             this.Name = name;
@@ -93,6 +93,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -104,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -137,7 +138,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                int hashCode = base.GetHashCode();
                 if (this.Name != null)
                     hashCode = hashCode * 59 + this.Name.GetHashCode();
                 hashCode = hashCode * 59 + this.PetType.GetHashCode();
@@ -164,6 +165,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
+            foreach(var x in BaseValidate(validationContext)) yield return x;
             yield break;
         }
     }
