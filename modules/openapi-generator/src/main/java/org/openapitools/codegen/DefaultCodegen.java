@@ -2615,41 +2615,46 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
-//        if (schema.equals(new Schema())) {
-//            // if we are trying to set additionalProperties on an empty schema stop recursing
-//            return;
-//        }
-//        if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
-//            return;
-//        }
+        if (schema.equals(new Schema())) {
+            // if we are trying to set additionalProperties on an empty schema stop recursing
+            return;
+        }
+        boolean additionalPropertiesIsAnyType = false;
         CodegenModel m = null;
         if (property instanceof CodegenModel) {
             m = (CodegenModel) property;
         }
+        CodegenProperty addPropProp = null;
         boolean isAdditionalPropertiesTrue = false;
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("",  new Schema());
-                property.setAdditionalProperties(cp);
-                property.setAdditionalPropertiesIsAnyType(true);
+                addPropProp = fromProperty("",  new Schema());
+                additionalPropertiesIsAnyType = true;
             }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("", new Schema());
-                property.setAdditionalProperties(cp);
-                property.setAdditionalPropertiesIsAnyType(true);
+                addPropProp = fromProperty("", new Schema());
+                additionalPropertiesIsAnyType = true;
             }
         } else {
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            property.setAdditionalProperties(cp);
+            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
             if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
-                property.setAdditionalPropertiesIsAnyType(true);
+                additionalPropertiesIsAnyType = true;
             }
+        }
+        if (additionalPropertiesIsAnyType) {
+            property.setAdditionalPropertiesIsAnyType(true);
         }
         if (m != null && isAdditionalPropertiesTrue) {
             m.isAdditionalPropertiesTrue = true;
+        }
+        if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
+            return;
+        }
+        if (addPropProp != null) {
+            property.setAdditionalProperties(addPropProp);
         }
     }
 
@@ -6164,11 +6169,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+        setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
         }
-        // todo move this higher than the object check
-        setAddProps(schema, property);
         if (schema instanceof ObjectSchema) {
             ObjectSchema objSchema = (ObjectSchema) schema;
             HashSet<String> requiredVars = new HashSet<>();
