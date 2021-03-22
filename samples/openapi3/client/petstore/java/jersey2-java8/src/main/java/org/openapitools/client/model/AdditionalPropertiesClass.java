@@ -101,6 +101,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
@@ -133,6 +135,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
@@ -167,6 +171,8 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
   }
@@ -191,6 +197,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
   }
@@ -215,6 +223,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
   }
@@ -247,6 +257,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
+  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
   }
@@ -271,6 +283,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmptyMap(Object emptyMap) {
     this.emptyMap = emptyMap;
   }
@@ -303,6 +317,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
   }

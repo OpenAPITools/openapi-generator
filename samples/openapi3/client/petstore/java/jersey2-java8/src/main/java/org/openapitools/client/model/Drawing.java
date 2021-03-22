@@ -84,6 +84,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
@@ -108,6 +110,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
@@ -142,6 +146,8 @@ public class Drawing {
     this.nullableShape = nullableShape;
   }
 
+  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNullableShape(NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
   }
@@ -174,6 +180,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
   }
