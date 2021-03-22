@@ -47,6 +47,9 @@ import com.google.gson.reflect.TypeToken
 {{#jackson}}
 import com.fasterxml.jackson.core.type.TypeReference
 {{/jackson}}
+{{#moshi}}
+import com.squareup.moshi.adapter
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -166,6 +169,9 @@ import com.fasterxml.jackson.core.type.TypeReference
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
+    {{#moshi}}
+    @OptIn(ExperimentalStdlibApi::class)
+    {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
@@ -175,7 +181,7 @@ import com.fasterxml.jackson.core.type.TypeReference
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
