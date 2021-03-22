@@ -149,7 +149,6 @@ namespace Org.OpenAPITools.Test
             c2.Color = "red";
             c2.Declawed = false;
             Assert.Equal("{\"declawed\":false,\"className\":\"Cat\",\"color\":\"red\"}", JsonConvert.SerializeObject(c2));
-
         }
 
         /// <summary>
@@ -159,7 +158,6 @@ namespace Org.OpenAPITools.Test
         public void TestAdditionalProperties()
         {
             Foo f = new Foo();
-
             Assert.NotNull(f.GetType().GetProperty("AdditionalProperties"));
             Assert.Null(f.GetType().GetProperty("unknown_property"));
         }
