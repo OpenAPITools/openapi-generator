@@ -38,7 +38,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.PostProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
