@@ -65,13 +65,6 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // in other code generators, support needs to be enabled on a case-by-case basis.
         supportsAdditionalPropertiesWithComposedSchema = true;
 
-        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
-        // undeclared properties. This is compliant with the JSON schema specification.
-        // setting this to false is required to have composed schemas work because:
-        // anyOf SchemaA + SchemaB, requires that props present only in A are accepted in B because in B
-        // they are additional properties
-        this.setDisallowAdditionalPropertiesIfNotPresent(false);
-
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
@@ -114,6 +107,20 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.FALSE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default. NOTE: "+
+                "this option breaks composition and will be removed in 6.0.0"
+        );
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
@@ -154,6 +161,18 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             attrNoneIfUnset = Boolean.valueOf(additionalProperties.get(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET).toString());
         }
         additionalProperties.put("attrNoneIfUnset", attrNoneIfUnset);
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
+        // setting this to false is required to have composed schemas work because:
+        // anyOf SchemaA + SchemaB, requires that props present only in A are accepted in B because in B
+        // they are additional properties
+        Boolean disallowAddProps = false;
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            disallowAddProps = Boolean.valueOf(additionalProperties.get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString());
+        }
+        this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
+
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {

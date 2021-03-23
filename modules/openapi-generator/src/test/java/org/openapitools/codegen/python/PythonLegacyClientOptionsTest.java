@@ -19,8 +19,8 @@ package org.openapitools.codegen.python;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PythonClientCodegen;
-import org.openapitools.codegen.options.PythonClientOptionsProvider;
+import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
+import org.openapitools.codegen.options.PythonLegacyClientOptionsProvider;
 import org.testng.Assert;
 
 import java.io.File;
@@ -28,11 +28,11 @@ import java.io.File;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class PythonClientOptionsTest extends AbstractOptionsTest {
-    private PythonClientCodegen clientCodegen = mock(PythonClientCodegen.class, mockSettings);
+public class PythonLegacyClientOptionsTest extends AbstractOptionsTest {
+    private PythonLegacyClientCodegen clientCodegen = mock(PythonLegacyClientCodegen.class, mockSettings);
 
-    public PythonClientOptionsTest() {
-        super(new PythonClientOptionsProvider());
+    public PythonLegacyClientOptionsTest() {
+        super(new PythonLegacyClientOptionsProvider());
     }
 
     @Override
@@ -43,12 +43,12 @@ public class PythonClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        Assert.assertEquals(clientCodegen.packagePath(), PythonClientOptionsProvider.PACKAGE_NAME_VALUE.replace('.', File.separatorChar));
+        Assert.assertEquals(clientCodegen.packagePath(), PythonLegacyClientOptionsProvider.PACKAGE_NAME_VALUE.replace('.', File.separatorChar));
 
-        verify(clientCodegen).setPackageName(PythonClientOptionsProvider.PACKAGE_NAME_VALUE);
-        verify(clientCodegen).setProjectName(PythonClientOptionsProvider.PROJECT_NAME_VALUE);
-        verify(clientCodegen).setPackageVersion(PythonClientOptionsProvider.PACKAGE_VERSION_VALUE);
-        verify(clientCodegen).setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
-        verify(clientCodegen).setUseNose(PythonClientOptionsProvider.USE_NOSE_VALUE);
+        verify(clientCodegen).setPackageName(PythonLegacyClientOptionsProvider.PACKAGE_NAME_VALUE);
+        verify(clientCodegen).setProjectName(PythonLegacyClientOptionsProvider.PROJECT_NAME_VALUE);
+        verify(clientCodegen).setPackageVersion(PythonLegacyClientOptionsProvider.PACKAGE_VERSION_VALUE);
+        verify(clientCodegen).setPackageUrl(PythonLegacyClientOptionsProvider.PACKAGE_URL_VALUE);
+        verify(clientCodegen).setUseNose(PythonLegacyClientOptionsProvider.USE_NOSE_VALUE);
     }
 }
