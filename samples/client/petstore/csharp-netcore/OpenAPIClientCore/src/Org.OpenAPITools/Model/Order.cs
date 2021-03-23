@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name = "complete", EmitDefaultValue = false)]
+        [DataMember(Name = "complete", EmitDefaultValue = true)]
         public bool Complete { get; set; }
 
         /// <summary>
