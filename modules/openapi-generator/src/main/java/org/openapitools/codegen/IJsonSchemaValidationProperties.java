@@ -83,11 +83,6 @@ public interface IJsonSchemaValidationProperties {
 
     void setAdditionalProperties(CodegenProperty additionalProperties);
 
-    /***
-     * Defines the schema property variables for the current schema
-     * If the current schema is a composed schema, this should not include composed schema variables
-     * @return
-     */
     List<CodegenProperty> getVars();
 
     void setVars(List<CodegenProperty> vars);
