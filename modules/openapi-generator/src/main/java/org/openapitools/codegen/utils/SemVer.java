@@ -75,5 +75,4 @@ public class SemVer implements Comparable<SemVer> {
             return false;
         return true;
     }
-
 }
