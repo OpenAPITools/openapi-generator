@@ -139,6 +139,9 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
             }
         }
 
+        /*
+        set model and package names, this is mainly used inside the templates.
+         */
         modelPackage = MODEL_PACKAGE_NAME;
         apiPackage = API_PACKAGE_NAME;
 
@@ -158,4 +161,3 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
                 .doNotOverwrite());
     }
 }
-
