@@ -763,6 +763,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
         }
         if (isAnyTypeSchema(p)) {
+            // for v2 specs only, swagger-parser never generates an AnyType schemas even though it should generate them
+            // https://github.com/swagger-api/swagger-parser/issues/1378
+            // switch to v3 if you need AnyType to work
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
@@ -770,9 +773,22 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             fullSuffix = ", none_type" + suffix;
         }
         if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
-        }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+            if (this.openAPI.getExtensions() != null) {
+                String originalSpecVersion = (String) this.openAPI.getExtensions().getOrDefault("x-original-swagger-version", "");
+                if (originalSpecVersion.equals("2.0")) {
+                    // for v2 specs only, input AnyType schemas (type unset) or schema {} results in FreeFromObject schemas
+                    // per https://github.com/swagger-api/swagger-parser/issues/1378
+                    // v2 spec uses cases
+                    // 1. AnyType schemas
+                    // 2. type object schema with no other info
+                    // use case 1 + 2 -> both become use case 1
+                    // switch to v3 if you need use cases 1 + 2 to work correctly
+                    return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSuffix;
+                }
+            }
+            // v3 code path, use case: type object schema with no other schema info
+            return prefix + "{str: (bool, date, datetime, dict, float, int, list, str, none_type)}" + fullSuffix;
+        } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
             Schema inner = getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {

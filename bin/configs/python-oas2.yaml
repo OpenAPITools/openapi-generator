@@ -3,5 +3,5 @@ outputDir: samples/client/petstore/python
 inputSpec: modules/openapi-generator/src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/python
 additionalProperties:
-  disallowAdditionalPropertiesIfNotPresent: "true"
+  disallowAdditionalPropertiesIfNotPresent: "false"
   packageName: petstore_api

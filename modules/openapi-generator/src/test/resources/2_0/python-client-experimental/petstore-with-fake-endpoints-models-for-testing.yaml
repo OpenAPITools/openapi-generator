@@ -1523,8 +1523,7 @@ definitions:
         type: object
         additionalProperties:
           type: array
-          items:
-            type: object
+          items: {}
       map_map_string:
         type: object
         additionalProperties:
@@ -1535,14 +1534,19 @@ definitions:
         type: object
         additionalProperties:
           type: object
-          additionalProperties:
-            type: object
-      anytype_1:
+          additionalProperties: {}
+      anytype_1: {}
+      anytype_2:
+        description: no type is set for this
+      map_with_undeclared_properties_anytype_1:
         type: object
-      anytype_2: {}
-      anytype_3:
+        description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
+          but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378'
+      map_with_undeclared_properties_anytype_2:
         type: object
         properties: {}
+        description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
+          but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378'
   AdditionalPropertiesString:
     type: object
     properties:
