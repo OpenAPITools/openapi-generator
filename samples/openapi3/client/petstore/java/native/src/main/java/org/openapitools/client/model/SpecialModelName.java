@@ -31,12 +31,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * SpecialModelName
  */
 @JsonPropertyOrder({
-  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
+  SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
+
+  public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
+  private String specialModelName;
 
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
@@ -63,6 +67,30 @@ public class SpecialModelName {
   }
 
 
+  public SpecialModelName specialModelName(String specialModelName) {
+    this.specialModelName = specialModelName;
+    return this;
+  }
+
+   /**
+   * Get specialModelName
+   * @return specialModelName
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSpecialModelName() {
+    return specialModelName;
+  }
+
+
+  public void setSpecialModelName(String specialModelName) {
+    this.specialModelName = specialModelName;
+  }
+
+
   /**
    * Return true if this _special_model.name_ object is equal to o.
    */
@@ -75,12 +103,13 @@ public class SpecialModelName {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
+        Objects.equals(this.specialModelName, specialModelName.specialModelName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($specialPropertyName, specialModelName);
   }
 
   @Override
@@ -88,6 +117,7 @@ public class SpecialModelName {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    specialModelName: ").append(toIndentedString(specialModelName)).append("\n");
     sb.append("}");
     return sb.toString();
   }
