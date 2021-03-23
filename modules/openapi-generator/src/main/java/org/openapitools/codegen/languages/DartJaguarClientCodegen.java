@@ -90,6 +90,10 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
                 )
         );
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
@@ -126,12 +130,12 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getName() {
-        return "dart-jaguar";
+        return "dart-jaguar-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Jaguar client library.";
+        return "Generates a Dart Jaguar client library. IMPORTANT: this generator has been deprecated. Please migrate to the dart-dio generator instead.";
     }
 
     @Override
