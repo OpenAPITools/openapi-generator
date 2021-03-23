@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GoEchoServerCodegen extends AbstractGoCodegen {
+    static final Logger LOGGER = LoggerFactory.getLogger(GoEchoServerCodegen.class);
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "openapi-go-echo-server";
@@ -18,8 +20,6 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
     private static final String MODEL_PACKAGE_NAME = "models";
     private static final String API_PACKAGE_NAME = "handlers";
     private static final String OUTPUT_PATH = "generated-code" + File.separator + "go-echo";
-
-    static final Logger LOGGER = LoggerFactory.getLogger(GoEchoServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
