@@ -27,34 +27,26 @@ using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// SpecialModelName
+    /// KubernetesVersion
     /// </summary>
-    [DataContract(Name = "_special_model.name_")]
-    public partial class SpecialModelName : IEquatable<SpecialModelName>, IValidatableObject
+    [DataContract(Name = "Kubernetes.Version")]
+    public partial class KubernetesVersion : IEquatable<KubernetesVersion>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
+        /// Initializes a new instance of the <see cref="KubernetesVersion" /> class.
         /// </summary>
-        /// <param name="specialPropertyName">specialPropertyName.</param>
-        /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        /// <param name="kubernetesVersion">kubernetesVersion.</param>
+        public KubernetesVersion(string kubernetesVersion = default(string))
         {
-            this.SpecialPropertyName = specialPropertyName;
-            this._SpecialModelName = specialModelName;
+            this.KubernetesVersion = kubernetesVersion;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets SpecialPropertyName
+        /// Gets or Sets KubernetesVersion
         /// </summary>
-        [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName { get; set; }
-
-        /// <summary>
-        /// Gets or Sets _SpecialModelName
-        /// </summary>
-        [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string _SpecialModelName { get; set; }
+        [DataMember(Name = "KubernetesVersion", EmitDefaultValue = false)]
+        public string KubernetesVersion { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -69,9 +61,8 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
+            sb.Append("class KubernetesVersion {\n");
+            sb.Append("  KubernetesVersion: ").Append(KubernetesVersion).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -93,15 +84,15 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as SpecialModelName).AreEqual;
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as KubernetesVersion).AreEqual;
         }
 
         /// <summary>
-        /// Returns true if SpecialModelName instances are equal
+        /// Returns true if KubernetesVersion instances are equal
         /// </summary>
-        /// <param name="input">Instance of SpecialModelName to be compared</param>
+        /// <param name="input">Instance of KubernetesVersion to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SpecialModelName input)
+        public bool Equals(KubernetesVersion input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
@@ -115,9 +106,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.SpecialPropertyName.GetHashCode();
-                if (this._SpecialModelName != null)
-                    hashCode = hashCode * 59 + this._SpecialModelName.GetHashCode();
+                if (this.KubernetesVersion != null)
+                    hashCode = hashCode * 59 + this.KubernetesVersion.GetHashCode();
                 if (this.AdditionalProperties != null)
                     hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
