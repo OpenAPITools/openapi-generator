@@ -29,7 +29,6 @@ import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
-import org.openapitools.codegen.utils.PostProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -874,10 +873,5 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
-    }
-
-    @Override
-    public void postProcessParameter(CodegenParameter p) {
-        PostProcessUtils.postProcessParameter(p);
     }
 }

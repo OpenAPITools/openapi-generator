@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.PostProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1428,6 +1429,27 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = sanitizePath(op.path);
         return op;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter p) {
+        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
+        // defaultValues
+        // remove the l because our users will use Long.parseLong(String defaultValue)
+        // remove the d because our users will use Double.parseDouble(String defaultValue)
+        // remove the f because our users will use Float.parseFloat(String defaultValue)
+        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
+        // literals assigned to Long/Double/Float
+        if (p.defaultValue == null) {
+            return;
+        }
+
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        if (fixLong || fixDouble || fixFloat) {
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+        }
     }
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
