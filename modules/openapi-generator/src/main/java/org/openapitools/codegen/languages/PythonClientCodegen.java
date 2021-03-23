@@ -743,6 +743,54 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return null;
     }
 
+    @Override
+    protected Schema getAdditionalProperties(Schema schema) {
+        Object addProps = schema.getAdditionalProperties();
+        if (addProps instanceof Schema) {
+            return (Schema) addProps;
+        }
+        if (addProps == null) {
+            // When reaching this code path, this should indicate the 'additionalProperties' keyword is
+            // not present in the OAS schema. This is true for OAS 3.0 documents.
+            // However, the parsing logic is broken for OAS 2.0 documents because of the
+            // https://github.com/swagger-api/swagger-parser/issues/1369 issue.
+            // When OAS 2.0 documents are parsed, the swagger-v2-converter ignores the 'additionalProperties'
+            // keyword if the value is boolean. That means codegen is unable to determine whether
+            // additional properties are allowed or not.
+            //
+            // The original behavior was to assume additionalProperties had been set to false.
+            if (getDisallowAdditionalPropertiesIfNotPresent()) {
+                // If the 'additionalProperties' keyword is not present in a OAS schema,
+                // interpret as if the 'additionalProperties' keyword had been set to false.
+                // This is NOT compliant with the JSON schema specification. It is the original
+                // 'openapi-generator' behavior.
+                return null;
+            }
+            /*
+            // The disallowAdditionalPropertiesIfNotPresent CLI option has been set to true,
+            // but for now that only works with OAS 3.0 documents.
+            // The new behavior does not work with OAS 2.0 documents.
+            if (extensions == null || !extensions.containsKey(EXTENSION_OPENAPI_DOC_VERSION)) {
+                // Fallback to the legacy behavior.
+                return null;
+            }
+            // Get original swagger version from OAS extension.
+            // Note openAPI.getOpenapi() is always set to 3.x even when the document
+            // is converted from a OAS/Swagger 2.0 document.
+            // https://github.com/swagger-api/swagger-parser/pull/1374
+            SemVer version = new SemVer((String)extensions.get(EXTENSION_OPENAPI_DOC_VERSION));
+            if (version.major != 3) {
+                return null;
+            }
+            */
+        }
+        if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
+            // Return empty schema to allow any type
+            return new Schema();
+        }
+        return null;
+    }
+
     /**
      * Return a string representation of the Python types for the specified OAS schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding

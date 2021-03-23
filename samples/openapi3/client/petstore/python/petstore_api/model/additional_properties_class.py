@@ -81,9 +81,9 @@ class AdditionalPropertiesClass(ModelNormal):
             'map_property': ({str: (str,)},),  # noqa: E501
             'map_of_map_property': ({str: ({str: (str,)},)},),  # noqa: E501
             'anytype_1': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
-            'map_with_undeclared_properties_anytype_1': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)},),  # noqa: E501
-            'map_with_undeclared_properties_anytype_2': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)},),  # noqa: E501
-            'map_with_undeclared_properties_anytype_3': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)},),  # noqa: E501
+            'map_with_undeclared_properties_anytype_1': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'map_with_undeclared_properties_anytype_2': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'map_with_undeclared_properties_anytype_3': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'empty_map': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'map_with_undeclared_properties_string': ({str: (str,)},),  # noqa: E501
         }
@@ -153,9 +153,9 @@ class AdditionalPropertiesClass(ModelNormal):
             map_property ({str: (str,)}): [optional]  # noqa: E501
             map_of_map_property ({str: ({str: (str,)},)}): [optional]  # noqa: E501
             anytype_1 (bool, date, datetime, dict, float, int, list, str, none_type): [optional]  # noqa: E501
-            map_with_undeclared_properties_anytype_1 ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}): [optional]  # noqa: E501
-            map_with_undeclared_properties_anytype_2 ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}): [optional]  # noqa: E501
-            map_with_undeclared_properties_anytype_3 ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_2 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
             empty_map ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): an object with no declared properties and no undeclared properties, hence it's an empty map.. [optional]  # noqa: E501
             map_with_undeclared_properties_string ({str: (str,)}): [optional]  # noqa: E501
         """
