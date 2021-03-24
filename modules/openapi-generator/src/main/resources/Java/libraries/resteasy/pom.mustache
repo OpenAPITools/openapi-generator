@@ -19,6 +19,29 @@
     </parent>
 {{/parentOverridden}}
 
+{{#distributionManagementOverridden}}
+    <distributionManagement>
+{{#distributionManagementRepositoryOverridden}}
+        <repository>
+            <id>{{{distributionManagementRepositoryId}}}</groupId>
+            <name>{{{distributionManagementRepositoryName}}}</artifactId>
+            <url>{{{distributionManagementRepositoryUrl}}}</version>
+            <layout>{{{distributionManagementRepositoryLayout}}}</layout>
+            <uniqueVersion>{{{distributionManagementRepositoryUniqueVersion}}}</uniqueVersion>
+        </repository>
+{{/distributionManagementRepositoryOverridden}}
+{{#distributionManagementSnapshotRepositoryOverridden}}
+        <snapshotRepository>
+            <id>{{{distributionManagementSnapshotRepositoryId}}}</groupId>
+            <name>{{{distributionManagementSnapshotRepositoryName}}}</artifactId>
+            <url>{{{distributionManagementSnapshotRepositoryUrl}}}</version>
+            <layout>{{{distributionManagementSnapshotRepositoryLayout}}}</layout>
+            <uniqueVersion>{{{distributionManagementSnapshotRepositoryUniqueVersion}}}</uniqueVersion>
+        </snapshotRepository>
+{{/distributionManagementSnapshotRepositoryOverridden}}
+    </distributionManagement>
+
+{{/distributionManagementOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
