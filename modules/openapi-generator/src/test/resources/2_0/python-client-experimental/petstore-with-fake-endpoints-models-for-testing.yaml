@@ -1538,11 +1538,7 @@ definitions:
       anytype_1: {}
       anytype_2:
         description: no type is set for this
-      map_with_undeclared_properties_anytype_1:
-        type: object
-        description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
-          but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378'
-      map_with_undeclared_properties_anytype_2:
+      anytype_3:
         type: object
         properties: {}
         description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
