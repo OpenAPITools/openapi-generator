@@ -266,7 +266,7 @@ public class DefaultCodegenTest {
         CodegenProperty map_string_cp = null;
         Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
         CodegenProperty map_with_additional_properties_cp = null;
-        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");;
+        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
@@ -355,7 +355,7 @@ public class DefaultCodegenTest {
         CodegenProperty map_string_cp = null;
         Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
         CodegenProperty map_with_additional_properties_cp = null;
-        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");;
+        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
