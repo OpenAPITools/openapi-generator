@@ -2318,3 +2318,8 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    SomeObjectWithSelfAttr:
+      type: object
+      properties:
+        self:
+          type: string
