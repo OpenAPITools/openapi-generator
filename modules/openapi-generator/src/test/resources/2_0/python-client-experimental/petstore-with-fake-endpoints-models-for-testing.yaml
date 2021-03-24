@@ -1373,8 +1373,6 @@ definitions:
         properties:
           breed:
             type: string
-        additionalProperties: false
-    additionalProperties: false
   Cat:
     allOf:
       - $ref: '#/definitions/Animal'
