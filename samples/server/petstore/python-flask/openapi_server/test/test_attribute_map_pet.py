@@ -77,6 +77,10 @@ class TestPetAttributeMap(BaseTestCase):
         pet2 = Pet.from_dict(pet.to_dict())
 
         self.assertEqual(pet.to_dict(), pet2.to_dict())
+
+        self.assertIsInstance(pet, Pet)
+        self.assertIsInstance(pet2, Pet)
+        
         self.assertEqual(pet, pet2)
 
 
