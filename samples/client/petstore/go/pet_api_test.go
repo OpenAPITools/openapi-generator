@@ -69,7 +69,7 @@ func TestGetPetById(t *testing.T) {
 func TestGetPetByIdWithInvalidID(t *testing.T) {
 	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999).Execute()
 	if r != nil && r.StatusCode == 404 {
-		assertedError, ok := err.(sw.GenericOpenAPIError)
+		assertedError, ok := err.(*sw.GenericOpenAPIError)
 		a := assert.New(t)
 		a.True(ok)
 		a.Contains(string(assertedError.Body()), "type")
