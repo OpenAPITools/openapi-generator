@@ -11,7 +11,6 @@
         <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
         <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
-
     <licenses>
         <license>
             <name>Unlicense</name>

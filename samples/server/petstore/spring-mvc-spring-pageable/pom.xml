@@ -5,6 +5,7 @@
     <packaging>jar</packaging>
     <name>spring-mvc-spring-pageable</name>
     <version>1.0.0</version>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
