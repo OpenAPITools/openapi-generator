@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,14 +10,21 @@
 """
 
 
+from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.grandparent import Grandparent
-from petstore_api.model.parent_all_of import ParentAllOf
-globals()['Grandparent'] = Grandparent
-globals()['ParentAllOf'] = ParentAllOf
+try:
+    from petstore_api.model import grandparent
+except ImportError:
+    grandparent = sys.modules[
+        'petstore_api.model.grandparent']
+try:
+    from petstore_api.model import parent_all_of
+except ImportError:
+    parent_all_of = sys.modules[
+        'petstore_api.model.parent_all_of']
 from petstore_api.model.parent import Parent
 
 

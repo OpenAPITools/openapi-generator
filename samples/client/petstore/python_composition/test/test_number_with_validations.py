@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,6 +10,7 @@
 """
 
 
+from __future__ import absolute_import
 import sys
 import unittest
 
@@ -26,9 +29,16 @@ class TestNumberWithValidations(unittest.TestCase):
 
     def testNumberWithValidations(self):
         """Test NumberWithValidations"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = NumberWithValidations()  # noqa: E501
-        pass
+        valid_values = [10.0, 15.0, 20.0]
+        for valid_value in valid_values:
+            model = NumberWithValidations(valid_value)
+            assert model.value == valid_value
+
+        invalid_values = [9.0, 21.0]
+        for invalid_value in invalid_values:
+            with self.assertRaises(petstore_api.ApiValueError):
+                NumberWithValidations(invalid_value)
+
 
 
 if __name__ == '__main__':

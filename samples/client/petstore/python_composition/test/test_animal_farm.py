@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,12 +10,16 @@
 """
 
 
+from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.animal import Animal
-globals()['Animal'] = Animal
+try:
+    from petstore_api.model import animal
+except ImportError:
+    animal = sys.modules[
+        'petstore_api.model.animal']
 from petstore_api.model.animal_farm import AnimalFarm
 
 

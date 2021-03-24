@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,6 +10,7 @@
 """
 
 
+from __future__ import absolute_import
 import sys
 import unittest
 
@@ -26,9 +29,16 @@ class TestAdditionalPropertiesNumber(unittest.TestCase):
 
     def testAdditionalPropertiesNumber(self):
         """Test AdditionalPropertiesNumber"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = AdditionalPropertiesNumber()  # noqa: E501
-        pass
+        # can make model without additional properties
+        model = AdditionalPropertiesNumber()
+
+        # can make one with additional properties
+        model = AdditionalPropertiesNumber(some_key=11.3)
+        assert model['some_key'] == 11.3
+
+        # type checking works on additional properties
+        with self.assertRaises(petstore_api.ApiTypeError) as exc:
+            model = AdditionalPropertiesNumber(some_key=10)
 
 
 if __name__ == '__main__':

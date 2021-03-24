@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,12 +10,16 @@
 """
 
 
+from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.string_enum import StringEnum
-globals()['StringEnum'] = StringEnum
+try:
+    from petstore_api.model import string_enum
+except ImportError:
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
 from petstore_api.model.enum_test import EnumTest
 
 
