@@ -1,7 +1,6 @@
 package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
