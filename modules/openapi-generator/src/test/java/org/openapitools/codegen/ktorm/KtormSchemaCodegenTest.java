@@ -55,19 +55,19 @@ public class KtormSchemaCodegenTest {
         codegen.postProcessModels(toObjs(cm));
         return cm;
     }
-    
+
     private Map<String, Object> getExtension(CodegenProperty property) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             property.vendorExtensions.get(KtormSchemaCodegen.VENDOR_EXTENSION_SCHEMA);
     }
-    
+
     private Map<String, Object> getColumnDefinition(Map<String, Object> schema) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             schema.get("columnDefinition");
     }
 
     private Map<String, Object> getRelationDefinition(Map<String, Object> schema) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             schema.get("relationDefinition");
     }
 
