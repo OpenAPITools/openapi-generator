@@ -111,24 +111,22 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized['pet'], pet.Pet))
 
     def test_deserialize_dict_str_dog(self):
-        """ deserialize dict(str, Dog), use discriminator"""
-        data = {
-            'dog': {
-                "className": "Dog",
-                "color": "white",
-                "breed": "Jack Russel Terrier"
+        """ deserialize dict(str, Dog), use discriminator
+        This will fail because additional_properties_type is None in Animal and it must be defined as any type
+        to allow in the property breed which is not defined in Animal, it is defined in Dog
+        """
+        with self.assertRaises(petstore_api.exceptions.ApiValueError):
+            data = {
+                'dog': {
+                    "className": "Dog",
+                    "color": "white",
+                    "breed": "Jack Russel Terrier"
+                }
             }
-        }
-        response = MockResponse(data=json.dumps(data))
+            response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response,
-            ({str: (animal.Animal,)},), True)
-        self.assertTrue(isinstance(deserialized, dict))
-        dog_inst = deserialized['dog']
-        self.assertTrue(isinstance(dog_inst, dog.Dog))
-        self.assertEqual(dog_inst.class_name, "Dog")
-        self.assertEqual(dog_inst.color, "white")
-        self.assertEqual(dog_inst.breed, "Jack Russel Terrier")
+            deserialized = self.deserialize(response,
+                ({str: (animal.Animal,)},), True)
 
     def test_deserialize_lizard(self):
         """ deserialize ChildLizard, use discriminator
