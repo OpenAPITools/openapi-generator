@@ -453,10 +453,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
                     if (operation.consumes == null) {
-                        break;
+                        continue;
                     }
                     if (operation.consumes.size() == 0) {
-                        break;
+                        continue;
                     }
 
                     // Build a consumes string for the operation we cannot iterate in the template as we need a ','
