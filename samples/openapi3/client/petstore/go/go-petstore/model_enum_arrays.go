@@ -16,8 +16,8 @@ import (
 
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
-	JustSymbol *string `json:"just_symbol,omitempty"`
-	ArrayEnum []string `json:"array_enum,omitempty"`
+	JustSymbol           *string  `json:"just_symbol,omitempty"`
+	ArrayEnum            []string `json:"array_enum,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -173,5 +173,3 @@ func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

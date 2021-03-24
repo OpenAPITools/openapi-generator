@@ -16,7 +16,7 @@ import (
 
 // CatAllOf struct for CatAllOf
 type CatAllOf struct {
-	Declawed *bool `json:"declawed,omitempty"`
+	Declawed             *bool `json:"declawed,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableCatAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

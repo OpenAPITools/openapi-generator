@@ -20,7 +20,7 @@ type InlineObject1 struct {
 	// Additional data to pass to server
 	AdditionalMetadata *string `json:"additionalMetadata,omitempty"`
 	// file to upload
-	File **os.File `json:"file,omitempty"`
+	File                 **os.File `json:"file,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -176,5 +176,3 @@ func (v *NullableInlineObject1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

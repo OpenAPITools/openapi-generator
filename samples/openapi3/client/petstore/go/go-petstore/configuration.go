@@ -77,9 +77,9 @@ type ServerVariable struct {
 
 // ServerConfiguration stores the information about a server
 type ServerConfiguration struct {
-	URL string
+	URL         string
 	Description string
-	Variables map[string]ServerVariable
+	Variables   map[string]ServerVariable
 }
 
 // ServerConfigurations stores multiple ServerConfiguration items
@@ -100,16 +100,16 @@ type Configuration struct {
 // NewConfiguration returns a new Configuration object
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		DefaultHeader:    make(map[string]string),
-		UserAgent:        "OpenAPI-Generator/1.0.0/go",
-		Debug:            false,
-		Servers:          ServerConfigurations{
+		DefaultHeader: make(map[string]string),
+		UserAgent:     "OpenAPI-Generator/1.0.0/go",
+		Debug:         false,
+		Servers: ServerConfigurations{
 			{
-				URL: "http://{server}.swagger.io:{port}/v2",
+				URL:         "http://{server}.swagger.io:{port}/v2",
 				Description: "petstore server",
 				Variables: map[string]ServerVariable{
-					"server": ServerVariable{
-						Description: "No description provided",
+					"server": {
+						Description:  "No description provided",
 						DefaultValue: "petstore",
 						EnumValues: []string{
 							"petstore",
@@ -117,8 +117,8 @@ func NewConfiguration() *Configuration {
 							"dev-petstore",
 						},
 					},
-					"port": ServerVariable{
-						Description: "No description provided",
+					"port": {
+						Description:  "No description provided",
 						DefaultValue: "80",
 						EnumValues: []string{
 							"80",
@@ -128,11 +128,11 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://localhost:8080/{version}",
+				URL:         "https://localhost:8080/{version}",
 				Description: "The local server",
 				Variables: map[string]ServerVariable{
-					"version": ServerVariable{
-						Description: "No description provided",
+					"version": {
+						Description:  "No description provided",
 						DefaultValue: "v2",
 						EnumValues: []string{
 							"v1",
@@ -142,28 +142,28 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://127.0.0.1/no_variable",
+				URL:         "https://127.0.0.1/no_variable",
 				Description: "The local server without variables",
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{
 			"PetApiService.AddPet": {
 				{
-					URL: "http://petstore.swagger.io/v2",
+					URL:         "http://petstore.swagger.io/v2",
 					Description: "No description provided",
 				},
 				{
-					URL: "http://path-server-test.petstore.local/v2",
+					URL:         "http://path-server-test.petstore.local/v2",
 					Description: "No description provided",
 				},
 			},
 			"PetApiService.UpdatePet": {
 				{
-					URL: "http://petstore.swagger.io/v2",
+					URL:         "http://petstore.swagger.io/v2",
 					Description: "No description provided",
 				},
 				{
-					URL: "http://path-server-test.petstore.local/v2",
+					URL:         "http://path-server-test.petstore.local/v2",
 					Description: "No description provided",
 				},
 			},

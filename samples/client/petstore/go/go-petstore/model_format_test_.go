@@ -18,20 +18,20 @@ import (
 
 // FormatTest struct for FormatTest
 type FormatTest struct {
-	Integer *int32 `json:"integer,omitempty"`
-	Int32 *int32 `json:"int32,omitempty"`
-	Int64 *int64 `json:"int64,omitempty"`
-	Number float32 `json:"number"`
-	Float *float32 `json:"float,omitempty"`
-	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty"`
-	Byte string `json:"byte"`
-	Binary **os.File `json:"binary,omitempty"`
-	Date string `json:"date"`
-	DateTime *time.Time `json:"dateTime,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-	Password string `json:"password"`
-	BigDecimal *float64 `json:"BigDecimal,omitempty"`
+	Integer    *int32     `json:"integer,omitempty"`
+	Int32      *int32     `json:"int32,omitempty"`
+	Int64      *int64     `json:"int64,omitempty"`
+	Number     float32    `json:"number"`
+	Float      *float32   `json:"float,omitempty"`
+	Double     *float64   `json:"double,omitempty"`
+	String     *string    `json:"string,omitempty"`
+	Byte       string     `json:"byte"`
+	Binary     **os.File  `json:"binary,omitempty"`
+	Date       string     `json:"date"`
+	DateTime   *time.Time `json:"dateTime,omitempty"`
+	Uuid       *string    `json:"uuid,omitempty"`
+	Password   string     `json:"password"`
+	BigDecimal *float64   `json:"BigDecimal,omitempty"`
 }
 
 // NewFormatTest instantiates a new FormatTest object
@@ -164,7 +164,7 @@ func (o *FormatTest) GetNumber() float32 {
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetNumberOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Number, true
@@ -284,7 +284,7 @@ func (o *FormatTest) GetByte() string {
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetByteOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Byte, true
@@ -340,7 +340,7 @@ func (o *FormatTest) GetDate() string {
 // GetDateOk returns a tuple with the Date field value
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetDateOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Date, true
@@ -428,7 +428,7 @@ func (o *FormatTest) GetPassword() string {
 // GetPasswordOk returns a tuple with the Password field value
 // and a boolean to check if the value has been set.
 func (o *FormatTest) GetPasswordOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Password, true
@@ -553,5 +553,3 @@ func (v *NullableFormatTest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

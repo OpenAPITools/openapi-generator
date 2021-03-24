@@ -16,8 +16,8 @@ import (
 
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
-	MapProperty *map[string]string `json:"map_property,omitempty"`
-	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
+	MapProperty          *map[string]string            `json:"map_property,omitempty"`
+	MapOfMapProperty     *map[string]map[string]string `json:"map_of_map_property,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -173,5 +173,3 @@ func (v *NullableAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

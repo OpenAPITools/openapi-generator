@@ -16,8 +16,8 @@ import (
 
 // BananaReq struct for BananaReq
 type BananaReq struct {
-	LengthCm float32 `json:"lengthCm"`
-	Sweet *bool `json:"sweet,omitempty"`
+	LengthCm             float32 `json:"lengthCm"`
+	Sweet                *bool   `json:"sweet,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -54,7 +54,7 @@ func (o *BananaReq) GetLengthCm() float32 {
 // GetLengthCmOk returns a tuple with the LengthCm field value
 // and a boolean to check if the value has been set.
 func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.LengthCm, true
@@ -166,5 +166,3 @@ func (v *NullableBananaReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

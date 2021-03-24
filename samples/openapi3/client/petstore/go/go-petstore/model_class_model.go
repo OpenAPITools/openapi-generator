@@ -16,7 +16,7 @@ import (
 
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
-	Class *string `json:"_class,omitempty"`
+	Class                *string `json:"_class,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableClassModel) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

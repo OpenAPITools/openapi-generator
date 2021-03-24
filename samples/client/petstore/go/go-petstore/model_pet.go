@@ -16,11 +16,11 @@ import (
 
 // Pet struct for Pet
 type Pet struct {
-	Id *int64 `json:"id,omitempty"`
-	Category *Category `json:"category,omitempty"`
-	Name string `json:"name"`
-	PhotoUrls []string `json:"photoUrls"`
-	Tags []Tag `json:"tags,omitempty"`
+	Id        *int64    `json:"id,omitempty"`
+	Category  *Category `json:"category,omitempty"`
+	Name      string    `json:"name"`
+	PhotoUrls []string  `json:"photoUrls"`
+	Tags      []Tag     `json:"tags,omitempty"`
 	// pet status in the store
 	Status *string `json:"status,omitempty"`
 }
@@ -121,7 +121,7 @@ func (o *Pet) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -145,7 +145,7 @@ func (o *Pet) GetPhotoUrls() []string {
 // GetPhotoUrlsOk returns a tuple with the PhotoUrls field value
 // and a boolean to check if the value has been set.
 func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.PhotoUrls, true
@@ -278,5 +278,3 @@ func (v *NullablePet) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

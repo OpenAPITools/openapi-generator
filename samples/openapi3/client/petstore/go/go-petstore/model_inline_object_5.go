@@ -20,7 +20,7 @@ type InlineObject5 struct {
 	// Additional data to pass to server
 	AdditionalMetadata *string `json:"additionalMetadata,omitempty"`
 	// file to upload
-	RequiredFile *os.File `json:"requiredFile"`
+	RequiredFile         *os.File `json:"requiredFile"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -30,7 +30,7 @@ type _InlineObject5 InlineObject5
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject5(requiredFile *os.File, ) *InlineObject5 {
+func NewInlineObject5(requiredFile *os.File) *InlineObject5 {
 	this := InlineObject5{}
 	this.RequiredFile = requiredFile
 	return &this
@@ -78,7 +78,7 @@ func (o *InlineObject5) SetAdditionalMetadata(v string) {
 
 // GetRequiredFile returns the RequiredFile field value
 func (o *InlineObject5) GetRequiredFile() *os.File {
-	if o == nil  {
+	if o == nil {
 		var ret *os.File
 		return ret
 	}
@@ -89,7 +89,7 @@ func (o *InlineObject5) GetRequiredFile() *os.File {
 // GetRequiredFileOk returns a tuple with the RequiredFile field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject5) GetRequiredFileOk() (**os.File, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RequiredFile, true
@@ -169,5 +169,3 @@ func (v *NullableInlineObject5) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -16,7 +16,7 @@ import (
 
 // Foo struct for Foo
 type Foo struct {
-	Bar *string `json:"bar,omitempty"`
+	Bar                  *string `json:"bar,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -140,5 +140,3 @@ func (v *NullableFoo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

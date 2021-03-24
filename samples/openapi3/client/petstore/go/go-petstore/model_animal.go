@@ -16,8 +16,8 @@ import (
 
 // Animal struct for Animal
 type Animal struct {
-	ClassName string `json:"className"`
-	Color *string `json:"color,omitempty"`
+	ClassName            string  `json:"className"`
+	Color                *string `json:"color,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -58,7 +58,7 @@ func (o *Animal) GetClassName() string {
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
 func (o *Animal) GetClassNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClassName, true
@@ -170,5 +170,3 @@ func (v *NullableAnimal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -16,7 +16,7 @@ import (
 
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
-	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
+	SpecialPropertyName  *int64 `json:"$special[property.name],omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableSpecialModelName) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

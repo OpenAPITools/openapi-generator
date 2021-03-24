@@ -16,7 +16,7 @@ import (
 
 // List struct for List
 type List struct {
-	Var123List *string `json:"123-list,omitempty"`
+	Var123List           *string `json:"123-list,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableList) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

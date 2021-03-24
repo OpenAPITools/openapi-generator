@@ -16,8 +16,8 @@ import (
 
 // AppleReq struct for AppleReq
 type AppleReq struct {
-	Cultivar string `json:"cultivar"`
-	Mealy *bool `json:"mealy,omitempty"`
+	Cultivar             string `json:"cultivar"`
+	Mealy                *bool  `json:"mealy,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -54,7 +54,7 @@ func (o *AppleReq) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Cultivar, true
@@ -166,5 +166,3 @@ func (v *NullableAppleReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

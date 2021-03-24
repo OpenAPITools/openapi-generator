@@ -137,14 +137,14 @@ type FakeApi interface {
 	TestClientModelExecute(r ApiTestClientModelRequest) (*Client, *http.Response, error)
 
 	/*
-		 * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-		 * Fake endpoint for testing various parameters
-	假端點
-	偽のエンドポイント
-	가짜 엔드 포인트
+			 * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+			 * Fake endpoint for testing various parameters
+		假端點
+		偽のエンドポイント
+		가짜 엔드 포인트
 
-		 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		 * @return ApiTestEndpointParametersRequest
+			 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			 * @return ApiTestEndpointParametersRequest
 	*/
 	TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest
 

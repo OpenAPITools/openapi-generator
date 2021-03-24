@@ -16,15 +16,15 @@ import (
 
 // EnumTest struct for EnumTest
 type EnumTest struct {
-	EnumString *string `json:"enum_string,omitempty"`
-	EnumStringRequired string `json:"enum_string_required"`
-	EnumInteger *int32 `json:"enum_integer,omitempty"`
-	EnumNumber *float64 `json:"enum_number,omitempty"`
-	OuterEnum NullableOuterEnum `json:"outerEnum,omitempty"`
-	OuterEnumInteger *OuterEnumInteger `json:"outerEnumInteger,omitempty"`
-	OuterEnumDefaultValue *OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
+	EnumString                   *string                       `json:"enum_string,omitempty"`
+	EnumStringRequired           string                        `json:"enum_string_required"`
+	EnumInteger                  *int32                        `json:"enum_integer,omitempty"`
+	EnumNumber                   *float64                      `json:"enum_number,omitempty"`
+	OuterEnum                    NullableOuterEnum             `json:"outerEnum,omitempty"`
+	OuterEnumInteger             *OuterEnumInteger             `json:"outerEnumInteger,omitempty"`
+	OuterEnumDefaultValue        *OuterEnumDefaultValue        `json:"outerEnumDefaultValue,omitempty"`
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
-	AdditionalProperties map[string]interface{}
+	AdditionalProperties         map[string]interface{}
 }
 
 type _EnumTest EnumTest
@@ -100,7 +100,7 @@ func (o *EnumTest) GetEnumStringRequired() string {
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EnumStringRequired, true
@@ -188,7 +188,7 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.OuterEnum.Get(), o.OuterEnum.IsSet()
@@ -207,6 +207,7 @@ func (o *EnumTest) HasOuterEnum() bool {
 func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 	o.OuterEnum.Set(&v)
 }
+
 // SetOuterEnumNil sets the value for OuterEnum to be an explicit nil
 func (o *EnumTest) SetOuterEnumNil() {
 	o.OuterEnum.Set(nil)
@@ -406,5 +407,3 @@ func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

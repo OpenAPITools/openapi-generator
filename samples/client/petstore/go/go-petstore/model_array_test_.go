@@ -16,9 +16,9 @@ import (
 
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
-	ArrayOfString []string `json:"array_of_string,omitempty"`
-	ArrayArrayOfInteger [][]int64 `json:"array_array_of_integer,omitempty"`
-	ArrayArrayOfModel [][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
+	ArrayOfString       []string          `json:"array_of_string,omitempty"`
+	ArrayArrayOfInteger [][]int64         `json:"array_array_of_integer,omitempty"`
+	ArrayArrayOfModel   [][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
 
 // NewArrayTest instantiates a new ArrayTest object
@@ -183,5 +183,3 @@ func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

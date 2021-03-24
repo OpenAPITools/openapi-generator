@@ -16,8 +16,8 @@ import (
 
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
-	File *File `json:"file,omitempty"`
-	Files []File `json:"files,omitempty"`
+	File                 *File  `json:"file,omitempty"`
+	Files                []File `json:"files,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -173,5 +173,3 @@ func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

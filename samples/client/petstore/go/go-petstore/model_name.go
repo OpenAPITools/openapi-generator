@@ -16,10 +16,10 @@ import (
 
 // Name Model for testing model name same as property name
 type Name struct {
-	Name int32 `json:"name"`
-	SnakeCase *int32 `json:"snake_case,omitempty"`
-	Property *string `json:"property,omitempty"`
-	Var123Number *int32 `json:"123Number,omitempty"`
+	Name         int32   `json:"name"`
+	SnakeCase    *int32  `json:"snake_case,omitempty"`
+	Property     *string `json:"property,omitempty"`
+	Var123Number *int32  `json:"123Number,omitempty"`
 }
 
 // NewName instantiates a new Name object
@@ -53,7 +53,7 @@ func (o *Name) GetName() int32 {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Name) GetNameOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -212,5 +212,3 @@ func (v *NullableName) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

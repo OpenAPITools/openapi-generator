@@ -16,9 +16,9 @@ import (
 
 // Whale struct for Whale
 type Whale struct {
-	HasBaleen *bool `json:"hasBaleen,omitempty"`
-	HasTeeth *bool `json:"hasTeeth,omitempty"`
-	ClassName string `json:"className"`
+	HasBaleen            *bool  `json:"hasBaleen,omitempty"`
+	HasTeeth             *bool  `json:"hasTeeth,omitempty"`
+	ClassName            string `json:"className"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -119,7 +119,7 @@ func (o *Whale) GetClassName() string {
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
 func (o *Whale) GetClassNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClassName, true
@@ -203,5 +203,3 @@ func (v *NullableWhale) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

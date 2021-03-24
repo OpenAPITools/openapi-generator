@@ -16,7 +16,7 @@ import (
 
 // Apple struct for Apple
 type Apple struct {
-	Cultivar *string `json:"cultivar,omitempty"`
+	Cultivar             *string `json:"cultivar,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableApple) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -16,7 +16,7 @@ import (
 
 // Banana struct for Banana
 type Banana struct {
-	LengthCm *float32 `json:"lengthCm,omitempty"`
+	LengthCm             *float32 `json:"lengthCm,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,5 +136,3 @@ func (v *NullableBanana) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

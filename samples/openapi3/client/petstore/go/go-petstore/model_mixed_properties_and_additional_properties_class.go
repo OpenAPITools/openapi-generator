@@ -17,9 +17,9 @@ import (
 
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
-	Uuid *string `json:"uuid,omitempty"`
-	DateTime *time.Time `json:"dateTime,omitempty"`
-	Map *map[string]Animal `json:"map,omitempty"`
+	Uuid                 *string            `json:"uuid,omitempty"`
+	DateTime             *time.Time         `json:"dateTime,omitempty"`
+	Map                  *map[string]Animal `json:"map,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -211,5 +211,3 @@ func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
