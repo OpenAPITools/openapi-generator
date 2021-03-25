@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -17,8 +15,8 @@ import petstore_api
 from petstore_api.model.some_object_with_self_attr import SomeObjectWithSelfAttr
 
 
-class TestObjectWithSelfAttribute(unittest.TestCase):
-    """NumberWithValidations unit test stubs"""
+class TestSomeObjectWithSelfAttr(unittest.TestCase):
+    """SomeObjectWithSelfAttr unit test stubs"""
 
     def setUp(self):
         pass
@@ -26,8 +24,8 @@ class TestObjectWithSelfAttribute(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testObjectWithSelfAttribute(self):
-        """Test NumberWithValidations"""
+    def testSomeObjectWithSelfAttr(self):
+        """Test SomeObjectWithSelfAttr"""
         kwargs = {"self": "this is a string"}
         model = SomeObjectWithSelfAttr(**kwargs)
         assert model._self == "this is a string"
