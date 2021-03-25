@@ -85,17 +85,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
-        {{#operation}}
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
+        {{#operation}}        
 
         {{#returnType}}
         /// <summary>
@@ -153,9 +143,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
             {{/allParams}}
-
-            await Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "{{path}}";
