@@ -745,6 +745,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     protected Schema getAdditionalProperties(Schema schema) {
+        /*
+        Use cases:
+        1. addProps set to schema in spec: return that schema
+        2. addProps unset w/ getDisallowAdditionalPropertiesIfNotPresent -> null
+        3. addProps unset w/ getDisallowAdditionalPropertiesIfNotPresent=False -> new Schema()
+        4. addProps true -> new Schema() NOTE: v3 only
+        5. addprops false -> null NOTE: v3 only
+         */
         Object addProps = schema.getAdditionalProperties();
         if (addProps instanceof Schema) {
             return (Schema) addProps;
@@ -839,7 +847,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
+        Schema newSchema = new Schema();
+        if (isFreeFormObject(p) && getAdditionalProperties(p) != null && newSchema.equals(getAdditionalProperties(p))) {
             if (this.openAPI.getExtensions() != null) {
                 String originalSpecVersion = (String) this.openAPI.getExtensions().getOrDefault("x-original-swagger-version", "");
                 if (originalSpecVersion.equals("2.0")) {
@@ -914,7 +923,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // The 'addProps' may be a reference, getTypeDeclaration will resolve
             // the reference.
             List<String> referencedModelNames = new ArrayList<String>();
-            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
+            getTypeString(addProps, "", "", referencedModelNames);
             if (referencedModelNames.size() != 0) {
                 // Models that are referenced in the 'additionalPropertiesType' keyword
                 // must be added to the imports.
