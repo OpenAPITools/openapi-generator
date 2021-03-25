@@ -401,8 +401,8 @@ namespace {{packageName}}.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = ApiClient.HttpClientHandler;
-            var client = ApiClient.HttpClient;
+            var handler = this.HttpClientHandler;
+            var client = this.HttpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
