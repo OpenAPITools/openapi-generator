@@ -187,12 +187,8 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
-        public ApiClient(HttpClient client = null, HttpClientHandler handler = null)
+        public ApiClient(HttpClient client = null, HttpClientHandler handler = null) : this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, client, handler)
         {
-            _baseUrl = Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath;
-
-            this.HttpClientHandler = handler ?? new HttpClientHandler();
-            this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
         }
 
         /// <summary>
@@ -206,9 +202,13 @@ namespace Org.OpenAPITools.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
+            /* TODO: Decide how to handle this case
+            if(client != null && handler == null) {
+                throw new ArgumentException("if providing HttpClient, you also need to provide its handler");
+            }*/
 
-             this.HttpClientHandler = handler ?? new HttpClientHandler();
-             this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
+            this.HttpClientHandler = handler ?? new HttpClientHandler();
+            this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
         }
 
         /// Prepares multipart/form-data content
@@ -399,8 +399,8 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = ApiClient.HttpClientHandler;
-            var client = ApiClient.HttpClient;
+            var handler = this.HttpClientHandler;
+            var client = this.HttpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
