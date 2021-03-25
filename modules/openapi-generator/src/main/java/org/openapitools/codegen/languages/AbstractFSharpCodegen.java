@@ -30,8 +30,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.Exception;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
