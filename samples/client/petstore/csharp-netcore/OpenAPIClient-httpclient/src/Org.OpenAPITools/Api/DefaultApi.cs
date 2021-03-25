@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<InlineResponseDefault> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<InlineResponseDefault> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>

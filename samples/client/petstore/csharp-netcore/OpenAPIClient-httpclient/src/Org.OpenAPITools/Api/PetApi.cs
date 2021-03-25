@@ -514,7 +514,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -632,7 +632,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<List<Pet>> result = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -750,7 +750,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Pet> result = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -1029,7 +1029,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync(long petId, string??? additionalMetadata = null, System.IO.Stream??? file = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -1143,7 +1143,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, string??? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<ApiResponse> result = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>

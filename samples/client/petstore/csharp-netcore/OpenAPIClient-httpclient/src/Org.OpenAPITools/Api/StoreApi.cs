@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>

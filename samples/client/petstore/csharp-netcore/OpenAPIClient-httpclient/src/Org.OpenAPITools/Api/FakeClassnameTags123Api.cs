@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>

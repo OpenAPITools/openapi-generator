@@ -550,7 +550,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> result = await FakeHealthGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool???? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<bool> result = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -731,7 +731,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite??? outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<OuterComposite> result = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -824,7 +824,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal???? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<decimal> result = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -917,7 +917,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string??? body = null, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<string> result = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -1008,7 +1008,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> result = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -1236,7 +1236,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<ModelClient> result = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>

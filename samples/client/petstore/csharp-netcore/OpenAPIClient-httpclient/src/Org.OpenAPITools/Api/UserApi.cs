@@ -548,7 +548,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
@@ -645,7 +645,7 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
             Org.OpenAPITools.Client.ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
-            return result.Content ?? throw new NullReferenceException();
+            return result.Content ?? throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
         }
 
         /// <summary>
