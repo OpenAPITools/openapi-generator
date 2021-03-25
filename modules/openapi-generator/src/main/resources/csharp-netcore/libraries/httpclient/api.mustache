@@ -1,0 +1,325 @@
+{{>partial_header}}
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
+using System.Net.Mime;
+using {{packageName}}.Client;
+{{#hasImport}}using {{packageName}}.{{modelPackage}};
+{{/hasImport}}
+
+namespace {{packageName}}.{{apiPackage}}
+{
+    {{#operations}}
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
+    {{>visibility}} interface {{interfacePrefix}}{{classname}}
+    {
+        {{#operation}}
+        /// <summary>
+        /// {{summary}}
+        /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
+        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// {{summary}}
+        /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
+        System.Threading.Tasks.Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);
+        
+        {{#returnType}}
+        /// <summary>
+        /// {{summary}}
+        /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}?){{/returnType}}</returns>
+        System.Threading.Tasks.Task<{{#returnType}}{{{returnType}}}{{/returnType}}?> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);
+        {{/returnType}}
+        {{/operation}}
+    }
+
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
+    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
+    {
+        private readonly System.Net.Http.HttpClient _httpClient;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class.
+        /// </summary>
+        /// <returns></returns>
+        public {{classname}}(System.Net.Http.HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        /// <summary>
+        /// Returns the token to be used in the api query
+        /// </summary>
+        public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
+
+        {{#operation}}
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+        {{#returnType}}
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of {{returnType}}</returns>
+        public async System.Threading.Tasks.Task<{{{returnType}}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        {
+            {{packageName}}.Client.ApiResponse<{{{returnType}}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            return result.Content ?? throw new NullReferenceException();
+        }
+        {{/returnType}}
+
+        {{#returnType}}
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of {{returnType}}</returns>
+        public async System.Threading.Tasks.Task<{{{returnType}}}?> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        {
+            {{packageName}}.Client.ApiResponse<{{{returnType}}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Content
+                : null;
+        } 
+        {{/returnType}}       
+
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
+        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}}??? {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        {
+            {{#allParams}}
+            {{#required}}
+            {{^vendorExtensions.x-csharp-value-type}}
+            if ({{paramName}} == null)
+                throw new ArgumentNullException(nameof({{paramName}})); 
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{/required}}
+            {{/allParams}}
+
+            await Validate{{operationId}}RequestAsync({{#allParams}}{{#required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{paramName}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "{{path}}";
+            {{#pathParams}}
+            {{#required}}
+{{=<< >>=}}
+            path = path.Replace("{<<baseName>>}", Uri.EscapeDataString(<<paramName>>));
+<<={{ }}=>>
+            {{/required}}
+
+            {{^required}}
+            if ({{paramName}} != null)
+{{=<< >>=}}
+                path = $"{path}{path.Replace("<<baseName>>", Uri.EscapeDataString(<<paramName>>))}&"; 
+<<={{ }}=>> 
+            {{/required}}{{/pathParams}}
+
+            path = $"{path}?";
+            
+            {{#queryParams}}
+            {{#required}}
+            path = $"{path}{{baseName}}={Uri.EscapeDataString({{paramName}}.ToString()!)&";
+
+            {{/required}}
+            {{^required}}
+            if ({{paramName}} != null)
+                path = $"{path}{{baseName}}={Uri.EscapeDataString({{paramName}}.ToString()!)}&";  
+
+            {{/required}}
+            {{/queryParams}}
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+            {{#headerParams}}
+            {{#required}}
+            request.Headers.Add({{baseName}}, {{paramName}});
+            {{/required}}
+            {{^required}}
+            if ({{paramName}} != null)                
+                request.Headers.Add({{baseName}}, {{paramName}});                
+            {{/required}}
+            {{/headerParams}}
+
+            {{#formParams}}
+            {{#required}}
+            {{#isFile}}
+            // todo  localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/isFile}}
+            {{^isFile}}
+            // todo localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+            {{/isFile}}
+            {{/required}}
+            {{^required}}
+            if ({{paramName}} != null)
+            {
+                {{#isFile}}
+                // todo localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+                {{/isFile}}
+                {{^isFile}}
+                // todo localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+                {{/isFile}}
+            }
+            {{/required}}            
+            {{/formParams}}
+
+            {{#bodyParam}}
+            // todo localVarRequestOptions.Content = {{paramName}};
+            {{/bodyParam}}
+
+            {{#authMethods}}
+            // authentication ({{name}}) required
+            {{#isApiKey}}
+            {{#isKeyInCookie}}
+            // cookie parameter support
+            // todo if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+                // todo localVarRequestOptions.Cookies.Add(new Cookie("{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+            {{/isKeyInCookie}}
+            {{#isKeyInHeader}}//isKeyInHeader
+            string? token = GetTokenAsync != null
+                ? await GetTokenAsync().ConfigureAwait(false)
+                : null;
+
+            if (token != null)
+                request.Headers.Add("authorization", $"Bearer {token}");            
+            {{/isKeyInHeader}}
+            {{#isKeyInQuery}}
+            //todo if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+                //todo localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{#isBasic}}
+            {{#isBasicBasic}}
+            // http basic authentication required
+            //todo if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + {{packageName}}.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}//isBasicBearer
+            // bearer authentication required
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo request.Headers.Add("authorization", $"Bearer {Environment.GetEnvironmentVariable("TOKEN_0", EnvironmentVariableTarget.Machine)}");
+            {{/isBasicBearer}}
+            {{/isBasic}}
+            {{#isOAuth}}
+            // oauth required
+            //todo if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                //todo localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            {{/isOAuth}}
+            {{#isHttpSignature}}
+            //todo 
+            /*
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
+            */
+            {{/isHttpSignature}}
+            {{/authMethods}}
+
+            {{#consumes}}
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
+            {{/consumes}}
+
+            string[] contentTypes = new string[] {
+            {{#consumes}}
+                "{{{mediaType}}}"{{^-last}}, {{/-last}}
+            {{/consumes}}
+            };
+
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
+
+            {{#produces}}
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("{{{mediaType}}}"));
+            {{/produces}}
+
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>(apiResponse.RawContent, {{packageName}}.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
+        }
+        {{/operation}}
+    }
+    {{/operations}}
+}
