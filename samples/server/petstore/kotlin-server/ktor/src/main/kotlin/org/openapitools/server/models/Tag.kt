@@ -18,7 +18,7 @@ import java.io.Serializable
  * @param id 
  * @param name 
  */
-data class Tag (
+data class Tag(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
 ) : Serializable 
