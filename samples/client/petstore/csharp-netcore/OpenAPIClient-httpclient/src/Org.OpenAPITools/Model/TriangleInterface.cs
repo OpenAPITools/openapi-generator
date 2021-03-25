@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -40,15 +37,17 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
         /// </summary>
         /// <param name="triangleType">triangleType (required).</param>
-        public TriangleInterface(string triangleType = default(string))
+        public TriangleInterface(string triangleType)
         {
             // to ensure "triangleType" is required (not null)
-            this.TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
-            this.AdditionalProperties = new Dictionary<string, object>();
+            TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -71,8 +70,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class TriangleInterface {\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -81,9 +80,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as TriangleInterface).AreEqual;
         }
@@ -101,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of TriangleInterface to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(TriangleInterface input)
+        public bool Equals(TriangleInterface? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -35,7 +32,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines EnumString
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum EnumStringEnum
         {
             /// <summary>
@@ -63,10 +60,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "enum_string", EmitDefaultValue = false)]
         public EnumStringEnum? EnumString { get; set; }
+        
         /// <summary>
         /// Defines EnumStringRequired
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum EnumStringRequiredEnum
         {
             /// <summary>
@@ -94,6 +92,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
+        
         /// <summary>
         /// Defines EnumInteger
         /// </summary>
@@ -116,10 +115,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
         public EnumIntegerEnum? EnumInteger { get; set; }
+        
         /// <summary>
         /// Defines EnumNumber
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public enum EnumNumberEnum
         {
             /// <summary>
@@ -141,26 +141,31 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
         public EnumNumberEnum? EnumNumber { get; set; }
+        
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
         public OuterEnum? OuterEnum { get; set; }
+        
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
         public OuterEnumInteger? OuterEnumInteger { get; set; }
+        
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
         public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
+        
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
         public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -169,6 +174,7 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -180,17 +186,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger.</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        public EnumTest(EnumStringEnum? enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum? enumInteger, EnumNumberEnum? enumNumber, OuterEnum? outerEnum, OuterEnumInteger? outerEnumInteger, OuterEnumDefaultValue? outerEnumDefaultValue, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue)
         {
-            this.EnumStringRequired = enumStringRequired;
-            this.EnumString = enumString;
-            this.EnumInteger = enumInteger;
-            this.EnumNumber = enumNumber;
-            this.OuterEnum = outerEnum;
-            this.OuterEnumInteger = outerEnumInteger;
-            this.OuterEnumDefaultValue = outerEnumDefaultValue;
-            this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            EnumStringRequired = enumStringRequired;
+
+            EnumString = enumString;
+            EnumInteger = enumInteger;
+            EnumNumber = enumNumber;
+            OuterEnum = outerEnum;
+            OuterEnumInteger = outerEnumInteger;
+            OuterEnumDefaultValue = outerEnumDefaultValue;
+            OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -207,15 +214,15 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
-            sb.Append("  EnumString: ").Append(EnumString).Append("\n");
-            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
-            sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
-            sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
-            sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
-            sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
-            sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
-            sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  EnumString: ").Append(EnumString).Append('\n');
+            sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append('\n');
+            sb.Append("  EnumInteger: ").Append(EnumInteger).Append('\n');
+            sb.Append("  EnumNumber: ").Append(EnumNumber).Append('\n');
+            sb.Append("  OuterEnum: ").Append(OuterEnum).Append('\n');
+            sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append('\n');
+            sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append('\n');
+            sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -224,9 +231,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -234,7 +241,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumTest).AreEqual;
         }
@@ -244,7 +251,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of EnumTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EnumTest input)
+        public bool Equals(EnumTest? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

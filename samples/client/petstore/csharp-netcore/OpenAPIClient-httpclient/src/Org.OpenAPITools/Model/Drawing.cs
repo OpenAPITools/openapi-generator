@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -39,12 +36,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
+        public Drawing(Shape mainShape, ShapeOrNull shapeOrNull, NullableShape nullableShape, List<Shape> shapes) : base()
         {
-            this.MainShape = mainShape;
-            this.ShapeOrNull = shapeOrNull;
-            this.NullableShape = nullableShape;
-            this.Shapes = shapes;
+            MainShape = mainShape;
+            ShapeOrNull = shapeOrNull;
+            NullableShape = nullableShape;
+            Shapes = shapes;
         }
 
         /// <summary>
@@ -79,11 +76,11 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Drawing {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  MainShape: ").Append(MainShape).Append("\n");
-            sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
-            sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
-            sb.Append("  Shapes: ").Append(Shapes).Append("\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
+            sb.Append("  MainShape: ").Append(MainShape).Append('\n');
+            sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append('\n');
+            sb.Append("  NullableShape: ").Append(NullableShape).Append('\n');
+            sb.Append("  Shapes: ").Append(Shapes).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,9 +89,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -102,7 +99,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Drawing).AreEqual;
         }
@@ -112,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Drawing to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Drawing input)
+        public bool Equals(Drawing? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

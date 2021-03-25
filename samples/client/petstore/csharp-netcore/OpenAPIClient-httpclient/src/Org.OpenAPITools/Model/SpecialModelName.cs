@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -37,11 +34,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
         /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        public SpecialModelName(long specialPropertyName, string specialModelName)
         {
-            this.SpecialPropertyName = specialPropertyName;
-            this._SpecialModelName = specialModelName;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            SpecialPropertyName = specialPropertyName;
+            _SpecialModelName = specialModelName;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -70,9 +67,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append('\n');
+            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -81,9 +78,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -91,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as SpecialModelName).AreEqual;
         }
@@ -101,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of SpecialModelName to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SpecialModelName input)
+        public bool Equals(SpecialModelName? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

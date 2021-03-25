@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -42,10 +39,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public BananaReq(decimal lengthCm, bool sweet)
         {
-            this.LengthCm = lengthCm;
-            this.Sweet = sweet;
+            LengthCm = lengthCm;
+
+            Sweet = sweet;
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
-        [DataMember(Name = "sweet", EmitDefaultValue = true)]
+        [DataMember(Name = "sweet", EmitDefaultValue = false)]
         public bool Sweet { get; set; }
 
         /// <summary>
@@ -68,8 +66,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class BananaReq {\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
-            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
+            sb.Append("  LengthCm: ").Append(LengthCm).Append('\n');
+            sb.Append("  Sweet: ").Append(Sweet).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as BananaReq).AreEqual;
         }
@@ -98,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of BananaReq to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(BananaReq input)
+        public bool Equals(BananaReq? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

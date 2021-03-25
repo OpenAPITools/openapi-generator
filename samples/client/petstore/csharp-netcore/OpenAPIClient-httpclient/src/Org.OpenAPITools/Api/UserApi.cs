@@ -19,189 +19,11 @@ using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
 {
-
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IUserApiSync : IApiAccessor
+    public interface IUserApi
     {
-        #region Synchronous Operations
-        /// <summary>
-        /// Create user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <returns></returns>
-        void CreateUser(User user);
-
-        /// <summary>
-        /// Create user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUserWithHttpInfo(User user);
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns></returns>
-        void CreateUsersWithArrayInput(List<User> user);
-
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo(List<User> user);
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns></returns>
-        void CreateUsersWithListInput(List<User> user);
-
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUsersWithListInputWithHttpInfo(List<User> user);
-        /// <summary>
-        /// Delete user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
-        void DeleteUser(string username);
-
-        /// <summary>
-        /// Delete user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteUserWithHttpInfo(string username);
-        /// <summary>
-        /// Get user by user name
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
-        User GetUserByName(string username);
-
-        /// <summary>
-        /// Get user by user name
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>ApiResponse of User</returns>
-        ApiResponse<User> GetUserByNameWithHttpInfo(string username);
-        /// <summary>
-        /// Logs user into the system
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
-        string LoginUser(string username, string password);
-
-        /// <summary>
-        /// Logs user into the system
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
-        /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> LoginUserWithHttpInfo(string username, string password);
-        /// <summary>
-        /// Logs out current logged in user session
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns></returns>
-        void LogoutUser();
-
-        /// <summary>
-        /// Logs out current logged in user session
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> LogoutUserWithHttpInfo();
-        /// <summary>
-        /// Updated user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <returns></returns>
-        void UpdateUser(string username, User user);
-
-        /// <summary>
-        /// Updated user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateUserWithHttpInfo(string username, User user);
-        #endregion Synchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IUserApiAsync : IApiAccessor
-    {
-        #region Asynchronous Operations
-        /// <summary>
-        /// Create user
-        /// </summary>
-        /// <remarks>
-        /// This can only be done by the logged in user.
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
         /// <summary>
         /// Create user
         /// </summary>
@@ -212,19 +34,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Creates list of users with given input array
+        /// Create user
         /// </summary>
         /// <remarks>
-        /// 
+        /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -235,19 +58,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -258,7 +70,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Object> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Delete user
         /// </summary>
@@ -268,9 +105,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Delete user
         /// </summary>
@@ -281,19 +118,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        /// <summary>
-        /// Get user by user name
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of User</returns>
-        System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        System.Threading.Tasks.Task<Object> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Get user by user name
         /// </summary>
@@ -304,20 +130,30 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Logs user into the system
+        /// Get user by user name
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        /// <returns>Task of ApiResponse (User)</returns>
+        System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Get user by user name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (User?)</returns>
+        System.Threading.Tasks.Task<User?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -329,18 +165,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
-        /// Logs out current logged in user session
+        /// Logs user into the system
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Logs user into the system
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string?)</returns>
+        System.Threading.Tasks.Task<string?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
@@ -350,7 +200,19 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<Object> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Updated user
         /// </summary>
@@ -361,9 +223,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateUserAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);
+        
         /// <summary>
         /// Updated user
         /// </summary>
@@ -375,16 +237,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        #endregion Asynchronous Operations
-    }
-
-    /// <summary>
-    /// Represents a collection of functions to interact with the API endpoints
-    /// </summary>
-    public interface IUserApi : IUserApiSync, IUserApiAsync
-    {
-
+        System.Threading.Tasks.Task<Object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);
+        
     }
 
     /// <summary>
@@ -392,175 +246,32 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class UserApi : IUserApi
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        private readonly System.Net.Http.HttpClient _httpClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi() : this((string)null)
+        public UserApi(System.Net.Http.HttpClient httpClient)
         {
+            _httpClient = httpClient;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserApi"/> class.
+        /// Returns the token to be used in the api query
         /// </summary>
-        /// <returns></returns>
-        public UserApi(String basePath)
-        {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
+        public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
+
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserApi"/> class
-        /// using Configuration object
+        /// Validate the input before sending the request
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <returns></returns>
-        public UserApi(Org.OpenAPITools.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserApi"/> class
-        /// using a Configuration object and client instance.
-        /// </summary>
-        /// <param name="client">The client interface for synchronous API access.</param>
-        /// <param name="asyncClient">The client interface for asynchronous API access.</param>
-        /// <param name="configuration">The configuration object.</param>
-        public UserApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
-        {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// The client for accessing this underlying API asynchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
-
-        /// <summary>
-        /// The client for accessing this underlying API synchronously.
-        /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
-
-        /// <summary>
-        /// Gets the base path of the API client.
-        /// </summary>
-        /// <value>The base path</value>
-        public String GetBasePath()
-        {
-            return this.Configuration.BasePath;
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration object
-        /// </summary>
-        /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
-        }
-
-        /// <summary>
-        /// Create user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <returns></returns>
-        public void CreateUser(User user)
-        {
-            CreateUserWithHttpInfo(user);
-        }
-
-        /// <summary>
-        /// Create user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUserWithHttpInfo(User user)
-        {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = user;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/user", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Create user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await CreateUserWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUserRequestAsync(User user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
@@ -569,111 +280,65 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
+                throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUserRequestAsync(user, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user";
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            path = $"{path}?";
+            
 
-            String[] _contentTypes = new String[] {
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Content = user;
+
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
                 "application/json"
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.Data = user;
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/user", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns></returns>
-        public void CreateUsersWithArrayInput(List<User> user)
-        {
-            CreateUsersWithArrayInputWithHttpInfo(user);
-        }
-
-        /// <summary>
-        /// Creates list of users with given input array 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo(List<User> user)
-        {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = user;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/user/createWithArray", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUsersWithArrayInput", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Creates list of users with given input array 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await CreateUsersWithArrayInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithArrayInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -682,111 +347,65 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
+                throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUsersWithArrayInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/createWithArray";
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            path = $"{path}?";
+            
 
-            String[] _contentTypes = new String[] {
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Content = user;
+
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
                 "application/json"
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.Data = user;
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/user/createWithArray", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUsersWithArrayInput", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns></returns>
-        public void CreateUsersWithListInput(List<User> user)
-        {
-            CreateUsersWithListInputWithHttpInfo(user);
-        }
-
-        /// <summary>
-        /// Creates list of users with given input array 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithListInputWithHttpInfo(List<User> user)
-        {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = user;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/user/createWithList", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUsersWithListInput", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Creates list of users with given input array 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await CreateUsersWithListInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithListInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -795,211 +414,141 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
+                throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateCreateUsersWithListInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/createWithList";
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            path = $"{path}?";
+            
 
-            String[] _contentTypes = new String[] {
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Content = user;
+
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
                 "application/json"
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.Data = user;
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/user/createWithList", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("CreateUsersWithListInput", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteUserRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
-        public void DeleteUser(string username)
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
-            DeleteUserWithHttpInfo(username);
-        }
-
-        /// <summary>
-        /// Delete user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> DeleteUserWithHttpInfo(string username)
-        {
-            // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
+                throw new ArgumentNullException(nameof(username)); 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            await ValidateDeleteUserRequestAsync(username, cancellationToken).ConfigureAwait(false);
 
-            String[] _contentTypes = new String[] {
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/{username}";
+            path = path.Replace("{username}", Uri.EscapeDataString(username));
+
+
+
+            path = $"{path}?";
+            
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+
+
+
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/user/{username}", localVarRequestOptions, this.Configuration);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            return localVarResponse;
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
+
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+
+            return apiResponse;
         }
 
         /// <summary>
-        /// Delete user This can only be done by the logged in user.
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await DeleteUserWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Delete user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            // verify the required parameter 'username' is set
-            if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
-
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/user/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("DeleteUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateGetUserByNameRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
-        public User GetUserByName(string username)
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of User</returns>
+        public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<User> localVarResponse = GetUserByNameWithHttpInfo(username);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Get user by user name 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>ApiResponse of User</returns>
-        public Org.OpenAPITools.Client.ApiResponse<User> GetUserByNameWithHttpInfo(string username)
-        {
-            // verify the required parameter 'username' is set
-            if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<User>("/user/{username}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetUserByName", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            Org.OpenAPITools.Client.ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -1009,11 +558,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
-        public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<User?> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<User> localVarResponse = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
+            Org.OpenAPITools.Client.ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Content
+                : null;
+        } 
 
         /// <summary>
         /// Get user by user name 
@@ -1022,46 +574,65 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
+                throw new ArgumentNullException(nameof(username)); 
+
+            await ValidateGetUserByNameRequestAsync(username, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/{username}";
+            path = path.Replace("{username}", Uri.EscapeDataString(username));
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            path = $"{path}?";
+            
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+
+
+
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
+            ApiResponse<User> apiResponse = new ApiResponse<User>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<User>("/user/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("GetUserByName", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
+
+        /// <summary>
+        /// Validate the input before sending the request
+        /// </summary>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        protected virtual System.Threading.Tasks.ValueTask ValidateLoginUserRequestAsync(string username, string password, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Logs user into the system 
@@ -1069,61 +640,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
-        public string LoginUser(string username, string password)
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = LoginUserWithHttpInfo(username, password);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Logs user into the system 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
-        /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> LoginUserWithHttpInfo(string username, string password)
-        {
-            // verify the required parameter 'username' is set
-            if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
-
-            // verify the required parameter 'password' is set
-            if (password == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username));
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password));
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<string>("/user/login", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("LoginUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            Org.OpenAPITools.Client.ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
+            return result.Content ?? throw new NullReferenceException();
         }
 
         /// <summary>
@@ -1134,11 +656,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string?> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
+            Org.OpenAPITools.Client.ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
+            
+            return result.IsSuccessStatusCode
+                ? result.Content
+                : null;
+        } 
 
         /// <summary>
         /// Logs user into the system 
@@ -1148,108 +673,69 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
-
-            // verify the required parameter 'password' is set
+                throw new ArgumentNullException(nameof(username)); 
             if (password == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
+                throw new ArgumentNullException(nameof(password)); 
+
+            await ValidateLoginUserRequestAsync(username, password, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/login";
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            path = $"{path}?";
+            
+            path = $"{path}username={Uri.EscapeDataString(username.ToString()!)&";
 
-            String[] _contentTypes = new String[] {
+            path = $"{path}password={Uri.EscapeDataString(password.ToString()!)&";
+
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+
+
+
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/xml",
-                "application/json"
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/xml"));
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username));
-            localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password));
+            ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/user/login", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("LoginUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns></returns>
-        public void LogoutUser()
-        {
-            LogoutUserWithHttpInfo();
-        }
-
-        /// <summary>
-        /// Logs out current logged in user session 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> LogoutUserWithHttpInfo()
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/user/logout", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("LogoutUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Logs out current logged in user session 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await LogoutUserWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateLogoutUserRequestAsync(System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Logs out current logged in user session 
@@ -1257,113 +743,61 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            await ValidateLogoutUserRequestAsync(cancellationToken).ConfigureAwait(false);
 
-            String[] _contentTypes = new String[] {
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/logout";
+
+
+            path = $"{path}?";
+            
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+
+
+
+            string[] contentTypes = new string[] {
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/user/logout", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("LogoutUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
 
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Validate the input before sending the request
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <returns></returns>
-        public void UpdateUser(string username, User user)
-        {
-            UpdateUserWithHttpInfo(username, user);
-        }
-
-        /// <summary>
-        /// Updated user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateUserWithHttpInfo(string username, User user)
-        {
-            // verify the required parameter 'username' is set
-            if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
-
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            localVarRequestOptions.Data = user;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/user/{username}", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Updated user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateUserAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await UpdateUserWithHttpInfoAsync(username, user, cancellationToken).ConfigureAwait(false);
-        }
+        protected virtual System.Threading.Tasks.ValueTask ValidateUpdateUserRequestAsync(string username, User user, System.Threading.CancellationToken? cancellationToken)
+            => new System.Threading.Tasks.ValueTask();        
+
+
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
@@ -1373,50 +807,58 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null)
         {
-            // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
-
-            // verify the required parameter 'user' is set
+                throw new ArgumentNullException(nameof(username)); 
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
+                throw new ArgumentNullException(nameof(user)); 
+
+            await ValidateUpdateUserRequestAsync(username, user, cancellationToken).ConfigureAwait(false);
+
+            using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
+
+            string path = "/user/{username}";
+            path = path.Replace("{username}", Uri.EscapeDataString(username));
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            path = $"{path}?";
+            
+
+            if (path.EndsWith("&"))
+                path = path[..^1];
+
+            if (path.EndsWith("?"))
+                path = path[..^1];
+
+            request.RequestUri = new Uri($"{_httpClient.BaseAddress}{path}");
+
+
+
+            // todo localVarRequestOptions.Content = user;
+
+
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            string[] contentTypes = new string[] {
                 "application/json"
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
+            if (request.Content != null && contentTypes.Length > 0)
+                request.Content.Headers.Add("CONTENT-TYPE", contentTypes);
 
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            using System.Net.Http.HttpResponseMessage responseMessage = await _httpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            localVarRequestOptions.Data = user;
+            ApiResponse<Object> apiResponse = new ApiResponse<Object>(responseMessage, responseContent);
 
+            if (apiResponse.IsSuccessStatusCode)
+                apiResponse.Content = Newtonsoft.Json.JsonConvert.DeserializeObject<Object>(apiResponse.RawContent, Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
 
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/user/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UpdateUser", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
+            return apiResponse;
         }
-
     }
 }

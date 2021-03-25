@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -40,18 +37,21 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ComplexQuadrilateral" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        public ComplexQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
+        public ComplexQuadrilateral(string shapeType, string quadrilateralType)
         {
             // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for ComplexQuadrilateral and cannot be null");
+            ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for ComplexQuadrilateral and cannot be null");
+
             // to ensure "quadrilateralType" is required (not null)
-            this.QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for ComplexQuadrilateral and cannot be null");
-            this.AdditionalProperties = new Dictionary<string, object>();
+            QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for ComplexQuadrilateral and cannot be null");
+
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ComplexQuadrilateral {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append('\n');
+            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append('\n');
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -91,9 +91,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as ComplexQuadrilateral).AreEqual;
         }
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of ComplexQuadrilateral to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ComplexQuadrilateral input)
+        public bool Equals(ComplexQuadrilateral? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

@@ -17,9 +17,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -47,20 +44,20 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp.</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
+        public NullableClass(int? integerProp, decimal? numberProp, bool? booleanProp, string stringProp, DateTime? dateProp, DateTime? datetimeProp, List<Object> arrayNullableProp, List<Object> arrayAndItemsNullableProp, List<Object> arrayItemsNullable, Dictionary<string, Object> objectNullableProp, Dictionary<string, Object> objectAndItemsNullableProp, Dictionary<string, Object> objectItemsNullable) : base()
         {
-            this.IntegerProp = integerProp;
-            this.NumberProp = numberProp;
-            this.BooleanProp = booleanProp;
-            this.StringProp = stringProp;
-            this.DateProp = dateProp;
-            this.DatetimeProp = datetimeProp;
-            this.ArrayNullableProp = arrayNullableProp;
-            this.ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
-            this.ArrayItemsNullable = arrayItemsNullable;
-            this.ObjectNullableProp = objectNullableProp;
-            this.ObjectAndItemsNullableProp = objectAndItemsNullableProp;
-            this.ObjectItemsNullable = objectItemsNullable;
+            IntegerProp = integerProp;
+            NumberProp = numberProp;
+            BooleanProp = booleanProp;
+            StringProp = stringProp;
+            DateProp = dateProp;
+            DatetimeProp = datetimeProp;
+            ArrayNullableProp = arrayNullableProp;
+            ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            ArrayItemsNullable = arrayItemsNullable;
+            ObjectNullableProp = objectNullableProp;
+            ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            ObjectItemsNullable = objectItemsNullable;
         }
 
         /// <summary>
@@ -91,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
+        [Newtonsoft.Json.JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime? DateProp { get; set; }
 
         /// <summary>
@@ -144,19 +141,19 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  IntegerProp: ").Append(IntegerProp).Append("\n");
-            sb.Append("  NumberProp: ").Append(NumberProp).Append("\n");
-            sb.Append("  BooleanProp: ").Append(BooleanProp).Append("\n");
-            sb.Append("  StringProp: ").Append(StringProp).Append("\n");
-            sb.Append("  DateProp: ").Append(DateProp).Append("\n");
-            sb.Append("  DatetimeProp: ").Append(DatetimeProp).Append("\n");
-            sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append("\n");
-            sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
-            sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
-            sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append("\n");
-            sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append("\n");
-            sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
+            sb.Append("  IntegerProp: ").Append(IntegerProp).Append('\n');
+            sb.Append("  NumberProp: ").Append(NumberProp).Append('\n');
+            sb.Append("  BooleanProp: ").Append(BooleanProp).Append('\n');
+            sb.Append("  StringProp: ").Append(StringProp).Append('\n');
+            sb.Append("  DateProp: ").Append(DateProp).Append('\n');
+            sb.Append("  DatetimeProp: ").Append(DatetimeProp).Append('\n');
+            sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append('\n');
+            sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append('\n');
+            sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append('\n');
+            sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append('\n');
+            sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append('\n');
+            sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -165,9 +162,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
         }
 
         /// <summary>
@@ -175,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object input)
+        public override bool Equals(object??? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as NullableClass).AreEqual;
         }
@@ -185,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of NullableClass to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(NullableClass input)
+        public bool Equals(NullableClass? input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
