@@ -25,7 +25,6 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
