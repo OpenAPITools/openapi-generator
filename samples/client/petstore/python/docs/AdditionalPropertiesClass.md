@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **anytype_1** | **bool, date, datetime, dict, float, int, list, str, none_type** |  | [optional] 
 **anytype_2** | **bool, date, datetime, dict, float, int, list, str, none_type** | no type is set for this | [optional] 
 **anytype_3** | **bool, date, datetime, dict, float, int, list, str, none_type** | because of a bug in swagger-parser, this should have values {str: (str, int, float...)} but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378 | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
