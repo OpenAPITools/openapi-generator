@@ -187,12 +187,8 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
-        public ApiClient(HttpClient client = null, HttpClientHandler handler = null)
+        public ApiClient(HttpClient client = null, HttpClientHandler handler = null) : this({{packageName}}.Client.GlobalConfiguration.Instance.BasePath, client, handler)
         {
-            _baseUrl = {{packageName}}.Client.GlobalConfiguration.Instance.BasePath;
-
-            this.HttpClientHandler = handler ?? new HttpClientHandler();
-            this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
         }
 
         /// <summary>
