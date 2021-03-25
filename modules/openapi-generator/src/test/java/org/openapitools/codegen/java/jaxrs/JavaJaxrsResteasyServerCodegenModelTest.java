@@ -7,7 +7,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaResteasyServerCodegen;
 import org.testng.Assert;
