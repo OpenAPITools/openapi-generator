@@ -244,7 +244,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
-                CodegenConstants.NON_PUBLIC_API_DESC 
+                CodegenConstants.NON_PUBLIC_API_DESC
                         + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
@@ -429,8 +429,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
-        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
-                "", 
+        supportingFiles.add(new SupportingFile("Package.swift.mustache",
+                "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
@@ -460,8 +460,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
         if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
-            supportingFiles.add(new SupportingFile("Result.mustache", 
-                    sourceFolder, 
+            supportingFiles.add(new SupportingFile("Result.mustache",
+                    sourceFolder,
                     "Result.swift"));
         }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
