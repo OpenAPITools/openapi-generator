@@ -242,12 +242,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
         supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
-        System.out.println("RUNNING " + locationsFeatureEnabled);
         if (generateApis && locationsFeatureEnabled) {
-            System.out.println("ADDING PATH");
             supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
         }
-        System.out.println("DONE");
 
         supportingFiles.add(new SupportingFile("application.conf.mustache", resourcesFolder, "application.conf"));
         supportingFiles.add(new SupportingFile("logback.xml", resourcesFolder, "logback.xml"));
