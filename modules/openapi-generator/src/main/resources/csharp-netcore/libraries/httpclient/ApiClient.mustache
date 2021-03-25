@@ -208,7 +208,7 @@ namespace {{packageName}}.Client
             }*/
 
             this.HttpClientHandler = handler ?? new HttpClientHandler();
-            this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
+            this.HttpClient = client ?? new HttpClient(this.HttpClientHandler);
         }
 
         /// Prepares multipart/form-data content

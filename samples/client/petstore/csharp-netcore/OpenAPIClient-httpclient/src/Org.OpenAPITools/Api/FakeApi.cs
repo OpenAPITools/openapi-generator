@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -844,7 +845,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public FakeApi(Org.OpenAPITools.Client.Configuration configuration)
+        public FakeApi(Org.OpenAPITools.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -852,7 +853,7 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
             this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }

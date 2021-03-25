@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using {{packageName}}.Client;
 {{#hasImport}}using {{packageName}}.{{modelPackage}};
@@ -135,7 +136,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public {{classname}}({{packageName}}.Client.Configuration configuration)
+        public {{classname}}({{packageName}}.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -143,7 +144,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
             {{#supportsAsync}}
             this.AsynchronousClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
             {{/supportsAsync}}
