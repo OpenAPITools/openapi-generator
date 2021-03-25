@@ -91,8 +91,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 )
         );
 
-        // this may set datatype right for additional properties
-        instantiationTypes.put("map", "dict");
+        // needed for type object with additionalProperties: false
+        typeMapping.put("object", "dict");
 
         languageSpecificPrimitives.add("file_type");
         languageSpecificPrimitives.add("none_type");
