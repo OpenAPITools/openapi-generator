@@ -83,14 +83,6 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateCall123TestSpecialTagsRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -130,9 +122,7 @@ namespace Org.OpenAPITools.Api
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient)); 
-
-            await ValidateCall123TestSpecialTagsRequestAsync(modelClient, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/another-fake/dummy";

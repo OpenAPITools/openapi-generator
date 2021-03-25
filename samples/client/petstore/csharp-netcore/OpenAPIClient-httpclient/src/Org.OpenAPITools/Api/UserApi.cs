@@ -263,14 +263,6 @@ namespace Org.OpenAPITools.Api
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="user">Created user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUserRequestAsync(User user, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -284,9 +276,7 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
-
-            await ValidateCreateUserRequestAsync(user, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user";
@@ -330,14 +320,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithArrayInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -351,9 +333,7 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
-
-            await ValidateCreateUsersWithArrayInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/createWithArray";
@@ -397,14 +377,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateCreateUsersWithListInputRequestAsync(List<User> user, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -418,9 +390,7 @@ namespace Org.OpenAPITools.Api
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
-
-            await ValidateCreateUsersWithListInputRequestAsync(user, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/createWithList";
@@ -464,14 +434,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteUserRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -485,9 +447,7 @@ namespace Org.OpenAPITools.Api
         {
             if (username == null)
                 throw new ArgumentNullException(nameof(username)); 
-
-            await ValidateDeleteUserRequestAsync(username, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/{username}";
@@ -531,14 +491,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateGetUserByNameRequestAsync(string username, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -578,9 +530,7 @@ namespace Org.OpenAPITools.Api
         {
             if (username == null)
                 throw new ArgumentNullException(nameof(username)); 
-
-            await ValidateGetUserByNameRequestAsync(username, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/{username}";
@@ -624,15 +574,6 @@ namespace Org.OpenAPITools.Api
 
             return apiResponse;
         }
-
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateLoginUserRequestAsync(string username, string password, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
 
         /// <summary>
         /// Logs user into the system 
@@ -679,9 +620,7 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(username)); 
             if (password == null)
                 throw new ArgumentNullException(nameof(password)); 
-
-            await ValidateLoginUserRequestAsync(username, password, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/login";
@@ -728,13 +667,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateLogoutUserRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -745,9 +677,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateLogoutUserRequestAsync(cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/logout";
@@ -788,15 +718,6 @@ namespace Org.OpenAPITools.Api
             return apiResponse;
         }
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateUpdateUserRequestAsync(string username, User user, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -813,9 +734,7 @@ namespace Org.OpenAPITools.Api
                 throw new ArgumentNullException(nameof(username)); 
             if (user == null)
                 throw new ArgumentNullException(nameof(user)); 
-
-            await ValidateUpdateUserRequestAsync(username, user, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/user/{username}";

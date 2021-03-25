@@ -80,13 +80,6 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateFooGetRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         ///  
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -121,9 +114,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (InlineResponseDefault)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<InlineResponseDefault>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateFooGetRequestAsync(cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/foo";

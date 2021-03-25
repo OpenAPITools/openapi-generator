@@ -171,14 +171,6 @@ namespace Org.OpenAPITools.Api
         public Func<System.Threading.Tasks.ValueTask<string>>? GetTokenAsync { get; set; }  
 
 
-        /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateDeleteOrderRequestAsync(string orderId, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
 
 
         /// <summary>
@@ -192,9 +184,7 @@ namespace Org.OpenAPITools.Api
         {
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId)); 
-
-            await ValidateDeleteOrderRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/store/order/{order_id}";
@@ -238,13 +228,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateGetInventoryRequestAsync(System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -279,9 +262,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateGetInventoryRequestAsync(cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/store/inventory";
@@ -332,14 +313,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateGetOrderByIdRequestAsync(long orderId, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -377,9 +350,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
         {
-
-            await ValidateGetOrderByIdRequestAsync(orderId, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/store/order/{order_id}";
@@ -425,14 +396,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidatePlaceOrderRequestAsync(Order order, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -472,9 +435,7 @@ namespace Org.OpenAPITools.Api
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order)); 
-
-            await ValidatePlaceOrderRequestAsync(order, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/store/order";

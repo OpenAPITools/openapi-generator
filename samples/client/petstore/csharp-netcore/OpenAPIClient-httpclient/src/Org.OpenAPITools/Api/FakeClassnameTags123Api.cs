@@ -83,14 +83,6 @@ namespace Org.OpenAPITools.Api
 
 
         /// <summary>
-        /// Validate the input before sending the request
-        /// </summary>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        protected virtual System.Threading.Tasks.ValueTask ValidateTestClassnameRequestAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken)
-            => new System.Threading.Tasks.ValueTask();        
-
-        /// <summary>
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -130,9 +122,7 @@ namespace Org.OpenAPITools.Api
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient)); 
-
-            await ValidateTestClassnameRequestAsync(modelClient, cancellationToken).ConfigureAwait(false);
-
+            
             using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage();
 
             string path = "/fake_classname_test";
