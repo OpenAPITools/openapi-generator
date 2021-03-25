@@ -305,7 +305,7 @@ namespace Org.OpenAPITools.Client
                 {
                     if (options.Data is Stream s)
                     {
-                        contentType ??= "application/octet-stream";
+                        contentType = contentType ?? "application/octet-stream";
 
                         var streamContent = new StreamContent(s);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);

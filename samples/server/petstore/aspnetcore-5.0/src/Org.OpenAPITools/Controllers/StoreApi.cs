@@ -116,6 +116,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid Order</response>
         [HttpPost]
         [Route("/v2/store/order")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]

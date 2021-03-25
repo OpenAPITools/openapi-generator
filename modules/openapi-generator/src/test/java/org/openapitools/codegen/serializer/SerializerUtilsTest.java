@@ -179,7 +179,7 @@ public class SerializerUtilsTest {
                 "      operationId: pingOp\n" +
                 "      responses:\n" +
                 "        \"200\":\n" +
-                "          description: Ok\n"; 
+                "          description: Ok\n";
         assertEquals(content, expected);
     }
 
@@ -210,7 +210,7 @@ public class SerializerUtilsTest {
                 "      }\n" +
                 "    }\n" +
                 "  }\n" +
-                "}"; 
+                "}";
         assertEquals(content, expected);
     }
 

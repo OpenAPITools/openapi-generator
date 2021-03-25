@@ -19,11 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -35,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
