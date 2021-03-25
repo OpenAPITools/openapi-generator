@@ -48,8 +48,8 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
 {{/formParams}}
   }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
 
-  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}})
+  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}})
   constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}
-  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#pathParams}}fmt"{{{path}}}"{{/pathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
+  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
 
 {{/operation}}{{/operations}}

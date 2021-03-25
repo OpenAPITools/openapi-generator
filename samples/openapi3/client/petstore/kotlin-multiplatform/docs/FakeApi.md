@@ -551,13 +551,13 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
- **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
+ **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
- **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
+ **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to &quot;$&quot;] [enum: >, $]
- **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
+ **enumFormStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
+ **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
 

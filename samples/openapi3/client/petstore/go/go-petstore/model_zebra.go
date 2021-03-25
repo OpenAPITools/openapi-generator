@@ -27,7 +27,7 @@ type _Zebra Zebra
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewZebra(className string, ) *Zebra {
+func NewZebra(className string) *Zebra {
 	this := Zebra{}
 	this.ClassName = className
 	return &this
@@ -75,7 +75,7 @@ func (o *Zebra) SetType(v string) {
 
 // GetClassName returns the ClassName field value
 func (o *Zebra) GetClassName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

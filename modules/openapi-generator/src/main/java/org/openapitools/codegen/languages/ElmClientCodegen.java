@@ -42,7 +42,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";

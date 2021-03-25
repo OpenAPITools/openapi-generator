@@ -217,6 +217,10 @@ public class Generate extends OpenApiGeneratorCommand {
             description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
 
+    @Option(name = {"--skip-operation-example"}, title = "skip examples defined in the operation",
+            description = CodegenConstants.SKIP_OPERATION_EXAMPLE_DESC)
+    private Boolean skipOperationExample;
+
     @Option(name = {"--skip-validate-spec"},
             title = "skip spec validation",
             description = "Skips the default behavior of validating an input specification.")
@@ -391,6 +395,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (skipOperationExample != null) {
+            configurator.setSkipOperationExample(skipOperationExample);
         }
 
         if (enablePostProcessFile != null) {

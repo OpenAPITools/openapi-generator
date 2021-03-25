@@ -17,7 +17,7 @@ import (
 	// once you place this file into your project.
 	// For example,
 	//
-	//    sw "github.com/myname/myrepo/go"
+	//sw "github.com/GIT_USER_ID/GIT_REPO_ID/go"
 	//
 	sw "./go"
 )

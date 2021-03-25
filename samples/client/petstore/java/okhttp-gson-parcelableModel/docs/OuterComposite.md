@@ -2,6 +2,7 @@
 
 # OuterComposite
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,5 +11,9 @@ Name | Type | Description | Notes
 **myString** | **String** |  |  [optional]
 **myBoolean** | **Boolean** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

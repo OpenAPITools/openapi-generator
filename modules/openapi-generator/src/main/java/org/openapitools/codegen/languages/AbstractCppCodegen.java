@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
@@ -192,6 +192,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         } else {
             return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
         }
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        return escapeText(value);
     }
 
     @Override

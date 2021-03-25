@@ -25,7 +25,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 /** unit test asciidoc markup generation against ping.yaml openapi spec. */
 public class AsciidocGeneratorTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
 
     @Test
     public void testPingSpecTitle() throws Exception {

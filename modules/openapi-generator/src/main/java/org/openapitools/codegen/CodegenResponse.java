@@ -57,6 +57,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean isBinary = false;
     public boolean isFile = false;
+    public boolean isNull;
     public Object schema;
     public String jsonSchema;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -77,6 +78,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
+    private boolean hasValidation;
+    private boolean additionalPropertiesIsAnyType;
+    private boolean hasVars;
+    private boolean hasRequired;
 
     @Override
     public int hashCode() {
@@ -84,10 +89,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars,
+                vars, requiredVars, isNull, hasValidation,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
-                is1xx, is2xx, is3xx, is4xx, is5xx);
+                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired);
     }
 
     @Override
@@ -122,11 +127,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isFile == that.isFile &&
                 items == that.items &&
                 additionalProperties == that.additionalProperties &&
+                isNull == that.isNull &&
+                hasValidation == that.hasValidation &&
                 is1xx == that.is1xx &&
                 is2xx == that.is2xx &&
                 is3xx == that.is3xx &&
                 is4xx == that.is4xx &&
                 is5xx == that.is5xx &&
+                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
+                getHasVars() == that.getHasVars() &&
+                getHasRequired() == that.getHasRequired() &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -364,6 +374,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getHasRequired() {
+        return this.hasRequired;
+    }
+
+    @Override
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -423,6 +443,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", vars='").append(vars).append('\'');
         sb.append(", requiredVars='").append(requiredVars).append('\'');
+        sb.append(", isNull='").append(isNull);
+        sb.append(", hasValidation='").append(hasValidation);
+        sb.append(", getAdditionalPropertiesIsAnyType=").append(additionalPropertiesIsAnyType);
+        sb.append(", getHasVars=").append(hasVars);
+        sb.append(", getHasRequired=").append(hasRequired);
         sb.append('}');
         return sb.toString();
     }
@@ -442,5 +467,41 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         if (code != null && code.length() == 3 && "XX".equalsIgnoreCase(code.substring(1)))
             return true;
         return false;
+    }
+
+    @Override
+    public boolean getIsNull() {
+        return isNull;
+    }
+
+    @Override
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    @Override
+    public boolean getHasValidation() { return hasValidation; }
+
+    @Override
+    public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
+
+    @Override
+    public boolean getAdditionalPropertiesIsAnyType() {
+        return additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public void setAdditionalPropertiesIsAnyType(boolean additionalPropertiesIsAnyType) {
+        this.additionalPropertiesIsAnyType = additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public boolean getHasVars() {
+        return this.hasVars;
+    }
+
+    @Override
+    public void setHasVars(boolean hasVars) {
+        this.hasVars = hasVars;
     }
 }

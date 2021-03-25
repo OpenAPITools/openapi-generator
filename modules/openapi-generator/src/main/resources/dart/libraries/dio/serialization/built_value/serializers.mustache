@@ -1,0 +1,33 @@
+{{>header}}
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/serializer.dart';
+import 'package:built_value/standard_json_plugin.dart';
+{{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';{{/useDateLibCore}}
+{{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
+import 'package:{{pubName}}/src/local_date_serializer.dart';{{/useDateLibTimeMachine}}
+{{#models}}{{#model}}import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
+{{/model}}{{/models}}
+part 'serializers.g.dart';
+
+@SerializersFor([{{#models}}{{#model}}
+  {{classname}},{{/model}}{{/models}}
+])
+Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}
+      ..addBuilderFactory(
+{{#isArray}}
+        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]),
+        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{baseType}}>(),
+{{/isArray}}
+{{#isMap}}
+        const FullType(BuiltMap, [FullType(String), FullType({{baseType}})]),
+        () => MapBuilder<String, {{baseType}}>(),
+{{/isMap}}
+      ){{/serializers}}{{/apis}}{{/apiInfo}}{{#useDateLibTimeMachine}}
+      ..add(const OffsetDateSerializer())
+      ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}
+      ..add(Iso8601DateTimeSerializer()))
+    .build();
+
+Serializers standardSerializers =
+    (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

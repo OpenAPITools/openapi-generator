@@ -258,7 +258,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
 
     private static final String INDENT = "        ";
 
@@ -306,7 +306,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         MAX_DATE = maxDate;
     }
 
-    private Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
+    private final Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
 
     protected boolean generateOperationBody = false;
 
@@ -708,8 +708,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             // NOTE: use double to hold float values, to avoid numeric overflow.
             double min = var == null || var.minimum == null ? -Float.MAX_VALUE : Float.parseFloat(var.minimum);
             double max = var == null || var.maximum == null ? Float.MAX_VALUE : Float.parseFloat(var.maximum);
-            double exclusiveMin = (double) (var != null && var.exclusiveMinimum ? 1 : 0);
-            double inclusiveMax = (double) (var == null || !var.exclusiveMaximum ? 1 : 0);
+            double exclusiveMin = var != null && var.exclusiveMinimum ? 1 : 0;
+            double inclusiveMax = var == null || !var.exclusiveMaximum ? 1 : 0;
             float randomFloat = (float) (min + exclusiveMin
                     + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 

@@ -32,10 +32,7 @@ isa_ok($api, 'WWW::OpenAPIClient::FakeClassnameTags123Api');
 #
 # test_classname test
 #
-{
-    my $client = undef; # replace NULL with a proper value
-    my $result = $api->test_classname(client => $client);
-}
+# uncomment below and update the test
+#my $test_classname_client = undef; # replace NULL with a proper value
+#my $test_classname_result = $api->test_classname(client => $test_classname_client);
 
-
-1;

@@ -63,6 +63,7 @@ with x_auth_id_alias.ApiClient(configuration) as api_client:
         print("Exception when calling UsageApi->any_key: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -78,6 +79,7 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -139,6 +141,7 @@ with x_auth_id_alias.ApiClient(configuration) as api_client:
         print("Exception when calling UsageApi->both_keys: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -154,6 +157,7 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -208,6 +212,7 @@ with x_auth_id_alias.ApiClient(configuration) as api_client:
         print("Exception when calling UsageApi->key_in_header: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -223,6 +228,7 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -277,6 +283,7 @@ with x_auth_id_alias.ApiClient(configuration) as api_client:
         print("Exception when calling UsageApi->key_in_query: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -292,6 +299,7 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

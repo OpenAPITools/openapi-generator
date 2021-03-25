@@ -116,13 +116,13 @@ end:
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{paramName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -135,7 +135,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -148,7 +148,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -161,7 +161,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -174,7 +174,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{paramName}}");
+    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
     {{/isString}}
@@ -183,7 +183,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{paramName}}");
+    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
     {{/isUuid}}

@@ -11,7 +11,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -56,41 +56,109 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>_noreturn</li>
 <li>_static_assert</li>
 <li>_thread_local</li>
+<li>alignas</li>
+<li>alignof</li>
+<li>and</li>
+<li>and_eq</li>
+<li>asm</li>
+<li>atomic_cancel</li>
+<li>atomic_commit</li>
+<li>atomic_noexcept</li>
 <li>auto</li>
+<li>bitand</li>
+<li>bitor</li>
+<li>bool</li>
 <li>break</li>
 <li>case</li>
+<li>catch</li>
 <li>char</li>
+<li>char16_t</li>
+<li>char32_t</li>
+<li>char8_t</li>
+<li>class</li>
+<li>co_await</li>
+<li>co_return</li>
+<li>co_yield</li>
+<li>compl</li>
+<li>concept</li>
 <li>const</li>
+<li>const_cast</li>
+<li>consteval</li>
+<li>constexpr</li>
+<li>constinit</li>
 <li>continue</li>
+<li>decltype</li>
 <li>default</li>
+<li>delete</li>
 <li>do</li>
 <li>double</li>
+<li>dynamic_cast</li>
 <li>else</li>
 <li>enum</li>
+<li>explicit</li>
+<li>export</li>
 <li>extern</li>
+<li>false</li>
+<li>final</li>
 <li>float</li>
 <li>for</li>
+<li>friend</li>
 <li>goto</li>
 <li>if</li>
 <li>inline</li>
 <li>int</li>
 <li>long</li>
+<li>mutable</li>
+<li>namespace</li>
+<li>new</li>
+<li>noexcept</li>
+<li>not</li>
+<li>not_eq</li>
+<li>nullptr</li>
+<li>operator</li>
+<li>or</li>
+<li>or_eq</li>
+<li>override</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
+<li>reflexpr</li>
 <li>register</li>
+<li>reinterpret_cast</li>
 <li>remove</li>
+<li>requires</li>
 <li>restrict</li>
 <li>return</li>
 <li>short</li>
 <li>signed</li>
 <li>sizeof</li>
 <li>static</li>
+<li>static_assert</li>
+<li>static_cast</li>
 <li>struct</li>
 <li>switch</li>
+<li>synchronized</li>
+<li>template</li>
+<li>this</li>
+<li>thread_local</li>
+<li>throw</li>
+<li>transaction_safe</li>
+<li>transaction_safe_dynamic</li>
+<li>true</li>
+<li>try</li>
 <li>typedef</li>
+<li>typeid</li>
+<li>typename</li>
 <li>union</li>
 <li>unsigned</li>
+<li>using</li>
+<li>virtual</li>
 <li>void</li>
 <li>volatile</li>
+<li>wchar_t</li>
 <li>while</li>
+<li>xor</li>
+<li>xor_eq</li>
 </ul>
 
 ## FEATURE SET

@@ -141,7 +141,6 @@ public class Whale {
     return Objects.hash(hasBaleen, hasTeeth, className);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

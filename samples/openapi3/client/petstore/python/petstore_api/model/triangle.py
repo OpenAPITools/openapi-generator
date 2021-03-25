@@ -11,8 +11,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import nulltype  # noqa: F401
-
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
@@ -90,8 +88,8 @@ class Triangle(ModelComposed):
         """
         lazy_import()
         return {
-            'shape_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
+            'shape_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -107,8 +105,8 @@ class Triangle(ModelComposed):
         return {'triangle_type': val}
 
     attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501
+        'shape_type': 'shapeType',  # noqa: E501
     }
 
     required_properties = set([
@@ -131,7 +129,6 @@ class Triangle(ModelComposed):
             triangle_type (str):
 
         Keyword Args:
-            shape_type (str): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -162,9 +159,9 @@ class Triangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            shape_type (str): [optional]  # noqa: E501
         """
 
-        shape_type = kwargs.get('shape_type', nulltype.Null)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -196,14 +193,8 @@ class Triangle(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
-            'shape_type': shape_type,
             'triangle_type': triangle_type,
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
         model_args = {}
         model_args.update(required_args)
         model_args.update(kwargs)

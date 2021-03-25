@@ -46,6 +46,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
+  
   private EnumStringEnum enumString;
 
   /**
@@ -82,6 +83,8 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string_required")
+  @NotNull
+
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -116,6 +119,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
+  
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -150,9 +154,12 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
+  
   private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
+  @Valid
+
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -164,7 +171,7 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   **/
-    public EnumStringEnum getEnumString() {
+  public EnumStringEnum getEnumString() {
     return enumString;
   }
 
@@ -181,7 +188,6 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @NotNull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -199,7 +205,7 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   **/
-    public EnumIntegerEnum getEnumInteger() {
+  public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
@@ -216,7 +222,7 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   **/
-    public EnumNumberEnum getEnumNumber() {
+  public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
@@ -233,7 +239,6 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   **/
-  @Valid
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

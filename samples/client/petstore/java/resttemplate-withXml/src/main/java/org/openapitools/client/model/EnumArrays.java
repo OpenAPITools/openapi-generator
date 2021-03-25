@@ -44,9 +44,13 @@ public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
+  @XmlType(name="JustSymbolEnum")
+  @XmlEnum(String.class)
   public enum JustSymbolEnum {
+    @XmlEnumValue(">=")
     GREATER_THAN_OR_EQUAL_TO(">="),
     
+    @XmlEnumValue("$")
     DOLLAR("$");
 
     private String value;
@@ -83,9 +87,13 @@ public class EnumArrays {
   /**
    * Gets or Sets arrayEnum
    */
+  @XmlType(name="ArrayEnumEnum")
+  @XmlEnum(String.class)
   public enum ArrayEnumEnum {
+    @XmlEnumValue("fish")
     FISH("fish"),
     
+    @XmlEnumValue("crab")
     CRAB("crab");
 
     private String value;
@@ -199,7 +207,6 @@ public class EnumArrays {
   public int hashCode() {
     return Objects.hash(justSymbol, arrayEnum);
   }
-
 
   @Override
   public String toString() {

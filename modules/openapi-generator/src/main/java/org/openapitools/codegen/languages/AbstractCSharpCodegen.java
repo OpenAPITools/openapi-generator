@@ -83,7 +83,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> valueTypes = new HashSet<String>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
         super();
@@ -399,7 +399,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // check to see if model name is same as the property name
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.name)) {
+                if (var.name.equalsIgnoreCase(cm.classname)) {
                     var.name = "_" + var.name;
                 }
             }

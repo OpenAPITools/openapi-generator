@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  *
@@ -48,7 +46,7 @@ public class OneOfImplementorAdditionalData {
     private List<String> additionalInterfaces = new ArrayList<String>();
     private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
     private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
 
     public OneOfImplementorAdditionalData(String implementorName) {
         this.implementorName = implementorName;

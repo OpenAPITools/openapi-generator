@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -732,7 +732,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
-                    return "\"" + codegenProperty.name + "_example\"";
+                    if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
+                        return "\"" + String.valueOf(((List<Object>) codegenProperty.allowableValues.get("values")).get(0)) + "\"";
+                    } else {
+                        return "\"" + codegenProperty.name + "_example\"";
+                    }
                 }
             } else { // numeric
                 if (StringUtils.isEmpty(codegenProperty.example)) {
@@ -756,11 +760,32 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         String example;
         example = codegenModel.name + "$new(";
         List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
+        // required properties first
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
         }
+
+        // optional properties second
+        for (CodegenProperty codegenProperty : codegenModel.optionalVars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+        }
+
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
         return example;
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
+        System.out.println("################################################################################");
+    }
+
 }

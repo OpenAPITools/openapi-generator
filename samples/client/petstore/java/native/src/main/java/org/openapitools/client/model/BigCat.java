@@ -29,9 +29,9 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 import org.openapitools.client.JSON;
-
-
 /**
  * BigCat
  */

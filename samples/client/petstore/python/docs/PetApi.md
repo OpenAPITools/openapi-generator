@@ -78,6 +78,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -96,6 +97,7 @@ void (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -158,6 +160,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -177,6 +180,7 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -236,6 +240,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -254,6 +259,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -313,6 +319,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -331,6 +338,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -388,6 +396,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -406,6 +415,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -479,6 +489,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -497,6 +508,7 @@ void (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -562,6 +574,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -582,6 +595,7 @@ void (empty response body)
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -648,6 +662,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->upload_file: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -669,6 +684,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -734,6 +750,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -754,6 +771,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

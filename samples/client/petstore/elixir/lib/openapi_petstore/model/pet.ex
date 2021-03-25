@@ -19,10 +19,10 @@ defmodule OpenapiPetstore.Model.Pet do
 
   @type t :: %__MODULE__{
     :"id" => integer() | nil,
-    :"category" => Category | nil,
+    :"category" => OpenapiPetstore.Model.Category.t | nil,
     :"name" => String.t,
     :"photoUrls" => [String.t],
-    :"tags" => [Tag] | nil,
+    :"tags" => [OpenapiPetstore.Model.Tag.t] | nil,
     :"status" => String.t | nil
   }
 end

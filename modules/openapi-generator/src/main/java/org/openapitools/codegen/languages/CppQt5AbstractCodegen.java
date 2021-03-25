@@ -16,7 +16,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5AbstractCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CppQt5AbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
@@ -105,6 +105,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("number", "double");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
+        typeMapping.put("set", "QSet");
         typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
         typeMapping.put("ByteArray", "QByteArray");
@@ -122,6 +123,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         systemIncludes.add("QString");
         systemIncludes.add("QList");
         systemIncludes.add("QMap");
+        systemIncludes.add("QSet");
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");

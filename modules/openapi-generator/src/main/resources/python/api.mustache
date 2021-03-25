@@ -3,7 +3,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from {{packageName}}.api_client import ApiClient, Endpoint
+from {{packageName}}.api_client import ApiClient, Endpoint as _Endpoint
 from {{packageName}}.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -125,7 +125,7 @@ class {{classname}}(object):
 {{/requiredParams}}
             return self.call_with_http_info(**kwargs)
 
-        self.{{operationId}} = Endpoint(
+        self.{{operationId}} = _Endpoint(
             settings={
                 'response_type': {{#returnType}}({{{returnType}}},){{/returnType}}{{^returnType}}None{{/returnType}},
 {{#authMethods}}

@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
 
     protected boolean addConsumesProducesJson = true;
 
