@@ -199,7 +199,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
-        
+
         additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
         additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
 
@@ -358,7 +358,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]"; 
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";

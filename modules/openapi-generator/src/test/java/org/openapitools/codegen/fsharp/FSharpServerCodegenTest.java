@@ -62,15 +62,15 @@ public class FSharpServerCodegenTest {
         models.put("wheel", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", wheel))));
 
         Map<String,Object> sorted = codegen.postProcessDependencyOrders(models);
-        
+
         Object[] keys = sorted.keySet().toArray();
-        
+
         Assert.assertTrue("wheel".equals(keys[0]));
         Assert.assertTrue("bike".equals(keys[1]) || "car".equals(keys[1]));
         Assert.assertTrue("bike".equals(keys[2]) || "car".equals(keys[2]));
         Assert.assertEquals(keys[3], "parent");
         Assert.assertEquals(keys[4], "child");
-        
+
     }
 
     @Test(description = "modify model imports to explicit set namespace and package name")
@@ -79,10 +79,10 @@ public class FSharpServerCodegenTest {
           codegen.setPackageName("MyNamespace");
           codegen.setModelPackage("Model");
           String modified = codegen.toModelImport("Foo");
-          Assert.assertEquals(modified, "MyNamespace.Model.Foo");          
+          Assert.assertEquals(modified, "MyNamespace.Model.Foo");
     }
-    
+
     private static class P_AbstractFSharpCodegen extends AbstractFSharpCodegen {
-     
+
     }
 }
