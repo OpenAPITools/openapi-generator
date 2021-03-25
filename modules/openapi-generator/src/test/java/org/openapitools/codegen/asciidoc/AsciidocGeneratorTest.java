@@ -111,7 +111,7 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
 
     }
-    
+
 
     @Test
     public void testHeaderAttributesFlagRemovesAttributesFromMarkupHeaderSection() throws Exception {
@@ -146,6 +146,6 @@ public class AsciidocGeneratorTest {
             }
         }
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
-    }    
+    }
 
 }
