@@ -164,10 +164,8 @@ namespace {{packageName}}.Client
     {{>visibility}} partial class ApiClient : ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
         private readonly String _baseUrl;
-    {{#reUseHttpClient}}
-        private readonly HttpClientHandler _httpClientHandler;
-        private readonly HttpClient _httpClient;
-    {{/reUseHttpClient}}
+        public static HttpClientHandler HttpClientHandler = new HttpClientHandler();
+        public static HttpClient HttpClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -192,14 +190,14 @@ namespace {{packageName}}.Client
         public ApiClient()
         {
             _baseUrl = {{packageName}}.Client.GlobalConfiguration.Instance.BasePath;
-    {{#reUseHttpClient}}
-            _httpClientHandler = new HttpClientHandler();
-            _httpClient = new HttpClient(_httpClientHandler);
-    {{/reUseHttpClient}}
+
+            if(ApiClient.HttpClient == null) {
+                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
+            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />
+            /// Initializes a new instance of the <see cref="ApiClient" />
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -209,10 +207,10 @@ namespace {{packageName}}.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
-    {{#reUseHttpClient}}
-            _httpClientHandler = new HttpClientHandler();
-            _httpClient = new HttpClient(_httpClientHandler);
-    {{/reUseHttpClient}}
+
+            if(ApiClient.HttpClient == null) {
+                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
+            }
         }
 
         /// Prepares multipart/form-data content
@@ -274,6 +272,11 @@ namespace {{packageName}}.Client
             }
 
             HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
+
+            if (configuration.UserAgent != null)
+            {
+                request.Headers.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
+            }
 
             if (configuration.DefaultHeaders != null)
             {
@@ -400,14 +403,8 @@ namespace {{packageName}}.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-        {{^reUseHttpClient}}
-            var handler = new HttpClientHandler();
-            var client = new HttpClient();
-        {{/reUseHttpClient}}
-        {{#reUseHttpClient}}
-            var handler = _httpClientHandler;
-            var client = _httpClient;
-        {{/reUseHttpClient}}
+            var handler = ApiClient.HttpClientHandler;
+            var client = ApiClient.HttpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
@@ -421,11 +418,6 @@ namespace {{packageName}}.Client
             if (configuration.Proxy != null)
             {
                 handler.Proxy = configuration.Proxy;
-            }
-
-            if (configuration.UserAgent != null)
-            {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
             }
 
             if (configuration.ClientCertificates != null)

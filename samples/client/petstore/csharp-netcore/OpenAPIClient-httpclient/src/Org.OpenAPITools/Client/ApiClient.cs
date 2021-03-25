@@ -164,6 +164,8 @@ namespace Org.OpenAPITools.Client
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
+        public static HttpClientHandler HttpClientHandler = new HttpClientHandler();
+        public static HttpClient HttpClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -188,10 +190,14 @@ namespace Org.OpenAPITools.Client
         public ApiClient()
         {
             _baseUrl = Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath;
+
+            if(ApiClient.HttpClient == null) {
+                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
+            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />
+            /// Initializes a new instance of the <see cref="ApiClient" />
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -201,6 +207,10 @@ namespace Org.OpenAPITools.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
+
+            if(ApiClient.HttpClient == null) {
+                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
+            }
         }
 
         /// Prepares multipart/form-data content
@@ -261,6 +271,11 @@ namespace Org.OpenAPITools.Client
             }
 
             HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
+
+            if (configuration.UserAgent != null)
+            {
+                request.Headers.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
+            }
 
             if (configuration.DefaultHeaders != null)
             {
@@ -386,8 +401,8 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = new HttpClientHandler();
-            var client = new HttpClient();
+            var handler = ApiClient.HttpClientHandler;
+            var client = ApiClient.HttpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
@@ -401,11 +416,6 @@ namespace Org.OpenAPITools.Client
             if (configuration.Proxy != null)
             {
                 handler.Proxy = configuration.Proxy;
-            }
-
-            if (configuration.UserAgent != null)
-            {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
             }
 
             if (configuration.ClientCertificates != null)
