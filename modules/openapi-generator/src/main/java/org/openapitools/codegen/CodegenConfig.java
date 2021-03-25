@@ -123,9 +123,9 @@ public interface CodegenConfig {
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
     List<CodegenServer> fromServers(List<Server> servers);
-  
+
     List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables);
-    
+
     Set<String> defaultIncludes();
 
     Map<String, String> typeMapping();
