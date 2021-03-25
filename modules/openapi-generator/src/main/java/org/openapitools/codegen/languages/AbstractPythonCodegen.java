@@ -279,6 +279,8 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
