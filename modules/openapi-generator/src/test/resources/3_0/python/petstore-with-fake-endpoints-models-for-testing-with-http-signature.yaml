@@ -2036,6 +2036,9 @@ components:
           items:
             type: object
             nullable: true
+        object_nullable:
+          type: object
+          nullable: true
         object_nullable_prop:
           type: object
           nullable: true
@@ -2053,7 +2056,6 @@ components:
             type: object
             nullable: true
       additionalProperties:
-        type: object
         nullable: true
     ComposedSchemaWithPropsAndNoAddProps:
       properties:

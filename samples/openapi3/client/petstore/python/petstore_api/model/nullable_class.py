@@ -63,7 +63,7 @@ class NullableClass(ModelNormal):
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
         """
-        return ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type,)  # noqa: E501
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
@@ -87,6 +87,7 @@ class NullableClass(ModelNormal):
             'array_nullable_prop': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}], none_type,),  # noqa: E501
             'array_and_items_nullable_prop': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type], none_type,),  # noqa: E501
             'array_items_nullable': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type],),  # noqa: E501
+            'object_nullable': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type,),  # noqa: E501
             'object_nullable_prop': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)}, none_type,),  # noqa: E501
             'object_and_items_nullable_prop': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}, none_type,),  # noqa: E501
             'object_items_nullable': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)},),  # noqa: E501
@@ -107,6 +108,7 @@ class NullableClass(ModelNormal):
         'array_nullable_prop': 'array_nullable_prop',  # noqa: E501
         'array_and_items_nullable_prop': 'array_and_items_nullable_prop',  # noqa: E501
         'array_items_nullable': 'array_items_nullable',  # noqa: E501
+        'object_nullable': 'object_nullable',  # noqa: E501
         'object_nullable_prop': 'object_nullable_prop',  # noqa: E501
         'object_and_items_nullable_prop': 'object_and_items_nullable_prop',  # noqa: E501
         'object_items_nullable': 'object_items_nullable',  # noqa: E501
@@ -167,6 +169,7 @@ class NullableClass(ModelNormal):
             array_nullable_prop ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}], none_type): [optional]  # noqa: E501
             array_and_items_nullable_prop ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type], none_type): [optional]  # noqa: E501
             array_items_nullable ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type]): [optional]  # noqa: E501
+            object_nullable ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type): [optional]  # noqa: E501
             object_nullable_prop ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)}, none_type): [optional]  # noqa: E501
             object_and_items_nullable_prop ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}, none_type): [optional]  # noqa: E501
             object_items_nullable ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}): [optional]  # noqa: E501

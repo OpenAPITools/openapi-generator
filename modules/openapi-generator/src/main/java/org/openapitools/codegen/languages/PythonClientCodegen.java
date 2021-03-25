@@ -842,16 +842,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // switch to v3 if you need AnyType to work
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
-        // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
-        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
-            fullSuffix = ", none_type" + suffix;
+        String originalSpecVersion = "X";
+        if (this.openAPI.getExtensions() != null && this.openAPI.getExtensions().containsKey("x-original-swagger-version")) {
+            originalSpecVersion = (String) this.openAPI.getExtensions().get("x-original-swagger-version");
+            originalSpecVersion = originalSpecVersion.substring(0, 1);
+
         }
-        Schema newSchema = new Schema();
-        String originalSpecVersion = "";
-        if (this.openAPI.getExtensions() != null) {
-            originalSpecVersion = (String) this.openAPI.getExtensions().getOrDefault("x-original-swagger-version", "");
-        }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null && this.getDisallowAdditionalPropertiesIfNotPresent() && originalSpecVersion.equals("2.0")) {
+        Boolean v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase = (getAdditionalProperties(p) == null && this.getDisallowAdditionalPropertiesIfNotPresent() && originalSpecVersion.equals("2"));
+        Schema emptySchema = new Schema();
+        Boolean v2WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("2"));
+        if (isFreeFormObject(p) && (v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase || v2WithCompositionAddPropsAnyTypeSchemaCase)) {
             // for v2 specs only, input AnyType schemas (type unset) or schema {} results in FreeFromObject schemas
             // per https://github.com/swagger-api/swagger-parser/issues/1378
             // v2 spec uses cases
@@ -861,17 +861,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // switch to v3 if you need use cases 1 + 2 to work correctly
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSuffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) != null && newSchema.equals(getAdditionalProperties(p))) {
-            if (originalSpecVersion.equals("2.0")) {
-                // for v2 specs only, input AnyType schemas (type unset) or schema {} results in FreeFromObject schemas
-                // per https://github.com/swagger-api/swagger-parser/issues/1378
-                // v2 spec uses cases
-                // 1. AnyType schemas
-                // 2. type object schema with no other info
-                // use case 1 + 2 -> both become use case 1
-                // switch to v3 if you need use cases 1 + 2 to work correctly
-                return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSuffix;
-            }
+        // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
+        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
+            fullSuffix = ", none_type" + suffix;
+        }
+        Boolean v3WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("3"));
+        if (isFreeFormObject(p) && v3WithCompositionAddPropsAnyTypeSchemaCase) {
             // v3 code path, use case: type object schema with no other schema info
             return prefix + "{str: (bool, date, datetime, dict, float, int, list, str, none_type)}" + fullSuffix;
         } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
