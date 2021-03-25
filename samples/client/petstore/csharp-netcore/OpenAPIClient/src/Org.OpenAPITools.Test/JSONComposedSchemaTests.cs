@@ -162,5 +162,14 @@ namespace Org.OpenAPITools.Test
             Assert.Null(f.GetType().GetProperty("unknown_property"));
         }
 
+        /// <summary>
+        /// Test OuterEnumInteger
+        /// </summary>
+        [Fact]
+        public void OuterEnumIntegerInstanceTest()
+        {
+            OuterEnumInteger instance = OuterEnumInteger.NUMBER_1;
+            Assert.Equal(1, (int)instance);
+        }
     }
 }
