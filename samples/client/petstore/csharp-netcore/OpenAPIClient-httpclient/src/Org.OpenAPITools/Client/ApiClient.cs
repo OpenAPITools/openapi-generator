@@ -164,8 +164,8 @@ namespace Org.OpenAPITools.Client
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
-        public static HttpClientHandler HttpClientHandler = new HttpClientHandler();
-        public static HttpClient HttpClient;
+        public HttpClientHandler HttpClientHandler;
+        public HttpClient HttpClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -187,13 +187,12 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
-        public ApiClient()
+        public ApiClient(HttpClient client = null, HttpClientHandler handler = null)
         {
             _baseUrl = Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath;
 
-            if(ApiClient.HttpClient == null) {
-                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
-            }
+            this.HttpClientHandler = handler ?? new HttpClientHandler();
+            this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
         }
 
         /// <summary>
@@ -201,16 +200,15 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath)
+        public ApiClient(String basePath, HttpClient client = null, HttpClientHandler handler = null)
         {
             if (string.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
 
-            if(ApiClient.HttpClient == null) {
-                ApiClient.HttpClient = new HttpClient(ApiClient.HttpClientHandler);
-            }
+             this.HttpClientHandler = handler ?? new HttpClientHandler();
+             this.HttpClient = client ?? new HttpClient(ApiClient.HttpClientHandler);
         }
 
         /// Prepares multipart/form-data content

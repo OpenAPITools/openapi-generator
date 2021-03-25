@@ -463,21 +463,22 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi() : this((string)null)
+        public PetApi(HttpClient client = null, HttpClientHandler handler = null) : this((string)null, client, handler)
         {
+
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi(String basePath)
+        public PetApi(String basePath, HttpClient client = null, HttpClientHandler handler = null)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
             this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }

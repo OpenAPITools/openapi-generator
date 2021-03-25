@@ -398,21 +398,22 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi() : this((string)null)
+        public UserApi(HttpClient client = null, HttpClientHandler handler = null) : this((string)null, client, handler)
         {
+
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(String basePath)
+        public UserApi(String basePath, HttpClient client = null, HttpClientHandler handler = null)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
             this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }

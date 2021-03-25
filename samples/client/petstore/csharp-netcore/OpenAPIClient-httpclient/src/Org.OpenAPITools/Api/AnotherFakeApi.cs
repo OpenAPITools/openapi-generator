@@ -101,21 +101,22 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public AnotherFakeApi() : this((string)null)
+        public AnotherFakeApi(HttpClient client = null, HttpClientHandler handler = null) : this((string)null, client, handler)
         {
+
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public AnotherFakeApi(String basePath)
+        public AnotherFakeApi(String basePath, HttpClient client = null, HttpClientHandler handler = null)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
             this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
