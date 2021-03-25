@@ -11,7 +11,7 @@ paths:
       operationId: test1
       parameters:
         - name: id
-          in: query
+          in: path
           schema:
             type: string
       responses:
