@@ -61,6 +61,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
+    public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
@@ -73,7 +74,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
-    protected boolean swiftUseApiNamespace;
+    protected boolean swiftUseApiNamespace = false;
+    protected boolean useSPMFileStructure = false;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
     protected HashSet objcReservedWords;
@@ -412,6 +414,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
+        }
+
+        if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE) && (boolean)additionalProperties.get(USE_SPM_FILE_STRUCTURE)) {
+            setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
+            sourceFolder = "Sources" + File.separator + projectName;
         }
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
@@ -804,6 +811,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setSwiftUseApiNamespace(boolean swiftUseApiNamespace) {
         this.swiftUseApiNamespace = swiftUseApiNamespace;
+    }
+
+    public void setUseSPMFileStructure(boolean useSPMFileStructure) {
+        this.useSPMFileStructure = useSPMFileStructure;
     }
 
     @Override
