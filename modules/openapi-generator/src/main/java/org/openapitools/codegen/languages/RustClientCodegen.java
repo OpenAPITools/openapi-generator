@@ -224,7 +224,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         Map<String, Object> mas = new HashMap<>();
                         mas.put("modelName", camelize(mappedModel.getModelName()));
                         mas.put("mappingName", mappedModel.getMappingName());
-                        
+
                         // TODO: deleting the variable from the array was
                         // problematic; I don't know what this is supposed to do
                         // so I'm just cloning it for the moment

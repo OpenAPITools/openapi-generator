@@ -257,6 +257,7 @@ class PetController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -345,6 +346,7 @@ class PetController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($tags, $asserts);
         if ($response instanceof Response) {
             return $response;

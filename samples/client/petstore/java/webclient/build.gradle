@@ -112,12 +112,12 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.2"
-    spring_web_version = "5.2.13.RELEASE"
+    spring_web_version = "2.4.3"
     jackson_version = "2.11.3"
     jackson_databind_version = "2.11.3"
     jackson_databind_nullable_version = "0.2.1"
     javax_annotation_version = "1.3.2"
-    reactor_version = "3.3.10.RELEASE"
+    reactor_version = "3.4.3"
     reactor_netty_version = "0.7.15.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
@@ -127,7 +127,7 @@ dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
-    implementation "org.springframework:spring-webflux:$spring_web_version"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_web_version"
     implementation "io.projectreactor.ipc:reactor-netty:$reactor_netty_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"

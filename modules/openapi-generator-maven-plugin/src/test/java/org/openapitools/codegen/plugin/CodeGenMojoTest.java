@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.plugin;
 
-import org.junit.Test;
 import org.openapitools.codegen.plugin.stubs.StubUtility;
 
 import java.io.File;
