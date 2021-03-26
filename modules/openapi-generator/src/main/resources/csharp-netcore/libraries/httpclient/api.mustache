@@ -100,7 +100,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
+    {{>visibility}} partial class {{classname}} : IDisposable, {{interfacePrefix}}{{classname}}
     {
         private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
@@ -123,9 +123,10 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 new {{packageName}}.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.Client =  this.ApiClient;
             {{#supportsAsync}}
-            this.AsynchronousClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = this.ApiClient;
             {{/supportsAsync}}
             this.ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
@@ -144,9 +145,10 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.Client = this.ApiClient;
             {{#supportsAsync}}
-            this.AsynchronousClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = this.ApiClient;
             {{/supportsAsync}}
             ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
@@ -173,6 +175,19 @@ namespace {{packageName}}.{{apiPackage}}
             this.Configuration = configuration;
             this.ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
         }
+
+        /// <summary>
+        /// Disposes resources if they were created by us
+        /// </summary>
+        public void Dispose()
+        {
+            this.ApiClient?.Dispose();
+        }
+
+        /// <summary>
+        /// Holds the ApiClient if created
+        /// </summary>
+        public {{packageName}}.Client.ApiClient ApiClient { get; set; } = null;
 
         {{#supportsAsync}}
         /// <summary>

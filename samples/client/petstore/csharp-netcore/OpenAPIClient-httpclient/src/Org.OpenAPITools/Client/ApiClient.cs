@@ -161,11 +161,13 @@ namespace Org.OpenAPITools.Client
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
     /// encapsulating general REST accessor use cases.
     /// </summary>
-    public partial class ApiClient : ISynchronousClient, IAsynchronousClient
+    public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
         private readonly HttpClientHandler _httpClientHandler;
+        private readonly bool _disposeHandler;
         private readonly HttpClient _httpClient;
+        private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -202,13 +204,27 @@ namespace Org.OpenAPITools.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
-            /* TODO: Decide how to handle this case
             if(client != null && handler == null) {
-                throw new ArgumentException("if providing HttpClient, you also need to provide its handler");
-            }*/
+                throw new ArgumentException("If providing HttpClient, you also need to provide its handler, see README.md");
+            }
 
             _httpClientHandler = handler ?? new HttpClientHandler();
+            _disposeHandler = handler == null;
             _httpClient = client ?? new HttpClient(_httpClientHandler);
+            _disposeClient = client == null;
+        }
+
+        /// <summary>
+        /// Disposes resources if they were created by us
+        /// </summary>
+        public void Dispose()
+        {
+            if(_disposeClient) {
+                _httpClient.Dispose();
+            }
+            if(_disposeHandler) {
+                _httpClientHandler.Dispose();
+            }
         }
 
         /// Prepares multipart/form-data content
