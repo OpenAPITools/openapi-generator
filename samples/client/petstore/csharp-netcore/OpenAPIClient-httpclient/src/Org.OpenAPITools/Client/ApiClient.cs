@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Client
 
             _httpClientHandler = handler ?? new HttpClientHandler();
             _disposeHandler = handler == null;
-            _httpClient = client ?? new HttpClient(_httpClientHandler);
+            _httpClient = client ?? new HttpClient(_httpClientHandler, false);
             _disposeClient = client == null;
         }
 
