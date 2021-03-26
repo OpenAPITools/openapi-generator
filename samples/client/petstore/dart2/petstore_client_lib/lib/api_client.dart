@@ -140,7 +140,6 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
-  /// This is now a static function in case [ApiClient.useIsolate] is true.
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     // Normalize this variable, default is to have growable lists/maps.
     growable = growable == true; // ignore: parameter_assignments
