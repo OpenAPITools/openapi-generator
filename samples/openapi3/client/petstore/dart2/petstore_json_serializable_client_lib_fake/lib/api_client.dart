@@ -10,7 +10,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.useCompute = false}) {
+  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'api_key_query'] = ApiKeyAuth('query', 'api_key_query');
@@ -37,12 +37,6 @@ class ApiClient {
     }
     _client = newClient;
   }
-
-  /// Whether to use [compute] to serialize/deserialize JSON values. Currently, this is used
-  /// for native serialization/deserialization only.
-  ///
-  /// Note: this is a non-final property, you may adjust it during runtime per your use cases.
-  bool useCompute;
 
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
@@ -153,11 +147,7 @@ class ApiClient {
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<String> serialize(Object obj) async => obj == null
-    ? ''
-    : useCompute == true
-      ? compute<Object, String>(computedSerialize, obj)
-      : json.encode(obj);
+  Future<String> serialize(Object value) => apiClientSerialize(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -175,3 +165,8 @@ class ApiClient {
     });
   }
 }
+
+/// When the API client is used in Flutter, one can use the compute() function to offload the
+/// JSON serialization to an isolate. However, compute() requires a static function as a
+/// parameter so this is a helper future function to aid you.
+Future<String> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);

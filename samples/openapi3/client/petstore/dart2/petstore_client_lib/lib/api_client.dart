@@ -10,7 +10,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.useCompute = false}) {
+  ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'petstore_auth'] = OAuth();
@@ -34,12 +34,6 @@ class ApiClient {
     }
     _client = newClient;
   }
-
-  /// Whether to use [compute] to serialize/deserialize JSON values. Currently, this is used
-  /// for native serialization/deserialization only.
-  ///
-  /// Note: this is a non-final property, you may adjust it during runtime per your use cases.
-  bool useCompute;
 
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
@@ -201,7 +195,7 @@ class ApiClient {
           }
           break;
       }
-    } on Exception catch (error, trace) {
+    } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
@@ -215,27 +209,14 @@ class ApiClient {
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     return targetType == 'String'
-        ? json
-        : useCompute == true
-          ? compute<ComputedDeserializeMessage, dynamic>(
-              computedDeserialize,
-              ComputedDeserializeMessage(
-                json: json,
-                targetType: targetType,
-                growable: growable,
-              ),
-            )
-          : _deserialize(jsonDecode(json), targetType, growable: growable);
+      ? json
+      : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
 
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<String> serialize(Object obj) async => obj == null
-    ? ''
-    : useCompute == true
-      ? compute<Object, String>(computedSerialize, obj)
-      : json.encode(obj);
+  Future<String> serialize(Object value) => apiClientSerialize(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -253,20 +234,11 @@ class ApiClient {
     });
   }
 }
-/// Performs deserialization of a JSON value using [compute].
-Future<dynamic> computedDeserialize(ComputedDeserializeMessage message) async =>
-  ApiClient._deserialize(
-    jsonDecode(message.json),
-    message.targetType,
-    growable: message.growable,
-  );
-
-/// Performs serialization of a JSON value using [compute].
-Future<String> computedSerialize(Object value) async => json.encode(value);
-
-/// Encapsulates all values necessary for [computedDeserialize] in a data class.
-class ComputedDeserializeMessage {
-  const ComputedDeserializeMessage({
+/// When the API client is used in Flutter, one can use the compute() function to offload the
+/// JSON deserialization to an isolate. However, compute() accepts only a single data object
+/// to hold information for [deserialize].
+class DeserializationMessage {
+  const DeserializationMessage({
     @required this.json,
     @required this.targetType,
     this.growable,
@@ -281,3 +253,18 @@ class ComputedDeserializeMessage {
   /// Whether to make deserialized lists or maps growable.
   final bool growable;
 }
+
+/// When the API client is used in Flutter, one can use the compute() function to offload the
+/// JSON deserialization to an isolate. However, compute() requires a static function as a
+/// parameter and since [ApiClient._deserialize] is private, this function is added.
+Future<dynamic> apiClientDeserialize(DeserializationMessage message) async =>
+  ApiClient._deserialize(
+    jsonDecode(message.json),
+    message.targetType,
+    growable: message.growable,
+  );
+
+/// When the API client is used in Flutter, one can use the compute() function to offload the
+/// JSON serialization to an isolate. However, compute() requires a static function as a
+/// parameter so this is a helper future function to aid you.
+Future<String> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
