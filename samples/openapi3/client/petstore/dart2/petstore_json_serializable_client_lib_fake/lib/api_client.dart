@@ -10,7 +10,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2'}) {
+  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.useCompute = false}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'api_key_query'] = ApiKeyAuth('query', 'api_key_query');
@@ -38,6 +38,12 @@ class ApiClient {
     _client = newClient;
   }
 
+  /// Whether to use [compute] to serialize/deserialize JSON values. Currently, this is used
+  /// for native serialization/deserialization only.
+  ///
+  /// Note: this is a non-final property, you may adjust it during runtime per your use cases.
+  bool useCompute;
+
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
 
@@ -47,17 +53,16 @@ class ApiClient {
 
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
-  /// returns an unmodifiable view of the authentications, since none should be added
-  /// nor deleted
-  Map<String, Authentication> get authentications =>
-      Map.unmodifiable(_authentications);
+  /// Returns an unmodifiable [Map] of the authentications, since none should be added
+  /// nor deleted.
+  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
   }
 
-  // We don’t use a Map<String, String> for queryParams.
+  // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
   Future<Response> invokeAPI(
     String path,
@@ -88,7 +93,7 @@ class ApiClient {
     }
 
     try {
-      // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+      // Special case for uploading a single file which isn't a 'multipart/form-data'.
       if (
         body is MultipartFile && (nullableContentType == null ||
         !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
@@ -118,7 +123,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : serialize(body);
+        : await serialize(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -145,7 +150,14 @@ class ApiClient {
   }
 
 
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  /// Although a Future isn't required for the default implementation, you may overwrite it
+  /// to have a custom implementation that requires a Future. For example, if implementing
+  /// in an isolate.
+  Future<String> serialize(Object obj) async => obj == null
+    ? ''
+    : useCompute == true
+      ? compute<Object, String>(computedSerialize, obj)
+      : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply

@@ -10,7 +10,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
+  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', this.useCompute = false}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'petstore_auth'] = OAuth();
@@ -35,6 +35,12 @@ class ApiClient {
     _client = newClient;
   }
 
+  /// Whether to use [compute] to serialize/deserialize JSON values. Currently, this is used
+  /// for native serialization/deserialization only.
+  ///
+  /// Note: this is a non-final property, you may adjust it during runtime per your use cases.
+  bool useCompute;
+
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
 
@@ -44,17 +50,16 @@ class ApiClient {
 
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
-  /// returns an unmodifiable view of the authentications, since none should be added
-  /// nor deleted
-  Map<String, Authentication> get authentications =>
-      Map.unmodifiable(_authentications);
+  /// Returns an unmodifiable [Map] of the authentications, since none should be added
+  /// nor deleted.
+  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
   }
 
-  // We don’t use a Map<String, String> for queryParams.
+  // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
   Future<Response> invokeAPI(
     String path,
@@ -85,7 +90,7 @@ class ApiClient {
     }
 
     try {
-      // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+      // Special case for uploading a single file which isn't a 'multipart/form-data'.
       if (
         body is MultipartFile && (nullableContentType == null ||
         !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
@@ -115,7 +120,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : serialize(body);
+        : await serialize(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -141,7 +146,11 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
-  dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
+  /// This is now a static function in case [ApiClient.useIsolate] is true.
+  static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
+    // Normalize this variable, default is to have growable lists/maps.
+    growable = growable == true; // ignore: parameter_assignments
+
     try {
       switch (targetType) {
         case 'String':
@@ -175,7 +184,7 @@ class ApiClient {
             final newTargetType = match[1];
             return value
               .map((v) => _deserialize(v, newTargetType, growable: growable))
-              .toList(growable: true == growable);
+              .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             final newTargetType = match[1];
@@ -192,22 +201,41 @@ class ApiClient {
           }
           break;
       }
-    } on Exception catch (e, stack) {
-      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', e, stack,);
+    } on Exception catch (error, trace) {
+      throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
 
-  dynamic deserialize(String json, String targetType, {bool growable}) {
-    // Remove all spaces.  Necessary for reg expressions as well.
-    targetType = targetType.replaceAll(' ', '');
+  /// Although a Future isn't required for the default implementation, you may overwrite it
+  /// to have a custom implementation that requires a Future. For example, if implementing
+  /// in an isolate.
+  Future<dynamic> deserialize(String json, String targetType, {bool growable}) async {
+    // Remove all spaces. Necessary for regular expressions as well.
+    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
-  return targetType == 'String'
-    ? json
-    : _deserialize(jsonDecode(json), targetType, growable: true == growable);
+    return targetType == 'String'
+        ? json
+        : useCompute == true
+          ? compute<ComputedDeserializeMessage, dynamic>(
+              computedDeserialize,
+              ComputedDeserializeMessage(
+                json: json,
+                targetType: targetType,
+                growable: growable,
+              ),
+            )
+          : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
 
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  /// Although a Future isn't required for the default implementation, you may overwrite it
+  /// to have a custom implementation that requires a Future. For example, if implementing
+  /// in an isolate.
+  Future<String> serialize(Object obj) async => obj == null
+    ? ''
+    : useCompute == true
+      ? compute<Object, String>(computedSerialize, obj)
+      : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -224,4 +252,32 @@ class ApiClient {
       auth.applyToParams(queryParams, headerParams);
     });
   }
+}
+/// Performs deserialization of a JSON value using [compute].
+Future<dynamic> computedDeserialize(ComputedDeserializeMessage message) async =>
+  ApiClient._deserialize(
+    jsonDecode(message.json),
+    message.targetType,
+    growable: message.growable,
+  );
+
+/// Performs serialization of a JSON value using [compute].
+Future<String> computedSerialize(Object value) async => json.encode(value);
+
+/// Encapsulates all values necessary for [computedDeserialize] in a data class.
+class ComputedDeserializeMessage {
+  const ComputedDeserializeMessage({
+    @required this.json,
+    @required this.targetType,
+    this.growable,
+  });
+
+  /// The JSON value to deserialize.
+  final String json;
+
+  /// Target type to deserialize to.
+  final String targetType;
+
+  /// Whether to make deserialized lists or maps growable.
+  final bool growable;
 }

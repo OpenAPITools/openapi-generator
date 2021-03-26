@@ -84,7 +84,7 @@ class FakeClassnameTags123Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
+      return await apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
         }
     return Future<ModelClient>.value(null);
   }
