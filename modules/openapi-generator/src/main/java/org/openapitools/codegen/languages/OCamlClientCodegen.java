@@ -818,6 +818,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
