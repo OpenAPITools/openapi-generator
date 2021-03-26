@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
@@ -51,6 +51,7 @@ import 'package:openapi/model/outer_enum.dart';
 import 'package:openapi/model/outer_enum_default_value.dart';
 import 'package:openapi/model/outer_enum_integer.dart';
 import 'package:openapi/model/outer_enum_integer_default_value.dart';
+import 'package:openapi/model/outer_object_with_enum_property.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/read_only_first.dart';
 import 'package:openapi/model/special_model_name.dart';
@@ -98,6 +99,7 @@ part 'serializers.g.dart';
   OuterEnumDefaultValue,
   OuterEnumInteger,
   OuterEnumIntegerDefaultValue,
+  OuterObjectWithEnumProperty,
   Pet,
   ReadOnlyFirst,
   SpecialModelName,

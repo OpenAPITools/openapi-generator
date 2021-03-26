@@ -7,7 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
+|aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
 |buildTarget|Target to build an application or library| |program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
 |packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
+|packageDescription|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |A library generated from a OpenAPI doc|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|

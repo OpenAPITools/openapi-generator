@@ -22,30 +22,30 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
         Object.assign(this.variableConfiguration, variableConfiguration);
     }
 
-	public getConfiguration(): T {
-		return this.variableConfiguration
-	}
+    public getConfiguration(): T {
+        return this.variableConfiguration
+    }
 
-	private getUrl() {
-		let replacedUrl = this.url;
-		for (const key in this.variableConfiguration) {
-			var re = new RegExp("{" + key + "}","g");
-			replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
-		}
-		return replacedUrl
-	}
+    private getUrl() {
+        let replacedUrl = this.url;
+        for (const key in this.variableConfiguration) {
+            var re = new RegExp("{" + key + "}","g");
+            replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+        }
+        return replacedUrl
+    }
 
-	/**
-	 * Creates a new request context for this server using the url with variables
-	 * replaced with their respective values and the endpoint of the request appended.
-	 *
-	 * @param endpoint the endpoint to be queried on the server
-	 * @param httpMethod httpMethod to be used
-	 *
-	 */	
-	public makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext {
-		return new RequestContext(this.getUrl() + endpoint, httpMethod);		
-	}
+    /**
+     * Creates a new request context for this server using the url with variables
+     * replaced with their respective values and the endpoint of the request appended.
+     *
+     * @param endpoint the endpoint to be queried on the server
+     * @param httpMethod httpMethod to be used
+     *
+     */
+    public makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext {
+        return new RequestContext(this.getUrl() + endpoint, httpMethod);
+    }
 }
 
 {{#servers}}

@@ -29,7 +29,6 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {

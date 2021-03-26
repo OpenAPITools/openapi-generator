@@ -80,11 +80,16 @@ public class Pet {
   /**
    * pet status in the store
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("available")
     AVAILABLE("available"),
     
+    @XmlEnumValue("pending")
     PENDING("pending"),
     
+    @XmlEnumValue("sold")
     SOLD("sold");
 
     private String value;

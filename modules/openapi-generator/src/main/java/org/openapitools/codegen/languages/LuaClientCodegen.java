@@ -35,7 +35,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapiclient";

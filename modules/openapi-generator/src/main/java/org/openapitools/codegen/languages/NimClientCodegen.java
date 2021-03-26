@@ -31,10 +31,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-    static final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 

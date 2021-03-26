@@ -134,6 +134,13 @@ Route::post('/v2/fake/outer/number', 'FakeController@fakeOuterNumberSerialize');
  */
 Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
 /**
+ * post fakePropertyEnumIntegerSerialize
+ * Summary: 
+ * Notes: Test serialization of enum (int) properties with examples
+ * Output-Formats: [*_/_*]
+ */
+Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntegerSerialize');
+/**
  * put testQueryParameterCollectionFormat
  * Summary: 
  * Notes: To test the collection format in query parameters

@@ -83,6 +83,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*Petstore::FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
 *Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
@@ -156,6 +157,7 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [Petstore::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)

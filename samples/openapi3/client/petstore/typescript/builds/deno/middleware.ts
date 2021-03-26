@@ -8,13 +8,13 @@ import { Observable, from } from './rxjsStub.ts';
  *
  */
 export interface Middleware {
-	/**
-	 * Modifies the request before the request is sent. 
-	 *
-	 * @param context RequestContext of a request which is about to be sent to the server
-	 * @returns an observable of the updated request context
-	 *
-	 */
+    /**
+     * Modifies the request before the request is sent.
+     *
+     * @param context RequestContext of a request which is about to be sent to the server
+     * @returns an observable of the updated request context
+     *
+     */
     pre(context: RequestContext): Observable<RequestContext>;
     /**
      * Modifies the returned response before it is deserialized.
@@ -48,13 +48,13 @@ export class PromiseMiddlewareWrapper implements Middleware {
  *
  */
 export interface PromiseMiddleware {
-	/**
-	 * Modifies the request before the request is sent. 
-	 *
-	 * @param context RequestContext of a request which is about to be sent to the server
-	 * @returns an observable of the updated request context
-	 *
-	 */
+    /**
+     * Modifies the request before the request is sent.
+     *
+     * @param context RequestContext of a request which is about to be sent to the server
+     * @returns an observable of the updated request context
+     *
+     */
     pre(context: RequestContext): Promise<RequestContext>;
         /**
      * Modifies the returned response before it is deserialized.

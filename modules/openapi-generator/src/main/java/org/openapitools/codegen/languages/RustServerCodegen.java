@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -50,7 +51,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
@@ -1670,8 +1671,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

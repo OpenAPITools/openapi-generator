@@ -34,14 +34,14 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
     private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
-    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key};
-    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}; 
+    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
+    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
 
@@ -190,7 +190,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
-        
+
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
@@ -223,7 +223,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("providedIn", providedIn);
         additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
 
-        if (ngVersion.atLeast("9.0.0")) {                
+        if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
@@ -386,7 +386,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
     }
- 
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
@@ -739,10 +739,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         return name;
     }
-    
+
     /**
      * Set the Injectable level
-     * 
+     *
      * @param level the wanted level
      */
     public void setProvidedIn (String level) {
@@ -757,9 +757,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             throw new IllegalArgumentException(msg);
         }
     }
-    
+
     /**
-     * 
+     *
      */
     private boolean getIsProvidedInNone() {
         return PROVIDED_IN_LEVEL.none.equals(providedIn);

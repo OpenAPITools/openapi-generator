@@ -27,7 +27,7 @@ type _Animal Animal
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAnimal(className string, ) *Animal {
+func NewAnimal(className string) *Animal {
 	this := Animal{}
 	this.ClassName = className
 	var color string = "red"
@@ -47,7 +47,7 @@ func NewAnimalWithDefaults() *Animal {
 
 // GetClassName returns the ClassName field value
 func (o *Animal) GetClassName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

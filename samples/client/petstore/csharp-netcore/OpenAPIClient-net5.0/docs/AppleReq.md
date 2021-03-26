@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.AppleReq
+
 ## Properties
 
 Name | Type | Description | Notes

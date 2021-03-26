@@ -1,12 +1,11 @@
 import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
 import { Configuration } from './configuration';
-import { BASE_PATH } from './variables';
 
 import { PetService } from './api/pet.service';
 import { StoreService } from './api/store.service';
 import { UserService } from './api/user.service';
 
-@Global
+@Global()
 @Module({
   imports:      [ HttpModule ],
   exports:      [

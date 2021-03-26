@@ -71,7 +71,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (obj == null || getClass() != obj.getClass())
                 return false;
             Parameter p = (Parameter) obj;
-            return key.equals(p.key) && value.equals((String) p.value);
+            return key.equals(p.key) && value.equals(p.value);
         }
     }
 
@@ -165,7 +165,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";

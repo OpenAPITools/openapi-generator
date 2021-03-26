@@ -12,7 +12,6 @@ import { Tag } from '../models/Tag';
 import { User } from '../models/User';
 import { ObservablePetApi } from './ObservableAPI';
 
-
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 import { AbstractPetApiRequestFactory, AbstractPetApiResponseProcessor } from "../apis/PetApi.service";
 
@@ -33,59 +32,59 @@ export class PromisePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPet(pet: Pet, options?: Configuration): Promise<Pet> {
-    	const result = this.api.addPet(pet, options);
+        const result = this.api.addPet(pet, options);
         return result.toPromise();
     }
-	
+
     /**
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
     public deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<void> {
-    	const result = this.api.deletePet(petId, apiKey, options);
+        const result = this.api.deletePet(petId, apiKey, options);
         return result.toPromise();
     }
-	
+
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<Array<Pet>> {
-    	const result = this.api.findPetsByStatus(status, options);
+        const result = this.api.findPetsByStatus(status, options);
         return result.toPromise();
     }
-	
+
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Array<string>, options?: Configuration): Promise<Array<Pet>> {
-    	const result = this.api.findPetsByTags(tags, options);
+        const result = this.api.findPetsByTags(tags, options);
         return result.toPromise();
     }
-	
+
     /**
      * Returns a single pet
      * Find pet by ID
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, options?: Configuration): Promise<Pet> {
-    	const result = this.api.getPetById(petId, options);
+        const result = this.api.getPetById(petId, options);
         return result.toPromise();
     }
-	
+
     /**
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
     public updatePet(pet: Pet, options?: Configuration): Promise<Pet> {
-    	const result = this.api.updatePet(pet, options);
+        const result = this.api.updatePet(pet, options);
         return result.toPromise();
     }
-	
+
     /**
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
@@ -93,10 +92,10 @@ export class PromisePetApi {
      * @param status Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<void> {
-    	const result = this.api.updatePetWithForm(petId, name, status, options);
+        const result = this.api.updatePetWithForm(petId, name, status, options);
         return result.toPromise();
     }
-	
+
     /**
      * uploads an image
      * @param petId ID of pet to update
@@ -104,17 +103,16 @@ export class PromisePetApi {
      * @param file file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Promise<ApiResponse> {
-    	const result = this.api.uploadFile(petId, additionalMetadata, file, options);
+        const result = this.api.uploadFile(petId, additionalMetadata, file, options);
         return result.toPromise();
     }
-	
+
 
 }
 
 
 
 import { ObservableStoreApi } from './ObservableAPI';
-
 
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
 import { AbstractStoreApiRequestFactory, AbstractStoreApiResponseProcessor } from "../apis/StoreApi.service";
@@ -137,45 +135,44 @@ export class PromiseStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, options?: Configuration): Promise<void> {
-    	const result = this.api.deleteOrder(orderId, options);
+        const result = this.api.deleteOrder(orderId, options);
         return result.toPromise();
     }
-	
+
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
     public getInventory(options?: Configuration): Promise<{ [key: string]: number; }> {
-    	const result = this.api.getInventory(options);
+        const result = this.api.getInventory(options);
         return result.toPromise();
     }
-	
+
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, options?: Configuration): Promise<Order> {
-    	const result = this.api.getOrderById(orderId, options);
+        const result = this.api.getOrderById(orderId, options);
         return result.toPromise();
     }
-	
+
     /**
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
     public placeOrder(order: Order, options?: Configuration): Promise<Order> {
-    	const result = this.api.placeOrder(order, options);
+        const result = this.api.placeOrder(order, options);
         return result.toPromise();
     }
-	
+
 
 }
 
 
 
 import { ObservableUserApi } from './ObservableAPI';
-
 
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
 import { AbstractUserApiRequestFactory, AbstractUserApiResponseProcessor } from "../apis/UserApi.service";
@@ -198,65 +195,65 @@ export class PromiseUserApi {
      * @param user Created user object
      */
     public createUser(user: User, options?: Configuration): Promise<void> {
-    	const result = this.api.createUser(user, options);
+        const result = this.api.createUser(user, options);
         return result.toPromise();
     }
-	
+
     /**
      * Creates list of users with given input array
      * @param user List of user object
      */
     public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<void> {
-    	const result = this.api.createUsersWithArrayInput(user, options);
+        const result = this.api.createUsersWithArrayInput(user, options);
         return result.toPromise();
     }
-	
+
     /**
      * Creates list of users with given input array
      * @param user List of user object
      */
     public createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<void> {
-    	const result = this.api.createUsersWithListInput(user, options);
+        const result = this.api.createUsersWithListInput(user, options);
         return result.toPromise();
     }
-	
+
     /**
      * This can only be done by the logged in user.
      * Delete user
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string, options?: Configuration): Promise<void> {
-    	const result = this.api.deleteUser(username, options);
+        const result = this.api.deleteUser(username, options);
         return result.toPromise();
     }
-	
+
     /**
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName(username: string, options?: Configuration): Promise<User> {
-    	const result = this.api.getUserByName(username, options);
+        const result = this.api.getUserByName(username, options);
         return result.toPromise();
     }
-	
+
     /**
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
     public loginUser(username: string, password: string, options?: Configuration): Promise<string> {
-    	const result = this.api.loginUser(username, password, options);
+        const result = this.api.loginUser(username, password, options);
         return result.toPromise();
     }
-	
+
     /**
      * Logs out current logged in user session
      */
     public logoutUser(options?: Configuration): Promise<void> {
-    	const result = this.api.logoutUser(options);
+        const result = this.api.logoutUser(options);
         return result.toPromise();
     }
-	
+
     /**
      * This can only be done by the logged in user.
      * Updated user
@@ -264,10 +261,10 @@ export class PromiseUserApi {
      * @param user Updated user object
      */
     public updateUser(username: string, user: User, options?: Configuration): Promise<void> {
-    	const result = this.api.updateUser(username, user, options);
+        const result = this.api.updateUser(username, user, options);
         return result.toPromise();
     }
-	
+
 
 }
 

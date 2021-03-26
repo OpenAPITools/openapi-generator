@@ -73,7 +73,7 @@ import com.google.common.io.Files;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
     /**
      * The build context is only avail when running from within eclipse.
@@ -236,6 +236,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
     private Boolean removeOperationIdPrefix;
+
+    /**
+     * To skip examples defined in the operation
+     */
+    @Parameter(name = "skipOperationExample", property = "openapi.generator.maven.plugin.skipOperationExample")
+    private Boolean skipOperationExample;
 
     /**
      * To write all log messages (not just errors) to STDOUT
@@ -483,6 +489,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (removeOperationIdPrefix != null) {
                 configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+            }
+
+            if (skipOperationExample != null) {
+                configurator.setSkipOperationExample(skipOperationExample);
             }
 
             if (isNotEmpty(inputSpec)) {
@@ -748,7 +758,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
+                                               " to store the checksum of the input spec.");
+                }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
 
@@ -780,7 +793,7 @@ public class CodeGenMojo extends AbstractMojo {
         File inputSpecTempFile = inputSpecFile;
 
         if (inputSpecRemoteUrl != null) {
-            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+            inputSpecTempFile = java.nio.file.Files.createTempFile("openapi-spec", ".tmp").toFile();
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
