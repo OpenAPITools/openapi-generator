@@ -1,7 +1,7 @@
 {{>header}}
 {{>part_of}}
 class ApiClient {
-  ApiClient({this.basePath = '{{{basePath}}}'}) {
+  ApiClient({this.basePath = '{{{basePath}}}', this.useCompute = false}) {
   {{#hasAuthMethods}}
     // Setup authentications (key: authentication name, value: authentication).
   {{#authMethods}}
@@ -41,6 +41,12 @@ class ApiClient {
     }
     _client = newClient;
   }
+
+  /// Whether to use [compute] to serialize/deserialize JSON values. Currently, this is used
+  /// for native serialization/deserialization only.
+  ///
+  /// Note: this is a non-final property, you may adjust it during runtime per your use cases.
+  bool useCompute;
 
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
@@ -148,8 +154,11 @@ class ApiClient {
   }
 
 {{#native_serialization}}
-  /// This is static in case one wants to run it in an isolate.
+  /// This is now a static function in case [ApiClient.useIsolate] is true.
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
+    // Normalize this variable, default is to have growable lists/maps.
+    growable = growable == true; // ignore: parameter_assignments
+
     try {
       switch (targetType) {
         case 'String':
@@ -183,7 +192,7 @@ class ApiClient {
             final newTargetType = match[1];
             return value
               .map((v) => _deserialize(v, newTargetType, growable: growable))
-              .toList(growable: true == growable);
+              .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             final newTargetType = match[1];
@@ -210,19 +219,32 @@ class ApiClient {
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
   Future<dynamic> deserialize(String json, String targetType, {bool growable}) async {
-    // Remove all spaces.  Necessary for reg expressions as well.
-    targetType = targetType.replaceAll(' ', '');
+    // Remove all spaces. Necessary for regular expressions as well.
+    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
-  return targetType == 'String'
-    ? json
-    : _deserialize(jsonDecode(json), targetType, growable: true == growable);
+    return targetType == 'String'
+        ? json
+        : useCompute == true
+          ? compute<ComputedDeserializeMessage, dynamic>(
+              computedDeserialize,
+              ComputedDeserializeMessage(
+                json: json,
+                targetType: targetType,
+                growable: growable,
+              ),
+            )
+          : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
 {{/native_serialization}}
 
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<String> serialize(Object obj) async => obj == null ? '' : json.encode(obj);
+  Future<String> serialize(Object obj) async => obj == null
+    ? ''
+    : useCompute == true
+      ? compute<Object, String>(computedSerialize, obj)
+      : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -240,3 +262,33 @@ class ApiClient {
     });
   }
 }
+{{#native_serialization}}
+/// Performs deserialization of a JSON value using [compute].
+Future<dynamic> computedDeserialize(ComputedDeserializeMessage message) async =>
+  ApiClient._deserialize(
+    jsonDecode(message.json),
+    message.targetType,
+    growable: message.growable,
+  );
+
+/// Performs serialization of a JSON value using [compute].
+Future<String> computedSerialize(Object value) async => json.encode(value);
+
+/// Encapsulates all values necessary for [computedDeserialize] in a data class.
+class ComputedDeserializeMessage {
+  const ComputedDeserializeMessage({
+    @required this.json,
+    @required this.targetType,
+    this.growable,
+  });
+
+  /// The JSON value to deserialize.
+  final String json;
+
+  /// Target type to deserialize to.
+  final String targetType;
+
+  /// Whether to make deserialized lists or maps growable.
+  final bool growable;
+}
+{{/native_serialization}}
