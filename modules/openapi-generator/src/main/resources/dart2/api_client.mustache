@@ -121,7 +121,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : serialize(body);
+        : await serialize(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -148,7 +148,7 @@ class ApiClient {
   }
 
 {{#native_serialization}}
-  /// This is static in case one wants to run it on an isolate.
+  /// This is static in case one wants to run it in an isolate.
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     try {
       switch (targetType) {
@@ -207,8 +207,8 @@ class ApiClient {
   }
 
   /// Although a Future isn't required for the default implementation, you may overwrite it
-  /// to have a custom implementation that requires a Future. For example, when launching
-  /// an isolate.
+  /// to have a custom implementation that requires a Future. For example, if implementing
+  /// in an isolate.
   Future<dynamic> deserialize(String json, String targetType, {bool growable}) async {
     // Remove all spaces.  Necessary for reg expressions as well.
     targetType = targetType.replaceAll(' ', '');
@@ -219,7 +219,10 @@ class ApiClient {
   }
 {{/native_serialization}}
 
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  /// Although a Future isn't required for the default implementation, you may overwrite it
+  /// to have a custom implementation that requires a Future. For example, if implementing
+  /// in an isolate.
+  Future<String> serialize(Object obj) async => obj == null ? '' : json.encode(obj);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
