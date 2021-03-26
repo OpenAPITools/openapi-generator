@@ -164,8 +164,8 @@ namespace Org.OpenAPITools.Client
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
-        public HttpClientHandler HttpClientHandler;
-        public HttpClient HttpClient;
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-            /// Initializes a new instance of the <see cref="ApiClient" />
+        /// Initializes a new instance of the <see cref="ApiClient" />
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
@@ -207,8 +207,8 @@ namespace Org.OpenAPITools.Client
                 throw new ArgumentException("if providing HttpClient, you also need to provide its handler");
             }*/
 
-            this.HttpClientHandler = handler ?? new HttpClientHandler();
-            this.HttpClient = client ?? new HttpClient(this.HttpClientHandler);
+            _httpClientHandler = handler ?? new HttpClientHandler();
+            _httpClient = client ?? new HttpClient(_httpClientHandler);
         }
 
         /// Prepares multipart/form-data content
@@ -399,8 +399,8 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = this.HttpClientHandler;
-            var client = this.HttpClient;
+            var handler = _httpClientHandler;
+            var client = _httpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;

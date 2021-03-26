@@ -107,7 +107,7 @@ To use your own HttpClient instances just assign the static properties on the Ap
 ```csharp
 HttpClientHandler yourHandler = new HttpClientHandler();
 HttpClient yourHttpClient = new HttpClient(yourHandler);
-{{packageName}}.Client.ApiClient.HttpClient = yourHttpClient;
+var api = new YourApiClass(yourHttpClient, yourHandler);
 ```
 
 You can also change properties of the HttpClientHandler on the API client directly.
