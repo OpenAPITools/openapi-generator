@@ -278,4 +278,4 @@ Future<dynamic> apiClientDeserialize(DeserializationMessage message) async =>
 /// When the API client is used in Flutter, one can use the compute() function to offload the
 /// JSON serialization to an isolate. However, compute() requires a static function as a
 /// parameter so this is a helper future function to aid you.
-Future<dynamic> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
+Future<String> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
