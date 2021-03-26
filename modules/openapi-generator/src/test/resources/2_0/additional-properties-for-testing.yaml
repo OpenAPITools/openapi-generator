@@ -9,6 +9,18 @@ info:
 host: petstore.swagger.io:80
 basePath: /v2
 definitions:
+  Grandparent:
+    type: object
+    properties:
+      radioWaves:
+        type: boolean
+  Parent:
+    allOf:
+      - $ref: '#/definitions/Grandparent'
+      - type: object
+        properties:
+          teleVision:
+            type: boolean
   AdditionalPropertiesClass:
     type: object
     properties:

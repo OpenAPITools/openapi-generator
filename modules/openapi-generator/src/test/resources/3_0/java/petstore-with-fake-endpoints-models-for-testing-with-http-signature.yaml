@@ -1793,6 +1793,8 @@ components:
         '$special[property.name]':
           type: integer
           format: int64
+        '_special_model.name_':
+          type: string
       xml:
         name: '$special[model.name]'
     HealthCheckResult:

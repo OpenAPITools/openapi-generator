@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
@@ -399,7 +399,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // check to see if model name is same as the property name
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.name)) {
+                if (var.name.equalsIgnoreCase(cm.classname)) {
                     var.name = "_" + var.name;
                 }
             }
@@ -500,6 +500,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
 
+                /* Comment out the following as model.dataType is always the model name, eg. OuterIntegerEnum,
+                 * and this will fix the integer enum via #9035.
+                 * Only x-enum-byte is used in the template but it won't work due to the bug mentioned above.
+                 * A better solution is to introduce isLong, isInteger, etc in the DefaultCodegen
+                 * so that there is no need for each generator to post-process model enums.
+                 *
                 // We're looping all models here.
                 if (model.isEnum) {
                     // We now need to make allowableValues.enumVars look like the context of CodegenProperty
@@ -543,7 +549,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     if (!newEnumVars.isEmpty()) {
                         model.allowableValues.put("enumVars", newEnumVars);
                     }
-                }
+                } */
             } else {
                 LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
@@ -1263,8 +1269,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
