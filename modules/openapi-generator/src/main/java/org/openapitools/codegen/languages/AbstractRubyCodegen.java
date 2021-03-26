@@ -253,6 +253,8 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

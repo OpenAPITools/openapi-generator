@@ -1222,6 +1222,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 LOGGER.info("Successfully executed: " + command);
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

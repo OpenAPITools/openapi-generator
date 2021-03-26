@@ -1314,6 +1314,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
 
