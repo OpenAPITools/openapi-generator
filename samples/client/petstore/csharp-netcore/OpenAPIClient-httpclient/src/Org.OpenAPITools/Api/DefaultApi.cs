@@ -94,8 +94,11 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public DefaultApi(HttpClient client = null, HttpClientHandler handler = null) : this((string)null, client, handler)
+        public DefaultApi(HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false) : this((string)null, client, handler, disableHandlerFeatures)
         {
 
         }
@@ -103,14 +106,17 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public DefaultApi(String basePath, HttpClient client = null, HttpClientHandler handler = null)
+        public DefaultApi(String basePath, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
@@ -121,8 +127,11 @@ namespace Org.OpenAPITools.Api
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public DefaultApi(Org.OpenAPITools.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null)
+        public DefaultApi(Org.OpenAPITools.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -130,7 +139,7 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;

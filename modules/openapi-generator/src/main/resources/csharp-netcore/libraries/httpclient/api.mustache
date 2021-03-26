@@ -107,8 +107,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public {{classname}}(HttpClient client = null, HttpClientHandler handler = null) : this((string)null, client, handler)
+        public {{classname}}(HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false) : this((string)null, client, handler, disableHandlerFeatures)
         {
 
         }
@@ -116,14 +119,17 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public {{classname}}(String basePath, HttpClient client = null, HttpClientHandler handler = null)
+        public {{classname}}(String basePath, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
         {
             this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 new {{packageName}}.Client.Configuration { BasePath = basePath }
             );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
             this.Client =  this.ApiClient;
             {{#supportsAsync}}
             this.AsynchronousClient = this.ApiClient;
@@ -136,8 +142,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
+        /// <param name="client">An instance of HttpClient</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
+        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public {{classname}}({{packageName}}.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null)
+        public {{classname}}({{packageName}}.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -145,7 +154,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
             this.Client = this.ApiClient;
             {{#supportsAsync}}
             this.AsynchronousClient = this.ApiClient;
