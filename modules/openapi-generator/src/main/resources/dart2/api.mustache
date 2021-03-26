@@ -187,16 +187,16 @@ class {{{classname}}} {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
+      return (await apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
         .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(await apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
     {{/isMap}}
     {{^isMap}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+      return await apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
     {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
     {{#isArray}}
       {{#uniqueItems}}
