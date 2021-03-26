@@ -231,7 +231,7 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
                 return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
             }
             if (value instanceof Object) {
-                return querystring(value as HTTPQuery, fullKey);
+                return `${encodeURIComponent(fullKey)}=${encodeURIComponent(JSON.stringify(value))}`;
             }
             return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
         })
