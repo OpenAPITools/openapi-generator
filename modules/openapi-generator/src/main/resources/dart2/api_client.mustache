@@ -225,7 +225,7 @@ class ApiClient {
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<String> serialize(Object obj) async => obj == null ? '' : json.encode(obj);
+  Future<String> serialize(Object value) => apiClientSerialize(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -265,11 +265,17 @@ class DeserializationMessage {
 }
 
 /// When the API client is used in Flutter, one can use the compute() function to offload the
-/// JSON deserialization to an isolate. However, compute() requires a static function as
+/// JSON deserialization to an isolate. However, compute() requires a static function as a
 /// parameter and since [ApiClient._deserialize] is private, this function is added.
-Future<dynamic> deserialize(DeserializationMessage message) async => ApiClient._deserialize(
+Future<dynamic> apiClientDeserialize(DeserializationMessage message) async =>
+  ApiClient._deserialize(
     jsonDecode(message.json),
     message.targetType,
     growable: message.growable,
   );
 {{/native_serialization}}
+
+/// When the API client is used in Flutter, one can use the compute() function to offload the
+/// JSON serialization to an isolate. However, compute() requires a static function as a
+/// parameter so this is a helper future function to aid you.
+Future<dynamic> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
