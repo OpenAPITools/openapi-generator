@@ -50,6 +50,27 @@ webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 c.Proxy = webProxy;
 ```
 
+To use your own HttpClient instances just pass them to the ApiClass constructor.
+
+```csharp
+HttpClientHandler yourHandler = new HttpClientHandler();
+HttpClient yourHttpClient = new HttpClient(yourHandler);
+var api = new YourApiClass(yourHttpClient, yourHandler);
+```
+
+If you want to use an HttpClient and don't have access to the handler, for example in a DI context in aspnetcore when
+using IHttpClientFactory. You need to disable the features that require handler access:
+
+```csharp
+HttpClient yourHttpClient = new HttpClient();
+var api = new YourApiClass(yourHttpClient, null, true);
+```
+
+The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+You need to either manually handle those in your setup of the HttpClient or they won't be available.
+
+
+
 <a name="getting-started"></a>
 ## Getting Started
 

@@ -52,22 +52,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapString = mapString;
   }
 
-  public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
-    if (this.mapString == null) {
-      this.mapString = new HashMap<String, String>();
-    }
-
-    this.mapString.put(key, mapStringItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapStringItem(String mapStringItem) {
-    if (mapStringItem != null && this.mapString != null) {
-      this.mapString.remove(mapStringItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
@@ -88,22 +72,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapNumber = mapNumber;
   }
 
-  public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
-    if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
-    }
-
-    this.mapNumber.put(key, mapNumberItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapNumberItem(BigDecimal mapNumberItem) {
-    if (mapNumberItem != null && this.mapNumber != null) {
-      this.mapNumber.remove(mapNumberItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
@@ -124,22 +92,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapInteger = mapInteger;
   }
 
-  public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
-    if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<String, Integer>();
-    }
-
-    this.mapInteger.put(key, mapIntegerItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapIntegerItem(Integer mapIntegerItem) {
-    if (mapIntegerItem != null && this.mapInteger != null) {
-      this.mapInteger.remove(mapIntegerItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
@@ -160,22 +112,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapBoolean = mapBoolean;
   }
 
-  public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
-    if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<String, Boolean>();
-    }
-
-    this.mapBoolean.put(key, mapBooleanItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapBooleanItem(Boolean mapBooleanItem) {
-    if (mapBooleanItem != null && this.mapBoolean != null) {
-      this.mapBoolean.remove(mapBooleanItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
@@ -196,22 +132,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapArrayInteger = mapArrayInteger;
   }
 
-  public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
-    if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<String, List<Integer>>();
-    }
-
-    this.mapArrayInteger.put(key, mapArrayIntegerItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapArrayIntegerItem(List<Integer> mapArrayIntegerItem) {
-    if (mapArrayIntegerItem != null && this.mapArrayInteger != null) {
-      this.mapArrayInteger.remove(mapArrayIntegerItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
@@ -232,22 +152,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
-    if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<String, List<Object>>();
-    }
-
-    this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapArrayAnytypeItem(List<Object> mapArrayAnytypeItem) {
-    if (mapArrayAnytypeItem != null && this.mapArrayAnytype != null) {
-      this.mapArrayAnytype.remove(mapArrayAnytypeItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
@@ -268,22 +172,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapMapString = mapMapString;
   }
 
-  public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
-    if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<String, Map<String, String>>();
-    }
-
-    this.mapMapString.put(key, mapMapStringItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapMapStringItem(Map<String, String> mapMapStringItem) {
-    if (mapMapStringItem != null && this.mapMapString != null) {
-      this.mapMapString.remove(mapMapStringItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
@@ -304,22 +192,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
-    if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<String, Map<String, Object>>();
-    }
-
-    this.mapMapAnytype.put(key, mapMapAnytypeItem);
-    return this;
-  }
-
-  public AdditionalPropertiesClass removeMapMapAnytypeItem(Map<String, Object> mapMapAnytypeItem) {
-    if (mapMapAnytypeItem != null && this.mapMapAnytype != null) {
-      this.mapMapAnytype.remove(mapMapAnytypeItem);
-    }
-
-    return this;
-  }
 /**
    **/
   public AdditionalPropertiesClass anytype1(Object anytype1) {
