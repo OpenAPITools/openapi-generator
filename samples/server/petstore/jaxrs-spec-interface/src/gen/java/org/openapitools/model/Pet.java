@@ -80,7 +80,9 @@ public enum StatusEnum {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -98,7 +100,9 @@ public enum StatusEnum {
 
   public void setCategory(Category category) {
     this.category = category;
-  }/**
+  }
+
+/**
    **/
   public Pet name(String name) {
     this.name = name;
@@ -117,7 +121,9 @@ public enum StatusEnum {
 
   public void setName(String name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -136,7 +142,25 @@ public enum StatusEnum {
 
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
-  }/**
+  }
+
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<String>();
+    }
+
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  public Pet removePhotoUrlsItem(String photoUrlsItem) {
+    if (photoUrlsItem != null && this.photoUrls != null) {
+      this.photoUrls.remove(photoUrlsItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -154,7 +178,25 @@ public enum StatusEnum {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }/**
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<Tag>();
+    }
+
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  public Pet removeTagsItem(Tag tagsItem) {
+    if (tagsItem != null && this.tags != null) {
+      this.tags.remove(tagsItem);
+    }
+
+    return this;
+  }
+/**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
@@ -174,6 +216,7 @@ public enum StatusEnum {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -63,7 +65,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -82,7 +86,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -101,7 +107,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -120,6 +128,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
+  }
+
+  public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<Integer>();
+    }
+
+    this.arrayItem.add(arrayItemItem);
+    return this;
+  }
+
+  public TypeHolderDefault removeArrayItemItem(Integer arrayItemItem) {
+    if (arrayItemItem != null && this.arrayItem != null) {
+      this.arrayItem.remove(arrayItemItem);
+    }
+
+    return this;
   }
 
   @Override
