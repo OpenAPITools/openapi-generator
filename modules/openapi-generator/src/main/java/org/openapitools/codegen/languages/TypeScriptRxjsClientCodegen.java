@@ -254,7 +254,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         // This method will determine if there are required parameters and if there are list containers
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-        
+
         boolean hasRequiredParams = false;
         boolean hasListContainers = false;
         boolean hasHttpHeaders = false;
