@@ -6,8 +6,10 @@ java -jar "../openapi-generator/modules/openapi-generator-cli/target/openapi-gen
     -i "your-swagger-file.yml" `
     -c generator-config.json `
     -o output `
-    -t templates `
-    --library httpclient-experimental
+    --library httpclient-experimental `
+    --additional-properties=targetFramework=net5.0 `
+    --additional-properties=validatable=false `
+    --additional-properties=nullableReferenceTypes
 ```
 
 # {{packageName}} - the C# library for the {{appName}}
