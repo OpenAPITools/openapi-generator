@@ -231,6 +231,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(modelPropertyNaming.defaultValue("PascalCase"));
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+            CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+            this.nullReferenceTypesEnabled);
+
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
@@ -556,6 +560,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
 
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)){
+            boolean nullableReferenceTypesFlag = Boolean.valueOf(additionalProperties.get(CodegenConstants.NULLABLE_REFERENCE_TYPES).toString());
+            this.setNullableReferenceTypesEnabled(nullableReferenceTypesFlag);
+            if (nullableReferenceTypesFlag)
+                this.nullableType.add("string");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
@@ -724,6 +735,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+    }
+
+    public void setNullableReferenceTypesEnabled(Boolean flag){
+        this.nullReferenceTypesEnabled = flag;
     }
 
     public void setNetStandard(Boolean netStandard) {
