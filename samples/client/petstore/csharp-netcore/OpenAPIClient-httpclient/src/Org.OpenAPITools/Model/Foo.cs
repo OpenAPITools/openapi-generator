@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -33,11 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar)
+        public Foo(string bar = "bar")
         {
             // use default value if no "bar" provided
-            Bar = bar ?? "bar";
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Bar = bar ?? "bar";
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -60,8 +63,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Foo {\n");
-            sb.Append("  Bar: ").Append(Bar).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Bar: ").Append(Bar).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -70,9 +73,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -80,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Foo).AreEqual;
         }
@@ -90,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Foo to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Foo? input)
+        public bool Equals(Foo input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

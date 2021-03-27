@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -37,18 +40,16 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name, string property)
+        public Name(int name = default(int), string property = default(string))
         {
-            _Name = name;
-
-            Property = property;
-            AdditionalProperties = new Dictionary<string, object>();
+            this._Name = name;
+            this.Property = property;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -107,11 +108,11 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append('\n');
-            sb.Append("  SnakeCase: ").Append(SnakeCase).Append('\n');
-            sb.Append("  Property: ").Append(Property).Append('\n');
-            sb.Append("  _123Number: ").Append(_123Number).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+            sb.Append("  Property: ").Append(Property).Append("\n");
+            sb.Append("  _123Number: ").Append(_123Number).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -120,9 +121,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Name).AreEqual;
         }
@@ -140,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Name to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Name? input)
+        public bool Equals(Name input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

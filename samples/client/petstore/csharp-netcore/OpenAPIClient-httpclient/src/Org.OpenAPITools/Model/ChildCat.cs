@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -28,13 +31,13 @@ namespace Org.OpenAPITools.Model
     /// ChildCat
     /// </summary>
     [DataContract(Name = "ChildCat")]
-    [Newtonsoft.Json.JsonConverter(typeof(JsonSubtypes), "PetType")]
+    [JsonConverter(typeof(JsonSubtypes), "PetType")]
     public partial class ChildCat : ParentPet, IEquatable<ChildCat>, IValidatableObject
     {
         /// <summary>
         /// Defines PetType
         /// </summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum PetTypeEnum
         {
             /// <summary>
@@ -50,7 +53,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public PetTypeEnum PetType { get; set; }
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
@@ -59,18 +61,16 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name, PetTypeEnum petType) : base()
+        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
-            PetType = petType;
-
-            Name = name;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.PetType = petType;
+            this.Name = name;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
-            sb.Append("  Name: ").Append(Name).Append('\n');
-            sb.Append("  PetType: ").Append(PetType).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PetType: ").Append(PetType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public override string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as ChildCat).AreEqual;
         }
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of ChildCat to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ChildCat? input)
+        public bool Equals(ChildCat input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

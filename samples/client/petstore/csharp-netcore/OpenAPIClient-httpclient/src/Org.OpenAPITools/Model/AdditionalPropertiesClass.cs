@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -40,17 +43,17 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Object anytype1, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Object emptyMap, Dictionary<string, string> mapWithUndeclaredPropertiesString)
+        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
-            MapProperty = mapProperty;
-            MapOfMapProperty = mapOfMapProperty;
-            Anytype1 = anytype1;
-            MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
-            MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
-            MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
-            EmptyMap = emptyMap;
-            MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.MapProperty = mapProperty;
+            this.MapOfMapProperty = mapOfMapProperty;
+            this.Anytype1 = anytype1;
+            this.MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
+            this.MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
+            this.MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
+            this.EmptyMap = emptyMap;
+            this.MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -116,15 +119,15 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
-            sb.Append("  MapProperty: ").Append(MapProperty).Append('\n');
-            sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append('\n');
-            sb.Append("  Anytype1: ").Append(Anytype1).Append('\n');
-            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ").Append(MapWithUndeclaredPropertiesAnytype1).Append('\n');
-            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ").Append(MapWithUndeclaredPropertiesAnytype2).Append('\n');
-            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append('\n');
-            sb.Append("  EmptyMap: ").Append(EmptyMap).Append('\n');
-            sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
+            sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
+            sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ").Append(MapWithUndeclaredPropertiesAnytype1).Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ").Append(MapWithUndeclaredPropertiesAnytype2).Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append("\n");
+            sb.Append("  EmptyMap: ").Append(EmptyMap).Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -133,9 +136,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -143,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as AdditionalPropertiesClass).AreEqual;
         }
@@ -153,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of AdditionalPropertiesClass to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(AdditionalPropertiesClass? input)
+        public bool Equals(AdditionalPropertiesClass input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

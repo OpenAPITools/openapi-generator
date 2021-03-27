@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -39,14 +42,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="triangleType">triangleType (required).</param>
-        public IsoscelesTriangle(string shapeType, string triangleType)
+        public IsoscelesTriangle(string shapeType = default(string), string triangleType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for IsoscelesTriangle and cannot be null");
-
+            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for IsoscelesTriangle and cannot be null");
             // to ensure "triangleType" is required (not null)
-            TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for IsoscelesTriangle and cannot be null");
-
+            this.TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for IsoscelesTriangle and cannot be null");
         }
 
         /// <summary>
@@ -69,8 +70,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class IsoscelesTriangle {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append('\n');
-            sb.Append("  TriangleType: ").Append(TriangleType).Append('\n');
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -79,9 +80,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as IsoscelesTriangle).AreEqual;
         }
@@ -99,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of IsoscelesTriangle to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(IsoscelesTriangle? input)
+        public bool Equals(IsoscelesTriangle input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

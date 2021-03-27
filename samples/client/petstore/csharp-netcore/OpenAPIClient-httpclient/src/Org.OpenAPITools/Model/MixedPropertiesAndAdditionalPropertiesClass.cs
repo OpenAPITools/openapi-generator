@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -35,12 +38,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid, DateTime dateTime, Dictionary<string, Animal> map)
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
-            Uuid = uuid;
-            DateTime = dateTime;
-            Map = map;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Uuid = uuid;
+            this.DateTime = dateTime;
+            this.Map = map;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -75,10 +78,10 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append('\n');
-            sb.Append("  DateTime: ").Append(DateTime).Append('\n');
-            sb.Append("  Map: ").Append(Map).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Map: ").Append(Map).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,9 +90,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as MixedPropertiesAndAdditionalPropertiesClass).AreEqual;
         }
@@ -107,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of MixedPropertiesAndAdditionalPropertiesClass to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(MixedPropertiesAndAdditionalPropertiesClass? input)
+        public bool Equals(MixedPropertiesAndAdditionalPropertiesClass input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

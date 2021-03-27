@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -35,12 +38,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal myNumber, string myString, bool myBoolean)
+        public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
-            MyNumber = myNumber;
-            MyString = myString;
-            MyBoolean = myBoolean;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.MyNumber = myNumber;
+            this.MyString = myString;
+            this.MyBoolean = myBoolean;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name = "my_boolean", EmitDefaultValue = false)]
+        [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
         public bool MyBoolean { get; set; }
 
         /// <summary>
@@ -75,10 +78,10 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
-            sb.Append("  MyNumber: ").Append(MyNumber).Append('\n');
-            sb.Append("  MyString: ").Append(MyString).Append('\n');
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
+            sb.Append("  MyString: ").Append(MyString).Append("\n");
+            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,9 +90,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as OuterComposite).AreEqual;
         }
@@ -107,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of OuterComposite to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(OuterComposite? input)
+        public bool Equals(OuterComposite input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

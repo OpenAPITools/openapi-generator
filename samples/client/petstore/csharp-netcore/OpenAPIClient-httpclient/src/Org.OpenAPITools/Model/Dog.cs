@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -28,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// Dog
     /// </summary>
     [DataContract(Name = "Dog")]
-    [Newtonsoft.Json.JsonConverter(typeof(JsonSubtypes), "ClassName")]
+    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Dog : Animal, IEquatable<Dog>, IValidatableObject
     {
         /// <summary>
@@ -39,17 +42,16 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
         /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Dog(string breed, string className, string color) : base(className, color)
+        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
         {
-            Breed = breed;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Breed = breed;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,9 +74,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Dog {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
-            sb.Append("  Breed: ").Append(Breed).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -83,9 +85,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public override string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Dog).AreEqual;
         }
@@ -103,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Dog to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Dog? input)
+        public bool Equals(Dog input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

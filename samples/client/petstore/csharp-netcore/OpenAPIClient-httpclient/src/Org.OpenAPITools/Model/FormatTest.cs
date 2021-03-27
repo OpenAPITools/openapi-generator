@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -37,7 +40,6 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
@@ -57,31 +59,27 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer, int int32, long int64, decimal number, float _float, double _double, decimal _decimal, string _string, byte[] _byte, System.IO.Stream binary, DateTime date, DateTime dateTime, Guid uuid, string password, string patternWithDigits, string patternWithDigitsAndDelimiter)
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
-            Number = number;
-
+            this.Number = number;
             // to ensure "_byte" is required (not null)
-            Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
-
-            Date = date;
-
+            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+            this.Date = date;
             // to ensure "password" is required (not null)
-            Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
-
-            Integer = integer;
-            Int32 = int32;
-            Int64 = int64;
-            Float = _float;
-            Double = _double;
-            Decimal = _decimal;
-            String = _string;
-            Binary = binary;
-            DateTime = dateTime;
-            Uuid = uuid;
-            PatternWithDigits = patternWithDigits;
-            PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+            this.Integer = integer;
+            this.Int32 = int32;
+            this.Int64 = int64;
+            this.Float = _float;
+            this.Double = _double;
+            this.Decimal = _decimal;
+            this.String = _string;
+            this.Binary = binary;
+            this.DateTime = dateTime;
+            this.Uuid = uuid;
+            this.PatternWithDigits = patternWithDigits;
+            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -148,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Date
         /// </summary>
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
-        [Newtonsoft.Json.JsonConverter(typeof(OpenAPIDateConverter))]
+        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
         /// <summary>
@@ -197,23 +195,23 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
-            sb.Append("  Integer: ").Append(Integer).Append('\n');
-            sb.Append("  Int32: ").Append(Int32).Append('\n');
-            sb.Append("  Int64: ").Append(Int64).Append('\n');
-            sb.Append("  Number: ").Append(Number).Append('\n');
-            sb.Append("  Float: ").Append(Float).Append('\n');
-            sb.Append("  Double: ").Append(Double).Append('\n');
-            sb.Append("  Decimal: ").Append(Decimal).Append('\n');
-            sb.Append("  String: ").Append(String).Append('\n');
-            sb.Append("  Byte: ").Append(Byte).Append('\n');
-            sb.Append("  Binary: ").Append(Binary).Append('\n');
-            sb.Append("  Date: ").Append(Date).Append('\n');
-            sb.Append("  DateTime: ").Append(DateTime).Append('\n');
-            sb.Append("  Uuid: ").Append(Uuid).Append('\n');
-            sb.Append("  Password: ").Append(Password).Append('\n');
-            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append('\n');
-            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Integer: ").Append(Integer).Append("\n");
+            sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  Number: ").Append(Number).Append("\n");
+            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Byte: ").Append(Byte).Append("\n");
+            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
+            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -222,9 +220,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -232,7 +230,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as FormatTest).AreEqual;
         }
@@ -242,7 +240,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of FormatTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(FormatTest? input)
+        public bool Equals(FormatTest input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

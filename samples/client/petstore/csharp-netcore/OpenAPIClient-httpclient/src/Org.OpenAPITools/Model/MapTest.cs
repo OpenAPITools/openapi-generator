@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -32,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines Inner
         /// </summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum InnerEnum
         {
             /// <summary>
@@ -55,7 +58,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
         public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -63,13 +65,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, InnerEnum> mapOfEnumString, Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap)
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
-            MapMapOfString = mapMapOfString;
-            MapOfEnumString = mapOfEnumString;
-            DirectMap = directMap;
-            IndirectMap = indirectMap;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.MapMapOfString = mapMapOfString;
+            this.MapOfEnumString = mapOfEnumString;
+            this.DirectMap = directMap;
+            this.IndirectMap = indirectMap;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -104,11 +106,11 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class MapTest {\n");
-            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append('\n');
-            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append('\n');
-            sb.Append("  DirectMap: ").Append(DirectMap).Append('\n');
-            sb.Append("  IndirectMap: ").Append(IndirectMap).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
+            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
+            sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
+            sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -117,9 +119,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -127,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
         }
@@ -137,7 +139,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of MapTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(MapTest? input)
+        public bool Equals(MapTest input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

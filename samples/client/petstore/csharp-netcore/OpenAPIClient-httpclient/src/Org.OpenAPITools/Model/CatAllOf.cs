@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -33,16 +36,16 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>
         /// <param name="declawed">declawed.</param>
-        public CatAllOf(bool declawed)
+        public CatAllOf(bool declawed = default(bool))
         {
-            Declawed = declawed;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Declawed = declawed;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
-        [DataMember(Name = "declawed", EmitDefaultValue = false)]
+        [DataMember(Name = "declawed", EmitDefaultValue = true)]
         public bool Declawed { get; set; }
 
         /// <summary>
@@ -59,8 +62,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class CatAllOf {\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -69,9 +72,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as CatAllOf).AreEqual;
         }
@@ -89,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of CatAllOf to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CatAllOf? input)
+        public bool Equals(CatAllOf input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

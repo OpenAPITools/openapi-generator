@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -37,33 +40,31 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
         /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen, bool hasTeeth, string className)
+        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
-
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            this.HasBaleen = hasBaleen;
+            this.HasTeeth = hasTeeth;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
-        [DataMember(Name = "hasBaleen", EmitDefaultValue = false)]
+        [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
         public bool HasBaleen { get; set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
-        [DataMember(Name = "hasTeeth", EmitDefaultValue = false)]
+        [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
         public bool HasTeeth { get; set; }
 
         /// <summary>
@@ -86,10 +87,10 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Whale {\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append('\n');
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append('\n');
-            sb.Append("  ClassName: ").Append(ClassName).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
+            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,9 +99,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -108,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Whale).AreEqual;
         }
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Whale to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Whale? input)
+        public bool Equals(Whale input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

@@ -11,7 +11,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Client
 {
@@ -21,15 +20,31 @@ namespace Org.OpenAPITools.Client
     public interface IApiResponse
     {
         /// <summary>
-        /// The data type of <see cref="Data"/>
+        /// The data type of <see cref="Content"/>
         /// </summary>
         Type ResponseType { get; }
+
+        /// <summary>
+        /// The content of this response
+        /// </summary>
+        Object Content { get; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         HttpStatusCode StatusCode { get; }
+
+        /// <summary>
+        /// Gets or sets the HTTP headers
+        /// </summary>
+        /// <value>HTTP headers</value>
+        Multimap<string, string> Headers { get; }
+
+        /// <summary>
+        /// Gets or sets any error text defined by the calling client.
+        /// </summary>
+        String ErrorText { get; set; }
 
         /// <summary>
         /// Gets or sets any cookies passed along on the response.
@@ -45,20 +60,32 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public partial class ApiResponse<T> : IApiResponse
+    public class ApiResponse<T> : IApiResponse
     {
         #region Properties
-
-        /// <summary>
-        /// The deserialized content
-        /// </summary>
-        public T??? Content { get; set; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
         /// <value>The status code.</value>
         public HttpStatusCode StatusCode { get; }
+
+        /// <summary>
+        /// Gets or sets the HTTP headers
+        /// </summary>
+        /// <value>HTTP headers</value>
+        public Multimap<string, string> Headers { get; }
+
+        /// <summary>
+        /// Gets or sets the data (parsed HTTP body)
+        /// </summary>
+        /// <value>The data.</value>
+        public T Data { get; }
+
+        /// <summary>
+        /// Gets or sets any error text defined by the calling client.
+        /// </summary>
+        public String ErrorText { get; set; }
 
         /// <summary>
         /// Gets or sets any cookies passed along on the response.
@@ -74,39 +101,66 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// The raw data
+        /// The data type of <see cref="Content"/>
+        /// </summary>
+        public object Content
+        {
+            get { return Data; }
+        }
+
+        /// <summary>
+        /// The raw content
         /// </summary>
         public string RawContent { get; }
 
-        /// <summary>
-        /// The IsSuccessStatusCode from the api response
-        /// </summary>
-        public bool IsSuccessStatusCode { get; }
-
-        /// <summary>
-        /// The reason phrase contained in the api response
-        /// </summary>
-        public string??? ReasonPhrase { get; }
-
-        /// <summary>
-        /// The headers contained in the api response
-        /// </summary>
-        public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
-
         #endregion Properties
 
+        #region Constructors
+
         /// <summary>
-        /// Construct the reponse using an HttpResponseMessage
+        /// Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="rawContent"></param>
-        public ApiResponse(System.Net.Http.HttpResponseMessage response, string rawContent)
+        /// <param name="statusCode">HTTP status code.</param>
+        /// <param name="headers">HTTP headers.</param>
+        /// <param name="data">Data (parsed HTTP body)</param>
+        /// <param name="rawContent">Raw content.</param>
+        public ApiResponse(HttpStatusCode statusCode, Multimap<string, string> headers, T data, string rawContent)
         {
-            StatusCode = response.StatusCode;
-            Headers = response.Headers;
-            IsSuccessStatusCode = response.IsSuccessStatusCode;
-            ReasonPhrase = response.ReasonPhrase;
+            StatusCode = statusCode;
+            Headers = headers;
+            Data = data;
             RawContent = rawContent;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
+        /// </summary>
+        /// <param name="statusCode">HTTP status code.</param>
+        /// <param name="headers">HTTP headers.</param>
+        /// <param name="data">Data (parsed HTTP body)</param>
+        public ApiResponse(HttpStatusCode statusCode, Multimap<string, string> headers, T data) : this(statusCode, headers, data, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
+        /// </summary>
+        /// <param name="statusCode">HTTP status code.</param>
+        /// <param name="data">Data (parsed HTTP body)</param>
+        /// <param name="rawContent">Raw content.</param>
+        public ApiResponse(HttpStatusCode statusCode, T data, string rawContent) : this(statusCode, null, data, rawContent)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
+        /// </summary>
+        /// <param name="statusCode">HTTP status code.</param>
+        /// <param name="data">Data (parsed HTTP body)</param>
+        public ApiResponse(HttpStatusCode statusCode, T data) : this(statusCode, data, null)
+        {
+        }
+
+        #endregion Constructors
     }
 }

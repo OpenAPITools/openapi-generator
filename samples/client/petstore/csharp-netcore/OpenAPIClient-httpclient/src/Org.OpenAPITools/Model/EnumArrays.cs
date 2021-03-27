@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -32,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines JustSymbol
         /// </summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum JustSymbolEnum
         {
             /// <summary>
@@ -54,11 +57,10 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
         public JustSymbolEnum? JustSymbol { get; set; }
-        
         /// <summary>
         /// Defines ArrayEnum
         /// </summary>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum ArrayEnumEnum
         {
             /// <summary>
@@ -81,17 +83,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
         public List<ArrayEnumEnum> ArrayEnum { get; set; }
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol, List<ArrayEnumEnum> arrayEnum)
+        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
-            JustSymbol = justSymbol;
-            ArrayEnum = arrayEnum;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.JustSymbol = justSymbol;
+            this.ArrayEnum = arrayEnum;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -108,9 +109,9 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
-            sb.Append("  JustSymbol: ").Append(JustSymbol).Append('\n');
-            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
+            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -119,9 +120,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumArrays).AreEqual;
         }
@@ -139,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of EnumArrays to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EnumArrays? input)
+        public bool Equals(EnumArrays input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

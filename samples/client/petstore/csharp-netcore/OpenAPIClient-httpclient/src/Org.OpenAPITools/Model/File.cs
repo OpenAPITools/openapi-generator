@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -33,10 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization.</param>
-        public File(string sourceURI)
+        public File(string sourceURI = default(string))
         {
-            SourceURI = sourceURI;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.SourceURI = sourceURI;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -60,8 +63,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class File {\n");
-            sb.Append("  SourceURI: ").Append(SourceURI).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  SourceURI: ").Append(SourceURI).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -70,9 +73,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -80,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as File).AreEqual;
         }
@@ -90,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of File to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(File? input)
+        public bool Equals(File input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -44,21 +47,21 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id, string username, string firstName, string lastName, string email, string password, string phone, int userStatus, Object objectWithNoDeclaredProps, Object objectWithNoDeclaredPropsNullable, Object anyTypeProp, Object anyTypePropNullable)
+        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
-            Id = id;
-            Username = username;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Password = password;
-            Phone = phone;
-            UserStatus = userStatus;
-            ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            AnyTypeProp = anyTypeProp;
-            AnyTypePropNullable = anyTypePropNullable;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Id = id;
+            this.Username = username;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.Password = password;
+            this.Phone = phone;
+            this.UserStatus = userStatus;
+            this.ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            this.ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            this.AnyTypeProp = anyTypeProp;
+            this.AnyTypePropNullable = anyTypePropNullable;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -152,19 +155,19 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class User {\n");
-            sb.Append("  Id: ").Append(Id).Append('\n');
-            sb.Append("  Username: ").Append(Username).Append('\n');
-            sb.Append("  FirstName: ").Append(FirstName).Append('\n');
-            sb.Append("  LastName: ").Append(LastName).Append('\n');
-            sb.Append("  Email: ").Append(Email).Append('\n');
-            sb.Append("  Password: ").Append(Password).Append('\n');
-            sb.Append("  Phone: ").Append(Phone).Append('\n');
-            sb.Append("  UserStatus: ").Append(UserStatus).Append('\n');
-            sb.Append("  ObjectWithNoDeclaredProps: ").Append(ObjectWithNoDeclaredProps).Append('\n');
-            sb.Append("  ObjectWithNoDeclaredPropsNullable: ").Append(ObjectWithNoDeclaredPropsNullable).Append('\n');
-            sb.Append("  AnyTypeProp: ").Append(AnyTypeProp).Append('\n');
-            sb.Append("  AnyTypePropNullable: ").Append(AnyTypePropNullable).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Username: ").Append(Username).Append("\n");
+            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            sb.Append("  LastName: ").Append(LastName).Append("\n");
+            sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  Phone: ").Append(Phone).Append("\n");
+            sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
+            sb.Append("  ObjectWithNoDeclaredProps: ").Append(ObjectWithNoDeclaredProps).Append("\n");
+            sb.Append("  ObjectWithNoDeclaredPropsNullable: ").Append(ObjectWithNoDeclaredPropsNullable).Append("\n");
+            sb.Append("  AnyTypeProp: ").Append(AnyTypeProp).Append("\n");
+            sb.Append("  AnyTypePropNullable: ").Append(AnyTypePropNullable).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -173,9 +176,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -183,7 +186,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as User).AreEqual;
         }
@@ -193,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of User to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(User? input)
+        public bool Equals(User input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

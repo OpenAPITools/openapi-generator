@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
@@ -33,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusEnum
         {
             /// <summary>
@@ -62,7 +65,6 @@ namespace Org.OpenAPITools.Model
         /// <value>Order Status</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
@@ -72,15 +74,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum? status, bool complete)
+        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
         {
-            Id = id;
-            PetId = petId;
-            Quantity = quantity;
-            ShipDate = shipDate;
-            Status = status;
-            Complete = complete;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.Id = id;
+            this.PetId = petId;
+            this.Quantity = quantity;
+            this.ShipDate = shipDate;
+            this.Status = status;
+            this.Complete = complete;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -110,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name = "complete", EmitDefaultValue = false)]
+        [DataMember(Name = "complete", EmitDefaultValue = true)]
         public bool Complete { get; set; }
 
         /// <summary>
@@ -127,13 +129,13 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Order {\n");
-            sb.Append("  Id: ").Append(Id).Append('\n');
-            sb.Append("  PetId: ").Append(PetId).Append('\n');
-            sb.Append("  Quantity: ").Append(Quantity).Append('\n');
-            sb.Append("  ShipDate: ").Append(ShipDate).Append('\n');
-            sb.Append("  Status: ").Append(Status).Append('\n');
-            sb.Append("  Complete: ").Append(Complete).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  PetId: ").Append(PetId).Append("\n");
+            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
+            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -142,9 +144,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as Order).AreEqual;
         }
@@ -162,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of Order to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Order? input)
+        public bool Equals(Order input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }

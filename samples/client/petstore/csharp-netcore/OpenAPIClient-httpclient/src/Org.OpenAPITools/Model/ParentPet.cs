@@ -17,6 +17,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
@@ -28,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// ParentPet
     /// </summary>
     [DataContract(Name = "ParentPet")]
-    [Newtonsoft.Json.JsonConverter(typeof(JsonSubtypes), "PetType")]
+    [JsonConverter(typeof(JsonSubtypes), "PetType")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     public partial class ParentPet : GrandparentAnimal, IEquatable<ParentPet>, IValidatableObject
     {
@@ -40,14 +43,13 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType (required) (default to &quot;ParentPet&quot;).</param>
-        public ParentPet(string petType) : base(petType)
+        public ParentPet(string petType = "ParentPet") : base(petType)
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -64,8 +66,8 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ParentPet {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append('\n');
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append('\n');
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -74,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public override string ToJson(Newtonsoft.Json.JsonSerializerSettings? jsonSerializerSettings = null)
+        public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, jsonSerializerSettings ?? Org.OpenAPITools.Client.ClientUtils.JsonSerializerSettings);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object??? input)
+        public override bool Equals(object input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input as ParentPet).AreEqual;
         }
@@ -94,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="input">Instance of ParentPet to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ParentPet? input)
+        public bool Equals(ParentPet input)
         {
             return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
