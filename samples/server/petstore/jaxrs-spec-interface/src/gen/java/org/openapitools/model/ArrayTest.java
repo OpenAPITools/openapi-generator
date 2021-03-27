@@ -41,7 +41,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
-  }/**
+  }
+
+  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<String>();
+    }
+
+    this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayOfStringItem(String arrayOfStringItem) {
+    if (arrayOfStringItem != null && this.arrayOfString != null) {
+      this.arrayOfString.remove(arrayOfStringItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -59,7 +77,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
-  }/**
+  }
+
+  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+    }
+
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (arrayArrayOfIntegerItem != null && this.arrayArrayOfInteger != null) {
+      this.arrayArrayOfInteger.remove(arrayArrayOfIntegerItem);
+    }
+
+    return this;
+  }
+/**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
@@ -77,6 +113,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
+  }
+
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+    }
+
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (arrayArrayOfModelItem != null && this.arrayArrayOfModel != null) {
+      this.arrayArrayOfModel.remove(arrayArrayOfModelItem);
+    }
+
+    return this;
   }
 
   @Override

@@ -39,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setFile(java.io.File file) {
     this.file = file;
-  }/**
+  }
+
+/**
    **/
   public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
@@ -57,6 +59,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setFiles(List<java.io.File> files) {
     this.files = files;
+  }
+
+  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<java.io.File>();
+    }
+
+    this.files.add(filesItem);
+    return this;
+  }
+
+  public FileSchemaTestClass removeFilesItem(java.io.File filesItem) {
+    if (filesItem != null && this.files != null) {
+      this.files.remove(filesItem);
+    }
+
+    return this;
   }
 
   @Override

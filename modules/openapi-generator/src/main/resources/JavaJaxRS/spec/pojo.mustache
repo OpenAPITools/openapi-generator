@@ -49,7 +49,45 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
-  }{{/vars}}
+  }
+
+  {{#isListContainer}}
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+
+  public {{classname}} remove{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if ({{name}}Item != null && this.{{name}} != null) {
+      this.{{name}}.remove({{name}}Item);
+    }
+
+    return this;
+  }
+  {{/isListContainer}}
+  {{#isMapContainer}}
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+
+  public {{classname}} remove{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if ({{name}}Item != null && this.{{name}} != null) {
+      this.{{name}}.remove({{name}}Item);
+    }
+
+    return this;
+  }
+  {{/isMapContainer}}
+  {{/vars}}
 
   @Override
   public boolean equals(Object o) {

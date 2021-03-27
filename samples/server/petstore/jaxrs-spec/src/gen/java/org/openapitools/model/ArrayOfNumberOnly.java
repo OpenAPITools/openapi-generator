@@ -41,6 +41,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.arrayNumber = arrayNumber;
   }
 
+  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+    if (this.arrayNumber == null) {
+      this.arrayNumber = new ArrayList<BigDecimal>();
+    }
+
+    this.arrayNumber.add(arrayNumberItem);
+    return this;
+  }
+
+  public ArrayOfNumberOnly removeArrayNumberItem(BigDecimal arrayNumberItem) {
+    if (arrayNumberItem != null && this.arrayNumber != null) {
+      this.arrayNumber.remove(arrayNumberItem);
+    }
+
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
