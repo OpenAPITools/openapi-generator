@@ -20,7 +20,6 @@ package org.openapitools.codegen.swift5;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
-import org.openapitools.codegen.options.Swift4OptionsProvider;
 import org.openapitools.codegen.options.Swift5OptionsProvider;
 
 import static org.mockito.Mockito.mock;

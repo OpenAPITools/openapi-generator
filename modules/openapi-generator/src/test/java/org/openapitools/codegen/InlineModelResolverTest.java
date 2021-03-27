@@ -268,7 +268,7 @@ public class InlineModelResolverTest {
     public void testInlineResponseModelType() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
         new InlineModelResolver().flatten(openAPI);
-        
+
         Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
         assertEquals("object", InlineResponse200.getType());
         assertEquals("unknown", InlineResponse200.getFormat());

@@ -18,7 +18,6 @@ package org.openapitools.codegen.ktorm;
 
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KtormSchemaCodegen;
 import org.testng.Assert;
