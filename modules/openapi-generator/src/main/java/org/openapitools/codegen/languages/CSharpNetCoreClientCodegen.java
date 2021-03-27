@@ -50,6 +50,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // HTTP libraries
     protected static final String RESTSHARP = "restsharp";
     protected static final String HTTPCLIENT = "httpclient";
+    protected static final String HTTPCLIENT_EXPERIMENTAL = "httpclient-experimental";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
@@ -308,6 +309,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
                 + "(Experimental. May subject to breaking changes without further notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
+        supportedLibraries.put(HTTPCLIENT_EXPERIMENTAL, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+            + "(Experimental. May subject to breaking changes without further notice.)");
+
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -598,6 +602,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setLibrary(HTTPCLIENT);
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
+        }else if (HTTPCLIENT_EXPERIMENTAL.equals((getLibrary()))){
+            setLibrary(HTTPCLIENT_EXPERIMENTAL);
+            additionalProperties.put("useHttpClientExperimental", true);
         } else {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
         }
