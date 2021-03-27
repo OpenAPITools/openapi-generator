@@ -149,7 +149,7 @@ class ApiClient {
 
 {{#native_serialization}}
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
-    // Normalize this variable, default is to have growable lists/maps.
+    // The default is to have an unmodifiable List/Map.
     growable = growable == true; // ignore: parameter_assignments
 
     try {
