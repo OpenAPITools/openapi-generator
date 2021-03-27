@@ -211,14 +211,12 @@ class ApiClient {
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<dynamic> deserialize(String json, String targetType, {bool growable}) async {
-    // Remove all spaces. Necessary for regular expressions as well.
-    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
-
-    return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable);
-  }
+  Future<dynamic> deserialize(String json, String targetType, {bool growable}) =>
+    apiClientDeserialize(DeserializationMessage(
+      json: json,
+      targetType: targetType,
+      growable: growable,
+    ));
 {{/native_serialization}}
 
   /// Although a Future isn't required for the default implementation, you may overwrite it
@@ -266,12 +264,14 @@ class DeserializationMessage {
 /// When the API client is used in Flutter, one can use the compute() function to offload the
 /// JSON deserialization to an isolate. However, compute() requires a static function as a
 /// parameter and since [ApiClient._deserialize] is private, this function is added.
-Future<dynamic> apiClientDeserialize(DeserializationMessage message) async =>
-  ApiClient._deserialize(
-    jsonDecode(message.json),
-    message.targetType,
-    growable: message.growable,
-  );
+Future<dynamic> apiClientDeserialize(DeserializationMessage message) async {
+  // Remove all spaces. Necessary for regular expressions as well.
+  final targetType = message.targetType.replaceAll(' ', '');
+
+  return targetType == 'String'
+    ? message.json
+    : ApiClient._deserialize(jsonDecode(message.json), targetType, growable: message.growable);
+}
 {{/native_serialization}}
 
 /// When the API client is used in Flutter, one can use the compute() function to offload the
