@@ -233,7 +233,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // CLI Switches
         addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
             CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
-            this.nullReferenceTypesEnabled);
+            this.nullReferenceTypesFlag);
 
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
@@ -565,14 +565,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)){
             boolean nullableReferenceTypesFlag = Boolean.valueOf(additionalProperties.get(CodegenConstants.NULLABLE_REFERENCE_TYPES).toString());
-            this.setNullableReferenceTypesEnabled(nullableReferenceTypesFlag);
+            this.setNullableReferenceTypes(nullableReferenceTypesFlag);
             if (nullableReferenceTypesFlag)
                 this.nullableType.add("string");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+                .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
@@ -743,8 +743,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("modelDocPath", modelDocPath);
     }
 
-    public void setNullableReferenceTypesEnabled(Boolean flag){
-        this.nullReferenceTypesEnabled = flag;
+    public void setNullableReferenceTypes(Boolean flag){
+        this.nullReferenceTypesFlag = flag;
     }
 
     public void setNetStandard(Boolean netStandard) {
