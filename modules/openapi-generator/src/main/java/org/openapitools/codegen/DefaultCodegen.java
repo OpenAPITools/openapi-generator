@@ -622,6 +622,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param objs Map of models
      * @return maps of models with better enum support
+     * 
      */
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
@@ -6473,6 +6474,7 @@ public class DefaultCodegen implements CodegenConfig {
         cm.classname = type;
         cm.vendorExtensions.put("x-is-one-of-interface", true);
         cm.interfaceModels = new ArrayList<CodegenModel>();
+        cm.classFilename = toModelFilename(type);
 
         addOneOfInterfaces.add(cm);
     }

@@ -92,6 +92,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         );
 
         supportsInheritance = true;
+        useOneOfInterfaces = true;
 
         // clear import mapping (from default generator) as ruby does not use it
         // at the moment
