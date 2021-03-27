@@ -564,10 +564,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          */
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)){
-            boolean nullableReferenceTypesFlag = Boolean.valueOf(additionalProperties.get(CodegenConstants.NULLABLE_REFERENCE_TYPES).toString());
-            this.setNullableReferenceTypes(nullableReferenceTypesFlag);
-            if (nullableReferenceTypesFlag)
+            Object nullableReferenceTypesFlag = additionalProperties.get(CodegenConstants.NULLABLE_REFERENCE_TYPES);
+            if (nullableReferenceTypesFlag == null || nullableReferenceTypesFlag.toString().trim().length() == 0 || nullableReferenceTypesFlag.toString().equals("true")){
+                writePropertyBack(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
+                this.setNullableReferenceTypes(true);
                 this.nullableType.add("string");
+            }
+            else{
+                writePropertyBack(CodegenConstants.NULLABLE_REFERENCE_TYPES, false);
+            }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
