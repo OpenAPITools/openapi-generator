@@ -48,7 +48,7 @@ class ApiClient {
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
   /// Returns an unmodifiable [Map] of the authentications, since none should be added
-  /// nor deleted.
+  /// or deleted.
   Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {

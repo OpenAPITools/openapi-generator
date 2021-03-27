@@ -45,7 +45,7 @@ class ApiClient {
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
   /// Returns an unmodifiable [Map] of the authentications, since none should be added
-  /// nor deleted.
+  /// or deleted.
   Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
@@ -141,7 +141,7 @@ class ApiClient {
   }
 
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
-    // Normalize this variable, default is to have growable lists/maps.
+    // The default is to have an unmodifiable List/Map.
     growable = growable == true; // ignore: parameter_assignments
 
     try {
@@ -203,14 +203,12 @@ class ApiClient {
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
   /// in an isolate.
-  Future<dynamic> deserialize(String json, String targetType, {bool growable}) async {
-    // Remove all spaces. Necessary for regular expressions as well.
-    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
-
-    return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable);
-  }
+  Future<dynamic> deserialize(String json, String targetType, {bool growable}) =>
+    apiClientDeserialize(DeserializationMessage(
+      json: json,
+      targetType: targetType,
+      growable: growable,
+    ));
 
   /// Although a Future isn't required for the default implementation, you may overwrite it
   /// to have a custom implementation that requires a Future. For example, if implementing
@@ -256,12 +254,14 @@ class DeserializationMessage {
 /// When the API client is used in Flutter, one can use the compute() function to offload the
 /// JSON deserialization to an isolate. However, compute() requires a static function as a
 /// parameter and since [ApiClient._deserialize] is private, this function is added.
-Future<dynamic> apiClientDeserialize(DeserializationMessage message) async =>
-  ApiClient._deserialize(
-    jsonDecode(message.json),
-    message.targetType,
-    growable: message.growable,
-  );
+Future<dynamic> apiClientDeserialize(DeserializationMessage message) async {
+  // Remove all spaces. Necessary for regular expressions as well.
+  final targetType = message.targetType.replaceAll(' ', '');
+
+  return targetType == 'String'
+    ? message.json
+    : ApiClient._deserialize(jsonDecode(message.json), targetType, growable: message.growable);
+}
 
 /// When the API client is used in Flutter, one can use the compute() function to offload the
 /// JSON serialization to an isolate. However, compute() requires a static function as a
