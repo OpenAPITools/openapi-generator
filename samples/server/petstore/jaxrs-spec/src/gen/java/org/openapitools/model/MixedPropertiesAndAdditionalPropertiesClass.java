@@ -86,22 +86,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.map = map;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
-    }
-
-    this.map.put(key, mapItem);
-    return this;
-  }
-
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
-    }
-
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {
