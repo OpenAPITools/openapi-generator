@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName(string username);
 
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>ApiResponse of User</returns>
         ApiResponse<User> GetUserByNameWithHttpInfo(string username);
         /// <summary>
@@ -290,7 +290,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -302,7 +302,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -573,6 +573,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public UserApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -1093,7 +1094,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         public User GetUserByName(string username)
         {
@@ -1105,7 +1106,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>ApiResponse of User</returns>
         public Org.OpenAPITools.Client.ApiResponse<User> GetUserByNameWithHttpInfo(string username)
         {
@@ -1149,7 +1150,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1162,7 +1163,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
