@@ -161,16 +161,16 @@ namespace Org.OpenAPITools.Client
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
     /// encapsulating general REST accessor use cases.
     /// </summary>
+    /// <remarks>
+    /// The Dispose method will manage the HttpClient lifecycle when not passed by constructor.
+    /// </remarks>
     public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
 
-        private readonly HttpClientHandler _httpClientHandler;
-        private readonly bool _disposeHandler;
-        private readonly HttpClient _httpClient;
-        private readonly bool _disposeClient;
-
-        private readonly bool _disableHandlerFeatures;
+		private readonly HttpClientHandler _httpClientHandler;
+		private readonly HttpClient _httpClient;	
+		private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -192,37 +192,88 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
-        /// <param name="client">An instance of HttpClient</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
-        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
-        public ApiClient(HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false) :
-                 this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, client, handler, disableHandlerFeatures)
-        {
+        public ApiClient() :
+                 this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
+        {	
         }
-
+		
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />
+        /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <param name="client">An instance of HttpClient</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
-        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
-        {
-            if (string.IsNullOrEmpty(basePath))
-                throw new ArgumentException("basePath cannot be empty");
+        public ApiClient(String basePath)
+        {	
+		    if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
-            _baseUrl = basePath;
-            if((client != null && handler == null) && !disableHandlerFeatures) {
-                throw new ArgumentException("If providing HttpClient, you also need to provide its handler or disable features requiring the handler, see README.md");
-            }
-
-            _disableHandlerFeatures = disableHandlerFeatures;
-            _httpClientHandler = handler ?? new HttpClientHandler();
-            _disposeHandler = handler == null;
-            _httpClient = client ?? new HttpClient(_httpClientHandler, false);
-            _disposeClient = client == null;
+			_httpClientHandler = new HttpClientHandler();
+			_httpClient = new HttpClient(_httpClientHandler, true);
+            _disposeClient = true;
+			_baseUrl = basePath;
+        }
+		
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+		/// </remarks>
+        public ApiClient(HttpClient client) :
+                 this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
+        {	
+        }
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApiClient" />
+        /// </summary>	
+        /// <param name="client">An instance of HttpClient.</param>
+		/// <param name="basePath">The target service's base path in URL format.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+		/// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>		
+        public ApiClient(HttpClient client, String basePath)
+        {	
+		    if (client == null) throw new ArgumentNullException("client cannot be null");
+			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+			
+			_httpClient = client;
+			_baseUrl = basePath;
+        }
+		
+		/// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+        public ApiClient(HttpClient client, HttpClientHandler handler) :
+                 this(client, handler, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
+        {	
+        }
+		
+		/// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
+		/// <param name="basePath">The target service's base path in URL format.</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+        public ApiClient(HttpClient client, HttpClientHandler handler, String basePath)
+        {	
+			if (client == null) throw new ArgumentNullException("client cannot be null");
+			if (handler == null) throw new ArgumentNullException("handler cannot be null");
+			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+			
+			_httpClientHandler = handler;
+			_httpClient = client;
+			_baseUrl = basePath;
         }
 
         /// <summary>
@@ -232,9 +283,6 @@ namespace Org.OpenAPITools.Client
         {
             if(_disposeClient) {
                 _httpClient.Dispose();
-            }
-            if(_disposeHandler) {
-                _httpClientHandler.Dispose();
             }
         }
 
@@ -403,18 +451,15 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            if(!_disableHandlerFeatures)
+            if (handler != null && response != null)
             {
-                if (response != null)
-                {
-                    try {
-                        foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
-                        {
-                           transformed.Cookies.Add(cookie);
-                        }
+                try {
+                    foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                    {
+                        transformed.Cookies.Add(cookie);
                     }
-                    catch (PlatformNotSupportedException) {}
                 }
+                catch (PlatformNotSupportedException) {}
             }
 
             return transformed;
@@ -440,7 +485,7 @@ namespace Org.OpenAPITools.Client
                 var tokenSource = new CancellationTokenSource(configuration.Timeout);
                 finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
             }
-            if(!_disableHandlerFeatures) {
+            if(handler != null) {
                 if (configuration.Proxy != null)
                 {
                     handler.Proxy = configuration.Proxy;

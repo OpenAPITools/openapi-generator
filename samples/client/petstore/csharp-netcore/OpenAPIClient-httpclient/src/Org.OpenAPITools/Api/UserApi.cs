@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <returns>User</returns>
         User GetUserByName(string username);
 
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <returns>ApiResponse of User</returns>
         ApiResponse<User> GetUserByNameWithHttpInfo(string username);
         /// <summary>
@@ -290,7 +290,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -302,7 +302,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -398,44 +398,36 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
-        /// <param name="client">An instance of HttpClient</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
-        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
         /// <returns></returns>
-        public UserApi(HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false) : this((string)null, client, handler, disableHandlerFeatures)
+        public UserApi() : this((string)null)
         {
-
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
-        /// <param name="client">An instance of HttpClient</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
-        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+		/// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public UserApi(String basePath, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
+        public UserApi(String basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserApi"/> class
-        /// using Configuration object
+        /// Initializes a new instance of the <see cref="UserApi"/> class using Configuration object.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
-        /// <param name="client">An instance of HttpClient</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient</param>
-        /// <param name="disableHandlerFeatures">Disable ApiClient features that require access to the HttpClientHandler</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public UserApi(Org.OpenAPITools.Client.Configuration configuration, HttpClient client = null, HttpClientHandler handler = null, bool disableHandlerFeatures = false)
+        public UserApi(Org.OpenAPITools.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
@@ -443,7 +435,132 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath, client, handler, disableHandlerFeatures);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        /// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public UserApi(HttpClient client) : this(client, (string)null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
+    	/// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public UserApi(HttpClient client, String basePath)
+        {
+            if (client == null) throw new ArgumentNullException("client");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath);
+            this.Client =  this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class using Configuration object.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        /// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public UserApi(HttpClient client, Org.OpenAPITools.Client.Configuration configuration)
+        {
+            if (configuration == null) throw new ArgumentNullException("configuration");
+			if (client == null) throw new ArgumentNullException("client");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                configuration
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath);
+            this.Client = this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        public UserApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
+        public UserApi(HttpClient client, HttpClientHandler handler, String basePath)
+        {
+            if (client == null) throw new ArgumentNullException("client");
+			if (handler == null) throw new ArgumentNullException("handler");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, handler, this.Configuration.BasePath);
+            this.Client =  this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class using Configuration object.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        public UserApi(HttpClient client, HttpClientHandler handler, Org.OpenAPITools.Client.Configuration configuration)
+        {
+            if (configuration == null) throw new ArgumentNullException("configuration");
+			if (client == null) throw new ArgumentNullException("client");
+			if (handler == null) throw new ArgumentNullException("handler");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                configuration
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, handler, this.Configuration.BasePath);
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
@@ -976,7 +1093,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <returns>User</returns>
         public User GetUserByName(string username)
         {
@@ -988,7 +1105,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <returns>ApiResponse of User</returns>
         public Org.OpenAPITools.Client.ApiResponse<User> GetUserByNameWithHttpInfo(string username)
         {
@@ -1032,7 +1149,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -1045,7 +1162,7 @@ namespace Org.OpenAPITools.Api
         /// Get user by user name 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
