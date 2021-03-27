@@ -219,11 +219,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     // free form object (type: object)
                     if (ModelUtils.hasValidation(ref)) {
                         return schema;
-                    } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
+                    } else if (!getAllOfDescendants(simpleRef, openAPI).isEmpty()) {
                         return schema;
+                    } else {
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                                usedImportMappings);
                     }
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
                 }
             } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
@@ -246,7 +247,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 date = (OffsetDateTime) dateValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+                LOGGER.warn("Invalid `date` format for value {}", dateValue);
                 date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = date.format(iso8601Date);
@@ -263,7 +264,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 dateTime = (OffsetDateTime) dateTimeValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue);
                 dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = dateTime.format(iso8601DateTime);
@@ -286,10 +287,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // python servers: should only use default values for optional params
         // python clients: should only use default values for required params
         Object defaultObject = null;
-        Boolean enumLengthOne = (p.getEnum() != null && p.getEnum().size() == 1);
         if (p.getDefault() != null) {
             defaultObject = p.getDefault();
-        } else if (enumLengthOne) {
+        } else if (p.getEnum() != null && p.getEnum().size() == 1) {
             defaultObject = p.getEnum().get(0);
         }
 
@@ -305,7 +305,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
             defaultValue = ensureQuotes(defaultValue);
         } else if (ModelUtils.isBooleanSchema(p)) {
-            if (Boolean.valueOf(defaultValue) == false) {
+            if (!Boolean.valueOf(defaultValue)) {
                 defaultValue = "False";
             } else {
                 defaultValue = "True";
@@ -329,9 +329,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
         ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>) objs.get("imports");
         for (CodegenOperation operation : operations) {
-            if (operation.imports.size() == 0) {
+            if (operation.imports.isEmpty()) {
                 continue;
             }
             String[] modelNames = operation.imports.toArray(new String[0]);

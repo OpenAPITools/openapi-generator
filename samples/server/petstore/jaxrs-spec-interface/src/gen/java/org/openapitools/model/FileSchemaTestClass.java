@@ -61,22 +61,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.files = files;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
-    if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
-    }
-
-    this.files.add(filesItem);
-    return this;
-  }
-
-  public FileSchemaTestClass removeFilesItem(java.io.File filesItem) {
-    if (filesItem != null && this.files != null) {
-      this.files.remove(filesItem);
-    }
-
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {
