@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
-  {{#jackson}}@JsonProperty("{{baseName}}"){{/jackson}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }

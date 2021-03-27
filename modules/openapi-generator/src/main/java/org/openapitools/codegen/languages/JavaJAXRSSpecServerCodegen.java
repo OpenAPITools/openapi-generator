@@ -46,7 +46,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean generatePom = true;
     private boolean generateBuilders = false;
     private boolean useSwaggerAnnotations = true;
-    private boolean useJackson = false;
+    private boolean useJackson = true;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     public JavaJAXRSSpecServerCodegen() {
@@ -61,8 +61,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         modelPackage = "org.openapitools.model";
 
         // cliOptions default redefinition need to be updated
-        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
-        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
@@ -232,7 +232,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
      * @param location location inside the output folder. No file generated when set to null or empty string.
      */
     public void setOpenApiSpecFileLocation(String location) {
-        this.openApiSpecFileLocation = location;
+        openApiSpecFileLocation = location;
     }
 
     @Override

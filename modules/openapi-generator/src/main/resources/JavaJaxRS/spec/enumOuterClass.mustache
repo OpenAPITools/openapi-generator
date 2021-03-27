@@ -26,12 +26,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   @Override
-  {{#jackson}}@JsonValue{{/jackson}}
+  {{#jackson}}
+  @JsonValue
+  {{/jackson}}
   public String toString() {
     return String.valueOf(value);
   }
 
-  {{#jackson}}@JsonCreator{{/jackson}}
+  {{#jackson}}
+  @JsonCreator
+  {{/jackson}}
   public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
     for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
       if (b.value.equals(value)) {
