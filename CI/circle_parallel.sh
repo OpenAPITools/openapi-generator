@@ -23,7 +23,6 @@ function installDart {
   sudo apt-get update
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
-  export DART_POST_PROCESS="dart format"
 }
 
 if [ "$NODE_INDEX" = "1" ]; then
