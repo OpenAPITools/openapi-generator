@@ -1,0 +1,350 @@
+action: GLOB, msg: packaging
+cwd: /Users/justinblack/programming/openapi-generator/samples/client/petstore/python
+cmd: /Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python setup.py sdist --formats=zip --dist-dir /Users/justinblack/programming/openapi-generator/samples/client/petstore/python/.tox/dist
+running sdist
+running egg_info
+creating petstore_api.egg-info
+writing requirements to petstore_api.egg-info/requires.txt
+writing petstore_api.egg-info/PKG-INFO
+writing top-level names to petstore_api.egg-info/top_level.txt
+writing dependency_links to petstore_api.egg-info/dependency_links.txt
+writing manifest file 'petstore_api.egg-info/SOURCES.txt'
+reading manifest file 'petstore_api.egg-info/SOURCES.txt'
+writing manifest file 'petstore_api.egg-info/SOURCES.txt'
+running check
+warning: check: missing required meta-data: url
+
+creating petstore-api-1.0.0
+creating petstore-api-1.0.0/petstore_api
+creating petstore-api-1.0.0/petstore_api.egg-info
+creating petstore-api-1.0.0/petstore_api/api
+creating petstore-api-1.0.0/petstore_api/apis
+creating petstore-api-1.0.0/petstore_api/model
+creating petstore-api-1.0.0/petstore_api/models
+creating petstore-api-1.0.0/test
+copying files to petstore-api-1.0.0...
+copying README.md -> petstore-api-1.0.0
+copying setup.cfg -> petstore-api-1.0.0
+copying setup.py -> petstore-api-1.0.0
+copying petstore_api/__init__.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api/api_client.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api/configuration.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api/exceptions.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api/model_utils.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api/rest.py -> petstore-api-1.0.0/petstore_api
+copying petstore_api.egg-info/PKG-INFO -> petstore-api-1.0.0/petstore_api.egg-info
+copying petstore_api.egg-info/SOURCES.txt -> petstore-api-1.0.0/petstore_api.egg-info
+copying petstore_api.egg-info/dependency_links.txt -> petstore-api-1.0.0/petstore_api.egg-info
+copying petstore_api.egg-info/requires.txt -> petstore-api-1.0.0/petstore_api.egg-info
+copying petstore_api.egg-info/top_level.txt -> petstore-api-1.0.0/petstore_api.egg-info
+copying petstore_api/api/__init__.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/another_fake_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/fake_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/fake_classname_tags_123_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/pet_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/store_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/api/user_api.py -> petstore-api-1.0.0/petstore_api/api
+copying petstore_api/apis/__init__.py -> petstore-api-1.0.0/petstore_api/apis
+copying petstore_api/model/__init__.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_any_type.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_array.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_boolean.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_class.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_integer.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_number.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_object.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/additional_properties_string.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/animal.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/animal_farm.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/api_response.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/array_of_array_of_number_only.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/array_of_number_only.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/array_test.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/capitalization.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/cat.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/cat_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/category.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_cat.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_cat_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_dog.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_dog_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_lizard.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/child_lizard_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/class_model.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/client.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/dog.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/dog_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/enum_arrays.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/enum_class.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/enum_test.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/file.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/file_schema_test_class.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/format_test.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/grandparent.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/grandparent_animal.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/has_only_read_only.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/list.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/map_test.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/mixed_properties_and_additional_properties_class.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/model200_response.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/model_return.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/name.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/number_only.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/number_with_validations.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/object_model_with_ref_props.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/order.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/parent.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/parent_all_of.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/parent_pet.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/pet.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/player.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/read_only_first.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/special_model_name.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/string_boolean_map.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/string_enum.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/tag.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/type_holder_default.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/type_holder_example.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/user.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/model/xml_item.py -> petstore-api-1.0.0/petstore_api/model
+copying petstore_api/models/__init__.py -> petstore-api-1.0.0/petstore_api/models
+copying test/test_additional_properties_any_type.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_array.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_boolean.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_class.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_integer.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_number.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_object.py -> petstore-api-1.0.0/test
+copying test/test_additional_properties_string.py -> petstore-api-1.0.0/test
+copying test/test_animal.py -> petstore-api-1.0.0/test
+copying test/test_animal_farm.py -> petstore-api-1.0.0/test
+copying test/test_another_fake_api.py -> petstore-api-1.0.0/test
+copying test/test_api_response.py -> petstore-api-1.0.0/test
+copying test/test_array_of_array_of_number_only.py -> petstore-api-1.0.0/test
+copying test/test_array_of_number_only.py -> petstore-api-1.0.0/test
+copying test/test_array_test.py -> petstore-api-1.0.0/test
+copying test/test_capitalization.py -> petstore-api-1.0.0/test
+copying test/test_cat.py -> petstore-api-1.0.0/test
+copying test/test_cat_all_of.py -> petstore-api-1.0.0/test
+copying test/test_category.py -> petstore-api-1.0.0/test
+copying test/test_child.py -> petstore-api-1.0.0/test
+copying test/test_child_all_of.py -> petstore-api-1.0.0/test
+copying test/test_child_cat.py -> petstore-api-1.0.0/test
+copying test/test_child_cat_all_of.py -> petstore-api-1.0.0/test
+copying test/test_child_dog.py -> petstore-api-1.0.0/test
+copying test/test_child_dog_all_of.py -> petstore-api-1.0.0/test
+copying test/test_child_lizard.py -> petstore-api-1.0.0/test
+copying test/test_child_lizard_all_of.py -> petstore-api-1.0.0/test
+copying test/test_class_model.py -> petstore-api-1.0.0/test
+copying test/test_client.py -> petstore-api-1.0.0/test
+copying test/test_dog.py -> petstore-api-1.0.0/test
+copying test/test_dog_all_of.py -> petstore-api-1.0.0/test
+copying test/test_enum_arrays.py -> petstore-api-1.0.0/test
+copying test/test_enum_class.py -> petstore-api-1.0.0/test
+copying test/test_enum_test.py -> petstore-api-1.0.0/test
+copying test/test_fake_api.py -> petstore-api-1.0.0/test
+copying test/test_fake_classname_tags_123_api.py -> petstore-api-1.0.0/test
+copying test/test_file.py -> petstore-api-1.0.0/test
+copying test/test_file_schema_test_class.py -> petstore-api-1.0.0/test
+copying test/test_format_test.py -> petstore-api-1.0.0/test
+copying test/test_grandparent.py -> petstore-api-1.0.0/test
+copying test/test_grandparent_animal.py -> petstore-api-1.0.0/test
+copying test/test_has_only_read_only.py -> petstore-api-1.0.0/test
+copying test/test_list.py -> petstore-api-1.0.0/test
+copying test/test_map_test.py -> petstore-api-1.0.0/test
+copying test/test_mixed_properties_and_additional_properties_class.py -> petstore-api-1.0.0/test
+copying test/test_model200_response.py -> petstore-api-1.0.0/test
+copying test/test_model_return.py -> petstore-api-1.0.0/test
+copying test/test_name.py -> petstore-api-1.0.0/test
+copying test/test_number_only.py -> petstore-api-1.0.0/test
+copying test/test_number_with_validations.py -> petstore-api-1.0.0/test
+copying test/test_object_model_with_ref_props.py -> petstore-api-1.0.0/test
+copying test/test_order.py -> petstore-api-1.0.0/test
+copying test/test_parent.py -> petstore-api-1.0.0/test
+copying test/test_parent_all_of.py -> petstore-api-1.0.0/test
+copying test/test_parent_pet.py -> petstore-api-1.0.0/test
+copying test/test_pet.py -> petstore-api-1.0.0/test
+copying test/test_pet_api.py -> petstore-api-1.0.0/test
+copying test/test_player.py -> petstore-api-1.0.0/test
+copying test/test_read_only_first.py -> petstore-api-1.0.0/test
+copying test/test_special_model_name.py -> petstore-api-1.0.0/test
+copying test/test_store_api.py -> petstore-api-1.0.0/test
+copying test/test_string_boolean_map.py -> petstore-api-1.0.0/test
+copying test/test_string_enum.py -> petstore-api-1.0.0/test
+copying test/test_tag.py -> petstore-api-1.0.0/test
+copying test/test_type_holder_default.py -> petstore-api-1.0.0/test
+copying test/test_type_holder_example.py -> petstore-api-1.0.0/test
+copying test/test_user.py -> petstore-api-1.0.0/test
+copying test/test_user_api.py -> petstore-api-1.0.0/test
+copying test/test_xml_item.py -> petstore-api-1.0.0/test
+Writing petstore-api-1.0.0/setup.cfg
+creating /Users/justinblack/programming/openapi-generator/samples/client/petstore/python/.tox/dist
+creating '/Users/justinblack/programming/openapi-generator/samples/client/petstore/python/.tox/dist/petstore-api-1.0.0.zip' and adding 'petstore-api-1.0.0' to it
+adding 'petstore-api-1.0.0'
+adding 'petstore-api-1.0.0/test'
+adding 'petstore-api-1.0.0/petstore_api.egg-info'
+adding 'petstore-api-1.0.0/petstore_api'
+adding 'petstore-api-1.0.0/PKG-INFO'
+adding 'petstore-api-1.0.0/README.md'
+adding 'petstore-api-1.0.0/setup.py'
+adding 'petstore-api-1.0.0/setup.cfg'
+adding 'petstore-api-1.0.0/test/test_dog_all_of.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_array.py'
+adding 'petstore-api-1.0.0/test/test_cat.py'
+adding 'petstore-api-1.0.0/test/test_array_test.py'
+adding 'petstore-api-1.0.0/test/test_fake_api.py'
+adding 'petstore-api-1.0.0/test/test_enum_test.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_object.py'
+adding 'petstore-api-1.0.0/test/test_list.py'
+adding 'petstore-api-1.0.0/test/test_player.py'
+adding 'petstore-api-1.0.0/test/test_number_with_validations.py'
+adding 'petstore-api-1.0.0/test/test_cat_all_of.py'
+adding 'petstore-api-1.0.0/test/test_capitalization.py'
+adding 'petstore-api-1.0.0/test/test_model_return.py'
+adding 'petstore-api-1.0.0/test/test_user.py'
+adding 'petstore-api-1.0.0/test/test_object_model_with_ref_props.py'
+adding 'petstore-api-1.0.0/test/test_child.py'
+adding 'petstore-api-1.0.0/test/test_format_test.py'
+adding 'petstore-api-1.0.0/test/test_xml_item.py'
+adding 'petstore-api-1.0.0/test/test_enum_arrays.py'
+adding 'petstore-api-1.0.0/test/test_type_holder_example.py'
+adding 'petstore-api-1.0.0/test/test_child_all_of.py'
+adding 'petstore-api-1.0.0/test/test_model200_response.py'
+adding 'petstore-api-1.0.0/test/test_user_api.py'
+adding 'petstore-api-1.0.0/test/test_file_schema_test_class.py'
+adding 'petstore-api-1.0.0/test/test_child_dog_all_of.py'
+adding 'petstore-api-1.0.0/test/test_type_holder_default.py'
+adding 'petstore-api-1.0.0/test/test_child_lizard.py'
+adding 'petstore-api-1.0.0/test/test_api_response.py'
+adding 'petstore-api-1.0.0/test/test_class_model.py'
+adding 'petstore-api-1.0.0/test/test_animal_farm.py'
+adding 'petstore-api-1.0.0/test/test_child_lizard_all_of.py'
+adding 'petstore-api-1.0.0/test/test_pet_api.py'
+adding 'petstore-api-1.0.0/test/test_another_fake_api.py'
+adding 'petstore-api-1.0.0/test/test_pet.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_number.py'
+adding 'petstore-api-1.0.0/test/test_store_api.py'
+adding 'petstore-api-1.0.0/test/test_child_cat.py'
+adding 'petstore-api-1.0.0/test/test_array_of_number_only.py'
+adding 'petstore-api-1.0.0/test/test_child_cat_all_of.py'
+adding 'petstore-api-1.0.0/test/test_special_model_name.py'
+adding 'petstore-api-1.0.0/test/test_parent_pet.py'
+adding 'petstore-api-1.0.0/test/test_array_of_array_of_number_only.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_class.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_integer.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_boolean.py'
+adding 'petstore-api-1.0.0/test/test_child_dog.py'
+adding 'petstore-api-1.0.0/test/test_has_only_read_only.py'
+adding 'petstore-api-1.0.0/test/test_read_only_first.py'
+adding 'petstore-api-1.0.0/test/test_string_enum.py'
+adding 'petstore-api-1.0.0/test/test_file.py'
+adding 'petstore-api-1.0.0/test/test_enum_class.py'
+adding 'petstore-api-1.0.0/test/test_mixed_properties_and_additional_properties_class.py'
+adding 'petstore-api-1.0.0/test/test_tag.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_any_type.py'
+adding 'petstore-api-1.0.0/test/test_category.py'
+adding 'petstore-api-1.0.0/test/test_grandparent.py'
+adding 'petstore-api-1.0.0/test/test_number_only.py'
+adding 'petstore-api-1.0.0/test/test_map_test.py'
+adding 'petstore-api-1.0.0/test/test_client.py'
+adding 'petstore-api-1.0.0/test/test_fake_classname_tags_123_api.py'
+adding 'petstore-api-1.0.0/test/test_order.py'
+adding 'petstore-api-1.0.0/test/test_parent.py'
+adding 'petstore-api-1.0.0/test/test_name.py'
+adding 'petstore-api-1.0.0/test/test_animal.py'
+adding 'petstore-api-1.0.0/test/test_additional_properties_string.py'
+adding 'petstore-api-1.0.0/test/test_dog.py'
+adding 'petstore-api-1.0.0/test/test_grandparent_animal.py'
+adding 'petstore-api-1.0.0/test/test_parent_all_of.py'
+adding 'petstore-api-1.0.0/test/test_string_boolean_map.py'
+adding 'petstore-api-1.0.0/petstore_api.egg-info/PKG-INFO'
+adding 'petstore-api-1.0.0/petstore_api.egg-info/SOURCES.txt'
+adding 'petstore-api-1.0.0/petstore_api.egg-info/requires.txt'
+adding 'petstore-api-1.0.0/petstore_api.egg-info/top_level.txt'
+adding 'petstore-api-1.0.0/petstore_api.egg-info/dependency_links.txt'
+adding 'petstore-api-1.0.0/petstore_api/apis'
+adding 'petstore-api-1.0.0/petstore_api/models'
+adding 'petstore-api-1.0.0/petstore_api/model'
+adding 'petstore-api-1.0.0/petstore_api/api'
+adding 'petstore-api-1.0.0/petstore_api/model_utils.py'
+adding 'petstore-api-1.0.0/petstore_api/configuration.py'
+adding 'petstore-api-1.0.0/petstore_api/rest.py'
+adding 'petstore-api-1.0.0/petstore_api/__init__.py'
+adding 'petstore-api-1.0.0/petstore_api/exceptions.py'
+adding 'petstore-api-1.0.0/petstore_api/api_client.py'
+adding 'petstore-api-1.0.0/petstore_api/apis/__init__.py'
+adding 'petstore-api-1.0.0/petstore_api/models/__init__.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_lizard_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/read_only_first.py'
+adding 'petstore-api-1.0.0/petstore_api/model/type_holder_default.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_boolean.py'
+adding 'petstore-api-1.0.0/petstore_api/model/user.py'
+adding 'petstore-api-1.0.0/petstore_api/model/class_model.py'
+adding 'petstore-api-1.0.0/petstore_api/model/type_holder_example.py'
+adding 'petstore-api-1.0.0/petstore_api/model/animal_farm.py'
+adding 'petstore-api-1.0.0/petstore_api/model/string_boolean_map.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_string.py'
+adding 'petstore-api-1.0.0/petstore_api/model/pet.py'
+adding 'petstore-api-1.0.0/petstore_api/model/list.py'
+adding 'petstore-api-1.0.0/petstore_api/model/grandparent_animal.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_class.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_dog.py'
+adding 'petstore-api-1.0.0/petstore_api/model/cat.py'
+adding 'petstore-api-1.0.0/petstore_api/model/has_only_read_only.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_array.py'
+adding 'petstore-api-1.0.0/petstore_api/model/client.py'
+adding 'petstore-api-1.0.0/petstore_api/model/order.py'
+adding 'petstore-api-1.0.0/petstore_api/model/animal.py'
+adding 'petstore-api-1.0.0/petstore_api/model/parent.py'
+adding 'petstore-api-1.0.0/petstore_api/model/__init__.py'
+adding 'petstore-api-1.0.0/petstore_api/model/number_with_validations.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_any_type.py'
+adding 'petstore-api-1.0.0/petstore_api/model/enum_class.py'
+adding 'petstore-api-1.0.0/petstore_api/model/xml_item.py'
+adding 'petstore-api-1.0.0/petstore_api/model/object_model_with_ref_props.py'
+adding 'petstore-api-1.0.0/petstore_api/model/enum_arrays.py'
+adding 'petstore-api-1.0.0/petstore_api/model/format_test.py'
+adding 'petstore-api-1.0.0/petstore_api/model/api_response.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_lizard.py'
+adding 'petstore-api-1.0.0/petstore_api/model/grandparent.py'
+adding 'petstore-api-1.0.0/petstore_api/model/file.py'
+adding 'petstore-api-1.0.0/petstore_api/model/number_only.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_dog_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/player.py'
+adding 'petstore-api-1.0.0/petstore_api/model/map_test.py'
+adding 'petstore-api-1.0.0/petstore_api/model/parent_pet.py'
+adding 'petstore-api-1.0.0/petstore_api/model/special_model_name.py'
+adding 'petstore-api-1.0.0/petstore_api/model/enum_test.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_cat_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_number.py'
+adding 'petstore-api-1.0.0/petstore_api/model/dog.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child.py'
+adding 'petstore-api-1.0.0/petstore_api/model/parent_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/child_cat.py'
+adding 'petstore-api-1.0.0/petstore_api/model/array_test.py'
+adding 'petstore-api-1.0.0/petstore_api/model/model200_response.py'
+adding 'petstore-api-1.0.0/petstore_api/model/dog_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/name.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_object.py'
+adding 'petstore-api-1.0.0/petstore_api/model/array_of_number_only.py'
+adding 'petstore-api-1.0.0/petstore_api/model/string_enum.py'
+adding 'petstore-api-1.0.0/petstore_api/model/mixed_properties_and_additional_properties_class.py'
+adding 'petstore-api-1.0.0/petstore_api/model/file_schema_test_class.py'
+adding 'petstore-api-1.0.0/petstore_api/model/tag.py'
+adding 'petstore-api-1.0.0/petstore_api/model/category.py'
+adding 'petstore-api-1.0.0/petstore_api/model/capitalization.py'
+adding 'petstore-api-1.0.0/petstore_api/model/array_of_array_of_number_only.py'
+adding 'petstore-api-1.0.0/petstore_api/model/additional_properties_integer.py'
+adding 'petstore-api-1.0.0/petstore_api/model/cat_all_of.py'
+adding 'petstore-api-1.0.0/petstore_api/model/model_return.py'
+adding 'petstore-api-1.0.0/petstore_api/api/user_api.py'
+adding 'petstore-api-1.0.0/petstore_api/api/pet_api.py'
+adding 'petstore-api-1.0.0/petstore_api/api/fake_api.py'
+adding 'petstore-api-1.0.0/petstore_api/api/__init__.py'
+adding 'petstore-api-1.0.0/petstore_api/api/fake_classname_tags_123_api.py'
+adding 'petstore-api-1.0.0/petstore_api/api/another_fake_api.py'
+adding 'petstore-api-1.0.0/petstore_api/api/store_api.py'
+removing 'petstore-api-1.0.0' (and everything under it)
