@@ -1,0 +1,19 @@
+name: 'Run integration tests'
+description: 'Runs integration test profile with Maven'
+inputs:
+  profile:
+    description: 'Maven profile'
+    required: true
+  goal:
+    description: 'Maven goal'
+    required: false
+    default: 'verify'
+  args:
+    description: 'Additional maven arguments'
+    required: false
+    default: ''
+runs:
+  using: "composite"
+  steps:
+    - run: mvn --no-snapshot-updates --batch-mode --quiet ${{ inputs.goal }} -P${{ inputs.profile }} -Dintegration-test -Dmaven.javadoc.skip=true ${{ inputs.args }}
+      shell: bash

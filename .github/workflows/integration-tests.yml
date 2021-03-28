@@ -1,0 +1,526 @@
+name: Integration tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  samples-circleci-others:
+    name: samples.circleci.others
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Cache test dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: intergration-samples.circleci.others-dependencies
+      with:
+        path: |
+          ~/.sbt
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.circleci.others
+
+  jvm8:
+    name: JVM 8
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.jvm8
+
+  jvm11:
+    name: JVM 11
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.jvm11
+
+  dart:
+    name: Dart
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Cache test dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: integration-dart-dependencies
+      with:
+        path: |
+          ~/.pub-cache
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}
+    - uses: dart-lang/setup-dart@v1
+      with:
+        sdk: stable
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.dart
+
+  r:
+    name: R
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Cache test dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: integration-r-dependencies
+      with:
+        path: |
+          ~/R
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}
+    - name: Install curl
+      run: |
+        sudo apt-get -y install libcurl4-gnutls-dev
+    - uses: r-lib/actions/setup-r@v1
+      with:
+        r-version: '3.4.4'
+    - run: echo 'R_LIBS_USER=$HOME/R' >> $GITHUB_ENV
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.r
+
+  go:
+    name: Go
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Cache test dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: integration-go-dependencies
+      with:
+        path: |
+          ~/.go_workspace
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}
+    - uses: actions/setup-go@v2
+      with:
+        go-version: 1.14
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.go
+
+  elm:
+    name: Elm
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: jorelali/setup-elm@v2
+      with:
+        elm-version: 0.19.1
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.elm
+
+  erlang:
+    name: Erlang
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: erlef/setup-elixir@v1
+      with:
+        otp-version: '23.x'
+        elixir-version: '1.11.x'
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.erlang
+
+  python:
+    name: Python
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.python
+
+  php:
+    name: PHP
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2.15'
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.php
+
+  ruby:
+    name: Ruby
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.4.1'
+        bundler-cache: true
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.ruby
+
+  rust:
+    name: Rust
+    runs-on: ubuntu-latest
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.rust
+
+  crystal:
+    name: Crystal
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: MeilCli/setup-crystal-action@v4
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.crystal
+
+  c:
+    name: C/C++
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - name: Install tooling
+      run: |
+        sudo apt install -y --no-install-recommends valgrind cmake build-essential
+        sudo apt install -y --no-install-recommends qt5-default
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.c
+
+  node:
+    name: Node
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+    services:
+      petstore:
+        image: swaggerapi/petstore
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+        ports:
+          - 80:8080
+    steps:
+    - name: Make petstore.swagger.io container known to tests
+      run: sudo sh -c "echo '127.0.0.1 petstore.swagger.io' >> /etc/hosts"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 8
+    - name: Cache maven dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: maven-repository
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gradle
+        key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '12.20.0'
+    - run: |
+        npm install -g typescript
+        npm install -g npm
+        npm config set registry http://registry.npmjs.org/
+    - uses: denolib/setup-deno@v2
+      with:
+        deno-version: v1.6.2
+    - name: Run tests
+      uses: ./.github/actions/integration-test
+      with:
+        profile: samples.node
