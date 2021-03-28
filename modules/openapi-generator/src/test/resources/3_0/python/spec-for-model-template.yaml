@@ -1,0 +1,38 @@
+# spec-for-model-template.yaml
+openapi: 3.0.3
+info:
+  title: API
+  description: API
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:80'
+paths:
+  /pathA:
+    post:
+      operationId: pathA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Test'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Test'
+components:
+  schemas:
+    Test:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      # Both properties are required
+      required:
+        - id
+        - name

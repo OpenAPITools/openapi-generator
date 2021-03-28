@@ -125,8 +125,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         supportingFiles.add(new SupportingFile("model_utils.mustache", packagePath(), "model_utils.py"));
 
+
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        SupportingFile originalInitModel = supportingFiles.stream()
+                .filter(sf -> sf.getTemplateFile().equals("__init__model.mustache"))
+                .reduce((a, b) -> {
+                    throw new IllegalStateException("Multiple elements: " + a + ", " + b);
+                })
+                .get();
+        supportingFiles.remove(originalInitModel);
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
