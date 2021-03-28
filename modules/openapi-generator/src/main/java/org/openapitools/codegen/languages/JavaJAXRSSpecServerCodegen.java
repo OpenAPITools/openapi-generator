@@ -18,12 +18,18 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+
+import javax.lang.model.SourceVersion;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -34,6 +40,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String JACKSON = "jackson";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_BUILDERS = "generateBuilders";
+    public static final String USE_TYPESAFE_RESPONSES = "useTypesafeResponses";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -48,6 +55,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerAnnotations = true;
     private boolean useJackson = true;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
+    private boolean useTypesafeResponses = false;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -104,6 +112,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
         cliOptions.add(CliOption.newBoolean(JACKSON, "Whether to generate Jackson annotations.", useJackson));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
+        cliOptions.add(CliOption.newBoolean(USE_TYPESAFE_RESPONSES, "Generates typesafe responses when used together with option " + INTERFACE_ONLY + "."));
     }
 
     @Override
@@ -152,6 +161,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         useJackson = convertPropertyToBoolean(JACKSON);
         writePropertyBack(JACKSON, useJackson);
 
+        if (additionalProperties.containsKey(USE_TYPESAFE_RESPONSES)) {
+            useTypesafeResponses = convertPropertyToBoolean(USE_TYPESAFE_RESPONSES) && interfaceOnly && !returnResponse;
+            writePropertyBack(USE_TYPESAFE_RESPONSES, useTypesafeResponses);
+        }
+
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
@@ -170,6 +184,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("RestApplication.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
                 .doNotOverwrite());
+        }
+        if (useTypesafeResponses) {
+            String responseWrapperDir = sourceFolder + '/' + apiPackage.replace(".", "/") + "/support";
+            SupportingFile supportingFile = new SupportingFile("responseWrapper.mustache", responseWrapperDir, "ResponseWrapper.java");
+            supportingFiles.add(supportingFile.doNotOverwrite());
         }
 
         if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
@@ -233,6 +252,48 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
      */
     public void setOpenApiSpecFileLocation(String location) {
         openApiSpecFileLocation = location;
+    }
+
+    /**
+     * Overridden to create the "mediaTypeCamelized" entry in the "produces" property of
+     * CodegenOperation as required by the typesafe responses option.
+     */
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> objsProcessed = super.postProcessOperationsWithModels(objs, allModels);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> operations = (Map<String, Object>) objsProcessed.get("operations");
+        if (operations != null) {
+            @SuppressWarnings("unchecked")
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                List<Map<String, String>> produces = operation.produces;
+                if (produces != null) {
+                    for (Map<String, String> producesMap : produces) {
+                        if (producesMap != null) {
+                            if (producesMap.containsKey("mediaType")) {
+                                producesMap.put("mediaTypeCamelized", convertToJavaName(producesMap.get("mediaType")));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return objsProcessed;
+    }
+
+    private String convertToJavaName(String mediaType) {
+        if (mediaType != null) {
+            String adjusted = mediaType.replace("*", "Star");
+            String camelized = camelize(adjusted);
+            if (SourceVersion.isName(camelized)) {
+                return camelized;
+            }
+        }
+
+        return "";
     }
 
     @Override
