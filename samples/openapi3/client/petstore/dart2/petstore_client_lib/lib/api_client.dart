@@ -233,6 +233,7 @@ class ApiClient {
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
 }
+
 /// Primarily intended for use in an isolate.
 class DeserializationMessage {
   const DeserializationMessage({
