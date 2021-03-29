@@ -419,10 +419,10 @@ namespace Org.OpenAPITools.Client
             return request;
         }
 
-        partial void InterceptRequest(HttpRequestMessage req, HttpClientHandler handler);
+        partial void InterceptRequest(HttpRequestMessage req);
         partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, HttpClientHandler handler, Uri uri)
+        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
             string rawContent = response.Content.ToString();
@@ -451,10 +451,10 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            if (handler != null && response != null)
+            if (_httpClientHandler != null && response != null)
             {
                 try {
-                    foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                    foreach (Cookie cookie in _httpClientHandler.CookieContainer.GetCookies(uri))
                     {
                         transformed.Cookies.Add(cookie);
                     }
@@ -474,8 +474,6 @@ namespace Org.OpenAPITools.Client
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = _httpClientHandler;
-            var client = _httpClient;
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
@@ -485,36 +483,38 @@ namespace Org.OpenAPITools.Client
                 var tokenSource = new CancellationTokenSource(configuration.Timeout);
                 finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
             }
-            if(handler != null) {
-                if (configuration.Proxy != null)
-                {
-                    handler.Proxy = configuration.Proxy;
-                }
 
-                if (configuration.ClientCertificates != null)
-                {
-                    handler.ClientCertificates.AddRange(configuration.ClientCertificates);
-                }
+            if (configuration.Proxy != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
             }
 
             var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
             if (cookieContainer != null)
             {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                 foreach (var cookie in cookieContainer)
                 {
-                    handler.CookieContainer.Add(cookie);
+                    _httpClientHandler.CookieContainer.Add(cookie);
                 }
             }
 
-            InterceptRequest(req, handler);
+            InterceptRequest(req);
 
             HttpResponseMessage response;
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy
-                    .ExecuteAndCaptureAsync(() => client.SendAsync(req, cancellationToken))
+                    .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, cancellationToken))
                     .ConfigureAwait(false);
                 response = (policyResult.Outcome == OutcomeType.Successful) ?
                     policyResult.Result : new HttpResponseMessage()
@@ -525,7 +525,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                response = await client.SendAsync(req, cancellationToken).ConfigureAwait(false);
+                response = await _httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
             }
 
             object responseData = deserializer.Deserialize<T>(response);
@@ -542,7 +542,7 @@ namespace Org.OpenAPITools.Client
 
             InterceptResponse(req, response);
 
-            var result = ToApiResponse<T>(response, responseData, handler, req.RequestUri);
+            var result = ToApiResponse<T>(response, responseData, req.RequestUri);
 
             return result;
         }
