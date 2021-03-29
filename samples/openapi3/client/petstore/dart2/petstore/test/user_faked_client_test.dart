@@ -29,8 +29,9 @@ void main() {
       // use the user api to create a user
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user',
-        expectedPostRequestBody: await userApi.apiClient.serializeAsync(newUser),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedPostRequestBody:
+            await userApi.apiClient.serializeAsync(newUser),
+        expectedHeaders: {'Content-Type': 'application/json'},
         postResponseBody: await userApi.apiClient.serializeAsync(newUser),
       );
       await userApi.createUser(newUser);
@@ -60,7 +61,7 @@ void main() {
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user/createWithList',
         expectedPostRequestBody: await userApi.apiClient.serializeAsync(users),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedHeaders: {'Content-Type': 'application/json'},
         postResponseBody: await userApi.apiClient.serializeAsync(users),
       );
       await userApi.createUsersWithListInput(users);
@@ -94,8 +95,9 @@ void main() {
       // use the user api to create a user
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user',
-        expectedPostRequestBody: await userApi.apiClient.serializeAsync(newUser),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedPostRequestBody:
+            await userApi.apiClient.serializeAsync(newUser),
+        expectedHeaders: {'Content-Type': 'application/json'},
         postResponseBody: await userApi.apiClient.serializeAsync(newUser),
       );
       await userApi.createUser(newUser);
@@ -105,7 +107,7 @@ void main() {
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user/${newUser.username}',
         expectedPutRequestBody: await userApi.apiClient.serializeAsync(newUser),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedHeaders: {'Content-Type': 'application/json'},
         putResponseBody: await userApi.apiClient.serializeAsync(newUser),
       );
       await userApi.updateUser(username, newUser);
@@ -126,8 +128,9 @@ void main() {
       // use the user api to create a user
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user',
-        expectedPostRequestBody: await userApi.apiClient.serializeAsync(newUser),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedPostRequestBody:
+            await userApi.apiClient.serializeAsync(newUser),
+        expectedHeaders: {'Content-Type': 'application/json'},
         postResponseBody: await userApi.apiClient.serializeAsync(newUser),
       );
       await userApi.createUser(newUser);
@@ -157,8 +160,9 @@ void main() {
       // use the user api to create a user
       userApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/user',
-        expectedPostRequestBody: await userApi.apiClient.serializeAsync(newUser),
-        expectedHeaders: { 'Content-Type': 'application/json' },
+        expectedPostRequestBody:
+            await userApi.apiClient.serializeAsync(newUser),
+        expectedHeaders: {'Content-Type': 'application/json'},
         postResponseBody: await userApi.apiClient.serializeAsync(newUser),
       );
       await userApi.createUser(newUser);
