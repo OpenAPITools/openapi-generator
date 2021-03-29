@@ -485,22 +485,24 @@ namespace {{packageName}}.Client
                 var tokenSource = new CancellationTokenSource(configuration.Timeout);
                 finalToken = CancellationTokenSource.CreateLinkedTokenSource(finalToken, tokenSource.Token).Token;
             }
-            if(_httpClientHandler != null) {
-                if (configuration.Proxy != null)
-                {
-                    _httpClientHandler.Proxy = configuration.Proxy;
-                }
 
-                if (configuration.ClientCertificates != null)
-                {
-                    _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
-                }
+            if (configuration.Proxy != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.Proxy = configuration.Proxy;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
             }
 
             var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
             if (cookieContainer != null)
             {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                 foreach (var cookie in cookieContainer)
                 {
                     _httpClientHandler.CookieContainer.Add(cookie);
