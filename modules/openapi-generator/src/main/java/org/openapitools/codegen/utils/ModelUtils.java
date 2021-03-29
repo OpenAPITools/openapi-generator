@@ -1426,7 +1426,7 @@ public class ModelUtils {
         }
 
         if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
-            return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
+            return Boolean.parseBoolean(schema.getExtensions().get("x-nullable").toString());
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (schema instanceof ComposedSchema) {
