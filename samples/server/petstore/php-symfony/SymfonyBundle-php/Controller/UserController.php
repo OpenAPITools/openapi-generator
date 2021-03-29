@@ -163,8 +163,8 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User"),
-            new Assert\Valid(),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -242,8 +242,8 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User"),
-            new Assert\Valid(),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;

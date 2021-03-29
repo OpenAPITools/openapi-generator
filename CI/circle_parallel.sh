@@ -81,8 +81,6 @@ else
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
-  installDart
-
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi

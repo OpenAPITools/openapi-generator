@@ -509,7 +509,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-        
+
         return name;
     }
 

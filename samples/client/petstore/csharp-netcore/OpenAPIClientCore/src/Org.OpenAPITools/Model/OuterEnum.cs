@@ -29,9 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Defines OuterEnum
     /// </summary>
-    
     [JsonConverter(typeof(StringEnumConverter))]
-    
     public enum OuterEnum
     {
         /// <summary>
