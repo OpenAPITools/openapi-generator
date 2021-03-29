@@ -148,8 +148,15 @@ class ApiClient {
     deserialize(json, targetType, growable: growable);
 
   @Deprecated('Use deserializeAsync() instead.')
-  dynamic deserialize(String json, String targetType, {bool growable}) =>
-    _deserialize(json, targetType, growable: growable);
+  dynamic deserialize(String json, String targetType, {bool growable}) {
+    // Remove all spaces. Necessary for regular expressions as well.
+    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
+
+    // If the expected target type is String, nothing to do...
+    return targetType == 'String'
+      ? json
+      : _deserialize(jsonDecode(json), targetType, growable: growable);
+  }
 
   // ignore: deprecated_member_use_from_same_package
   Future<String> serializeAsync(Object value) async => serialize(value);
@@ -176,9 +183,6 @@ class ApiClient {
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     // The default is to have an unmodifiable List/Map.
     growable = growable == true; // ignore: parameter_assignments
-
-    // Remove all spaces. Necessary for regular expressions as well.
-    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     try {
       switch (targetType) {
@@ -337,8 +341,15 @@ class DeserializationMessage {
 }
 
 /// Primarily intended for use in an isolate.
-Future<dynamic> deserializeAsync(DeserializationMessage message) async =>
-  ApiClient._deserialize(jsonDecode(message.json), message.targetType, growable: message.growable,);
+Future<dynamic> deserializeAsync(DeserializationMessage message) async {
+  // Remove all spaces. Necessary for regular expressions as well.
+  final targetType = message.targetType.replaceAll(' ', '');
+
+  // If the expected target type is String, nothing to do...
+  return targetType == 'String'
+    ? message.json
+    : ApiClient._deserialize(jsonDecode(message.json), targetType, growable: message.growable,);
+}
 
 /// Primarily intended for use in an isolate.
 Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);
