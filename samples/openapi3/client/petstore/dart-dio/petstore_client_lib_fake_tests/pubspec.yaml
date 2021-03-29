@@ -13,7 +13,7 @@ dev_dependencies:
   http_mock_adapter:
     git:
       url: https://github.com/kuhnroyal/http-mock-adapter.git
-      ref: 2d7bb10369be49d3c53a6567cc76e8580b5d133d
+      ref: 24cafff5236f8cc7d52a05529751ac47abd895ff
   openapi:
     path: ../petstore_client_lib_fake
   test: 1.15.5

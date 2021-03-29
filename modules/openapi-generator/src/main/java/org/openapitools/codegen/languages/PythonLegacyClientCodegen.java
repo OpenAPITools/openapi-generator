@@ -405,7 +405,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
 
     public void setUseNose(String val) {
-        this.useNose = Boolean.valueOf(val);
+        this.useNose = Boolean.parseBoolean(val);
     }
 
 

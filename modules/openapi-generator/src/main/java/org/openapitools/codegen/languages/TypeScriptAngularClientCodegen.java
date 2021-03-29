@@ -177,7 +177,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
                 classEnumSeparator = "";
@@ -384,7 +384,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return dataType != null && "Blob".equals(dataType);
     }
 
     @Override

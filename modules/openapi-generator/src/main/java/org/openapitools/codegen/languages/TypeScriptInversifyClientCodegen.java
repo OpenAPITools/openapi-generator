@@ -141,7 +141,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return dataType != null && "Blob".equals(dataType);
     }
 
     @Override

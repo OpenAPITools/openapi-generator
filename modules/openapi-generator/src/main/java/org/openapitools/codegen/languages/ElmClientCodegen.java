@@ -420,7 +420,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                return Boolean.valueOf(p.getDefault().toString()) ? "True" : "False";
+                return Boolean.parseBoolean(p.getDefault().toString()) ? "True" : "False";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {

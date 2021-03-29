@@ -783,15 +783,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         additionalProperties.put("platforms", platforms);
 
-        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
+        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
-        if (!propPlatform.equals("deno")) {
+        if (!"deno".equals(propPlatform)) {
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
-        if (propPlatform.equals("deno")) {
+        if ("deno".equals(propPlatform)) {
             additionalProperties.put("extensionForDeno", ".ts");
         }
 
