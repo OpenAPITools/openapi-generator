@@ -428,16 +428,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             String luaPath = "";
             int pathParamIndex = 0;
 
-            for (int i = 0; i < items.length; ++i) {
-                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+            for (String item : items) {
+                if (item.matches("^\\{(.*)\\}$")) { // wrap in {}
                     // find the datatype of the parameter
                     //final CodegenParameter cp = op.pathParams.get(pathParamIndex);
                     // TODO: Handle non-primitives…
                     //luaPath = luaPath + cp.dataType.toLowerCase(Locale.ROOT);
                     luaPath = luaPath + "/%s";
                     pathParamIndex++;
-                } else if (items[i].length() != 0) {
-                    luaPath = luaPath + "/" + items[i];
+                } else if (item.length() != 0) {
+                    luaPath = luaPath + "/" + item;
                 } else {
                     //luaPath = luaPath + "/";
                 }

@@ -196,7 +196,6 @@ petstore_api/model/whale.py
 petstore_api/model/zebra.py
 petstore_api/model_utils.py
 petstore_api/models/__init__.py
-petstore_api/models/__init__.py
 petstore_api/rest.py
 petstore_api/signing.py
 requirements.txt

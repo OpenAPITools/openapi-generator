@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 {{#operationResultTask}}
 using System.Threading.Tasks;
 {{/operationResultTask}}
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 {{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 {{/useSwashbuckle}}
 {{^isLibrary}}
