@@ -183,7 +183,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
-            boolean booleanValue = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
+            boolean booleanValue = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
             setReturnExceptionOnFailure(booleanValue);
         } else {
             setReturnExceptionOnFailure(false);

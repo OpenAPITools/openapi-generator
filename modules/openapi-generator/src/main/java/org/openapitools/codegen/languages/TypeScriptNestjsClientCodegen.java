@@ -143,7 +143,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
                 enumSuffix = "";
