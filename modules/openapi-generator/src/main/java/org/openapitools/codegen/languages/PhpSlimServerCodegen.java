@@ -92,7 +92,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         // override cliOptions from AbstractPhpCodegen
         for (CliOption co : cliOptions) {
-            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
+            if (AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION.equals(co.getOpt())) {
                 co.setDescription("naming convention of variable name, e.g. camelCase.");
                 co.setDefault("camelCase");
                 break;
