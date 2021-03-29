@@ -117,7 +117,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : await serialize(body);
+        : await serializeAsync(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -143,11 +143,11 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
+  // ignore: deprecated_member_use_from_same_package
+  Future<String> serializeAsync(Object value) async => serialize(value);
 
-  /// Although a Future isn't required for the default implementation, you may overwrite it
-  /// to have a custom implementation that requires a Future. For example, if implementing
-  /// in an isolate.
-  Future<String> serialize(Object value) => apiClientSerialize(value);
+  @Deprecated('Use serializeAsync() instead.')
+  String serialize(Object value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -164,9 +164,8 @@ class ApiClient {
       auth.applyToParams(queryParams, headerParams);
     });
   }
+
 }
 
-/// When the API client is used in Flutter, one can use the compute() function to offload the
-/// JSON serialization to an isolate. However, compute() requires a static function as a
-/// parameter so this is a helper future function to aid you.
-Future<String> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
+/// Primarily intended for use in an isolate.
+Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);

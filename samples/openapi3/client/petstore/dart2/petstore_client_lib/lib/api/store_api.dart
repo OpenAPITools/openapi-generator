@@ -137,7 +137,7 @@ class StoreApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return Map<String, int>.from(await apiClient.deserialize(await _decodeBodyBytes(response), 'Map<String, int>'));
+      return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
     }
     return Future<Map<String, int>>.value(null);
   }
@@ -212,7 +212,7 @@ class StoreApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'Order') as Order;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
         }
     return Future<Order>.value(null);
   }
@@ -282,7 +282,7 @@ class StoreApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'Order') as Order;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
         }
     return Future<Order>.value(null);
   }

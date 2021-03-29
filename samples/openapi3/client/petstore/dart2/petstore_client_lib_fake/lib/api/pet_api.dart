@@ -221,7 +221,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (await apiClient.deserialize(await _decodeBodyBytes(response), 'List<Pet>') as List)
+      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
     }
@@ -299,7 +299,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (await apiClient.deserialize(await _decodeBodyBytes(response), 'Set<Pet>') as List)
+      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Set<Pet>') as List)
         .cast<Pet>()
         .toSet();
     }
@@ -376,7 +376,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'Pet') as Pet;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
         }
     return Future<Pet>.value(null);
   }
@@ -624,7 +624,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
         }
     return Future<ApiResponse>.value(null);
   }
@@ -722,7 +722,7 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
         }
     return Future<ApiResponse>.value(null);
   }

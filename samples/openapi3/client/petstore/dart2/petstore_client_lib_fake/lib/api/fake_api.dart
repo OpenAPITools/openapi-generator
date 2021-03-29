@@ -65,7 +65,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
         }
     return Future<HealthCheckResult>.value(null);
   }
@@ -215,7 +215,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'bool') as bool;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
         }
     return Future<bool>.value(null);
   }
@@ -282,7 +282,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
         }
     return Future<OuterComposite>.value(null);
   }
@@ -349,7 +349,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'num') as num;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
         }
     return Future<num>.value(null);
   }
@@ -416,7 +416,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'String') as String;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
         }
     return Future<String>.value(null);
   }
@@ -486,7 +486,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
         }
     return Future<OuterObjectWithEnumProperty>.value(null);
   }
@@ -686,7 +686,7 @@ class FakeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserialize(await _decodeBodyBytes(response), 'ModelClient') as ModelClient;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
         }
     return Future<ModelClient>.value(null);
   }

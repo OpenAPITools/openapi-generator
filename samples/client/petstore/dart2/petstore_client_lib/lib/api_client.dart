@@ -114,7 +114,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : await serialize(body);
+        : await serializeAsync(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -140,9 +140,42 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
+  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable}) async =>
+    // ignore: deprecated_member_use_from_same_package
+    deserialize(json, targetType, growable: growable);
+
+  @Deprecated('Use deserializeAsync() instead.')
+  dynamic deserialize(String json, String targetType, {bool growable}) =>
+    _deserialize(json, targetType, growable: growable);
+
+  // ignore: deprecated_member_use_from_same_package
+  Future<String> serializeAsync(Object value) async => serialize(value);
+
+  @Deprecated('Use serializeAsync() instead.')
+  String serialize(Object value) => value == null ? '' : json.encode(value);
+
+  /// Update query and header parameters based on authentication settings.
+  /// @param authNames The authentications to apply
+  void _updateParamsForAuth(
+    List<String> authNames,
+    List<QueryParam> queryParams,
+    Map<String, String> headerParams,
+  ) {
+    authNames.forEach((authName) {
+      final auth = _authentications[authName];
+      if (auth == null) {
+        throw ArgumentError('Authentication undefined: $authName');
+      }
+      auth.applyToParams(queryParams, headerParams);
+    });
+  }
+
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     // The default is to have an unmodifiable List/Map.
     growable = growable == true; // ignore: parameter_assignments
+
+    // Remove all spaces. Necessary for regular expressions as well.
+    targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     try {
       switch (targetType) {
@@ -199,41 +232,8 @@ class ApiClient {
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);
   }
-
-  /// Although a Future isn't required for the default implementation, you may overwrite it
-  /// to have a custom implementation that requires a Future. For example, if implementing
-  /// in an isolate.
-  Future<dynamic> deserialize(String json, String targetType, {bool growable}) =>
-    apiClientDeserialize(DeserializationMessage(
-      json: json,
-      targetType: targetType,
-      growable: growable,
-    ));
-
-  /// Although a Future isn't required for the default implementation, you may overwrite it
-  /// to have a custom implementation that requires a Future. For example, if implementing
-  /// in an isolate.
-  Future<String> serialize(Object value) => apiClientSerialize(value);
-
-  /// Update query and header parameters based on authentication settings.
-  /// @param authNames The authentications to apply
-  void _updateParamsForAuth(
-    List<String> authNames,
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) {
-    authNames.forEach((authName) {
-      final auth = _authentications[authName];
-      if (auth == null) {
-        throw ArgumentError('Authentication undefined: $authName');
-      }
-      auth.applyToParams(queryParams, headerParams);
-    });
-  }
 }
-/// When the API client is used in Flutter, one can use the compute() function to offload the
-/// JSON deserialization to an isolate. However, compute() accepts only a single data object
-/// to hold information for [deserialize].
+/// Primarily intended for use in an isolate.
 class DeserializationMessage {
   const DeserializationMessage({
     @required this.json,
@@ -251,19 +251,9 @@ class DeserializationMessage {
   final bool growable;
 }
 
-/// When the API client is used in Flutter, one can use the compute() function to offload the
-/// JSON deserialization to an isolate. However, compute() requires a static function as a
-/// parameter and since [ApiClient._deserialize] is private, this function is added.
-Future<dynamic> apiClientDeserialize(DeserializationMessage message) async {
-  // Remove all spaces. Necessary for regular expressions as well.
-  final targetType = message.targetType.replaceAll(' ', '');
+/// Primarily intended for use in an isolate.
+Future<dynamic> deserializeAsync(DeserializationMessage message) async =>
+  ApiClient._deserialize(jsonDecode(message.json), message.targetType, growable: message.growable,);
 
-  return targetType == 'String'
-    ? message.json
-    : ApiClient._deserialize(jsonDecode(message.json), targetType, growable: message.growable);
-}
-
-/// When the API client is used in Flutter, one can use the compute() function to offload the
-/// JSON serialization to an isolate. However, compute() requires a static function as a
-/// parameter so this is a helper future function to aid you.
-Future<String> apiClientSerialize(Object value) async => value == null ? '' : json.encode(value);
+/// Primarily intended for use in an isolate.
+Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);
