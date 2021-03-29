@@ -155,7 +155,7 @@ class ApiClient {
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
       ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable);
+      : _deserialize(jsonDecode(json), targetType, growable: growable == true);
   }
 
   // ignore: deprecated_member_use_from_same_package
@@ -181,9 +181,6 @@ class ApiClient {
   }
 
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
-    // The default is to have an unmodifiable List/Map.
-    growable = growable == true; // ignore: parameter_assignments
-
     try {
       switch (targetType) {
         case 'String':
@@ -348,7 +345,11 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
   // If the expected target type is String, nothing to do...
   return targetType == 'String'
     ? message.json
-    : ApiClient._deserialize(jsonDecode(message.json), targetType, growable: message.growable,);
+    : ApiClient._deserialize(
+        jsonDecode(message.json),
+        targetType,
+        growable: message.growable == true,
+      );
 }
 
 /// Primarily intended for use in an isolate.
