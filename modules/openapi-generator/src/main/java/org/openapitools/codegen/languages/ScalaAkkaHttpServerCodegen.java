@@ -271,7 +271,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         if (!param.required) {
             param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
             // Escaping default string values
-            if (param.defaultValue != null && param.dataType.equals("String")) {
+            if (param.defaultValue != null && "String".equals(param.dataType)) {
                 param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
             }
         }
@@ -417,7 +417,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         operationSpecificMarshallers.add(marshaller);
                     }
                     response.vendorExtensions.put("x-empty-response", response.baseType == null && response.message == null);
-                    response.vendorExtensions.put("x-is-default", response.code.equals("0"));
+                    response.vendorExtensions.put("x-is-default", "0".equals(response.code));
                 }
                 op.vendorExtensions.put("x-specific-marshallers", operationSpecificMarshallers);
                 op.vendorExtensions.put("x-file-params", fileParams);

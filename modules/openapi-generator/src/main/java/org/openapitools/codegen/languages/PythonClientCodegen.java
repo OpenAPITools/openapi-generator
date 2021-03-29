@@ -547,7 +547,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
-        if (datatype.equals("int") || datatype.equals("float")) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return ensureQuotes(value);

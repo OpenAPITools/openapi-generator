@@ -358,13 +358,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!this.interfaceOnly) {
-            if (library.equals(SPRING_BOOT)) {
+            if (SPRING_BOOT.equals(library)) {
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "OpenAPI2SpringBoot.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
             }
-            if (library.equals(SPRING_MVC_LIBRARY)) {
+            if (SPRING_MVC_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("webApplication.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
@@ -374,7 +374,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
             }
-            if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "ApiKeyRequestInterceptor.java"));
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
@@ -398,7 +398,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
                 }
             }
-        } else if (this.openapiDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY) && !this.reactive && !this.apiFirst) {
+        } else if (this.openapiDocketConfig && !SPRING_CLOUD_LIBRARY.equals(library) && !this.reactive && !this.apiFirst) {
             supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
         }
@@ -416,7 +416,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if ("threetenbp".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "CustomInstantDeserializer.java"));
-            if (library.equals(SPRING_BOOT) || library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
             }
@@ -500,7 +500,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
+        if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -510,7 +510,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if ("".equals(basePath)) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -682,7 +682,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
-        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+        if (SPRING_CLOUD_LIBRARY.equals(library)) {
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
