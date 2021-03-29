@@ -658,7 +658,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    private class ResourcePath {
+    private static class ResourcePath {
 
         private String path;
 
