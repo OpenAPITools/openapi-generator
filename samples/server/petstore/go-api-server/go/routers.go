@@ -12,7 +12,6 @@ package petstoreserver
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"mime/multipart"
