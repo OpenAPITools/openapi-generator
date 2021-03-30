@@ -279,7 +279,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 if (operation.getParameters() != null) {
 
                     for (Parameter parameter : operation.getParameters()) {
-                        if (parameter.getIn().equalsIgnoreCase("header")) {
+                        if ("header".equalsIgnoreCase(parameter.getIn())) {
                             headerParameters.add(parameter);
                         }
                     /* need to revise below as form parameter is no longer in the parameter list
@@ -287,10 +287,10 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                         formParameters.add(parameter);
                     }
                     */
-                        if (parameter.getIn().equalsIgnoreCase("query")) {
+                        if ("query".equalsIgnoreCase(parameter.getIn())) {
                             queryParameters.add(parameter);
                         }
-                        if (parameter.getIn().equalsIgnoreCase("path")) {
+                        if ("path".equalsIgnoreCase(parameter.getIn())) {
                             pathParameters.add(parameter);
                         }
                     /* TODO need to revise below as body is no longer in the parameter

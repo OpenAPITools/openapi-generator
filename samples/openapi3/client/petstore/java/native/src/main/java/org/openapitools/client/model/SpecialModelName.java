@@ -62,6 +62,8 @@ public class SpecialModelName {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
@@ -86,6 +88,8 @@ public class SpecialModelName {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSpecialModelName(String specialModelName) {
     this.specialModelName = specialModelName;
   }

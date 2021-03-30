@@ -145,6 +145,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -171,6 +174,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "category")
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -196,6 +202,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -227,6 +236,10 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -262,6 +275,10 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -288,6 +305,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

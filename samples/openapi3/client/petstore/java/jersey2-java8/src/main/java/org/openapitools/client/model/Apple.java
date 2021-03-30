@@ -63,6 +63,8 @@ public class Apple {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCultivar(String cultivar) {
     this.cultivar = cultivar;
   }
@@ -87,6 +89,8 @@ public class Apple {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOrigin(String origin) {
     this.origin = origin;
   }

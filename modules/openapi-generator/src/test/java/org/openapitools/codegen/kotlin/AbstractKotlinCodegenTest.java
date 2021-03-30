@@ -76,7 +76,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
     }
 
-    private class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
+    private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
         @Override
         public CodegenType getTag() {
             return null;
