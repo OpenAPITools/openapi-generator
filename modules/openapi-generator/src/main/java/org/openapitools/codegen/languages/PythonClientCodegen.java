@@ -36,6 +36,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -894,6 +896,13 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return "\"" + in + "\"";
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        Object objExample = getObjectExample(schema);
+        String modelName = getModelName(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
+    }
+
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
         return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
@@ -974,7 +983,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // checks if the current schema has already been passed in. If so, breaks the current recursive pass
         if (seenSchemas.contains(schema)) {
             if (modelName != null) {
-                return fullPrefix + modelName + closeChars;
+                return fullPrefix + closeChars;
             } else {
                 // this is a recursive schema
                 // need to add a reasonable example to avoid
@@ -1050,18 +1059,39 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    RgxGen rgxGen = new RgxGen(pattern);
+                    /*
+                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                     */
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                    Matcher m = valueExtractor.matcher(pattern);
+                    RgxGen rgxGen = null;
+                    if (m.find()) {
+                        int groupCount = m.groupCount();
+                        if (groupCount == 1) {
+                            // only pattern found
+                            String isolatedPattern = m.group(1);
+                            rgxGen = new RgxGen(isolatedPattern);
+                        } else if (groupCount == 2) {
+                            // patterns and flag found
+                            String isolatedPattern = m.group(1);
+                            String flags = m.group(2);
+                            if (flags.contains("i")) {
+                                rgxGen = new RgxGen(isolatedPattern);
+                                RgxGenProperties properties = new RgxGenProperties();
+                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                                rgxGen.setProperties(properties);
+                            } else {
+                                rgxGen = new RgxGen(isolatedPattern);
+                            }
+                        }
+                    } else {
+                        rgxGen = new RgxGen(pattern);
+                    }
+
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    String sample = rgxGen.generate(random);
-                    // omit leading / and trailing /, omit trailing /i
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                    Matcher m = valueExtractor.matcher(sample);
-                    if (m.find()) {
-                        example = m.group(m.groupCount());
-                    } else {
-                        example = "";
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();
@@ -1099,8 +1129,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
                 return fullPrefix + objExample.toString() + closeChars;
             }
-            seenSchemas.add(schema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -1122,8 +1153,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                seenSchemas.add(schema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + closeChars;
+                Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                newSeenSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1146,11 +1178,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            // Adds schema to seenSchemas before running example model function. romoves schema after running
-            // the function. It also doesnt keep track of any schemas within the ObjectModel.
-            seenSchemas.add(schema);
-            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-            seenSchemas.remove(schema);
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
             return exampleForObjectModel;
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
@@ -1167,9 +1197,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     cp.setExample(discPropNameValue);
                     // Adds schema to seenSchemas before running example model function. romoves schema after running
                     // the function. It also doesnt keep track of any schemas within the ObjectModel.
-                    seenSchemas.add(modelSchema);
-                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-                    seenSchemas.remove(modelSchema);
+                    Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                    newSeenSchemas.add(schema);
+                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
                     return exampleForObjectModel;
                 } else {
                     return fullPrefix + closeChars;
