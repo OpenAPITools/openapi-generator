@@ -62,6 +62,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
+    public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
@@ -76,8 +77,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean readonlyProperties = false;
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
+    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
     protected String[] responseAs = new String[0];
-    protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
+    protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -419,6 +421,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE) && (boolean)additionalProperties.get(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
             sourceFolder = "Sources" + File.separator + projectName;
+        }
+
+        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)) {
+            setSwiftPackagePath((String)additionalProperties.get(SWIFT_PACKAGE_PATH));
+            sourceFolder = swiftPackagePath;
         }
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
@@ -815,6 +822,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setUseSPMFileStructure(boolean useSPMFileStructure) {
         this.useSPMFileStructure = useSPMFileStructure;
+    }
+
+    public void setSwiftPackagePath(String swiftPackagePath) {
+        this.swiftPackagePath = swiftPackagePath;
     }
 
     @Override
