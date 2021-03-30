@@ -85,6 +85,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
@@ -109,6 +111,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
@@ -175,6 +179,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
   }
