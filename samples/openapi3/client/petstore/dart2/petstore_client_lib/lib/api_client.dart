@@ -214,13 +214,13 @@ class ApiClient {
               .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
-            targetType = match[1];
+            targetType = match[1]; // ignore: parameter_assignments
             return value
               .map((v) => _deserialize(v, targetType, growable: growable))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            targetType = match[1];
+            targetType = match[1]; // ignore: parameter_assignments
             return Map.fromIterables(
               value.keys,
               value.values.map((v) => _deserialize(v, targetType, growable: growable)),
