@@ -460,7 +460,7 @@ public class PythonClientTest {
         expectedValue = expectedValue.replaceAll("\\r\\n", "\n");
 
 
-        Assert.assertEquals(expectedValue.trim(), exampleValue.trim());
+        Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
 
     }
 
