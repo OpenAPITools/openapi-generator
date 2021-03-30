@@ -65,6 +65,9 @@ public class NumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "JustNumber")
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
