@@ -1146,13 +1146,13 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
     number = 32.1 # float | None
     double = 67.8 # float | None
-    pattern_without_delimiter = "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C" # str | None
+    pattern_without_delimiter = "Aj" # str | None
     byte = 'YQ==' # str | None
     integer = 10 # int | None (optional)
     int32 = 20 # int | None (optional)
     int64 = 1 # int | None (optional)
     float = 3.14 # float | None (optional)
-    string = "a" # str | None (optional)
+    string = "A" # str | None (optional)
     binary = open('/path/to/file', 'rb') # file_type | None (optional)
     date = dateutil_parser('1970-01-01').date() # date | None (optional)
     date_time = dateutil_parser('2020-02-02T20:20:20.22222Z') # datetime | None (optional) if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
