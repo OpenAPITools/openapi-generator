@@ -58,6 +58,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
@@ -89,6 +90,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
@@ -111,6 +113,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
@@ -132,6 +135,7 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_2 = -2
 
         }
+
 
         /// <summary>
         /// Gets or Sets EnumIntegerOnly
@@ -158,26 +162,31 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
         public EnumNumberEnum? EnumNumber { get; set; }
+
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
         public OuterEnum? OuterEnum { get; set; }
+
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
         public OuterEnumInteger? OuterEnumInteger { get; set; }
+
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
         public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
+
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
