@@ -270,11 +270,11 @@ public class DefaultCodegenTest {
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
-            if (cp.baseName.equals("map_string")) {
+            if ("map_string".equals(cp.baseName)) {
                 map_string_cp = cp;
-            } else if (cp.baseName.equals("map_with_additional_properties")) {
+            } else if ("map_with_additional_properties".equals(cp.baseName)) {
                 map_with_additional_properties_cp = cp;
-            } else if (cp.baseName.equals("map_without_additional_properties")) {
+            } else if ("map_without_additional_properties".equals(cp.baseName)) {
                 map_without_additional_properties_cp = cp;
             }
         }
@@ -359,11 +359,11 @@ public class DefaultCodegenTest {
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
-            if (cp.baseName.equals("map_string")) {
+            if ("map_string".equals(cp.baseName)) {
                 map_string_cp = cp;
-            } else if (cp.baseName.equals("map_with_additional_properties")) {
+            } else if ("map_with_additional_properties".equals(cp.baseName)) {
                 map_with_additional_properties_cp = cp;
-            } else if (cp.baseName.equals("map_without_additional_properties")) {
+            } else if ("map_without_additional_properties".equals(cp.baseName)) {
                 map_without_additional_properties_cp = cp;
             }
         }
@@ -439,15 +439,15 @@ public class DefaultCodegenTest {
         CodegenProperty empty_map_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
-            if (cp.baseName.equals("map_with_undeclared_properties_string")) {
+            if ("map_with_undeclared_properties_string".equals(cp.baseName)) {
                 map_with_undeclared_properties_string_cp = cp;
-            } else if (cp.baseName.equals("map_with_undeclared_properties_anytype_1")) {
+            } else if ("map_with_undeclared_properties_anytype_1".equals(cp.baseName)) {
                 map_with_undeclared_properties_anytype_1_cp = cp;
-            } else if (cp.baseName.equals("map_with_undeclared_properties_anytype_2")) {
+            } else if ("map_with_undeclared_properties_anytype_2".equals(cp.baseName)) {
                 map_with_undeclared_properties_anytype_2_cp = cp;
-            } else if (cp.baseName.equals("map_with_undeclared_properties_anytype_3")) {
+            } else if ("map_with_undeclared_properties_anytype_3".equals(cp.baseName)) {
                 map_with_undeclared_properties_anytype_3_cp = cp;
-            } else if (cp.baseName.equals("empty_map")) {
+            } else if ("empty_map".equals(cp.baseName)) {
                 empty_map_cp = cp;
             }
         }
@@ -610,7 +610,7 @@ public class DefaultCodegenTest {
         // make sure that fruit has the property color
         boolean colorSeen = false;
         for (CodegenProperty cp : fruit.vars) {
-            if (cp.name.equals("color")) {
+            if ("color".equals(cp.name)) {
                 colorSeen = true;
                 break;
             }
@@ -618,7 +618,7 @@ public class DefaultCodegenTest {
         Assert.assertTrue(colorSeen);
         colorSeen = false;
         for (CodegenProperty cp : fruit.optionalVars) {
-            if (cp.name.equals("color")) {
+            if ("color".equals(cp.name)) {
                 colorSeen = true;
                 break;
             }

@@ -245,7 +245,7 @@ url_escape() {
        -e 's/(/%28/g' \
        -e 's/)/%29/g' \
        -e 's/:/%3A/g' \
-       -e 's/\t/%09/g' \
+       -e 's/\\t/%09/g' \
        -e 's/?/%3F/g' <<<"$raw_url");
 
     echo "$value"
