@@ -190,25 +190,25 @@ void main() {
       final pet2 = makePet(id: id2, status: status);
       final pet3 = makePet(id: id3, status: PetStatusEnum.sold.value);
 
-      return Future.wait([addPet(pet1), addPet(pet2), addPet(pet3)])
-          .then((_) async {
-        // retrieve pets by status
-        petApi.apiClient.client = FakeClient(
-          expectedUrl:
-              'http://petstore.swagger.io/v2/pet/findByStatus?status=$status',
-          getResponseBody: await petApi.apiClient.serializeAsync([pet1, pet2]),
-        );
-        final pets = await petApi.findPetsByStatus([status]);
+      await addPet(pet1);
+      await addPet(pet2);
+      await addPet(pet3);
 
-        // tests serialisation and deserialisation of enum
-        final petsByStatus =
-            pets.where((p) => p.status == PetStatusEnum.available);
-        expect(petsByStatus.length, equals(2));
-        final petIds = pets.map((pet) => pet.id).toList();
-        expect(petIds, contains(id1));
-        expect(petIds, contains(id2));
-        expect(petIds, isNot(contains(id3)));
-      });
+      // retrieve pets by status
+      petApi.apiClient.client = FakeClient(
+        expectedUrl:
+            'http://petstore.swagger.io/v2/pet/findByStatus?status=$status',
+        getResponseBody: await petApi.apiClient.serializeAsync([pet1, pet2]),
+      );
+      final pets = await petApi.findPetsByStatus([status]);
+
+      // tests serialisation and deserialisation of enum
+      final petsByStatus = pets.where((p) => p.status == status);
+      expect(petsByStatus.length, equals(2));
+      final petIds = pets.map((pet) => pet.id).toList();
+      expect(petIds, contains(id1));
+      expect(petIds, contains(id2));
+      expect(petIds, isNot(contains(id3)));
     });
 
     test('uploads a pet image', () async {
