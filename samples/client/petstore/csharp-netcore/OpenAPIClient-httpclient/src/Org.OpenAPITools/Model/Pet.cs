@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
         /// <summary>
         /// pet status in the store
         /// </summary>

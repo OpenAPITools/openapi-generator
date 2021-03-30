@@ -52,7 +52,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
@@ -77,8 +76,6 @@ namespace Org.OpenAPITools.Model
             Crab = 2
 
         }
-
-
 
 
         /// <summary>

@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
 
         }
 
-
         /// <summary>
         /// Order Status
         /// </summary>
