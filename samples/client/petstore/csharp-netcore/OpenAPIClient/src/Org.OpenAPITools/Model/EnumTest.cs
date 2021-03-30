@@ -58,6 +58,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
@@ -89,6 +90,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
@@ -111,6 +113,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
@@ -132,6 +135,7 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_2 = -2
 
         }
+
 
         /// <summary>
         /// Gets or Sets EnumIntegerOnly
@@ -157,6 +161,7 @@ namespace Org.OpenAPITools.Model
             NUMBER_MINUS_1_DOT_2 = 2
 
         }
+
 
         /// <summary>
         /// Gets or Sets EnumNumber
