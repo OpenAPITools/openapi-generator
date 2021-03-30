@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
+import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
 import User from '../model/User';
 
@@ -278,6 +279,47 @@ export default class FakeApi {
     }
 
     /**
+     * Callback function to receive the result of the fakePropertyEnumIntegerSerialize operation.
+     * @callback module:api/FakeApi~fakePropertyEnumIntegerSerializeCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/OuterObjectWithEnumProperty} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:api/FakeApi~fakePropertyEnumIntegerSerializeCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/OuterObjectWithEnumProperty}
+     */
+    fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, callback) {
+      let postBody = outerObjectWithEnumProperty;
+      // verify the required parameter 'outerObjectWithEnumProperty' is set
+      if (outerObjectWithEnumProperty === undefined || outerObjectWithEnumProperty === null) {
+        throw new Error("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = OuterObjectWithEnumProperty;
+      return this.apiClient.callApi(
+        '/fake/property/enum-int', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the testBodyWithFileSchema operation.
      * @callback module:api/FakeApi~testBodyWithFileSchemaCallback
      * @param {String} error Error message, if any.
@@ -415,7 +457,7 @@ export default class FakeApi {
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * @param {Number} _number None
+     * @param {Number} number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
      * @param {Blob} _byte None
@@ -424,20 +466,20 @@ export default class FakeApi {
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
-     * @param {String} opts._string None
+     * @param {String} opts.string None
      * @param {File} opts.binary None
-     * @param {Date} opts._date None
+     * @param {Date} opts.date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
      * @param {String} opts.callback None
      * @param {module:api/FakeApi~testEndpointParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, callback) {
+    testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, opts, callback) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter '_number' is set
-      if (_number === undefined || _number === null) {
-        throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
+      // verify the required parameter 'number' is set
+      if (number === undefined || number === null) {
+        throw new Error("Missing the required parameter 'number' when calling testEndpointParameters");
       }
       // verify the required parameter '_double' is set
       if (_double === undefined || _double === null) {
@@ -462,14 +504,14 @@ export default class FakeApi {
         'integer': opts['integer'],
         'int32': opts['int32'],
         'int64': opts['int64'],
-        'number': _number,
+        'number': number,
         'float': opts['_float'],
         'double': _double,
-        'string': opts['_string'],
+        'string': opts['string'],
         'pattern_without_delimiter': patternWithoutDelimiter,
         'byte': _byte,
         'binary': opts['binary'],
-        'date': opts['_date'],
+        'date': opts['date'],
         'dateTime': opts['dateTime'],
         'password': opts['password'],
         'callback': opts['callback']

@@ -30,7 +30,7 @@ class FileSchemaTestClass {
   ModelFile file;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'files',
     required: false,
   )
@@ -45,7 +45,6 @@ class FileSchemaTestClass {
   int get hashCode =>
     (file == null ? 0 : file.hashCode) +
     (files == null ? 0 : files.hashCode);
-
 
   factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
 

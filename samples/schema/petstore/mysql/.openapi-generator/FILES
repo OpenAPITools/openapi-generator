@@ -35,6 +35,7 @@ Model/OuterEnum.sql
 Model/OuterEnumDefaultValue.sql
 Model/OuterEnumInteger.sql
 Model/OuterEnumIntegerDefaultValue.sql
+Model/OuterObjectWithEnumProperty.sql
 Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql

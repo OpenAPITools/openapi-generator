@@ -36,7 +36,6 @@ class ModelList {
   int get hashCode =>
     (n123list == null ? 0 : n123list.hashCode);
 
-
   factory ModelList.fromJson(Map<String, dynamic> json) => _$ModelListFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelListToJson(this);

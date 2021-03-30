@@ -183,7 +183,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
-            boolean booleanValue = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
+            boolean booleanValue = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString());
             setReturnExceptionOnFailure(booleanValue);
         } else {
             setReturnExceptionOnFailure(false);
@@ -199,7 +199,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
-        
+
         additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
         additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
 
@@ -358,7 +358,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]"; 
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
@@ -774,4 +774,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         example += ")";
         return example;
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
+        System.out.println("################################################################################");
+    }
+
 }

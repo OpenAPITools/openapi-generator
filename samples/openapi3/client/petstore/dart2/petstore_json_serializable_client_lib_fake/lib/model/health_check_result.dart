@@ -22,7 +22,7 @@ class HealthCheckResult {
   });
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'NullableMessage',
     required: false,
   )
@@ -35,7 +35,6 @@ class HealthCheckResult {
   @override
   int get hashCode =>
     (nullableMessage == null ? 0 : nullableMessage.hashCode);
-
 
   factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
 

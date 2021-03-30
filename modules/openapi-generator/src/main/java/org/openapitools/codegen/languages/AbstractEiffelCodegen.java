@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -91,7 +90,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "ARRAYED_LIST");
         instantiationTypes.put("list", "ARRAYED_LIST");
         instantiationTypes.put("map", "STRING_TABLE");
-        
+
         importMapping.put("List", "LIST");
         importMapping.put("Set", "SET");
         importMapping.put("file", "FILE");
@@ -153,7 +152,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             name = escapeReservedWord(name);
         }
 
-        // for reserved word or word starting with number, append 
+        // for reserved word or word starting with number, append
         if (name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
@@ -349,7 +348,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                     + camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
-        
+
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);

@@ -1,5 +1,6 @@
 # IntegerEnumOneValue
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

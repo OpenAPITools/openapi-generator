@@ -50,7 +50,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
@@ -68,7 +70,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
@@ -86,7 +90,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
@@ -104,7 +110,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
@@ -122,7 +130,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
@@ -140,7 +150,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
@@ -158,7 +170,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
@@ -176,7 +190,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     this.anytype1 = anytype1;
@@ -194,7 +210,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass anytype2(Object anytype2) {
     this.anytype2 = anytype2;
@@ -212,7 +230,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
-  }/**
+  }
+
+/**
    **/
   public AdditionalPropertiesClass anytype3(Object anytype3) {
     this.anytype3 = anytype3;
@@ -231,6 +251,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -19,7 +19,7 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
-    final path = '/fake/health';
+    final path = r'/fake/health';
 
     Object postBody;
 
@@ -66,8 +66,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
-    }
-    return null;
+        }
+    return Future<HealthCheckResult>.value(null);
   }
 
   /// test http signature authentication
@@ -90,7 +90,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/fake/http-signature-test';
+    final path = r'/fake/http-signature-test';
 
     Object postBody = pet;
 
@@ -164,7 +164,7 @@ class FakeApi {
   Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/boolean';
+    final path = r'/fake/outer/boolean';
 
     Object postBody = body;
 
@@ -216,8 +216,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
-    }
-    return null;
+        }
+    return Future<bool>.value(null);
   }
 
   /// Test serialization of object with outer number type
@@ -231,7 +231,7 @@ class FakeApi {
   Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/composite';
+    final path = r'/fake/outer/composite';
 
     Object postBody = outerComposite;
 
@@ -283,8 +283,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
-    }
-    return null;
+        }
+    return Future<OuterComposite>.value(null);
   }
 
   /// Test serialization of outer number types
@@ -298,7 +298,7 @@ class FakeApi {
   Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/number';
+    final path = r'/fake/outer/number';
 
     Object postBody = body;
 
@@ -350,8 +350,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
-    }
-    return null;
+        }
+    return Future<num>.value(null);
   }
 
   /// Test serialization of outer string types
@@ -365,7 +365,7 @@ class FakeApi {
   Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/string';
+    final path = r'/fake/outer/string';
 
     Object postBody = body;
 
@@ -417,8 +417,78 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+        }
+    return Future<String>.value(null);
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    // Verify required params are set.
+    if (outerObjectWithEnumProperty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
     }
-    return null;
+
+    final path = r'/fake/property/enum-int';
+
+    Object postBody = outerObjectWithEnumProperty;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['application/json'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
+        }
+    return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -434,7 +504,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
     }
 
-    final path = '/fake/body-with-file-schema';
+    final path = r'/fake/body-with-file-schema';
 
     Object postBody = fileSchemaTestClass;
 
@@ -497,7 +567,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/fake/body-with-query-params';
+    final path = r'/fake/body-with-query-params';
 
     Object postBody = user;
 
@@ -563,7 +633,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody = modelClient;
 
@@ -617,8 +687,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
-    }
-    return null;
+        }
+    return Future<ModelClient>.value(null);
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -685,7 +755,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -905,7 +975,7 @@ class FakeApi {
   Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     // Verify required params are set.
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1048,7 +1118,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
     }
 
-    final path = '/fake';
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1142,7 +1212,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
     }
 
-    final path = '/fake/inline-additionalProperties';
+    final path = r'/fake/inline-additionalProperties';
 
     Object postBody = requestBody;
 
@@ -1211,7 +1281,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
     }
 
-    final path = '/fake/jsonFormData';
+    final path = r'/fake/jsonFormData';
 
     Object postBody;
 
@@ -1310,7 +1380,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
-    final path = '/fake/test-query-paramters';
+    final path = r'/fake/test-query-paramters';
 
     Object postBody;
 

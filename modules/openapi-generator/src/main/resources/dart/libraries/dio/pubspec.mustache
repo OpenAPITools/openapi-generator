@@ -1,0 +1,23 @@
+name: {{pubName}}
+version: {{pubVersion}}
+description: {{pubDescription}}
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  dio: '>=4.0.0 <5.0.0'
+{{#useBuiltValue}}
+  built_value: '>=8.0.3 <9.0.0'
+  built_collection: '>=5.0.0 <6.0.0'
+{{/useBuiltValue}}
+{{#useDateLibTimeMachine}}
+  time_machine: ^0.9.16
+{{/useDateLibTimeMachine}}
+
+dev_dependencies:
+{{#useBuiltValue}}
+  built_value_generator: '>=8.0.3 <9.0.0'
+  build_runner: any
+{{/useBuiltValue}}
+  test: '>=1.16.0 <1.17.0'

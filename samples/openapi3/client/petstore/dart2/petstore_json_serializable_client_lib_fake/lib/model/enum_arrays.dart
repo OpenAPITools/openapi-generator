@@ -30,7 +30,7 @@ class EnumArrays {
   EnumArraysJustSymbolEnum justSymbol;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_enum',
     required: false,
   )
@@ -46,7 +46,6 @@ class EnumArrays {
     (justSymbol == null ? 0 : justSymbol.hashCode) +
     (arrayEnum == null ? 0 : arrayEnum.hashCode);
 
-
   factory EnumArrays.fromJson(Map<String, dynamic> json) => _$EnumArraysFromJson(json);
 
   Map<String, dynamic> toJson() => _$EnumArraysToJson(this);
@@ -59,12 +58,10 @@ class EnumArrays {
 }
 
 
-
 enum EnumArraysJustSymbolEnum {
   greaterThanEqual,
   dollar,
 }
-
 
 
 enum EnumArraysArrayEnumEnum {

@@ -31,7 +31,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user';
+    final path = r'/user';
 
     Object postBody = user;
 
@@ -96,7 +96,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithArray';
+    final path = r'/user/createWithArray';
 
     Object postBody = user;
 
@@ -159,7 +159,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithList';
+    final path = r'/user/createWithList';
 
     Object postBody = user;
 
@@ -224,7 +224,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -290,7 +290,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody;
@@ -342,9 +342,10 @@ class UserApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+
+      return User.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<User>.value(null);
   }
 
   /// Logs user into the system
@@ -367,7 +368,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
-    final path = '/user/login';
+    final path = r'/user/login';
 
     Object postBody;
 
@@ -424,16 +425,17 @@ class UserApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+
+      return response.body as String;
     }
-    return null;
+    return Future<String>.value(null);
   }
 
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
-    final path = '/user/logout';
+    final path = r'/user/logout';
 
     Object postBody;
 
@@ -499,7 +501,7 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/{username}'
+    final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
     Object postBody = user;

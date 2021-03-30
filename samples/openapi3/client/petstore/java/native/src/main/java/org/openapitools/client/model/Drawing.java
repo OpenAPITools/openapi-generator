@@ -54,13 +54,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Drawing extends HashMap<String, Fruit> {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
-  private Shape mainShape = null;
+  private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  private ShapeOrNull shapeOrNull = null;
+  private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
-  private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>of(null);
+  private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   private List<Shape> shapes = null;
@@ -85,6 +85,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
@@ -109,6 +111,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
@@ -175,6 +179,8 @@ public class Drawing extends HashMap<String, Fruit> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
   }

@@ -17,7 +17,7 @@ class DefaultApi {
 
   /// Performs an HTTP 'GET /foo' operation and returns the [Response].
   Future<Response> fooGetWithHttpInfo() async {
-    final path = '/foo';
+    final path = r'/foo';
 
     Object postBody;
 
@@ -63,7 +63,7 @@ class DefaultApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'InlineResponseDefault') as InlineResponseDefault;
-    }
-    return null;
+        }
+    return Future<InlineResponseDefault>.value(null);
   }
 }

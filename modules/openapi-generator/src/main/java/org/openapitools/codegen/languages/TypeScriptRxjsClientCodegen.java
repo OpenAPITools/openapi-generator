@@ -17,12 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.FeatureSet;
-import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -30,8 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -103,7 +98,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return dataType != null && "Blob".equals(dataType);
     }
 
     @Override
@@ -259,7 +254,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         // This method will determine if there are required parameters and if there are list containers
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-        
+
         boolean hasRequiredParams = false;
         boolean hasListContainers = false;
         boolean hasHttpHeaders = false;

@@ -147,11 +147,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Apple).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
+                }
+                else
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Apple");
                 match++;
@@ -164,11 +167,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Banana).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
+                }
+                else
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Banana");
                 match++;
@@ -187,7 +193,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newFruit;
         }

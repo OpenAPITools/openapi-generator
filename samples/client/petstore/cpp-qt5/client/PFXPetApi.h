@@ -12,6 +12,7 @@
 #ifndef PFX_PFXPetApi_H
 #define PFX_PFXPetApi_H
 
+#include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
 
@@ -56,14 +57,51 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 
+    /**
+    * @param[in]  body PFXPet [required]
+    */
     void addPet(const PFXPet &body);
-    void deletePet(const qint64 &pet_id, const QString &api_key);
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  api_key QString [optional]
+    */
+    void deletePet(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &api_key = ::test_namespace::OptionalParam<QString>());
+
+    /**
+    * @param[in]  status QList<QString> [required]
+    */
     void findPetsByStatus(const QList<QString> &status);
+
+    /**
+    * @param[in]  tags QList<QString> [required]
+    */
     Q_DECL_DEPRECATED void findPetsByTags(const QList<QString> &tags);
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    */
     void getPetById(const qint64 &pet_id);
+
+    /**
+    * @param[in]  body PFXPet [required]
+    */
     void updatePet(const PFXPet &body);
-    void updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status);
-    void uploadFile(const qint64 &pet_id, const QString &additional_metadata, const PFXHttpFileElement &file);
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  name QString [optional]
+    * @param[in]  status QString [optional]
+    */
+    void updatePetWithForm(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &name = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<QString> &status = ::test_namespace::OptionalParam<QString>());
+
+    /**
+    * @param[in]  pet_id qint64 [required]
+    * @param[in]  additional_metadata QString [optional]
+    * @param[in]  file PFXHttpFileElement [optional]
+    */
+    void uploadFile(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &additional_metadata = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<PFXHttpFileElement> &file = ::test_namespace::OptionalParam<PFXHttpFileElement>());
+
 
 private:
     QMap<QString,int> _serverIndices;
@@ -126,7 +164,8 @@ signals:
     void updatePetWithFormSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void uploadFileSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
-    void abortRequestsSignal(); 
+    void abortRequestsSignal();
+    void allPendingRequestsCompleted();
 };
 
 } // namespace test_namespace

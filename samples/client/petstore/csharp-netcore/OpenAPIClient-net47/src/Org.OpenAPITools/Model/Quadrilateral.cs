@@ -149,19 +149,9 @@ namespace Org.OpenAPITools.Model
             {
                 case "ComplexQuadrilateral":
                     newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
-                    }
                     return newQuadrilateral;
                 case "SimpleQuadrilateral":
                     newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
-                    }
                     return newQuadrilateral;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
@@ -173,11 +163,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(ComplexQuadrilateral).GetProperty("AdditionalProperties") == null)
                 {
                     newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
+                else
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
@@ -190,11 +183,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newQuadrilateral.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(SimpleQuadrilateral).GetProperty("AdditionalProperties") == null)
                 {
                     newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
+                else
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
@@ -213,7 +209,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newQuadrilateral;
         }

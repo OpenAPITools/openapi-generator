@@ -23,6 +23,7 @@ using Newtonsoft.Json.Serialization;
 using Org.OpenAPITools.Authentication;
 using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.OpenApi;
+using Org.OpenAPITools.Formatters;
 
 namespace Org.OpenAPITools
 {
@@ -64,7 +65,9 @@ namespace Org.OpenAPITools
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-                .AddControllers()
+                .AddControllers(options => {
+                    options.InputFormatters.Insert(0, new InputFormatterStream());
+                })
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

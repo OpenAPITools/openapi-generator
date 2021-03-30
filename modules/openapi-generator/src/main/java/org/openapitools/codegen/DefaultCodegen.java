@@ -461,7 +461,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return a map from model name to Schema for efficient lookup.
-     * 
+     *
      * @return map from model name to Schema.
      */
     protected Map<String, Schema> getModelNameToSchemaCache() {
@@ -813,11 +813,13 @@ public class DefaultCodegen implements CodegenConfig {
                             schemas.put(opId, requestSchema);
                         }
                         // process all response bodies
-                        for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                            ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                            Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                            if (responseSchema != null) {
-                                schemas.put(opId + ar.getKey(), responseSchema);
+                        if (op.getValue().getResponses() != null) {
+                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                                ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                if (responseSchema != null) {
+                                    schemas.put(opId + ar.getKey(), responseSchema);
+                                }
                             }
                         }
                     }
@@ -1830,6 +1832,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the default value of the parameter
+     *
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param schema Parameter schema
+     * @return string presentation of the default value of the parameter
+     */
+    public String toDefaultParameterValue(Schema<?> schema) {
+        // by default works as original method to be backward compatible
+        return toDefaultValue(schema);
+    }
+
+    /**
      * Return property value depending on property type.
      *
      * @param schema property type
@@ -2565,6 +2581,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        if (m.requiredVars != null && m.requiredVars.size() > 0){
+            m.setHasRequired(true);
+        }
+
         if (sortModelPropertiesByRequiredFlag) {
             Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
@@ -2579,27 +2599,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // process 'additionalProperties'
-        if (schema.getAdditionalProperties() == null) {
-            if (disallowAdditionalPropertiesIfNotPresent) {
-                m.isAdditionalPropertiesTrue = false;
-            } else {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("",  new Schema());
-                m.setAdditionalProperties(cp);
-            }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                m.isAdditionalPropertiesTrue = true;
-                CodegenProperty cp = fromProperty("", new Schema());
-                m.setAdditionalProperties(cp);
-            } else {
-                m.isAdditionalPropertiesTrue = false;
-            }
-        } else {
-            m.isAdditionalPropertiesTrue = false;
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            m.setAdditionalProperties(cp);
-        }
+        setAddProps(schema, m);
 
         // post process model properties
         if (m.vars != null) {
@@ -2616,15 +2616,60 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    /**
-     * Recursively look in Schema sc for the discriminator discPropName
-     * and return a CodegenProperty with the dataType and required params set
-     * the returned CodegenProperty may not be required and it may not be of type string
-     *
-     * @param composedSchemaName The name of the sc Schema
-     * @param sc                 The Schema that may contain the discriminator
-     * @param discPropName       The String that is the discriminator propertyName in the schema
-     */
+    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+        if (schema.equals(new Schema())) {
+            // if we are trying to set additionalProperties on an empty schema stop recursing
+            return;
+        }
+        boolean additionalPropertiesIsAnyType = false;
+        CodegenModel m = null;
+        if (property instanceof CodegenModel) {
+            m = (CodegenModel) property;
+        }
+        CodegenProperty addPropProp = null;
+        boolean isAdditionalPropertiesTrue = false;
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                isAdditionalPropertiesTrue = true;
+                addPropProp = fromProperty("",  new Schema());
+                additionalPropertiesIsAnyType = true;
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                isAdditionalPropertiesTrue = true;
+                addPropProp = fromProperty("", new Schema());
+                additionalPropertiesIsAnyType = true;
+            }
+        } else {
+            addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
+                additionalPropertiesIsAnyType = true;
+            }
+        }
+        if (additionalPropertiesIsAnyType) {
+            property.setAdditionalPropertiesIsAnyType(true);
+        }
+        if (m != null && isAdditionalPropertiesTrue) {
+            m.isAdditionalPropertiesTrue = true;
+        }
+        if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
+            return;
+        }
+        if (addPropProp != null) {
+            property.setAdditionalProperties(addPropProp);
+        }
+    }
+
+
+        /**
+         * Recursively look in Schema sc for the discriminator discPropName
+         * and return a CodegenProperty with the dataType and required params set
+         * the returned CodegenProperty may not be required and it may not be of type string
+         *
+         * @param composedSchemaName The name of the sc Schema
+         * @param sc                 The Schema that may contain the discriminator
+         * @param discPropName       The String that is the discriminator propertyName in the schema
+         */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
@@ -3047,7 +3092,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Property object to Codegen Property object.
-     * 
+     *
      * The return value is cached. An internal cache is looked up to determine
      * if the CodegenProperty return value has already been instantiated for
      * the (String name, Schema p) arguments.
@@ -3090,7 +3135,14 @@ public class DefaultCodegen implements CodegenConfig {
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
-        property.example = toExampleValue(p);
+        // put toExampleValue in a try-catch block to log the error as example values are not critical
+        try {
+            property.example = toExampleValue(p);
+        } catch (Exception e) {
+            LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
+            LOGGER.debug("Exception from toExampleValue: {}", e);
+            property.example = "ERROR_TO_EXAMPLE_VALUE";
+        }
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -4185,7 +4237,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+            codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
 
             if (parameter.getStyle() != null) {
                 codegenParameter.style = parameter.getStyle().toString();
@@ -4196,7 +4248,8 @@ public class DefaultCodegen implements CodegenConfig {
             // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
             codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
 
-            // TODO revise collectionFormat
+            // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
+            // https://swagger.io/docs/specification/serialization/
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
@@ -4352,14 +4405,21 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
             codegenParameter.items = fromProperty(codegenParameter.paramName, schema);
-            Map<String, Schema<?>> properties = schema.getProperties();
-            codegenParameter.items.vars =
-                    properties.entrySet().stream()
-                            .map(entry -> {
-                                CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
-                                property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
-                                return property;
-                            }).collect(Collectors.toList());
+            // TODO Check why schema is actually null for a schema of type object defined inline
+            // https://swagger.io/docs/specification/serialization/
+            if(schema != null) {
+                Map<String, Schema<?>> properties = schema.getProperties();
+                codegenParameter.items.vars =
+                        properties.entrySet().stream()
+                                .map(entry -> {
+                                    CodegenProperty property = fromProperty(entry.getKey(), entry.getValue());
+                                    property.baseName = codegenParameter.baseName + "[" + entry.getKey() + "]";
+                                    return property;
+                                }).collect(Collectors.toList());
+            }
+            else {
+                LOGGER.warn("No object schema found for deepObject parameter" + codegenParameter + " deepObject won't have specific properties");
+            }
         }
 
         // set the parameter example value
@@ -4665,13 +4725,13 @@ public class DefaultCodegen implements CodegenConfig {
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
      * to implement additional properties. For example, in Java the generated model class
      * has 'extends HashMap' to represent the additional properties.
-     * 
+     *
      * TODO: it's not a good idea to use single class inheritance to implement
      * additionalProperties. That may work for non-composed schemas, but that does not
      * work for composed 'allOf' schemas. For example, in Java, if additionalProperties
      * is set to true (which it should be by default, per OAS spec), then the generated
      * code has extends HashMap. That wouldn't work for composed 'allOf' schemas.
-     * 
+     *
      * @param model the codegen representation of the OAS schema.
      * @param name the name of the model.
      * @param schema the input OAS schema.
@@ -6111,6 +6171,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+        setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;
         }
@@ -6120,25 +6181,17 @@ public class DefaultCodegen implements CodegenConfig {
             if (objSchema.getRequired() != null) {
                 requiredVars.addAll(objSchema.getRequired());
             }
+            if (objSchema.getProperties() != null && objSchema.getProperties().size() > 0) {
+                property.setHasVars(true);
+            }
             addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
             List<CodegenProperty> requireCpVars = property.getVars()
                     .stream()
                     .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
             property.setRequiredVars(requireCpVars);
-        }
-        if (schema.getAdditionalProperties() == null) {
-            if (!disallowAdditionalPropertiesIfNotPresent) {
-                CodegenProperty cp = fromProperty("",  new Schema());
-                property.setAdditionalProperties(cp);
+            if (property.getRequiredVars() != null && property.getRequiredVars().size() > 0) {
+                property.setHasRequired(true);
             }
-        } else if (schema.getAdditionalProperties() instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
-                CodegenProperty cp = fromProperty("", new Schema());
-                property.setAdditionalProperties(cp);
-            }
-        } else {
-            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            property.setAdditionalProperties(cp);
         }
     }
 
@@ -6561,7 +6614,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Returns the additionalProperties Schema for the specified input schema.
-     * 
+     *
      * The additionalProperties keyword is used to control the handling of additional, undeclared
      * properties, that is, properties whose names are not listed in the properties keyword.
      * The additionalProperties keyword may be either a boolean or an object.
@@ -6569,7 +6622,7 @@ public class DefaultCodegen implements CodegenConfig {
      * By default when the additionalProperties keyword is not specified in the input schema,
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
-     * 
+     *
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      *         properties are allowed.

@@ -26,10 +26,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents those settings applied to a generation workflow.
@@ -67,7 +68,7 @@ public class WorkflowSettings {
     private String templateDir;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
-    private ImmutableMap<String, String> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
+    private ImmutableMap<String, ?> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
 
     private WorkflowSettings(Builder builder) {
         this.inputSpec = builder.inputSpec;
@@ -283,7 +284,15 @@ public class WorkflowSettings {
      * @return the system properties
      */
     public Map<String, String> getGlobalProperties() {
-        return globalProperties;
+        return globalProperties.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
+                    if (e.getValue() instanceof List) {
+                        return ((List<?>) e.getValue()).stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(","));
+                    }
+                    return String.valueOf(e.getValue());
+                }));
     }
 
     /**
