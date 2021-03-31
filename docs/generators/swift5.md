@@ -35,7 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |swiftPackagePath|Set a custom source path instead of OpenAPIClient/Classes/OpenAPIs.| |null|
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
-|useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}}.| |null|
+|useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: false).| |null|
 
 ## IMPORT MAPPING
 

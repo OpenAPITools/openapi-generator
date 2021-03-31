@@ -26,7 +26,7 @@ let package = Package(
         .target(
             name: "PetstoreClient",
             dependencies: [],
-            path: "PetstoreClient/Classes"
+            path: "Sources/PetstoreClient"
         ),
     ]
 )
