@@ -196,7 +196,7 @@ void main() {
         petApi.apiClient.client = FakeClient(
           expectedUrl:
               'http://petstore.swagger.io/v2/pet/findByStatus?status=$status',
-          getResponseBody: await petApi.apiClient.serializeAsync([pet1, pet2]),
+          getResponseBody: petApi.apiClient.serialize([pet1, pet2]),
         );
         final pets = await petApi.findPetsByStatus([status]);
 
