@@ -31,7 +31,7 @@ public class CodegenOperation {
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -112,6 +112,15 @@ public class CodegenOperation {
      */
     public boolean getHasFormParams() {
         return nonempty(formParams);
+    }
+
+    /**
+     * Check if there's at least one body parameter or at least one form parameter
+     *
+     * @return true if body or form parameter exists, false otherwise
+     */
+    public boolean getHasBodyOrFormParams() {
+        return getHasBodyParam() || getHasFormParams();
     }
 
     /**

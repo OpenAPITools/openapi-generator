@@ -284,7 +284,7 @@ namespace Org.OpenAPITools.Test
         /// <summary>
         /// Test UploadFile
         /// </summary>
-        [Fact (Skip = "file upload not working for httpclient yet")]
+        [Fact]
         public void UploadFileTest()
         {
             Assembly _assembly = Assembly.GetExecutingAssembly();

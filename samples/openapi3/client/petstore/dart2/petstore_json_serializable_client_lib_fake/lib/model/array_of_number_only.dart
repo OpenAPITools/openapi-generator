@@ -36,7 +36,6 @@ class ArrayOfNumberOnly {
   int get hashCode =>
     (arrayNumber == null ? 0 : arrayNumber.hashCode);
 
-
   factory ArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfNumberOnlyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArrayOfNumberOnlyToJson(this);

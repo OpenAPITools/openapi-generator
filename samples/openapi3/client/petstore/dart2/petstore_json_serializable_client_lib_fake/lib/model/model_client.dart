@@ -36,7 +36,6 @@ class ModelClient {
   int get hashCode =>
     (client == null ? 0 : client.hashCode);
 
-
   factory ModelClient.fromJson(Map<String, dynamic> json) => _$ModelClientFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelClientToJson(this);

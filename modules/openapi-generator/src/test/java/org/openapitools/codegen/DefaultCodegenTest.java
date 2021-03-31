@@ -240,7 +240,8 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testAdditionalPropertiesV2Spec() {
+    public void testAdditionalPropertiesV2SpecDisallowAdditionalPropertiesIfNotPresentTrue() {
+        // this is the legacy config that most of our tooling uses
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -254,111 +255,269 @@ public class DefaultCodegenTest {
         // 'additionalProperties' keyword for this model, hence assert the value to be null.
         Assert.assertNull(addProps);
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertNull(cm.getAdditionalProperties());
         // When the 'additionalProperties' keyword is not present, the model
         // should allow undeclared properties. However, due to bug
         // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
         // converter does not retain the value of the additionalProperties.
 
-        Map<String, Schema> m = schema.getProperties();
-        Schema child = m.get("map_string");
+        Map<String, Schema> modelPropSchems = schema.getProperties();
+        Schema map_string_sc = modelPropSchems.get("map_string");
+        CodegenProperty map_string_cp = null;
+        Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
+        CodegenProperty map_with_additional_properties_cp = null;
+        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
+        CodegenProperty map_without_additional_properties_cp = null;
+
+        for(CodegenProperty cp: cm.vars) {
+            if ("map_string".equals(cp.baseName)) {
+                map_string_cp = cp;
+            } else if ("map_with_additional_properties".equals(cp.baseName)) {
+                map_with_additional_properties_cp = cp;
+            } else if ("map_without_additional_properties".equals(cp.baseName)) {
+                map_without_additional_properties_cp = cp;
+            }
+        }
+
+        // map_string
         // This property has the following inline schema.
         // additionalProperties:
         //   type: string
-        Assert.assertNotNull(child);
-        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertNotNull(map_string_sc);
+        Assert.assertNotNull(map_string_sc.getAdditionalProperties());
+        Assert.assertNotNull(map_string_cp.getAdditionalProperties());
 
-        child = m.get("map_with_additional_properties");
+        // map_with_additional_properties
         // This property has the following inline schema.
         // additionalProperties: true
-        Assert.assertNotNull(child);
+        Assert.assertNotNull(map_with_additional_properties_sc);
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
         Assert.assertNull(addProps);
+        Assert.assertNull(map_with_additional_properties_cp.getAdditionalProperties());
 
-        child = m.get("map_without_additional_properties");
+        // map_without_additional_properties
         // This property has the following inline schema.
         // additionalProperties: false
-        Assert.assertNotNull(child);
+        Assert.assertNotNull(map_without_additional_properties_sc);
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
         Assert.assertNull(addProps);
+        Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
+
+        // check of composed schema model
+        String schemaName = "Parent";
+        schema = openAPI.getComponents().getSchemas().get(schemaName);
+        cm = codegen.fromModel(schemaName, schema);
+        Assert.assertNull(cm.getAdditionalProperties());
     }
 
     @Test
-    public void testAdditionalPropertiesV3Spec() {
+    public void testAdditionalPropertiesV2SpecDisallowAdditionalPropertiesIfNotPresentFalse() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+        codegen.supportsAdditionalPropertiesWithComposedSchema = true;
+        /*
+        When this DisallowAdditionalPropertiesIfNotPresent is false:
+        for CodegenModel/CodegenParameter/CodegenProperty/CodegenResponse.getAdditionalProperties
+        if the input additionalProperties is False or unset (null)
+        .getAdditionalProperties is set to AnyTypeSchema
+
+        For the False value this is incorrect, but it is the best that we can do because of this bug:
+        https://github.com/swagger-api/swagger-parser/issues/1369 where swagger parser
+        sets both null/False additionalProperties to null
+         */
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertEquals(schema.getAdditionalProperties(), null);
+
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
+        // 'additionalProperties' keyword for this model, hence assert the value to be null.
+        Assert.assertNull(addProps);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertNotNull(cm.getAdditionalProperties());
+        // When the 'additionalProperties' keyword is not present, the model
+        // should allow undeclared properties. However, due to bug
+        // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
+        // converter does not retain the value of the additionalProperties.
+
+        Map<String, Schema> modelPropSchems = schema.getProperties();
+        Schema map_string_sc = modelPropSchems.get("map_string");
+        CodegenProperty map_string_cp = null;
+        Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
+        CodegenProperty map_with_additional_properties_cp = null;
+        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
+        CodegenProperty map_without_additional_properties_cp = null;
+
+        for(CodegenProperty cp: cm.vars) {
+            if ("map_string".equals(cp.baseName)) {
+                map_string_cp = cp;
+            } else if ("map_with_additional_properties".equals(cp.baseName)) {
+                map_with_additional_properties_cp = cp;
+            } else if ("map_without_additional_properties".equals(cp.baseName)) {
+                map_without_additional_properties_cp = cp;
+            }
+        }
+
+        // map_string
+        // This property has the following inline schema.
+        // additionalProperties:
+        //   type: string
+        Assert.assertNotNull(map_string_sc);
+        Assert.assertNotNull(map_string_sc.getAdditionalProperties());
+        Assert.assertNotNull(map_string_cp.getAdditionalProperties());
+
+        // map_with_additional_properties
+        // This property has the following inline schema.
+        // additionalProperties: true
+        Assert.assertNotNull(map_with_additional_properties_sc);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: true.
+        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
+        Assert.assertNull(addProps);
+        Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
+
+        // map_without_additional_properties
+        // This property has the following inline schema.
+        // additionalProperties: false
+        Assert.assertNotNull(map_without_additional_properties_sc);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: false.
+        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
+        Assert.assertNull(addProps);
+        Assert.assertNotNull(map_without_additional_properties_cp.getAdditionalProperties());
+
+        // check of composed schema model
+        String schemaName = "Parent";
+        schema = openAPI.getComponents().getSchemas().get(schemaName);
+        cm = codegen.fromModel(schemaName, schema);
+        Assert.assertNotNull(cm.getAdditionalProperties());
+    }
+
+    @Test
+    public void testAdditionalPropertiesV3SpecDisallowAdditionalPropertiesIfNotPresentFalse() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+        codegen.supportsAdditionalPropertiesWithComposedSchema = true;
         codegen.setOpenAPI(openAPI);
 
-        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
-        Assert.assertNull(schema.getAdditionalProperties());
+        Schema componentSchema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertNull(componentSchema.getAdditionalProperties());
 
         // When the 'additionalProperties' keyword is not present, the schema may be
         // extended with any undeclared properties.
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, componentSchema);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
-        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", componentSchema);
+        Assert.assertNotNull(cm.getAdditionalProperties());
 
-        Map<String, Schema> m = schema.getProperties();
-        Schema child = m.get("map_with_undeclared_properties_string");
+        Map<String, Schema> modelPropSchems = componentSchema.getProperties();
+        Schema map_with_undeclared_properties_string_sc = modelPropSchems.get("map_with_undeclared_properties_string");
+        CodegenProperty map_with_undeclared_properties_string_cp = null;
+        Schema map_with_undeclared_properties_anytype_1_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_1");
+        CodegenProperty map_with_undeclared_properties_anytype_1_cp = null;
+        Schema map_with_undeclared_properties_anytype_2_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_2");
+        CodegenProperty map_with_undeclared_properties_anytype_2_cp = null;
+        Schema map_with_undeclared_properties_anytype_3_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_3");
+        CodegenProperty map_with_undeclared_properties_anytype_3_cp = null;
+        Schema empty_map_sc = modelPropSchems.get("empty_map");
+        CodegenProperty empty_map_cp = null;
+
+        for(CodegenProperty cp: cm.vars) {
+            if ("map_with_undeclared_properties_string".equals(cp.baseName)) {
+                map_with_undeclared_properties_string_cp = cp;
+            } else if ("map_with_undeclared_properties_anytype_1".equals(cp.baseName)) {
+                map_with_undeclared_properties_anytype_1_cp = cp;
+            } else if ("map_with_undeclared_properties_anytype_2".equals(cp.baseName)) {
+                map_with_undeclared_properties_anytype_2_cp = cp;
+            } else if ("map_with_undeclared_properties_anytype_3".equals(cp.baseName)) {
+                map_with_undeclared_properties_anytype_3_cp = cp;
+            } else if ("empty_map".equals(cp.baseName)) {
+                empty_map_cp = cp;
+            }
+        }
+
+        // map_with_undeclared_properties_string
         // This property has the following inline schema.
         // additionalProperties:
         //   type: string
-        Assert.assertNotNull(child);
-        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertNotNull(map_with_undeclared_properties_string_sc);
+        Assert.assertNotNull(map_with_undeclared_properties_string_sc.getAdditionalProperties());
+        Assert.assertNotNull(map_with_undeclared_properties_string_cp.getAdditionalProperties());
 
-        child = m.get("map_with_undeclared_properties_anytype_1");
+        // map_with_undeclared_properties_anytype_1
         // This property does not use the additionalProperties keyword,
         // which means by default undeclared properties are allowed.
-        Assert.assertNotNull(child);
-        Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_1_sc);
+        Assert.assertNull(map_with_undeclared_properties_anytype_1_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_1_sc);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_1_cp.getAdditionalProperties());
 
-        child = m.get("map_with_undeclared_properties_anytype_2");
+        // map_with_undeclared_properties_anytype_2
         // This property does not use the additionalProperties keyword,
         // which means by default undeclared properties are allowed.
-        Assert.assertNotNull(child);
-        Assert.assertNull(child.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_2_sc);
+        Assert.assertNull(map_with_undeclared_properties_anytype_2_sc.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_2_sc);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_2_cp.getAdditionalProperties());
 
-        child = m.get("map_with_undeclared_properties_anytype_3");
+        // map_with_undeclared_properties_anytype_3
         // This property has the following inline schema.
         // additionalProperties: true
-        Assert.assertNotNull(child);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_3_sc);
         // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNotNull(child.getAdditionalProperties());
-        Assert.assertEquals(child.getAdditionalProperties(), Boolean.TRUE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_3_sc.getAdditionalProperties());
+        Assert.assertEquals(map_with_undeclared_properties_anytype_3_sc.getAdditionalProperties(), Boolean.TRUE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_3_sc);
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
+        Assert.assertNotNull(map_with_undeclared_properties_anytype_3_cp.getAdditionalProperties());
 
-        child = m.get("empty_map");
+        // empty_map
         // This property has the following inline schema.
         // additionalProperties: false
-        Assert.assertNotNull(child);
+        Assert.assertNotNull(empty_map_sc);
         // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNotNull(child.getAdditionalProperties());
-        Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(empty_map_sc.getAdditionalProperties());
+        Assert.assertEquals(empty_map_sc.getAdditionalProperties(), Boolean.FALSE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, empty_map_sc);
         Assert.assertNull(addProps);
+        Assert.assertNull(empty_map_cp.getAdditionalProperties());
+
+        // check of composed schema model
+        String schemaName = "SomeObject";
+        Schema schema = openAPI.getComponents().getSchemas().get(schemaName);
+        cm = codegen.fromModel(schemaName, schema);
+        Assert.assertNotNull(cm.getAdditionalProperties());
     }
 
     @Test
-    public void testAdditionalPropertiesV3SpecLegacy() {
+    public void testAdditionalPropertiesV3SpecDisallowAdditionalPropertiesIfNotPresentTrue() {
+        // As per OAS spec, when the 'additionalProperties' keyword is not present, the schema may be
+        // extended with any undeclared properties.
+        // However, in legacy 'additionalProperties' mode, this is interpreted as
+        // 'no additional properties are allowed'.
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
@@ -367,10 +526,6 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertNull(schema.getAdditionalProperties());
 
-        // As per OAS spec, when the 'additionalProperties' keyword is not present, the schema may be
-        // extended with any undeclared properties.
-        // However, in legacy 'additionalProperties' mode, this is interpreted as
-        // 'no additional properties are allowed'.
         Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
         Assert.assertNull(addProps);
     }
@@ -455,7 +610,7 @@ public class DefaultCodegenTest {
         // make sure that fruit has the property color
         boolean colorSeen = false;
         for (CodegenProperty cp : fruit.vars) {
-            if (cp.name.equals("color")) {
+            if ("color".equals(cp.name)) {
                 colorSeen = true;
                 break;
             }
@@ -463,7 +618,7 @@ public class DefaultCodegenTest {
         Assert.assertTrue(colorSeen);
         colorSeen = false;
         for (CodegenProperty cp : fruit.optionalVars) {
-            if (cp.name.equals("color")) {
+            if ("color".equals(cp.name)) {
                 colorSeen = true;
                 break;
             }
@@ -3074,5 +3229,204 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "POST", operation, null);
         // does not have vars because the inline schema was extracted into a component ref
         assertEquals(co.responses.get(0).getHasVars(), false);
+    }
+
+    @Test
+    public void testHasRequiredInModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        Schema sc;
+        CodegenModel cm;
+
+        List<String> modelNamesWithoutRequired = Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired",
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        );
+        for (String modelName : modelNamesWithoutRequired) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasRequired(), false);
+        }
+
+        List<String> modelNamesWithRequired = Arrays.asList(
+                "AnyTypeHasPropertiesHasRequired",
+                "ObjectHasPropertiesHasRequired",
+                "ComposedNoAllofPropsHasPropertiesHasRequired",
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",  // TODO: hasRequired should be false, fix this
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",  // TODO: hasRequired should be false, fix this
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"
+        );
+        for (String modelName : modelNamesWithRequired) {
+            sc = openAPI.getComponents().getSchemas().get(modelName);
+            cm = codegen.fromModel(modelName, sc);
+            assertEquals(cm.getHasRequired(), true);
+        }
+    }
+
+    @Test
+    public void testHasRequiredInProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName = "CodegenPropertiesModel";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        HashSet<String> modelNamesWithoutRequired = new HashSet(Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "AnyTypeHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired", // Note: this is extracted into another component and is a ref
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedNoAllofPropsHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+        ));
+        for (CodegenProperty var : cm.getVars()) {
+            boolean hasRequired = var.getHasRequired();
+            if (modelNamesWithoutRequired.contains(var.name)) {
+                assertEquals(hasRequired, false);
+            } else if (modelNamesWithRequired.contains(var.name)) {
+                assertEquals(hasRequired, true);
+            } else {
+                // All variables must be in the above sets
+                 assertEquals(true, false);
+            }
+        }
+    }
+
+    @Test
+    public void testHasRequiredInParameters() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path = "/schemasInQueryParamsAndResponses";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+
+        HashSet<String> modelNamesWithoutRequired = new HashSet(Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "AnyTypeHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired", // Note: this is extracted into another component and is a ref
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedNoAllofPropsHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+        ));
+        for (CodegenParameter param : co.pathParams) {
+            boolean hasRequired = param.getHasRequired();
+            if (modelNamesWithoutRequired.contains(param.baseName)) {
+                assertEquals(hasRequired, false);
+            } else if (modelNamesWithRequired.contains(param.baseName)) {
+                assertEquals(hasRequired, true);
+            } else {
+                // All variables must be in the above sets
+                assertEquals(true, false);
+            }
+        }
+    }
+
+    @Test
+    public void testHasRequiredInResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8906.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path = "/schemasInQueryParamsAndResponses";
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+
+        HashSet<String> modelNamesWithoutRequired = new HashSet(Arrays.asList(
+                "EmptyObject",
+                "ObjectWithOptionalB",
+                "AnyTypeNoPropertiesNoRequired",
+                "AnyTypeHasPropertiesNoRequired",
+                "AnyTypeNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "AnyTypeHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectNoPropertiesNoRequired",
+                "ObjectHasPropertiesNoRequired", // Note: this is extracted into another component and is a ref
+                "ObjectNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedNoAllofPropsNoPropertiesNoRequired",
+                "ComposedNoAllofPropsHasPropertiesNoRequired",
+                "ComposedNoAllofPropsNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofOptPropNoPropertiesNoRequired",
+                "ComposedHasAllofOptPropHasPropertiesNoRequired",
+                "ComposedHasAllofOptPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ObjectHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedNoAllofPropsHasPropertiesHasRequired", // False because this is extracted into another component and is a ref
+                "ComposedHasAllofOptPropHasPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropNoPropertiesNoRequired",
+                "ComposedHasAllofReqPropHasPropertiesNoRequired",
+                "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
+                "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
+        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
+        ));
+        for (CodegenResponse cr : co.responses) {
+            boolean hasRequired = cr.getHasRequired();
+            if (modelNamesWithoutRequired.contains(cr.message)) {
+                assertEquals(hasRequired, false);
+            } else if (modelNamesWithRequired.contains(cr.message)) {
+                assertEquals(hasRequired, true);
+            } else {
+                // All variables must be in the above sets
+                assertEquals(true, false);
+            }
+        }
     }
 }

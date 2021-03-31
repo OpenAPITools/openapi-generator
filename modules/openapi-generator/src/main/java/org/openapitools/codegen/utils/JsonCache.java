@@ -58,7 +58,7 @@ public interface JsonCache {
     /**
      * Exception thrown by cache operations. Not intended to be created by client code.
      */
-    class CacheException extends Exception {
+    static class CacheException extends Exception {
         private static final long serialVersionUID = -1215367978375557620L;
 
         CacheException(String message) {

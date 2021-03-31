@@ -23,8 +23,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import java.io.File;
 import java.util.*;
 
@@ -143,7 +141,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return dataType != null && "Blob".equals(dataType);
     }
 
     @Override

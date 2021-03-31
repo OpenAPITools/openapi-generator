@@ -53,7 +53,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String name;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
-    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied. 
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
     public String classname;
     // The value of the 'title' attribute in the OpenAPI document.
     public String title;
@@ -109,7 +109,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
-     * 
+     *
      * In most programming languages, the additional (undeclared) properties are stored
      * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
      * There are multiple ways to implement the additionalProperties keyword, depending
@@ -122,7 +122,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *
      * For example, in the OAS schema below, the schema has a declared 'id' property
      * and additional, undeclared properties of type 'integer' are allowed.
-     * 
+     *
      * type: object
      * properties:
      *   id:
@@ -154,6 +154,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty items;
     private CodegenProperty additionalProperties;
     private boolean isModel;
+    private boolean hasRequiredVars;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -231,7 +232,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
      * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
      * The name of the class may have to be sanitized with character escaping.
-     * 
+     *
      * @return true if the classname property is sanitized
      */
     public boolean getIsClassnameSanitized() {
@@ -272,7 +273,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     /**
      * Returns the discriminator for this schema object, or null if no discriminator has been specified.
-     * 
+     *
      * The list of all possible schema discriminator mapping values is obtained
      * from explicit discriminator mapping values in the OpenAPI document, and from
      * inherited discriminators through oneOf, allOf, anyOf.
@@ -282,7 +283,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * 'objectType' properties are 'Dog' and 'Cat'.
      * The allowed discriminator mapping value for the Dog schema is 'Dog'.
      * The allowed discriminator mapping value for the Cat schema is 'Dog'.
-     * 
+     *
      * Pet:
      *   type: object
      *   discriminator:
@@ -306,7 +307,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *     properties:
      *       p2:
      *         type: string
-     * 
+     *
      * @return the discriminator.
      */
     public CodegenDiscriminator getDiscriminator() {
@@ -322,7 +323,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * In the OpenAPI document, the discriminator may be specified in the local schema or
      * it may be inherited, such as through a 'allOf' schema which references another schema
      * that has a discriminator, recursively.
-     * 
+     *
      * @return the name of the discriminator property.
      */
     public String getDiscriminatorName() {
@@ -731,6 +732,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setHasVars(boolean hasVars) {
         this.hasVars = hasVars;
+    }
+
+    @Override
+    public boolean getHasRequired() {
+        return this.hasRequired;
+    }
+
+    @Override
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
     }
 
     @Override

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -50,9 +51,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public CLibcurlClientCodegen() {
         super();
 
-        // TODO: c maintainer review
-        // Assumes that C community considers api/model header files as documentation.
-        // Generator supports Basic, OAuth, and API key explicitly. Bearer is excluded although clients are able to set headers directly.
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
                         DocumentationFeature.Readme
@@ -82,8 +80,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.put("model-body.mustache", ".c");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".c");
-        //modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        //apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
 
         // TODO add auto-generated test files
@@ -893,8 +891,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -17,25 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
-import com.github.curiousoddman.rgxgen.RgxGen;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -416,7 +406,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
 
     public void setUseNose(String val) {
-        this.useNose = Boolean.valueOf(val);
+        this.useNose = Boolean.parseBoolean(val);
     }
 
 
@@ -441,5 +431,4 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
-
 }

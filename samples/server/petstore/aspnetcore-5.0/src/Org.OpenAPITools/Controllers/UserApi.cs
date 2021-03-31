@@ -11,9 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
@@ -36,6 +37,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpPost]
         [Route("/v2/user")]
         [Authorize(Policy = "api_key")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("CreateUser")]
         public virtual IActionResult CreateUser([FromBody]User user)
@@ -55,6 +57,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpPost]
         [Route("/v2/user/createWithArray")]
         [Authorize(Policy = "api_key")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithArrayInput")]
         public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> user)
@@ -74,6 +77,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpPost]
         [Route("/v2/user/createWithList")]
         [Authorize(Policy = "api_key")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithListInput")]
         public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> user)
@@ -197,6 +201,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpPut]
         [Route("/v2/user/{username}")]
         [Authorize(Policy = "api_key")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
         public virtual IActionResult UpdateUser([FromRoute (Name = "username")][Required]string username, [FromBody]User user)

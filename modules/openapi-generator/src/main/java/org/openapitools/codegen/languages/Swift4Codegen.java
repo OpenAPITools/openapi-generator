@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -243,7 +244,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
-                CodegenConstants.NON_PUBLIC_API_DESC 
+                CodegenConstants.NON_PUBLIC_API_DESC
                         + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
@@ -428,8 +429,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
-        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
-                "", 
+        supportingFiles.add(new SupportingFile("Package.swift.mustache",
+                "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
@@ -459,8 +460,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
         if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
-            supportingFiles.add(new SupportingFile("Result.mustache", 
-                    sourceFolder, 
+            supportingFiles.add(new SupportingFile("Result.mustache",
+                    sourceFolder,
                     "Result.swift"));
         }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
@@ -533,12 +534,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("URL");
+        return dataType != null && "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("Data");
+        return dataType != null && "Data".equals(dataType);
     }
 
     /**
@@ -974,8 +975,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

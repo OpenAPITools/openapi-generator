@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::EnumTest');
 
-my $instance = WWW::OpenAPIClient::Object::EnumTest->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::EnumTest');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::EnumTest->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::EnumTest');
 

@@ -23,10 +23,13 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -39,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -271,12 +275,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
-            this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
+            this.setSupportJava6(Boolean.parseBoolean(additionalProperties.get(SUPPORT_JAVA6).toString()));
         }
         additionalProperties.put(SUPPORT_JAVA6, supportJava6);
 
         if (additionalProperties.containsKey(DISABLE_HTML_ESCAPING)) {
-            this.setDisableHtmlEscaping(Boolean.valueOf(additionalProperties.get(DISABLE_HTML_ESCAPING).toString()));
+            this.setDisableHtmlEscaping(Boolean.parseBoolean(additionalProperties.get(DISABLE_HTML_ESCAPING).toString()));
         }
         additionalProperties.put(DISABLE_HTML_ESCAPING, disableHtmlEscaping);
 
@@ -286,7 +290,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
 
         if (additionalProperties.containsKey(IGNORE_ANYOF_IN_ENUM)) {
-            this.setIgnoreAnyOfInEnum(Boolean.valueOf(additionalProperties.get(IGNORE_ANYOF_IN_ENUM).toString()));
+            this.setIgnoreAnyOfInEnum(Boolean.parseBoolean(additionalProperties.get(IGNORE_ANYOF_IN_ENUM).toString()));
         }
         additionalProperties.put(IGNORE_ANYOF_IN_ENUM, ignoreAnyOfInEnum);
 
@@ -423,17 +427,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
+            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
         }
 
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
         if (additionalProperties.containsKey(FULL_JAVA_UTIL)) {
-            this.setFullJavaUtil(Boolean.valueOf(additionalProperties.get(FULL_JAVA_UTIL).toString()));
+            this.setFullJavaUtil(Boolean.parseBoolean(additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
         if (additionalProperties.containsKey(DISCRIMINATOR_CASE_SENSITIVE)) {
-            this.setDiscriminatorCaseSensitive(Boolean.valueOf(additionalProperties.get(DISCRIMINATOR_CASE_SENSITIVE).toString()));
+            this.setDiscriminatorCaseSensitive(Boolean.parseBoolean(additionalProperties.get(DISCRIMINATOR_CASE_SENSITIVE).toString()));
         } else {
             // By default, the discriminator lookup should be case sensitive. There is nothing in the OpenAPI specification
             // that indicates the lookup should be case insensitive. However, some implementations perform
@@ -449,12 +453,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
         if (additionalProperties.containsKey(WITH_XML)) {
-            this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
+            this.setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
         }
         additionalProperties.put(WITH_XML, withXml);
 
         if (additionalProperties.containsKey(OPENAPI_NULLABLE)) {
-            this.setOpenApiNullable(Boolean.valueOf(additionalProperties.get(OPENAPI_NULLABLE).toString()));
+            this.setOpenApiNullable(Boolean.parseBoolean(additionalProperties.get(OPENAPI_NULLABLE).toString()));
         }
         additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
 
@@ -938,9 +942,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return super.toDefaultValue(schema);
             }
             return null;
+        } else if (ModelUtils.isComposedSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return super.toDefaultValue(schema);
+            }
+            return null;
         }
 
         return super.toDefaultValue(schema);
+    }
+
+    @Override
+    public String toDefaultParameterValue(final Schema<?> schema) {
+        Object defaultValue = schema.getDefault();
+        if (defaultValue == null) {
+            return null;
+        }
+        // escape quotes
+        return defaultValue.toString().replace("\"", "\\\"");
     }
 
     /**
@@ -969,6 +988,49 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema schema = parameter.getSchema();
         if (schema != null && schema.getExample() != null) {
             codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
+     * Return the example value of the parameter. Overrides the parent method in DefaultCodegen
+     * to not set examples on complex models, as they don't compile properly.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody      Request body
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
+        Boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
+
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            LOGGER.warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        if (mediaType.getExample() != null) {
+            if (isModel) {
+                LOGGER.warn("Ignoring complex example on request body");
+            } else {
+                codegenParameter.example = mediaType.getExample().toString();
+                return;
+            }
+        }
+
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                if (isModel) {
+                    LOGGER.warn("Ignoring complex example on request body");
+                } else {
+                    codegenParameter.example = example.getValue().toString();
+                    return;
+                }
+            }
         }
 
         setParameterExampleValue(codegenParameter);
@@ -1374,6 +1436,27 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return op;
     }
 
+    @Override
+    public void postProcessParameter(CodegenParameter p) {
+        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
+        // defaultValues
+        // remove the l because our users will use Long.parseLong(String defaultValue)
+        // remove the d because our users will use Double.parseDouble(String defaultValue)
+        // remove the f because our users will use Float.parseFloat(String defaultValue)
+        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
+        // literals assigned to Long/Double/Float
+        if (p.defaultValue == null) {
+            return;
+        }
+
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        if (fixLong || fixDouble || fixFloat) {
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+        }
+    }
+
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -1757,8 +1840,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -1791,7 +1876,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         if (!supportsAdditionalPropertiesWithComposedSchema) {
             // The additional (undeclared) propertiees are modeled in Java as a HashMap.
-            // 
+            //
             // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
             //    The generated model class extends from the HashMap. That does not work
             //    with composed schemas that also use a discriminator because the model class

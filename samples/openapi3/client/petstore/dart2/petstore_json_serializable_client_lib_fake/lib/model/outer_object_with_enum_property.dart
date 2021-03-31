@@ -36,7 +36,6 @@ class OuterObjectWithEnumProperty {
   int get hashCode =>
     (value == null ? 0 : value.hashCode);
 
-
   factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
 
   Map<String, dynamic> toJson() => _$OuterObjectWithEnumPropertyToJson(this);

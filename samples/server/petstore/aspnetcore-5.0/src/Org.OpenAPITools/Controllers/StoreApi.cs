@@ -11,9 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
@@ -115,6 +116,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">Invalid Order</response>
         [HttpPost]
         [Route("/v2/store/order")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]

@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -594,7 +595,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
-        // For containers (e.g. Array, Map), the generated code returns the type directly. 
+        // For containers (e.g. Array, Map), the generated code returns the type directly.
         if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
@@ -787,6 +788,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
+        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {
@@ -830,8 +832,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -36,7 +36,6 @@ class DogAllOf {
   int get hashCode =>
     (breed == null ? 0 : breed.hashCode);
 
-
   factory DogAllOf.fromJson(Map<String, dynamic> json) => _$DogAllOfFromJson(json);
 
   Map<String, dynamic> toJson() => _$DogAllOfToJson(this);

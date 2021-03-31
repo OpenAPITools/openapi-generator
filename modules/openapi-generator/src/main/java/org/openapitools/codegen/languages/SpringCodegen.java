@@ -217,7 +217,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Process java8 option before common java ones to change the default dateLibrary to java8.
         LOGGER.info("----------------------------------");
         if (additionalProperties.containsKey(JAVA_8)) {
-            this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
+            this.setJava8(Boolean.parseBoolean(additionalProperties.get(JAVA_8).toString()));
             additionalProperties.put(JAVA_8, java8);
             LOGGER.warn("java8 option has been deprecated as it's set to true by default (JDK7 support has been deprecated)");
         }
@@ -257,27 +257,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
-            this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
+            this.setVirtualService(Boolean.parseBoolean(additionalProperties.get(VIRTUAL_SERVICE).toString()));
         }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+            this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
-            this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+            this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
         }
 
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
-            this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
+            this.setSingleContentTypes(Boolean.parseBoolean(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
 
         if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
-            this.setSkipDefaultInterface(Boolean.valueOf(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
+            this.setSkipDefaultInterface(Boolean.parseBoolean(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
         }
 
         if (additionalProperties.containsKey(ASYNC)) {
-            this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+            this.setAsync(Boolean.parseBoolean(additionalProperties.get(ASYNC).toString()));
             //fix for issue/1164
             convertPropertyToBooleanAndWriteBack(ASYNC);
         }
@@ -286,7 +286,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (!SPRING_BOOT.equals(library)) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
             }
-            this.setReactive(Boolean.valueOf(additionalProperties.get(REACTIVE).toString()));
+            this.setReactive(Boolean.parseBoolean(additionalProperties.get(REACTIVE).toString()));
         }
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
@@ -294,7 +294,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(USE_TAGS)) {
-            this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
+            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
@@ -312,27 +312,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
-            this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
+            this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
         if (additionalProperties.containsKey(OPENAPI_DOCKET_CONFIG)) {
-            this.setOpenapiDocketConfig(Boolean.valueOf(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
+            this.setOpenapiDocketConfig(Boolean.parseBoolean(additionalProperties.get(OPENAPI_DOCKET_CONFIG).toString()));
         }
 
         if (additionalProperties.containsKey(API_FIRST)) {
-            this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
+            this.setApiFirst(Boolean.parseBoolean(additionalProperties.get(API_FIRST).toString()));
         }
 
         if (additionalProperties.containsKey(HATEOAS)) {
-            this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+            this.setHateoas(Boolean.parseBoolean(additionalProperties.get(HATEOAS).toString()));
         }
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
-            this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
+            this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
-            this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
+            this.setUnhandledException(Boolean.parseBoolean(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
@@ -358,13 +358,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (!this.interfaceOnly) {
-            if (library.equals(SPRING_BOOT)) {
+            if (SPRING_BOOT.equals(library)) {
                 supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "OpenAPI2SpringBoot.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
             }
-            if (library.equals(SPRING_MVC_LIBRARY)) {
+            if (SPRING_MVC_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("webApplication.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
@@ -374,7 +374,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
             }
-            if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "ApiKeyRequestInterceptor.java"));
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
@@ -398,7 +398,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                             ("src/main/resources").replace("/", java.io.File.separator), "openapi.yaml"));
                 }
             }
-        } else if (this.openapiDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY) && !this.reactive && !this.apiFirst) {
+        } else if (this.openapiDocketConfig && !SPRING_CLOUD_LIBRARY.equals(library) && !this.reactive && !this.apiFirst) {
             supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIDocumentationConfig.java"));
         }
@@ -416,7 +416,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if ("threetenbp".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "CustomInstantDeserializer.java"));
-            if (library.equals(SPRING_BOOT) || library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library)) {
                 supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
             }
@@ -500,7 +500,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
+        if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -510,7 +510,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if ("".equals(basePath)) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -682,7 +682,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
-        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+        if (SPRING_CLOUD_LIBRARY.equals(library)) {
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
@@ -874,25 +874,4 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
     }
-
-    @Override
-    public void postProcessParameter(CodegenParameter p) {
-        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
-        // defaultValues
-        // remove the l because our users will use Long.parseLong(String defaultValue)
-        // remove the d because our users will use Double.parseDouble(String defaultValue)
-        // remove the f because our users will use Float.parseFloat(String defaultValue)
-        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
-        // literals assigned to Long/Double/Float
-        if (p.defaultValue == null) {
-            return;
-        }
-        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        if (fixLong || fixDouble || fixFloat) {
-            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
-        }
-    }
-
 }

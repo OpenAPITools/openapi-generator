@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>KotlinMultiPlatformClientTests</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>kotlin-client-petstore-multiplatform</artifactId>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Kotlin MultiPlatform Petstore Client</name>
     <build>
         <plugins>
             <plugin>

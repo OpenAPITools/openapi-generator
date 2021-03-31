@@ -502,7 +502,7 @@ public class ApiClient extends JavaTimeFormatter {
         } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
             return BodyInserters.fromMultipartData(formParams);
         } else {
-            return obj != null ? BodyInserters.fromObject(obj) : null;
+            return obj != null ? BodyInserters.fromValue(obj) : null;
         }
     }
 
@@ -558,7 +558,7 @@ public class ApiClient extends JavaTimeFormatter {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.encode().toUriString(), pathParams);
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(false).toUriString(), pathParams);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

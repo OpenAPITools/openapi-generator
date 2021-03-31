@@ -46,7 +46,6 @@ class FileSchemaTestClass {
     (file == null ? 0 : file.hashCode) +
     (files == null ? 0 : files.hashCode);
 
-
   factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
 
   Map<String, dynamic> toJson() => _$FileSchemaTestClassToJson(this);

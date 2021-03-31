@@ -20,7 +20,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
@@ -144,7 +143,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
                 enumSuffix = "";
@@ -217,7 +216,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return dataType != null && "Blob".equals(dataType);
     }
 
     @Override

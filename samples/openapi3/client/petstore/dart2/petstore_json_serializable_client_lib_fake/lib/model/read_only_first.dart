@@ -46,7 +46,6 @@ class ReadOnlyFirst {
     (bar == null ? 0 : bar.hashCode) +
     (baz == null ? 0 : baz.hashCode);
 
-
   factory ReadOnlyFirst.fromJson(Map<String, dynamic> json) => _$ReadOnlyFirstFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReadOnlyFirstToJson(this);

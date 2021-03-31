@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 {{#operationResultTask}}
 using System.Threading.Tasks;
 {{/operationResultTask}}
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 {{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 {{/useSwashbuckle}}
 {{^isLibrary}}
@@ -42,6 +43,9 @@ namespace {{apiPackage}}
         [Authorize{{#scopes}}{{#-first}}(Roles = "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{#-last}}"){{/-last}}{{/scopes}}]
 {{/isBasicBearer}}
 {{/authMethods}}
+        {{#vendorExtensions.x-aspnetcore-consumes}}
+        [Consumes({{&vendorExtensions.x-aspnetcore-consumes}})]
+        {{/vendorExtensions.x-aspnetcore-consumes}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
