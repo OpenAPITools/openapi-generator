@@ -146,7 +146,7 @@ class ApiClient {
   // ignore: deprecated_member_use_from_same_package
   Future<String> serializeAsync(Object value) async => serialize(value);
 
-  @Deprecated('Use serializeAsync() instead.')
+  @Deprecated('Scheduled for removal in 6.0. Use serializeAsync() instead.')
   String serialize(Object value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.

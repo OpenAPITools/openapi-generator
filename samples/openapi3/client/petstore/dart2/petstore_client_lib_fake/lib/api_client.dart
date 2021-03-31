@@ -147,7 +147,7 @@ class ApiClient {
     // ignore: deprecated_member_use_from_same_package
     deserialize(json, targetType, growable: growable);
 
-  @Deprecated('Use deserializeAsync() instead.')
+  @Deprecated('Scheduled for removal in 6.0. Use deserializeAsync() instead.')
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
@@ -161,7 +161,7 @@ class ApiClient {
   // ignore: deprecated_member_use_from_same_package
   Future<String> serializeAsync(Object value) async => serialize(value);
 
-  @Deprecated('Use serializeAsync() instead.')
+  @Deprecated('Scheduled for removal in 6.0. Use serializeAsync() instead.')
   String serialize(Object value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
