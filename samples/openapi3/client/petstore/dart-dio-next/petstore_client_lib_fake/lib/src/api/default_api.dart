@@ -10,16 +10,17 @@ import 'package:dio/dio.dart';
 import 'package:openapi/src/model/inline_response_default.dart';
 
 class DefaultApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
 
   const DefaultApi(this._dio, this._serializers);
 
+  /// 
   ///
-  ///
-  ///
-  Future<Response<InlineResponseDefault>> fooGet({
+  /// 
+  Future<Response<InlineResponseDefault>> fooGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -43,7 +44,8 @@ class DefaultApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     final _response = await _dio.request<Object>(
       _path,
@@ -62,6 +64,7 @@ class DefaultApi {
         _response.data!,
         specifiedType: _responseType,
       ) as InlineResponseDefault;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -82,4 +85,5 @@ class DefaultApi {
       extra: _response.extra,
     );
   }
+
 }
