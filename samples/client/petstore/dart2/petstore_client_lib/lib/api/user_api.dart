@@ -78,7 +78,7 @@ class UserApi {
   Future<void> createUser(User body) async {
     final response = await createUserWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -141,7 +141,7 @@ class UserApi {
   Future<void> createUsersWithArrayInput(List<User> body) async {
     final response = await createUsersWithArrayInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -204,7 +204,7 @@ class UserApi {
   Future<void> createUsersWithListInput(List<User> body) async {
     final response = await createUsersWithListInputWithHttpInfo(body);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -272,7 +272,7 @@ class UserApi {
   Future<void> deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -336,13 +336,13 @@ class UserApi {
   Future<User> getUserByName(String username) async {
     final response = await getUserByNameWithHttpInfo(username);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
         }
     return Future<User>.value(null);
   }
@@ -418,13 +418,13 @@ class UserApi {
   Future<String> loginUser(String username, String password) async {
     final response = await loginUserWithHttpInfo(username, password);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
         }
     return Future<String>.value(null);
   }
@@ -473,7 +473,7 @@ class UserApi {
   Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -550,7 +550,7 @@ class UserApi {
   Future<void> updateUser(String username, User body) async {
     final response = await updateUserWithHttpInfo(username, body);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 }

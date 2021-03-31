@@ -15,9 +15,8 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';
