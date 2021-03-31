@@ -63,7 +63,14 @@ class Dog(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = None
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
@@ -111,13 +118,11 @@ class Dog(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, class_name, *args, **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """Dog - a model defined in OpenAPI
 
-        Args:
-            class_name (str):
-
         Keyword Args:
+            class_name (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -182,26 +187,18 @@ class Dog(ModelComposed):
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
-        required_args = {
-            'class_name': class_name,
-        }
-        model_args = {}
-        model_args.update(required_args)
-        model_args.update(kwargs)
         composed_info = validate_get_composed_info(
-            constant_args, model_args, self)
+            constant_args, kwargs, self)
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
-        unused_args = composed_info[3]
+        discarded_args = composed_info[3]
 
-        for var_name, var_value in required_args.items():
-            setattr(self, var_name, var_value)
         for var_name, var_value in kwargs.items():
-            if var_name in unused_args and \
+            if var_name in discarded_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
-                        not self._additional_properties_model_instances:
+                        self._additional_properties_model_instances:
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
