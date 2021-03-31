@@ -266,7 +266,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
-                + " and set the source path to Sources" + File.separator + "{{projectName}}."));
+                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
                 + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
 
@@ -422,12 +422,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
         }
 
-        if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE) && (boolean)additionalProperties.get(USE_SPM_FILE_STRUCTURE)) {
+        if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
             setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
             sourceFolder = "Sources" + File.separator + projectName;
         }
 
-        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH)) {
+        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH) && ((String)additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
             setSwiftPackagePath((String)additionalProperties.get(SWIFT_PACKAGE_PATH));
             sourceFolder = swiftPackagePath;
         }
