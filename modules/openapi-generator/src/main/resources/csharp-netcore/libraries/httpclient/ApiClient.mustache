@@ -212,48 +212,18 @@ namespace {{packageName}}.Client
 			_baseUrl = basePath;
         }
 		
-        /// <summary>
+		/// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
+		/// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
 		/// <exception cref="ArgumentNullException"></exception>
-		/// <remarks>
+        /// <remarks>
 		/// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
 		/// </remarks>
-        public ApiClient(HttpClient client) :
-                 this(client, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
-        {	
-        }
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ApiClient" />
-        /// </summary>	
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-		/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>		
-        public ApiClient(HttpClient client, String basePath)
-        {	
-		    if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-			
-			_httpClient = client;
-			_baseUrl = basePath;
-        }
-		
-		/// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler) :
-                 this(client, handler, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
+        public ApiClient(HttpClient client, HttpClientHandler handler = null) :
+                 this(client, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath, handler)
         {	
         }
 		
@@ -261,17 +231,20 @@ namespace {{packageName}}.Client
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+		/// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="ArgumentException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler, String basePath)
+        /// <remarks>
+		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+		/// </remarks>
+        public ApiClient(HttpClient client, String basePath, HttpClientHandler handler = null)
         {	
 			if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (handler == null) throw new ArgumentNullException("handler cannot be null");
 			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 			
-			_httpClientHandler = handler;
+            _httpClientHandler = handler;
 			_httpClient = client;
 			_baseUrl = basePath;
         }
