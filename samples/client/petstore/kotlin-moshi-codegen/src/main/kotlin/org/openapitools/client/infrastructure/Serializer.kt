@@ -1,7 +1,9 @@
 package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import java.util.Date
+import org.openapitools.client.models.*
 
 object Serializer {
     @JvmStatic
