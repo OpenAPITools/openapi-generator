@@ -9,6 +9,7 @@ import 'package:built_value/serializer.dart';
 part 'outer_enum_integer_default_value.g.dart';
 
 class OuterEnumIntegerDefaultValue extends EnumClass {
+
   @BuiltValueEnumConst(wireNumber: 0)
   static const OuterEnumIntegerDefaultValue number0 = _$number0;
   @BuiltValueEnumConst(wireNumber: 1)
@@ -16,10 +17,9 @@ class OuterEnumIntegerDefaultValue extends EnumClass {
   @BuiltValueEnumConst(wireNumber: 2)
   static const OuterEnumIntegerDefaultValue number2 = _$number2;
 
-  static Serializer<OuterEnumIntegerDefaultValue> get serializer =>
-      _$outerEnumIntegerDefaultValueSerializer;
+  static Serializer<OuterEnumIntegerDefaultValue> get serializer => _$outerEnumIntegerDefaultValueSerializer;
 
-  const OuterEnumIntegerDefaultValue._(String name) : super(name);
+  const OuterEnumIntegerDefaultValue._(String name): super(name);
 
   static BuiltSet<OuterEnumIntegerDefaultValue> get values => _$values;
   static OuterEnumIntegerDefaultValue valueOf(String name) => _$valueOf(name);
@@ -31,5 +31,5 @@ class OuterEnumIntegerDefaultValue extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class OuterEnumIntegerDefaultValueMixin = Object
-    with _$OuterEnumIntegerDefaultValueMixin;
+abstract class OuterEnumIntegerDefaultValueMixin = Object with _$OuterEnumIntegerDefaultValueMixin;
+

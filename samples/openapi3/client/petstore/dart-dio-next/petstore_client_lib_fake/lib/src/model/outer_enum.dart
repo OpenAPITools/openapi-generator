@@ -9,6 +9,7 @@ import 'package:built_value/serializer.dart';
 part 'outer_enum.g.dart';
 
 class OuterEnum extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'placed')
   static const OuterEnum placed = _$placed;
   @BuiltValueEnumConst(wireName: r'approved')
@@ -18,7 +19,7 @@ class OuterEnum extends EnumClass {
 
   static Serializer<OuterEnum> get serializer => _$outerEnumSerializer;
 
-  const OuterEnum._(String name) : super(name);
+  const OuterEnum._(String name): super(name);
 
   static BuiltSet<OuterEnum> get values => _$values;
   static OuterEnum valueOf(String name) => _$valueOf(name);
@@ -31,3 +32,4 @@ class OuterEnum extends EnumClass {
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
 abstract class OuterEnumMixin = Object with _$OuterEnumMixin;
+

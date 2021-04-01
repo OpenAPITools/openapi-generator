@@ -692,33 +692,4 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
     }
-
-    @Override
-    public void postProcess() {
-        if (isEnablePostProcessFile()) {
-            // Using the condition here to have way to still disable this
-            // for older Dart generators in CI by default.
-
-            // Post processing the whole dart output is much faster then individual files.
-            // Setting this variable to "dart format" is the suggested way of doing this.
-            final String dartPostProcess = System.getenv("DART_POST_PROCESS");
-            if (!StringUtils.isEmpty(dartPostProcess)) {
-                final String command = dartPostProcess + " " + getOutputDir();
-                try {
-                    Process p = Runtime.getRuntime().exec(command);
-                    int exitValue = p.waitFor();
-                    if (exitValue != 0) {
-                        LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                    } else {
-                        LOGGER.info("Successfully executed: {}", command);
-                    }
-                } catch (InterruptedException | IOException e) {
-                    LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                    // Restore interrupted state
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-        super.postProcess();
-    }
 }
