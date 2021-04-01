@@ -5,7 +5,6 @@
 
 // ignore_for_file: unused_import
 
-import 'dart:typed_data';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -49,7 +48,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
 
     @nullable
     @BuiltValueField(wireName: r'binary')
-    Uint8List get binary;
+    MultipartFile get binary;
 
     @BuiltValueField(wireName: r'date')
     DateTime get date;
@@ -150,7 +149,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'binary')
                 ..add(serializers.serialize(object.binary,
-                    specifiedType: const FullType(Uint8List)));
+                    specifiedType: const FullType(MultipartFile)));
         }
         result
             ..add(r'date')
@@ -236,7 +235,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
                     break;
                 case r'binary':
                     result.binary = serializers.deserialize(value,
-                        specifiedType: const FullType(Uint8List)) as Uint8List;
+                        specifiedType: const FullType(MultipartFile)) as MultipartFile;
                     break;
                 case r'date':
                     result.date = serializers.deserialize(value,

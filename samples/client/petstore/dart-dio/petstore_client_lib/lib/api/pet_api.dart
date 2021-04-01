@@ -11,7 +11,6 @@ import 'package:built_value/serializer.dart';
 
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/api_response.dart';
-import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
 
@@ -428,7 +427,7 @@ class PetApi {
   Future<Response<ApiResponse>> uploadFile(
     int petId, { 
     String additionalMetadata,
-    Uint8List file,
+    MultipartFile file,
     CancelToken cancelToken,
     Map<String, dynamic> headers,
     Map<String, dynamic> extra,
@@ -464,7 +463,7 @@ class PetApi {
 
     _bodyData = FormData.fromMap(<String, dynamic>{
       if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-      if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+      if (file != null) r'file': file,
     });
 
     final _response = await _dio.request<dynamic>(
