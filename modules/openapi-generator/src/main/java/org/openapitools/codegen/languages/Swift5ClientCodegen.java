@@ -546,12 +546,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && "URL".equals(dataType);
+        return "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && "Data".equals(dataType);
+        return "Data".equals(dataType);
     }
 
     /**
