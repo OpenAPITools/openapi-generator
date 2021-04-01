@@ -216,7 +216,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && "Blob".equals(dataType);
+        return "Blob".equals(dataType);
     }
 
     @Override
