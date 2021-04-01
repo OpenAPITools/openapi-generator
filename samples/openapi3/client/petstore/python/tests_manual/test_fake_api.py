@@ -620,15 +620,15 @@ class TestFakeApi(unittest.TestCase):
                 'array_data': [
                     {
                         'labels': [
-                            'foo',
-                            None
+                            None,
+                            'foo'
                         ]
                     }
                 ]
             }
             inline_additional_properties_ref_payload = InlineAdditionalPropertiesRefPayload(
                 array_data=[
-                    FakeGetInlineAdditionalPropertiesPayloadArrayData(labels=['foo', None])
+                    FakeGetInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
                 ]
             )
             mock_method.return_value = self.mock_response(expected_json_body)
@@ -655,15 +655,15 @@ class TestFakeApi(unittest.TestCase):
                 'array_data': [
                     {
                         'labels': [
-                            'foo',
-                            None
+                            None,
+                            'foo'
                         ]
                     }
                 ]
             }
             inline_object6 = InlineObject6(
                 array_data=[
-                    FakeGetInlineAdditionalPropertiesPayloadArrayData(labels=['foo', None])
+                    FakeGetInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
                 ]
             )
             mock_method.return_value = self.mock_response(expected_json_body)
