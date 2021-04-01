@@ -39,6 +39,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
+docs/FakeGetInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -49,6 +50,8 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/InlineAdditionalPropertiesRefPayload.md
+docs/InlineObject6.md
 docs/InlineResponseDefault.md
 docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
@@ -142,6 +145,7 @@ petstore_api/model/enum_arrays.py
 petstore_api/model/enum_class.py
 petstore_api/model/enum_test.py
 petstore_api/model/equilateral_triangle.py
+petstore_api/model/fake_get_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
@@ -152,6 +156,8 @@ petstore_api/model/gm_fruit.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
+petstore_api/model/inline_additional_properties_ref_payload.py
+petstore_api/model/inline_object6.py
 petstore_api/model/inline_response_default.py
 petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
