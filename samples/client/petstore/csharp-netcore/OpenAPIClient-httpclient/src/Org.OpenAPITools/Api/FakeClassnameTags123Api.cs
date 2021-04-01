@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public FakeClassnameTags123Api(String basePath)
         {
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public FakeClassnameTags123Api(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
@@ -166,10 +166,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public FakeClassnameTags123Api(HttpClient client, String basePath, HttpClientHandler handler = null)
@@ -195,13 +195,13 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public FakeClassnameTags123Api(HttpClient client, Org.OpenAPITools.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
+            if (client == null) throw new ArgumentNullException("client");
 
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
