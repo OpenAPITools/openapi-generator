@@ -86,6 +86,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
+                if(Array.isArray({{paramName}}))
+                    {{paramName}}={{paramName}}.map((param)=> (typeof param === "object" ?JSON.stringify(param) : param) as any;
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
@@ -107,6 +109,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                     {{paramName}};
                 {{/isDate}}
                 {{^isDate}}
+                if(Array.isArray({{paramName}}))
+                    {{paramName}}={{paramName}}.map((param)=>(typeof param =="object")?JSON.stringify(param):param) as any;
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
                 {{/isDate}}
                 {{/isDateTime}}
