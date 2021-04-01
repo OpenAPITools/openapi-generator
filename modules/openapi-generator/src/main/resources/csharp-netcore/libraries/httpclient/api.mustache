@@ -116,7 +116,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public {{classname}}(String basePath)
         {
@@ -162,7 +162,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public {{classname}}(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
@@ -176,10 +176,10 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public {{classname}}(HttpClient client, String basePath, HttpClientHandler handler = null)
@@ -207,13 +207,13 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public {{classname}}(HttpClient client, {{packageName}}.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
+            if (client == null) throw new ArgumentNullException("client");
 
             this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
                 {{packageName}}.Client.GlobalConfiguration.Instance,
