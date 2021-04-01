@@ -72,7 +72,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         typeMapping.put("List", "BuiltList");
         typeMapping.put("set", "BuiltSet");
         typeMapping.put("map", "BuiltMap");
-        typeMapping.put("file", "Uint8List");
+        typeMapping.put("file", "MultipartFile");
         typeMapping.put("binary", "Uint8List");
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
