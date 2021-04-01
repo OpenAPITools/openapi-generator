@@ -209,4 +209,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_inline_additional_properties_ref_payload.py
+test/test_inline_object6.py
 tox.ini

@@ -12,9 +12,9 @@ import sys
 import unittest
 
 import petstore_api
-# from petstore_api.model.fake_inline_additionl_properties_payload_array_data import FakeInlineAdditionlPropertiesPayloadArrayData
-# globals()['FakeInlineAdditionlPropertiesPayloadArrayData'] = FakeInlineAdditionlPropertiesPayloadArrayData
-# from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
+globals()['FakeGetInlineAdditionalPropertiesPayloadArrayData'] = FakeGetInlineAdditionalPropertiesPayloadArrayData
+from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
 
 
 class TestInlineAdditionalPropertiesRefPayload(unittest.TestCase):
