@@ -2,9 +2,7 @@
     /* {{{description}}} */
 {{/description}}
     {{^multiplatform}}
-    {{#moshi}}
-    @Json(name = "{{{vendorExtensions.x-base-name-literal}}}")
-    {{/moshi}}
+    {{#moshi}}{{^discriminator}}@Json(name = "{{{vendorExtensions.x-base-name-literal}}}"){{/discriminator}}{{/moshi}}
     {{#gson}}
     @get:SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
     {{/gson}}

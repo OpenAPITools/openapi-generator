@@ -20,6 +20,9 @@ buildscript {
     {{#useRxJava3}}
     ext.rxJava3Version = '3.0.10'
     {{/useRxJava3}}
+    {{#moshi}}
+    ext.moshiVersion = '1.11.0'
+    {{/moshi}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -56,12 +59,13 @@ dependencies {
     {{#moshi}}
     {{^moshiCodeGen}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "com.squareup.moshi:moshi-kotlin:1.11.0"
+    compile "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
-    compile "com.squareup.moshi:moshi:1.11.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.11.0"
+    compile "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     {{/moshiCodeGen}}
+    compile "com.squareup.moshi:moshi-adapters:$moshiVersion"
     {{/moshi}}
     {{#gson}}
     compile "com.google.code.gson:gson:2.8.6"
