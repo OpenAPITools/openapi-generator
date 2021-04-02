@@ -7,16 +7,16 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:openapi/src/model/file_schema_test_class.dart';
-import 'package:openapi/src/model/outer_composite.dart';
-import 'package:openapi/src/model/outer_object_with_enum_property.dart';
-import 'package:openapi/src/model/user.dart';
-import 'package:openapi/src/model/health_check_result.dart';
-import 'package:openapi/src/model/pet.dart';
-import 'package:openapi/src/model/model_client.dart';
-import 'package:openapi/src/api_util.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/api_util.dart';
+import 'package:openapi/src/model/file_schema_test_class.dart';
+import 'package:openapi/src/model/health_check_result.dart';
+import 'package:openapi/src/model/model_client.dart';
+import 'package:openapi/src/model/outer_composite.dart';
+import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/user.dart';
 
 class FakeApi {
 
