@@ -31,7 +31,7 @@ command.
 
 ## version
 
-The version command provides version information, returning either the [semver version](https://semver.org/) by default, the git commit sha when passed `--sha`, or verbose output when passed `--full`.
+The version command provides version information, returning either the version by default, the git commit sha when passed `--sha`, or verbose output when passed `--full`.
 
 ```text
 NAME
