@@ -25,6 +25,12 @@ const (
 	OUTERENUMINTEGERDEFAULTVALUE__2 OuterEnumIntegerDefaultValue = 2
 )
 
+var allowedOuterEnumIntegerDefaultValueEnumValues = []OuterEnumIntegerDefaultValue{
+	0,
+	1,
+	2,
+}
+
 func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
 	var value int32
 	err := json.Unmarshal(src, &value)
@@ -32,7 +38,7 @@ func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := OuterEnumIntegerDefaultValue(value)
-	for _, existing := range []OuterEnumIntegerDefaultValue{ 0, 1, 2,   } {
+	for _, existing := range allowedOuterEnumIntegerDefaultValueEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -40,6 +46,27 @@ func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
 	}
 
 	return fmt.Errorf("%+v is not a valid OuterEnumIntegerDefaultValue", value)
+}
+
+// NewOuterEnumIntegerDefaultValueFromValue returns a pointer to a valid OuterEnumIntegerDefaultValue
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewOuterEnumIntegerDefaultValueFromValue(v int32) (*OuterEnumIntegerDefaultValue, error) {
+	ev := OuterEnumIntegerDefaultValue(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for OuterEnumIntegerDefaultValue: valid values are %v", v, allowedOuterEnumIntegerDefaultValueEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v OuterEnumIntegerDefaultValue) IsValid() bool {
+	for _, existing := range allowedOuterEnumIntegerDefaultValueEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
 }
 
 // Ptr returns reference to OuterEnumIntegerDefaultValue value
