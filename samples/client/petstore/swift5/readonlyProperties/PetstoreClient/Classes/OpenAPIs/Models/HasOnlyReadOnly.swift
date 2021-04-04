@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct HasOnlyReadOnly: Codable {
+public struct HasOnlyReadOnly: Codable, Hashable {
 
     public private(set) var bar: String?
     public private(set) var foo: String?
