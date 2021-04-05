@@ -60,7 +60,7 @@ func NewRouter(routers ...Router) *mux.Router {
 }
 
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
-func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error {
+func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if status != nil {
 		w.WriteHeader(*status)
@@ -146,16 +146,25 @@ func parseInt32Parameter(param string, required bool) (int32, error) {
 		if required {
 			return 0, errors.New(errMsgRequiredMissing)
 		}
-		
+
 		return 0, nil
 	}
-	
+
 	val, err := strconv.ParseInt(param, 10, 32)
 	if err != nil {
 		return -1, err
 	}
-	
+
 	return int32(val), nil
+}
+
+// parseBoolParameter parses a string parameter to a bool
+func parseBoolParameter(param string) (bool, error) {
+	val, err := strconv.ParseBool(param)
+	if err != nil {
+		return false, err
+	}
+	return bool(val), nil
 }
 
 // parseInt64ArrayParameter parses a string parameter containing array of values to []int64.
@@ -164,13 +173,13 @@ func parseInt64ArrayParameter(param, delim string, required bool) ([]int64, erro
 		if required {
 			return nil, errors.New(errMsgRequiredMissing)
 		}
-		
+
 		return nil, nil
 	}
 
 	str := strings.Split(param, delim)
 	ints := make([]int64, len(str))
-	
+
 	for i, s := range str {
 		if v, err := strconv.ParseInt(s, 10, 64); err != nil {
 			return nil, err
@@ -178,7 +187,7 @@ func parseInt64ArrayParameter(param, delim string, required bool) ([]int64, erro
 			ints[i] = v
 		}
 	}
-	
+
 	return ints, nil
 }
 
@@ -188,13 +197,13 @@ func parseInt32ArrayParameter(param, delim string, required bool) ([]int32, erro
 		if required {
 			return nil, errors.New(errMsgRequiredMissing)
 		}
-		
+
 		return nil, nil
 	}
 
 	str := strings.Split(param, delim)
 	ints := make([]int32, len(str))
-	
+
 	for i, s := range str {
 		if v, err := strconv.ParseInt(s, 10, 32); err != nil {
 			return nil, err
@@ -202,6 +211,6 @@ func parseInt32ArrayParameter(param, delim string, required bool) ([]int32, erro
 			ints[i] = int32(v)
 		}
 	}
-	
+
 	return ints, nil
 }

@@ -1546,6 +1546,11 @@ components:
           enum:
             - 1
             - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
         enum_number:
           type: number
           format: double

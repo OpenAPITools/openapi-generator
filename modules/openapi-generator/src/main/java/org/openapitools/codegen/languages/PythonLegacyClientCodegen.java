@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -405,7 +406,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
 
     public void setUseNose(String val) {
-        this.useNose = Boolean.valueOf(val);
+        this.useNose = Boolean.parseBoolean(val);
     }
 
 
@@ -430,5 +431,4 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
-
 }

@@ -1,9 +1,14 @@
 package org.openapitools.codegen.kotlin.spring;
 
 import com.google.common.collect.testing.Helpers;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FileUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.testng.Assert;
@@ -11,12 +16,12 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class KotlinSpringServerCodegenTest {
 
@@ -202,5 +207,50 @@ public class KotlinSpringServerCodegenTest {
             new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
         );
+    }
+
+    @Test(description = "test delegate reactive with tags")
+    public void delegateReactiveWithTags() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue7325-use-delegate-reactive-tags-kotlin.yaml"))
+                                .config(codegen)
+                )
+                .generate();
+
+        Helpers.assertContainsAllOf(files,
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
+        );
+
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "ApiUtil");
+
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "import kotlinx.coroutines.flow.Flow");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "suspend fun", "ApiUtil");
     }
 }

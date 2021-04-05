@@ -316,7 +316,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     //All path parameters are String initially, for primitives these need to be converted
     private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
-        Boolean isNotAString = !p.dataType.equals("String");
+        Boolean isNotAString = !"String".equals(p.dataType);
 
         return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }

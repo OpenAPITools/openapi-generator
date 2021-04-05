@@ -789,6 +789,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
+        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {

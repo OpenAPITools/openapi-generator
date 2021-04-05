@@ -190,7 +190,7 @@ void main() {
             },
           ]),
           request: Request(
-            method: RequestMethods.GET,
+            method: RequestMethods.get,
             queryParameters: <String, dynamic>{
               'status': <String>[
                 'available',

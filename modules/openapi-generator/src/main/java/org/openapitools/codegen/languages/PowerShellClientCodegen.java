@@ -750,7 +750,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -1330,7 +1330,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
             if (ModelUtils.isBooleanSchema(p)) {
-                if (Boolean.valueOf(p.getDefault().toString())) {
+                if (Boolean.parseBoolean(p.getDefault().toString())) {
                     return "$true";
                 } else {
                     return "$false";

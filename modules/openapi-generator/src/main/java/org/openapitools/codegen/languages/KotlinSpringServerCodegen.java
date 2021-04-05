@@ -319,27 +319,27 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (additionalProperties.containsKey(EXCEPTION_HANDLER)) {
-            this.setExceptionHandler(Boolean.valueOf(additionalProperties.get(EXCEPTION_HANDLER).toString()));
+            this.setExceptionHandler(Boolean.parseBoolean(additionalProperties.get(EXCEPTION_HANDLER).toString()));
         }
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         if (additionalProperties.containsKey(GRADLE_BUILD_FILE)) {
-            this.setGradleBuildFile(Boolean.valueOf(additionalProperties.get(GRADLE_BUILD_FILE).toString()));
+            this.setGradleBuildFile(Boolean.parseBoolean(additionalProperties.get(GRADLE_BUILD_FILE).toString()));
         }
         writePropertyBack(GRADLE_BUILD_FILE, gradleBuildFile);
 
         if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
-            this.setSwaggerAnnotations(Boolean.valueOf(additionalProperties.get(SWAGGER_ANNOTATIONS).toString()));
+            this.setSwaggerAnnotations(Boolean.parseBoolean(additionalProperties.get(SWAGGER_ANNOTATIONS).toString()));
         }
         writePropertyBack(SWAGGER_ANNOTATIONS, swaggerAnnotations);
 
         if (additionalProperties.containsKey(SERVICE_INTERFACE)) {
-            this.setServiceInterface(Boolean.valueOf(additionalProperties.get(SERVICE_INTERFACE).toString()));
+            this.setServiceInterface(Boolean.parseBoolean(additionalProperties.get(SERVICE_INTERFACE).toString()));
         }
         writePropertyBack(SERVICE_INTERFACE, serviceInterface);
 
         if (additionalProperties.containsKey(SERVICE_IMPLEMENTATION)) {
-            this.setServiceImplementation(Boolean.valueOf(additionalProperties.get(SERVICE_IMPLEMENTATION).toString()));
+            this.setServiceImplementation(Boolean.parseBoolean(additionalProperties.get(SERVICE_IMPLEMENTATION).toString()));
         }
         writePropertyBack(SERVICE_IMPLEMENTATION, serviceImplementation);
 
@@ -357,11 +357,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+            this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
-            this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+            this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
             if (!this.interfaceOnly) {
                 this.setSwaggerAnnotations(true);
             }
