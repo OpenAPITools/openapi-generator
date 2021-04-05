@@ -309,6 +309,9 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 
+    public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
+    public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";
+
     public static final String STRIP_PACKAGE_NAME = "stripPackageName";
     public static final String STRIP_PACKAGE_NAME_DESC = "Whether to strip leading dot-separated packages from generated model classes";
 
@@ -357,7 +360,7 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
-    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
+    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
 
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";

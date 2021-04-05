@@ -27,6 +27,9 @@ import {
     OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
+    OuterObjectWithEnumProperty,
+    OuterObjectWithEnumPropertyFromJSON,
+    OuterObjectWithEnumPropertyToJSON,
     Pet,
     PetFromJSON,
     PetToJSON,
@@ -55,6 +58,10 @@ export interface FakeOuterNumberSerializeRequest {
 
 export interface FakeOuterStringSerializeRequest {
     body?: string;
+}
+
+export interface FakePropertyEnumIntegerSerializeRequest {
+    outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
 }
 
 export interface TestBodyWithFileSchemaRequest {
@@ -308,6 +315,39 @@ export class FakeApi extends runtime.BaseAPI {
      */
     async fakeOuterStringSerialize(requestParameters: FakeOuterStringSerializeRequest): Promise<string> {
         const response = await this.fakeOuterStringSerializeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     */
+    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
+        if (requestParameters.outerObjectWithEnumProperty === null || requestParameters.outerObjectWithEnumProperty === undefined) {
+            throw new runtime.RequiredError('outerObjectWithEnumProperty','Required parameter requestParameters.outerObjectWithEnumProperty was null or undefined when calling fakePropertyEnumIntegerSerialize.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/property/enum-int`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: OuterObjectWithEnumPropertyToJSON(requestParameters.outerObjectWithEnumProperty),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OuterObjectWithEnumPropertyFromJSON(jsonValue));
+    }
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     */
+    async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest): Promise<OuterObjectWithEnumProperty> {
+        const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters);
         return await response.value();
     }
 

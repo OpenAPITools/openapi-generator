@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/api.dart';
 import 'package:openapi/api/fake_api.dart';
 import 'package:test/test.dart';
@@ -47,6 +54,13 @@ void main() {
     //
     //Future<String> fakeOuterStringSerialize({ String body }) async
     test('test fakeOuterStringSerialize', () async {
+      // TODO
+    });
+
+    // Test serialization of enum (int) properties with examples
+    //
+    //Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async
+    test('test fakePropertyEnumIntegerSerialize', () async {
       // TODO
     });
 

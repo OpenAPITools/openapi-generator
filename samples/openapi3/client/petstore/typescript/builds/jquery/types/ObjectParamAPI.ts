@@ -114,13 +114,12 @@ export interface PetApiUploadFileRequest {
     file?: HttpFile
 }
 
-
 export class ObjectPetApi {
     private api: ObservablePetApi
 
     public constructor(configuration: Configuration, requestFactory?: PetApiRequestFactory, responseProcessor?: PetApiResponseProcessor) {
         this.api = new ObservablePetApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * Add a new pet to the store
@@ -129,7 +128,7 @@ export class ObjectPetApi {
     public addPet(param: PetApiAddPetRequest, options?: Configuration): Promise<Pet> {
         return this.api.addPet(param.pet,  options).toPromise();
     }
-	
+
     /**
      * Deletes a pet
      * @param param the request object
@@ -137,7 +136,7 @@ export class ObjectPetApi {
     public deletePet(param: PetApiDeletePetRequest, options?: Configuration): Promise<void> {
         return this.api.deletePet(param.petId, param.apiKey,  options).toPromise();
     }
-	
+
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
@@ -146,7 +145,7 @@ export class ObjectPetApi {
     public findPetsByStatus(param: PetApiFindPetsByStatusRequest, options?: Configuration): Promise<Array<Pet>> {
         return this.api.findPetsByStatus(param.status,  options).toPromise();
     }
-	
+
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
@@ -155,7 +154,7 @@ export class ObjectPetApi {
     public findPetsByTags(param: PetApiFindPetsByTagsRequest, options?: Configuration): Promise<Array<Pet>> {
         return this.api.findPetsByTags(param.tags,  options).toPromise();
     }
-	
+
     /**
      * Returns a single pet
      * Find pet by ID
@@ -164,7 +163,7 @@ export class ObjectPetApi {
     public getPetById(param: PetApiGetPetByIdRequest, options?: Configuration): Promise<Pet> {
         return this.api.getPetById(param.petId,  options).toPromise();
     }
-	
+
     /**
      * Update an existing pet
      * @param param the request object
@@ -172,7 +171,7 @@ export class ObjectPetApi {
     public updatePet(param: PetApiUpdatePetRequest, options?: Configuration): Promise<Pet> {
         return this.api.updatePet(param.pet,  options).toPromise();
     }
-	
+
     /**
      * Updates a pet in the store with form data
      * @param param the request object
@@ -180,7 +179,7 @@ export class ObjectPetApi {
     public updatePetWithForm(param: PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<void> {
         return this.api.updatePetWithForm(param.petId, param.name, param.status,  options).toPromise();
     }
-	
+
     /**
      * uploads an image
      * @param param the request object
@@ -188,12 +187,8 @@ export class ObjectPetApi {
     public uploadFile(param: PetApiUploadFileRequest, options?: Configuration): Promise<ApiResponse> {
         return this.api.uploadFile(param.petId, param.additionalMetadata, param.file,  options).toPromise();
     }
-	
 
 }
-
-
-
 
 import { ObservableStoreApi } from "./ObservableAPI";
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
@@ -228,13 +223,12 @@ export interface StoreApiPlaceOrderRequest {
     order: Order
 }
 
-
 export class ObjectStoreApi {
     private api: ObservableStoreApi
 
     public constructor(configuration: Configuration, requestFactory?: StoreApiRequestFactory, responseProcessor?: StoreApiResponseProcessor) {
         this.api = new ObservableStoreApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -244,7 +238,7 @@ export class ObjectStoreApi {
     public deleteOrder(param: StoreApiDeleteOrderRequest, options?: Configuration): Promise<void> {
         return this.api.deleteOrder(param.orderId,  options).toPromise();
     }
-	
+
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
@@ -253,7 +247,7 @@ export class ObjectStoreApi {
     public getInventory(param: StoreApiGetInventoryRequest, options?: Configuration): Promise<{ [key: string]: number; }> {
         return this.api.getInventory( options).toPromise();
     }
-	
+
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
@@ -262,7 +256,7 @@ export class ObjectStoreApi {
     public getOrderById(param: StoreApiGetOrderByIdRequest, options?: Configuration): Promise<Order> {
         return this.api.getOrderById(param.orderId,  options).toPromise();
     }
-	
+
     /**
      * Place an order for a pet
      * @param param the request object
@@ -270,12 +264,8 @@ export class ObjectStoreApi {
     public placeOrder(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<Order> {
         return this.api.placeOrder(param.order,  options).toPromise();
     }
-	
 
 }
-
-
-
 
 import { ObservableUserApi } from "./ObservableAPI";
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
@@ -358,13 +348,12 @@ export interface UserApiUpdateUserRequest {
     user: User
 }
 
-
 export class ObjectUserApi {
     private api: ObservableUserApi
 
     public constructor(configuration: Configuration, requestFactory?: UserApiRequestFactory, responseProcessor?: UserApiResponseProcessor) {
         this.api = new ObservableUserApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * This can only be done by the logged in user.
@@ -374,7 +363,7 @@ export class ObjectUserApi {
     public createUser(param: UserApiCreateUserRequest, options?: Configuration): Promise<void> {
         return this.api.createUser(param.user,  options).toPromise();
     }
-	
+
     /**
      * Creates list of users with given input array
      * @param param the request object
@@ -382,7 +371,7 @@ export class ObjectUserApi {
     public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<void> {
         return this.api.createUsersWithArrayInput(param.user,  options).toPromise();
     }
-	
+
     /**
      * Creates list of users with given input array
      * @param param the request object
@@ -390,7 +379,7 @@ export class ObjectUserApi {
     public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<void> {
         return this.api.createUsersWithListInput(param.user,  options).toPromise();
     }
-	
+
     /**
      * This can only be done by the logged in user.
      * Delete user
@@ -399,7 +388,7 @@ export class ObjectUserApi {
     public deleteUser(param: UserApiDeleteUserRequest, options?: Configuration): Promise<void> {
         return this.api.deleteUser(param.username,  options).toPromise();
     }
-	
+
     /**
      * Get user by user name
      * @param param the request object
@@ -407,7 +396,7 @@ export class ObjectUserApi {
     public getUserByName(param: UserApiGetUserByNameRequest, options?: Configuration): Promise<User> {
         return this.api.getUserByName(param.username,  options).toPromise();
     }
-	
+
     /**
      * Logs user into the system
      * @param param the request object
@@ -415,7 +404,7 @@ export class ObjectUserApi {
     public loginUser(param: UserApiLoginUserRequest, options?: Configuration): Promise<string> {
         return this.api.loginUser(param.username, param.password,  options).toPromise();
     }
-	
+
     /**
      * Logs out current logged in user session
      * @param param the request object
@@ -423,7 +412,7 @@ export class ObjectUserApi {
     public logoutUser(param: UserApiLogoutUserRequest, options?: Configuration): Promise<void> {
         return this.api.logoutUser( options).toPromise();
     }
-	
+
     /**
      * This can only be done by the logged in user.
      * Updated user
@@ -432,9 +421,5 @@ export class ObjectUserApi {
     public updateUser(param: UserApiUpdateUserRequest, options?: Configuration): Promise<void> {
         return this.api.updateUser(param.username, param.user,  options).toPromise();
     }
-	
 
 }
-
-
-

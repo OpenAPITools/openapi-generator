@@ -1,9 +1,17 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/order.dart';
 import 'package:test/test.dart';
 
 // tests for Order
 void main() {
-  final instance = Order();
+  final instance = OrderBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Order, () {
     // int id

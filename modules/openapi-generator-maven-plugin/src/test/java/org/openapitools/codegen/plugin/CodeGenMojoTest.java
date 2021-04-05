@@ -25,6 +25,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
 import org.eclipse.aether.DefaultRepositorySystemSession;
+import org.openapitools.codegen.plugin.stubs.StubUtility;
 
 import java.io.File;
 import java.nio.file.Files;

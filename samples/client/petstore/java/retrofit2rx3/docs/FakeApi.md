@@ -79,6 +79,7 @@ No authorization required
 - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -143,6 +144,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -209,6 +211,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -273,6 +276,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -339,6 +343,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -402,6 +407,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -467,6 +473,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -531,6 +538,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -628,6 +636,7 @@ null (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -707,6 +716,7 @@ No authorization required
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -782,6 +792,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -843,6 +854,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -907,6 +919,7 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -979,6 +992,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

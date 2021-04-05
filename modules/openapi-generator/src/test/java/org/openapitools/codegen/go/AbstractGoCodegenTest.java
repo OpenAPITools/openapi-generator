@@ -25,7 +25,6 @@ import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.java.AbstractJavaCodegenTest;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;

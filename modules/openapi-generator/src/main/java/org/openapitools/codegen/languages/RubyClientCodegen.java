@@ -41,7 +41,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
     protected String gemName;
@@ -239,7 +239,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
         String gemFolder = libFolder + File.separator + gemName;
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));

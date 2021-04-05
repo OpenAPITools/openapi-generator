@@ -44,6 +44,7 @@ models/OuterEnum.ts
 models/OuterEnumDefaultValue.ts
 models/OuterEnumInteger.ts
 models/OuterEnumIntegerDefaultValue.ts
+models/OuterObjectWithEnumProperty.ts
 models/Pet.ts
 models/ReadOnlyFirst.ts
 models/Return.ts

@@ -57,6 +57,7 @@ src/gen/java/org/openapitools/model/OuterEnum.java
 src/gen/java/org/openapitools/model/OuterEnumDefaultValue.java
 src/gen/java/org/openapitools/model/OuterEnumInteger.java
 src/gen/java/org/openapitools/model/OuterEnumIntegerDefaultValue.java
+src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SpecialModelName.java

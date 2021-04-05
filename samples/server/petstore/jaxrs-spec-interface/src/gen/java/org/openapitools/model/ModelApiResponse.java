@@ -38,7 +38,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setCode(Integer code) {
     this.code = code;
-  }/**
+  }
+
+/**
    **/
   public ModelApiResponse type(String type) {
     this.type = type;
@@ -56,7 +58,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setType(String type) {
     this.type = type;
-  }/**
+  }
+
+/**
    **/
   public ModelApiResponse message(String message) {
     this.message = message;
@@ -75,6 +79,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setMessage(String message) {
     this.message = message;
   }
+
 
   @Override
   public boolean equals(Object o) {

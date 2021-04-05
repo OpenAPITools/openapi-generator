@@ -26,7 +26,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -60,6 +59,8 @@ public class InlineResponseDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(Foo string) {
     this.string = string;
   }

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,12 +45,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
@@ -153,7 +154,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("decimal", "java.math.BigDecimal");
-        typeMapping.put("date-time", "java.time.LocalDateTime");
+        typeMapping.put("date-time", "java.time.OffsetDateTime");
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
@@ -163,7 +164,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
-        typeMapping.put("DateTime", "java.time.LocalDateTime");
+        typeMapping.put("DateTime", "java.time.OffsetDateTime");
 
         instantiationTypes.put("array", "kotlin.collections.ArrayList");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
@@ -174,9 +175,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
-        importMapping.put("Date", "java.util.Date");
+        importMapping.put("Date", "java.time.LocalDate");
         importMapping.put("Timestamp", "java.sql.Timestamp");
-        importMapping.put("DateTime", "java.time.LocalDateTime");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("LocalTime", "java.time.LocalTime");
@@ -891,8 +892,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

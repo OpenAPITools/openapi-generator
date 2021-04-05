@@ -65,6 +65,9 @@ public class ModelReturn {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "return")
   public void setReturn(Integer _return) {
     this._return = _return;
   }

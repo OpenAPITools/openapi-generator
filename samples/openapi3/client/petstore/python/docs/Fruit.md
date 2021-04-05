@@ -1,5 +1,6 @@
 # Fruit
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

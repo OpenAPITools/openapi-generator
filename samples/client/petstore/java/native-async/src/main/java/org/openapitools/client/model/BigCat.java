@@ -29,9 +29,9 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 import org.openapitools.client.JSON;
-
-
 /**
  * BigCat
  */
@@ -104,6 +104,8 @@ public class BigCat extends Cat {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }

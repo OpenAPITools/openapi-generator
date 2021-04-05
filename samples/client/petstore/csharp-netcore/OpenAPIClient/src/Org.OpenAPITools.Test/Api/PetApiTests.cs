@@ -16,6 +16,8 @@ using System.Linq;
 using System.Reflection;
 using RestSharp;
 using Xunit;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
@@ -199,6 +201,19 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("sample category name2", response.Category.Name);
         }
 
+        /* a simple test for binary response. no longer in use.
+        [Fact]
+        public void TestGetByIdBinaryResponse()
+        {
+            PetApi petApi = new PetApi(c1);
+            Stream response = petApi.GetPetByIdBinaryResponse(petId);
+            Assert.IsType<System.IO.MemoryStream>(response);
+            StreamReader reader = new StreamReader(response);
+            // the following will fail for sure
+            //Assert.Equal("someting", reader.ReadToEnd());
+        }
+        */
+
         /// <summary>
         /// Test GetPetByIdWithHttpInfoAsync
         /// </summary>
@@ -326,6 +341,30 @@ namespace Org.OpenAPITools.Test
             //petApi.AddDefaultHeader ("header_key", "header_value");
             // the following should be used instead as suggested in the doc
             //petApi.Configuration.AddDefaultHeader("header_key2", "header_value2");
+        }
+
+        [Fact]
+        public void TestArrayOfString()
+        {
+            ArrayTest at = new ArrayTest();
+            JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+            {
+                // OpenAPI generated types generally hide default constructors.
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy
+                    {
+                        OverrideSpecifiedNames = false
+                    }
+                }
+            };
+            Assert.Equal("{}", JsonConvert.SerializeObject(at, _serializerSettings));
+
+            at.ArrayOfString = new List<string> { "Something here ..." };
+
+            Assert.Equal("{\"array_of_string\":[\"Something here ...\"]}", JsonConvert.SerializeObject(at, _serializerSettings));
+
         }
 
         public void Dispose()
