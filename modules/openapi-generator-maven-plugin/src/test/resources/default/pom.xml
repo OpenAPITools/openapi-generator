@@ -29,8 +29,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
-                    <project implementation="org.openapitools.codegen.plugin.stubs.CommonMavenProjectStub"/>
-                    <inputSpec>${basedir}/src/test/resources/unit/common-maven/petstore.yaml</inputSpec>
+                    <inputSpec>${basedir}/petstore.yaml</inputSpec>
                     <generatorName>java</generatorName>
                     <configOptions>
                         <dateLibrary>joda</dateLibrary>
@@ -43,7 +42,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>default</id>
+                        <id>executionId</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>

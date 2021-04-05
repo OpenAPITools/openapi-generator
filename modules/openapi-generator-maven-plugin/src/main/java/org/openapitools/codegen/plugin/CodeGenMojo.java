@@ -43,6 +43,7 @@ import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -422,6 +423,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
+
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    private MojoExecution mojo;
 
     /**
      * The project being built.
@@ -847,7 +851,7 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + ".sha256");
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {
