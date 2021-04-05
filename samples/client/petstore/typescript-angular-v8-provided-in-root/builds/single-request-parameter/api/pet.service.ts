@@ -198,9 +198,10 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/pet`,
-            body,
+        return this.httpClient.request<any>('post',
+            `${this.configuration.basePath}/pet`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -255,7 +256,8 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.request<any>('delete',
+            `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -316,7 +318,8 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
+        return this.httpClient.request<Array<Pet>>('get',
+            `${this.configuration.basePath}/pet/findByStatus`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -379,7 +382,8 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
+        return this.httpClient.request<Array<Pet>>('get',
+            `${this.configuration.basePath}/pet/findByTags`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -435,7 +439,8 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.request<Pet>('get',
+            `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -497,9 +502,10 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/pet`,
-            body,
+        return this.httpClient.request<any>('put',
+            `${this.configuration.basePath}/pet`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -574,9 +580,10 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            convertFormParamsToString ? formParams.toString() : formParams,
+        return this.httpClient.request<any>('post',
+            `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -655,9 +662,10 @@ export class PetService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
-            convertFormParamsToString ? formParams.toString() : formParams,
+        return this.httpClient.request<ApiResponse>('post',
+            `${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
             {
+                body: convertFormParamsToString ? formParams.toString() : formParams,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

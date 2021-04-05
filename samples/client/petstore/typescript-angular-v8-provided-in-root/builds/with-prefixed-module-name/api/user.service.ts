@@ -126,9 +126,10 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
-            body,
+        return this.httpClient.request<any>('post',
+            `${this.configuration.basePath}/user`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -179,9 +180,10 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
-            body,
+        return this.httpClient.request<any>('post',
+            `${this.configuration.basePath}/user/createWithArray`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -232,9 +234,10 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
-            body,
+        return this.httpClient.request<any>('post',
+            `${this.configuration.basePath}/user/createWithList`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -278,7 +281,8 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.request<any>('delete',
+            `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -324,7 +328,8 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.request<User>('get',
+            `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -384,7 +389,8 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
+        return this.httpClient.request<string>('get',
+            `${this.configuration.basePath}/user/login`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -425,7 +431,8 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
+        return this.httpClient.request<any>('get',
+            `${this.configuration.basePath}/user/logout`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -482,9 +489,10 @@ export class UserService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            body,
+        return this.httpClient.request<any>('put',
+            `${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

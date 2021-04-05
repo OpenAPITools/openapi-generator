@@ -134,7 +134,8 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        return this.httpClient.request<any>('delete',
+            `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -183,7 +184,8 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
+        return this.httpClient.request<{ [key: string]: number; }>('get',
+            `${this.configuration.basePath}/store/inventory`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -231,7 +233,8 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+        return this.httpClient.request<Order>('get',
+            `${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -286,9 +289,10 @@ export class StoreService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
-            body,
+        return this.httpClient.request<Order>('post',
+            `${this.configuration.basePath}/store/order`,
             {
+                body: body,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
