@@ -9,11 +9,7 @@ dev_dependencies:
   built_collection: ">=4.3.2 <5.0.0"
   built_value: ">=7.1.0 <8.0.0"
   dio: 3.0.10
-#  http_mock_adapter: 0.1.5
-  http_mock_adapter:
-    git:
-      url: https://github.com/kuhnroyal/http-mock-adapter.git
-      ref: 24cafff5236f8cc7d52a05529751ac47abd895ff
+  http_mock_adapter: 0.1.6
   openapi:
     path: ../petstore_client_lib_fake
   test: 1.15.5
