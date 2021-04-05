@@ -7,7 +7,7 @@ void main() {
 
   group(Date, () {
     test('toString', () {
-      expect(date1.toString(), "1999-03-25");
+      expect(date1.toString(), '1999-03-25');
     });
 
     test('compare >', () {
