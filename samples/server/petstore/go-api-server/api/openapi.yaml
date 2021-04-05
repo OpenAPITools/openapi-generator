@@ -71,58 +71,6 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-  /pet/findByStatusFake:
-    get:
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatusFake
-      parameters:
-      - description: Status values that need to be considered for filter
-        explode: false
-        in: query
-        name: status
-        required: true
-        schema:
-          items:
-            default: available
-            enum:
-            - available
-            - pending
-            - sold
-            type: string
-          type: array
-        style: form
-      - description: test for boolean parse generation
-        explode: true
-        in: query
-        name: booltest
-        required: true
-        schema:
-          default: true
-          example: true
-          type: boolean
-        style: form
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Pet'
-                type: array
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Pet'
-                type: array
-          description: successful operation
-        "400":
-          description: Invalid status value
-      security:
-      - petstore_auth:
-        - read:pets
-      summary: Finds Pets by status
-      tags:
-      - pet
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings

@@ -49,12 +49,6 @@ func (c *PetApiController) Routes() Routes {
 			c.FindPetsByStatus,
 		},
 		{
-			"FindPetsByStatusFake",
-			strings.ToUpper("Get"),
-			"/v2/pet/findByStatusFake",
-			c.FindPetsByStatusFake,
-		},
-		{
 			"FindPetsByTags",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByTags",
@@ -131,26 +125,6 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	query := r.URL.Query()
 	status := strings.Split(query.Get("status"), ",")
 	result, err := c.service.FindPetsByStatus(r.Context(), status)
-	//If an error occured, encode the error with the status code
-	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
-		return
-	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
-}
-
-// FindPetsByStatusFake - Finds Pets by status
-func (c *PetApiController) FindPetsByStatusFake(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-	status := strings.Split(query.Get("status"), ",")
-	booltest, err := parseBoolParameter(query.Get("booltest"))
-	if err != nil {
-		w.WriteHeader(500)
-		return
-	}
-	result, err := c.service.FindPetsByStatusFake(r.Context(), status, booltest)
 	//If an error occured, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)
