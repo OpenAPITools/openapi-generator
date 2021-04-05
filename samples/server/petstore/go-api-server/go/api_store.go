@@ -64,11 +64,11 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	result, err := c.service.DeleteOrder(r.Context(), orderId)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -77,11 +77,11 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 	result, err := c.service.GetInventory(r.Context())
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -96,11 +96,11 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	result, err := c.service.GetOrderById(r.Context(), orderId)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -115,10 +115,10 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	result, err := c.service.PlaceOrder(r.Context(), *order)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
