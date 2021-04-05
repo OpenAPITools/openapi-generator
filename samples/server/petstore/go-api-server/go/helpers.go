@@ -14,7 +14,7 @@ func Response(code int, body interface{}) ImplResponse {
 	return ImplResponse {
 		Code: code,
 		Headers: nil,
-		Body: body
+		Body: body,
 	}
 }
 
@@ -23,6 +23,6 @@ func ResponseWithHeaders(code int, headers map[string][]string, body interface{}
 	return ImplResponse {
 		Code: code,
 		Headers: headers,
-		Body: body
+		Body: body,
 	}
 }
