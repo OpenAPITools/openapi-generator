@@ -23,9 +23,9 @@ import (
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
+	Name		string
+	Method	  string
+	Pattern	 string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -164,6 +164,7 @@ func parseBoolParameter(param string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+
 	return bool(val), nil
 }
 

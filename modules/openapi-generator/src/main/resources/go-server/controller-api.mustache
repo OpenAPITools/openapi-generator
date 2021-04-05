@@ -33,17 +33,20 @@ func (c *{{classname}}Controller) Routes() Routes {
 
 // {{nickname}} - {{{summary}}}
 func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
-	{{#hasFormParams}}{{#isMultipart}}
+	{{#hasFormParams}}
+	{{#isMultipart}}
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isMultipart}}{{^isMultipart}}
+	{{/isMultipart}}
+	{{^isMultipart}}
 	if err := r.ParseForm(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isMultipart}}{{/hasFormParams}}
+	{{/isMultipart}}
+	{{/hasFormParams}}
 	{{#hasPathParams}}
 	params := mux.Vars(r)
 	{{/hasPathParams}}
@@ -58,7 +61,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-    {{/isLong}}
+	{{/isLong}}
 	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter(params["{{baseName}}"], {{required}})
 	if err != nil {
