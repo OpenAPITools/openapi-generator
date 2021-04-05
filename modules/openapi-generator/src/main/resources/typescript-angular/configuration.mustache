@@ -70,9 +70,9 @@ export class {{configurationClassName}} {
 {{#isBasic}}
     {{#isBasicBasic}}
             this.credentials['{{name}}'] = () => {
-                if (this.username || this.password) {
-                    return btoa(this.username + ':' + this.password);
-                }
+                return (this.username || this.password)
+                    ? btoa(this.username + ':' + this.password)
+                    : undefined;
             };
     {{/isBasicBasic}}
     {{#isBasicBearer}}
