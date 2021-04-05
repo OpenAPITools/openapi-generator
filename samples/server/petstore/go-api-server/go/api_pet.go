@@ -92,11 +92,11 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.AddPet(r.Context(), *pet)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -112,11 +112,11 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -127,11 +127,11 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	result, err := c.service.FindPetsByStatus(r.Context(), status)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -142,11 +142,11 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	result, err := c.service.FindPetsByTags(r.Context(), tags)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -161,11 +161,11 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetPetById(r.Context(), petId)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -180,11 +180,11 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UpdatePet(r.Context(), *pet)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -207,11 +207,11 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	result, err := c.service.UpdatePetWithForm(r.Context(), petId, name, status)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
 
@@ -239,10 +239,10 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 	
 }
