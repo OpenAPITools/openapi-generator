@@ -53,7 +53,7 @@ func (s *PetApiService) DeletePet(ctx context.Context, petId int64, apiKey strin
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string, booltest bool) (ImplResponse, error) {
+func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (ImplResponse, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -64,6 +64,20 @@ func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string, b
 	//return Response(400, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("FindPetsByStatus method not implemented")
+}
+
+// FindPetsByStatusFake - Finds Pets by status
+func (s *PetApiService) FindPetsByStatusFake(ctx context.Context, status []string, booltest bool) (ImplResponse, error) {
+	// TODO - update FindPetsByStatusFake with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	//TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
+	//return Response(200, []Pet{}), nil
+
+	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	//return Response(400, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("FindPetsByStatusFake method not implemented")
 }
 
 // FindPetsByTags - Finds Pets by tags
