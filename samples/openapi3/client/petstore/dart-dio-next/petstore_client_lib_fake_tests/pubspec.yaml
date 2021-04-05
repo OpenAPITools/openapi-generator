@@ -9,16 +9,10 @@ environment:
 
 dev_dependencies:
   built_collection: '5.0.0'
-  built_value: '8.0.3'
+  built_value: '8.0.4'
   dio: '4.0.0'
-  http_mock_adapter: 1.0.0-nullsafety.1
-  mockito: '5.0.0'
+  http_mock_adapter: 0.2.1
+  mockito: '5.0.3'
   openapi:
     path: ../petstore_client_lib_fake
-  test: '1.16.5'
-
-dependency_overrides:
-  http_mock_adapter:
-    git:
-      url: https://github.com/kuhnroyal/http-mock-adapter.git
-      ref: 1e3115a3de1dde132ebe7cb711d9175a97adda02
+  test: '1.16.8'
