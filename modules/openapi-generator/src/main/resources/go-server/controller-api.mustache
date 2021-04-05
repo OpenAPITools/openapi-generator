@@ -95,10 +95,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
 	//If an error occured, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		EncodeJSONResponse(err.Error(), &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 		return
 	}
 	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
+	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 	
 }{{/operation}}{{/operations}}
