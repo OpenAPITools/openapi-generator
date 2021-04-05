@@ -423,7 +423,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         return ImmutableSet.of("LocalTime?", "LocalDate?", "ZonedDateTime?");
     }
 
-    private class DependencyInfo {
+    private static class DependencyInfo {
         private final String version;
         private final String framework;
 

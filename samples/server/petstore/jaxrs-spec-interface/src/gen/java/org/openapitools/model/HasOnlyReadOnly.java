@@ -37,7 +37,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setBar(String bar) {
     this.bar = bar;
-  }/**
+  }
+
+/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -56,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setFoo(String foo) {
     this.foo = foo;
   }
+
 
   @Override
   public boolean equals(Object o) {

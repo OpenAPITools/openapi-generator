@@ -47,17 +47,16 @@ class ApiClient {
 
   Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
-  /// returns an unmodifiable view of the authentications, since none should be added
-  /// nor deleted
-  Map<String, Authentication> get authentications =>
-      Map.unmodifiable(_authentications);
+  /// Returns an unmodifiable [Map] of the authentications, since none should be added
+  /// or deleted.
+  Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
   }
 
-  // We don’t use a Map<String, String> for queryParams.
+  // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
   Future<Response> invokeAPI(
     String path,
@@ -88,7 +87,7 @@ class ApiClient {
     }
 
     try {
-      // Special case for uploading a single file which isn’t a 'multipart/form-data'.
+      // Special case for uploading a single file which isn't a 'multipart/form-data'.
       if (
         body is MultipartFile && (nullableContentType == null ||
         !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
@@ -118,7 +117,7 @@ class ApiClient {
 
       final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
         ? formParams
-        : serialize(body);
+        : await serializeAsync(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
       switch(method) {
@@ -144,8 +143,11 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
+  // ignore: deprecated_member_use_from_same_package
+  Future<String> serializeAsync(Object value) async => serialize(value);
 
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
+  String serialize(Object value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -162,4 +164,8 @@ class ApiClient {
       auth.applyToParams(queryParams, headerParams);
     });
   }
+
 }
+
+/// Primarily intended for use in an isolate.
+Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);

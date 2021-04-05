@@ -93,6 +93,11 @@ type ServerConfiguration struct {
 // ServerConfigurations stores multiple ServerConfiguration items
 type ServerConfigurations []ServerConfiguration
 
+{{#withCustomMiddlewareFunction}}
+// MiddlewareFunction provides way to implement custom middleware
+type MiddlewareFunction func(*http.Request)
+
+{{/withCustomMiddlewareFunction}}
 // Configuration stores the configuration of the API client
 type Configuration struct {
 	Host             string            `json:"host,omitempty"`
@@ -103,6 +108,9 @@ type Configuration struct {
 	Servers          ServerConfigurations
 	OperationServers map[string]ServerConfigurations
 	HTTPClient       *http.Client
+    {{#withCustomMiddlewareFunction}}
+	Middleware       MiddlewareFunction
+    {{/withCustomMiddlewareFunction}}
 }
 
 // NewConfiguration returns a new Configuration object

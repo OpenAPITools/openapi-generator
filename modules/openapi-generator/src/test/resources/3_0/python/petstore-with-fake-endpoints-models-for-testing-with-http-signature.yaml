@@ -1286,6 +1286,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/getInlineAdditionalPropertiesRefPayload:
+    get:
+      tags:
+        - fake
+      operationId: getInlineAdditionalPropertiesRefPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesRefPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+  /fake/getInlineAdditionalPropertiesPayload:
+    get:
+      tags:
+        - fake
+      operationId: getInlineAdditionalPropertiesPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesPayload
+          content:
+            application/json:
+              schema:
+                description: this payload is used for verification that some model_to_dict issues are fixed
+                type: object
+                properties:
+                  arrayData:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        labels:
+                          type: array
+                          items:
+                            type: string
+                            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: this payload is used for verification that some model_to_dict issues are fixed
+              type: object
+              properties:
+                arrayData:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      labels:
+                        type: array
+                        items:
+                          type: string
+                          nullable: true
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2318,3 +2378,18 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    InlineAdditionalPropertiesRefPayload:
+      description: this payload is used for verification that some model_to_dict issues are fixed
+      type: object
+      properties:
+        arrayData:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              labels:
+                type: array
+                items:
+                  type: string
+                  nullable: true

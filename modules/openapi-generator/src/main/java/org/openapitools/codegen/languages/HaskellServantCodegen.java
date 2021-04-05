@@ -313,8 +313,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
-        for (int i = 0; i < replacementChars.length; i++) {
-            String c = (String) replacementChars[i];
+        for (Object replacementChar : replacementChars) {
+            String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
             o.put("replacement", "'" + specialCharReplacements.get(c));

@@ -576,7 +576,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isString = false;
                 var.isLong = false;
                 var.isInteger = false;
-            } else if ("int32".equals(var.dataFormat)) {
+            } else if ("int".equals(var.dataType) || "int32".equals(var.dataFormat)) {
                 var.isInteger = true;
                 var.isString = false;
                 var.isLong = false;

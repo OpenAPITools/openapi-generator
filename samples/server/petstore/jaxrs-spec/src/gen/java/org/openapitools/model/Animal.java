@@ -46,7 +46,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setClassName(String className) {
     this.className = className;
-  }/**
+  }
+
+/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -65,6 +67,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setColor(String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(Object o) {

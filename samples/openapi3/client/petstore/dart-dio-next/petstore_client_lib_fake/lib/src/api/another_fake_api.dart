@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:openapi/src/model/model_client.dart';
 
 class AnotherFakeApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -19,7 +20,7 @@ class AnotherFakeApi {
   /// To test special tags
   ///
   /// To test special tags and operation ID starting with number
-  Future<Response<ModelClient>> call123testSpecialTags({
+  Future<Response<ModelClient>> call123testSpecialTags({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -44,16 +45,18 @@ class AnotherFakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -81,6 +84,7 @@ class AnotherFakeApi {
         _response.data!,
         specifiedType: _responseType,
       ) as ModelClient;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -101,4 +105,5 @@ class AnotherFakeApi {
       extra: _response.extra,
     );
   }
+
 }

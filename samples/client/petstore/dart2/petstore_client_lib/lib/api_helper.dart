@@ -63,7 +63,7 @@ String parameterToString(dynamic value) {
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.
-String _decodeBodyBytes(Response response) {
+Future<String> _decodeBodyBytes(Response response) async {
   final contentType = response.headers['content-type'];
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
     ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
