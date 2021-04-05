@@ -7,6 +7,7 @@ import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
+import 'package:openapi/src/date_serializer.dart';
 
 import 'package:openapi/src/model/additional_properties_class.dart';
 import 'package:openapi/src/model/animal.dart';
@@ -122,6 +123,7 @@ Serializers serializers = (_$serializers.toBuilder()
         const FullType(BuiltList, [FullType(User)]),
         () => ListBuilder<User>(),
       )
+      ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))
     .build();
 

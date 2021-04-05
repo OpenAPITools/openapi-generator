@@ -17,6 +17,7 @@ import 'package:openapi/src/model/model_client.dart';
 import 'package:openapi/src/api_util.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/model/date.dart';
 
 class FakeApi {
 
@@ -826,7 +827,7 @@ class FakeApi {
     double? float,
     String? string,
     Uint8List? binary,
-    DateTime? date,
+    Date? date,
     DateTime? dateTime,
     String? password,
     String? callback,
@@ -875,7 +876,7 @@ class FakeApi {
         r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
         r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
         if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
-        if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(DateTime)),
+        if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(Date)),
         if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
         if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
         if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),

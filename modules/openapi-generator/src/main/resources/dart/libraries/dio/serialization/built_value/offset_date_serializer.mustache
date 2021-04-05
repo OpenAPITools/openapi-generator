@@ -8,7 +8,7 @@ class OffsetDateSerializer implements PrimitiveSerializer<OffsetDate> {
   const OffsetDateSerializer();
 
   @override
-  Iterable<Type> get types => BuiltList<Type>([OffsetDate]);
+  Iterable<Type> get types => BuiltList.of([OffsetDate]);
 
   @override
   String get wireName => 'OffsetDate';
