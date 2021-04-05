@@ -52,7 +52,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
-    protected Map<String, String> imports = Maps.newHashMap();
+    protected Map<String, String> imports = new HashMap<>();
 
     public AbstractDartCodegen() {
         super();
