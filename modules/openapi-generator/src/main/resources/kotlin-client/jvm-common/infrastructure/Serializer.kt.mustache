@@ -51,8 +51,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 {{/kotlinx_serialization}}
-
-{{#moshi}}import {{modelPackage}}.*{{/moshi}}
+{{#moshi}}
+import {{modelPackage}}.*
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
@@ -63,11 +64,13 @@ import java.util.concurrent.atomic.AtomicLong
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
-        {{#models}}{{#model}}{{#discriminator}}.add(PolymorphicJsonAdapterFactory.of({{classname}}::class.java, "{{{vendorExtensions.x-base-name-discriminator-literal}}}")
+        {{#models}}{{#model}}{{#discriminator}}
+        .add(PolymorphicJsonAdapterFactory.of({{classname}}::class.java, "{{{vendorExtensions.x-base-name-discriminator-literal}}}")
         {{#mappedModels}}
             .withSubtype({{modelName}}::class.java, "{{mappingName}}")
         {{/mappedModels}}
-        ){{/discriminator}}{{/model}}{{/models}}
+        )
+        {{/discriminator}}{{/model}}{{/models}}
         {{^moshiCodeGen}}
         .add(KotlinJsonAdapterFactory())
         {{/moshiCodeGen}}

@@ -14,6 +14,7 @@ object Serializer {
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
         
+
     @JvmStatic
     val moshi: Moshi by lazy {
         moshiBuilder.build()
