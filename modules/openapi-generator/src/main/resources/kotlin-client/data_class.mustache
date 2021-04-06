@@ -1,41 +1,3 @@
-{{^multiplatform}}
-{{#gson}}
-import com.google.gson.annotations.SerializedName
-{{/gson}}
-{{#moshi}}
-import com.squareup.moshi.Json
-{{#moshiCodeGen}}
-import com.squareup.moshi.JsonClass
-{{/moshiCodeGen}}
-{{/moshi}}
-{{#jackson}}
-import com.fasterxml.jackson.annotation.JsonProperty
-{{#discriminator}}
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-{{/discriminator}}
-{{/jackson}}
-{{#kotlinx_serialization}}
-import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Contextual
-{{#hasEnums}}
-{{/hasEnums}}
-{{/kotlinx_serialization}}
-{{#parcelizeModels}}
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-{{/parcelizeModels}}
-{{/multiplatform}}
-{{#multiplatform}}
-import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
-{{/multiplatform}}
-{{#serializableModel}}
-import java.io.Serializable
-{{/serializableModel}}
-
 /**
  * {{{description}}}
 {{#allVars}}
@@ -49,20 +11,21 @@ import java.io.Serializable
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}{{#useSealedClass}}sealed class{{/useSealedClass}}{{^useSealedClass}}interface{{/useSealedClass}}{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 {{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{#useSealedClass}}(){{/useSealedClass}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{#useSealedClass}}(){{/useSealedClass}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{#useSealedClass}}(){{/useSealedClass}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{#useSealedClass}}(){{/useSealedClass}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         private const val serialVersionUID: Long = 123
     }
 {{/serializableModel}}
-{{#discriminator}}{{#vars}}{{#required}}
+{{#discriminator}}{{#vars}}{{#useSealedClass}}
+{{>sealed_class_var}}{{/useSealedClass}}{{^useSealedClass}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}
-{{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
+{{>interface_opt_var}}{{/required}}{{/useSealedClass}}{{/vars}}{{/discriminator}}
 {{#hasEnums}}
 {{#vars}}
 {{#isEnum}}

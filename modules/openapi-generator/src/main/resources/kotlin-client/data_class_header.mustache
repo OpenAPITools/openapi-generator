@@ -1,0 +1,37 @@
+{{^multiplatform}}
+{{#gson}}
+import com.google.gson.annotations.SerializedName
+{{/gson}}
+{{#moshi}}
+import com.squareup.moshi.Json
+{{#moshiCodeGen}}
+import com.squareup.moshi.JsonClass
+{{/moshiCodeGen}}
+{{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{#discriminator}}
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+{{/discriminator}}
+{{/jackson}}
+{{#kotlinx_serialization}}
+import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+{{#hasEnums}}
+{{/hasEnums}}
+{{/kotlinx_serialization}}
+{{#parcelizeModels}}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+{{/parcelizeModels}}
+{{/multiplatform}}
+{{#multiplatform}}
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.CommonEnumSerializer
+{{/multiplatform}}
+{{#serializableModel}}
+import java.io.Serializable
+{{/serializableModel}}
