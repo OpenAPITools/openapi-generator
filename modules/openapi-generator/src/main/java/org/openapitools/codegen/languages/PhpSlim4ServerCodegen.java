@@ -57,6 +57,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     public PhpSlim4ServerCodegen() {
         super();
 
+        // PDS skeleton recommends tests folder
+        // https://github.com/php-pds/skeleton
+        this.testBasePath = "tests";
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
