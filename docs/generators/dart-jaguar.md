@@ -44,7 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
-<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
