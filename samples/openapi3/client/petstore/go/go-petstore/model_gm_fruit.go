@@ -17,7 +17,7 @@ import (
 
 // GmFruit struct for GmFruit
 type GmFruit struct {
-	Apple  *Apple
+	Apple *Apple
 	Banana *Banana
 }
 
@@ -25,7 +25,7 @@ type GmFruit struct {
 func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 	var err error
 	// try to unmarshal JSON data into Apple
-	err = json.Unmarshal(data, &dst.Apple)
+	err = json.Unmarshal(data, &dst.Apple);
 	if err == nil {
 		jsonApple, _ := json.Marshal(dst.Apple)
 		if string(jsonApple) == "{}" { // empty struct
@@ -38,7 +38,7 @@ func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into Banana
-	err = json.Unmarshal(data, &dst.Banana)
+	err = json.Unmarshal(data, &dst.Banana);
 	if err == nil {
 		jsonBanana, _ := json.Marshal(dst.Banana)
 		if string(jsonBanana) == "{}" { // empty struct
@@ -101,3 +101,5 @@ func (v *NullableGmFruit) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

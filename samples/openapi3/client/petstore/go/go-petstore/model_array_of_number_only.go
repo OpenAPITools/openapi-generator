@@ -16,7 +16,7 @@ import (
 
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
-	ArrayNumber          []float32 `json:"ArrayNumber,omitempty"`
+	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -16,11 +16,11 @@ import (
 
 // TypeHolderDefault struct for TypeHolderDefault
 type TypeHolderDefault struct {
-	StringItem  string  `json:"string_item"`
-	NumberItem  float32 `json:"number_item"`
-	IntegerItem int32   `json:"integer_item"`
-	BoolItem    bool    `json:"bool_item"`
-	ArrayItem   []int32 `json:"array_item"`
+	StringItem string `json:"string_item"`
+	NumberItem float32 `json:"number_item"`
+	IntegerItem int32 `json:"integer_item"`
+	BoolItem bool `json:"bool_item"`
+	ArrayItem []int32 `json:"array_item"`
 }
 
 // NewTypeHolderDefault instantiates a new TypeHolderDefault object
@@ -62,7 +62,7 @@ func (o *TypeHolderDefault) GetStringItem() string {
 // GetStringItemOk returns a tuple with the StringItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderDefault) GetStringItemOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.StringItem, true
@@ -86,7 +86,7 @@ func (o *TypeHolderDefault) GetNumberItem() float32 {
 // GetNumberItemOk returns a tuple with the NumberItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderDefault) GetNumberItemOk() (*float32, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.NumberItem, true
@@ -110,7 +110,7 @@ func (o *TypeHolderDefault) GetIntegerItem() int32 {
 // GetIntegerItemOk returns a tuple with the IntegerItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderDefault) GetIntegerItemOk() (*int32, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.IntegerItem, true
@@ -134,7 +134,7 @@ func (o *TypeHolderDefault) GetBoolItem() bool {
 // GetBoolItemOk returns a tuple with the BoolItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderDefault) GetBoolItemOk() (*bool, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.BoolItem, true
@@ -158,7 +158,7 @@ func (o *TypeHolderDefault) GetArrayItem() []int32 {
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderDefault) GetArrayItemOk() ([]int32, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.ArrayItem, true
@@ -224,3 +224,5 @@ func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

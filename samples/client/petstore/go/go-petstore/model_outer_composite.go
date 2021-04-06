@@ -16,9 +16,9 @@ import (
 
 // OuterComposite struct for OuterComposite
 type OuterComposite struct {
-	MyNumber  *float32 `json:"my_number,omitempty"`
-	MyString  *string  `json:"my_string,omitempty"`
-	MyBoolean *bool    `json:"my_boolean,omitempty"`
+	MyNumber *float32 `json:"my_number,omitempty"`
+	MyString *string `json:"my_string,omitempty"`
+	MyBoolean *bool `json:"my_boolean,omitempty"`
 }
 
 // NewOuterComposite instantiates a new OuterComposite object
@@ -183,3 +183,5 @@ func (v *NullableOuterComposite) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -16,13 +16,13 @@ import (
 
 // Capitalization struct for Capitalization
 type Capitalization struct {
-	SmallCamel       *string `json:"smallCamel,omitempty"`
-	CapitalCamel     *string `json:"CapitalCamel,omitempty"`
-	SmallSnake       *string `json:"small_Snake,omitempty"`
-	CapitalSnake     *string `json:"Capital_Snake,omitempty"`
+	SmallCamel *string `json:"smallCamel,omitempty"`
+	CapitalCamel *string `json:"CapitalCamel,omitempty"`
+	SmallSnake *string `json:"small_Snake,omitempty"`
+	CapitalSnake *string `json:"Capital_Snake,omitempty"`
 	SCAETHFlowPoints *string `json:"SCA_ETH_Flow_Points,omitempty"`
-	// Name of the pet
-	ATT_NAME             *string `json:"ATT_NAME,omitempty"`
+	// Name of the pet 
+	ATT_NAME *string `json:"ATT_NAME,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -322,3 +322,5 @@ func (v *NullableCapitalization) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

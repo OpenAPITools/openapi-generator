@@ -16,8 +16,8 @@ import (
 
 // ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
-	Bar                  *string `json:"bar,omitempty"`
-	Baz                  *string `json:"baz,omitempty"`
+	Bar *string `json:"bar,omitempty"`
+	Baz *string `json:"baz,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -173,3 +173,5 @@ func (v *NullableReadOnlyFirst) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

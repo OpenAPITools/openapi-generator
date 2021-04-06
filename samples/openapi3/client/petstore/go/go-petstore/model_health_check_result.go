@@ -16,7 +16,7 @@ import (
 
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
-	NullableMessage      NullableString `json:"NullableMessage,omitempty"`
+	NullableMessage NullableString `json:"NullableMessage,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -52,7 +52,7 @@ func (o *HealthCheckResult) GetNullableMessage() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.NullableMessage.Get(), o.NullableMessage.IsSet()
@@ -71,7 +71,6 @@ func (o *HealthCheckResult) HasNullableMessage() bool {
 func (o *HealthCheckResult) SetNullableMessage(v string) {
 	o.NullableMessage.Set(&v)
 }
-
 // SetNullableMessageNil sets the value for NullableMessage to be an explicit nil
 func (o *HealthCheckResult) SetNullableMessageNil() {
 	o.NullableMessage.Set(nil)
@@ -147,3 +146,5 @@ func (v *NullableHealthCheckResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

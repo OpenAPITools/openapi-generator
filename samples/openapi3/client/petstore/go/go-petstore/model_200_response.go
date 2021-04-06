@@ -16,8 +16,8 @@ import (
 
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
-	Name                 *int32  `json:"name,omitempty"`
-	Class                *string `json:"class,omitempty"`
+	Name *int32 `json:"name,omitempty"`
+	Class *string `json:"class,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -173,3 +173,5 @@ func (v *NullableModel200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

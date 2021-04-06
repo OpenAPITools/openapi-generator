@@ -16,7 +16,7 @@ import (
 
 // Client struct for Client
 type Client struct {
-	Client               *string `json:"client,omitempty"`
+	Client *string `json:"client,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableClient) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

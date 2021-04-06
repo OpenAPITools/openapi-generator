@@ -16,11 +16,11 @@ import (
 
 // EnumTest struct for EnumTest
 type EnumTest struct {
-	EnumString         *string    `json:"enum_string,omitempty"`
-	EnumStringRequired string     `json:"enum_string_required"`
-	EnumInteger        *int32     `json:"enum_integer,omitempty"`
-	EnumNumber         *float64   `json:"enum_number,omitempty"`
-	OuterEnum          *OuterEnum `json:"outerEnum,omitempty"`
+	EnumString *string `json:"enum_string,omitempty"`
+	EnumStringRequired string `json:"enum_string_required"`
+	EnumInteger *int32 `json:"enum_integer,omitempty"`
+	EnumNumber *float64 `json:"enum_number,omitempty"`
+	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
 // NewEnumTest instantiates a new EnumTest object
@@ -86,7 +86,7 @@ func (o *EnumTest) GetEnumStringRequired() string {
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.EnumStringRequired, true
@@ -248,3 +248,5 @@ func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

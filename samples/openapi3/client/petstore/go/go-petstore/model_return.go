@@ -16,7 +16,7 @@ import (
 
 // Return Model for testing reserved words
 type Return struct {
-	Return               *int32 `json:"return,omitempty"`
+	Return *int32 `json:"return,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableReturn) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

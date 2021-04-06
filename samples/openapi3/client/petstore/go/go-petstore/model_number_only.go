@@ -16,7 +16,7 @@ import (
 
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
-	JustNumber           *float32 `json:"JustNumber,omitempty"`
+	JustNumber *float32 `json:"JustNumber,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableNumberOnly) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

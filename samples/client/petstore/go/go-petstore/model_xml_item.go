@@ -16,35 +16,35 @@ import (
 
 // XmlItem struct for XmlItem
 type XmlItem struct {
-	AttributeString       *string  `json:"attribute_string,omitempty"`
-	AttributeNumber       *float32 `json:"attribute_number,omitempty"`
-	AttributeInteger      *int32   `json:"attribute_integer,omitempty"`
-	AttributeBoolean      *bool    `json:"attribute_boolean,omitempty"`
-	WrappedArray          []int32  `json:"wrapped_array,omitempty"`
-	NameString            *string  `json:"name_string,omitempty"`
-	NameNumber            *float32 `json:"name_number,omitempty"`
-	NameInteger           *int32   `json:"name_integer,omitempty"`
-	NameBoolean           *bool    `json:"name_boolean,omitempty"`
-	NameArray             []int32  `json:"name_array,omitempty"`
-	NameWrappedArray      []int32  `json:"name_wrapped_array,omitempty"`
-	PrefixString          *string  `json:"prefix_string,omitempty"`
-	PrefixNumber          *float32 `json:"prefix_number,omitempty"`
-	PrefixInteger         *int32   `json:"prefix_integer,omitempty"`
-	PrefixBoolean         *bool    `json:"prefix_boolean,omitempty"`
-	PrefixArray           []int32  `json:"prefix_array,omitempty"`
-	PrefixWrappedArray    []int32  `json:"prefix_wrapped_array,omitempty"`
-	NamespaceString       *string  `json:"namespace_string,omitempty"`
-	NamespaceNumber       *float32 `json:"namespace_number,omitempty"`
-	NamespaceInteger      *int32   `json:"namespace_integer,omitempty"`
-	NamespaceBoolean      *bool    `json:"namespace_boolean,omitempty"`
-	NamespaceArray        []int32  `json:"namespace_array,omitempty"`
-	NamespaceWrappedArray []int32  `json:"namespace_wrapped_array,omitempty"`
-	PrefixNsString        *string  `json:"prefix_ns_string,omitempty"`
-	PrefixNsNumber        *float32 `json:"prefix_ns_number,omitempty"`
-	PrefixNsInteger       *int32   `json:"prefix_ns_integer,omitempty"`
-	PrefixNsBoolean       *bool    `json:"prefix_ns_boolean,omitempty"`
-	PrefixNsArray         []int32  `json:"prefix_ns_array,omitempty"`
-	PrefixNsWrappedArray  []int32  `json:"prefix_ns_wrapped_array,omitempty"`
+	AttributeString *string `json:"attribute_string,omitempty"`
+	AttributeNumber *float32 `json:"attribute_number,omitempty"`
+	AttributeInteger *int32 `json:"attribute_integer,omitempty"`
+	AttributeBoolean *bool `json:"attribute_boolean,omitempty"`
+	WrappedArray []int32 `json:"wrapped_array,omitempty"`
+	NameString *string `json:"name_string,omitempty"`
+	NameNumber *float32 `json:"name_number,omitempty"`
+	NameInteger *int32 `json:"name_integer,omitempty"`
+	NameBoolean *bool `json:"name_boolean,omitempty"`
+	NameArray []int32 `json:"name_array,omitempty"`
+	NameWrappedArray []int32 `json:"name_wrapped_array,omitempty"`
+	PrefixString *string `json:"prefix_string,omitempty"`
+	PrefixNumber *float32 `json:"prefix_number,omitempty"`
+	PrefixInteger *int32 `json:"prefix_integer,omitempty"`
+	PrefixBoolean *bool `json:"prefix_boolean,omitempty"`
+	PrefixArray []int32 `json:"prefix_array,omitempty"`
+	PrefixWrappedArray []int32 `json:"prefix_wrapped_array,omitempty"`
+	NamespaceString *string `json:"namespace_string,omitempty"`
+	NamespaceNumber *float32 `json:"namespace_number,omitempty"`
+	NamespaceInteger *int32 `json:"namespace_integer,omitempty"`
+	NamespaceBoolean *bool `json:"namespace_boolean,omitempty"`
+	NamespaceArray []int32 `json:"namespace_array,omitempty"`
+	NamespaceWrappedArray []int32 `json:"namespace_wrapped_array,omitempty"`
+	PrefixNsString *string `json:"prefix_ns_string,omitempty"`
+	PrefixNsNumber *float32 `json:"prefix_ns_number,omitempty"`
+	PrefixNsInteger *int32 `json:"prefix_ns_integer,omitempty"`
+	PrefixNsBoolean *bool `json:"prefix_ns_boolean,omitempty"`
+	PrefixNsArray []int32 `json:"prefix_ns_array,omitempty"`
+	PrefixNsWrappedArray []int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }
 
 // NewXmlItem instantiates a new XmlItem object
@@ -1119,3 +1119,5 @@ func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

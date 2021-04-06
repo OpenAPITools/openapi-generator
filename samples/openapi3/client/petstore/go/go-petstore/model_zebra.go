@@ -16,8 +16,8 @@ import (
 
 // Zebra struct for Zebra
 type Zebra struct {
-	Type                 *string `json:"type,omitempty"`
-	ClassName            string  `json:"className"`
+	Type *string `json:"type,omitempty"`
+	ClassName string `json:"className"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -86,7 +86,7 @@ func (o *Zebra) GetClassName() string {
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
 func (o *Zebra) GetClassNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.ClassName, true
@@ -166,3 +166,5 @@ func (v *NullableZebra) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

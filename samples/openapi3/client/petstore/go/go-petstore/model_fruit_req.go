@@ -17,7 +17,7 @@ import (
 
 // FruitReq - struct for FruitReq
 type FruitReq struct {
-	AppleReq  *AppleReq
+	AppleReq *AppleReq
 	BananaReq *BananaReq
 }
 
@@ -34,6 +34,7 @@ func BananaReqAsFruitReq(v *BananaReq) FruitReq {
 		BananaReq: v,
 	}
 }
+
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *FruitReq) UnmarshalJSON(data []byte) error {
@@ -92,7 +93,7 @@ func (src FruitReq) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *FruitReq) GetActualInstance() interface{} {
+func (obj *FruitReq) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
@@ -143,3 +144,5 @@ func (v *NullableFruitReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

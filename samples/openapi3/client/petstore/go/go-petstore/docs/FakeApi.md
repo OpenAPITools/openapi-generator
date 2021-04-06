@@ -1005,8 +1005,8 @@ func main() {
     headerUnique := []string{"Inner_example"} // []string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

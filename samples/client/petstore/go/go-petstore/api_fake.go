@@ -17,8 +17,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"reflect"
 	"time"
+	"reflect"
 )
 
 // Linger please
@@ -137,14 +137,14 @@ type FakeApi interface {
 	TestClientModelExecute(r ApiTestClientModelRequest) (*Client, *http.Response, error)
 
 	/*
-		 * TestEndpointParameters Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-		 * Fake endpoint for testing various parameters
-	 假端點
-	 偽のエンドポイント
-	 가짜 엔드 포인트
-		 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		 * @return ApiTestEndpointParametersRequest
-	*/
+	 * TestEndpointParameters Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+	 * Fake endpoint for testing various parameters
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
+	 * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 * @return ApiTestEndpointParametersRequest
+	 */
 	TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest
 
 	/*
@@ -220,9 +220,9 @@ type FakeApi interface {
 type FakeApiService service
 
 type ApiCreateXmlItemRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	xmlItem    *XmlItem
+	xmlItem *XmlItem
 }
 
 func (r ApiCreateXmlItemRequest) XmlItem(xmlItem XmlItem) ApiCreateXmlItemRequest {
@@ -243,7 +243,7 @@ func (r ApiCreateXmlItemRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) CreateXmlItem(ctx context.Context) ApiCreateXmlItemRequest {
 	return ApiCreateXmlItemRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -321,9 +321,9 @@ func (a *FakeApiService) CreateXmlItemExecute(r ApiCreateXmlItemRequest) (*http.
 }
 
 type ApiFakeOuterBooleanSerializeRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *bool
+	body *bool
 }
 
 func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBooleanSerializeRequest {
@@ -344,7 +344,7 @@ func (r ApiFakeOuterBooleanSerializeRequest) Execute() (bool, *http.Response, er
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context) ApiFakeOuterBooleanSerializeRequest {
 	return ApiFakeOuterBooleanSerializeRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -430,9 +430,9 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 }
 
 type ApiFakeOuterCompositeSerializeRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *OuterComposite
+	body *OuterComposite
 }
 
 func (r ApiFakeOuterCompositeSerializeRequest) Body(body OuterComposite) ApiFakeOuterCompositeSerializeRequest {
@@ -453,7 +453,7 @@ func (r ApiFakeOuterCompositeSerializeRequest) Execute() (*OuterComposite, *http
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context) ApiFakeOuterCompositeSerializeRequest {
 	return ApiFakeOuterCompositeSerializeRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -539,9 +539,9 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 }
 
 type ApiFakeOuterNumberSerializeRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *float32
+	body *float32
 }
 
 func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumberSerializeRequest {
@@ -562,7 +562,7 @@ func (r ApiFakeOuterNumberSerializeRequest) Execute() (float32, *http.Response, 
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context) ApiFakeOuterNumberSerializeRequest {
 	return ApiFakeOuterNumberSerializeRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -648,9 +648,9 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 }
 
 type ApiFakeOuterStringSerializeRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *string
+	body *string
 }
 
 func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
@@ -671,7 +671,7 @@ func (r ApiFakeOuterStringSerializeRequest) Execute() (string, *http.Response, e
 func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context) ApiFakeOuterStringSerializeRequest {
 	return ApiFakeOuterStringSerializeRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -757,9 +757,9 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 }
 
 type ApiTestBodyWithFileSchemaRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *FileSchemaTestClass
+	body *FileSchemaTestClass
 }
 
 func (r ApiTestBodyWithFileSchemaRequest) Body(body FileSchemaTestClass) ApiTestBodyWithFileSchemaRequest {
@@ -780,7 +780,7 @@ func (r ApiTestBodyWithFileSchemaRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context) ApiTestBodyWithFileSchemaRequest {
 	return ApiTestBodyWithFileSchemaRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -858,10 +858,10 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 }
 
 type ApiTestBodyWithQueryParamsRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	query      *string
-	body       *User
+	query *string
+	body *User
 }
 
 func (r ApiTestBodyWithQueryParamsRequest) Query(query string) ApiTestBodyWithQueryParamsRequest {
@@ -885,7 +885,7 @@ func (r ApiTestBodyWithQueryParamsRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context) ApiTestBodyWithQueryParamsRequest {
 	return ApiTestBodyWithQueryParamsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -967,9 +967,9 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 }
 
 type ApiTestClientModelRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	body       *Client
+	body *Client
 }
 
 func (r ApiTestClientModelRequest) Body(body Client) ApiTestClientModelRequest {
@@ -990,7 +990,7 @@ func (r ApiTestClientModelRequest) Execute() (*Client, *http.Response, error) {
 func (a *FakeApiService) TestClientModel(ctx context.Context) ApiTestClientModelRequest {
 	return ApiTestClientModelRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1079,22 +1079,22 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (*C
 }
 
 type ApiTestEndpointParametersRequest struct {
-	ctx                     context.Context
-	ApiService              FakeApi
-	number                  *float32
-	double                  *float64
+	ctx context.Context
+	ApiService FakeApi
+	number *float32
+	double *float64
 	patternWithoutDelimiter *string
-	byte_                   *string
-	integer                 *int32
-	int32_                  *int32
-	int64_                  *int64
-	float                   *float32
-	string_                 *string
-	binary                  **os.File
-	date                    *string
-	dateTime                *time.Time
-	password                *string
-	callback                *string
+	byte_ *string
+	integer *int32
+	int32_ *int32
+	int64_ *int64
+	float *float32
+	string_ *string
+	binary **os.File
+	date *string
+	dateTime *time.Time
+	password *string
+	callback *string
 }
 
 func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpointParametersRequest {
@@ -1166,11 +1166,11 @@ func (r ApiTestEndpointParametersRequest) Execute() (*http.Response, error) {
  가짜 엔드 포인트
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @return ApiTestEndpointParametersRequest
-*/
+ */
 func (a *FakeApiService) TestEndpointParameters(ctx context.Context) ApiTestEndpointParametersRequest {
 	return ApiTestEndpointParametersRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1309,16 +1309,16 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 }
 
 type ApiTestEnumParametersRequest struct {
-	ctx                   context.Context
-	ApiService            FakeApi
+	ctx context.Context
+	ApiService FakeApi
 	enumHeaderStringArray *[]string
-	enumHeaderString      *string
-	enumQueryStringArray  *[]string
-	enumQueryString       *string
-	enumQueryInteger      *int32
-	enumQueryDouble       *float64
-	enumFormStringArray   *[]string
-	enumFormString        *string
+	enumHeaderString *string
+	enumQueryStringArray *[]string
+	enumQueryString *string
+	enumQueryInteger *int32
+	enumQueryDouble *float64
+	enumFormStringArray *[]string
+	enumFormString *string
 }
 
 func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
@@ -1367,7 +1367,7 @@ func (r ApiTestEnumParametersRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestEnumParameters(ctx context.Context) ApiTestEnumParametersRequest {
 	return ApiTestEnumParametersRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1464,14 +1464,14 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 }
 
 type ApiTestGroupParametersRequest struct {
-	ctx                  context.Context
-	ApiService           FakeApi
-	requiredStringGroup  *int32
+	ctx context.Context
+	ApiService FakeApi
+	requiredStringGroup *int32
 	requiredBooleanGroup *bool
-	requiredInt64Group   *int64
-	stringGroup          *int32
-	booleanGroup         *bool
-	int64Group           *int64
+	requiredInt64Group *int64
+	stringGroup *int32
+	booleanGroup *bool
+	int64Group *int64
 }
 
 func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) ApiTestGroupParametersRequest {
@@ -1512,7 +1512,7 @@ func (r ApiTestGroupParametersRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestGroupParameters(ctx context.Context) ApiTestGroupParametersRequest {
 	return ApiTestGroupParametersRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1606,9 +1606,9 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 }
 
 type ApiTestInlineAdditionalPropertiesRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	param      *map[string]string
+	param *map[string]string
 }
 
 func (r ApiTestInlineAdditionalPropertiesRequest) Param(param map[string]string) ApiTestInlineAdditionalPropertiesRequest {
@@ -1628,7 +1628,7 @@ func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*http.Response, err
 func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context) ApiTestInlineAdditionalPropertiesRequest {
 	return ApiTestInlineAdditionalPropertiesRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1706,10 +1706,10 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 }
 
 type ApiTestJsonFormDataRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	param      *string
-	param2     *string
+	param *string
+	param2 *string
 }
 
 func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataRequest {
@@ -1733,7 +1733,7 @@ func (r ApiTestJsonFormDataRequest) Execute() (*http.Response, error) {
 func (a *FakeApiService) TestJsonFormData(ctx context.Context) ApiTestJsonFormDataRequest {
 	return ApiTestJsonFormDataRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -1814,13 +1814,13 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 }
 
 type ApiTestQueryParameterCollectionFormatRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService FakeApi
-	pipe       *[]string
-	ioutil     *[]string
-	http       *[]string
-	url        *[]string
-	context    *[]string
+	pipe *[]string
+	ioutil *[]string
+	http *[]string
+	url *[]string
+	context *[]string
 }
 
 func (r ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) ApiTestQueryParameterCollectionFormatRequest {
@@ -1857,7 +1857,7 @@ func (r ApiTestQueryParameterCollectionFormatRequest) Execute() (*http.Response,
 func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx context.Context) ApiTestQueryParameterCollectionFormatRequest {
 	return ApiTestQueryParameterCollectionFormatRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 

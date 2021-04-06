@@ -87,10 +87,11 @@ type StoreApi interface {
 type StoreApiService service
 
 type ApiDeleteOrderRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService StoreApi
-	orderId    string
+	orderId string
 }
+
 
 func (r ApiDeleteOrderRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteOrderExecute(r)
@@ -106,8 +107,8 @@ func (r ApiDeleteOrderRequest) Execute() (*http.Response, error) {
 func (a *StoreApiService) DeleteOrder(ctx context.Context, orderId string) ApiDeleteOrderRequest {
 	return ApiDeleteOrderRequest{
 		ApiService: a,
-		ctx:        ctx,
-		orderId:    orderId,
+		ctx: ctx,
+		orderId: orderId,
 	}
 }
 
@@ -181,9 +182,10 @@ func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*http.Res
 }
 
 type ApiGetInventoryRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService StoreApi
 }
+
 
 func (r ApiGetInventoryRequest) Execute() (map[string]int32, *http.Response, error) {
 	return r.ApiService.GetInventoryExecute(r)
@@ -198,7 +200,7 @@ func (r ApiGetInventoryRequest) Execute() (map[string]int32, *http.Response, err
 func (a *StoreApiService) GetInventory(ctx context.Context) ApiGetInventoryRequest {
 	return ApiGetInventoryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -296,10 +298,11 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (map[str
 }
 
 type ApiGetOrderByIdRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService StoreApi
-	orderId    int64
+	orderId int64
 }
+
 
 func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 	return r.ApiService.GetOrderByIdExecute(r)
@@ -315,8 +318,8 @@ func (r ApiGetOrderByIdRequest) Execute() (*Order, *http.Response, error) {
 func (a *StoreApiService) GetOrderById(ctx context.Context, orderId int64) ApiGetOrderByIdRequest {
 	return ApiGetOrderByIdRequest{
 		ApiService: a,
-		ctx:        ctx,
-		orderId:    orderId,
+		ctx: ctx,
+		orderId: orderId,
 	}
 }
 
@@ -407,9 +410,9 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (*Order,
 }
 
 type ApiPlaceOrderRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService StoreApi
-	body       *Order
+	body *Order
 }
 
 func (r ApiPlaceOrderRequest) Body(body Order) ApiPlaceOrderRequest {
@@ -429,7 +432,7 @@ func (r ApiPlaceOrderRequest) Execute() (*Order, *http.Response, error) {
 func (a *StoreApiService) PlaceOrder(ctx context.Context) ApiPlaceOrderRequest {
 	return ApiPlaceOrderRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 

@@ -16,10 +16,10 @@ import (
 
 // MapTest struct for MapTest
 type MapTest struct {
-	MapMapOfString       *map[string]map[string]string `json:"map_map_of_string,omitempty"`
-	MapOfEnumString      *map[string]string            `json:"map_of_enum_string,omitempty"`
-	DirectMap            *map[string]bool              `json:"direct_map,omitempty"`
-	IndirectMap          *map[string]bool              `json:"indirect_map,omitempty"`
+	MapMapOfString *map[string]map[string]string `json:"map_map_of_string,omitempty"`
+	MapOfEnumString *map[string]string `json:"map_of_enum_string,omitempty"`
+	DirectMap *map[string]bool `json:"direct_map,omitempty"`
+	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -247,3 +247,5 @@ func (v *NullableMapTest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

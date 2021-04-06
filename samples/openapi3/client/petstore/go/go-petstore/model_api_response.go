@@ -16,9 +16,9 @@ import (
 
 // ApiResponse struct for ApiResponse
 type ApiResponse struct {
-	Code                 *int32  `json:"code,omitempty"`
-	Type                 *string `json:"type,omitempty"`
-	Message              *string `json:"message,omitempty"`
+	Code *int32 `json:"code,omitempty"`
+	Type *string `json:"type,omitempty"`
+	Message *string `json:"message,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -210,3 +210,5 @@ func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

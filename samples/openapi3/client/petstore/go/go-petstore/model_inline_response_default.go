@@ -16,7 +16,7 @@ import (
 
 // InlineResponseDefault struct for InlineResponseDefault
 type InlineResponseDefault struct {
-	String               *Foo `json:"string,omitempty"`
+	String *Foo `json:"string,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableInlineResponseDefault) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

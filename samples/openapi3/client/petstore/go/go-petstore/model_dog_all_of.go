@@ -16,7 +16,7 @@ import (
 
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
-	Breed                *string `json:"breed,omitempty"`
+	Breed *string `json:"breed,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -136,3 +136,5 @@ func (v *NullableDogAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

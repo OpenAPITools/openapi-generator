@@ -35,6 +35,7 @@ func ZebraAsMammal(v *Zebra) Mammal {
 	}
 }
 
+
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
@@ -92,7 +93,7 @@ func (src Mammal) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Mammal) GetActualInstance() interface{} {
+func (obj *Mammal) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
@@ -143,3 +144,5 @@ func (v *NullableMammal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+
