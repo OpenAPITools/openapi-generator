@@ -207,8 +207,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+        supportingFiles.add(new SupportingFile("index.mustache", "public", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "public", ".htaccess"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
