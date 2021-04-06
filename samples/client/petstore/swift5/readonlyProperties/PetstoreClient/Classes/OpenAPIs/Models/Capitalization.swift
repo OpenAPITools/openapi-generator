@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Capitalization: Codable {
+public struct Capitalization: Codable, Hashable {
 
     public private(set) var smallCamel: String?
     public private(set) var capitalCamel: String?

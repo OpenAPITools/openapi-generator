@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesClass: Codable {
+public struct AdditionalPropertiesClass: Codable, Hashable {
 
     public private(set) var mapString: [String: String]?
     public private(set) var mapMapString: [String: [String: String]]?

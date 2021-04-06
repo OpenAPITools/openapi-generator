@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct List: Codable {
+internal struct List: Codable, Hashable {
 
     internal var _123list: String?
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct OuterComposite: Codable {
+public struct OuterComposite: Codable, Hashable {
 
     public private(set) var myNumber: Double?
     public private(set) var myString: String?

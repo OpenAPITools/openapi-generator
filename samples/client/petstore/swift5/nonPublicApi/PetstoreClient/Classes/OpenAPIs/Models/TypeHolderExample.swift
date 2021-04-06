@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TypeHolderExample: Codable {
+internal struct TypeHolderExample: Codable, Hashable {
 
     internal var stringItem: String
     internal var numberItem: Double
