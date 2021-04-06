@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
+internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     internal var uuid: UUID?
     internal var dateTime: Date?

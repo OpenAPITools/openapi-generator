@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct NumberOnly: Codable {
+internal struct NumberOnly: Codable, Hashable {
 
     internal var justNumber: Double?
 

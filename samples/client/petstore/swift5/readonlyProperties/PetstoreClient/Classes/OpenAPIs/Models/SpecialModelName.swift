@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SpecialModelName: Codable {
+public struct SpecialModelName: Codable, Hashable {
 
     public private(set) var specialPropertyName: Int64?
 

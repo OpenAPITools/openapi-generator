@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumTest: Codable {
+internal struct EnumTest: Codable, Hashable {
 
     internal enum EnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
