@@ -102,6 +102,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use the HttpClient constructor.")]
         public AnotherFakeApi() : this((string)null)
         {
         }
@@ -112,6 +113,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
+        [Obsolete("Use the HttpClient constructor.")]
         public AnotherFakeApi(String basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
@@ -130,6 +132,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
+        [Obsolete("Use the HttpClient constructor.")]
         public AnotherFakeApi(Org.OpenAPITools.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
