@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Cat: Codable {
+internal struct Cat: Codable, Hashable {
 
     internal var className: String
     internal var color: String? = "red"

@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-public struct Return: Codable {
+public struct Return: Codable, Hashable {
 
     public var _return: Int?
 

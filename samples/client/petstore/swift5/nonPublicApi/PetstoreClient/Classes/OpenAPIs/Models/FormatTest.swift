@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FormatTest: Codable {
+internal struct FormatTest: Codable, Hashable {
 
     internal var integer: Int?
     internal var int32: Int?

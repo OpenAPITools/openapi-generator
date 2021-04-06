@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FileSchemaTestClass: Codable {
+internal struct FileSchemaTestClass: Codable, Hashable {
 
     internal var file: File?
     internal var files: [File]?

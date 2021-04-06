@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ArrayOfNumberOnly: Codable {
+internal struct ArrayOfNumberOnly: Codable, Hashable {
 
     internal var arrayNumber: [Double]?
 

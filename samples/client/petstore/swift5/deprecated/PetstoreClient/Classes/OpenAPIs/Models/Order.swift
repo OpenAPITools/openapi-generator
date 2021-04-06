@@ -9,7 +9,7 @@ import Foundation
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")
-public struct Order: Codable {
+public struct Order: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

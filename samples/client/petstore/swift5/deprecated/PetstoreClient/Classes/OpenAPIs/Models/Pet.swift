@@ -8,7 +8,7 @@
 import Foundation
 
 /** A pet for sale in the pet store */
-public struct Pet: Codable {
+public struct Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"

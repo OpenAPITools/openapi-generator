@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ArrayOfArrayOfNumberOnly: Codable {
+public struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
 
     public private(set) var arrayArrayNumber: [[Double]]?
 
