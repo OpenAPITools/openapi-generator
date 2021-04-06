@@ -1,23 +1,34 @@
 package org.openapitools.generator.gradle.plugin
 
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.aResponse
+import com.github.tomakehurst.wiremock.client.WireMock.stubFor
+import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.WireMockServer
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.annotations.AfterClass
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.io.File
+import java.io.InputStreamReader
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class GenerateTaskDslTest : TestBase() {
+class GenerateTaskDslWithRemoteSpecTest : TestBase() {
     override var temp: File = createTempDir(javaClass.simpleName)
 
+    private val wireMockServer: WireMockServer = WireMockServer()
+    private val validSpecContent: String = loadSpecContent("specs/petstore-v3.0.yaml")
+    private val invalidSpecContent: String = loadSpecContent("specs/petstore-v3.0-invalid.yaml")
     private val defaultBuildGradle = """
         plugins {
           id 'org.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
+            inputSpec = "http://127.0.0.1:8080/spec.yaml"
             outputDir = file("build/kotlin").absolutePath
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
@@ -28,13 +39,21 @@ class GenerateTaskDslTest : TestBase() {
         }
     """.trimIndent()
 
+    @BeforeClass
+    fun startWireMockServer() {
+        wireMockServer.start()
+    }
+
+    @AfterClass
+    fun stopWireMockServer() {
+        wireMockServer.stop()
+    }
+
     @Test
     fun `openApiGenerate should create an expected file structure from DSL config`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
-        )
-        withProject(defaultBuildGradle, projectFiles)
+        stubValidSpec()
+        withProject(defaultBuildGradle)
 
         // Act
         val result = GradleRunner.create()
@@ -71,10 +90,8 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openApiGenerate should used up-to-date instead of regenerate`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
-        )
-        withProject(defaultBuildGradle, projectFiles)
+        stubValidSpec()
+        withProject(defaultBuildGradle)
 
         // Act
         val resultFirstRun = GradleRunner.create()
@@ -96,10 +113,8 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openApiGenerate should use cache instead of regenerate`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
-        )
-        withProject(defaultBuildGradle, projectFiles)
+        stubValidSpec()
+        withProject(defaultBuildGradle)
 
         // Act
         val resultFirstRun = GradleRunner.create()
@@ -135,11 +150,8 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openApiValidate should fail on invalid spec`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
-        )
-
-        withProject(defaultBuildGradle, projectFiles)
+        stubInvalidSpec()
+        withProject(defaultBuildGradle)
 
         // Act
         val result = GradleRunner.create()
@@ -157,17 +169,14 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openApiValidate should ok skip spec validation`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
-        )
-
+        stubInvalidSpec()
         withProject("""
         plugins {
           id 'org.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
+            inputSpec = "http://127.0.0.1:8080/spec.yaml"
             outputDir = file("build/kotlin").absolutePath
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
@@ -177,7 +186,7 @@ class GenerateTaskDslTest : TestBase() {
                     dateLibrary: "java8"
             ]
         }
-    """.trimIndent(), projectFiles)
+    """.trimIndent())
 
         // Act
         val result = GradleRunner.create()
@@ -195,24 +204,21 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openapiGenerate should attempt to set handlebars when specified as engine`() {
         // Arrange
-        val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
-        )
-
+        stubValidSpec()
         withProject("""
         plugins {
           id 'org.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
+            inputSpec = "http://127.0.0.1:8080/spec.yaml"
             outputDir = file("build/kotlin").absolutePath
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
             engine = "handlebars"
         }
-    """.trimIndent(), projectFiles)
+    """.trimIndent())
 
         // Act
         val result = GradleRunner.create()
@@ -227,5 +233,27 @@ class GenerateTaskDslTest : TestBase() {
         assertTrue(result.output.contains("handlebars"), "Build should have attempted to use handlebars.")
         assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
                 "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    private fun stubValidSpec() {
+        stubFor(get(urlEqualTo("/spec.yaml"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody(validSpecContent))
+        )
+    }
+
+    private fun stubInvalidSpec() {
+        stubFor(get(urlEqualTo("/spec.yaml"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody(invalidSpecContent))
+        )
+    }
+    
+    private fun loadSpecContent(path: String): String {
+        return InputStreamReader(
+            javaClass.classLoader.getResourceAsStream(path)
+        ).readText()
     }
 }
