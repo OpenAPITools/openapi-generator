@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for StoreApi
 void main() {
   final instance = Openapi().getStoreApi();
@@ -39,5 +40,6 @@ void main() {
     test('test placeOrder', () async {
       // TODO
     });
+
   });
 }

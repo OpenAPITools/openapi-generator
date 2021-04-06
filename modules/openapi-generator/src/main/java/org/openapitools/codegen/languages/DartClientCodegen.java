@@ -37,20 +37,6 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
     public DartClientCodegen() {
         super();
-
-        additionalReservedWords.addAll(
-                Sets.newHashSet(
-                        "StreamedRequest",
-                        "ApiClient",
-                        "QueryParam",
-                        "Authentication",
-                        "HttpBasicAuth",
-                        "HttpBearerAuth",
-                        "ApiKeyAuth",
-                        "OAuth"
-                )
-        );
-
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
                 "Specify serialization library");
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_NATIVE);
