@@ -1096,6 +1096,7 @@ definitions:
       name:
         type: string
         default: default-name
+        x-nullable: true
     xml:
       name: Category
   User:
