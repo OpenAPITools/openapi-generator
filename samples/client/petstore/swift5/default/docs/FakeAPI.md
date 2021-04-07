@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createXmlItem**](FakeAPI.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeAPI.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeAPI.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeAPI.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -16,7 +17,58 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 
+
+# **createXmlItem**
+```swift
+    open class func createXmlItem(xmlItem: XmlItem, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PetstoreClient
+
+let xmlItem = XmlItem(attributeString: "attributeString_example", attributeNumber: 123, attributeInteger: 123, attributeBoolean: true, wrappedArray: [123], nameString: "nameString_example", nameNumber: 123, nameInteger: 123, nameBoolean: true, nameArray: [123], nameWrappedArray: [123], prefixString: "prefixString_example", prefixNumber: 123, prefixInteger: 123, prefixBoolean: true, prefixArray: [123], prefixWrappedArray: [123], namespaceString: "namespaceString_example", namespaceNumber: 123, namespaceInteger: 123, namespaceBoolean: true, namespaceArray: [123], namespaceWrappedArray: [123], prefixNsString: "prefixNsString_example", prefixNsNumber: 123, prefixNsInteger: 123, prefixNsBoolean: true, prefixNsArray: [123], prefixNsWrappedArray: [123]) // XmlItem | XmlItem Body
+
+// creates an XmlItem
+FakeAPI.createXmlItem(xmlItem: xmlItem) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterBooleanSerialize**
 ```swift
@@ -656,6 +708,63 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testQueryParameterCollectionFormat**
+```swift
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+
+
+To test the collection format in query parameters
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PetstoreClient
+
+let pipe = ["inner_example"] // [String] | 
+let ioutil = ["inner_example"] // [String] | 
+let http = ["inner_example"] // [String] | 
+let url = ["inner_example"] // [String] | 
+let context = ["inner_example"] // [String] | 
+
+FakeAPI.testQueryParameterCollectionFormat(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**[String]**](String.md) |  | 
+ **ioutil** | [**[String]**](String.md) |  | 
+ **http** | [**[String]**](String.md) |  | 
+ **url** | [**[String]**](String.md) |  | 
+ **context** | [**[String]**](String.md) |  | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

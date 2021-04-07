@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct SpecialModelName: Codable, Hashable {
 

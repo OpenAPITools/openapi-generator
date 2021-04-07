@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** A category for a pet */
 public struct Category: Codable, Hashable {

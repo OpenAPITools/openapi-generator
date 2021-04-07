@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct Tag: Codable, Hashable {
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** A tag for a pet */
 public struct Tag: Codable, Hashable {

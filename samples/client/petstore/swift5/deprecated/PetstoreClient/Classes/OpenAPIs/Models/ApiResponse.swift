@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Describes the result of uploading an image resource */
 public struct ApiResponse: Codable, Hashable {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")

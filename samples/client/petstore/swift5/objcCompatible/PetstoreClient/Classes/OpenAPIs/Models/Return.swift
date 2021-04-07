@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing reserved words */
 @objc public class Return: NSObject, Codable {

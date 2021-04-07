@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class SpecialModelName: NSObject, Codable {
 

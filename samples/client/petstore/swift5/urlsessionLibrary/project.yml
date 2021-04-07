@@ -12,3 +12,4 @@ targets:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
     
+    - carthage: AnyCodable
