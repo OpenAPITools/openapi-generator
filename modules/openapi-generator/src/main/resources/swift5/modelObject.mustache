@@ -56,19 +56,22 @@
             additionalProperties[key] = newValue
         }
     }
+{{/additionalPropertiesType}}
 
     // Encodable protocol methods
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
+        var container = encoder.container(keyedBy: CodingKeys.self)
         {{#allVars}}
-        try container.encode{{#required}}{{#isNullable}}IfPresent{{/isNullable}}{{/required}}{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
+        try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
         {{/allVars}}
-        try container.encodeMap(additionalProperties)
+        {{#additionalPropertiesType}}
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
+        {{/additionalPropertiesType}}
     }
 
+{{#additionalPropertiesType}}
     // Decodable protocol methods
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}}{{#objcCompatible}} required{{/objcCompatible}} init(from decoder: Decoder) throws {
