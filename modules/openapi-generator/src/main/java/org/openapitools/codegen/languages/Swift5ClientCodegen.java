@@ -201,7 +201,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Set");
         typeMapping.put("date", "Date");
