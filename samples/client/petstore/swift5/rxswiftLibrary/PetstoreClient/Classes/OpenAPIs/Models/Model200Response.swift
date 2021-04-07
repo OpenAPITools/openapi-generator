@@ -11,16 +11,16 @@ import Foundation
 public struct Model200Response: Codable, Hashable {
 
     public var name: Int?
-    public var _class: String?
+    public var `class`: String?
 
-    public init(name: Int? = nil, _class: String? = nil) {
+    public init(name: Int? = nil, `class`: String? = nil) {
         self.name = name
-        self._class = _class
+        self.`class` = `class`
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
-        case _class = "class"
+        case `class` = "class"
     }
 
 }

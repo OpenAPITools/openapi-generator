@@ -17,13 +17,13 @@ public struct FormatTest: Codable, Hashable {
     public private(set) var double: Double?
     public private(set) var string: String?
     public private(set) var byte: Data
-    public private(set) var binary: URL?
+    public private(set) var binary: Data?
     public private(set) var date: Date
     public private(set) var dateTime: Date?
     public private(set) var uuid: UUID?
     public private(set) var password: String
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: Data? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64
