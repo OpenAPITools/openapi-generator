@@ -17,7 +17,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{testPackageName}}</RootNamespace>
     <AssemblyName>{{testPackageName}}</AssemblyName>
-    <TargetFramework>{{testTargetFramework}}</TargetFramework>
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <IsPackable>false</IsPackable>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
