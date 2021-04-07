@@ -27,31 +27,29 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Installation & Usage
 
-### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
-```
-name: {{pubName}}
-version: {{pubVersion}}
-description: {{pubDescription}}
-dependencies:
-  {{pubName}}:
-    git: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
-      version: 'any'
-```
-
-### Local
-To use the package in your local drive, please include the following in pubspec.yaml
-```
-dependencies:
-  {{pubName}}:
-    path: /path/to/{{pubName}}
-```
-
 ### pub.dev
-To use the package in your local drive, please include the following in pubspec.yaml
+To use the package from [pub.dev](https://pub.dev), please include the following in pubspec.yaml
 ```yaml
 dependencies:
   {{pubName}}: {{pubVersion}}
+```
+
+### Github
+If this Dart package is published to Github, please include the following in pubspec.yaml
+```yaml
+dependencies:
+  {{pubName}}:
+    git:
+      url: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
+      #ref: main
+```
+
+### Local development
+To use the package from your local drive, please include the following in pubspec.yaml
+```yaml
+dependencies:
+  {{pubName}}:
+    path: /path/to/{{pubName}}
 ```
 
 ## Getting Started
