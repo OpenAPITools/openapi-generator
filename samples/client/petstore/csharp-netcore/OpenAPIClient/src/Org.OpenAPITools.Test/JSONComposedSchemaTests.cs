@@ -144,6 +144,11 @@ namespace Org.OpenAPITools.Test
             // test to ensure both Cat and Animal (parent) can have "AdditionalProperties", which result in warnings
             Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
             Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
+
+            Cat c2 = new Cat();
+            c2.Color = "red";
+            c2.Declawed = false;
+            Assert.Equal("{\"declawed\":false,\"className\":\"Cat\",\"color\":\"red\"}", JsonConvert.SerializeObject(c2));
         }
 
         /// <summary>
@@ -153,10 +158,30 @@ namespace Org.OpenAPITools.Test
         public void TestAdditionalProperties()
         {
             Foo f = new Foo();
-
             Assert.NotNull(f.GetType().GetProperty("AdditionalProperties"));
             Assert.Null(f.GetType().GetProperty("unknown_property"));
+        }
 
+        /// <summary>
+        /// Test OuterEnumInteger
+        /// </summary>
+        [Fact]
+        public void OuterEnumIntegerInstanceTest()
+        {
+            OuterEnumInteger instance = OuterEnumInteger.NUMBER_1;
+            Assert.Equal(1, (int)instance);
+        }
+
+        /// <summary>
+        /// Test inner enum integer
+        /// </summary>
+        [Fact]
+        public void InnerEnumIntegerInstanceTest()
+        {
+            EnumTest enumTest = new EnumTest();
+            enumTest.EnumIntegerOnly = EnumTest.EnumIntegerOnlyEnum.NUMBER_2;
+            enumTest.EnumInteger = EnumTest.EnumIntegerEnum.NUMBER_MINUS_1;
+            Assert.Equal("{\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
         }
     }
 }

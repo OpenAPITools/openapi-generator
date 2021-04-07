@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FileSchemaTestClass: Codable {
+public struct FileSchemaTestClass: Codable, Hashable {
 
     public private(set) var file: File?
     public private(set) var files: [File]?

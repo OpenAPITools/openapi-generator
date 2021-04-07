@@ -64,6 +64,8 @@ public class Model200Response {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(Integer name) {
     this.name = name;
   }
@@ -88,6 +90,8 @@ public class Model200Response {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.1.1-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -271,7 +271,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -1352,16 +1352,6 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
-                <module>samples/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>
-                <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
-                <module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1423,6 +1413,12 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/client/petstore/R</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->

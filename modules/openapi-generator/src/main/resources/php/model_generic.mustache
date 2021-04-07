@@ -1,4 +1,4 @@
-class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^parentSchema}}implements ModelInterface, ArrayAccess, \JsonSerializable{{/parentSchema}}
+class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^parentSchema}}implements ModelInterface, ArrayAccess, \JsonSerializable{{/parentSchema}}
 {
     public const DISCRIMINATOR = {{#discriminator}}'{{discriminatorName}}'{{/discriminator}}{{^discriminator}}null{{/discriminator}};
 
@@ -123,10 +123,18 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         return self::$openAPIModelName;
     }
 
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{enumName}}_{{{name}}} = {{{value}}};
-    {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
+    {{#vars}}
+    {{#isEnum}}
+    {{#allowableValues}}
+    {{#enumVars}}
+    const {{enumName}}_{{{name}}} = {{{value}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+    {{/isEnum}}
+    {{/vars}}
 
-    {{#vars}}{{#isEnum}}
+    {{#vars}}
+    {{#isEnum}}
     /**
      * Gets allowable values of the enum
      *
@@ -139,8 +147,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
             {{/-last}}{{/enumVars}}{{/allowableValues}}
         ];
     }
-    {{/isEnum}}{{/vars}}
 
+    {{/isEnum}}
+    {{/vars}}
     {{^parentSchema}}
     /**
      * Associative array for storing property values

@@ -79,6 +79,10 @@ public class DartJaguarClientCodegen extends AbstractDartCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .wireFormatFeatures(EnumSet.of(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.PROTOBUF
+                ))
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )

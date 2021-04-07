@@ -42,6 +42,7 @@ from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
+from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
@@ -52,6 +53,8 @@ from petstore_api.model.gm_fruit import GmFruit
 from petstore_api.model.grandparent_animal import GrandparentAnimal
 from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
+from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+from petstore_api.model.inline_object6 import InlineObject6
 from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue

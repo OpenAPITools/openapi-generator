@@ -20,7 +20,6 @@ package org.openapitools.codegen.swift5;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
-import org.openapitools.codegen.options.Swift4OptionsProvider;
 import org.openapitools.codegen.options.Swift5OptionsProvider;
 
 import static org.mockito.Mockito.mock;
@@ -48,6 +47,6 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setObjcCompatible(Boolean.parseBoolean(Swift5OptionsProvider.OBJC_COMPATIBLE_VALUE));
         verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift5OptionsProvider.LENIENT_TYPE_CAST_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(Swift5OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setReadonlyProperties(Boolean.valueOf(Swift5OptionsProvider.READONLY_PROPERTIES_VALUE));
+        verify(clientCodegen).setReadonlyProperties(Boolean.parseBoolean(Swift5OptionsProvider.READONLY_PROPERTIES_VALUE));
     }
 }

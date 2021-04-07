@@ -20,6 +20,7 @@ using {{packageName}}.Authentication;
 using {{packageName}}.Filters;
 {{/useSwashbuckle}}
 using {{packageName}}.OpenApi;
+using {{packageName}}.Formatters;
 
 namespace {{packageName}}
 {
@@ -65,7 +66,9 @@ namespace {{packageName}}
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-                .AddControllers()
+                .AddControllers(options => {
+                    options.InputFormatters.Insert(0, new InputFormatterStream());
+                })
                 {{#compatibilityVersion}}
                 // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
                 //.SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})

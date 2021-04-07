@@ -25,7 +25,7 @@ import java.util.Properties;
  *
  * This provides a set of properties specific to the executing thread, such that the generator may not modify system properties
  * consumed by other threads.
- * 
+ *
  * @author gndrm
  * @since 2018
  */

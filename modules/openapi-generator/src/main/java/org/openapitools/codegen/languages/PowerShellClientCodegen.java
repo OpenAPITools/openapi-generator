@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -749,7 +750,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -1311,8 +1312,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -1327,7 +1330,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
             if (ModelUtils.isBooleanSchema(p)) {
-                if (Boolean.valueOf(p.getDefault().toString())) {
+                if (Boolean.parseBoolean(p.getDefault().toString())) {
                     return "$true";
                 } else {
                     return "$false";

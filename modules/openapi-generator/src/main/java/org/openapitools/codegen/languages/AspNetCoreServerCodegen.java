@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -148,6 +149,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setSupportNullable(Boolean.TRUE);
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_DESCRIPTION,
+                  CodegenConstants.PACKAGE_DESCRIPTION_DESC,
+                  packageDescription);
+
         addOption(CodegenConstants.LICENSE_URL,
                 CodegenConstants.LICENSE_URL_DESC,
                 licenseUrl);
@@ -398,6 +403,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -435,6 +441,68 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        // We need to postprocess the operations to add proper consumes tags and fix form file handling
+        if (objs != null) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            if (operations != null) {
+                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                for (CodegenOperation operation : ops) {
+                    if (operation.consumes == null) {
+                        continue;
+                    }
+                    if (operation.consumes.size() == 0) {
+                        continue;
+                    }
+
+                    // Build a consumes string for the operation we cannot iterate in the template as we need a ','
+                    // after each entry but the last
+
+                    StringBuilder consumesString = new StringBuilder();
+                    for (Map<String, String> consume : operation.consumes) {
+                        if (!consume.containsKey("mediaType")) {
+                            continue;
+                        }
+
+                        if(consumesString.toString().equals("")) {
+                            consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
+                        }
+                        else {
+                            consumesString.append(", \"").append(consume.get("mediaType")).append("\"");
+                        }
+
+                        // In a multipart/form-data consuming context binary data is best handled by an IFormFile
+                        if (!consume.get("mediaType").equals("multipart/form-data")) {
+                            continue;
+                        }
+
+                        // Change dataType of binary parameters to IFormFile for formParams in multipart/form-data
+                        for (CodegenParameter param : operation.formParams) {
+                            if (param.isBinary) {
+                                param.dataType = "IFormFile";
+                                param.baseType = "IFormFile";
+                            }
+                        }
+
+                        for (CodegenParameter param : operation.allParams) {
+                            if (param.isBinary && param.isFormParam) {
+                                param.dataType = "IFormFile";
+                                param.baseType = "IFormFile";
+                            }
+                        }
+                    }
+
+                    if(!consumesString.toString().equals("")) {
+                        operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
+                    }
+                }
+            }
+        }
+        return objs;
     }
 
     @Override

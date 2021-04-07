@@ -1546,6 +1546,11 @@ components:
           enum:
             - 1
             - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
         enum_number:
           type: number
           format: double
@@ -1793,6 +1798,8 @@ components:
         '$special[property.name]':
           type: integer
           format: int64
+        '_special_model.name_':
+          type: string
       xml:
         name: '$special[model.name]'
     HealthCheckResult:

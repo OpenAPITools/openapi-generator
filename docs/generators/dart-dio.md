@@ -30,11 +30,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|BuiltList|package:built_collection/built_collection.dart|
-|BuiltMap|package:built_collection/built_collection.dart|
-|BuiltSet|package:built_collection/built_collection.dart|
-|JsonObject|package:built_value/json_object.dart|
-|Uint8List|dart:typed_data|
 
 
 ## INSTANTIATION TYPES
@@ -49,7 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
-<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
@@ -135,8 +129,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |BasePath|✓|ToolingExtension
-|Authorizations|✗|ToolingExtension
-|UserAgent|✗|ToolingExtension
+|Authorizations|✓|ToolingExtension
+|UserAgent|✓|ToolingExtension
 |MockServer|✗|ToolingExtension
 
 ### Data Type Feature
@@ -213,7 +207,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
-|Composite|✓|OAS2,OAS3
+|Composite|✗|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 
@@ -223,7 +217,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
@@ -233,6 +227,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✓|OAS2,OAS3
+|XML|✗|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3

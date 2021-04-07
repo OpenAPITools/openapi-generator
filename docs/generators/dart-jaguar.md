@@ -44,7 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
-<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
@@ -208,7 +207,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
-|Composite|✓|OAS2,OAS3
+|Composite|✗|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 
@@ -228,6 +227,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✓|OAS2,OAS3
-|PROTOBUF|✗|ToolingExtension
+|XML|✗|OAS2,OAS3
+|PROTOBUF|✓|ToolingExtension
 |Custom|✗|OAS2,OAS3

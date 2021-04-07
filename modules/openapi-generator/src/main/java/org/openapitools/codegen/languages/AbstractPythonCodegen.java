@@ -28,12 +28,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +37,7 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-abstract public class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
 
     protected String packageName = "openapi_client";
@@ -148,7 +144,7 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                if (!Boolean.valueOf(p.getDefault().toString()))
                     return "False";
                 else
                     return "True";
@@ -170,11 +166,13 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    return "'" + ((String) p.getDefault()).replace("'", "\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            } else {
+                return null;
             }
         }
 
@@ -235,13 +233,13 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -279,22 +277,24 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
 
     @Override
     public String toExampleValue(Schema schema) {
-        return toExampleValueRecursive(schema, new ArrayList<String>(), 5);
+        return toExampleValueRecursive(schema, new ArrayList<>(), 5);
     }
 
-    private String toExampleValueRecursive(Schema schema, List<String> included_schemas, int indentation) {
-        String indentation_string = "";
-        for (int i = 0; i < indentation; i++) indentation_string += "    ";
+    private String toExampleValueRecursive(Schema schema, List<String> includedSchemas, int indentation) {
+        String indentationString = "";
+        for (int i = 0; i < indentation; i++) indentationString += "    ";
         String example = null;
         if (schema.getExample() != null) {
             example = schema.getExample().toString();
@@ -347,9 +347,9 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                         refSchema.setTitle(ref);
                     }
                     if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                        included_schemas.add(schema.getTitle());
+                        includedSchemas.add(schema.getTitle());
                     }
-                    return toExampleValueRecursive(refSchema, included_schemas, indentation);
+                    return toExampleValueRecursive(refSchema, includedSchemas, indentation);
                 }
             } else {
                 LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
@@ -412,25 +412,25 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "True";
         } else if (ModelUtils.isArraySchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                included_schemas.add(schema.getTitle());
+                includedSchemas.add(schema.getTitle());
             }
             ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentation_string + toExampleValueRecursive(arrayschema.getItems(), included_schemas, indentation + 1) + "\n" + indentation_string + "]";
+            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                included_schemas.add(schema.getTitle());
+                includedSchemas.add(schema.getTitle());
             }
             Object additionalObject = schema.getAdditionalProperties();
             if (additionalObject instanceof Schema) {
                 Schema additional = (Schema) additionalObject;
-                String the_key = "'key'";
+                String theKey = "'key'";
                 if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
-                    the_key = additional.getEnum().get(0).toString();
+                    theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
-                        the_key = "'" + escapeText(the_key) + "'";
+                        theKey = "'" + escapeText(theKey) + "'";
                     }
                 }
-                example = "{\n" + indentation_string + the_key + " : " + toExampleValueRecursive(additional, included_schemas, indentation + 1) + "\n" + indentation_string + "}";
+                example = "{\n" + indentationString + theKey + " : " + toExampleValueRecursive(additional, includedSchemas, indentation + 1) + "\n" + indentationString + "}";
             } else {
                 example = "{ }";
             }
@@ -464,13 +464,13 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (toExclude != null && reqs.contains(toExclude)) {
                     reqs.remove(toExclude);
                 }
-                for (String toRemove : included_schemas) {
+                for (String toRemove : includedSchemas) {
                     if (reqs.contains(toRemove)) {
                         reqs.remove(toRemove);
                     }
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                    included_schemas.add(schema.getTitle());
+                    includedSchemas.add(schema.getTitle());
                 }
                 if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
                     reqs.add((String) toAdd);
@@ -482,14 +482,14 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
                         if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
                             schema2.setTitle(propname);
                         }
-                        example += "\n" + indentation_string + underscore(propname) + " = " +
-                                toExampleValueRecursive(schema2, included_schemas, indentation + 1) + ", ";
+                        example += "\n" + indentationString + underscore(propname) + " = " +
+                                toExampleValueRecursive(schema2, includedSchemas, indentation + 1) + ", ";
                     }
                 }
             }
             example += ")";
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -551,7 +551,7 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
         } else {
-            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
@@ -634,13 +634,13 @@ abstract public class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 

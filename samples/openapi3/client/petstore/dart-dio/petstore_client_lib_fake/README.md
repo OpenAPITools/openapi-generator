@@ -40,12 +40,12 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:openapi/api.dart';
 
 
-var api_instance = new AnotherFakeApi();
-var modelClient = new ModelClient(); // ModelClient | client model
+final api = AnotherFakeApi();
+final modelClient = ModelClient(); // ModelClient | client model
 
 try {
-    var result = api_instance.call123testSpecialTags(modelClient);
-    print(result);
+    final response = await api.call123testSpecialTags(modelClient);
+    print(response);
 } catch (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
@@ -58,94 +58,94 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**call123testSpecialTags**](doc//AnotherFakeApi.md#call123testspecialtags) | **patch** /another-fake/dummy | To test special tags
-*DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **get** /foo | 
-*FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
-*FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
-*FakeApi* | [**fakeOuterBooleanSerialize**](doc//FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
-*FakeApi* | [**fakeOuterCompositeSerialize**](doc//FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
-*FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
-*FakeApi* | [**fakeOuterStringSerialize**](doc//FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
-*FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc//FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
-*FakeApi* | [**testBodyWithFileSchema**](doc//FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
-*FakeApi* | [**testBodyWithQueryParams**](doc//FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
-*FakeApi* | [**testClientModel**](doc//FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**testEndpointParameters**](doc//FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-*FakeApi* | [**testEnumParameters**](doc//FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
-*FakeApi* | [**testGroupParameters**](doc//FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
-*FakeApi* | [**testInlineAdditionalProperties**](doc//FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
-*FakeApi* | [**testJsonFormData**](doc//FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](doc//FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
-*FakeClassnameTags123Api* | [**testClassname**](doc//FakeClassnameTags123Api.md#testclassname) | **patch** /fake_classname_test | To test class name in snake case
-*PetApi* | [**addPet**](doc//PetApi.md#addpet) | **post** /pet | Add a new pet to the store
-*PetApi* | [**deletePet**](doc//PetApi.md#deletepet) | **delete** /pet/{petId} | Deletes a pet
-*PetApi* | [**findPetsByStatus**](doc//PetApi.md#findpetsbystatus) | **get** /pet/findByStatus | Finds Pets by status
-*PetApi* | [**findPetsByTags**](doc//PetApi.md#findpetsbytags) | **get** /pet/findByTags | Finds Pets by tags
-*PetApi* | [**getPetById**](doc//PetApi.md#getpetbyid) | **get** /pet/{petId} | Find pet by ID
-*PetApi* | [**updatePet**](doc//PetApi.md#updatepet) | **put** /pet | Update an existing pet
-*PetApi* | [**updatePetWithForm**](doc//PetApi.md#updatepetwithform) | **post** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**uploadFile**](doc//PetApi.md#uploadfile) | **post** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | [**uploadFileWithRequiredFile**](doc//PetApi.md#uploadfilewithrequiredfile) | **post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-*StoreApi* | [**deleteOrder**](doc//StoreApi.md#deleteorder) | **delete** /store/order/{order_id} | Delete purchase order by ID
-*StoreApi* | [**getInventory**](doc//StoreApi.md#getinventory) | **get** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**getOrderById**](doc//StoreApi.md#getorderbyid) | **get** /store/order/{order_id} | Find purchase order by ID
-*StoreApi* | [**placeOrder**](doc//StoreApi.md#placeorder) | **post** /store/order | Place an order for a pet
-*UserApi* | [**createUser**](doc//UserApi.md#createuser) | **post** /user | Create user
-*UserApi* | [**createUsersWithArrayInput**](doc//UserApi.md#createuserswitharrayinput) | **post** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**createUsersWithListInput**](doc//UserApi.md#createuserswithlistinput) | **post** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**deleteUser**](doc//UserApi.md#deleteuser) | **delete** /user/{username} | Delete user
-*UserApi* | [**getUserByName**](doc//UserApi.md#getuserbyname) | **get** /user/{username} | Get user by user name
-*UserApi* | [**loginUser**](doc//UserApi.md#loginuser) | **get** /user/login | Logs user into the system
-*UserApi* | [**logoutUser**](doc//UserApi.md#logoutuser) | **get** /user/logout | Logs out current logged in user session
-*UserApi* | [**updateUser**](doc//UserApi.md#updateuser) | **put** /user/{username} | Updated user
+*AnotherFakeApi* | [**call123testSpecialTags**](doc/AnotherFakeApi.md#call123testspecialtags) | **patch** /another-fake/dummy | To test special tags
+*DefaultApi* | [**fooGet**](doc/DefaultApi.md#fooget) | **get** /foo | 
+*FakeApi* | [**fakeHealthGet**](doc/FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
+*FakeApi* | [**fakeHttpSignatureTest**](doc/FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
+*FakeApi* | [**fakeOuterBooleanSerialize**](doc/FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
+*FakeApi* | [**fakeOuterCompositeSerialize**](doc/FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
+*FakeApi* | [**fakeOuterNumberSerialize**](doc/FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
+*FakeApi* | [**fakeOuterStringSerialize**](doc/FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
+*FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc/FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithFileSchema**](doc/FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
+*FakeApi* | [**testBodyWithQueryParams**](doc/FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
+*FakeApi* | [**testClientModel**](doc/FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**testEndpointParameters**](doc/FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**testEnumParameters**](doc/FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
+*FakeApi* | [**testGroupParameters**](doc/FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
+*FakeApi* | [**testInlineAdditionalProperties**](doc/FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
+*FakeClassnameTags123Api* | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **patch** /fake_classname_test | To test class name in snake case
+*PetApi* | [**addPet**](doc/PetApi.md#addpet) | **post** /pet | Add a new pet to the store
+*PetApi* | [**deletePet**](doc/PetApi.md#deletepet) | **delete** /pet/{petId} | Deletes a pet
+*PetApi* | [**findPetsByStatus**](doc/PetApi.md#findpetsbystatus) | **get** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**findPetsByTags**](doc/PetApi.md#findpetsbytags) | **get** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**getPetById**](doc/PetApi.md#getpetbyid) | **get** /pet/{petId} | Find pet by ID
+*PetApi* | [**updatePet**](doc/PetApi.md#updatepet) | **put** /pet | Update an existing pet
+*PetApi* | [**updatePetWithForm**](doc/PetApi.md#updatepetwithform) | **post** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**uploadFile**](doc/PetApi.md#uploadfile) | **post** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**uploadFileWithRequiredFile**](doc/PetApi.md#uploadfilewithrequiredfile) | **post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*StoreApi* | [**deleteOrder**](doc/StoreApi.md#deleteorder) | **delete** /store/order/{order_id} | Delete purchase order by ID
+*StoreApi* | [**getInventory**](doc/StoreApi.md#getinventory) | **get** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**getOrderById**](doc/StoreApi.md#getorderbyid) | **get** /store/order/{order_id} | Find purchase order by ID
+*StoreApi* | [**placeOrder**](doc/StoreApi.md#placeorder) | **post** /store/order | Place an order for a pet
+*UserApi* | [**createUser**](doc/UserApi.md#createuser) | **post** /user | Create user
+*UserApi* | [**createUsersWithArrayInput**](doc/UserApi.md#createuserswitharrayinput) | **post** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**createUsersWithListInput**](doc/UserApi.md#createuserswithlistinput) | **post** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**deleteUser**](doc/UserApi.md#deleteuser) | **delete** /user/{username} | Delete user
+*UserApi* | [**getUserByName**](doc/UserApi.md#getuserbyname) | **get** /user/{username} | Get user by user name
+*UserApi* | [**loginUser**](doc/UserApi.md#loginuser) | **get** /user/login | Logs user into the system
+*UserApi* | [**logoutUser**](doc/UserApi.md#logoutuser) | **get** /user/logout | Logs out current logged in user session
+*UserApi* | [**updateUser**](doc/UserApi.md#updateuser) | **put** /user/{username} | Updated user
 
 
 ## Documentation For Models
 
- - [AdditionalPropertiesClass](doc//AdditionalPropertiesClass.md)
- - [Animal](doc//Animal.md)
- - [ApiResponse](doc//ApiResponse.md)
- - [ArrayOfArrayOfNumberOnly](doc//ArrayOfArrayOfNumberOnly.md)
- - [ArrayOfNumberOnly](doc//ArrayOfNumberOnly.md)
- - [ArrayTest](doc//ArrayTest.md)
- - [Capitalization](doc//Capitalization.md)
- - [Cat](doc//Cat.md)
- - [CatAllOf](doc//CatAllOf.md)
- - [Category](doc//Category.md)
- - [ClassModel](doc//ClassModel.md)
- - [Dog](doc//Dog.md)
- - [DogAllOf](doc//DogAllOf.md)
- - [EnumArrays](doc//EnumArrays.md)
- - [EnumTest](doc//EnumTest.md)
- - [FileSchemaTestClass](doc//FileSchemaTestClass.md)
- - [Foo](doc//Foo.md)
- - [FormatTest](doc//FormatTest.md)
- - [HasOnlyReadOnly](doc//HasOnlyReadOnly.md)
- - [HealthCheckResult](doc//HealthCheckResult.md)
- - [InlineResponseDefault](doc//InlineResponseDefault.md)
- - [MapTest](doc//MapTest.md)
- - [MixedPropertiesAndAdditionalPropertiesClass](doc//MixedPropertiesAndAdditionalPropertiesClass.md)
- - [Model200Response](doc//Model200Response.md)
- - [ModelClient](doc//ModelClient.md)
- - [ModelEnumClass](doc//ModelEnumClass.md)
- - [ModelFile](doc//ModelFile.md)
- - [ModelList](doc//ModelList.md)
- - [ModelReturn](doc//ModelReturn.md)
- - [Name](doc//Name.md)
- - [NullableClass](doc//NullableClass.md)
- - [NumberOnly](doc//NumberOnly.md)
- - [Order](doc//Order.md)
- - [OuterComposite](doc//OuterComposite.md)
- - [OuterEnum](doc//OuterEnum.md)
- - [OuterEnumDefaultValue](doc//OuterEnumDefaultValue.md)
- - [OuterEnumInteger](doc//OuterEnumInteger.md)
- - [OuterEnumIntegerDefaultValue](doc//OuterEnumIntegerDefaultValue.md)
- - [OuterObjectWithEnumProperty](doc//OuterObjectWithEnumProperty.md)
- - [Pet](doc//Pet.md)
- - [ReadOnlyFirst](doc//ReadOnlyFirst.md)
- - [SpecialModelName](doc//SpecialModelName.md)
- - [Tag](doc//Tag.md)
- - [User](doc//User.md)
+ - [AdditionalPropertiesClass](doc/AdditionalPropertiesClass.md)
+ - [Animal](doc/Animal.md)
+ - [ApiResponse](doc/ApiResponse.md)
+ - [ArrayOfArrayOfNumberOnly](doc/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfNumberOnly](doc/ArrayOfNumberOnly.md)
+ - [ArrayTest](doc/ArrayTest.md)
+ - [Capitalization](doc/Capitalization.md)
+ - [Cat](doc/Cat.md)
+ - [CatAllOf](doc/CatAllOf.md)
+ - [Category](doc/Category.md)
+ - [ClassModel](doc/ClassModel.md)
+ - [Dog](doc/Dog.md)
+ - [DogAllOf](doc/DogAllOf.md)
+ - [EnumArrays](doc/EnumArrays.md)
+ - [EnumTest](doc/EnumTest.md)
+ - [FileSchemaTestClass](doc/FileSchemaTestClass.md)
+ - [Foo](doc/Foo.md)
+ - [FormatTest](doc/FormatTest.md)
+ - [HasOnlyReadOnly](doc/HasOnlyReadOnly.md)
+ - [HealthCheckResult](doc/HealthCheckResult.md)
+ - [InlineResponseDefault](doc/InlineResponseDefault.md)
+ - [MapTest](doc/MapTest.md)
+ - [MixedPropertiesAndAdditionalPropertiesClass](doc/MixedPropertiesAndAdditionalPropertiesClass.md)
+ - [Model200Response](doc/Model200Response.md)
+ - [ModelClient](doc/ModelClient.md)
+ - [ModelEnumClass](doc/ModelEnumClass.md)
+ - [ModelFile](doc/ModelFile.md)
+ - [ModelList](doc/ModelList.md)
+ - [ModelReturn](doc/ModelReturn.md)
+ - [Name](doc/Name.md)
+ - [NullableClass](doc/NullableClass.md)
+ - [NumberOnly](doc/NumberOnly.md)
+ - [Order](doc/Order.md)
+ - [OuterComposite](doc/OuterComposite.md)
+ - [OuterEnum](doc/OuterEnum.md)
+ - [OuterEnumDefaultValue](doc/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](doc/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](doc/OuterEnumIntegerDefaultValue.md)
+ - [OuterObjectWithEnumProperty](doc/OuterObjectWithEnumProperty.md)
+ - [Pet](doc/Pet.md)
+ - [ReadOnlyFirst](doc/ReadOnlyFirst.md)
+ - [SpecialModelName](doc/SpecialModelName.md)
+ - [Tag](doc/Tag.md)
+ - [User](doc/User.md)
 
 
 ## Documentation For Authorization
