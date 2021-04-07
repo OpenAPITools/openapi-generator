@@ -18,11 +18,21 @@ internal struct OuterComposite: Codable, Hashable {
         self.myString = myString
         self.myBoolean = myBoolean
     }
-
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"
     }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(myNumber, forKey: .myNumber)
+        try container.encodeIfPresent(myString, forKey: .myString)
+        try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
+    }
+
+
 
 }

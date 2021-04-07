@@ -24,12 +24,23 @@ import Foundation
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
         case directMap = "direct_map"
         case indirectMap = "indirect_map"
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
+        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(directMap, forKey: .directMap)
+        try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
+    }
+
+
 
 }

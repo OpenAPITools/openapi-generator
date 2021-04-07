@@ -16,5 +16,19 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         self.file = file
         self.files = files
     }
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case file
+        case files
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(file, forKey: .file)
+        try container.encodeIfPresent(files, forKey: .files)
+    }
+
+
 
 }

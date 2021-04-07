@@ -14,9 +14,17 @@ internal struct List: Codable, Hashable {
     internal init(_123list: String? = nil) {
         self._123list = _123list
     }
-
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_123list, forKey: ._123list)
+    }
+
+
 
 }

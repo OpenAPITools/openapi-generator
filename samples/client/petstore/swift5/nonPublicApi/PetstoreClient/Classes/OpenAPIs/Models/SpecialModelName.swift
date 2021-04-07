@@ -14,9 +14,17 @@ internal struct SpecialModelName: Codable, Hashable {
     internal init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
-
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case specialPropertyName = "$special[property.name]"
     }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
+    }
+
+
 
 }

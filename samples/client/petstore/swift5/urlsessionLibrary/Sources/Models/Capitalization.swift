@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Capitalization: Codable, Hashable {
+public final class Capitalization: Codable, Hashable {
 
     public var smallCamel: String?
     public var capitalCamel: String?
@@ -25,7 +25,6 @@ public struct Capitalization: Codable, Hashable {
         self.sCAETHFlowPoints = sCAETHFlowPoints
         self.ATT_NAME = ATT_NAME
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
@@ -33,6 +32,40 @@ public struct Capitalization: Codable, Hashable {
         case capitalSnake = "Capital_Snake"
         case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
         case ATT_NAME
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(smallCamel, forKey: .smallCamel)
+        try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
+        try container.encodeIfPresent(smallSnake, forKey: .smallSnake)
+        try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
+        try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
+        try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
+    }
+
+
+
+    public static func == (lhs: Capitalization, rhs: Capitalization) -> Bool {
+        lhs.smallCamel == rhs.smallCamel &&
+        lhs.capitalCamel == rhs.capitalCamel &&
+        lhs.smallSnake == rhs.smallSnake &&
+        lhs.capitalSnake == rhs.capitalSnake &&
+        lhs.sCAETHFlowPoints == rhs.sCAETHFlowPoints &&
+        lhs.ATT_NAME == rhs.ATT_NAME
+        
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(smallCamel?.hashValue)
+        hasher.combine(capitalCamel?.hashValue)
+        hasher.combine(smallSnake?.hashValue)
+        hasher.combine(capitalSnake?.hashValue)
+        hasher.combine(sCAETHFlowPoints?.hashValue)
+        hasher.combine(ATT_NAME?.hashValue)
+        
     }
 
 }

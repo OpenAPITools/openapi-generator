@@ -35,7 +35,6 @@ import Foundation
         self.tags = tags
         self.status = status
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case category
@@ -44,5 +43,19 @@ import Foundation
         case tags
         case status
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_id, forKey: ._id)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encode(name, forKey: .name)
+        try container.encode(photoUrls, forKey: .photoUrls)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(status, forKey: .status)
+    }
+
+
 
 }
