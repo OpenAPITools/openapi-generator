@@ -84,4 +84,20 @@
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 {{/additionalPropertiesType}}
+
+{{^objcCompatible}}{{#useClasses}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
+        {{#allVars}}
+        lhs.{{{name}}} == rhs.{{{name}}}{{^-last}} &&{{/-last}}
+        {{/allVars}}
+        {{#additionalPropertiesType}}{{#hasVars}}&& {{/hasVars}}lhs.additionalProperties == rhs.additionalProperties{{/additionalPropertiesType}}
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func hash(into hasher: inout Hasher) {
+        {{#allVars}}
+        hasher.combine({{{name}}}{{^required}}?{{/required}}.hashValue)
+        {{/allVars}}
+        {{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}
+    }
+{{/useClasses}}{{/objcCompatible}}
 }
