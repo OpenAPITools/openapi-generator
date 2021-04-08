@@ -16,5 +16,6 @@ void main() {
     test('to test the property `arrayEnum`', () async {
       // TODO
     });
+
   });
 }

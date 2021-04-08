@@ -9,6 +9,7 @@ import 'package:built_value/serializer.dart';
 part 'outer_enum_default_value.g.dart';
 
 class OuterEnumDefaultValue extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'placed')
   static const OuterEnumDefaultValue placed = _$placed;
   @BuiltValueEnumConst(wireName: r'approved')
@@ -16,10 +17,9 @@ class OuterEnumDefaultValue extends EnumClass {
   @BuiltValueEnumConst(wireName: r'delivered')
   static const OuterEnumDefaultValue delivered = _$delivered;
 
-  static Serializer<OuterEnumDefaultValue> get serializer =>
-      _$outerEnumDefaultValueSerializer;
+  static Serializer<OuterEnumDefaultValue> get serializer => _$outerEnumDefaultValueSerializer;
 
-  const OuterEnumDefaultValue._(String name) : super(name);
+  const OuterEnumDefaultValue._(String name): super(name);
 
   static BuiltSet<OuterEnumDefaultValue> get values => _$values;
   static OuterEnumDefaultValue valueOf(String name) => _$valueOf(name);
@@ -31,5 +31,5 @@ class OuterEnumDefaultValue extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class OuterEnumDefaultValueMixin = Object
-    with _$OuterEnumDefaultValueMixin;
+abstract class OuterEnumDefaultValueMixin = Object with _$OuterEnumDefaultValueMixin;
+

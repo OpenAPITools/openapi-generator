@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct List: Codable {
+public struct List: Codable, Hashable {
 
     public var _123list: String?
 

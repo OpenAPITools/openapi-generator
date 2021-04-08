@@ -171,5 +171,17 @@ namespace Org.OpenAPITools.Test
             OuterEnumInteger instance = OuterEnumInteger.NUMBER_1;
             Assert.Equal(1, (int)instance);
         }
+
+        /// <summary>
+        /// Test inner enum integer
+        /// </summary>
+        [Fact]
+        public void InnerEnumIntegerInstanceTest()
+        {
+            EnumTest enumTest = new EnumTest();
+            enumTest.EnumIntegerOnly = EnumTest.EnumIntegerOnlyEnum.NUMBER_2;
+            enumTest.EnumInteger = EnumTest.EnumIntegerEnum.NUMBER_MINUS_1;
+            Assert.Equal("{\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
+        }
     }
 }

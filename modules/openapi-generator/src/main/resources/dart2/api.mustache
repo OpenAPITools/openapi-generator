@@ -178,7 +178,7 @@ class {{{classname}}} {
   Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     {{#returnType}}
     // When a remote server returns no body with a status of 204, we shall not decode it.
@@ -187,16 +187,16 @@ class {{{classname}}} {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
+      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
         .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}'),);
     {{/isMap}}
     {{^isMap}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
     {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
     {{#isArray}}
       {{#uniqueItems}}

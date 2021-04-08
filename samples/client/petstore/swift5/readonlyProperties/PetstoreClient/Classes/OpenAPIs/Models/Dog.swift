@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Dog: Codable {
+public struct Dog: Codable, Hashable {
 
     public private(set) var className: String
     public private(set) var color: String? = "red"

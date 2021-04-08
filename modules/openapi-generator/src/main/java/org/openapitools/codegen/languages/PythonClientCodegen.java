@@ -36,6 +36,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -125,8 +127,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         supportingFiles.add(new SupportingFile("model_utils.mustache", packagePath(), "model_utils.py"));
 
+
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        SupportingFile originalInitModel = supportingFiles.stream()
+                .filter(sf -> sf.getTemplateFile().equals("__init__model.mustache"))
+                .reduce((a, b) -> {
+                    throw new IllegalStateException("Multiple elements: " + a + ", " + b);
+                })
+                .get();
+        supportingFiles.remove(originalInitModel);
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
@@ -219,11 +229,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     // free form object (type: object)
                     if (ModelUtils.hasValidation(ref)) {
                         return schema;
-                    } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
+                    } else if (!getAllOfDescendants(simpleRef, openAPI).isEmpty()) {
                         return schema;
+                    } else {
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                                usedImportMappings);
                     }
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
                 }
             } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
@@ -246,7 +257,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 date = (OffsetDateTime) dateValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+                LOGGER.warn("Invalid `date` format for value {}", dateValue);
                 date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = date.format(iso8601Date);
@@ -263,7 +274,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 dateTime = (OffsetDateTime) dateTimeValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue);
                 dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = dateTime.format(iso8601DateTime);
@@ -286,10 +297,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // python servers: should only use default values for optional params
         // python clients: should only use default values for required params
         Object defaultObject = null;
-        Boolean enumLengthOne = (p.getEnum() != null && p.getEnum().size() == 1);
         if (p.getDefault() != null) {
             defaultObject = p.getDefault();
-        } else if (enumLengthOne) {
+        } else if (p.getEnum() != null && p.getEnum().size() == 1) {
             defaultObject = p.getEnum().get(0);
         }
 
@@ -305,7 +315,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
             defaultValue = ensureQuotes(defaultValue);
         } else if (ModelUtils.isBooleanSchema(p)) {
-            if (Boolean.valueOf(defaultValue) == false) {
+            if (!Boolean.valueOf(defaultValue)) {
                 defaultValue = "False";
             } else {
                 defaultValue = "True";
@@ -329,9 +339,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
         ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>) objs.get("imports");
         for (CodegenOperation operation : operations) {
-            if (operation.imports.size() == 0) {
+            if (operation.imports.isEmpty()) {
                 continue;
             }
             String[] modelNames = operation.imports.toArray(new String[0]);
@@ -540,7 +549,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
-        if (datatype.equals("int") || datatype.equals("float")) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
             return ensureQuotes(value);
@@ -887,6 +896,13 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return "\"" + in + "\"";
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        Object objExample = getObjectExample(schema);
+        String modelName = getModelName(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
+    }
+
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
         return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
@@ -967,7 +983,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // checks if the current schema has already been passed in. If so, breaks the current recursive pass
         if (seenSchemas.contains(schema)) {
             if (modelName != null) {
-                return fullPrefix + modelName + closeChars;
+                return fullPrefix + closeChars;
             } else {
                 // this is a recursive schema
                 // need to add a reasonable example to avoid
@@ -1043,18 +1059,39 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    RgxGen rgxGen = new RgxGen(pattern);
+                    /*
+                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                     */
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                    Matcher m = valueExtractor.matcher(pattern);
+                    RgxGen rgxGen = null;
+                    if (m.find()) {
+                        int groupCount = m.groupCount();
+                        if (groupCount == 1) {
+                            // only pattern found
+                            String isolatedPattern = m.group(1);
+                            rgxGen = new RgxGen(isolatedPattern);
+                        } else if (groupCount == 2) {
+                            // patterns and flag found
+                            String isolatedPattern = m.group(1);
+                            String flags = m.group(2);
+                            if (flags.contains("i")) {
+                                rgxGen = new RgxGen(isolatedPattern);
+                                RgxGenProperties properties = new RgxGenProperties();
+                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                                rgxGen.setProperties(properties);
+                            } else {
+                                rgxGen = new RgxGen(isolatedPattern);
+                            }
+                        }
+                    } else {
+                        rgxGen = new RgxGen(pattern);
+                    }
+
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    String sample = rgxGen.generate(random);
-                    // omit leading / and trailing /, omit trailing /i
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                    Matcher m = valueExtractor.matcher(sample);
-                    if (m.find()) {
-                        example = m.group(m.groupCount());
-                    } else {
-                        example = "";
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();
@@ -1092,8 +1129,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
                 return fullPrefix + objExample.toString() + closeChars;
             }
-            seenSchemas.add(schema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -1115,8 +1153,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                seenSchemas.add(schema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, seenSchemas) + ",\n" + closingIndentation + closeChars;
+                Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                newSeenSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1139,11 +1178,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            // Adds schema to seenSchemas before running example model function. romoves schema after running
-            // the function. It also doesnt keep track of any schemas within the ObjectModel.
-            seenSchemas.add(schema);
-            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-            seenSchemas.remove(schema);
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
             return exampleForObjectModel;
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
@@ -1160,9 +1197,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     cp.setExample(discPropNameValue);
                     // Adds schema to seenSchemas before running example model function. romoves schema after running
                     // the function. It also doesnt keep track of any schemas within the ObjectModel.
-                    seenSchemas.add(modelSchema);
-                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, seenSchemas);
-                    seenSchemas.remove(modelSchema);
+                    Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                    newSeenSchemas.add(schema);
+                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
                     return exampleForObjectModel;
                 } else {
                     return fullPrefix + closeChars;

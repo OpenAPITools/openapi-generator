@@ -116,6 +116,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
@@ -141,6 +143,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetId(Long petId) {
     this.petId = petId;
   }
@@ -166,6 +170,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -191,6 +197,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
@@ -216,6 +224,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -241,6 +251,8 @@ public class Order {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }

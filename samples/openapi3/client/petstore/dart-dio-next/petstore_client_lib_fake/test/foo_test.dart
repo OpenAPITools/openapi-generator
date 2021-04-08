@@ -11,5 +11,6 @@ void main() {
     test('to test the property `bar`', () async {
       // TODO
     });
+
   });
 }

@@ -7,57 +7,60 @@ import 'package:built_value/serializer.dart';
 
 part 'model_list.g.dart';
 
+
+
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
-  @BuiltValueField(wireName: r'123-list')
-  String? get n123list;
+    @BuiltValueField(wireName: r'123-list')
+    String? get n123list;
 
-  ModelList._();
+    ModelList._();
 
-  static void _initializeBuilder(ModelListBuilder b) => b;
+    static void _initializeBuilder(ModelListBuilder b) => b;
 
-  factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
+    factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<ModelList> get serializer => _$ModelListSerializer();
+    @BuiltValueSerializer(custom: true)
+    static Serializer<ModelList> get serializer => _$ModelListSerializer();
 }
 
 class _$ModelListSerializer implements StructuredSerializer<ModelList> {
-  @override
-  final Iterable<Type> types = const [ModelList, _$ModelList];
+    @override
+    final Iterable<Type> types = const [ModelList, _$ModelList];
 
-  @override
-  final String wireName = r'ModelList';
+    @override
+    final String wireName = r'ModelList';
 
-  @override
-  Iterable<Object?> serialize(Serializers serializers, ModelList object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    if (object.n123list != null) {
-      result
-        ..add(r'123-list')
-        ..add(serializers.serialize(object.n123list,
-            specifiedType: const FullType(String)));
+    @override
+    Iterable<Object?> serialize(Serializers serializers, ModelList object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object?>[];
+        if (object.n123list != null) {
+            result
+                ..add(r'123-list')
+                ..add(serializers.serialize(object.n123list,
+                    specifiedType: const FullType(String)));
+        }
+        return result;
     }
-    return result;
-  }
 
-  @override
-  ModelList deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = ModelListBuilder();
+    @override
+    ModelList deserialize(Serializers serializers, Iterable<Object?> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = ModelListBuilder();
 
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case r'123-list':
-          result.n123list = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-      }
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final Object? value = iterator.current;
+            switch (key) {
+                case r'123-list':
+                    result.n123list = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    break;
+            }
+        }
+        return result.build();
     }
-    return result.build();
-  }
 }
+

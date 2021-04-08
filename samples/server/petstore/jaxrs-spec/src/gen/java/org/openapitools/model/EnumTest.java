@@ -173,7 +173,9 @@ public enum EnumNumberEnum {
 
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
@@ -192,7 +194,9 @@ public enum EnumNumberEnum {
 
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -210,7 +214,9 @@ public enum EnumNumberEnum {
 
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -228,7 +234,9 @@ public enum EnumNumberEnum {
 
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
-  }/**
+  }
+
+/**
    **/
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
@@ -247,6 +255,7 @@ public enum EnumNumberEnum {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -91,6 +91,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**download_attachment**](docs/FakeApi.md#download_attachment) | **GET** /{fileName} | downloads a file using Content-Disposition
 *FakeApi* | [**enum_test**](docs/FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**get_inline_additional_properties_payload**](docs/FakeApi.md#get_inline_additional_properties_payload) | **GET** /fake/getInlineAdditionalPropertiesPayload | 
+*FakeApi* | [**get_inline_additional_properties_ref_payload**](docs/FakeApi.md#get_inline_additional_properties_ref_payload) | **GET** /fake/getInlineAdditionalPropertiesRefPayload | 
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
@@ -165,6 +167,7 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeGetInlineAdditionalPropertiesPayloadArrayData](docs/FakeGetInlineAdditionalPropertiesPayloadArrayData.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
@@ -175,6 +178,8 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InlineAdditionalPropertiesRefPayload](docs/InlineAdditionalPropertiesRefPayload.md)
+ - [InlineObject6](docs/InlineObject6.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IntegerEnum](docs/IntegerEnum.md)
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)

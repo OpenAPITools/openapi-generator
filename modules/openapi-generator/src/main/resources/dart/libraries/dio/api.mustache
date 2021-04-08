@@ -5,10 +5,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/src/model/{{.}}.dart';
-{{/modelImports}}
-{{#fullImports}}import '{{.}}';
-{{/fullImports}}
+{{#imports}}import '{{.}}';
+{{/imports}}
 
 class {{classname}} {
 
