@@ -347,7 +347,7 @@ export class {{classname}} {
                 params: queryParameters,
     {{/hasQueryParams}}
     {{#isResponseFile}}
-                responseType_: "blob",
+                responseType: "blob",
     {{/isResponseFile}}
     {{^isResponseFile}}
                 responseType: <any>responseType_,
