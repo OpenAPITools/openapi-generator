@@ -350,7 +350,7 @@ export class {{classname}} {
                 responseType_: "blob",
     {{/isResponseFile}}
     {{^isResponseFile}}
-                responseType_: <any>responseType_,
+                responseType: <any>responseType_,
     {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
