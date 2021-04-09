@@ -19,7 +19,7 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
 
     private static final String MODEL_PACKAGE_NAME = "models";
     private static final String API_PACKAGE_NAME = "handlers";
-    private static final String OUTPUT_PATH = "generated-code" + File.separator + "go-echo";
+    private static final String OUTPUT_PATH = "generated-code" + File.separator + "go-echo-server";
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
