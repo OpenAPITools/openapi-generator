@@ -347,10 +347,10 @@ export class {{classname}} {
                 params: queryParameters,
     {{/hasQueryParams}}
     {{#isResponseFile}}
-                responseType_: "blob",
+                responseType: "blob",
     {{/isResponseFile}}
     {{^isResponseFile}}
-                responseType_: <any>responseType_,
+                responseType: <any>responseType_,
     {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
