@@ -86,6 +86,7 @@ The following generators are available:
 * [erlang-server](generators/erlang-server.md)  
 * [fsharp-functions (beta)](generators/fsharp-functions.md)  
 * [fsharp-giraffe-server (beta)](generators/fsharp-giraffe-server.md)  
+* [go-echo-server](generators/go-echo-server.md)  
 * [go-gin-server](generators/go-gin-server.md)  
 * [go-server](generators/go-server.md)  
 * [graphql-nodejs-express-server](generators/graphql-nodejs-express-server.md)  

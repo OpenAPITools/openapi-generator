@@ -129,7 +129,7 @@ export class UserService {
         return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
             body,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -182,7 +182,7 @@ export class UserService {
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
             body,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -235,7 +235,7 @@ export class UserService {
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
             body,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -280,7 +280,7 @@ export class UserService {
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -326,7 +326,7 @@ export class UserService {
 
         return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -387,7 +387,7 @@ export class UserService {
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
             {
                 params: queryParameters,
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -427,7 +427,7 @@ export class UserService {
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -485,7 +485,7 @@ export class UserService {
         return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             body,
             {
-                responseType: <any>responseType_,
+                responseType_: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
