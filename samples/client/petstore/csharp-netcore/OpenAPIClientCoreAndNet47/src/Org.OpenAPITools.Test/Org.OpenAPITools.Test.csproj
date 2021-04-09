@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>{{testPackageName}}</AssemblyName>
-    <RootNamespace>{{testPackageName}}</RootNamespace>
-    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
+    <AssemblyName>Org.OpenAPITools.Test</AssemblyName>
+    <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp3.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\{{packageName}}\{{packageName}}.csproj" />
+    <ProjectReference Include="..\Org.OpenAPITools\Org.OpenAPITools.csproj" />
   </ItemGroup>
 
 </Project>
