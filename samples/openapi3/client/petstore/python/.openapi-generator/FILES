@@ -85,6 +85,7 @@ docs/ShapeInterface.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SomeObject.md
+docs/SomeObjectWithSelfAttr.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringBooleanMap.md
@@ -190,6 +191,7 @@ petstore_api/model/shape_interface.py
 petstore_api/model/shape_or_null.py
 petstore_api/model/simple_quadrilateral.py
 petstore_api/model/some_object.py
+petstore_api/model/some_object_with_self_attr.py
 petstore_api/model/special_model_name.py
 petstore_api/model/string_boolean_map.py
 petstore_api/model/string_enum.py

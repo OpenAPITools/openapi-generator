@@ -212,6 +212,7 @@ Class | Method | HTTP request | Description
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SomeObject](docs/SomeObject.md)
+ - [SomeObjectWithSelfAttr](docs/SomeObjectWithSelfAttr.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [StringBooleanMap](docs/StringBooleanMap.md)
  - [StringEnum](docs/StringEnum.md)
