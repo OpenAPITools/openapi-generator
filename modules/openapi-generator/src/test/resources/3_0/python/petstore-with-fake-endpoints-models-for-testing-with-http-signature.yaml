@@ -2378,6 +2378,11 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    SomeObjectWithSelfAttr:
+      type: object
+      properties:
+        self:
+          type: string
     InlineAdditionalPropertiesRefPayload:
       description: this payload is used for verification that some model_to_dict issues are fixed
       type: object
