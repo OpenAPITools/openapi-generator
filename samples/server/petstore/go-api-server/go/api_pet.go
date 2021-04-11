@@ -85,7 +85,7 @@ func (c *PetApiController) Routes() Routes {
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeBodyErrorResponse(err, w)
 		return
 	}
 	result, err := c.service.AddPet(r.Context(), *pet)
@@ -104,7 +104,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("petId", err, w)
 		return
 	}
 
@@ -155,7 +155,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("petId", err, w)
 		return
 	}
 
@@ -174,7 +174,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeBodyErrorResponse(err, w)
 		return
 	}
 	result, err := c.service.UpdatePet(r.Context(), *pet)
@@ -192,13 +192,13 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeFormErrorResponse(err, w)
 		return
 	}
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("petId", err, w)
 		return
 	}
 
@@ -219,20 +219,20 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeFormErrorResponse(err, w)
 		return
 	}
 	params := mux.Vars(r)
 	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("petId", err, w)
 		return
 	}
 
 	additionalMetadata := r.FormValue("additionalMetadata")
 file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("file", err, w)
 		return
 	}
 	result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)

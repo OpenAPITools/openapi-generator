@@ -36,7 +36,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#hasFormParams}}
 	err := r.ParseForm()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeFormErrorResponse(err, w)
 		return
 	}
 	{{/hasFormParams}}
@@ -51,14 +51,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter(params["{{baseName}}"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
     {{/isLong}}
 	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter(params["{{baseName}}"])
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isInteger}}
@@ -71,14 +71,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter(query.Get("{{baseName}}"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter(query.Get("{{baseName}}"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isInteger}}
@@ -103,21 +103,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}")
 	{{/isArray}}
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isFile}}
 	{{#isLong}}
 	{{paramName}}, err := parseInt64Parameter( r.FormValue("{{baseName}}"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
 	{{paramName}}, err := parseInt32Parameter( r.FormValue("{{baseName}}"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeParameterErrorResponse("{{baseName}}", err, w)
 		return
 	}
 	{{/isInteger}}
@@ -133,7 +133,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isBodyParam}}
 	{{paramName}} := &{{dataType}}{}
 	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		EncodeBodyErrorResponse(err, w)
 		return
 	}
 	{{/isBodyParam}}
