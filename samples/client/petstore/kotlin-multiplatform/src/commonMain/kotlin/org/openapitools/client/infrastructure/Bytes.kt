@@ -1,6 +1,6 @@
 package org.openapitools.client.infrastructure
 
-import kotlinx.io.core.*
+import io.ktor.utils.io.core.*
 import kotlin.experimental.and
 
 private val digits = "0123456789abcdef".toCharArray()
