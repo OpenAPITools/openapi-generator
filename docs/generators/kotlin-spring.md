@@ -103,6 +103,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>null</li>
 <li>object</li>
 <li>package</li>
+<li>private</li>
 <li>return</li>
 <li>super</li>
 <li>this</li>
