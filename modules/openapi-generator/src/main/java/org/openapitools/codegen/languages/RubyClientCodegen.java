@@ -748,8 +748,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
-            return oneOf;
+            if (modelMaps.containsKey(subModel)) {
+                // oneOf models
+                return constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+            } else {
+                // TODO oneOf primitive type not supported at the moment
+                LOGGER.warn("oneOf example value not supported at the moment.");
+                return "nil";
+            }
         } else {
             processedModelMap.put(model, 1);
         }
