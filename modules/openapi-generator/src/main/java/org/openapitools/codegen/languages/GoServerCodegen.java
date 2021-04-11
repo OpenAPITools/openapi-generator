@@ -235,10 +235,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // override imports to only include packages for interface parameters
         imports.clear();
 
-        boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
-        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -247,7 +245,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter.
+                // import "time" if the operation has a required time parameter
                 if (param.required) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
