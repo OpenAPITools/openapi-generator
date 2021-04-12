@@ -47,6 +47,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
+    protected boolean nullReferenceTypesFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 

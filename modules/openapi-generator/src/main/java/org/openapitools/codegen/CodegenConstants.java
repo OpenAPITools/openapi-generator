@@ -208,6 +208,9 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK = "targetFramework";
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
+    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Set the nullable reference types property to true or false. Default is false.";
+
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
