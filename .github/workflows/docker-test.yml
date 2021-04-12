@@ -15,8 +15,16 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    strategy:
+      matrix:
+        arch:
+          - arm64
+          - x64
     # The type of runner that the job will run on
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on:
+      - ${{ matrix.arch }}
+      - linux
+      - self-hosted    
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
