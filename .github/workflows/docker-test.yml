@@ -23,14 +23,25 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # set up JDK
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      # build the project
+      - name: mvn clean package
+        run: mvn --batch-mode clean package
+
       # Build modules/openapi-generator-cli/Dockerfile
       - name: Build
-        run: docker build -t openapi-generator-cli-test modules/openapi-generator-cli/
+        run: cp docker-entrypoint.sh ./modules/openapi-generator-cli && docker build -t openapi-generator-cli-test modules/openapi-generator-cli/
       
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Generate a Go client
         run: |
-          docker run -d openapi-generator-cli-test --rm -v "${PWD}:/local" generate \
+          docker run --rm -v "${PWD}:/local" openapi-generator-cli-test generate \
           -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
           -g go \
           -o /local/out/go
