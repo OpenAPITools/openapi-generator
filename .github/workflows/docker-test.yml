@@ -41,6 +41,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      # uname -a 
+      - name: uname -a 
+        run: uname -a 
+
       # build the project
       - name: mvn clean package
         run: mvn --batch-mode clean package
