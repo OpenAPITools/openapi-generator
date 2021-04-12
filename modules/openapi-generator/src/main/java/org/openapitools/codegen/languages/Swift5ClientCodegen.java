@@ -778,6 +778,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // get the next parent
                 parentSchema = parentCodegenModel.parentSchema;
             }
+
+            codegenModel.emptyVars = codegenModel.vars.isEmpty();
         }
 
         return codegenModel;
