@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11.0-jre-buster
 
 RUN apk add --no-cache bash
 
