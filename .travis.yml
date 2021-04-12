@@ -210,7 +210,7 @@ after_success:
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
       docker buildx create --use;
-      docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+      docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
       if [ ! -z "$TRAVIS_TAG" ]; then
           docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
       fi;
@@ -224,7 +224,7 @@ after_success:
       cp docker-entrypoint.sh ./modules/openapi-generator-cli;
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+      docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
       if [ ! -z "$TRAVIS_TAG" ]; then
           docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG;
       fi;
