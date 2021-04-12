@@ -15,20 +15,24 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    strategy:
-      matrix:
-        arch:
-          - arm64
-          - x64
-    # The type of runner that the job will run on
-    runs-on:
-      - ${{ matrix.arch }}
-      - linux
+    runs-on: ubuntu-18.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - uses: uraimo/run-on-arch-action@v2.0.5
+        name: Run commands
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu18.04
+
+          # Set an output parameter `uname` for use in subsequent steps
+          run: |
+            uname -a
+            echo ::set-output name=uname::$(uname -a)
 
       # set up JDK
       - name: Set up JDK 11
