@@ -283,8 +283,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // Get the properties for the parent and child models
         final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
         List<CodegenProperty> codegenProperties = codegenModel.vars;
-        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
-        codegenModel.parentVars = parentCodegenModel.allVars;
 
         // Iterate over all of the parent model properties
         boolean removedChildProperty = false;
@@ -763,10 +761,17 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (allDefinitions != null) {
             String parentSchema = codegenModel.parentSchema;
 
+            // Set parentVars once, from parent model
+            if (parentSchema != null) {
+                Schema parentModel = allDefinitions.get(parentSchema);
+                CodegenModel parentCodegenModel = super.fromModel(parentSchema, parentModel);
+                codegenModel.parentVars = parentCodegenModel.allVars;
+            }
+
             // multilevel inheritance: reconcile properties of all the parents
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
+                final CodegenModel parentCodegenModel = super.fromModel(parentSchema,
                         parentModel);
                 codegenModel = Swift5ClientCodegen.reconcileProperties(codegenModel, parentCodegenModel);
 
