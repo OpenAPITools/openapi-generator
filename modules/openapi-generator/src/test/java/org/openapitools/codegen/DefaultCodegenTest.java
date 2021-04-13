@@ -1188,12 +1188,15 @@ public class DefaultCodegenTest {
 
             Schema sc = openAPI.getComponents().getSchemas().get(modelName);
 
+            /*
+            // comment out below as we're now showing warnings instead of throwing exceptions
             try {
                 codegen.fromModel(modelName, sc);
                 Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
             } catch (RuntimeException re) {
                 Assert.assertEquals(re.getMessage(), errorMessageExpected);
             }
+            */
         }
     }
 
@@ -1220,12 +1223,15 @@ public class DefaultCodegenTest {
 
             Schema sc = openAPI.getComponents().getSchemas().get(modelName);
 
+            /*
+            // comment out below as we're now showing warnings instead of throwing exceptions
             try {
                 codegen.fromModel(modelName, sc);
                 Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
             } catch (RuntimeException re) {
                 Assert.assertEquals(re.getMessage(), errorMessageExpected);
             }
+            */
         }
     }
 
@@ -1256,7 +1262,8 @@ public class DefaultCodegenTest {
         // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
         final String fmodelName = "FruitInlineInlineDisc";
         final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
+        // comment out below as we're now showing warnings instead of throwing exceptions
+        //Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref anyOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
@@ -1341,7 +1348,8 @@ public class DefaultCodegenTest {
         // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
         final String fmodelName = "FruitInlineInlineDisc";
         final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
+        // comment out below as we're now showing warnings instead of throwing exceptions
+        //Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
