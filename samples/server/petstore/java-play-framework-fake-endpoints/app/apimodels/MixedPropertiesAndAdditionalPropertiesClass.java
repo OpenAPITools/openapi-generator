@@ -18,12 +18,18 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
+  @Valid
+
   private UUID uuid;
 
   @JsonProperty("dateTime")
+  @Valid
+
   private OffsetDateTime dateTime;
 
   @JsonProperty("map")
+  @Valid
+
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
@@ -35,7 +41,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   **/
-  @Valid
   public UUID getUuid() {
     return uuid;
   }
@@ -53,7 +58,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   **/
-  @Valid
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -79,7 +83,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   **/
-  @Valid
   public Map<String, Animal> getMap() {
     return map;
   }
@@ -90,7 +93,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -125,7 +128,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

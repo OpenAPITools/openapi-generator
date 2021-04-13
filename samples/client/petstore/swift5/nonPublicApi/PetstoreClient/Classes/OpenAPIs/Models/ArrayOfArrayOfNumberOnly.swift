@@ -7,11 +7,11 @@
 
 import Foundation
 
-internal struct ArrayOfArrayOfNumberOnly: Codable {
+internal struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
 
     internal var arrayArrayNumber: [[Double]]?
 
-    internal init(arrayArrayNumber: [[Double]]?) {
+    internal init(arrayArrayNumber: [[Double]]? = nil) {
         self.arrayArrayNumber = arrayArrayNumber
     }
 

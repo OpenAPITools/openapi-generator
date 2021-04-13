@@ -1124,6 +1124,7 @@ definitions:
     xml:
       name: User
   Tag:
+    x-swift-hashable: true
     type: object
     properties:
       id:
@@ -1134,6 +1135,7 @@ definitions:
     xml:
       name: Tag
   Pet:
+    x-swift-hashable: true
     type: object
     required:
       - name

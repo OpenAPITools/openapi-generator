@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  description: This specification shows how to generate aliases to maps and arrays as models.
+  version: 1.0.0
+  title: OpenAPI Extension generating aliases to maps and arrays as models
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: usage
+    description: Show usage of x-generate-alias-as-model extension
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+    description: petstore server
+paths:
+  /map:
+    get:
+      tags:
+        - usage
+      summary: Use alias to map
+      description: Use alias to map
+      operationId: map
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/MapAlias"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  /array:
+    get:
+      tags:
+        - usage
+      summary: Use alias to array
+      description: Use alias to array
+      operationId: array
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ArrayAlias"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    ArrayAlias:
+      type: array
+      items:
+        type: integer
+
+    MapAlias:
+      type: object
+      additionalProperties:
+        type: string

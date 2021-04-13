@@ -7,11 +7,11 @@
 
 import Foundation
 
-internal struct Client: Codable {
+internal struct Client: Codable, Hashable {
 
     internal var client: String?
 
-    internal init(client: String?) {
+    internal init(client: String? = nil) {
         self.client = client
     }
 

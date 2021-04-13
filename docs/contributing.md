@@ -8,7 +8,7 @@ sidebar_label: Guidelines
 
  - If you're not using the latest master to generate API clients or server stubs, please give it another try by pulling the latest master as the issue may have already been addressed. Ref: [Getting Started](https://github.com/openapitools/openapi-generator#getting-started)
  - Search the [open issue](https://github.com/openapitools/openapi-generator/issues) and [closed issue](https://github.com/openapitools/openapi-generator/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
- - File an [issue ticket](https://github.com/openapitools/openapi-generator/issues/new) by providing all the required information.
+ - File an [issue ticket](https://github.com/openapitools/openapi-generator/issues/new) by providing all the required information. Failure to provide enough detail may result in slow response from the community.
  - Test with the latest master by building the JAR locally to see if the issue has already been addressed.
  - You can also make a suggestion or ask a question by opening an "issue".
 
@@ -53,6 +53,7 @@ Code change should conform to the programming style guide of the respective lang
 - C++: https://google.github.io/styleguide/cppguide.html
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
 - Clojure: https://github.com/bbatsov/clojure-style-guide
+- Crystal: https://crystal-lang.org/reference/conventions/coding_style.html
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style
 - Elixir: https://github.com/christopheradams/elixir_style_guide
 - Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
@@ -91,10 +92,7 @@ To add test cases (optional) covering the change in the code generator, please r
 To test the templates, please perform the following:
 
 - Update the Petstore sample by running the shell scripts under the `bin` folder. For example, run `./bin/generate-samples.sh .
-/bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/t
-ree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files g
-enerated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec fro
-m time to time. If you've questions or concerns, please open a ticket to start a discussion)
+/bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/tree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
 - During development it can be helpful to quickly regenerate the samples without recompiling all of openapi-generator, e.g. when you have only updated the mustache templates. This can be done by passing the `-t` parameter: `-t modules/openapi-generator/src/main/resources/python`.
 - Run the tests in the sample folder using maven `mvn integration-test -f /path/to/pom.xml`, e.g. `mvn integration-test -f samples/client/petstore/python/pom.xml`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
 - Finally, git commit the updated samples files: `git commit -a`
@@ -114,7 +112,8 @@ See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/
 - Add test case(s) to cover the change
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)
-- File a PR with meaningful title, description and commit messages.
+- File a PR with meaningful title, description and commit messages
+- Make sure the option "Allow edits from maintainers" in the PR is selected so that the maintainers can update your PRs with minor fixes, if needed.
 - Recommended git settings
    - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
 - To close an issue (e.g. issue 1542) automatically after a PR is merged, use keywords "fix", "close", "resolve" in the PR description, e.g. `fix #1542`. (Ref: [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))

@@ -11,7 +11,7 @@ import Foundation
 
     public var breed: String?
 
-    public init(breed: String?) {
+    public init(breed: String? = nil) {
         self.breed = breed
     }
 

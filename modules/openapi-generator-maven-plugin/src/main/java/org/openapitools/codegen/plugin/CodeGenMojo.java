@@ -43,6 +43,7 @@ import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -73,7 +74,7 @@ import com.google.common.io.Files;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
     /**
      * The build context is only avail when running from within eclipse.
@@ -236,6 +237,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
     private Boolean removeOperationIdPrefix;
+
+    /**
+     * To skip examples defined in the operation
+     */
+    @Parameter(name = "skipOperationExample", property = "openapi.generator.maven.plugin.skipOperationExample")
+    private Boolean skipOperationExample;
 
     /**
      * To write all log messages (not just errors) to STDOUT
@@ -407,15 +414,18 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
-    // TODO: Rename to global properties in version 5.0
+    // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
 
     @Parameter
-    protected Map<String, String> originalEnvironmentVariables = new HashMap<>();
+    protected Map<String, String> globalProperties = new HashMap<>();
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
+
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    private MojoExecution mojo;
 
     /**
      * The project being built.
@@ -430,7 +440,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
-        resetEnvironmentVariables();
         addCompileSourceRootIfConfigured();
 
         try {
@@ -484,6 +493,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (removeOperationIdPrefix != null) {
                 configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+            }
+
+            if (skipOperationExample != null) {
+                configurator.setSkipOperationExample(skipOperationExample);
             }
 
             if (isNotEmpty(inputSpec)) {
@@ -699,13 +712,19 @@ public class CodeGenMojo extends AbstractMojo {
                 applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
             }
 
-            if (environmentVariables != null) {
-                for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
-                    String value = environmentVariables.get(key);
-                    if (value != null) {
-                        configurator.addGlobalProperty(key, value);
-                    }
+            if (globalProperties == null) {
+                globalProperties = new HashMap<>();
+            }
+
+            if (environmentVariables != null && environmentVariables.size() > 0) {
+                globalProperties.putAll(environmentVariables);
+                getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
+            }
+
+            for (String key : globalProperties.keySet()) {
+                String value = globalProperties.get(key);
+                if (value != null) {
+                    configurator.addGlobalProperty(key, value);
                 }
             }
 
@@ -743,7 +762,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
+                                               " to store the checksum of the input spec.");
+                }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
 
@@ -775,7 +797,7 @@ public class CodeGenMojo extends AbstractMojo {
         File inputSpecTempFile = inputSpecFile;
 
         if (inputSpecRemoteUrl != null) {
-            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+            inputSpecTempFile = java.nio.file.Files.createTempFile("openapi-spec", ".tmp").toFile();
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
@@ -829,7 +851,7 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + ".sha256");
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {
@@ -854,19 +876,6 @@ public class CodeGenMojo extends AbstractMojo {
             project.addCompileSourceRoot(getCompileSourceRoot());
         } else if (addTestCompileSourceRoot) {
             project.addTestCompileSourceRoot(getCompileSourceRoot());
-        }
-    }
-
-    private void resetEnvironmentVariables() {
-        // Reset all environment variables to their original value. This prevents unexpected
-        // behaviour
-        // when running the plugin multiple consecutive times with different configurations.
-        for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
-            if (entry.getValue() == null) {
-                GlobalSettings.clearProperty(entry.getKey());
-            } else {
-                GlobalSettings.setProperty(entry.getKey(), entry.getValue());
-            }
         }
     }
 

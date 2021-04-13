@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct NumberOnly: Codable {
+public struct NumberOnly: Codable, Hashable {
 
     public var justNumber: Double?
 
-    public init(justNumber: Double?) {
+    public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 

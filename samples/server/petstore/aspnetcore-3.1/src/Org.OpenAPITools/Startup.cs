@@ -23,6 +23,7 @@ using Newtonsoft.Json.Serialization;
 using Org.OpenAPITools.Authentication;
 using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.OpenApi;
+using Org.OpenAPITools.Formatters;
 
 namespace Org.OpenAPITools
 {
@@ -64,7 +65,9 @@ namespace Org.OpenAPITools
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-                .AddControllers()
+                .AddControllers(options => {
+                    options.InputFormatters.Insert(0, new InputFormatterStream());
+                })
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -97,10 +100,10 @@ namespace Org.OpenAPITools
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
-                    // Sets the basePath property in the Swagger document generated
+                    // Sets the basePath property in the OpenAPI document generated
                     c.DocumentFilter<BasePathFilter>("/v2");
 
-                    // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
+                    // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
@@ -129,21 +132,23 @@ namespace Org.OpenAPITools
             app.UseStaticFiles();
             app.UseSwagger(c =>
                 {
-                    c.RouteTemplate = "swagger/{documentName}/openapi.json";
+                    c.RouteTemplate = "openapi/{documentName}/openapi.json";
                 })
                 .UseSwaggerUI(c =>
                 {
-                    //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                    c.SwaggerEndpoint("/swagger/1.0.0/openapi.json", "OpenAPI Petstore");
+                    // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
+                    c.RoutePrefix = "openapi";
+                    //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
+                    c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "OpenAPI Petstore");
 
-                    //TODO: Or alternatively use the original Swagger contract that's included in the static files
+                    //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "OpenAPI Petstore Original");
                 });
             app.UseRouting();
             app.UseEndpoints(endpoints =>
-	            {
-	    	        endpoints.MapControllers();
-	            });
+                {
+                    endpoints.MapControllers();
+                });
         }
     }
 }

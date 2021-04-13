@@ -30,6 +30,7 @@ if (UNIX)
 
     set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -Wno-unused-variable")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wno-unused-variable")
+    set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
 
     find_package(cpprestsdk REQUIRED)
     find_package(Boost REQUIRED)
@@ -38,7 +39,6 @@ else()
 
     find_package(cpprestsdk REQUIRED)
     find_package(Boost REQUIRED)
-    find_package(pthreads REQUIRED)
 endif()
 
 # Manually set the cpprestsdk paths when not using package manager
@@ -67,9 +67,9 @@ target_link_directories(
 )
 
 if (UNIX)
-    target_link_libraries(${PROJECT_NAME} PRIVATE cpprest pthread ${Boost_LIBRARIES} crypto)
+    target_link_libraries(${PROJECT_NAME} PRIVATE cpprest ${Boost_LIBRARIES} crypto)
 else()
-    target_link_libraries(${PROJECT_NAME} PRIVATE cpprestsdk::cpprest ${pthreads_LIBRARIES} ${Boost_LIBRARIES} bcrypt)
+    target_link_libraries(${PROJECT_NAME} PRIVATE cpprestsdk::cpprest ${Boost_LIBRARIES} bcrypt)
 endif()
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)

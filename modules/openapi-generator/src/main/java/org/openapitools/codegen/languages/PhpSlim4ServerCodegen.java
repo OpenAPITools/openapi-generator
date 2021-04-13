@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
 
     public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
 
@@ -123,6 +123,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
         supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
         supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
         supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
@@ -144,7 +147,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 break;
             default:
                 this.psr7Implementation = "slim-psr7";
-                LOGGER.warn("\"" + (String) psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
+                LOGGER.warn("\"" + psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
         }
     }
 

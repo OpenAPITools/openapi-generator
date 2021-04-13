@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP = "jvm-okhttp";
@@ -51,6 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
 
@@ -65,6 +66,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
+    protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
@@ -198,6 +200,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
     }
 
@@ -216,6 +219,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void setUseRxJava(boolean useRxJava) {
         if (useRxJava) {
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
@@ -225,16 +229,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void setUseRxJava2(boolean useRxJava2) {
         if (useRxJava2) {
             this.useRxJava = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
         this.useRxJava2 = useRxJava2;
     }
 
+    public void setUseRxJava3(boolean useRxJava3) {
+        if (useRxJava3) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.doNotUseRxAndCoroutines = false;
+            this.useCoroutines = false;
+        }
+        this.useRxJava3 = useRxJava3;
+    }
+
     public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
         if (doNotUseRxAndCoroutines) {
             this.useRxJava = false;
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.useCoroutines = false;
         }
         this.doNotUseRxAndCoroutines = doNotUseRxAndCoroutines;
@@ -244,6 +260,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (useCoroutines) {
             this.useRxJava = false;
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
         }
         this.useCoroutines = useCoroutines;
@@ -273,12 +290,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
         boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
+        boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
         boolean hasCoroutines = additionalProperties.containsKey(USE_COROUTINES);
         int optionCount = 0;
         if (hasRx) {
             optionCount++;
         }
         if (hasRx2) {
+            optionCount++;
+        }
+        if (hasRx3) {
             optionCount++;
         }
         if (hasCoroutines) {
@@ -288,16 +309,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // RxJava & Coroutines
         if (hasConflict) {
-            LOGGER.warn("You specified both RxJava versions 1 and 2 or Coroutines together, please choose one them.");
+            LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx) {
-            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+            this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
         } else if (hasRx2) {
-            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+            this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
+        } else if (hasRx3) {
+            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.valueOf(additionalProperties.get(USE_COROUTINES).toString()));
+            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
-        if (!hasRx && !hasRx2 && !hasCoroutines) {
+        if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
             setDoNotUseRxAndCoroutines(true);
             additionalProperties.put(DO_NOT_USE_RX_AND_COROUTINES, true);
         }
@@ -356,7 +379,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
             }
-            
+
             if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
@@ -453,6 +476,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 //supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
                 break;
 
+            case kotlinx_serialization:
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicBooleanAdapter.kt.mustache", infrastructureFolder, "AtomicBooleanAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicIntegerAdapter.kt.mustache", infrastructureFolder, "AtomicIntegerAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicLongAdapter.kt.mustache", infrastructureFolder, "AtomicLongAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URLAdapter.kt.mustache", infrastructureFolder, "URLAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/StringBuilderAdapter.kt.mustache", infrastructureFolder, "StringBuilderAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/proguard-rules.pro.mustache", "", "proguard-rules.pro"));
+                break;
         }
     }
 
@@ -528,12 +567,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
         supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
         supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
-
-        // gradle wrapper supporting files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
 
 
@@ -548,6 +581,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+
+        // gradle wrapper supporting files
+        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
+        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
 
     @Override
@@ -604,6 +643,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     }
                 }
 
+                // import okhttp3.MultipartBody if any parameter is a file
+                for (CodegenParameter param : operation.allParams) {
+                    if (Boolean.TRUE.equals(param.isFile)) {
+                        operations.put("x-kotlin-multipart-import", true);
+                    }
+                }
+
                 if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
                 }
@@ -627,5 +673,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             return "multipart/form-data".equals(firstType.get("mediaType"));
         }
         return false;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
     }
 }

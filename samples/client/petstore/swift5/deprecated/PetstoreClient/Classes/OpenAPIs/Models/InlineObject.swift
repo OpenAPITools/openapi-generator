@@ -14,7 +14,7 @@ public struct InlineObject: Codable {
     /** Updated status of the pet */
     public var status: String?
 
-    public init(name: String?, status: String?) {
+    public init(name: String? = nil, status: String? = nil) {
         self.name = name
         self.status = status
     }

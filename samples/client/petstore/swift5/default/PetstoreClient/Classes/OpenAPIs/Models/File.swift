@@ -8,12 +8,12 @@
 import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
-public struct File: Codable {
+public struct File: Codable, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?
 
-    public init(sourceURI: String?) {
+    public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
 

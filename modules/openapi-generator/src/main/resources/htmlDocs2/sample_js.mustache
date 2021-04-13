@@ -30,13 +30,13 @@ var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{unesc
 {{#hasOptionalParams}}
 var opts = {
   {{#optionalParams}}
-  '{{{paramName}}}': {{{example}}}{{#hasMore}},{{/hasMore}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
+  '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
   {{/optionalParams}}
 };
 {{/hasOptionalParams}}
 {{/hasParams}}
 {{#usePromises}}
-api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
+api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, function(error) {
   console.error(error);
@@ -50,5 +50,5 @@ var callback = function(error, data, response) {
     {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 };
-api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
+api.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasOptionalParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
 {{/usePromises}}

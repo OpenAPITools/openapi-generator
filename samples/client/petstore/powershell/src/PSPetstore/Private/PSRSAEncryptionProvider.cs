@@ -64,7 +64,7 @@ namespace RSAEncryption
                 return binkey;
             }
             catch (System.FormatException)
-            {       
+            {
                 StringReader str = new StringReader(pvkstr);
 
                 //-------- read PEM encryption info. lines and extract salt -----
@@ -234,7 +234,7 @@ namespace RSAEncryption
             {
                 // ----  Now hash consecutively for count times ------
                 if (j == 0)
-                    result = data00;    //initialize 
+                    result = data00;    //initialize
                 else
                 {
                     Array.Copy(result, hashtarget, result.Length);

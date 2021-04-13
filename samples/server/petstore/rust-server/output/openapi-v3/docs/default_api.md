@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+****](default_api.md#) | **GET** /any-of | 
 ****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /complex-query-param | 
 ****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
@@ -12,6 +13,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /merge-patch-json | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
+****](default_api.md#) | **GET** /one-of | 
 ****](default_api.md#) | **GET** /override-server | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
@@ -27,6 +29,38 @@ Method | HTTP request | Description
 ****](default_api.md#) | **POST** /xml | Post an array
 ****](default_api.md#) | **PUT** /xml | 
 
+
+# ****
+> models::AnyOfObject (optional)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **any_of** | [**models::AnyOfObject**](models::AnyOfObject.md)| list of any of objects | 
+
+### Return type
+
+[**models::AnyOfObject**](AnyOfObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
 > (url)
@@ -185,7 +219,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/merge-patch+json, 
+ - **Accept**: application/merge-patch+json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -207,7 +241,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/octet-stream, application/xml, text/plain, 
+ - **Accept**: application/json, application/octet-stream, application/xml, text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -230,6 +264,28 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> swagger::OneOf2<i32,Vec<String>> ()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**swagger::OneOf2<i32,Vec<String>>**](swagger::OneOf2<i32,Vec<String>>.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -285,7 +341,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, 
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -379,7 +435,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, 
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -401,7 +457,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/problem+json, application/problem+xml, 
+ - **Accept**: application/json, application/problem+json, application/problem+xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -455,7 +511,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, 
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -519,7 +575,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: text/xml
- - **Accept**: text/xml, 
+ - **Accept**: text/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

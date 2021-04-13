@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { PetApi, Pet, PetStatusEnum, Category } from "@swagger/typescript-axios-petstore";
-import axios, {AxiosInstance, AxiosResponse} from "axios";
+import { PetApi, Pet, PetStatusEnum, Category } from "@openapitools/typescript-axios-petstore";
+import axios, {AxiosInstance, AxiosResponse} from "@openapitools/typescript-axios-petstore/node_modules/axios";
 
 describe("PetApi", () => {
   function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {

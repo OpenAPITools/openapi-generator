@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumArrays: Codable {
+internal struct EnumArrays: Codable, Hashable {
 
     internal enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
@@ -20,7 +20,7 @@ internal struct EnumArrays: Codable {
     internal var justSymbol: JustSymbol?
     internal var arrayEnum: [ArrayEnum]?
 
-    internal init(justSymbol: JustSymbol?, arrayEnum: [ArrayEnum]?) {
+    internal init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }

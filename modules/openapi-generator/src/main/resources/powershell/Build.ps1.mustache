@@ -22,17 +22,17 @@ function Get-FunctionsToExport {
             throw $ParserErr
         } else {
             foreach ($name in 'Begin', 'Process', 'End') {
-	            foreach ($Statement in $Ast."${name}Block".Statements) {
-		            if (
+                foreach ($Statement in $Ast."${name}Block".Statements) {
+                    if (
                         [String]::IsNullOrWhiteSpace($Statement.Name) -or
                         $Statement.Extent.ToString() -notmatch
                         ('function\W+{0}' -f $Statement.Name)
                     ) {
-			            continue
-		            }
+                        continue
+                    }
 
-		            $Statement.Name
-	            }
+                    $Statement.Name
+                }
             }
         }
     }
@@ -47,6 +47,21 @@ $Manifest = @{
     Author = '{{{author}}}'
     CompanyName = '{{{companyName}}}'
     Description = '{{{packageName}}} - the PowerShell module for {{{appName}}}'
+    {{#tags}}
+    Tags = {{{.}}}
+    {{/tags}}
+    {{#projectUri}}
+    ProjectUri = '{{{.}}}'
+    {{/projectUri}}
+    {{#licenseUri}}
+    LicenseUri = '{{{.}}}'
+    {{/licenseUri}}
+    {{#iconUri}}
+    IconUri = '{{{.}}}'
+    {{/iconUri}}
+    {{#releaseNotes}}
+    ReleaseNotes = '{{{.}}}'
+    {{/releaseNotes}}
 
     {{#psData}}
     PrivateData = @{

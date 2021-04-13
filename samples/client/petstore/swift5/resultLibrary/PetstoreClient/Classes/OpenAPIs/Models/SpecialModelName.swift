@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct SpecialModelName: Codable {
+public struct SpecialModelName: Codable, Hashable {
 
     public var specialPropertyName: Int64?
 
-    public init(specialPropertyName: Int64?) {
+    public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
 

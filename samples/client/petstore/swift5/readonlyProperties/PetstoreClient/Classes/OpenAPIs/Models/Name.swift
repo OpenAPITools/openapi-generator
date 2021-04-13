@@ -8,14 +8,14 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-public struct Name: Codable {
+public struct Name: Codable, Hashable {
 
     public private(set) var name: Int
     public private(set) var snakeCase: Int?
     public private(set) var property: String?
     public private(set) var _123number: Int?
 
-    public init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
+    public init(name: Int, snakeCase: Int? = nil, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

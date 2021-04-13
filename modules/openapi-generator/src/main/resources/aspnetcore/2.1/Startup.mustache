@@ -13,6 +13,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
 using {{packageName}}.Authentication;
+using {{packageName}}.Formatters;
 using Microsoft.AspNetCore.Authorization;
 
 namespace {{packageName}}
@@ -56,7 +57,10 @@ namespace {{packageName}}
 
             // Add framework services.
             services
-                .AddMvc({{^useDefaultRouting}}opts => opts.EnableEndpointRouting = false{{/useDefaultRouting}})
+                .AddMvc(opts => {
+                    {{^useDefaultRouting}}opts.EnableEndpointRouting = false;{{/useDefaultRouting}}
+                    opts.InputFormatters.Insert(0, new InputFormatterStream());
+                    })
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}
@@ -123,12 +127,14 @@ namespace {{packageName}}
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
-                }){{/useSwashbuckle}};{{^useDefaultRouting}}
+                }){{/useSwashbuckle}};
+            {{^useDefaultRouting}}
             app.UseRouting();
             app.UseEndpoints(endpoints =>
-	            {
-	    	        endpoints.MapControllers();
-	            });{{/useDefaultRouting}}
+                {
+                    endpoints.MapControllers();
+                });
+            {{/useDefaultRouting}}
 
             if (env.IsDevelopment())
             {

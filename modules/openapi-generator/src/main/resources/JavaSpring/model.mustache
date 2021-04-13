@@ -3,7 +3,9 @@ package {{package}};
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
+{{/openApiNullable}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}

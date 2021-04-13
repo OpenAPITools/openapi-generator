@@ -8,12 +8,12 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-public struct Model200Response: Codable {
+public struct Model200Response: Codable, Hashable {
 
     public private(set) var name: Int?
     public private(set) var _class: String?
 
-    public init(name: Int?, _class: String?) {
+    public init(name: Int? = nil, _class: String? = nil) {
         self.name = name
         self._class = _class
     }

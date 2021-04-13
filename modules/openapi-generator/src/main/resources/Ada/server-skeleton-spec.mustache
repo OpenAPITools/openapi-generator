@@ -1,10 +1,14 @@
 {{>licenseInfo}}
 {{#imports}}with {{import}};
 {{/imports}}
+pragma Warnings (Off, "*is not referenced");
+pragma Warnings (Off, "*no entities of*are referenced");
 with Swagger.Servers;
 with {{package}}.Models;
 with Security.Permissions;
 package {{package}}.Skeletons is
+   pragma Style_Checks ("-mr");
+   pragma Warnings (Off, "*use clause for package*");
    use {{package}}.Models;
    type Server_Type is limited interface;
 {{#authMethods}}{{#scopes}}
@@ -21,8 +25,8 @@ package {{package}}.Skeletons is
    --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
-       {{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
-       {{/hasMore}}{{/allParams}}{{#returnType}};
+       {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
+       {{/-last}}{{/allParams}}{{#returnType}};
        Result  : out {{returnType}}{{/returnType}};
        Context : in out Swagger.Servers.Context_Type) is abstract;
 {{/operation}}
@@ -89,8 +93,8 @@ package {{package}}.Skeletons is
          --  {{summary}}
          {{#hasParams}}
          procedure {{operationId}}
-            ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
-             {{/hasMore}}{{/allParams}}{{#returnType}};
+            ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnType}};
              Result  : out {{returnType}}{{/returnType}};
              Context : in out Swagger.Servers.Context_Type);
          {{/hasParams}}

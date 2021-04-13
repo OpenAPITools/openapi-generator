@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "lib";
@@ -135,7 +136,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected Set<String> typeNames = new HashSet<String>();
     protected Set<String> modelTypeNames = new HashSet<String>();
 
-    final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
+    final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -256,7 +257,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Double");
-        typeMapping.put("BigDecimal", "Double");
+        typeMapping.put("decimal", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("file", "FilePath");
         // lib
@@ -718,7 +719,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isListContainer || param.dataType.startsWith("["))) { // param.isListContainer is sometimes false for list types
+            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
                 // defaulting due to https://github.com/wing328/openapi-generator/issues/72
                 param.collectionFormat = "csv";
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
@@ -728,7 +729,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
 
             if (typeMapping.containsKey(param.dataType)
-                    || param.isMapContainer || param.isListContainer
+                    || param.isMap || param.isArray
                     || param.isPrimitiveType || param.isFile || (param.isEnum || param.allowableValues != null) || !param.isBodyParam) {
 
                 String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
@@ -1054,7 +1055,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         String mimeType = getMimeDataType(mediaType);
         typeNames.add(mimeType);
         m.put(X_MEDIA_DATA_TYPE, mimeType);
-        if (isJsonMimeType(mediaType)) {
+        if (isJsonMimeType(mediaType) || ContainsJsonMimeType(mediaType)) {
             m.put(X_MEDIA_IS_JSON, "true");
         }
         if (isWildcardMimeType(mediaType)) {
@@ -1064,7 +1065,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             unknownMimeTypes.add(m);
         }
         for (CodegenParameter param : op.allParams) {
-            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isListContainer && !param.isMapContainer)) {
+            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isArray && !param.isMap)) {
                 Set<String> mimeTypes = modelMimeTypes.containsKey(param.dataType) ? modelMimeTypes.get(param.dataType) : new HashSet();
                 mimeTypes.add(mimeType);
                 modelMimeTypes.put(param.dataType, mimeTypes);
@@ -1239,10 +1240,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return name;
     }
 
-    static boolean isJsonMimeType(String mime) {
-        return mime != null && JSON_MIME_PATTERN.matcher(mime).matches();
-    }
-
     static boolean isWildcardMimeType(String mime) {
         return mime != null && mime.equals("*/*");
     }
@@ -1275,12 +1272,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             cm.isEnum = genEnums && cm.isEnum;
             if (cm.isAlias) {
                 String dataType = cm.dataType;
-                if (dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
+                if (dataType == null && cm.isArray) { // isAlias + arrayModelType missing "datatype"
                     dataType = "[" + cm.arrayModelType + "]";
                 }
-                cm.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, dataType);
-                if (dataType.equals("Maybe A.Value")) {
-                    cm.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
+                if (dataType != null) {
+                    cm.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, dataType);
+                    if (dataType.equals("Maybe A.Value")) {
+                        cm.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
+                    }
                 }
             }
             for (CodegenProperty var : cm.vars) {
@@ -1316,7 +1315,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer) || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
@@ -1458,9 +1457,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
+    }
+    static boolean ContainsJsonMimeType(String mime) {
+            return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
 }

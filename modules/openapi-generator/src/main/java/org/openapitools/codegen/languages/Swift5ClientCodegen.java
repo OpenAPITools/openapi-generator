@@ -31,15 +31,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.OffsetDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -136,6 +140,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary",
+                        // 'Property 'hash' with type 'String' cannot override a property with type 'Int' (when objcCompatible=true)
+                        "hash",
                         // Cannot override with a stored property 'className'
                         "className"
                 )
@@ -193,6 +199,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
+        typeMapping.put("set", "Set");
         typeMapping.put("date", "Date");
         typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "Date");
@@ -207,13 +214,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", "Any");
         typeMapping.put("file", "URL");
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
-        typeMapping.put("BigDecimal", "Decimal");
+        typeMapping.put("decimal", "Decimal");
+        typeMapping.put("object", "Any");
+        typeMapping.put("AnyType", "Any");
 
         importMapping = new HashMap<>();
 
@@ -240,7 +248,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL,
                 "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
-                        + "readonly (default: false)"));
+                + "readonly (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -297,13 +305,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (removedChildProperty) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0;
-            int numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = count < numVars;
-            }
             codegenModel.vars = codegenProperties;
         }
 
@@ -523,7 +524,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return "[String:" + getTypeDeclaration(inner) + "]";
+            return "[String: " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
@@ -545,12 +546,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("URL");
+        return "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("Data");
+        return "Data".equals(dataType);
     }
 
     /**
@@ -620,14 +621,19 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
         }
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
                 return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
+                // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
+                Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
+                return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+            } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
+            // TODO: Handle more cases from `ModelUtils`, such as Date
         }
         return null;
     }
@@ -803,7 +809,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
-        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
+        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String: String]".equals(datatype)) {
             return "\"" + String.valueOf(value) + "\"";
         } else {
             return String.valueOf(value);
@@ -973,8 +979,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -993,16 +1001,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
             }
         }
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenParameter.isListContainer) { // array
-            return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
-        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
+        if (codegenParameter.isArray) { // array
+            return "[" + constructExampleCode(codegenParameter.items, modelMaps, visitedModels) + "]";
+        } else if (codegenParameter.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
@@ -1031,7 +1039,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+                if (visitedModels.contains(codegenParameter.dataType)) {
+                    // recursive/self-referencing model, simply return nil to avoid stackoverflow
+                    return "nil";
+                } else {
+                    visitedModels.add(codegenParameter.dataType);
+                    return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, visitedModels);
+                }
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
@@ -1039,10 +1053,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
-        if (codegenProperty.isListContainer) { // array
-            return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
-        } else if (codegenProperty.isMapContainer) { // TODO: map, file type
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
+        if (codegenProperty.isArray) { // array
+            return "[" + constructExampleCode(codegenProperty.items, modelMaps, visitedModels) + "]";
+        } else if (codegenProperty.isMap) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {
@@ -1071,7 +1085,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+                if (visitedModels.contains(codegenProperty.dataType)) {
+                    // recursive/self-referencing model, simply return nil to avoid stackoverflow
+                    return "nil";
+                } else {
+                    visitedModels.add(codegenProperty.dataType);
+                    return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, visitedModels);
+                }
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "\"TODO\"";
@@ -1079,15 +1099,27 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         String example;
         example = codegenModel.name + "(";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps));
+            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, visitedModels));
         }
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
         return example;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
+        System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        System.out.println("################################################################################");
     }
 }

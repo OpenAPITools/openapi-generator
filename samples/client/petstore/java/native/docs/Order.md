@@ -2,6 +2,7 @@
 
 # Order
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -9,7 +10,7 @@ Name | Type | Description | Notes
 **id** | **Long** |  |  [optional]
 **petId** | **Long** |  |  [optional]
 **quantity** | **Integer** |  |  [optional]
-**shipDate** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
+**shipDate** | **OffsetDateTime** |  |  [optional]
 **status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional]
 **complete** | **Boolean** |  |  [optional]
 

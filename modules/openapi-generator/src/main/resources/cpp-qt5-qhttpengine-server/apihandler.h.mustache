@@ -21,7 +21,7 @@ public:
 
 
 public slots:
-    {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/operation}}{{/operations}}
 
 };

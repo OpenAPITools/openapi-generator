@@ -1,30 +1,32 @@
 # OpenAPI\Client\FakeApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to http://petstore.swagger.io:80/v2.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
+[**fakeOuterBooleanSerialize()**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize()**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
+[**testClientModel()**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testEndpointParameters()**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+[**testEnumParameters()**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+[**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
+## `fakeHealthGet()`
 
-## fakeHealthGet
-
-> \OpenAPI\Client\Model\HealthCheckResult fakeHealthGet()
+```php
+fakeHealthGet(): \OpenAPI\Client\Model\HealthCheckResult
+```
 
 Health check endpoint
 
@@ -33,6 +35,7 @@ Health check endpoint
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -47,7 +50,6 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeHealthGet: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
@@ -65,16 +67,17 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakeHttpSignatureTest()`
 
-## fakeHttpSignatureTest
-
-> fakeHttpSignatureTest($pet, $query_1, $header_1)
+```php
+fakeHttpSignatureTest($pet, $query_1, $header_1)
+```
 
 test http signature authentication
 
@@ -102,11 +105,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeHttpSignatureTest: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -124,17 +125,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json, application/xml
+- **Content-Type**: `application/json`, `application/xml`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakeOuterBooleanSerialize()`
 
-## fakeOuterBooleanSerialize
-
-> bool fakeOuterBooleanSerialize($body)
+```php
+fakeOuterBooleanSerialize($body): bool
+```
 
 
 
@@ -145,6 +147,7 @@ Test serialization of outer boolean types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -160,11 +163,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterBooleanSerialize: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -180,17 +181,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakeOuterCompositeSerialize()`
 
-## fakeOuterCompositeSerialize
-
-> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($outer_composite)
+```php
+fakeOuterCompositeSerialize($outer_composite): \OpenAPI\Client\Model\OuterComposite
+```
 
 
 
@@ -201,6 +203,7 @@ Test serialization of object with outer number type
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -216,11 +219,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterCompositeSerialize: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -236,17 +237,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakeOuterNumberSerialize()`
 
-## fakeOuterNumberSerialize
-
-> float fakeOuterNumberSerialize($body)
+```php
+fakeOuterNumberSerialize($body): float
+```
 
 
 
@@ -257,6 +259,7 @@ Test serialization of outer number types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -272,11 +275,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterNumberSerialize: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -292,17 +293,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakeOuterStringSerialize()`
 
-## fakeOuterStringSerialize
-
-> string fakeOuterStringSerialize($body)
+```php
+fakeOuterStringSerialize($body): string
+```
 
 
 
@@ -313,6 +315,7 @@ Test serialization of outer string types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -328,11 +331,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterStringSerialize: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -348,17 +349,74 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: */*
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakePropertyEnumIntegerSerialize()`
 
-## testBodyWithFileSchema
+```php
+fakePropertyEnumIntegerSerialize($outer_object_with_enum_property): \OpenAPI\Client\Model\OuterObjectWithEnumProperty
+```
 
-> testBodyWithFileSchema($file_schema_test_class)
+
+
+Test serialization of enum (int) properties with examples
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$outer_object_with_enum_property = new \OpenAPI\Client\Model\OuterObjectWithEnumProperty(); // \OpenAPI\Client\Model\OuterObjectWithEnumProperty | Input enum (int) as post body
+
+try {
+    $result = $apiInstance->fakePropertyEnumIntegerSerialize($outer_object_with_enum_property);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakePropertyEnumIntegerSerialize: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outer_object_with_enum_property** | [**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)| Input enum (int) as post body |
+
+### Return type
+
+[**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testBodyWithFileSchema()`
+
+```php
+testBodyWithFileSchema($file_schema_test_class)
+```
 
 
 
@@ -371,23 +429,22 @@ For this test, the body for this request much reference a schema named `File`.
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
+$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass
 
 try {
     $apiInstance->testBodyWithFileSchema($file_schema_test_class);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithFileSchema: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -403,17 +460,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testBodyWithQueryParams()`
 
-## testBodyWithQueryParams
-
-> testBodyWithQueryParams($query, $user)
+```php
+testBodyWithQueryParams($query, $user)
+```
 
 
 
@@ -424,24 +482,23 @@ No authorization required
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query = 'query_example'; // string | 
-$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
+$query = 'query_example'; // string
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User
 
 try {
     $apiInstance->testBodyWithQueryParams($query, $user);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -458,17 +515,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testClientModel()`
 
-## testClientModel
-
-> \OpenAPI\Client\Model\Client testClientModel($client)
+```php
+testClientModel($client): \OpenAPI\Client\Model\Client
+```
 
 To test \"client\" model
 
@@ -479,6 +537,7 @@ To test \"client\" model
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -494,11 +553,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testClientModel: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -514,17 +571,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: application/json
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testEndpointParameters()`
 
-## testEndpointParameters
-
-> testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
+```php
+testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
+```
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
@@ -569,11 +627,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -602,17 +658,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/x-www-form-urlencoded
+- **Content-Type**: `application/x-www-form-urlencoded`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testEnumParameters()`
 
-## testEnumParameters
-
-> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
+```php
+testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
+```
 
 To test enum parameters
 
@@ -623,6 +680,7 @@ To test enum parameters
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -644,11 +702,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEnumParameters: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -671,17 +727,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/x-www-form-urlencoded
+- **Content-Type**: `application/x-www-form-urlencoded`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testGroupParameters()`
 
-## testGroupParameters
-
-> testGroupParameters($required_string_group, $required_boolean_group, $required_int64_group, $string_group, $boolean_group, $int64_group)
+```php
+testGroupParameters($required_string_group, $required_boolean_group, $required_int64_group, $string_group, $boolean_group, $int64_group)
+```
 
 Fake endpoint to test group parameters (optional)
 
@@ -716,13 +773,11 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testGroupParameters: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
 
 Note: the input parameter is an associative array with the keys listed as the parameter name below.
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -746,14 +801,15 @@ void (empty response body)
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testInlineAdditionalProperties()`
 
-## testInlineAdditionalProperties
-
-> testInlineAdditionalProperties($request_body)
+```php
+testInlineAdditionalProperties($request_body)
+```
 
 test inline additionalProperties
 
@@ -764,27 +820,26 @@ test inline additionalProperties
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
+$request_body = array('key' => 'request_body_example'); // array<string,string> | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($request_body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**map[string,string]**](../Model/string.md)| request body |
+ **request_body** | [**array<string,string>**](../Model/string.md)| request body |
 
 ### Return type
 
@@ -796,17 +851,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testJsonFormData()`
 
-## testJsonFormData
-
-> testJsonFormData($param, $param2)
+```php
+testJsonFormData($param, $param2)
+```
 
 test json serialization of form data
 
@@ -815,6 +871,7 @@ test json serialization of form data
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
@@ -830,11 +887,9 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -851,17 +906,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/x-www-form-urlencoded
+- **Content-Type**: `application/x-www-form-urlencoded`
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testQueryParameterCollectionFormat()`
 
-## testQueryParameterCollectionFormat
-
-> testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context)
+```php
+testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context)
+```
 
 
 
@@ -874,27 +930,26 @@ To test the collection format in query parameters
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$pipe = array('pipe_example'); // string[] | 
-$ioutil = array('ioutil_example'); // string[] | 
-$http = array('http_example'); // string[] | 
-$url = array('url_example'); // string[] | 
-$context = array('context_example'); // string[] | 
+$pipe = array('pipe_example'); // string[]
+$ioutil = array('ioutil_example'); // string[]
+$http = array('http_example'); // string[]
+$url = array('url_example'); // string[]
+$context = array('context_example'); // string[]
 
 try {
     $apiInstance->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testQueryParameterCollectionFormat: ', $e->getMessage(), PHP_EOL;
 }
-?>
 ```
 
 ### Parameters
-
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -917,7 +972,6 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
-

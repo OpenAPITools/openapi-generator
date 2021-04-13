@@ -217,6 +217,10 @@ public class Generate extends OpenApiGeneratorCommand {
             description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
 
+    @Option(name = {"--skip-operation-example"}, title = "skip examples defined in the operation",
+            description = CodegenConstants.SKIP_OPERATION_EXAMPLE_DESC)
+    private Boolean skipOperationExample;
+
     @Option(name = {"--skip-validate-spec"},
             title = "skip spec validation",
             description = "Skips the default behavior of validating an input specification.")
@@ -234,7 +238,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Useful for piping the JSON output of debug options (e.g. `--global-property debugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
-    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-processing of files (in generators supporting it)", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
     private Boolean enablePostProcessFile;
 
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
@@ -391,6 +395,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (skipOperationExample != null) {
+            configurator.setSkipOperationExample(skipOperationExample);
         }
 
         if (enablePostProcessFile != null) {

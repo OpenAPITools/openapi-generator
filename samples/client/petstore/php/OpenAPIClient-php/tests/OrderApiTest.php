@@ -114,9 +114,26 @@ ORDER;
   }
 }
 ORDER;
+        // Legacy.
         $order = ObjectSerializer::deserialize(
             json_decode($order_json),
             'map[string,map[string,\OpenAPI\Client\Model\Order]]'
+        );
+
+        $this->assertArrayHasKey('test', $order);
+        $this->assertArrayHasKey('test2', $order['test']);
+        $_order = $order['test']['test2'];
+        $this->assertInstanceOf('OpenAPI\Client\Model\Order', $_order);
+        $this->assertSame(10, $_order->getId());
+        $this->assertSame(20, $_order->getPetId());
+        $this->assertSame(30, $_order->getQuantity());
+        $this->assertTrue(new \DateTime("2015-08-22T07:13:36.613Z") == $_order->getShipDate());
+        $this->assertSame("placed", $_order->getStatus());
+        $this->assertSame(false, $_order->getComplete());
+
+        $order = ObjectSerializer::deserialize(
+            json_decode($order_json),
+            'array<string,array<string,\OpenAPI\Client\Model\Order>>'
         );
 
         $this->assertArrayHasKey('test', $order);

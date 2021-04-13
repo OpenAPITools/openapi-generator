@@ -35,7 +35,7 @@ module UserApiServiceImplementation =
         member this.GetUserByName ctx args =
           if true then 
             let content = "successful operation" :> obj :?> User // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            GetUserByNameDefaultStatusCode { content = content }
+            GetUserByNameStatusCode200 { content = content }
           else if true then 
             let content = "Invalid username supplied" 
             GetUserByNameStatusCode400 { content = content }
@@ -46,7 +46,7 @@ module UserApiServiceImplementation =
         member this.LoginUser ctx args =
           if true then 
             let content = "successful operation" :> obj :?> string // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            LoginUserDefaultStatusCode { content = content }
+            LoginUserStatusCode200 { content = content }
           else
             let content = "Invalid username/password supplied" 
             LoginUserStatusCode400 { content = content }

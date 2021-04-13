@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct MapTest: Codable {
+internal struct MapTest: Codable, Hashable {
 
     internal enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
@@ -18,7 +18,7 @@ internal struct MapTest: Codable {
     internal var directMap: [String: Bool]?
     internal var indirectMap: StringBooleanMap?
 
-    internal init(mapMapOfString: [String: [String: String]]?, mapOfEnumString: [String: String]?, directMap: [String: Bool]?, indirectMap: StringBooleanMap?) {
+    internal init(mapMapOfString: [String: [String: String]]? = nil, mapOfEnumString: [String: String]? = nil, directMap: [String: Bool]? = nil, indirectMap: StringBooleanMap? = nil) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
         self.directMap = directMap

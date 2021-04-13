@@ -20,7 +20,6 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,7 +27,7 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public String scheme;
-    public Boolean hasMore, isBasic, isOAuth, isApiKey;
+    public Boolean isBasic, isOAuth, isApiKey;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -50,7 +49,6 @@ public class CodegenSecurity {
         // Copy all fields except the scopes.
         filteredSecurity.name = name;
         filteredSecurity.type = type;
-        filteredSecurity.hasMore = false;
         filteredSecurity.isBasic = isBasic;
         filteredSecurity.isBasicBasic = isBasicBasic;
         filteredSecurity.isHttpSignature = isHttpSignature;
@@ -96,7 +94,6 @@ public class CodegenSecurity {
         return Objects.equals(name, that.name) &&
                 Objects.equals(type, that.type) &&
                 Objects.equals(scheme, that.scheme) &&
-                Objects.equals(hasMore, that.hasMore) &&
                 Objects.equals(isBasic, that.isBasic) &&
                 Objects.equals(isOAuth, that.isOAuth) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
@@ -122,7 +119,7 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey,
+        return Objects.hash(name, type, scheme, isBasic, isOAuth, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
@@ -134,7 +131,6 @@ public class CodegenSecurity {
         sb.append("name='").append(name).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", scheme='").append(scheme).append('\'');
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isBasic=").append(isBasic);
         sb.append(", isOAuth=").append(isOAuth);
         sb.append(", isApiKey=").append(isApiKey);

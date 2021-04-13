@@ -75,7 +75,9 @@ public enum InnerEnum {
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
-  }/**
+  }
+
+/**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -93,7 +95,9 @@ public enum InnerEnum {
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
-  }/**
+  }
+
+/**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -111,7 +115,9 @@ public enum InnerEnum {
 
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
-  }/**
+  }
+
+/**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -131,8 +137,9 @@ public enum InnerEnum {
     this.indirectMap = indirectMap;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -168,7 +175,7 @@ public enum InnerEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

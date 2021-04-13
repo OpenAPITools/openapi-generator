@@ -1,0 +1,35 @@
+dependencies:
+  factories:
+    Mezzio\Router\RouterInterface: Articus\PathHandler\RouteInjection\Factory
+
+Articus\PathHandler\RouteInjection\Factory:
+  paths:
+    '{{basePathWithoutHost}}':
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    - {{package}}\{{classname}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+  handlers:
+    abstract_factories:
+    - Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory
+#  consumers:
+#    factories:
+#    invokables:
+#  attributes:
+#    factories:
+#    invokables:
+#  producers:
+#    factories:
+#    invokables:
+
+Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+  {{package}}\{{classname}}: []
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

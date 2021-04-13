@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "src";
@@ -313,12 +313,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
-        for (int i = 0; i < replacementChars.length; i++) {
-            String c = (String) replacementChars[i];
+        for (Object replacementChar : replacementChars) {
+            String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
             o.put("replacement", "'" + specialCharReplacements.get(c));
-            o.put("hasMore", i != replacementChars.length - 1);
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);
@@ -451,7 +450,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
-        
+
         // Properly handle root-only routes (#3256)
         if (path.contentEquals("/")) {
             return new ArrayList<>();
@@ -513,7 +512,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (param.isArray) {
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }
@@ -548,7 +547,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             path.add("Header \"" + param.baseName + "\" " + param.dataType);
 
             String paramType = param.dataType;
-            if (param.isListContainer) {
+            if (param.isArray) {
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }
@@ -695,8 +694,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

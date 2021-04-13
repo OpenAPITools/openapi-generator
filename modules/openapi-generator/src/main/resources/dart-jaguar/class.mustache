@@ -23,8 +23,8 @@ class {{classname}} {
       {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
 
 {{#vendorExtensions}}{{#x-has-vars}}{
-    {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}
-    {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}{{/vars}}
+    {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}{{^-last}}, {{/-last}} {{/defaultValue}}{{/required}}
+    {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}}{{^-last}}, {{/-last}} {{/defaultValue}}{{/required}}{{/vars}}
     }{{/x-has-vars}}{{/vendorExtensions}}
   );
 

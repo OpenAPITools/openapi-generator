@@ -31,17 +31,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OCamlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OCamlClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
@@ -237,8 +236,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
-                || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
 
@@ -255,8 +254,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
-                || Boolean.TRUE.equals(baseItem.isListContainer))) {
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
@@ -361,7 +360,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private String sanitizeOCamlTypeName(String name) {
-        String typeName = name.replace("-", "_").replace(" ", "_").trim();
+        String typeName = name.replace("-", "_").replace(" ", "_").replace('.', '_').trim();
         int i = 0;
         char c;
         while (i < typeName.length() && (Character.isDigit(c = typeName.charAt(i)) || c == '_')) {
@@ -437,7 +436,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (StringUtils.isEmpty(System.getenv("OCAML_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'OCAML_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export OCAML_POST_PROCESS_FILE=\"ocamlformat -i --enable-outside-detected-project\"' (Linux/Mac)");
-            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'OCAML_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
@@ -727,6 +726,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
+
+            if (operation.returnType != null && operation.returnType.startsWith("Enums.")) {
+                String returnTypeEnum = operation.returnType.replaceAll(" list$", "");
+                operation.vendorExtensions.put("x-returntype-enum", returnTypeEnum);
+                operation.vendorExtensions.put("x-returntype-is-enum", true);
+            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
@@ -811,8 +816,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

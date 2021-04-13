@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct DogAllOf: Codable {
+public struct DogAllOf: Codable, Hashable {
 
     public private(set) var breed: String?
 
-    public init(breed: String?) {
+    public init(breed: String? = nil) {
         self.breed = breed
     }
 

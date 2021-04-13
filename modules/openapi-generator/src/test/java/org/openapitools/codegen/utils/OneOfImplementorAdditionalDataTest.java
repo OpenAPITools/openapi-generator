@@ -1,9 +1,8 @@
 package org.openapitools.codegen.utils;
 
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.languages.GoClientExperimentalCodegen;
+import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -44,10 +43,9 @@ public class OneOfImplementorAdditionalDataTest {
         implModel.vars = new ArrayList<>();
         CodegenProperty cp3 = new CodegenProperty();
         cp3.baseName = "OtherProperty";
-        cp3.hasMore = false;
         implModel.vars.add(cp3);
         List<Map<String, String>> implModelImports = new ArrayList<>();
-        GoClientExperimentalCodegen cc = new GoClientExperimentalCodegen();
+        GoClientCodegen cc = new GoClientCodegen();
         cc.setModelPackage("openapi");
 
         o.addToImplementor(cc, implModel, implModelImports, false);
@@ -56,6 +54,5 @@ public class OneOfImplementorAdditionalDataTest {
         Assert.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>(){{add(oneOfModel.classname);}});
         Assert.assertEquals(implModelImports, interfaceModelImports);
         Assert.assertEquals(implModel.vars, new ArrayList<CodegenProperty>(){{add(cp3); add(cp1);}});
-        Assert.assertTrue(implModel.vars.get(0).hasMore);
     }
 }

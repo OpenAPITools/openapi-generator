@@ -8,11 +8,11 @@
 import Foundation
 
 /** Model for testing reserved words */
-internal struct Return: Codable {
+internal struct Return: Codable, Hashable {
 
     internal var _return: Int?
 
-    internal init(_return: Int?) {
+    internal init(_return: Int? = nil) {
         self._return = _return
     }
 

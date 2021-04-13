@@ -24,6 +24,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -52,13 +53,13 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
-  private Shape mainShape = null;
+  private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  private ShapeOrNull shapeOrNull = null;
+  private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
-  private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>of(null);
+  private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   private List<Shape> shapes = null;
@@ -83,6 +84,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
@@ -107,6 +110,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
@@ -173,6 +178,8 @@ public class Drawing {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
   }
@@ -219,7 +226,7 @@ public class Drawing {
    * Return true if this Drawing object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -239,7 +246,6 @@ public class Drawing {
     return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -257,7 +263,7 @@ public class Drawing {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

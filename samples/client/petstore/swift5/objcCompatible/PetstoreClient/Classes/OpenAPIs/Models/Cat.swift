@@ -18,7 +18,7 @@ import Foundation
         }
     }
 
-    public init(_className: String, color: String?, declawed: Bool?) {
+    public init(_className: String, color: String? = "red", declawed: Bool? = nil) {
         self._className = _className
         self.color = color
         self.declawed = declawed

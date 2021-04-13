@@ -15,7 +15,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.AsyncFile;
@@ -31,6 +33,14 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 
+{{#jsr310}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+{{/threetenbp}}
+{{^threetenbp}}
+import java.time.OffsetDateTime;
+{{/threetenbp}}
+{{/jsr310}}
 import java.text.DateFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -40,7 +50,7 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toMap;
 
 {{>generatedAnnotation}}
-public class ApiClient {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
     private static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
@@ -81,8 +91,10 @@ public class ApiClient {
         this.objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.setDateFormat(dateFormat);
+        {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         this.objectMapper.registerModule(jnm);
+        {{/openApiNullable}}
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
@@ -116,10 +128,10 @@ public class ApiClient {
 
     public synchronized WebClient getWebClient() {
         String webClientIdentifier = "web-client-" + identifier;
-        WebClient webClient = Vertx.currentContext().get(webClientIdentifier);
+        WebClient webClient = this.vertx.getOrCreateContext().get(webClientIdentifier);
         if (webClient == null) {
             webClient = buildWebClient(vertx, config);
-            Vertx.currentContext().put(webClientIdentifier, webClient);
+            this.vertx.getOrCreateContext().put(webClientIdentifier, webClient);
         }
         return webClient;
     }
@@ -291,7 +303,9 @@ public class ApiClient {
             return "";
         } else if (param instanceof Date) {
             return formatDate((Date) param);
-        } else if (param instanceof Collection) {
+        } {{#jsr310}}else if (param instanceof OffsetDateTime) {
+            return formatOffsetDateTime((OffsetDateTime) param);
+        } {{/jsr310}}else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for (Object o : (Collection) param) {
                 if (b.length() > 0) {

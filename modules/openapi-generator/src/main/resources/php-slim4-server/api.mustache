@@ -51,7 +51,7 @@ abstract class {{classname}}
      * Notes: {{notes}}
      {{/notes}}
      {{#hasProduces}}
-     * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]
+     * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]
      {{/hasProduces}}
      *
      * @param ServerRequestInterface $request  Request

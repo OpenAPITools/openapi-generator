@@ -4,8 +4,9 @@
 with Swagger.Streams;
 with Ada.Containers.Vectors;
 package {{package}}.Models is
+   pragma Style_Checks ("-mr");
 
-{{#orderedModels}}{{#model}}{{^isArrayModel}}
+{{#orderedModels}}{{#model}}{{^isArray}}
 {{#title}}   --  ------------------------------
    --  {{title}}{{#description}}
    --  {{#lambdaAdaComment}}{{description}}{{/lambdaAdaComment}}{{/description}}
@@ -37,9 +38,9 @@ package {{package}}.Models is
                           Name  : in String;
                           Value : out {{classname}}_Vectors.Vector);
 
-{{/isArrayModel}}{{#isArrayModel}}
+{{/isArray}}{{#isArray}}
    subtype {{classname}} is {{arrayModelType}}_Type_Vectors.Vector;
-{{/isArrayModel}}{{/model}}
+{{/isArray}}{{/model}}
 {{/orderedModels}}
 
 end {{package}}.Models;

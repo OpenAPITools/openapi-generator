@@ -7,17 +7,21 @@
     {
       "name": "code",
       "type": ["null", "int"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "type",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "message",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     }
   ]
+
 }

@@ -55,6 +55,10 @@ function Get-PSConfiguration {
         $Configuration["SkipCertificateCheck"] = $false
     }
 
+    if (!$Configuration.containsKey("Proxy")) {
+        $Configuration["Proxy"] = $null
+    }
+
     Return $Configuration
 
 }
@@ -95,6 +99,12 @@ Skip certificate verification
 .PARAMETER DefaultHeaders
 Default HTTP headers to be included in the HTTP request
 
+.PARAMETER Proxy
+Proxy setting in the HTTP request, e.g.
+
+$proxy = [System.Net.WebRequest]::GetSystemWebProxy()
+$proxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+
 .PARAMETER PassThru
 Return an object of the Configuration
 
@@ -119,6 +129,7 @@ function Set-PSConfiguration {
         [string]$AccessToken,
         [switch]$SkipCertificateCheck,
         [hashtable]$DefaultHeaders,
+        [System.Object]$Proxy,
         [switch]$PassThru
     )
 
@@ -165,6 +176,15 @@ function Set-PSConfiguration {
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
+        }
+
+        If ($Proxy -ne $null) {
+            If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy" -and $Proxy.GetType().FullName -ne "System.Net.WebRequest+WebProxyWrapperOpaque") {
+                throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy or System.Net.WebRequest+WebProxyWrapperOpaque."
+            }
+            $Script:Configuration['Proxy'] = $Proxy
+        } else {
+            $Script:Configuration['Proxy'] = $null
         }
 
         If ($PassThru.IsPresent) {
@@ -404,7 +424,7 @@ a key. The 'Authorization' header is added to outbound HTTP requests.
 Ref: https://openapi-generator.tech
 
 .PARAMETER KeyId
-KeyId for HTTP signing 
+KeyId for HTTP signing
 
 .PARAMETER KeyFilePath
 KeyFilePath for HTTP signing
@@ -413,7 +433,7 @@ KeyFilePath for HTTP signing
 KeyPassPhrase, if the HTTP signing key is protected
 
 .PARAMETER HttpSigningHeader
-HttpSigningHeader list of HTTP headers used to calculate the signature. The two special signature headers '(request-target)' and '(created)' 
+HttpSigningHeader list of HTTP headers used to calculate the signature. The two special signature headers '(request-target)' and '(created)'
 SHOULD be included.
     The '(created)' header expresses when the signature was created.
     The '(request-target)' header is a concatenation of the lowercased :method, an
@@ -424,11 +444,11 @@ If no headers are specified then '(created)' sets as default.
 HashAlgrithm to calculate the hash, Supported values are "sha256" and "sha512"
 
 .PARAMETER SigningAlgorithm
-SigningAlgorithm specifies the signature algorithm, supported values are "RSASSA-PKCS1-v1_5" and "RSASSA-PSS" 
+SigningAlgorithm specifies the signature algorithm, supported values are "RSASSA-PKCS1-v1_5" and "RSASSA-PSS"
 RSA key : Supported values "RSASSA-PKCS1-v1_5" and "RSASSA-PSS", for ECDSA key this parameter is not applicable
 
 .PARAMETER SignatureValidityPeriod
-SignatureValidityPeriod specifies the signature maximum validity time in seconds. It accepts integer value 
+SignatureValidityPeriod specifies the signature maximum validity time in seconds. It accepts integer value
 
 .OUTPUTS
 
@@ -475,11 +495,11 @@ function Set-PSConfigurationHttpSigning {
             }
         }
 
-        if ($keyType -eq "RSA" -and 
+        if ($keyType -eq "RSA" -and
             ($SigningAlgorithm -ne "RSASSA-PKCS1-v1_5" -and $SigningAlgorithm -ne "RSASSA-PSS" )) {
             throw "Provided Key and SigningAlgorithm : $SigningAlgorithm is not compatible."
         }
-    
+
         if ($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0) {
             throw "SignatureValidityPeriod must be greater than 0 seconds."
         }
@@ -502,7 +522,7 @@ function Set-PSConfigurationHttpSigning {
         if ($null -ne $KeyPassPhrase) {
             $httpSignatureConfiguration["KeyPassPhrase"] = $KeyPassPhrase
         }
-    
+
         $Script:Configuration["HttpSigning"] = New-Object -TypeName PSCustomObject -Property $httpSignatureConfiguration
     }
 }

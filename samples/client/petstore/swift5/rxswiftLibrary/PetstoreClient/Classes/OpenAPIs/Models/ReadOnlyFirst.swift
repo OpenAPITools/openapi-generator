@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct ReadOnlyFirst: Codable {
+public struct ReadOnlyFirst: Codable, Hashable {
 
     public var bar: String?
     public var baz: String?
 
-    public init(bar: String?, baz: String?) {
+    public init(bar: String? = nil, baz: String? = nil) {
         self.bar = bar
         self.baz = baz
     }

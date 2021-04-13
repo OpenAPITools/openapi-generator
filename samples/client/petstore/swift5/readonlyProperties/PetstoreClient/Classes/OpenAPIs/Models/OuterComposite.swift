@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct OuterComposite: Codable {
+public struct OuterComposite: Codable, Hashable {
 
     public private(set) var myNumber: Double?
     public private(set) var myString: String?
     public private(set) var myBoolean: Bool?
 
-    public init(myNumber: Double?, myString: String?, myBoolean: Bool?) {
+    public init(myNumber: Double? = nil, myString: String? = nil, myBoolean: Bool? = nil) {
         self.myNumber = myNumber
         self.myString = myString
         self.myBoolean = myBoolean
