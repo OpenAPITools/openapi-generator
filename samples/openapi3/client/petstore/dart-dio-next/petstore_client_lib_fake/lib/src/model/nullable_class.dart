@@ -3,6 +3,7 @@
 //
 
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/model/date.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -25,7 +26,7 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     String? get stringProp;
 
     @BuiltValueField(wireName: r'date_prop')
-    DateTime? get dateProp;
+    Date? get dateProp;
 
     @BuiltValueField(wireName: r'datetime_prop')
     DateTime? get datetimeProp;
@@ -97,7 +98,7 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
             result
                 ..add(r'date_prop')
                 ..add(serializers.serialize(object.dateProp,
-                    specifiedType: const FullType(DateTime)));
+                    specifiedType: const FullType(Date)));
         }
         if (object.datetimeProp != null) {
             result
@@ -173,7 +174,7 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
                     break;
                 case r'date_prop':
                     result.dateProp = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime)) as DateTime;
+                        specifiedType: const FullType(Date)) as Date;
                     break;
                 case r'datetime_prop':
                     result.datetimeProp = serializers.deserialize(value,

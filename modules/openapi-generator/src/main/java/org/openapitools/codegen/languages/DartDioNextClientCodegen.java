@@ -205,13 +205,19 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 imports.put("OffsetDate", "package:time_machine/time_machine.dart");
                 imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                    supportingFiles.add(new SupportingFile("serialization/built_value/local_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:
             case DATE_LIBRARY_CORE:
-                // this option uses the dart core classes
                 additionalProperties.put("useDateLibCore", "true");
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                    typeMapping.put("date", "Date");
+                    typeMapping.put("Date", "Date");
+                    importMapping.put("Date", "package:" + pubName + "/src/model/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + "model", "date.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
+                }
                 break;
         }
     }

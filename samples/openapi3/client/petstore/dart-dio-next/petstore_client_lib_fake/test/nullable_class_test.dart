@@ -27,7 +27,7 @@ void main() {
       // TODO
     });
 
-    // DateTime dateProp
+    // Date dateProp
     test('to test the property `dateProp`', () async {
       // TODO
     });
