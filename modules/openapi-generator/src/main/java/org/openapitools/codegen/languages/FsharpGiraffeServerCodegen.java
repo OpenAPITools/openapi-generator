@@ -280,4 +280,17 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
+        System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
+        System.out.println("################################################################################");
+    }
+
 }
