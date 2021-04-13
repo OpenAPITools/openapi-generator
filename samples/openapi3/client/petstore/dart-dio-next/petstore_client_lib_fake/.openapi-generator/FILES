@@ -66,6 +66,7 @@ lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
 lib/src/auth/oauth.dart
+lib/src/date_serializer.dart
 lib/src/model/additional_properties_class.dart
 lib/src/model/animal.dart
 lib/src/model/api_response.dart
@@ -77,6 +78,7 @@ lib/src/model/cat.dart
 lib/src/model/cat_all_of.dart
 lib/src/model/category.dart
 lib/src/model/class_model.dart
+lib/src/model/date.dart
 lib/src/model/dog.dart
 lib/src/model/dog_all_of.dart
 lib/src/model/enum_arrays.dart

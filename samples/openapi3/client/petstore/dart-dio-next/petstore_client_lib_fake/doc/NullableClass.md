@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **numberProp** | **num** |  | [optional] 
 **booleanProp** | **bool** |  | [optional] 
 **stringProp** | **String** |  | [optional] 
-**dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
+**dateProp** | [**Date**](Date.md) |  | [optional] 
 **datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **arrayNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] 
 **arrayAndItemsNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] 
