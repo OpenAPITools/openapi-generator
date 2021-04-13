@@ -81,6 +81,7 @@ from petstore_api.model.pig import Pig
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
+from petstore_api.model.readonly import Readonly
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 from petstore_api.model.shape import Shape
 from petstore_api.model.shape_interface import ShapeInterface

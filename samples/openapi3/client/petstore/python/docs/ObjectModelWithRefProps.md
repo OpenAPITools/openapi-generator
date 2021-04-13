@@ -6,6 +6,7 @@ a model that includes properties which should stay primitive (String + Boolean) 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **my_number** | [**NumberWithValidations**](NumberWithValidations.md) |  | [optional] 
+**my_readonly** | [**Readonly**](Readonly.md) |  | [optional] 
 **my_string** | **str** |  | [optional] 
 **my_boolean** | **bool** |  | [optional] 
 

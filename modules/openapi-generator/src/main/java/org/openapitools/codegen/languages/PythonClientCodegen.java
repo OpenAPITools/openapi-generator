@@ -1223,6 +1223,23 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
             Schema propSchema = entry.getValue();
+            boolean readOnly = false;
+            if (propSchema.getReadOnly() != null) {
+                readOnly = propSchema.getReadOnly();
+            }
+            if (readOnly) {
+                continue;
+            }
+            String ref = propSchema.get$ref();
+            if (ref != null) {
+                Schema refSchema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+                if (refSchema.getReadOnly() != null) {
+                    readOnly = refSchema.getReadOnly();
+                }
+                if (readOnly) {
+                    continue;
+                }
+            }
             propName = toVarName(propName);
             String propModelName = null;
             Object propExample = null;
