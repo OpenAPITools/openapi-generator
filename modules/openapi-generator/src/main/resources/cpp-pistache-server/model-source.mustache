@@ -125,7 +125,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
 {{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
-{{#vars}}{{#isContainer}}const {{/isContainer}}{{{dataType}}}{{#isContainer}}&{{/isContainer}} {{classname}}::{{getter}}() const
+{{#vars}}{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
