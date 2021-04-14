@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
      final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
@@ -297,12 +299,30 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        if (isReservedWord(name)) {
-            name = escapeReservedWord(name);
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if ("_".equals(name)) {
+            name = "_u";
         }
 
+        // numbers are not allowed at the beginning
         if (name.matches("^\\d.*")) {
             name = "`" + name + "`";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z0-9_]*$")) {
+            return name;
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name)) {
+            name = escapeReservedWord(name);
         }
 
         return name;

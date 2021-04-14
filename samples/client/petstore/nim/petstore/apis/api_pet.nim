@@ -45,9 +45,9 @@ proc addPet*(httpClient: HttpClient, body: Pet): Response =
   httpClient.post(basepath & "/pet", $(%body))
 
 
-proc deletePet*(httpClient: HttpClient, petId: int64, api_key: string): Response =
+proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response =
   ## Deletes a pet
-  httpClient.headers["api_key"] = api_key
+  httpClient.headers["api_key"] = apiKey
   httpClient.delete(basepath & fmt"/pet/{petId}")
 
 
