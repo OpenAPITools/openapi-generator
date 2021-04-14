@@ -79,6 +79,7 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Readonly.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -185,6 +186,7 @@ petstore_api/model/pig.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
+petstore_api/model/readonly.py
 petstore_api/model/scalene_triangle.py
 petstore_api/model/shape.py
 petstore_api/model/shape_interface.py
