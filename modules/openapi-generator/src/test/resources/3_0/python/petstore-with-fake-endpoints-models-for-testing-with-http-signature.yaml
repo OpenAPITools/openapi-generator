@@ -2002,6 +2002,8 @@ components:
       properties:
         my_number:
           $ref: '#/definitions/NumberWithValidations'
+        my_readonly:
+          $ref: '#/definitions/Readonly'
         my_string:
           $ref: '#/definitions/String'
         my_boolean:
@@ -2010,6 +2012,12 @@ components:
       type: number
       minimum: 10
       maximum: 20
+    Readonly:
+      type: object
+      readOnly: true
+      properties:
+         name:
+            type: string
     ComposedOneOfNumberWithValidations:
       description: this is a model that allows payloads of type object or number
       oneOf:

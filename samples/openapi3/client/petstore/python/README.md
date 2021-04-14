@@ -206,6 +206,7 @@ Class | Method | HTTP request | Description
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Readonly](docs/Readonly.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
