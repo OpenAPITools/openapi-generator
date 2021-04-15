@@ -110,6 +110,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 *FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 *FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
+*FakeApi* | [**v1_object_with_no_reference_schema**](docs/FakeApi.md#v1_object_with_no_reference_schema) | **GET** /fake/refs/object_with_no_reference_schema | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -198,6 +199,7 @@ Class | Method | HTTP request | Description
  - [NumberWithValidations](docs/NumberWithValidations.md)
  - [ObjectInterface](docs/ObjectInterface.md)
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
+ - [ObjectWithNoReferenceSchema](docs/ObjectWithNoReferenceSchema.md)
  - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)

@@ -674,5 +674,38 @@ class TestFakeApi(unittest.TestCase):
             assert isinstance(response, InlineObject6)
             assert response.to_dict() == expected_json_body
 
+    def test_object_with_no_reference_schema(self):
+        """Test case for object_with_no_reference_schema
+
+        """
+        from petstore_api.model.object_with_no_reference_schema import ObjectWithNoReferenceSchema
+        endpoint = self.api.object_with_no_reference_schema
+        assert endpoint.openapi_types['body'] == (ObjectWithNoReferenceSchema,)
+        assert endpoint.settings['response_type'] == (ObjectWithNoReferenceSchema,)
+
+        json_payloads = [
+            {[{"id": 1}]},
+        ]
+        # instantiation works
+        expected_models = [
+            ObjectWithNoReferenceSchema([{"id": 1}])
+        ]
+
+        pairs = zip(json_payloads, expected_models)
+        # serialization + deserialization works
+        for (json_payload, expected_model) in pairs:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = self.mock_response(json_payload)
+
+                response = endpoint(body=expected_model)
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/refs/object_with_no_reference_schema',
+                    body=json_payload
+                )
+
+                assert isinstance(response, expected_model.__class__)
+                assert response == expected_model
+
 if __name__ == '__main__':
     unittest.main()

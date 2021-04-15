@@ -35,6 +35,7 @@ from petstore_api.model.inline_object6 import InlineObject6
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.object_with_no_reference_schema import ObjectWithNoReferenceSchema
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.user import User
 
@@ -3466,4 +3467,108 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__upload_files
+        )
+
+        def __v1_object_with_no_reference_schema(
+            self,
+            **kwargs
+        ):
+            """v1_object_with_no_reference_schema  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.v1_object_with_no_reference_schema(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ObjectWithNoReferenceSchema
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.v1_object_with_no_reference_schema = _Endpoint(
+            settings={
+                'response_type': (ObjectWithNoReferenceSchema,),
+                'auth': [],
+                'endpoint_path': '/fake/refs/object_with_no_reference_schema',
+                'operation_id': 'v1_object_with_no_reference_schema',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__v1_object_with_no_reference_schema
         )
