@@ -1350,7 +1350,7 @@ paths:
     get:
       tags:
         - fake
-      operationId: v1_objectWithNoReferenceSchema
+      operationId: objectWithNoReferenceSchema
       responses:
         '201':
           content:

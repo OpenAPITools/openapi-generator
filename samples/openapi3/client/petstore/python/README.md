@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**object_with_no_reference_schema**](docs/FakeApi.md#object_with_no_reference_schema) | **GET** /fake/refs/object_with_no_reference_schema | 
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -110,7 +111,6 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 *FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 *FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
-*FakeApi* | [**v1_object_with_no_reference_schema**](docs/FakeApi.md#v1_object_with_no_reference_schema) | **GET** /fake/refs/object_with_no_reference_schema | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
