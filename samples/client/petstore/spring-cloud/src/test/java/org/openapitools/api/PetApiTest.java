@@ -1,15 +1,16 @@
 package org.openapitools.api;
 
 import com.netflix.hystrix.exception.HystrixRuntimeException;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Disabled;
 import org.openapitools.Application;
 import org.openapitools.TestUtils;
 import org.openapitools.model.Category;
 import org.openapitools.model.Pet;
 import org.openapitools.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,9 +20,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static  org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith( SpringExtension.class )
 @SpringBootTest(classes = Application.class)
 public class PetApiTest {
 
@@ -53,7 +54,7 @@ public class PetApiTest {
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testFindPetsByStatus() throws Exception {
         Pet pet = createRandomPet();
