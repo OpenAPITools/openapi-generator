@@ -12,11 +12,12 @@
 
 
 #include "User.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 User::User()
 {
@@ -39,13 +40,136 @@ User::User()
     
 }
 
-User::~User()
+void User::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void User::validate()
+bool User::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool User::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "User" : pathPrefix;
+
+        if (idIsSet())
+    {
+        const int64_t& value = m_Id;
+        const std::string currentValuePath = _pathPrefix + ".id";
+                
+        
+
+
+    }
+    if (usernameIsSet())
+    {
+        const std::string& value = m_Username;
+        const std::string currentValuePath = _pathPrefix + ".username";
+                
+        
+
+
+    }
+    if (firstNameIsSet())
+    {
+        const std::string& value = m_FirstName;
+        const std::string currentValuePath = _pathPrefix + ".firstName";
+                
+        
+
+
+    }
+    if (lastNameIsSet())
+    {
+        const std::string& value = m_LastName;
+        const std::string currentValuePath = _pathPrefix + ".lastName";
+                
+        
+
+
+    }
+    if (emailIsSet())
+    {
+        const std::string& value = m_Email;
+        const std::string currentValuePath = _pathPrefix + ".email";
+                
+        
+
+
+    }
+    if (passwordIsSet())
+    {
+        const std::string& value = m_Password;
+        const std::string currentValuePath = _pathPrefix + ".password";
+                
+        
+
+
+    }
+    if (phoneIsSet())
+    {
+        const std::string& value = m_Phone;
+        const std::string currentValuePath = _pathPrefix + ".phone";
+                
+        
+
+
+    }
+    if (userStatusIsSet())
+    {
+        const int32_t& value = m_UserStatus;
+        const std::string currentValuePath = _pathPrefix + ".userStatus";
+                
+        
+
+
+    }
+
+    return success;
+}
+
+bool User::operator==(const User& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!usernameIsSet() && !rhs.usernameIsSet()) || (usernameIsSet() && rhs.usernameIsSet() && getUsername() == rhs.getUsername())) &&
+    
+    
+    ((!firstNameIsSet() && !rhs.firstNameIsSet()) || (firstNameIsSet() && rhs.firstNameIsSet() && getFirstName() == rhs.getFirstName())) &&
+    
+    
+    ((!lastNameIsSet() && !rhs.lastNameIsSet()) || (lastNameIsSet() && rhs.lastNameIsSet() && getLastName() == rhs.getLastName())) &&
+    
+    
+    ((!emailIsSet() && !rhs.emailIsSet()) || (emailIsSet() && rhs.emailIsSet() && getEmail() == rhs.getEmail())) &&
+    
+    
+    ((!passwordIsSet() && !rhs.passwordIsSet()) || (passwordIsSet() && rhs.passwordIsSet() && getPassword() == rhs.getPassword())) &&
+    
+    
+    ((!phoneIsSet() && !rhs.phoneIsSet()) || (phoneIsSet() && rhs.phoneIsSet() && getPhone() == rhs.getPhone())) &&
+    
+    
+    ((!userStatusIsSet() && !rhs.userStatusIsSet()) || (userStatusIsSet() && rhs.userStatusIsSet() && getUserStatus() == rhs.getUserStatus()))
+    
+    ;
+}
+
+bool User::operator!=(const User& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const User& o)
@@ -253,8 +377,5 @@ void User::unsetUserStatus()
 }
 
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 
