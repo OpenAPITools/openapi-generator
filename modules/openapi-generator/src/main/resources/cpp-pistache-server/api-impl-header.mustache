@@ -31,7 +31,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
     explicit {{classname}}Impl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    ~{{classname}}Impl() override;
+    ~{{classname}}Impl() override = default;
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}

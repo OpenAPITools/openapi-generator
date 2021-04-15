@@ -25,7 +25,7 @@ namespace {{apiNamespace}}
 class {{declspec}} {{classname}} {
 public:
     explicit {{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~{{classname}}();
+    virtual ~{{classname}}() = default;
     void init();
 
     static const std::string base;

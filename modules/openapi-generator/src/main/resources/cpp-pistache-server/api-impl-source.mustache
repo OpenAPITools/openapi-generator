@@ -15,10 +15,6 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 {
 }
 
-{{classname}}Impl::~{{classname}}Impl()
-{
-}
-
 {{#operation}}
 {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
