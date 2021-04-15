@@ -77,7 +77,7 @@ public class PetApiTest {
         assertTrue(found);
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testFindPetsByTags() throws Exception {
         Pet pet = createRandomPet();
@@ -135,7 +135,7 @@ public class PetApiTest {
         }
     }
 
-    @Ignore("Multipart form is not supported by spring-cloud yet.")
+    @Disabled("Multipart form is not supported by spring-cloud yet.")
     @Test
     public void testUploadFile() throws Exception {
         Pet pet = createRandomPet();
