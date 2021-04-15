@@ -66,6 +66,16 @@
             <artifactId>spring-cloud-starter-oauth2</artifactId>
             <version>2.2.4.RELEASE</version>
         </dependency>
+        <!--Note this is deprecated. resilience4j should be used. To do this, the templates must be adapted.-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>-->
+        <!--        </dependency>-->
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
