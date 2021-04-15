@@ -230,7 +230,7 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
         from petstore_api.model.number_with_validations import NumberWithValidations
-        endpoint = self.api.object_with_no_reference_schema
+        endpoint = self.api.object_model_with_ref_props
         assert endpoint.openapi_types['body'] == (ObjectModelWithRefProps,)
         assert endpoint.settings['response_type'] == (ObjectModelWithRefProps,)
 
