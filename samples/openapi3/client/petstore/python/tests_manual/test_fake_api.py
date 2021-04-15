@@ -696,7 +696,7 @@ class TestFakeApi(unittest.TestCase):
             with patch.object(RESTClientObject, 'request') as mock_method:
                 mock_method.return_value = self.mock_response(json_payload)
 
-                response = endpoint(body=expected_model)
+                response = endpoint()
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_with_no_reference_schema',
