@@ -22,6 +22,7 @@ components:
          oneOf:
             - $ref: '#/components/schemas/apple'
             - $ref: '#/components/schemas/banana'
+            - $ref: '#/components/schemas/grapes'
          # additionalProperties:
          #    type: string
          # uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
@@ -37,3 +38,14 @@ components:
          properties:
             count:
                type: number
+      grape:
+         title: grape
+         type: object
+         properties:
+            color:
+               type: string
+      grapes:
+         title: grapes
+         type: array
+         items:
+            $ref: '#/components/schemas/grape'
