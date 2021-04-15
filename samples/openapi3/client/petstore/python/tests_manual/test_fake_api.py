@@ -680,7 +680,6 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.model.object_with_no_reference_schema import ObjectWithNoReferenceSchema
         endpoint = self.api.object_with_no_reference_schema
-        assert endpoint.openapi_types['body'] == (ObjectWithNoReferenceSchema,)
         assert endpoint.settings['response_type'] == (ObjectWithNoReferenceSchema,)
 
         json_payloads = [
@@ -701,7 +700,6 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_with_no_reference_schema',
-                    body=json_payload
                 )
 
                 assert isinstance(response, expected_model.__class__)
