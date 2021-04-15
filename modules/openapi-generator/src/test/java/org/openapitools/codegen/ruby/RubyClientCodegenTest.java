@@ -363,7 +363,7 @@ public class RubyClientCodegenTest {
         Set<String> oneOf = new TreeSet<String>();
         oneOf.add("Apple");
         oneOf.add("Banana");
-        oneOf.add("Grapes");
+        oneOf.add("Array<Grape>");
         Assert.assertEquals(fruit.oneOf, oneOf);
     }
 
