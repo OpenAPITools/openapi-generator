@@ -683,7 +683,7 @@ class TestFakeApi(unittest.TestCase):
         assert endpoint.settings['response_type'] == (ObjectWithNoReferenceSchema,)
 
         json_payloads = [
-            {[{"id": 1}]},
+            [{"id": 1}],
         ]
         # instantiation works
         expected_models = [
@@ -700,6 +700,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_with_no_reference_schema',
+                    http_method='GET'
                 )
 
                 assert isinstance(response, expected_model.__class__)
