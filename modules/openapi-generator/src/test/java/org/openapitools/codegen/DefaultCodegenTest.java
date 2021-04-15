@@ -604,6 +604,7 @@ public class DefaultCodegenTest {
         Set<String> oneOf = new TreeSet<String>();
         oneOf.add("Apple");
         oneOf.add("Banana");
+        oneOf.add("List");
         Assert.assertEquals(fruit.oneOf, oneOf);
         Assert.assertEquals(fruit.optionalVars.size(), 3);
         Assert.assertEquals(fruit.vars.size(), 3);
