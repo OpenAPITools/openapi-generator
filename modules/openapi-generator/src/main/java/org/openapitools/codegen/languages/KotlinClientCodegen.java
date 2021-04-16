@@ -18,14 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +42,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
 
+    public static final String USE_SEALED_CLASS = "useSealedClass";
+
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
@@ -60,6 +55,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String COLLECTION_TYPE = "collectionType";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
+    protected static final String VENDOR_EXTENSION_DISCRIMINATOR_BASE_NAME_LITERAL = "x-base-name-discriminator-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
@@ -179,10 +175,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
-        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
-        supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
+        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.9.0 (Android 5.0+ and Java 8+).");
+        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+).");
+        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.7.2.");
+        supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 1.1.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -197,6 +193,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
+
+        cliOptions.add(CliOption.newBoolean(USE_SEALED_CLASS, "Use sealed classes instead of interfaces."));
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
@@ -368,7 +366,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put("isList", true);
         }
 
-        if(usesRetrofit2Library()) {
+        if (usesRetrofit2Library()) {
             if (ProcessUtils.hasOAuthMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
@@ -376,11 +374,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
             }
 
-            if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
+            if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
             }
 
-            if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
+            if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
         }
@@ -589,6 +587,32 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+
+        // We have to remove duplicate classes if we use sealed classes. So do nothing if we don't use sealed classes.
+        boolean useSealedClass = additionalProperties.containsKey(USE_SEALED_CLASS) && (boolean) additionalProperties.get(USE_SEALED_CLASS);
+        if (!useSealedClass) {
+            return result;
+        }
+
+        Map<String, Object> newMap = new HashMap<String, Object>(result);
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.discriminator != null && cm.children != null) {
+                    // Remove the children from the "normal" models. We have to place it into the sealed classes.
+                    cm.children.forEach(child -> newMap.remove(child.getName()));
+                }
+            }
+        }
+        return newMap;
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> objects = super.postProcessModels(objs);
@@ -613,6 +637,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             for (CodegenProperty var : vars) {
                 var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+            }
+
+            CodegenDiscriminator discriminator = cm.getDiscriminator();
+            if (discriminator != null) {
+                cm.vendorExtensions.put(VENDOR_EXTENSION_DISCRIMINATOR_BASE_NAME_LITERAL, discriminator.getPropertyBaseName().replace("$", "\\$"));
             }
         }
 

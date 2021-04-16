@@ -10,6 +10,7 @@ buildscript {
     ext.kotlin_version = '1.4.30'
     ext.retrofitVersion = '2.7.2'
     ext.rxJava3Version = '3.0.10'
+    ext.moshiVersion = '1.11.0'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -32,7 +33,8 @@ test {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "com.squareup.moshi:moshi-kotlin:1.11.0"
+    compile "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    compile "com.squareup.moshi:moshi-adapters:$moshiVersion"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.squareup.okhttp3:logging-interceptor:4.9.0"
     compile "io.reactivex.rxjava3:rxjava:$rxJava3Version"

@@ -6,6 +6,9 @@ package {{modelPackage}}
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class_header}}
+{{>data_class}}{{/isAlias}}{{/isEnum}}{{#useSealedClass}}
+{{#children}}{{>data_class}}
+{{/children}}{{/useSealedClass}}
 {{/model}}
 {{/models}}

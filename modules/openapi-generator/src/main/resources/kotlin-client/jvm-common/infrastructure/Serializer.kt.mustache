@@ -2,6 +2,7 @@ package {{packageName}}.infrastructure
 
 {{#moshi}}
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{/moshiCodeGen}}
@@ -50,6 +51,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 {{/kotlinx_serialization}}
+{{#moshi}}
+import {{modelPackage}}.*
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
@@ -60,6 +64,13 @@ import java.util.concurrent.atomic.AtomicLong
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        {{#models}}{{#model}}{{#discriminator}}
+        .add(PolymorphicJsonAdapterFactory.of({{classname}}::class.java, "{{{vendorExtensions.x-base-name-discriminator-literal}}}")
+        {{#mappedModels}}
+            .withSubtype({{modelName}}::class.java, "{{mappingName}}")
+        {{/mappedModels}}
+        )
+        {{/discriminator}}{{/model}}{{/models}}
         {{^moshiCodeGen}}
         .add(KotlinJsonAdapterFactory())
         {{/moshiCodeGen}}
@@ -76,7 +87,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-    
+
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
