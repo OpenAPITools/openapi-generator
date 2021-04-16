@@ -47,5 +47,6 @@ components:
       grapes:
          title: grapes
          type: array
+         x-generate-alias-as-model: false
          items:
             $ref: '#/components/schemas/grape'
