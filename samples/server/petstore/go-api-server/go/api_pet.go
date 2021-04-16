@@ -93,6 +93,9 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -115,6 +118,9 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -131,6 +137,9 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -147,6 +156,9 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -168,6 +180,9 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -187,6 +202,9 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -214,6 +232,9 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -246,6 +267,9 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}

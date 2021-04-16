@@ -152,6 +152,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}

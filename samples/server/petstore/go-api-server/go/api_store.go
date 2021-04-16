@@ -67,6 +67,9 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -81,6 +84,9 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -102,6 +108,9 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -121,6 +130,9 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}

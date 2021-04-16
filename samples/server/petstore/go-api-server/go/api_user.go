@@ -93,6 +93,9 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -112,6 +115,9 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -131,6 +137,9 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -148,6 +157,9 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -165,6 +177,9 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -182,6 +197,9 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -196,6 +214,9 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
@@ -218,6 +239,9 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		er := result
 		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
 		EncodeJSONImplResponse(w, er)
 		return
 	}
