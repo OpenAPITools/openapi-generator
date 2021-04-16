@@ -39,7 +39,6 @@ public:
 private:
     explicit {{prefix}}SerializerSettings(){
         instance = this;
-        dateTimeFormat.clear();
         customDateTimeFormat.setString = false;
         customDateTimeFormat.setEnum = false;
     }
@@ -309,7 +308,7 @@ bool fromJsonValue(QDateTime &value, const QJsonValue &jval) {
     if (!jval.isUndefined() && !jval.isNull() && jval.isString()) {
         if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().setString) {
             value = QDateTime::fromString(jval.toString(), {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
-        } else if (SerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
+        } else if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
             value = QDateTime::fromString(jval.toString(), {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
         } else {
             value = QDateTime::fromString(jval.toString(), Qt::ISODate);
