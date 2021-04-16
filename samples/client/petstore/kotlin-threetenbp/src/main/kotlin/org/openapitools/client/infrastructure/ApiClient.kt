@@ -13,6 +13,8 @@ import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
 import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
 import java.net.URLConnection
 import java.util.Date
 import org.threeten.bp.LocalDate
@@ -113,6 +115,15 @@ open class ApiClient(val baseUrl: String) {
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
             return null
+        }
+        if (T::class.java == File::class.java) {
+            // return tempfile
+            val f = createTempFile()
+            f.deleteOnExit()
+            val out = BufferedWriter(FileWriter(f))
+            out.write(bodyContent)
+            out.close()
+            return f as T
         }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
