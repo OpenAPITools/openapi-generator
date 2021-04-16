@@ -1,0 +1,22 @@
+{{#subtypeVisitor}}
+    {{#discriminator}}
+
+
+export interface {{classname}}Visitor<R> {
+        {{#discriminator.mappedModels}}
+    visit{{modelName}}(value: {{modelName}}): R;
+        {{/discriminator.mappedModels}}
+}
+
+export function visit{{classname}}<R>(value: {{classname}}, visitor: {{classname}}Visitor<R>): R {
+    switch (value.{{discriminator.propertyName}}) {
+        {{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return visitor.visit{{modelName}}(<{{modelName}}>value);
+        {{/discriminator.mappedModels}}
+        default:
+            throw new Error("Unknown model discriminator '" + value.{{discriminator.propertyName}} + "'");
+    }
+}
+    {{/discriminator}}
+{{/subtypeVisitor}}
