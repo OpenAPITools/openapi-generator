@@ -150,8 +150,8 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-	    er := result
-	    er.Body = err.Error()
+		er := result
+		er.Body = err.Error()
 		EncodeJSONImplResponse(w, er)
 		return
 	}

@@ -97,7 +97,7 @@ func EncodeJSONImplResponse(w http.ResponseWriter, impl ImplResponse) error {
 	hs.Set("Content-Type", "application/json; charset=UTF-8")
 
 	for _, c := range impl.Cookies {
-	    http.SetCookie(w, c)
+		http.SetCookie(w, c)
 	}
 
 	if impl.Code != 0 {

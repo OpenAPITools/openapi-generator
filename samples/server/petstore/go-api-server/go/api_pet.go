@@ -91,12 +91,13 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.AddPet(r.Context(), *pet)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // DeletePet - Deletes a pet
@@ -112,12 +113,13 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // FindPetsByStatus - Finds Pets by status
@@ -127,12 +129,13 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	result, err := c.service.FindPetsByStatus(r.Context(), status)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // FindPetsByTags - Finds Pets by tags
@@ -142,12 +145,13 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	result, err := c.service.FindPetsByTags(r.Context(), tags)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetPetById - Find pet by ID
@@ -162,12 +166,13 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetPetById(r.Context(), petId)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // UpdatePet - Update an existing pet
@@ -180,12 +185,13 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UpdatePet(r.Context(), *pet)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
@@ -206,12 +212,13 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	result, err := c.service.UpdatePetWithForm(r.Context(), petId, name, status)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // UploadFile - uploads an image
@@ -237,10 +244,11 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 			result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
