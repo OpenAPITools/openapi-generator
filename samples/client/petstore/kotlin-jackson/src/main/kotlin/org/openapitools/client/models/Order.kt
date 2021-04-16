@@ -44,6 +44,7 @@ data class Order (
      * Order Status
      * Values: PLACED,APPROVED,DELIVERED
      */
+    
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "placed") PLACED("placed"),
         @JsonProperty(value = "approved") APPROVED("approved"),
