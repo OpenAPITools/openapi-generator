@@ -50,6 +50,7 @@ data class Order (
      * Order Status
      * Values: PLACED,APPROVED,DELIVERED
      */
+    @KSerializable
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "placed") PLACED("placed"),
         @SerialName(value = "approved") APPROVED("approved"),

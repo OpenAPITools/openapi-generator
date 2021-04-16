@@ -170,7 +170,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri);
+    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
     interceptor = null;
     readTimeout = null;
     responseInterceptor = null;
