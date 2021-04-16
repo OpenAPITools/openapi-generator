@@ -49,7 +49,7 @@ public class Category  implements Serializable {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -69,7 +69,7 @@ public class Category  implements Serializable {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getName() {
