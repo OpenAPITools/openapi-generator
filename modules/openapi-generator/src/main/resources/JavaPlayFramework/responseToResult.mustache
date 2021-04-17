@@ -1,7 +1,8 @@
 {{^controllerOnly}}
 {{^returnType}}
 {{#supportAsync}}
-return CompletableFuture.supplyAsync(() -> {
+CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
 {{/supportAsync}}
 {{/returnType}}
 {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{^useInterfaces}}imp.{{/useInterfaces}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
@@ -53,7 +54,7 @@ return CompletableFuture.supplyAsync(() -> {
 {{/returnType}}
 {{#returnType}}
 {{#supportAsync}}
-stage.thenApply(obj -> {
+return stage.thenApply(obj -> {
 {{/supportAsync}}
 {{^isResponseFile}}
 {{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);
@@ -64,11 +65,23 @@ stage.thenApply(obj -> {
 {{/isResponseFile}}
 {{/returnType}}
 {{^returnType}}
-{{#supportAsync}}    {{/supportAsync}}return ok();
+{{#supportAsync}}
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+        return ok();
+    });
+    return result;
+{{/supportAsync}}
+{{^supportAsync}}
+return ok();
+{{/supportAsync}}
 {{/returnType}}
+{{#returnType}}
 {{#supportAsync}}
 });
 {{/supportAsync}}
+{{/returnType}}
 {{/controllerOnly}}
 {{#controllerOnly}}
 return ok();

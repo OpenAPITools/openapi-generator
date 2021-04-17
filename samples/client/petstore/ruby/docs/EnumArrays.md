@@ -7,7 +7,7 @@
 | **just_symbol** | **String** |  | [optional] |
 | **array_enum** | **Array&lt;String&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

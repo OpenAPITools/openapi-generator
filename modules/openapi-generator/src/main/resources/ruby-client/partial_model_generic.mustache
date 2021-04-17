@@ -197,13 +197,13 @@
       {{/pattern}}
       {{#maxItems}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
-        invalid_properties.push('invalid value for "{{{name}}}", number of items must be less than or equal to {{{maxItems}}}.'
+        invalid_properties.push('invalid value for "{{{name}}}", number of items must be less than or equal to {{{maxItems}}}.')
       end
 
       {{/maxItems}}
       {{#minItems}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
-        invalid_properties.push('invalid value for "{{{name}}}", number of items must be greater than or equal to {{{minItems}}}.'
+        invalid_properties.push('invalid value for "{{{name}}}", number of items must be greater than or equal to {{{minItems}}}.')
       end
 
       {{/minItems}}

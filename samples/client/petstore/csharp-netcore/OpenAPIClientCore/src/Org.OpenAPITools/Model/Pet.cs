@@ -59,6 +59,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// pet status in the store
         /// </summary>
@@ -145,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

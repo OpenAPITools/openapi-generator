@@ -11,8 +11,6 @@ Method | HTTP request | Description
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
@@ -137,6 +135,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -155,6 +154,7 @@ void (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -216,6 +216,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -235,6 +236,7 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -353,6 +355,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -371,6 +374,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -488,6 +492,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -506,6 +511,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -563,6 +569,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -581,6 +588,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -713,6 +721,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -731,6 +740,7 @@ void (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -795,6 +805,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -816,180 +827,11 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **upload_file**
-> ApiResponse upload_file(pet_id)
-
-uploads an image
-
-### Example
-
-* OAuth Authentication (petstore_auth):
-```python
-import time
-import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.model.api_response import ApiResponse
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = pet_api.PetApi(api_client)
-    pet_id = 1 # int | ID of pet to update
-    additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
-    file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
-
-    # example passing only required values which don't have defaults set
-    try:
-        # uploads an image
-        api_response = api_instance.upload_file(pet_id)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling PetApi->upload_file: %s\n" % e)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        # uploads an image
-        api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling PetApi->upload_file: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
- **additional_metadata** | **str**| Additional data to pass to server | [optional]
- **file** | **file_type**| file to upload | [optional]
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | successful operation |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **upload_file_with_required_file**
-> ApiResponse upload_file_with_required_file(pet_id, required_file)
-
-uploads an image (required)
-
-### Example
-
-* OAuth Authentication (petstore_auth):
-```python
-import time
-import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.model.api_response import ApiResponse
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = pet_api.PetApi(api_client)
-    pet_id = 1 # int | ID of pet to update
-    required_file = open('/path/to/file', 'rb') # file_type | file to upload
-    additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
-
-    # example passing only required values which don't have defaults set
-    try:
-        # uploads an image (required)
-        api_response = api_instance.upload_file_with_required_file(pet_id, required_file)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        # uploads an image (required)
-        api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
- **required_file** | **file_type**| file to upload |
- **additional_metadata** | **str**| Additional data to pass to server | [optional]
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

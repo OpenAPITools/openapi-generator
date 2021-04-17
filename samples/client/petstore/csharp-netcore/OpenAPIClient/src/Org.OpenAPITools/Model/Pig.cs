@@ -148,10 +148,10 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "BasquePig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                     return newPig;
                 case "DanishPig":
-                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
                     return newPig;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
@@ -163,7 +163,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("BasquePig");
                 match++;
             }
@@ -175,7 +183,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("DanishPig");
                 match++;
             }
@@ -193,7 +209,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newPig;
         }

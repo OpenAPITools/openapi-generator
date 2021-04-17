@@ -7,7 +7,7 @@
 | **name** | **Integer** |  | [optional] |
 | **_class** | **String** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

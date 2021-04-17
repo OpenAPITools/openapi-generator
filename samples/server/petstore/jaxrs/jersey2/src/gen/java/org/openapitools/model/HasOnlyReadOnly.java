@@ -48,7 +48,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -68,7 +68,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
    **/
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getFoo() {

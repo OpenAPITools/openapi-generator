@@ -29,7 +29,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -183,7 +182,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public ShapeOrNull() {
         super("oneOf", Boolean.TRUE);

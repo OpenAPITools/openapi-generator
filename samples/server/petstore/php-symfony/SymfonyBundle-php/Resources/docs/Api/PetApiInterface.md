@@ -27,7 +27,7 @@ services:
 ```
 
 ## **addPet**
-> addPet($body)
+> OpenAPI\Server\Model\Pet addPet($pet)
 
 Add a new pet to the store
 
@@ -56,7 +56,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $body)
+    public function addPet(Pet $pet)
     {
         // Implement the operation ...
     }
@@ -69,11 +69,11 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-void (empty response body)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -82,7 +82,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -334,7 +334,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updatePet**
-> updatePet($body)
+> OpenAPI\Server\Model\Pet updatePet($pet)
 
 Update an existing pet
 
@@ -363,7 +363,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $body)
+    public function updatePet(Pet $pet)
     {
         // Implement the operation ...
     }
@@ -376,11 +376,11 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-void (empty response body)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -389,7 +389,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

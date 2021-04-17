@@ -80,7 +80,6 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     return Objects.hash(name, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

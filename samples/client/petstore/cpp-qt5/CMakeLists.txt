@@ -11,17 +11,19 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5Test REQUIRED)
 
-file(GLOB SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/PetStore/*.cpp
-)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/client
 )
 
 add_subdirectory(client)
-add_executable(${PROJECT_NAME} ${SRCS})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network Qt5::Test ssl crypto client)
+add_executable(${PROJECT_NAME}
+    PetStore/main.cpp
+    PetStore/PetApiTests.cpp
+    PetStore/StoreApiTests.cpp
+    PetStore/UserApiTests.cpp
+    )
+target_link_libraries(${PROJECT_NAME} PRIVATE client)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network Qt5::Test)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)

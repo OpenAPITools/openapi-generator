@@ -2,6 +2,7 @@
 
 # XmlItem
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -36,5 +37,9 @@ Name | Type | Description | Notes
 **prefixNsArray** | **List&lt;Integer&gt;** |  |  [optional]
 **prefixNsWrappedArray** | **List&lt;Integer&gt;** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

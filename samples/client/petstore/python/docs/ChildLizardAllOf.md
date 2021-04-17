@@ -1,5 +1,6 @@
 # ChildLizardAllOf
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

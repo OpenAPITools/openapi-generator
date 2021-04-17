@@ -7,12 +7,12 @@
 
 import Foundation
 
-internal struct Animal: Codable {
+internal struct Animal: Codable, Hashable {
 
     internal var className: String
     internal var color: String? = "red"
 
-    internal init(className: String, color: String? = nil) {
+    internal init(className: String, color: String? = "red") {
         self.className = className
         self.color = color
     }

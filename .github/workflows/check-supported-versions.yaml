@@ -28,14 +28,14 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v2.1.4
         with:
           path: |
             ~/.gradle/caches
@@ -49,7 +49,7 @@ jobs:
         run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2.2.2
         if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -80,7 +80,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Download build artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2.0.8
         with:
           name: artifact
       - name: Run Ensures Script

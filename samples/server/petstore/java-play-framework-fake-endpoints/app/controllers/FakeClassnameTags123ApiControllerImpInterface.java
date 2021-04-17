@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
 import static play.mvc.Results.ok;
-import play.api.libs.Files.TemporaryFile;
+import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
 

@@ -143,9 +143,9 @@ public class PhpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.dataType, "map[string,string]");
+        Assert.assertEquals(property1.dataType, "array<string,string>");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "map");
+        Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -223,9 +223,9 @@ public class PhpModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "map[string,\\OpenAPI\\Client\\Model\\Children]");
+        Assert.assertEquals(property1.dataType, "array<string,\\OpenAPI\\Client\\Model\\Children>");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "map");
+        Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);

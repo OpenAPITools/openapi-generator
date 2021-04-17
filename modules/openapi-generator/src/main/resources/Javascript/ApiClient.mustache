@@ -163,7 +163,7 @@
     }
 
     var _this = this;
-    url = url.replace(/\{([\w-]+)\}/g, function(fullMatch, key) {
+    url = url.replace(/\{([\w-\.]+)\}/g, function(fullMatch, key) {
       var value;
       if (pathParams.hasOwnProperty(key)) {
         value = _this.paramToString(pathParams[key]);
@@ -576,7 +576,7 @@
    */
 {{/emitJSDoc}}  exports.parseDate = function(str) {
     if (isNaN(str)) {
-      return new Date(str.replace(/T/i, ' '));
+      return new Date(str.replace(/(\d)(T)(\d)/i, '$1 $3'));
     }
     return new Date(+str);
   };

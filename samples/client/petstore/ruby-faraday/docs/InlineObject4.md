@@ -7,7 +7,7 @@
 | **param** | **String** | field1 |  |
 | **param2** | **String** | field2 |  |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

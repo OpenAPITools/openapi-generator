@@ -116,13 +116,13 @@ end:
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{paramName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -135,7 +135,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -148,7 +148,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -161,7 +161,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{paramName}}");
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
     intToStr(localVarBuff_{{paramName}}, {{paramName}});
@@ -174,7 +174,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{paramName}}");
+    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
     {{/isString}}
@@ -183,7 +183,7 @@ end:
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{paramName}}");
+    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
     {{/isUuid}}
@@ -209,7 +209,7 @@ end:
     // query parameters
     {{^isArray}}
     char *keyQuery_{{{paramName}}} = NULL;
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}};
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}}{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isArray}}
     if ({{paramName}})
@@ -463,6 +463,18 @@ end:
         free(keyQuery_{{{paramName}}});
         keyQuery_{{{paramName}}} = NULL;
     }
+    {{#isInteger}}
+    if(valueQuery_{{{paramName}}}){
+        free(valueQuery_{{{paramName}}});
+        valueQuery_{{{paramName}}} = NULL;
+    }
+    {{/isInteger}}
+    {{#isBoolean}}
+    if(valueQuery_{{{paramName}}}){
+        free(valueQuery_{{{paramName}}});
+        valueQuery_{{{paramName}}} = NULL;
+    }
+    {{/isBoolean}}
     if(keyPairQuery_{{{paramName}}}){
         keyValuePair_free(keyPairQuery_{{{paramName}}});
         keyPairQuery_{{{paramName}}} = NULL;

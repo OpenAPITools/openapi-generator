@@ -58,6 +58,8 @@ public class ShapeInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -82,7 +84,6 @@ public class ShapeInterface {
   public int hashCode() {
     return Objects.hash(shapeType);
   }
-
 
   @Override
   public String toString() {

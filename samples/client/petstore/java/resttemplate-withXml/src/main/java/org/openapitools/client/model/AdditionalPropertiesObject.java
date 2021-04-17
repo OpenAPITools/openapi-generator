@@ -66,6 +66,9 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -88,7 +91,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public int hashCode() {
     return Objects.hash(name, super.hashCode());
   }
-
 
   @Override
   public String toString() {

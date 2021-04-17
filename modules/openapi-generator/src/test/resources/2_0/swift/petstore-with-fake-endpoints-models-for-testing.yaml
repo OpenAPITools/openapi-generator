@@ -1124,6 +1124,7 @@ definitions:
     xml:
       name: User
   Tag:
+    x-swift-hashable: true
     type: object
     properties:
       id:

@@ -148,7 +148,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.SerializerSettings));
+                }
+                else
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("Quadrilateral");
                 match++;
             }
@@ -160,7 +168,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.SerializerSettings));
+                }
+                else
+                {
+                    newShape = new Shape(JsonConvert.DeserializeObject<Triangle>(jsonString, Shape.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("Triangle");
                 match++;
             }
@@ -178,7 +194,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newShape;
         }

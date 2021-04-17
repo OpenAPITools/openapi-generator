@@ -28,6 +28,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -267,7 +268,7 @@ public class InlineModelResolverTest {
     public void testInlineResponseModelType() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
         new InlineModelResolver().flatten(openAPI);
-        
+
         Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
         assertEquals("object", InlineResponse200.getType());
         assertEquals("unknown", InlineResponse200.getFormat());
@@ -927,7 +928,7 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/EmptyExampleOnStringTypeModels", schema.getItems().get$ref());
 
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
-        assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
+        Assert.assertSame(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample(), "");
     }
 
     @Test

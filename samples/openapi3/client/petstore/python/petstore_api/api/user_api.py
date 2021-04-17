@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -13,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -104,7 +102,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_user = Endpoint(
+        self.create_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -219,7 +217,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_users_with_array_input = Endpoint(
+        self.create_users_with_array_input = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -334,7 +332,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_users_with_list_input = Endpoint(
+        self.create_users_with_list_input = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -450,7 +448,7 @@ class UserApi(object):
                 username
             return self.call_with_http_info(**kwargs)
 
-        self.delete_user = Endpoint(
+        self.delete_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -564,7 +562,7 @@ class UserApi(object):
                 username
             return self.call_with_http_info(**kwargs)
 
-        self.get_user_by_name = Endpoint(
+        self.get_user_by_name = _Endpoint(
             settings={
                 'response_type': (User,),
                 'auth': [],
@@ -685,7 +683,7 @@ class UserApi(object):
                 password
             return self.call_with_http_info(**kwargs)
 
-        self.login_user = Endpoint(
+        self.login_user = _Endpoint(
             settings={
                 'response_type': (str,),
                 'auth': [],
@@ -803,7 +801,7 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.logout_user = Endpoint(
+        self.logout_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -915,7 +913,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.update_user = Endpoint(
+        self.update_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],

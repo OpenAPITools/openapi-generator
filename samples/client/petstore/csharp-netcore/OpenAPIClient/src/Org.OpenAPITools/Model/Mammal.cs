@@ -174,13 +174,13 @@ namespace Org.OpenAPITools.Model
             switch (discriminatorValue)
             {
                 case "Pig":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                     return newMammal;
                 case "whale":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                     return newMammal;
                 case "zebra":
-                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                     return newMammal;
                 default:
                     System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
@@ -192,7 +192,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(Pig).GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("Pig");
                 match++;
             }
@@ -204,7 +212,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(Whale).GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("Whale");
                 match++;
             }
@@ -216,7 +232,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(Zebra).GetProperty("AdditionalProperties") == null)
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("Zebra");
                 match++;
             }
@@ -234,7 +258,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newMammal;
         }

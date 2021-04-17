@@ -11,7 +11,7 @@
 | **status** | **String** | Order Status | [optional] |
 | **complete** | **Boolean** |  | [optional][default to false] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

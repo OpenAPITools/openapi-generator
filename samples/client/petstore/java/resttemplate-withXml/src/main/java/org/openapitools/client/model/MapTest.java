@@ -54,9 +54,13 @@ public class MapTest {
   /**
    * Gets or Sets inner
    */
+  @XmlType(name="InnerEnum")
+  @XmlEnum(String.class)
   public enum InnerEnum {
+    @XmlEnumValue("UPPER")
     UPPER("UPPER"),
     
+    @XmlEnumValue("lower")
     LOWER("lower");
 
     private String value;
@@ -136,6 +140,8 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -169,6 +175,8 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -202,6 +210,8 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -235,6 +245,8 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
@@ -259,7 +271,6 @@ public class MapTest {
   public int hashCode() {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
-
 
   @Override
   public String toString() {

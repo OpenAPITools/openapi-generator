@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Order: Codable {
+public struct Order: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"
@@ -22,7 +22,7 @@ public struct Order: Codable {
     public var status: Status?
     public var complete: Bool? = false
 
-    public init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = nil) {
+    public init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = false) {
         self.id = id
         self.petId = petId
         self.quantity = quantity

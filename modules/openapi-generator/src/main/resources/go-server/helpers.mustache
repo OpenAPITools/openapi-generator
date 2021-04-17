@@ -3,6 +3,22 @@ package {{packageName}}
 
 //Response return a ImplResponse struct filled
 func Response(code int, body interface{}) ImplResponse {
-	return ImplResponse{Code: code, Body: body}
+	return ImplResponse {
+		Code: code,
+		{{#addResponseHeaders}}
+		Headers: nil,
+		{{/addResponseHeaders}}
+		Body: body,
+	}
 }
+{{#addResponseHeaders}}
 
+//ResponseWithHeaders return a ImplResponse struct filled, including headers
+func ResponseWithHeaders(code int, headers map[string][]string, body interface{}) ImplResponse {
+	return ImplResponse {
+		Code: code,
+		Headers: headers,
+		Body: body,
+	}
+}
+{{/addResponseHeaders}}

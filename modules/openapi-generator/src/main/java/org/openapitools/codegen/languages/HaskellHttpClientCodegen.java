@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "lib";
@@ -135,7 +136,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected Set<String> typeNames = new HashSet<String>();
     protected Set<String> modelTypeNames = new HashSet<String>();
 
-    final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
+    final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -1054,7 +1055,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         String mimeType = getMimeDataType(mediaType);
         typeNames.add(mimeType);
         m.put(X_MEDIA_DATA_TYPE, mimeType);
-        if (isJsonMimeType(mediaType)) {
+        if (isJsonMimeType(mediaType) || ContainsJsonMimeType(mediaType)) {
             m.put(X_MEDIA_IS_JSON, "true");
         }
         if (isWildcardMimeType(mediaType)) {
@@ -1456,9 +1457,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
+    }
+    static boolean ContainsJsonMimeType(String mime) {
+            return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
 }

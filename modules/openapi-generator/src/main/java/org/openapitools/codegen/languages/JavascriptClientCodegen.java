@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
@@ -114,7 +114,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "abstract", "arguments", "boolean", "break", "byte",
                         "case", "catch", "char", "class", "const",
@@ -552,6 +552,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return name;
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
     }
 
     @Override
@@ -1215,8 +1220,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
                 LOGGER.info("Successfully executed: " + command);
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

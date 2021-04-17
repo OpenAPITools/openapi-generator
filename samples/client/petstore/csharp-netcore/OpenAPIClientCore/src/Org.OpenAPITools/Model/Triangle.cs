@@ -174,7 +174,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(EquilateralTriangle).GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.SerializerSettings));
+                }
+                else
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("EquilateralTriangle");
                 match++;
             }
@@ -186,7 +194,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(IsoscelesTriangle).GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.SerializerSettings));
+                }
+                else
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("IsoscelesTriangle");
                 match++;
             }
@@ -198,7 +214,15 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(ScaleneTriangle).GetProperty("AdditionalProperties") == null)
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.SerializerSettings));
+                }
+                else
+                {
+                    newTriangle = new Triangle(JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString, Triangle.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("ScaleneTriangle");
                 match++;
             }
@@ -216,7 +240,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newTriangle;
         }

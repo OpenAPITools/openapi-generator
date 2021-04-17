@@ -1,7 +1,6 @@
 import os
 import connexion
 
-
 def main():
     options = {
         "swagger_ui": True
@@ -12,4 +11,5 @@ def main():
                 arguments={'title': 'OpenAPI Petstore'},
                 pythonic_params=True,
                 pass_context_arg_name='request')
+
     app.run(port=8080)

@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
@@ -76,6 +77,7 @@ namespace Org.OpenAPITools.Model
             Crab = 2
 
         }
+
 
 
         /// <summary>
@@ -122,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

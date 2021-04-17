@@ -17,7 +17,7 @@
 | **object_and_items_nullable_prop** | **Hash&lt;String, Object&gt;** |  | [optional] |
 | **object_items_nullable** | **Hash&lt;String, Object&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

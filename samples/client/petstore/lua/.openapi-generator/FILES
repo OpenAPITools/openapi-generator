@@ -6,8 +6,6 @@ petstore/api/store_api.lua
 petstore/api/user_api.lua
 petstore/model/api_response.lua
 petstore/model/category.lua
-petstore/model/inline_object.lua
-petstore/model/inline_object_1.lua
 petstore/model/order.lua
 petstore/model/pet.lua
 petstore/model/tag.lua

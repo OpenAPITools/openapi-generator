@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumArrays: Codable {
+internal struct EnumArrays: Codable, Hashable {
 
     internal enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="

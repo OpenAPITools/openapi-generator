@@ -2,6 +2,7 @@
 
 # FormatTest
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -21,5 +22,9 @@ Name | Type | Description | Notes
 **password** | **String** |  | 
 **bigDecimal** | **BigDecimal** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

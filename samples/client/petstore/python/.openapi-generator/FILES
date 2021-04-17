@@ -84,6 +84,7 @@ petstore_api/api_client.py
 petstore_api/apis/__init__.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
+petstore_api/model/__init__.py
 petstore_api/model/additional_properties_any_type.py
 petstore_api/model/additional_properties_array.py
 petstore_api/model/additional_properties_boolean.py
@@ -148,7 +149,6 @@ petstore_api/model/type_holder_example.py
 petstore_api/model/user.py
 petstore_api/model/xml_item.py
 petstore_api/model_utils.py
-petstore_api/models/__init__.py
 petstore_api/models/__init__.py
 petstore_api/rest.py
 requirements.txt

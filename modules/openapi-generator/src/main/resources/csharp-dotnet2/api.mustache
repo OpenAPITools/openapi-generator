@@ -22,7 +22,7 @@ namespace {{apiPackage}}
         {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/operation}}
     }
-  
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
@@ -36,11 +36,11 @@ namespace {{apiPackage}}
         public {{classname}}(ApiClient apiClient = null)
         {
             if (apiClient == null) // use the default one in Configuration
-                this.ApiClient = Configuration.DefaultApiClient; 
+                this.ApiClient = Configuration.DefaultApiClient;
             else
                 this.ApiClient = apiClient;
         }
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
@@ -49,7 +49,7 @@ namespace {{apiPackage}}
         {
             this.ApiClient = new ApiClient(basePath);
         }
-    
+
         /// <summary>
         /// Sets the base path of the API client.
         /// </summary>
@@ -59,7 +59,7 @@ namespace {{apiPackage}}
         {
             this.ApiClient.BasePath = basePath;
         }
-    
+
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
@@ -69,37 +69,37 @@ namespace {{apiPackage}}
         {
             return this.ApiClient.BasePath;
         }
-    
+
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
         /// <value>An instance of the ApiClient</value>
         public ApiClient ApiClient {get; set;}
-    
+
         {{#operation}}
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
-        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>            
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
         public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
             {{/required}}{{/allParams}}
-    
+
             var path = "{{{path}}}";
             path = path.Replace("{format}", "json");
             {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", ApiClient.ParameterToString({{{paramName}}}));
             {{/pathParams}}
-    
+
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
             {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -108,21 +108,21 @@ namespace {{apiPackage}}
             {{/formParams}}
             {{#bodyParam}}postBody = ApiClient.Serialize({{paramName}}); // http body (model) parameter
             {{/bodyParam}}
-    
+
             // authentication setting, if any
             String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
-    
+
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-    
+
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.ErrorMessage, response.ErrorMessage);
-    
+
             {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}return;{{/returnType}}
         }
-    
+
         {{/operation}}
     }
     {{/operations}}

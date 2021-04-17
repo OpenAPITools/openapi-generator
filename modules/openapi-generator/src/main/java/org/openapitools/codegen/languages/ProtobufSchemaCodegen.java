@@ -47,7 +47,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private static final String IMPORTS = "imports";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
 
@@ -490,7 +490,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }

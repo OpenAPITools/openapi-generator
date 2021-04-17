@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **declawed** | **Boolean** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

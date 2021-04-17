@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
-        [DataMember(Name = "mealy", EmitDefaultValue = false)]
+        [DataMember(Name = "mealy", EmitDefaultValue = true)]
         public bool Mealy { get; set; }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

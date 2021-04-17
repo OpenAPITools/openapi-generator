@@ -28,7 +28,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   **/
-    public Integer getCode() {
+  public Integer getCode() {
     return code;
   }
 
@@ -45,7 +45,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   **/
-    public String getType() {
+  public String getType() {
     return type;
   }
 
@@ -62,7 +62,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   **/
-    public String getMessage() {
+  public String getMessage() {
     return message;
   }
 

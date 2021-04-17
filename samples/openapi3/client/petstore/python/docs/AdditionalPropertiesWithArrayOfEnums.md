@@ -1,5 +1,6 @@
 # AdditionalPropertiesWithArrayOfEnums
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

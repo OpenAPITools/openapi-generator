@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -12,8 +10,6 @@
 
 import re  # noqa: F401
 import sys  # noqa: F401
-
-import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,

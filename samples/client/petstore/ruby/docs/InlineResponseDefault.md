@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **string** | [**Foo**](Foo.md) |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
 require 'petstore'

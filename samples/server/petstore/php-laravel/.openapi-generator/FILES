@@ -45,12 +45,6 @@ lib/app/Models/Foo.php
 lib/app/Models/FormatTest.php
 lib/app/Models/HasOnlyReadOnly.php
 lib/app/Models/HealthCheckResult.php
-lib/app/Models/InlineObject.php
-lib/app/Models/InlineObject1.php
-lib/app/Models/InlineObject2.php
-lib/app/Models/InlineObject3.php
-lib/app/Models/InlineObject4.php
-lib/app/Models/InlineObject5.php
 lib/app/Models/InlineResponseDefault.php
 lib/app/Models/MapTest.php
 lib/app/Models/MixedPropertiesAndAdditionalPropertiesClass.php
@@ -66,6 +60,7 @@ lib/app/Models/OuterEnum.php
 lib/app/Models/OuterEnumDefaultValue.php
 lib/app/Models/OuterEnumInteger.php
 lib/app/Models/OuterEnumIntegerDefaultValue.php
+lib/app/Models/OuterObjectWithEnumProperty.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SpecialModelName.php
