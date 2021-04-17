@@ -1234,7 +1234,7 @@
                 <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
-                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
