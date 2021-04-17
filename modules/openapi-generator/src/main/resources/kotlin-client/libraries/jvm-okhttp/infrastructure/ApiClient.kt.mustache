@@ -176,7 +176,7 @@ import org.threeten.bp.OffsetTime
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = Files.createTempFile("tmp{{packageName}}", null).toFile()
+            val f = Files.createTempFile("tmp.{{packageName}}", null).toFile()
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)
