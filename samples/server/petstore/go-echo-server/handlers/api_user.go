@@ -5,6 +5,7 @@ import (
     "net/http"
 )
 
+// CreateUser - Create user
 func (c *Container) CreateUser(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -12,6 +13,7 @@ func (c *Container) CreateUser(ctx echo.Context) error {
 }
 
 
+// CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *Container) CreateUsersWithArrayInput(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -19,6 +21,7 @@ func (c *Container) CreateUsersWithArrayInput(ctx echo.Context) error {
 }
 
 
+// CreateUsersWithListInput - Creates list of users with given input array
 func (c *Container) CreateUsersWithListInput(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -26,6 +29,7 @@ func (c *Container) CreateUsersWithListInput(ctx echo.Context) error {
 }
 
 
+// DeleteUser - Delete user
 func (c *Container) DeleteUser(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -33,6 +37,7 @@ func (c *Container) DeleteUser(ctx echo.Context) error {
 }
 
 
+// GetUserByName - Get user by user name
 func (c *Container) GetUserByName(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -40,6 +45,7 @@ func (c *Container) GetUserByName(ctx echo.Context) error {
 }
 
 
+// LoginUser - Logs user into the system
 func (c *Container) LoginUser(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -47,6 +53,7 @@ func (c *Container) LoginUser(ctx echo.Context) error {
 }
 
 
+// LogoutUser - Logs out current logged in user session
 func (c *Container) LogoutUser(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -54,6 +61,7 @@ func (c *Container) LogoutUser(ctx echo.Context) error {
 }
 
 
+// UpdateUser - Updated user
 func (c *Container) UpdateUser(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",

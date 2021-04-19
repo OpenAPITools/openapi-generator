@@ -5,6 +5,7 @@ import (
     "net/http"
 )
 
+// DeleteOrder - Delete purchase order by ID
 func (c *Container) DeleteOrder(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -12,6 +13,7 @@ func (c *Container) DeleteOrder(ctx echo.Context) error {
 }
 
 
+// GetInventory - Returns pet inventories by status
 func (c *Container) GetInventory(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -19,6 +21,7 @@ func (c *Container) GetInventory(ctx echo.Context) error {
 }
 
 
+// GetOrderById - Find purchase order by ID
 func (c *Container) GetOrderById(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
@@ -26,6 +29,7 @@ func (c *Container) GetOrderById(ctx echo.Context) error {
 }
 
 
+// PlaceOrder - Place an order for a pet
 func (c *Container) PlaceOrder(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
