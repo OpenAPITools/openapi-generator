@@ -12,6 +12,7 @@
 #ifndef PFX_PFXUserApi_H
 #define PFX_PFXUserApi_H
 
+#include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
 
@@ -55,14 +56,46 @@ public:
     QString getParamStyleSuffix(QString style);
     QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
 
+    /**
+    * @param[in]  body PFXUser [required]
+    */
     void createUser(const PFXUser &body);
+
+    /**
+    * @param[in]  body QList<PFXUser> [required]
+    */
     void createUsersWithArrayInput(const QList<PFXUser> &body);
+
+    /**
+    * @param[in]  body QList<PFXUser> [required]
+    */
     void createUsersWithListInput(const QList<PFXUser> &body);
+
+    /**
+    * @param[in]  username QString [required]
+    */
     void deleteUser(const QString &username);
+
+    /**
+    * @param[in]  username QString [required]
+    */
     void getUserByName(const QString &username);
+
+    /**
+    * @param[in]  username QString [required]
+    * @param[in]  password QString [required]
+    */
     void loginUser(const QString &username, const QString &password);
+
+
     void logoutUser();
+
+    /**
+    * @param[in]  username QString [required]
+    * @param[in]  body PFXUser [required]
+    */
     void updateUser(const QString &username, const PFXUser &body);
+
 
 private:
     QMap<QString,int> _serverIndices;
@@ -125,7 +158,8 @@ signals:
     void logoutUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
 
-    void abortRequestsSignal(); 
+    void abortRequestsSignal();
+    void allPendingRequestsCompleted();
 };
 
 } // namespace test_namespace

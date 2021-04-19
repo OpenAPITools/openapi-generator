@@ -1,5 +1,6 @@
 # ReadOnlyFirst
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

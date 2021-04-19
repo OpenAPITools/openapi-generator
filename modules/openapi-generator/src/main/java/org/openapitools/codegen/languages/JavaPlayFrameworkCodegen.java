@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {

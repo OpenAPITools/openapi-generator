@@ -29,7 +29,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -199,11 +198,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     public void setFeatureCORS(String val) {
-        this.featureCORS = Boolean.valueOf(val);
+        this.featureCORS = Boolean.parseBoolean(val);
     }
 
     public void setUseNose(String val) {
-        this.useNose = Boolean.valueOf(val);
+        this.useNose = Boolean.parseBoolean(val);
     }
 
     public void setPythonSrcRoot(String val) {

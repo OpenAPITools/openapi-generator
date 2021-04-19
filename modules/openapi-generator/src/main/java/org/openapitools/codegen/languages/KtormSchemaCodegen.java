@@ -61,7 +61,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
 
     // https://ktorm.liuwj.me/api-docs/me.liuwj.ktorm.schema/index.html
-    protected class SqlType {
+    protected static class SqlType {
         protected static final String Blob = "blob";
         protected static final String Boolean = "boolean";
         protected static final String Bytes = "bytes";
@@ -335,7 +335,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return objs;
     }
 
-    private class KtormSchema extends HashMap<String, Object> {
+    private static class KtormSchema extends HashMap<String, Object> {
         private static final long serialVersionUID = -9159755928980443880L;
     }
 
@@ -763,7 +763,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return input.substring(0, 1).toLowerCase(Locale.ROOT) + input.substring(1);
     }
 
-    private class SqlTypeArgs {
+    private static class SqlTypeArgs {
         // type classes
         public boolean isPrimitive;
         public boolean isNumeric;

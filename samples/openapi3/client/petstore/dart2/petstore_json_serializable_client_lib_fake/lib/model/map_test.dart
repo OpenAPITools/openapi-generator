@@ -25,28 +25,28 @@ class MapTest {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_map_of_string',
     required: false,
   )
   Map<String, Map<String, String>> mapMapOfString;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_of_enum_string',
     required: false,
   )
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'direct_map',
     required: false,
   )
   Map<String, bool> directMap;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'indirect_map',
     required: false,
   )
@@ -66,7 +66,6 @@ class MapTest {
     (directMap == null ? 0 : directMap.hashCode) +
     (indirectMap == null ? 0 : indirectMap.hashCode);
 
-
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 
   Map<String, dynamic> toJson() => _$MapTestToJson(this);
@@ -77,7 +76,6 @@ class MapTest {
   }
 
 }
-
 
 
 enum MapTestMapOfEnumStringEnum {

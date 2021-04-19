@@ -391,7 +391,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     static class ParameterSorter implements Comparator<CodegenParameter> {
-        public int compare(final CodegenParameter p1, final CodegenParameter p2) { 
+        public int compare(final CodegenParameter p1, final CodegenParameter p2) {
             return index(p1) - index(p2);
         }
 
@@ -410,8 +410,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return 5;
         }
-    }   
-    
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
@@ -420,7 +420,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                return Boolean.valueOf(p.getDefault().toString()) ? "True" : "False";
+                return Boolean.parseBoolean(p.getDefault().toString()) ? "True" : "False";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {

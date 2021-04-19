@@ -11,19 +11,21 @@ package petstoreserver
 
 import (
 	"encoding/json"
+	"errors"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
-	"github.com/gorilla/mux"
+	"strings"
 )
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
+	Name		string
+	Method	  string
+	Pattern	 string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -34,6 +36,8 @@ type Routes []Route
 type Router interface {
 	Routes() Routes
 }
+
+const errMsgRequiredMissing = "required parameter is missing"
 
 // NewRouter creates a new router for any number of api routers
 func NewRouter(routers ...Router) *mux.Router {
@@ -56,7 +60,7 @@ func NewRouter(routers ...Router) *mux.Router {
 }
 
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
-func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error {
+func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if status != nil {
 		w.WriteHeader(*status)
@@ -123,17 +127,91 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 	return file, nil
 }
 
+// parseInt64Parameter parses a string parameter to an int64.
+func parseInt64Parameter(param string, required bool) (int64, error) {
+	if param == "" {
+		if required {
+			return 0, errors.New(errMsgRequiredMissing)
+		}
 
-// parseInt64Parameter parses a sting parameter to an int64
-func parseInt64Parameter(param string) (int64, error) {
+		return 0, nil
+	}
+
 	return strconv.ParseInt(param, 10, 64)
 }
 
-// parseInt32Parameter parses a sting parameter to an int32
-func parseInt32Parameter(param string) (int32, error) {
+// parseInt32Parameter parses a string parameter to an int32.
+func parseInt32Parameter(param string, required bool) (int32, error) {
+	if param == "" {
+		if required {
+			return 0, errors.New(errMsgRequiredMissing)
+		}
+
+		return 0, nil
+	}
+
 	val, err := strconv.ParseInt(param, 10, 32)
 	if err != nil {
 		return -1, err
 	}
+
 	return int32(val), nil
+}
+
+// parseBoolParameter parses a string parameter to a bool
+func parseBoolParameter(param string) (bool, error) {
+	val, err := strconv.ParseBool(param)
+	if err != nil {
+		return false, err
+	}
+
+	return bool(val), nil
+}
+
+// parseInt64ArrayParameter parses a string parameter containing array of values to []int64.
+func parseInt64ArrayParameter(param, delim string, required bool) ([]int64, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	ints := make([]int64, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseInt(s, 10, 64); err != nil {
+			return nil, err
+		} else {
+			ints[i] = v
+		}
+	}
+
+	return ints, nil
+}
+
+// parseInt32ArrayParameter parses a string parameter containing array of values to []int32.
+func parseInt32ArrayParameter(param, delim string, required bool) ([]int32, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	ints := make([]int32, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseInt(s, 10, 32); err != nil {
+			return nil, err
+		} else {
+			ints[i] = int32(v)
+		}
+	}
+
+	return ints, nil
 }

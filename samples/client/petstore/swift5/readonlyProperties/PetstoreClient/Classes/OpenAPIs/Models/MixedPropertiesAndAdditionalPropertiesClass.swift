@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     public private(set) var uuid: UUID?
     public private(set) var dateTime: Date?

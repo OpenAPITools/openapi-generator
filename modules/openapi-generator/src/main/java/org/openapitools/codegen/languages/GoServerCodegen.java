@@ -37,6 +37,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
+    protected Boolean addResponseHeaders = false;
 
 
     public GoServerCodegen() {
@@ -79,6 +80,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
         cliOptions.add(optFeatureCORS);
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+
+        // option to include headers in the response
+        CliOption optAddResponseHeaders = new CliOption("addResponseHeaders", "To include response headers in ImplResponse");
+        optAddResponseHeaders.setType("bool");
+        optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
+        cliOptions.add(optAddResponseHeaders);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -172,10 +179,17 @@ public class GoServerCodegen extends AbstractGoCodegen {
         } else {
             additionalProperties.put("serverPort", serverPort);
         }
+
         if (additionalProperties.containsKey("featureCORS")) {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
             additionalProperties.put("featureCORS", corsFeatureEnabled);
+        }
+
+        if (additionalProperties.containsKey("addResponseHeaders")) {
+            this.setAddResponseHeaders(convertPropertyToBooleanAndWriteBack("addResponseHeaders"));
+        } else {
+            additionalProperties.put("addResponseHeaders", addResponseHeaders);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
@@ -221,10 +235,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // override imports to only include packages for interface parameters
         imports.clear();
 
-        boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
-        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
@@ -233,7 +245,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter.
+                // import "time" if the operation has a required time parameter
                 if (param.required) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
@@ -313,5 +325,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setFeatureCORS(Boolean featureCORS) {
         this.corsFeatureEnabled = featureCORS;
+    }
+
+    public void setAddResponseHeaders(Boolean addResponseHeaders) {
+        this.addResponseHeaders = addResponseHeaders;
     }
 }

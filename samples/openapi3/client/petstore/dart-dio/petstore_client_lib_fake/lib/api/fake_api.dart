@@ -9,15 +9,16 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/file_schema_test_class.dart';
-import 'package:openapi/model/outer_composite.dart';
-import 'package:openapi/model/user.dart';
-import 'package:openapi/model/health_check_result.dart';
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/model_client.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
+import 'package:openapi/model/file_schema_test_class.dart';
+import 'package:openapi/model/health_check_result.dart';
+import 'package:openapi/model/model_client.dart';
+import 'package:openapi/model/outer_composite.dart';
+import 'package:openapi/model/outer_object_with_enum_property.dart';
+import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/user.dart';
 
 class FakeApi {
 
@@ -43,9 +44,7 @@ class FakeApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -103,12 +102,12 @@ class FakeApi {
       path: r'/fake/http-signature-test',
       method: 'GET',
       headers: <String, dynamic>{
-        r'header_1': header1,
+        if (header1 != null) r'header_1': header1,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
-        r'query_1': query1,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (query1 != null) r'query_1': query1,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -159,9 +158,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -216,9 +213,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -278,9 +273,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -335,9 +328,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -377,6 +368,66 @@ class FakeApi {
 
   /// 
   ///
+  /// Test serialization of enum (int) properties with examples
+  Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize(
+    OuterObjectWithEnumProperty outerObjectWithEnumProperty, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/fake/property/enum-int',
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    const _type = FullType(OuterObjectWithEnumProperty);
+    _bodyData = _serializers.serialize(outerObjectWithEnumProperty, specifiedType: _type);
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    const _responseType = FullType(OuterObjectWithEnumProperty);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as OuterObjectWithEnumProperty;
+
+    return Response<OuterObjectWithEnumProperty>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// 
+  ///
   /// For this test, the body for this request much reference a schema named `File`.
   Future<Response<void>> testBodyWithFileSchema(
     FileSchemaTestClass fileSchemaTestClass, { 
@@ -392,9 +443,7 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -440,10 +489,10 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'query': query,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -488,9 +537,7 @@ class FakeApi {
       method: 'PATCH',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -563,9 +610,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -587,20 +632,20 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (integer != null) r'integer': parameterToString(_serializers, integer),
-      if (int32 != null) r'int32': parameterToString(_serializers, int32),
-      if (int64 != null) r'int64': parameterToString(_serializers, int64),
-      r'number': parameterToString(_serializers, number),
-      if (float != null) r'float': parameterToString(_serializers, float),
-      r'double': parameterToString(_serializers, double_),
-      if (string != null) r'string': parameterToString(_serializers, string),
-      r'pattern_without_delimiter': parameterToString(_serializers, patternWithoutDelimiter),
-      r'byte': parameterToString(_serializers, byte),
+      if (integer != null) r'integer': encodeFormParameter(_serializers, integer, const FullType(int)),
+      if (int32 != null) r'int32': encodeFormParameter(_serializers, int32, const FullType(int)),
+      if (int64 != null) r'int64': encodeFormParameter(_serializers, int64, const FullType(int)),
+      r'number': encodeFormParameter(_serializers, number, const FullType(num)),
+      if (float != null) r'float': encodeFormParameter(_serializers, float, const FullType(double)),
+      r'double': encodeFormParameter(_serializers, double_, const FullType(double)),
+      if (string != null) r'string': encodeFormParameter(_serializers, string, const FullType(String)),
+      r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
+      r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
       if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
-      if (date != null) r'date': parameterToString(_serializers, date),
-      if (dateTime != null) r'dateTime': parameterToString(_serializers, dateTime),
-      if (password != null) r'password': parameterToString(_serializers, password),
-      if (callback != null) r'callback': parameterToString(_serializers, callback),
+      if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(DateTime)),
+      if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
+      if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
+      if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -635,16 +680,16 @@ class FakeApi {
       path: r'/fake',
       method: 'GET',
       headers: <String, dynamic>{
-        r'enum_header_string_array': enumHeaderStringArray,
-        r'enum_header_string': enumHeaderString,
+        if (enumHeaderStringArray != null) r'enum_header_string_array': enumHeaderStringArray,
+        if (enumHeaderString != null) r'enum_header_string': enumHeaderString,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
-        r'enum_query_string_array': enumQueryStringArray,
-        r'enum_query_string': enumQueryString,
-        r'enum_query_integer': enumQueryInteger,
-        r'enum_query_double': enumQueryDouble,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (enumQueryStringArray != null) r'enum_query_string_array': enumQueryStringArray,
+        if (enumQueryString != null) r'enum_query_string': enumQueryString,
+        if (enumQueryInteger != null) r'enum_query_integer': enumQueryInteger,
+        if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -661,8 +706,8 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (enumFormStringArray != null) r'enum_form_string_array': parameterToString(_serializers, enumFormStringArray),
-      if (enumFormString != null) r'enum_form_string': parameterToString(_serializers, enumFormString),
+      if (enumFormStringArray != null) r'enum_form_string_array': encodeFormParameter(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)])),
+      if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -696,15 +741,15 @@ class FakeApi {
       method: 'DELETE',
       headers: <String, dynamic>{
         r'required_boolean_group': requiredBooleanGroup,
-        r'boolean_group': booleanGroup,
+        if (booleanGroup != null) r'boolean_group': booleanGroup,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'required_string_group': requiredStringGroup,
         r'required_int64_group': requiredInt64Group,
-        r'string_group': stringGroup,
-        r'int64_group': int64Group,
-      }..removeWhere((_, dynamic value) => value == null),
+        if (stringGroup != null) r'string_group': stringGroup,
+        if (int64Group != null) r'int64_group': int64Group,
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -751,9 +796,7 @@ class FakeApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -799,9 +842,7 @@ class FakeApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
@@ -818,8 +859,8 @@ class FakeApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      r'param': parameterToString(_serializers, param),
-      r'param2': parameterToString(_serializers, param2),
+      r'param': encodeFormParameter(_serializers, param, const FullType(String)),
+      r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -852,14 +893,14 @@ class FakeApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'pipe': pipe,
         r'ioutil': ioutil,
         r'http': http,
         r'url': url,
         r'context': context,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,

@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::HasOnlyReadOnly');
 
-my $instance = WWW::OpenAPIClient::Object::HasOnlyReadOnly->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::HasOnlyReadOnly');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::HasOnlyReadOnly->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::HasOnlyReadOnly');
 

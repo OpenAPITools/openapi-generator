@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct StringBooleanMap: Codable {
+public struct StringBooleanMap: Codable, Hashable {
 
     public private(set) var additionalProperties: [String: Bool] = [:]
 

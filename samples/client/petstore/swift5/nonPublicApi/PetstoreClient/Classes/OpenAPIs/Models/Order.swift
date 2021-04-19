@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Order: Codable {
+internal struct Order: Codable, Hashable {
 
     internal enum Status: String, Codable, CaseIterable {
         case placed = "placed"

@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
             this.DateTime = dateTime;
             this.Map = map;
         }
-        
+
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>

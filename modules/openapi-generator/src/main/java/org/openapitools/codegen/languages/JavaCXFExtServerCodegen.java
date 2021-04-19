@@ -306,7 +306,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         MAX_DATE = maxDate;
     }
 
-    private Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
+    private final Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
 
     protected boolean generateOperationBody = false;
 

@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+  title: XXX
+  description: Das ist jetzt der erste OpenAPI 3.0 Endpoint
+  contact:
+    email: XXX.XXX@XXX.de
+  version: "1.0"
+paths:
+  /api/v1/petresource/pet:
+    post:
+      tags:
+        - v1/petresource
+      summary: Save a Pet.
+      description: Save a Pet.
+      operationId: savePet
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        default:
+          description: PetResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /api/v1/petresource/petstore:
+    post:
+      tags:
+        - v1/petresource
+      summary: Save a Petstore.
+      description: Save a Petstore.
+      operationId: savePetStore
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/PetStore'
+      responses:
+        default:
+          description: PetStore
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetStore'
+components:
+  schemas:
+    Cat:
+      required:
+        - type
+      type: object
+      description: Cat
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            catFood:
+              type: string
+    Dog:
+      required:
+        - type
+      type: object
+      description: Dog
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            dogFood:
+              type: string
+    Pet:
+      required:
+        - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name
+        store:
+          $ref: '#/components/schemas/PetStore'
+        mother:
+          $ref: '#/components/schemas/Pet'
+        father:
+          $ref: '#/components/schemas/Pet'
+        type:
+          type: string
+          description: Type Diskriminator
+      description: Base Pet
+      discriminator:
+        propertyName: type
+        mapping:
+          Dog: '#/components/schemas/Dog'
+          Cat: '#/components/schemas/Cat'
+    PetStore:
+      type: object
+      properties:
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+      description: PetStore

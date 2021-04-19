@@ -9,11 +9,8 @@
 
 part of openapi.api;
 
-
-
 enum OuterEnumDefaultValue {
-                placed,
-                approved,
-                delivered,
+  placed,
+  approved,
+  delivered,
 }
-

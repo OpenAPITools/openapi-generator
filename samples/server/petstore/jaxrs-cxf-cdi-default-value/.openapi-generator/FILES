@@ -1,0 +1,10 @@
+pom.xml
+src/gen/java/org/openapitools/api/TestHeadersApi.java
+src/gen/java/org/openapitools/api/TestHeadersApiService.java
+src/gen/java/org/openapitools/api/TestQueryParamsApi.java
+src/gen/java/org/openapitools/api/TestQueryParamsApiService.java
+src/gen/java/org/openapitools/model/TestResponse.java
+src/main/java/org/openapitools/api/RestApplication.java
+src/main/java/org/openapitools/api/impl/TestHeadersApiServiceImpl.java
+src/main/java/org/openapitools/api/impl/TestQueryParamsApiServiceImpl.java
+src/main/webapp/WEB-INF/beans.xml

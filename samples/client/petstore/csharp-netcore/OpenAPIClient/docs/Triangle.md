@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Triangle
+
 ## Properties
 
 Name | Type | Description | Notes

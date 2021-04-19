@@ -30,7 +30,7 @@ class Animal {
   String className;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'red',
     name: r'color',
     required: false,
   )
@@ -45,7 +45,6 @@ class Animal {
   int get hashCode =>
     (className == null ? 0 : className.hashCode) +
     (color == null ? 0 : color.hashCode);
-
 
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
 

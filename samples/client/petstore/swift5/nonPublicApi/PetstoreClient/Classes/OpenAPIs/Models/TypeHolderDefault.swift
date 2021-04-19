@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TypeHolderDefault: Codable {
+internal struct TypeHolderDefault: Codable, Hashable {
 
     internal var stringItem: String = "what"
     internal var numberItem: Double

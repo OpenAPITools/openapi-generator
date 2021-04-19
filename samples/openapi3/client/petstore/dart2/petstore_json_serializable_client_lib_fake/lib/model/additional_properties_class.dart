@@ -23,14 +23,14 @@ class AdditionalPropertiesClass {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_property',
     required: false,
   )
   Map<String, String> mapProperty;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'map_of_map_property',
     required: false,
   )
@@ -45,7 +45,6 @@ class AdditionalPropertiesClass {
   int get hashCode =>
     (mapProperty == null ? 0 : mapProperty.hashCode) +
     (mapOfMapProperty == null ? 0 : mapOfMapProperty.hashCode);
-
 
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 

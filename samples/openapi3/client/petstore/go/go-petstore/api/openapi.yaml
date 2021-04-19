@@ -1120,6 +1120,43 @@ paths:
           description: Success
       tags:
       - fake
+  /fake/test-unique-paramters:
+    put:
+      description: To test unique items in header and query parameters
+      operationId: testUniqueItemsHeaderAndQueryParameterCollectionFormat
+      parameters:
+      - explode: true
+        in: query
+        name: queryUnique
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        style: form
+      - explode: false
+        in: header
+        name: headerUnique
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+                uniqueItems: true
+          description: Success
+      tags:
+      - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile

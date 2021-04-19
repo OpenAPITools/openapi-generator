@@ -25,7 +25,16 @@ class {{declspec}} {{classname}}
 public:
     {{classname}}();
     virtual ~{{classname}}();
-
+{{#isEnum}}{{#allowableValues}}
+    enum class e{{classname}} {
+    // To have a valid default value.
+    // Avoiding nameclashes with user defined
+    // enum values
+    INVALID_VALUE_OPENAPI_GENERATED = 0,
+    {{#enumVars}}
+    {{{name}}}{{^-last}}, {{/-last}}
+    {{/enumVars}}
+    };{{/allowableValues}}{{/isEnum}}
     void validate();
 
     /////////////////////////////////////////////
@@ -40,6 +49,10 @@ public:
     bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();{{/required}}
     {{/vars}}
+    {{#isEnum}}
+    {{classname}}::e{{classname}} getValue() const;
+    void setValue({{classname}}::e{{classname}} value);
+    {{/isEnum}}
 
     friend void to_json(nlohmann::json& j, const {{classname}}& o);
     friend void from_json(const nlohmann::json& j, {{classname}}& o);
@@ -49,6 +62,9 @@ protected:
     {{^required}}
     bool m_{{name}}IsSet;{{/required}}
     {{/vars}}
+    {{#isEnum}}
+    {{classname}}::e{{classname}} m_value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
+    {{/isEnum}}
 };
 
 {{#modelNamespaceDeclarations}}

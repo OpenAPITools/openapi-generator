@@ -334,9 +334,9 @@ export class {{classname}} {
 
 {{/hasFormParams}}
     {{^isResponseFile}}
-        let responseType: 'text' | 'json' = 'json';
+        let responseType_: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
+            responseType_ = 'text';
         }
 
     {{/isResponseFile}}
@@ -350,7 +350,7 @@ export class {{classname}} {
                 responseType: "blob",
     {{/isResponseFile}}
     {{^isResponseFile}}
-                responseType: <any>responseType,
+                responseType: <any>responseType_,
     {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

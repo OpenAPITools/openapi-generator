@@ -22,7 +22,7 @@ class Foo {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'bar',
     name: r'bar',
     required: false,
   )
@@ -35,7 +35,6 @@ class Foo {
   @override
   int get hashCode =>
     (bar == null ? 0 : bar.hashCode);
-
 
   factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
 

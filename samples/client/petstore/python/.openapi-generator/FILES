@@ -150,7 +150,6 @@ petstore_api/model/user.py
 petstore_api/model/xml_item.py
 petstore_api/model_utils.py
 petstore_api/models/__init__.py
-petstore_api/models/__init__.py
 petstore_api/rest.py
 requirements.txt
 setup.cfg

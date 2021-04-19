@@ -30,7 +30,7 @@ class Category {
   int id;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'default-name',
     name: r'name',
     required: true,
   )
@@ -45,7 +45,6 @@ class Category {
   int get hashCode =>
     (id == null ? 0 : id.hashCode) +
     (name == null ? 0 : name.hashCode);
-
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

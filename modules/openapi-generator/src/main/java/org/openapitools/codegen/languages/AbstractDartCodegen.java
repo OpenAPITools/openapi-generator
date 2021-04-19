@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -12,17 +13,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
 import static org.openapitools.codegen.utils.StringUtils.*;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
@@ -51,9 +52,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
-    // Names that must not be used as model names because they clash with existing
-    // default imports (dart:io, dart:async, package:http etc.) but are not basic dataTypes.
-    protected Set<String> additionalReservedWords;
+    protected Map<String, String> imports = new HashMap<>();
 
     public AbstractDartCodegen() {
         super();
@@ -63,6 +62,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey
                 ))
                 .excludeGlobalFeatures(
@@ -72,13 +72,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML
                 )
         );
 
@@ -106,13 +111,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
         setReservedWordsLowerCase(reservedWordsList);
 
+        // These types return isPrimitive=true in templates
         languageSpecificPrimitives = Sets.newHashSet(
                 "String",
                 "bool",
                 "int",
                 "num",
-                "double",
-                "dynamic"
+                "double"
         );
 
         typeMapping = new HashMap<>();
@@ -143,29 +148,31 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("AnyType", "Object");
 
-        // DataTypes of the above values which are automatically imported.
-        // They are also not allowed to be model names.
+        // Data types of the above values which are automatically imported
         defaultIncludes = Sets.newHashSet(
                 "String",
                 "bool",
                 "int",
                 "num",
                 "double",
-                "dynamic",
                 "List",
                 "Set",
                 "Map",
                 "DateTime",
-                "Object",
-                "MultipartFile"
+                "Object"
         );
 
-        additionalReservedWords = Sets.newHashSet(
-                "File",
-                "Client",
-                "Future",
-                "Response"
-        );
+        imports.put("String", "dart:core");
+        imports.put("bool", "dart:core");
+        imports.put("int", "dart:core");
+        imports.put("num", "dart:core");
+        imports.put("double", "dart:core");
+        imports.put("List", "dart:core");
+        imports.put("Set", "dart:core");
+        imports.put("Map", "dart:core");
+        imports.put("DateTime", "dart:core");
+        imports.put("Object", "dart:core");
+        imports.put("MultipartFile", "package:http/http.dart");
 
         cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -176,7 +183,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
-
     }
 
     @Override
@@ -274,12 +280,16 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    protected boolean needToImport(String type) {
+        // Import everything, unless it is from dart:core.
+        return StringUtils.isNotBlank(type) && (!imports.containsKey(type) || !imports.get(type).equals("dart:core"));
+    }
+
+    @Override
     protected boolean isReservedWord(String word) {
         // consider everything as reserved that is either a keyword,
         // a default included type, or a type include through some library
-        return super.isReservedWord(word) ||
-                defaultIncludes().contains(word) ||
-                additionalReservedWords.contains(word);
+        return super.isReservedWord(word) || defaultIncludes().contains(word);
     }
 
     @Override
@@ -361,32 +371,46 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
-        String nameWithPrefixSuffix = sanitizeName(name);
+        String sanitizedName = sanitizeName(name);
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             // add '_' so that model name can be camelized correctly
-            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+            sanitizedName = modelNamePrefix + "_" + sanitizedName;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
             // add '_' so that model name can be camelized correctly
-            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+            sanitizedName = sanitizedName + "_" + modelNameSuffix;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(nameWithPrefixSuffix);
+        final String camelizedName = camelize(sanitizedName);
+
+        // Check if there is a mapping that can be used
+        if (typeMapping().containsKey(camelizedName)) {
+            String typeName = typeMapping().get(camelizedName);
+            if (imports.containsKey(typeName)) {
+                // Anything with an import mapping is likely
+                // generator specific and can not be used as model name.
+                final String modelName = "Model" + camelizedName;
+                LOGGER.warn("{} (existing type) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+                return modelName;
+            }
+            return typeName;
+        }
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -465,13 +489,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         if (openAPIType == null) {
-            LOGGER.error("No Type defined for Schema " + p);
+            LOGGER.error("No Type defined for Schema {}", p);
         }
-        if (typeMapping.containsKey(openAPIType)) {
-            return typeMapping.get(openAPIType);
-        }
-        if (languageSpecificPrimitives.contains(openAPIType)) {
-            return openAPIType;
+        if (typeMapping().containsKey(openAPIType)) {
+            return typeMapping().get(openAPIType);
         }
         return toModelName(openAPIType);
     }
@@ -595,14 +616,15 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            operationId = newOperationId;
         }
 
         return operationId;
@@ -657,6 +679,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -668,7 +691,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "dartfmt -w yourcode.dart"
+            // currently supported is "dartfmt -w" and "dart format"
             String command = dartPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
@@ -678,8 +701,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
