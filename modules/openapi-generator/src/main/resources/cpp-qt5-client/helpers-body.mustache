@@ -7,16 +7,16 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-struct {{prefix}}CustomDateTimeFormat{
-    bool isStringSet = false;
-    QString formatString;
-    bool isEnumSet = false;
-    Qt::DateFormat formatEnum;
-};
-
 class {{prefix}}SerializerSettings {
 public:
-    static {{prefix}}CustomDateTimeFormat getCustomDateTimeFormat() {
+    struct CustomDateTimeFormat{
+        bool isStringSet = false;
+        QString formatString;
+        bool isEnumSet = false;
+        Qt::DateFormat formatEnum;
+    };
+
+    static CustomDateTimeFormat getCustomDateTimeFormat() {
         return getInstance()->customDateTimeFormat;
     }
 
@@ -38,6 +38,7 @@ public:
         }
         return instance;
     }
+
 private:
     explicit {{prefix}}SerializerSettings(){
         instance = this;
@@ -45,7 +46,7 @@ private:
         customDateTimeFormat.isEnumSet = false;
     }
     static {{prefix}}SerializerSettings *instance;
-    {{prefix}}CustomDateTimeFormat customDateTimeFormat;
+    CustomDateTimeFormat customDateTimeFormat;
 };
 
 {{prefix}}SerializerSettings * {{prefix}}SerializerSettings::instance = nullptr;
@@ -53,7 +54,7 @@ private:
 bool setDateTimeFormat(const QString &dateTimeFormat){
     bool success = false;
     auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
-    if(dt.isValid()){
+    if (dt.isValid()) {
         success = true;
         {{prefix}}SerializerSettings::setDateTimeFormatString(dateTimeFormat);
     }
@@ -63,7 +64,7 @@ bool setDateTimeFormat(const QString &dateTimeFormat){
 bool setDateTimeFormat(const Qt::DateFormat &dateTimeFormat){
     bool success = false;
     auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
-    if(dt.isValid()){
+    if (dt.isValid()) {
         success = true;
         {{prefix}}SerializerSettings::setDateTimeFormatEnum(dateTimeFormat);
     }

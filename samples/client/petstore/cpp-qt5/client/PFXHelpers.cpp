@@ -15,16 +15,16 @@
 
 namespace test_namespace {
 
-struct PFXCustomDateTimeFormat{
-    bool isStringSet = false;
-    QString formatString;
-    bool isEnumSet = false;
-    Qt::DateFormat formatEnum;
-};
-
 class PFXSerializerSettings {
 public:
-    static PFXCustomDateTimeFormat getCustomDateTimeFormat() {
+    struct CustomDateTimeFormat{
+        bool isStringSet = false;
+        QString formatString;
+        bool isEnumSet = false;
+        Qt::DateFormat formatEnum;
+    };
+
+    static CustomDateTimeFormat getCustomDateTimeFormat() {
         return getInstance()->customDateTimeFormat;
     }
 
@@ -46,6 +46,7 @@ public:
         }
         return instance;
     }
+
 private:
     explicit PFXSerializerSettings(){
         instance = this;
@@ -53,7 +54,7 @@ private:
         customDateTimeFormat.isEnumSet = false;
     }
     static PFXSerializerSettings *instance;
-    PFXCustomDateTimeFormat customDateTimeFormat;
+    CustomDateTimeFormat customDateTimeFormat;
 };
 
 PFXSerializerSettings * PFXSerializerSettings::instance = nullptr;
@@ -61,7 +62,7 @@ PFXSerializerSettings * PFXSerializerSettings::instance = nullptr;
 bool setDateTimeFormat(const QString &dateTimeFormat){
     bool success = false;
     auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
-    if(dt.isValid()){
+    if (dt.isValid()) {
         success = true;
         PFXSerializerSettings::setDateTimeFormatString(dateTimeFormat);
     }
@@ -71,7 +72,7 @@ bool setDateTimeFormat(const QString &dateTimeFormat){
 bool setDateTimeFormat(const Qt::DateFormat &dateTimeFormat){
     bool success = false;
     auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
-    if(dt.isValid()){
+    if (dt.isValid()) {
         success = true;
         PFXSerializerSettings::setDateTimeFormatEnum(dateTimeFormat);
     }
