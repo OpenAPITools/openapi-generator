@@ -83,4 +83,3 @@ enum MapTestMapOfEnumStringEnum {
   lower,
 }
 
-
