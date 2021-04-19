@@ -43,6 +43,7 @@ The following generators are available:
 * [jmeter](generators/jmeter.md)  
 * [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
+* [kotlin-multiplatform](generators/kotlin-multiplatform.md)  
 * [lua (beta)](generators/lua.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  

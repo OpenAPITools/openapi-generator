@@ -1,0 +1,90 @@
+{{>licenseInfo}}
+@file:Suppress("UnusedImport")
+
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import io.ktor.client.*
+import io.ktor.client.engine.*
+import io.ktor.client.features.json.serializer.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.serialization.json.Json
+
+import {{packageName}}.auth.*
+import {{packageName}}.infrastructure.*
+
+{{#operations}}
+public open class {{{classname}}}{{asyncSuffix}} : ApiClientBase {
+    public val coroutineScope: CoroutineScope
+    protected val coroutineClient: {{{classname}}}
+
+    public constructor(
+        baseUrl: String = "{{{basePath}}}",
+        httpClientEngine: HttpClientEngine? = null,
+        json: Json = Json {},
+        coroutineScope: CoroutineScope = GlobalScope,
+    ) : super(baseUrl, httpClientEngine, json) {
+        this.coroutineScope = coroutineScope
+        this.coroutineClient = {{{classname}}}(baseUrl, httpClientEngine, json)
+    }
+
+    public constructor(
+        baseUrl: String,
+        client: HttpClient,
+        coroutineScope: CoroutineScope,
+    ) : super(
+        baseUrl,
+        client,
+    ) {
+        this.coroutineScope = coroutineScope
+        this.coroutineClient = {{{classname}}}(baseUrl, client)
+    }
+
+    internal constructor(
+        baseUrl: String,
+        client: HttpClient,
+        coroutineScope: CoroutineScope,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) : super(
+        baseUrl,
+        client,
+        apiKeyAuth,
+        basicAuth,
+        bearerAuth,
+        oAuth,
+    ) {
+        this.coroutineScope = coroutineScope
+        this.coroutineClient = {{{classname}}}(baseUrl, client)
+    }
+
+    {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
+    public fun {{operationId}}{{asyncSuffix}}(
+        {{#allParams}}
+        {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}},
+        {{/allParams}}
+    ): Deferred<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
+        return coroutineScope.async {
+            this@{{{classname}}}{{asyncSuffix}}.coroutineClient.{{operationId}}(
+                {{#allParams}}
+                {{{paramName}}} = {{{paramName}}},
+                {{/allParams}}
+            )
+        }
+    }
+    {{/operation}}
+}
+{{/operations}}

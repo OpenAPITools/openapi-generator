@@ -1,0 +1,213 @@
+{{>licenseInfo}}
+@file:Suppress("UnusedImport")
+
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.formData
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.client.utils.EmptyContent
+import io.ktor.http.*
+import kotlinx.serialization.json.Json
+import io.ktor.http.ParametersBuilder
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+
+import {{packageName}}.auth.*
+import {{packageName}}.infrastructure.*
+
+{{#operations}}
+@Suppress(
+    "unused",
+    "RemoveRedundantQualifierName",
+    "DuplicatedCode",
+)
+public open class {{classname}} : ApiClientBase {
+    public constructor(
+        baseUrl: String = "{{{basePath}}}",
+        httpClientEngine: HttpClientEngine? = null,
+        json: Json = Json {}
+    ) : super(baseUrl, httpClientEngine, json)
+
+    public constructor(baseUrl: String, client: HttpClient) : super(
+        baseUrl,
+        client
+    )
+
+    internal constructor(
+        baseUrl: String,
+        client: HttpClient,
+        apiKeyAuth: Map<String, ApiKeyAuth>,
+        basicAuth: Map<String, HttpBasicAuth>,
+        bearerAuth: Map<String, HttpBearerAuth>,
+        oAuth: Map<String, OAuth>,
+    ) : super(
+        baseUrl,
+        client,
+        apiKeyAuth,
+        basicAuth,
+        bearerAuth,
+        oAuth,
+    )
+    {{#operation}}
+
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
+    {{#returnType}}
+    {{/returnType}}
+    public suspend fun {{operationId}}(
+        {{#allParams}}
+        {{#required}}
+        {{{paramName}}}: {{{dataType}}},
+        {{/required}}
+        {{/allParams}}
+        {{#allParams}}
+        {{^required}}
+        {{{paramName}}}: {{{dataType}}}? = null,
+        {{/required}}
+        {{/allParams}}
+    ){{#returnType}}: {{{returnType}}}{{/returnType}} {
+        return this.client.request {
+            this.method = HttpMethod.parse("{{httpMethod}}")
+            url {
+                this.takeFrom(this@{{classname}}.baseUrl)
+                {{=<% %>=}}
+                appendPath("<%path%>"<%#pathParams%>.replace("{<%baseName%>}", <%paramName%>.toString())<%/pathParams%>)
+                <%={{ }}=%>
+            }
+            {{#authMethods}}
+            {{#-first}}
+
+            {{!TODO: Implement}}
+            //addAuthentication({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
+            {{/-first}}
+            {{/authMethods}}
+            {{#queryParams}}
+            {{#-first}}
+
+            // Query parameters
+            {{/-first}}
+            {{#isContainer}}
+            {{#isMap}}
+            {{#required}}
+            for ((key, value) in {{{paramName}}}) {
+                parameter(key, value)
+            }
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                for ((key, value) in {{{paramName}}}) {
+                    parameter(key, value)
+                }
+            }
+            {{/required}}
+            {{/isMap}}
+            {{^isMap}}
+            {{#required}}
+            {{#isCollectionFormatMulti}}
+            this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+            parameter("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+            {{/isCollectionFormatMulti}}
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                {{#isCollectionFormatMulti}}
+                this.url.parameters.appendAll("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}})
+                {{/isCollectionFormatMulti}}
+                {{^isCollectionFormatMulti}}
+                parameter("{{baseName}}", {{{paramName}}}{{#items.isNullable}}.filterNotNull(){{/items.isNullable}}{{^items.isString}}.map({{{items.dataType}}}::toString){{/items.isString}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+                {{/isCollectionFormatMulti}}
+            }
+            {{/required}}
+            {{/isMap}}
+            {{/isContainer}}
+            {{^isContainer}}
+            parameter("{{baseName}}", {{{paramName}}})
+            {{/isContainer}}
+            {{/queryParams}}
+            {{#headerParams}}
+            {{#-first}}
+
+            // Headers
+            {{/-first}}
+            {{#isContainer}}
+             header("{{baseName}}", {{{paramName}}}{{^required}}?{{/required}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")))
+            {{/isContainer}}
+            {{^isContainer}}
+            header("{{baseName}}", {{{paramName}}}{{^isString}}{{^required}}?{{/required}}.toString(){{/isString}})
+            {{/isContainer}}
+            {{/headerParams}}
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+
+            // Body
+            {{#required}}
+            this.body = {{{paramName}}}
+            {{/required}}
+            {{^required}}
+            if ({{{paramName}}} != null) {
+                this.body = {{{paramName}}}
+            }
+            {{/required}}
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{^hasBodyParam}}
+            {{#hasFormParams}}
+            // Formdata
+            {{#isMultipart}}
+            this.body = MultiPartFormDataContent(
+                formData {
+                    {{#formParams}}
+                    {{#required}}
+                    append(FormPart("{{{baseName}}}", {{{paramName}}}))
+                    {{/required}}
+                    {{^required}}
+                    if ({{{paramName}}} != null) {
+                        append(FormPart("{{{baseName}}}", {{{paramName}}}))
+                    }
+                    {{/required}}
+                    {{/formParams}}
+                }
+            )
+            {{/isMultipart}}
+            {{^isMultipart}}
+            this.body = FormDataContent(
+                ParametersBuilder({{#formParams}}{{#-last}}{{-index}}{{/-last}}{{/formParams}}).apply {
+                    {{#formParams}}
+                    {{#required}}
+                    append("{{{baseName}}}", {{{paramName}}}{{^isString}}.toString(){{/isString}})
+                    {{/required}}
+                    {{^required}}
+                    if ({{{paramName}}} != null) {
+                        append("{{{baseName}}}", {{{paramName}}}{{^isString}}.toString(){{/isString}})
+                    }
+                    {{/required}}
+                    {{/formParams}}
+                }.build()
+            )
+            {{/isMultipart}}
+            {{/hasFormParams}}
+            {{/hasBodyParam}}
+        }
+    }
+{{/operation}}
+}
+{{/operations}}

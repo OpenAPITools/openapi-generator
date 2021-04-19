@@ -1,0 +1,56 @@
+import kotlinx.serialization.Required
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+/**
+ * {{{description}}}
+ *
+{{#allVars}}
+ * @param {{{name}}} {{{description}}}
+{{/allVars}}
+ */
+@Serializable
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
+public {{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}}(
+{{#allVars}}
+{{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+{{/allVars}}
+){{/discriminator}}{{#parent}}{{^isMapModel}}{{^isArrayModel}} : {{{parent}}}{{/isArrayModel}}{{/isMapModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+{{/vendorExtensions.x-has-data-class-body}}
+{{#discriminator}}{{#vars}}{{#required}}
+{{>interface_req_var}}{{/required}}{{^required}}
+{{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+    /**
+     * {{{description}}}
+     *
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    @Serializable
+    public enum class {{{nameInCamelCase}}}(public val value: {{{dataType}}}){
+        {{#allowableValues}}
+        {{#enumVars}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+
+        /**
+         * This override toString avoids using the enum var name and uses the actual api value instead.
+         * In cases the var name and value are different, the client would send incorrect enums to the server.
+         */
+        override fun toString(): String {
+            return value{{^isString}}.toString(){{/isString}}
+        }
+    }
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{!TODO: Fix map / array inheritance}}
+{{#vendorExtensions.x-has-data-class-body}}
+}
+{{/vendorExtensions.x-has-data-class-body}}

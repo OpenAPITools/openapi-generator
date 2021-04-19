@@ -1,0 +1,13 @@
+generatorName: kotlin-multiplatform
+outputDir: samples/client/petstore/kotlin-multiplatform-new-kotlinx-datetime
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-multiplatform-client
+dateLibrary: kotlinx
+jsEnabled: true
+jsAsync: none
+jvmEnabled: true
+jvmAsync: none
+androidEnabled: false
+iosEnabled: true
+additionalProperties:
+  hideGenerationTimestamp: "true"

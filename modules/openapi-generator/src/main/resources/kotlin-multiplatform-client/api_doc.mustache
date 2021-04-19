@@ -1,0 +1,127 @@
+# {{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are by default relative to `{{basePath}}`
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[`{{operationId}}`](#{{operationId}}) | `{{httpMethod}}` {{path}} | {{summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+# **{{operationId}}**
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+{{summary}}{{#notes}}
+
+{{notes}}{{/notes}}
+
+### Example
+```kotlin
+// Import classes:
+import {{{apiPackage}}}.{{{classname}}}
+import {{{packageName}}}.infrastructure.*
+import {{{modelPackage}}}.*
+
+{{! TODO: Auth method documentation examples}}
+val {{{classVarName}}}Api = {{{classname}}}()
+{{#allParams}}
+val {{{paramName}}}: {{{dataType}}} = {{{example}}} {{^required}}// Optional{{/required}}
+{{/allParams}}
+try {
+    {{#returnType}}val result: {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}{{{classVarName}}}Api.{{{operationId}}}(
+        {{#allParams}}
+        {{#required}}
+        {{{paramName}}},
+        {{/required}}
+        {{/allParams}}
+        {{#allParams}}
+        {{^required}}
+        {{{paramName}}} = {{{paramName}}},
+        {{/required}}
+        {{/allParams}}
+    ){{#returnType}}
+    println(result){{/returnType}}
+} catch (e: ClientException) {
+    println("4xx response calling {{{classname}}}#{{{operationId}}}")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling {{{classname}}}#{{{operationId}}}")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}`{{returnType}}`{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#generateModelDocs}}[`{{returnType}}`]({{returnBaseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}`{{returnType}}`{{/generateModelDocs}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}`Unit`{{/returnType}}
+
+### Authorization
+
+{{^authMethods}}
+No authorization required
+{{/authMethods}}
+{{#authMethods}}
+{{#isApiKey}}
+Configure {{name}} (API key):
+```kotlin
+apiClient.configureApiKey("{{name}}") {
+    key("your-api-key")
+    keyPrefix("YourPrefix ") // Optional
+}
+```
+{{/isApiKey}}
+{{#isBasic}}
+{{#isBasicBearer}}
+Configure {{name}} (Basic with `Bearer`):
+```kotlin
+apiClient.configureBearer("{{name}}") {
+    token("your-token")
+}
+```
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+Configure {{name}} (Basic with username & password):
+```kotlin
+apiClient.configureBasic("{{name}}") {
+    // At minimum one has to be specified
+    username("your-username")
+    password("your-password")
+}
+```
+{{/isBasicBasic}}
+{{/isBasic}}
+{{#isOAuth}}
+Configure {{name}} (OAuth):
+```kotlin
+apiClient.configureOAuth("{{name}}") {
+    token("your-OAuth-token")
+}
+```
+{{/isOAuth}}
+{{/authMethods}}
+
+### HTTP request headers
+
+```
+{{#consumes}}
+{{#-first}}
+Content-Type: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}
+{{/-first}}
+{{/consumes}}
+{{#produces}}
+{{#-first}}
+Accept: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}
+{{/-first}}
+{{/produces}}
+```
+
+{{/operation}}
+{{/operations}}

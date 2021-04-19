@@ -1,0 +1,11 @@
+generatorName: kotlin-multiplatform
+outputDir: samples/client/petstore/kotlin-multiplatform-new-async
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-multiplatform-client
+jsEnabled: true
+jvmEnabled: true
+androidEnabled: true
+async: true
+dateLibrary: string
+additionalProperties:
+  hideGenerationTimestamp: "true"
