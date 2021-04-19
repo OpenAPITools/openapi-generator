@@ -7,6 +7,9 @@
      * @SerializedName("{{baseName}}")
 {{#required}}
      * @Assert\NotNull()
+     {{^isPrimitiveType}}
+     * @Assert\Valid()
+     {{/isPrimitiveType}}
 {{/required}}
 {{#isEnum}}
     {{#isContainer}}

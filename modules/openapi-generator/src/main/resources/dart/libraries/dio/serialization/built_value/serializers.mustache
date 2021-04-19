@@ -1,11 +1,15 @@
 {{>header}}
+// ignore_for_file: unused_import
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-{{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';{{/useDateLibCore}}
+{{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';
+import 'package:{{pubName}}/src/date_serializer.dart';
+import 'package:{{pubName}}/src/model/date.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
-import 'package:{{pubName}}/src/local_date_serializer.dart';{{/useDateLibTimeMachine}}
+import 'package:{{pubName}}/src/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
 {{#models}}{{#model}}import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
 {{/model}}{{/models}}
 part 'serializers.g.dart';
@@ -25,8 +29,9 @@ Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#seri
 {{/isMap}}
       ){{/serializers}}{{/apis}}{{/apiInfo}}{{#useDateLibTimeMachine}}
       ..add(const OffsetDateSerializer())
-      ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}
-      ..add(Iso8601DateTimeSerializer()))
+      ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}{{#useDateLibCore}}
+      ..add(const DateSerializer())
+      ..add(Iso8601DateTimeSerializer())){{/useDateLibCore}}
     .build();
 
 Serializers standardSerializers =

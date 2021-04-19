@@ -1,6 +1,4 @@
-FROM java:8-jre-alpine
-
-RUN apk add --no-cache bash
+FROM openjdk:11.0-jre-buster
 
 ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
 

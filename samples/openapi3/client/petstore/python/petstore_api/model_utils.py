@@ -1565,11 +1565,16 @@ def get_valid_classes_phrase(input_classes):
 def convert_js_args_to_python_args(fn):
     from functools import wraps
     @wraps(fn)
-    def wrapped_init(self, *args, **kwargs):
+    def wrapped_init(_self, *args, **kwargs):
+        """
+        An attribute named `self` received from the api will conflicts with the reserved `self`
+        parameter of a class method. During generation, `self` attributes are mapped
+        to `_self` in models. Here, we name `_self` instead of `self` to avoid conflicts.
+        """
         spec_property_naming = kwargs.get('_spec_property_naming', False)
         if spec_property_naming:
-            kwargs = change_keys_js_to_python(kwargs, self.__class__)
-        return fn(self, *args, **kwargs)
+            kwargs = change_keys_js_to_python(kwargs, _self.__class__)
+        return fn(_self, *args, **kwargs)
     return wrapped_init
 
 

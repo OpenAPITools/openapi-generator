@@ -590,38 +590,51 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
         }
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
-        boolean strategyMatched = false;
-        FrameworkStrategy strategy = defaultFramework;
-        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
-            if (framework.equals(frameworkStrategy.name)) {
-                strategy = frameworkStrategy;
-                strategyMatched = true;
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String[] frameworks;
+        List<FrameworkStrategy> strategies = new ArrayList<>();
+
+        if (inputFramework.contains(";")) {
+            // multiple target framework
+            frameworks = inputFramework.split(";");
+            additionalProperties.put("multiTarget", true);
+        } else {
+            // just a single value
+            frameworks = new String [] {inputFramework};
+        }
+
+        for (String framework : frameworks) {
+            boolean strategyMatched = false;
+            for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+                if (framework.equals(frameworkStrategy.name)) {
+                    strategies.add(frameworkStrategy);
+                    strategyMatched = true;
+                }
+
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
+                   LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                }
+            }
+
+            if (!strategyMatched) {
+                // throws exception if the input targetFramework is invalid
+                throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
+                framework + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
             }
         }
 
-        // throws exception if the input targetFramework is invalid
-        if (strategyMatched == false) {
-            throw new IllegalArgumentException("Invalid .NET framework version: " +
-                    framework + ". List of supported versions: " +
-                    frameworkStrategies.stream()
-                    .map(p -> p.name)
-                    .collect(Collectors.joining(", ")));
-        }
-
-        strategy.configureAdditionalProperties(additionalProperties);
-        setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.name);
-        setTestTargetFramework(strategy.testTargetFramework);
-
-        if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
-            LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
-        }
+        configureAdditionalPropertiesForFrameworks(additionalProperties, strategies);
+        setTargetFrameworkNuget(strategies);
+        setTargetFramework(strategies);
+        setTestTargetFramework(strategies);
 
         setSupportsAsync(Boolean.TRUE);
-        setNetStandard(strategy.isNetStandard);
+        setNetStandard(strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
 
-        if (!strategy.isNetStandard) {
+        if (!netStandard) {
             setNetCoreProjectFileFlag(true);
         }
 
@@ -774,12 +787,37 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
     }
 
+    public void setTargetFramework(List<FrameworkStrategy> strategies) {
+        for (FrameworkStrategy strategy : strategies) {
+            if (!frameworks.containsKey(strategy.name)) {
+                throw new IllegalArgumentException("Invalid .NET framework version: " +
+                        strategy.name + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
+            }
+        }
+        this.targetFramework = strategies.stream().map(p -> p.name)
+                .collect(Collectors.joining(";"));
+        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+    }
+
     public void setTestTargetFramework(String testTargetFramework) {
         this.testTargetFramework = testTargetFramework;
     }
 
+    public void setTestTargetFramework(List<FrameworkStrategy> strategies) {
+        this.testTargetFramework = strategies.stream().map(p -> p.testTargetFramework)
+                .collect(Collectors.joining(";"));
+    }
+
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
         this.targetFrameworkNuget = targetFrameworkNuget;
+    }
+
+    public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
+        this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
+                .collect(Collectors.joining(";"));
     }
 
     public void setValidatable(boolean validatable) {
@@ -1001,6 +1039,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             if (this.isNetStandard) return "v" + this.name.replace("netstandard", "");
             else return "v" + this.name.replace("netcoreapp", "");
         }
+    }
+
+    protected void configureAdditionalPropertiesForFrameworks(final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
+        properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, strategies.stream()
+                .map(p -> p.name)
+                .collect(Collectors.joining(";")));
+
+        // not intended to be user-settable
+        properties.put(TARGET_FRAMEWORK_IDENTIFIER, strategies.stream()
+                .map(p -> p.getTargetFrameworkIdentifier())
+                .collect(Collectors.joining(";")));
+        properties.put(TARGET_FRAMEWORK_VERSION, strategies.stream()
+                .map(p -> p.getTargetFrameworkVersion())
+                .collect(Collectors.joining(";")));
+        properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
+
+        properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
     }
 
     /**

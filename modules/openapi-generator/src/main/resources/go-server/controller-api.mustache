@@ -16,7 +16,7 @@ type {{classname}}Controller struct {
 
 // New{{classname}}Controller creates a default api controller
 func New{{classname}}Controller(s {{classname}}Servicer) Router {
-	return &{{classname}}Controller{ service: s }
+	return &{{classname}}Controller{service: s}
 }
 
 // Routes returns all of the api route for the {{classname}}Controller
@@ -34,11 +34,18 @@ func (c *{{classname}}Controller) Routes() Routes {
 // {{nickname}} - {{{summary}}}
 func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
 	{{#hasFormParams}}
-	err := r.ParseForm()
-	if err != nil {
+	{{#isMultipart}}
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	{{/isMultipart}}
+	{{^isMultipart}}
+	if err := r.ParseForm(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isMultipart}}
 	{{/hasFormParams}}
 	{{#hasPathParams}}
 	params := mux.Vars(r)
@@ -49,14 +56,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#allParams}}
 	{{#isPathParam}}
 	{{#isLong}}
-	{{paramName}}, err := parseInt64Parameter(params["{{baseName}}"])
+	{{paramName}}, err := parseInt64Parameter(params["{{baseName}}"], {{required}})
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-    {{/isLong}}
+	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}, err := parseInt32Parameter(params["{{baseName}}"])
+	{{paramName}}, err := parseInt32Parameter(params["{{baseName}}"], {{required}})
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -69,14 +76,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isPathParam}}
 	{{#isQueryParam}}
 	{{#isLong}}
-	{{paramName}}, err := parseInt64Parameter(query.Get("{{baseName}}"))
+	{{paramName}}, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}, err := parseInt32Parameter(query.Get("{{baseName}}"))
+	{{paramName}}, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -98,24 +105,26 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isLong}}
 	{{/isQueryParam}}
 	{{#isFormParam}}
-	{{#isFile}}
-	{{#isArray}}
-	{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}")
+	{{#isFile}}{{#isArray}}
+	{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}
+	{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}")
 	{{/isArray}}
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	{{/isFile}}
-	{{#isLong}}
-	{{paramName}}, err := parseInt64Parameter( r.FormValue("{{baseName}}"))
+	{{#isLong}}{{#isArray}}
+	{{paramName}}, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	{{/isLong}}
-	{{#isInteger}}
-	{{paramName}}, err := parseInt32Parameter( r.FormValue("{{baseName}}"))
+	{{#isInteger}}{{#isArray}}
+	{{paramName}}, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -139,12 +148,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isBodyParam}}
 	{{/allParams}}
 	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
-	
+
 }{{/operation}}{{/operations}}

@@ -40,3 +40,9 @@ dependencies {
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+    }
+}

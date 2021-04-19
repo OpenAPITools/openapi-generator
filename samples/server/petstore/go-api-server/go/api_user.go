@@ -24,7 +24,7 @@ type UserApiController struct {
 
 // NewUserApiController creates a default api controller
 func NewUserApiController(s UserApiServicer) Router {
-	return &UserApiController{ service: s }
+	return &UserApiController{service: s}
 }
 
 // Routes returns all of the api route for the UserApiController
@@ -89,14 +89,14 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.CreateUser(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -107,14 +107,14 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -125,14 +125,14 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // DeleteUser - Delete user
@@ -141,14 +141,14 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	username := params["username"]
 	
 	result, err := c.service.DeleteUser(r.Context(), username)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // GetUserByName - Get user by user name
@@ -157,14 +157,14 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	username := params["username"]
 	
 	result, err := c.service.GetUserByName(r.Context(), username)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // LoginUser - Logs user into the system
@@ -173,27 +173,27 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	username := query.Get("username")
 	password := query.Get("password")
 	result, err := c.service.LoginUser(r.Context(), username, password)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // LogoutUser - Logs out current logged in user session
 func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.LogoutUser(r.Context())
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }
 
 // UpdateUser - Updated user
@@ -207,12 +207,12 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.UpdateUser(r.Context(), username, *user)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 		return
 	}
-	//If no error, encode the body and the result code
+	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-	
+
 }

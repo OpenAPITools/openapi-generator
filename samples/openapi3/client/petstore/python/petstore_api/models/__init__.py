@@ -81,12 +81,14 @@ from petstore_api.model.pig import Pig
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
+from petstore_api.model.readonly import Readonly
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 from petstore_api.model.shape import Shape
 from petstore_api.model.shape_interface import ShapeInterface
 from petstore_api.model.shape_or_null import ShapeOrNull
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.model.some_object import SomeObject
+from petstore_api.model.some_object_with_self_attr import SomeObjectWithSelfAttr
 from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
 from petstore_api.model.string_enum import StringEnum

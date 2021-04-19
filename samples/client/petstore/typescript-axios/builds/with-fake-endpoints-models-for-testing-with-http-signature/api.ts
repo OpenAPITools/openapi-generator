@@ -1961,7 +1961,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (enumFormStringArray) {
-                localVarFormParams.set(enumFormStringArray.join(COLLECTION_FORMATS.csv));
+                localVarFormParams.set('enum_form_string_array', enumFormStringArray.join(COLLECTION_FORMATS.csv));
             }
 
     

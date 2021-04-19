@@ -102,6 +102,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public AnotherFakeApi() : this((string)null)
         {
         }
@@ -110,8 +111,9 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public AnotherFakeApi(String basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
@@ -130,6 +132,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public AnotherFakeApi(Org.OpenAPITools.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -148,13 +151,14 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public AnotherFakeApi(HttpClient client) : this(client, (string)null)
+        public AnotherFakeApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
@@ -163,14 +167,15 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-    	/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public AnotherFakeApi(HttpClient client, String basePath)
+        public AnotherFakeApi(HttpClient client, String basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -178,7 +183,7 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath, handler);
             this.Client =  this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
@@ -189,81 +194,23 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public AnotherFakeApi(HttpClient client, Org.OpenAPITools.Client.Configuration configuration)
+        public AnotherFakeApi(HttpClient client, Org.OpenAPITools.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
-
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath);
-            this.Client = this.ApiClient;
-            this.AsynchronousClient = this.ApiClient;
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        public AnotherFakeApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        public AnotherFakeApi(HttpClient client, HttpClientHandler handler, String basePath)
-        {
             if (client == null) throw new ArgumentNullException("client");
-			if (handler == null) throw new ArgumentNullException("handler");
-
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, handler, this.Configuration.BasePath);
-            this.Client =  this.ApiClient;
-            this.AsynchronousClient = this.ApiClient;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class using Configuration object.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        public AnotherFakeApi(HttpClient client, HttpClientHandler handler, Org.OpenAPITools.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
-			if (handler == null) throw new ArgumentNullException("handler");
 
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, handler, this.Configuration.BasePath);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath, handler);
             this.Client = this.ApiClient;
             this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
