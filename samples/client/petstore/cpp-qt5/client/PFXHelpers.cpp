@@ -16,9 +16,9 @@
 namespace test_namespace {
 
 struct PFXCustomDateTimeFormat{
-    bool setString = false;
+    bool isStringSet = false;
     QString formatString;
-    bool setEnum = false;
+    bool isEnumSet = false;
     Qt::DateFormat formatEnum;
 };
 
@@ -29,12 +29,14 @@ public:
     }
 
     static void setDateTimeFormatString(const QString &dtFormat){
-        getInstance()->customDateTimeFormat.setString = true;
+        getInstance()->customDateTimeFormat.isStringSet = true;
+        getInstance()->customDateTimeFormat.isEnumSet = false;
         getInstance()->customDateTimeFormat.formatString = dtFormat;
     }
 
     static void setDateTimeFormatEnum(const Qt::DateFormat &dtFormat){
-        getInstance()->customDateTimeFormat.setEnum = true;
+        getInstance()->customDateTimeFormat.isEnumSet = true;
+        getInstance()->customDateTimeFormat.isStringSet = false;
         getInstance()->customDateTimeFormat.formatEnum = dtFormat;
     }
 
@@ -47,8 +49,8 @@ public:
 private:
     explicit PFXSerializerSettings(){
         instance = this;
-        customDateTimeFormat.setString = false;
-        customDateTimeFormat.setEnum = false;
+        customDateTimeFormat.isStringSet = false;
+        customDateTimeFormat.isEnumSet = false;
     }
     static PFXSerializerSettings *instance;
     PFXCustomDateTimeFormat customDateTimeFormat;
@@ -81,11 +83,11 @@ QString toStringValue(const QString &value) {
 }
 
 QString toStringValue(const QDateTime &value) {
-    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setString) {
+    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet) {
         return value.toString(PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
     }
 
-    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
+    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet) {
         return value.toString(PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
     }
 
@@ -139,11 +141,11 @@ QJsonValue toJsonValue(const QString &value) {
 }
 
 QJsonValue toJsonValue(const QDateTime &value) {
-    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setString) {
+    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet) {
         return QJsonValue(value.toString(PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatString));
     }
 
-    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
+    if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet) {
         return QJsonValue(value.toString(PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum));
     }
 
@@ -202,9 +204,9 @@ bool fromStringValue(const QString &inStr, QDateTime &value) {
         return false;
     } else {
        QDateTime dateTime;
-        if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setString) {
+        if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet) {
             dateTime = QDateTime::fromString(inStr, PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
-        } else if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
+        } else if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet) {
             dateTime = QDateTime::fromString(inStr, PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
         } else {
             dateTime = QDateTime::fromString(inStr, Qt::ISODate);
@@ -314,9 +316,9 @@ bool fromJsonValue(QString &value, const QJsonValue &jval) {
 bool fromJsonValue(QDateTime &value, const QJsonValue &jval) {
     bool ok = true;
     if (!jval.isUndefined() && !jval.isNull() && jval.isString()) {
-        if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setString) {
+        if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet) {
             value = QDateTime::fromString(jval.toString(), PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
-        } else if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().setEnum) {
+        } else if (PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet) {
             value = QDateTime::fromString(jval.toString(), PFXSerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
         } else {
             value = QDateTime::fromString(jval.toString(), Qt::ISODate);
