@@ -100,5 +100,5 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 export const tagRecordUtils = new TagRecordUtils();
 
 export const apiEntitiesTagSelector = (state: any) => getApiEntitiesState(state).tag as Map<string, TagRecordEntity>;
-export const apiEntityTagSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesTagSelector(state).get(id);
+export const apiEntityTagSelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesTagSelector(state).get(id) : undefined;
 

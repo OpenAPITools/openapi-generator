@@ -173,5 +173,5 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 export const petRecordUtils = new PetRecordUtils();
 
 export const apiEntitiesPetSelector = (state: any) => getApiEntitiesState(state).pet as Map<string, PetRecordEntity>;
-export const apiEntityPetSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesPetSelector(state).get(id);
+export const apiEntityPetSelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesPetSelector(state).get(id) : undefined;
 

@@ -100,5 +100,5 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 export const categoryRecordUtils = new CategoryRecordUtils();
 
 export const apiEntitiesCategorySelector = (state: any) => getApiEntitiesState(state).category as Map<string, CategoryRecordEntity>;
-export const apiEntityCategorySelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesCategorySelector(state).get(id);
+export const apiEntityCategorySelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesCategorySelector(state).get(id) : undefined;
 

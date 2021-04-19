@@ -267,5 +267,5 @@ export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils 
 
 {{#isEntity}}
 export const apiEntities{{classname}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} as Map<string, {{classname}}RecordEntity>;
-export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string | null}) => id && apiEntities{{classname}}Selector(state).get(id);
+export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string | null}) => id ? apiEntities{{classname}}Selector(state).get(id) : undefined;
 {{/isEntity}}

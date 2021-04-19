@@ -105,5 +105,5 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 export const orderRecordUtils = new OrderRecordUtils();
 
 export const apiEntitiesOrderSelector = (state: any) => getApiEntitiesState(state).order as Map<string, OrderRecordEntity>;
-export const apiEntityOrderSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesOrderSelector(state).get(id);
+export const apiEntityOrderSelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesOrderSelector(state).get(id) : undefined;
 

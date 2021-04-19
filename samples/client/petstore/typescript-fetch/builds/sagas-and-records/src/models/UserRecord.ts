@@ -108,5 +108,5 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 export const userRecordUtils = new UserRecordUtils();
 
 export const apiEntitiesUserSelector = (state: any) => getApiEntitiesState(state).user as Map<string, UserRecordEntity>;
-export const apiEntityUserSelector = (state: any, {id}: {id?: string | null}) => id && apiEntitiesUserSelector(state).get(id);
+export const apiEntityUserSelector = (state: any, {id}: {id?: string | null}) => id ? apiEntitiesUserSelector(state).get(id) : undefined;
 
