@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,9 +42,8 @@ import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -546,12 +546,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("URL");
+        return "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("Data");
+        return "Data".equals(dataType);
     }
 
     /**
@@ -628,7 +628,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
-                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
@@ -979,8 +979,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -999,13 +1001,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet()));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
             }
         }
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, visitedModels) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
@@ -1037,11 +1039,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                if (visitedModels.contains(modelMaps.get(codegenParameter.dataType))) {
+                if (visitedModels.contains(codegenParameter.dataType)) {
                     // recursive/self-referencing model, simply return nil to avoid stackoverflow
                     return "nil";
                 } else {
-                    visitedModels.add(modelMaps.get(codegenParameter.dataType));
+                    visitedModels.add(codegenParameter.dataType);
                     return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, visitedModels);
                 }
             } else {
@@ -1051,7 +1053,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, visitedModels) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
@@ -1083,10 +1085,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                if (visitedModels.contains(modelMaps.get(codegenProperty.dataType))) {
+                if (visitedModels.contains(codegenProperty.dataType)) {
                     // recursive/self-referencing model, simply return nil to avoid stackoverflow
                     return "nil";
                 } else {
+                    visitedModels.add(codegenProperty.dataType);
                     return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, visitedModels);
                 }
             } else {
@@ -1096,7 +1099,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         String example;
         example = codegenModel.name + "(";
         List<String> propertyExamples = new ArrayList<>();

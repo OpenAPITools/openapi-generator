@@ -47,7 +47,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     static final String MEDIA_TYPE = "mediaType";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
@@ -87,6 +87,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
@@ -179,6 +180,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
 
@@ -224,26 +226,26 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
             LOGGER.warn("You specified all RxJava versions 1, 2 and 3 but they are mutually exclusive. Defaulting to v3.");
-            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else {
             if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
-                this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+                this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
             } else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 3 but they are mutually exclusive. Defaulting to v3.");
-                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+                this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
             } else if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
-                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+                this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
             } else {
                 if (additionalProperties.containsKey(USE_RX_JAVA)) {
-                    this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+                    this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
                 }
                 if (additionalProperties.containsKey(USE_RX_JAVA2)) {
-                    this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+                    this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
                 }
                 if (additionalProperties.containsKey(USE_RX_JAVA3)) {
-                    this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+                    this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
                 }
             }
         }
@@ -254,7 +256,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // Java Play
         if (additionalProperties.containsKey(USE_PLAY_WS)) {
-            this.setUsePlayWS(Boolean.valueOf(additionalProperties.get(USE_PLAY_WS).toString()));
+            this.setUsePlayWS(Boolean.parseBoolean(additionalProperties.get(USE_PLAY_WS).toString()));
         }
         additionalProperties.put(USE_PLAY_WS, usePlayWS);
 
@@ -277,7 +279,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
-            this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
+            this.setParcelableModel(Boolean.parseBoolean(additionalProperties.get(PARCELABLE_MODEL).toString()));
         }
         // put the boolean value back to PARCELABLE_MODEL in additionalProperties
         additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
@@ -311,7 +313,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(DYNAMIC_OPERATIONS)) {
-            this.setDynamicOperations(Boolean.valueOf(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
+            this.setDynamicOperations(Boolean.parseBoolean(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
         }
         additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
 
@@ -554,21 +556,33 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
-        if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
-            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-            if (!NATIVE.equals(getLibrary())) {
-                if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
-                    supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+        switch (getSerializationLibrary()) {
+            case SERIALIZATION_LIBRARY_JACKSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+                if (!NATIVE.equals(getLibrary())) {
+                    if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
+                        supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+                    }
                 }
-            }
-        } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-        } else {
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            case SERIALIZATION_LIBRARY_GSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
+            case SERIALIZATION_LIBRARY_JSONB:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            default:
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
         }
 
         // authentication related files
@@ -974,6 +988,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
         } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }

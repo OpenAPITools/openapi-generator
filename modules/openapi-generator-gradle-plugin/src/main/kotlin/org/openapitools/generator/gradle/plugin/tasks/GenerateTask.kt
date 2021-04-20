@@ -81,9 +81,8 @@ open class GenerateTask : DefaultTask() {
     val outputDir = project.objects.property<String>()
 
     @Suppress("unused")
-    @get:Internal
     @set:Option(option = "input", description = "The input specification.")
-    @Input
+    @Internal
     var input: String? = null
         set(value) {
             inputSpec.set(value)
@@ -189,7 +188,7 @@ open class GenerateTask : DefaultTask() {
      */
     @Optional
     @Input
-    val additionalProperties = project.objects.mapProperty<String, String>()
+    val additionalProperties = project.objects.mapProperty<String, Any>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
@@ -303,6 +302,13 @@ open class GenerateTask : DefaultTask() {
     @Optional
     @Input
     val removeOperationIdPrefix = project.objects.property<Boolean?>()
+
+    /**
+     * Remove examples defined in the operation
+     */
+    @Optional
+    @Input
+    val skipOperationExample = project.objects.property<Boolean?>()
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -613,6 +619,10 @@ open class GenerateTask : DefaultTask() {
 
             removeOperationIdPrefix.ifNotEmpty { value ->
                 configurator.setRemoveOperationIdPrefix(value!!)
+            }
+
+            skipOperationExample.ifNotEmpty { value ->
+                configurator.setSkipOperationExample(value!!)
             }
 
             logToStderr.ifNotEmpty { value ->

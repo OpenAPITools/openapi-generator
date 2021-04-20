@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MapTest: Codable {
+public struct MapTest: Codable, Hashable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"

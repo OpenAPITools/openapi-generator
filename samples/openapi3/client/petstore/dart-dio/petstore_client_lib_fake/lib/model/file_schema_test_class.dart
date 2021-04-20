@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
@@ -22,12 +22,64 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
     @BuiltValueField(wireName: r'files')
     BuiltList<ModelFile> get files;
 
-    // Boilerplate code needed to wire-up generated code
     FileSchemaTestClass._();
 
     static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
 
     factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
-    static Serializer<FileSchemaTestClass> get serializer => _$fileSchemaTestClassSerializer;
+
+    @BuiltValueSerializer(custom: true)
+    static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
+}
+
+class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchemaTestClass> {
+
+    @override
+    final Iterable<Type> types = const [FileSchemaTestClass, _$FileSchemaTestClass];
+    @override
+    final String wireName = r'FileSchemaTestClass';
+
+    @override
+    Iterable<Object> serialize(Serializers serializers, FileSchemaTestClass object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object>[];
+        if (object.file != null) {
+            result
+                ..add(r'file')
+                ..add(serializers.serialize(object.file,
+                    specifiedType: const FullType(ModelFile)));
+        }
+        if (object.files != null) {
+            result
+                ..add(r'files')
+                ..add(serializers.serialize(object.files,
+                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));
+        }
+        return result;
+    }
+
+    @override
+    FileSchemaTestClass deserialize(Serializers serializers, Iterable<Object> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = FileSchemaTestClassBuilder();
+
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final dynamic value = iterator.current;
+            switch (key) {
+                case r'file':
+                    result.file.replace(serializers.deserialize(value,
+                        specifiedType: const FullType(ModelFile)) as ModelFile);
+                    break;
+                case r'files':
+                    result.files.replace(serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>);
+                    break;
+            }
+        }
+        return result.build();
+    }
 }
 

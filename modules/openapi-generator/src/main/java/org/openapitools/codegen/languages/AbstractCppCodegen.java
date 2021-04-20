@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
@@ -195,6 +196,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String toEnumValue(String value, String datatype) {
+        return escapeText(value);
+    }
+
+    @Override
     public String toVarName(String name) {
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
@@ -325,8 +331,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

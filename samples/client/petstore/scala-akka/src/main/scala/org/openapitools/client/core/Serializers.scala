@@ -3,6 +3,7 @@ package org.openapitools.client.core
 import java.time.{LocalDate, LocalDateTime, OffsetDateTime, ZoneId}
 import java.time.format.DateTimeFormatter
 import org.json4s.{Serializer, CustomSerializer, JNull}
+import org.json4s.ext.JavaTypesSerializers
 import org.json4s.JsonAST.JString
 
 import scala.util.Try
@@ -25,6 +26,6 @@ object Serializers {
       JString(d.format(DateTimeFormatter.ISO_LOCAL_DATE))
   }))
 
- def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+ DateTimeSerializer :+ LocalDateSerializer
+ def all: Seq[Serializer[_]] = JavaTypesSerializers.all :+ DateTimeSerializer :+ LocalDateSerializer
 
 }

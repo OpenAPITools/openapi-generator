@@ -60,7 +60,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
   public UUID getUuid() {
@@ -80,7 +80,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public OffsetDateTime getDateTime() {
@@ -108,7 +108,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get map
    * @return map
    **/
-  @JsonProperty("map")
+  @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Animal> getMap() {

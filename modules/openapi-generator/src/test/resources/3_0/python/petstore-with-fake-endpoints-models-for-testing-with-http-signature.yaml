@@ -880,6 +880,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AnimalFarm'
+            examples:
+              simple-list:
+                 summary: Simple list example
+                 description: Should not get into code examples
+                 value:
+                    - className: foo
+                      color: yellow
+                    - className: bar
+                      color: green
         required: false
       responses:
         '200':
@@ -1277,6 +1286,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/getInlineAdditionalPropertiesRefPayload:
+    get:
+      tags:
+        - fake
+      operationId: getInlineAdditionalPropertiesRefPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesRefPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+  /fake/getInlineAdditionalPropertiesPayload:
+    get:
+      tags:
+        - fake
+      operationId: getInlineAdditionalPropertiesPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesPayload
+          content:
+            application/json:
+              schema:
+                description: this payload is used for verification that some model_to_dict issues are fixed
+                type: object
+                properties:
+                  arrayData:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        labels:
+                          type: array
+                          items:
+                            type: string
+                            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: this payload is used for verification that some model_to_dict issues are fixed
+              type: object
+              properties:
+                arrayData:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      labels:
+                        type: array
+                        items:
+                          type: string
+                          nullable: true
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1933,6 +2002,8 @@ components:
       properties:
         my_number:
           $ref: '#/definitions/NumberWithValidations'
+        my_readonly:
+          $ref: '#/definitions/Readonly'
         my_string:
           $ref: '#/definitions/String'
         my_boolean:
@@ -1941,6 +2012,12 @@ components:
       type: number
       minimum: 10
       maximum: 20
+    Readonly:
+      type: object
+      readOnly: true
+      properties:
+         name:
+            type: string
     ComposedOneOfNumberWithValidations:
       description: this is a model that allows payloads of type object or number
       oneOf:
@@ -2309,3 +2386,23 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    SomeObjectWithSelfAttr:
+      type: object
+      properties:
+        self:
+          type: string
+    InlineAdditionalPropertiesRefPayload:
+      description: this payload is used for verification that some model_to_dict issues are fixed
+      type: object
+      properties:
+        arrayData:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              labels:
+                type: array
+                items:
+                  type: string
+                  nullable: true

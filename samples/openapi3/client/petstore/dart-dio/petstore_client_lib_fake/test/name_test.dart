@@ -1,9 +1,17 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/name.dart';
 import 'package:test/test.dart';
 
 // tests for Name
 void main() {
-  final instance = Name();
+  final instance = NameBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Name, () {
     // int name

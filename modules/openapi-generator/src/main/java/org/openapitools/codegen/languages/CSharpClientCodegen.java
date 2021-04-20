@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NUNIT = "nunit";
     private static final String RESTSHARP = "restsharp";
     private static final String NEWTONSOFT_JSON = "newtonsoft-json";
@@ -651,7 +651,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
-        
+
         if (nullableType.contains(parameter.dataType)) {
             if (!parameter.required) { //optional
                 parameter.dataType = parameter.dataType + "?";
@@ -666,7 +666,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
         super.postProcessModelProperty(model, property);
-        
+
         if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }

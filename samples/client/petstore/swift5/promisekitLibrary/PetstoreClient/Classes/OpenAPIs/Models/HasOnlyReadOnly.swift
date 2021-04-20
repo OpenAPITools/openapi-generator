@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct HasOnlyReadOnly: Codable {
+public struct HasOnlyReadOnly: Codable, Hashable {
 
     public var bar: String?
     public var foo: String?

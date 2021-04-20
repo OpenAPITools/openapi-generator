@@ -832,9 +832,8 @@ public class DefaultGenerator implements Generator {
 
     @Override
     public List<File> generate() {
-
         if (openAPI == null) {
-            throw new RuntimeException("missing OpenAPI input!");
+            throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
 
         if (config == null) {

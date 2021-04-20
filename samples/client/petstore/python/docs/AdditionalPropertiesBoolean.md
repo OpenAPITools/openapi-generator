@@ -1,5 +1,6 @@
 # AdditionalPropertiesBoolean
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

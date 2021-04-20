@@ -96,7 +96,7 @@ bool {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Reque
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -106,15 +106,26 @@ bool {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Reque
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void {{classname}}::On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate) const
+void {{classname}}::On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate, int AutoRetryCount) const
 {
 	{{operationIdCamelCase}}Response Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 {{/operation}}

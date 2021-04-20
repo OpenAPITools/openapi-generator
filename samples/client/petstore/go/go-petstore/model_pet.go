@@ -29,7 +29,7 @@ type Pet struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPet(name string, photoUrls []string, ) *Pet {
+func NewPet(name string, photoUrls []string) *Pet {
 	this := Pet{}
 	this.Name = name
 	this.PhotoUrls = photoUrls
@@ -110,7 +110,7 @@ func (o *Pet) SetCategory(v Category) {
 
 // GetName returns the Name field value
 func (o *Pet) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -134,7 +134,7 @@ func (o *Pet) SetName(v string) {
 
 // GetPhotoUrls returns the PhotoUrls field value
 func (o *Pet) GetPhotoUrls() []string {
-	if o == nil  {
+	if o == nil {
 		var ret []string
 		return ret
 	}

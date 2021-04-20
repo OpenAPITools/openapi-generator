@@ -40,10 +40,15 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     protected String invokerPackage;
 
     protected String akkaHttpVersion;
+    protected boolean generateAsManagedSources;
 
     public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
     public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
+
+    public static final String GENERATE_AS_MANAGED_SOURCES = "asManagedSources";
+    public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
+    public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
 
     static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
@@ -99,6 +104,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         modelPackage = "org.openapitools.server.model";
         invokerPackage = "org.openapitools.server";
         akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
+        generateAsManagedSources = DEFAULT_GENERATE_AS_MANAGED_SOURCES;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -114,6 +120,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue(artifactId));
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
         cliOptions.add(CliOption.newString(AKKA_HTTP_VERSION, AKKA_HTTP_VERSION_DESC).defaultValue(akkaHttpVersion));
+        cliOptions.add(CliOption.newBoolean(GENERATE_AS_MANAGED_SOURCES, GENERATE_AS_MANAGED_SOURCES_DESC).defaultValue(Boolean.valueOf(DEFAULT_GENERATE_AS_MANAGED_SOURCES).toString()));
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -141,8 +148,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
-
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
@@ -181,9 +186,19 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
         parseAkkaHttpVersion();
 
-        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("controller.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
+
+        if (additionalProperties.containsKey(GENERATE_AS_MANAGED_SOURCES)) {
+            generateAsManagedSources = Boolean.parseBoolean(additionalProperties.get(GENERATE_AS_MANAGED_SOURCES).toString());
+        } else {
+            additionalProperties.put(GENERATE_AS_MANAGED_SOURCES, Boolean.valueOf(generateAsManagedSources).toString());
+        }
+
+        if (!generateAsManagedSources) {
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+            supportingFiles.add(new SupportingFile("controller.mustache",
+                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        }
         supportingFiles.add(new SupportingFile("helper.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "AkkaHttpHelper.scala"));
         supportingFiles.add(new SupportingFile("stringDirectives.mustache",
@@ -256,7 +271,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         if (!param.required) {
             param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
             // Escaping default string values
-            if (param.defaultValue != null && param.dataType.equals("String")) {
+            if (param.defaultValue != null && "String".equals(param.dataType)) {
                 param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
             }
         }
@@ -402,7 +417,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         operationSpecificMarshallers.add(marshaller);
                     }
                     response.vendorExtensions.put("x-empty-response", response.baseType == null && response.message == null);
-                    response.vendorExtensions.put("x-is-default", response.code.equals("0"));
+                    response.vendorExtensions.put("x-is-default", "0".equals(response.code));
                 }
                 op.vendorExtensions.put("x-specific-marshallers", operationSpecificMarshallers);
                 op.vendorExtensions.put("x-file-params", fileParams);

@@ -26,12 +26,12 @@ data class {{classname}} (
 {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 {{/serializableModel}}
 {{#hasEnums}}
-	{{#vars}}
+    {{#vars}}
     {{#isEnum}}
     /**
     * {{{description}}}

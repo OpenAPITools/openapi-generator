@@ -59,6 +59,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -77,6 +78,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -130,6 +132,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -148,6 +151,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -201,6 +205,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -219,6 +224,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -262,6 +268,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -280,6 +287,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -324,6 +332,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -342,6 +351,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -387,6 +397,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->login_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -406,6 +417,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -447,6 +459,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -462,6 +475,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -516,6 +530,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -535,6 +550,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

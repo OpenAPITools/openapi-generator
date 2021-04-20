@@ -74,6 +74,9 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "file")
   public void setFile(java.io.File file) {
     this.file = file;
   }
@@ -107,6 +110,8 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }

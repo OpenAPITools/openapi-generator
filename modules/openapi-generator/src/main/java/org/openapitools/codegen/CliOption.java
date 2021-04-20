@@ -77,7 +77,7 @@ public class CliOption {
     public String getOptValue() {
         return this.optValue;
     }
-    
+
     public void setOptValue(String optValue) {
         if (this.enumValues!=null && this.enumValues.containsKey(optValue)) {
             this.optValue = optValue;
@@ -106,7 +106,7 @@ public class CliOption {
 
     /**
      * Create new boolean command line option with a default of false
-     * 
+     *
      * @param opt Option name
      * @param description Option description
      * @return the CliOption created
@@ -117,7 +117,7 @@ public class CliOption {
 
     /**
      * Create new boolean command line option with the provided value as default
-     * 
+     *
      * @param opt Option name
      * @param description Option description
      * @param defaultValue the default value to use if option not specified

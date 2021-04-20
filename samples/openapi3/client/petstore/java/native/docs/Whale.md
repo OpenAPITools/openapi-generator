@@ -2,6 +2,7 @@
 
 # Whale
 
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.AdditionalPropertiesClass
+
 ## Properties
 
 Name | Type | Description | Notes

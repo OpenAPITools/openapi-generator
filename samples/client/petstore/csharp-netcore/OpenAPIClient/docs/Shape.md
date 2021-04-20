@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Shape
+
 ## Properties
 
 Name | Type | Description | Notes
