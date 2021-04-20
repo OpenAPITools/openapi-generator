@@ -20,12 +20,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prefixParameterInterfaces|Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sagasAndRecords|Setting this property to true will generate additional files for use with redux-saga and immutablejs.| |false|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |typescriptThreePlus|Setting this property to true will generate TypeScript 3.6+ compatible code.| |false|
-|sagasAndRecords|Setting this property to true will generate additional files for working with redux-saga and immmutablejs.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
