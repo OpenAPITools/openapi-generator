@@ -48,7 +48,7 @@ public class Tag   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -68,7 +68,7 @@ public class Tag   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {

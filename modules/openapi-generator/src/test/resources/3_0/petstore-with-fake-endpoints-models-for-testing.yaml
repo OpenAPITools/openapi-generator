@@ -846,6 +846,26 @@ paths:
             schema:
               $ref: '#/components/schemas/OuterNumber'
         description: Input number as post body
+  /fake/property/enum-int:
+    post:
+      tags:
+        - fake
+      description: Test serialization of enum (int) properties with examples
+      operationId: fakePropertyEnumIntegerSerialize
+      responses:
+        '200':
+          description: Output enum (int)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+        description: Input enum (int) as post body
   /fake/outer/string:
     post:
       tags:
@@ -1627,6 +1647,8 @@ components:
           type: array
           items:
             type: string
+          minItems: 0
+          maxItems: 3
         array_array_of_integer:
           type: array
           items:
@@ -1689,6 +1711,7 @@ components:
       - 0
       - 1
       - 2
+      example: 2
     OuterEnumDefaultValue:
       type: string
       enum:
@@ -1810,3 +1833,12 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    OuterObjectWithEnumProperty:
+      type: object
+      example:
+        value: 2
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/OuterEnumInteger'

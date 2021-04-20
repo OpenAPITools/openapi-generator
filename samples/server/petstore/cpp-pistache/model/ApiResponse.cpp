@@ -47,6 +47,7 @@ void to_json(nlohmann::json& j, const ApiResponse& o)
         j["type"] = o.m_Type;
     if(o.messageIsSet())
         j["message"] = o.m_Message;
+    
 }
 
 void from_json(const nlohmann::json& j, ApiResponse& o)
@@ -66,6 +67,7 @@ void from_json(const nlohmann::json& j, ApiResponse& o)
         j.at("message").get_to(o.m_Message);
         o.m_MessageIsSet = true;
     } 
+    
 }
 
 int32_t ApiResponse::getCode() const
@@ -119,6 +121,7 @@ void ApiResponse::unsetMessage()
 {
     m_MessageIsSet = false;
 }
+
 
 }
 }

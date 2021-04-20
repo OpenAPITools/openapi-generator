@@ -67,6 +67,9 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }

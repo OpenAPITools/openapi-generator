@@ -1,5 +1,6 @@
 # ChildAllOf
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

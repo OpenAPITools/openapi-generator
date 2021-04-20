@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -34,7 +35,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     protected boolean withGoCodegenComment = false;
@@ -310,16 +311,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
+        final String apiName;
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
+        String api = name.replaceAll("-", "_");
         // e.g. PetApi.go => pet_api.go
-        name = "api_" + underscore(name);
-        if (isReservedFilename(name)) {
-            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
-            name += "_";
+        api = "api_" + underscore(api);
+        if (isReservedFilename(api)) {
+            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + api + "_.go");
+            api += "_";
         }
-        return name;
+        apiName = api;
+        return apiName;
     }
 
     /**
@@ -393,7 +395,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String type = null;
 
         if (ref != null && !ref.isEmpty()) {
-            type = openAPIType;
+            type = toModelName(openAPIType);
         } else if ("object".equals(openAPIType) && isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";
@@ -594,7 +596,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
-        // For containers (e.g. Array, Map), the generated code returns the type directly. 
+        // For containers (e.g. Array, Map), the generated code returns the type directly.
         if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
@@ -787,6 +789,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
+        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {
@@ -805,7 +808,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return; // skip if GO_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
                         "supporting-mustache",
@@ -830,8 +833,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

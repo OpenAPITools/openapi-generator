@@ -7,6 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
 |packageName|Rust package name (convention: lowercase).| |openapi|
@@ -30,9 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>File</li>
 <li>String</li>
-<li>Vec&lt;u8&gt;</li>
 <li>bool</li>
 <li>char</li>
 <li>f32</li>
@@ -41,10 +40,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>i32</li>
 <li>i64</li>
 <li>i8</li>
+<li>isize</li>
+<li>str</li>
 <li>u16</li>
 <li>u32</li>
 <li>u64</li>
 <li>u8</li>
+<li>usize</li>
 </ul>
 
 ## RESERVED WORDS

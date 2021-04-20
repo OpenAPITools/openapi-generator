@@ -44,7 +44,7 @@ type _FormatTest FormatTest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFormatTest(number float32, byte_ string, date string, password string, ) *FormatTest {
+func NewFormatTest(number float32, byte_ string, date string, password string) *FormatTest {
 	this := FormatTest{}
 	this.Number = number
 	this.Byte = byte_
@@ -159,7 +159,7 @@ func (o *FormatTest) SetInt64(v int64) {
 
 // GetNumber returns the Number field value
 func (o *FormatTest) GetNumber() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
@@ -279,7 +279,7 @@ func (o *FormatTest) SetString(v string) {
 
 // GetByte returns the Byte field value
 func (o *FormatTest) GetByte() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -335,7 +335,7 @@ func (o *FormatTest) SetBinary(v *os.File) {
 
 // GetDate returns the Date field value
 func (o *FormatTest) GetDate() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -423,7 +423,7 @@ func (o *FormatTest) SetUuid(v string) {
 
 // GetPassword returns the Password field value
 func (o *FormatTest) GetPassword() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}

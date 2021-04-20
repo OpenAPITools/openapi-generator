@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CatAllOf: Codable {
+public struct CatAllOf: Codable, Hashable {
 
     public var declawed: Bool?
 

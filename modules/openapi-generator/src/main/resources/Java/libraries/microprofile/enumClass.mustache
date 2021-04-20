@@ -6,7 +6,7 @@
   @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
   @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
 {{/withXml}}
-  public enum {{datatypeWithEnum}} {
+  {{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
     {{#withXml}}

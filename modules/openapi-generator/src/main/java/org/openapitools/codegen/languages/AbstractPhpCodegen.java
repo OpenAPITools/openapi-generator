@@ -27,17 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
@@ -98,7 +96,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         );
 
         instantiationTypes.put("array", "array");
-        instantiationTypes.put("map", "map");
+        instantiationTypes.put("map", "array");
 
 
         // provide primitives to mustache template
@@ -119,7 +117,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("Date", "\\DateTime");
         typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "\\SplFileObject");
-        typeMapping.put("map", "map");
+        typeMapping.put("map", "array");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
@@ -307,7 +305,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "<string," + getTypeDeclaration(inner) + ">";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
@@ -751,8 +749,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

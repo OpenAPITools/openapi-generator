@@ -11,6 +11,8 @@ object Serializer {
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        .add(BigDecimalAdapter())
+        .add(BigIntegerAdapter())
 
     @JvmStatic
     val moshi: Moshi by lazy {

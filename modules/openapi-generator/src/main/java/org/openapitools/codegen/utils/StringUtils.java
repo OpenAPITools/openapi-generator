@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -266,9 +265,9 @@ public class StringUtils {
                     return character;
                 }
             }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
-    
+
             if (result != null) return result;
-            throw new RuntimeException("Word '" + name + "' could not be escaped.");    
+            throw new RuntimeException("Word '" + name + "' could not be escaped.");
         });
     }
 }

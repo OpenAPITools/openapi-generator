@@ -32,11 +32,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
     protected Boolean serializableModel = false;
 
