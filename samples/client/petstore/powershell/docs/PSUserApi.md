@@ -238,7 +238,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**User**](User.md)
+[**User**](User.md) (PSCustomObject)
 
 ### Authorization
 

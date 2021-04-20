@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Order**](Order.md)
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Order**](Order.md)
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 

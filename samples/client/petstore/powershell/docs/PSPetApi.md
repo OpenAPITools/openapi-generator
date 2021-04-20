@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Pet**](Pet.md)
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Pet[]**](Pet.md)
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Pet[]**](Pet.md)
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -242,7 +242,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Pet**](Pet.md)
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -288,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**Pet**](Pet.md)
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -392,7 +392,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-PSCustomObject - [**ApiResponse**](ApiResponse.md)
+[**ApiResponse**](ApiResponse.md) (PSCustomObject)
 
 ### Authorization
 
