@@ -35,7 +35,7 @@ let package = Package(
         .target(
             name: "{{projectName}}",
             dependencies: [{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
-            path: "{{projectName}}/Classes"
+            path: "{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
         ),
     ]
 )
