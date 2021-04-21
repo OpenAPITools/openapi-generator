@@ -1352,6 +1352,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
