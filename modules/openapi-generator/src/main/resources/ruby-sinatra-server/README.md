@@ -10,7 +10,7 @@ As of ruby 3.0.0, the webrick web server library was removed.
 You need to install a rack-supported web server, such as webrick and thin.
 
 The default Gemfile is as follows. 
-Update the name of the web server for your demand.
+Update the name of the web server as your prefer.
 
 ```
 source 'https://rubygems.org'
@@ -53,13 +53,13 @@ To run the code on docker, you can use the Dockerfile as follows:
 The "container_name" can be changed for your preferences.
 
 ```
-docker build . --tag container_name
+docker build . --tag "container_name"
 ```
 
 ### Run the docker image
 
 ```
-docker run -it --rm -p 8080:8080 container_name
+docker run -it --rm -p 8080:8080 "container_name"
 ```
 
 Voila!
