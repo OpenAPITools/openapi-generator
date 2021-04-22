@@ -295,7 +295,7 @@ Void (empty response body)
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> Observable<ApiResponse>
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse>
 ```
 
 uploads an image
@@ -307,7 +307,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
-let file = 987 // Data | file to upload (optional)
+let file = URL(string: "https://example.com")! // URL | file to upload (optional)
 
 // TODO RxSwift sample code not yet implemented. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -318,7 +318,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64** | ID of pet to update | 
  **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
- **file** | **Data** | file to upload | [optional] 
+ **file** | **URL** | file to upload | [optional] 
 
 ### Return type
 
@@ -337,7 +337,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> Observable<ApiResponse>
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse>
 ```
 
 uploads an image (required)
@@ -348,7 +348,7 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = 987 // Data | file to upload
+let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // TODO RxSwift sample code not yet implemented. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -359,7 +359,7 @@ let additionalMetadata = "additionalMetadata_example" // String | Additional dat
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64** | ID of pet to update | 
- **requiredFile** | **Data** | file to upload | 
+ **requiredFile** | **URL** | file to upload | 
  **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
