@@ -212,7 +212,7 @@ apply plugin: 'org.openapi.generator'
 |typeMappings
 |Map(String,String)
 |None
-|Sets mappings between OpenAPI spec types and generated code types.
+|Sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
 
 |additionalProperties
 |Map(String,Any)
