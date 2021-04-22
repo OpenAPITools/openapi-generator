@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenConfig {
-    public static final String PROJECT_NAME = "SHOLOSOSOSO";
+    public static final String PROJECT_NAME = "TinyClient";
 
     static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
 
@@ -28,7 +28,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     public String getHelp() {
-        return "Generates a tiny-cpp client.";
+        return "Generates a Arduino rest client.";
     }
 
     public TinyCppClientCodegen() {
