@@ -35,12 +35,17 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         super();
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
+        
         modelTemplateFiles.put("model.mustache", ".md");
+        modelTemplateFiles.put("model-header.mustache", ".h");
+        modelTemplateFiles.put("model-body.mustache", ".cpp");
         apiTemplateFiles.put("api.mustache", ".md");
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
         apiPackage = "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", "", "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-body.mustache", "", "Helpers.cpp"));
         // TODO: Fill this out.
     }
 }
