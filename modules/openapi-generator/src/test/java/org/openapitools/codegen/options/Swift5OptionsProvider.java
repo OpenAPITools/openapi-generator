@@ -46,6 +46,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String POD_DOCUMENTATION_URL_VALUE = "podDocumentationURL";
     public static final String READONLY_PROPERTIES_VALUE = "false";
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
+    public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String LIBRARY_VALUE = "alamofire";
@@ -80,6 +81,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
                 .put(Swift5ClientCodegen.READONLY_PROPERTIES, READONLY_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
+                .put(Swift5ClientCodegen.USE_BACKTICK_ESCAPES, USE_BACKTICKS_ESCAPES_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

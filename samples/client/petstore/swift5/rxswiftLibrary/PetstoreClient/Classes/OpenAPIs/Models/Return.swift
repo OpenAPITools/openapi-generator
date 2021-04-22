@@ -10,14 +10,14 @@ import Foundation
 /** Model for testing reserved words */
 public struct Return: Codable, Hashable {
 
-    public var _return: Int?
+    public var `return`: Int?
 
-    public init(_return: Int? = nil) {
-        self._return = _return
+    public init(`return`: Int? = nil) {
+        self.`return` = `return`
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case _return = "return"
+        case `return` = "return"
     }
 
 }

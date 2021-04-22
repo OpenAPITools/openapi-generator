@@ -63,6 +63,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
@@ -78,6 +79,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected boolean useBacktickEscapes = false;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -201,7 +203,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Set");
         typeMapping.put("date", "Date");
@@ -262,6 +263,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(LENIENT_TYPE_CAST,
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
+                "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
@@ -432,6 +436,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             sourceFolder = swiftPackagePath;
         }
 
+        if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
+            setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
+        }
+
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
@@ -519,7 +527,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name;  // add an underscore to the name
+        return useBacktickEscapes && !objcCompatible ? "`" + name + "`" : "_" + name;
     }
 
     @Override
@@ -738,9 +746,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // pet_id => petId
         name = camelize(name, true);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for reserved words surround with `` or append _
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
+        }
+
+        // for words starting with number, append _
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         return name;
@@ -763,9 +776,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // pet_id => petId
         name = camelize(name, true);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for reserved words surround with ``
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
+        }
+
+        // for words starting with number, append _
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         return name;
@@ -830,6 +848,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setSwiftPackagePath(String swiftPackagePath) {
         this.swiftPackagePath = swiftPackagePath;
+    }
+
+    public void setUseBacktickEscapes(boolean useBacktickEscapes) {
+        this.useBacktickEscapes = useBacktickEscapes;
     }
 
     @Override
