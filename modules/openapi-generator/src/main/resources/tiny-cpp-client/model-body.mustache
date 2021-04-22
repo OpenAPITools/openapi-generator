@@ -1,0 +1,107 @@
+#include <cstdlib>
+#include "bourne/json.hpp"
+
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+using namespace std;
+using namespace Tiny::{{prefix}};
+
+{{classname}}::{{classname}}()
+{
+    __init();
+}
+
+{{classname}}::{{classname}}(bourne::json jsonObj)
+{
+	this->fromJson(jsonObj);
+}
+
+{{classname}}::~{{classname}}()
+{
+    __cleanup();
+}
+
+void
+{{classname}}::__init()
+{
+    {{#vars}}
+	{{#isContainer}}
+	//{{defaultValue}}{{baseType}}> {{name}};
+	{{/isContainer}}
+	{{^isContainer}}
+	//{{name}} = {{defaultValue}};
+	{{/isContainer}}
+	{{/vars}}
+}
+
+void
+{{classname}}::__cleanup()
+{
+    //{{#vars}}if({{name}} != NULL) {
+	//{{#isContainer}}{{name}}.RemoveAll(true);{{/isContainer}}
+	//delete {{name}};
+	//{{name}} = NULL;
+	//}
+	//{{/vars}}
+}
+
+{{classname}}::fromJson(std::string jsonObj)
+{
+    // name = variable name
+    // basetype = variable type
+
+    bourne::json object = bourne::json::parse(jsonObj);
+
+    {{#vars}}
+    // gchar has something to do with std::string?
+    const gchar *{{name}}Key = "{{baseName}}";
+    
+    if(jsonObj.has_key({{name}}Key)) 
+    {
+        bourne::json value = object[{{name}}Key];
+     
+        if(isprimitive("{{baseType}}"))
+        {
+            jsonToValue(&{{name}}, value, {{baseType}});
+        } 
+        else 
+        {
+            {{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+			
+            {{baseType}}* obj = static_cast<{{baseType}}*> (&{{name}});
+			obj->fromJson(value.to_string());
+			
+            {{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+        }
+
+    }
+
+    {{/vars}}
+
+}
+
+bourne::json
+{{classname}}::toJson()
+{
+
+}
+
+{{#vars}}
+{{dataType}}{{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}}
+{{classname}}::{{getter}}()
+{
+	return {{name}};
+}
+
+void
+{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}})
+{
+	this->{{name}} = {{name}};
+}
+
+{{/vars}}
+
+
+{{/model}}
+{{/models}}
