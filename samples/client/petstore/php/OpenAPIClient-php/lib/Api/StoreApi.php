@@ -397,6 +397,9 @@ class StoreApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('array&lt;string,int&gt;' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -649,6 +652,9 @@ class StoreApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
@@ -920,6 +926,9 @@ class StoreApi
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
+                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
+                            $content = json_decode($content);
+                        }
                     }
 
                     return [
