@@ -1,0 +1,67 @@
+
+
+bool isprimitive(string type){
+	if(strcmp("std::string", type.c_str()) == 0||
+		strcmp("int", type.c_str()) == 0||
+		strcmp("long long", type.c_str()) == 0||
+		strcmp("double", type.c_str()) == 0||
+		strcmp("float", type.c_str()) == 0||
+		strcmp("bool", type.c_str()) == 0||
+		strcmp("std::map", type.c_str()) == 0||
+		strcmp("std::list", type.c_str()) == 0) 
+    {
+		return true;
+	}
+	return false;
+}
+
+
+void
+jsonToValue(void* target, bourne::json value, string type)
+{
+	if (target == NULL || node == NULL || value.is_null()) {
+		return;
+	} 
+    
+    else if (strcmp("bool", type.c_str()) == 0) 
+    {
+		bool* val = static_cast<bool*> (target); //What is this?
+		*val = value.to_bool();
+	} 
+    
+    else if (strcmp("int", type.c_str()) == 0) 
+    {
+		int* val = static_cast<int*> (target);
+		*val = value.to_int();
+	} 
+    
+    else if (strcmp("float", type.c_str()) == 0) 
+    {
+		float* val = static_cast<float*> (target);
+		*val = (float)(value.to_float());
+	} 
+    
+    else if (strcmp("long long", type.c_str()) == 0) 
+    {
+		long long* val = static_cast<long long*> (target);
+		*val = (long long)(value.to_int());
+	}
+
+    else if (strcmp("long", type.c_str()) == 0)
+    {
+        long* val = static_cast<long long*> (target);
+		*val = (long)(value.to_int());
+    } 
+    
+    else if (strcmp("double", type.c_str()) == 0) 
+    {
+		double* val = static_cast<double*> (target);
+		*val = value.to_float();
+	} 
+    
+    else if (strcmp("std::string", type.c_str()) == 0) 
+    {
+		string* val = static_cast<string*> (target);
+		*val = value.to_string();
+    }
+}
