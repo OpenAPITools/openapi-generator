@@ -17,10 +17,19 @@ internal struct Model200Response: Codable, Hashable {
         self.name = name
         self._class = _class
     }
-
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _class = "class"
     }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(_class, forKey: ._class)
+    }
+
+
 
 }

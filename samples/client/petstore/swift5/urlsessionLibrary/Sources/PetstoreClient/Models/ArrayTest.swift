@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ArrayTest: Codable, Hashable {
+public final class ArrayTest: Codable, Hashable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
@@ -18,11 +18,35 @@ public struct ArrayTest: Codable, Hashable {
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
         case arrayArrayOfModel = "array_array_of_model"
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+    }
+
+
+
+    public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
+        lhs.arrayOfString == rhs.arrayOfString &&
+        lhs.arrayArrayOfInteger == rhs.arrayArrayOfInteger &&
+        lhs.arrayArrayOfModel == rhs.arrayArrayOfModel
+        
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(arrayOfString?.hashValue)
+        hasher.combine(arrayArrayOfInteger?.hashValue)
+        hasher.combine(arrayArrayOfModel?.hashValue)
+        
     }
 
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MapTest: Codable, Hashable {
+public final class MapTest: Codable, Hashable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
@@ -24,12 +24,39 @@ public struct MapTest: Codable, Hashable {
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
         case directMap = "direct_map"
         case indirectMap = "indirect_map"
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
+        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(directMap, forKey: .directMap)
+        try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
+    }
+
+
+
+    public static func == (lhs: MapTest, rhs: MapTest) -> Bool {
+        lhs.mapMapOfString == rhs.mapMapOfString &&
+        lhs.mapOfEnumString == rhs.mapOfEnumString &&
+        lhs.directMap == rhs.directMap &&
+        lhs.indirectMap == rhs.indirectMap
+        
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(mapMapOfString?.hashValue)
+        hasher.combine(mapOfEnumString?.hashValue)
+        hasher.combine(directMap?.hashValue)
+        hasher.combine(indirectMap?.hashValue)
+        
     }
 
 }
