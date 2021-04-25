@@ -96,7 +96,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
 
   private val http = Http()
 
-  val CompressionFilter: HttpMessage ⇒ Boolean = (msg: HttpMessage) =>
+  val CompressionFilter: HttpMessage => Boolean = (msg: HttpMessage) =>
     Seq(
       { _: HttpMessage => settings.compressionEnabled },
       Encoder.DefaultFilter,
@@ -224,11 +224,11 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
       .singleRequest(request)
       .map { response =>
         val decoder: Coder with StreamDecoder = response.encoding match {
-          case HttpEncodings.gzip ⇒
+          case HttpEncodings.gzip =>
             Gzip
-          case HttpEncodings.deflate ⇒
+          case HttpEncodings.deflate =>
             Deflate
-          case HttpEncodings.identity ⇒
+          case HttpEncodings.identity =>
             NoCoding
           case HttpEncoding(encoding) =>
             throw new IllegalArgumentException(s"Unsupported encoding: $encoding")
@@ -263,7 +263,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
         Unmarshal(response.entity)
           .to[T]
           .recoverWith {
-            case e ⇒ throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
+            case e => throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
           }
           .map(value => responseForState(state, value))
       case None | Some(_) =>
