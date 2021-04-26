@@ -166,6 +166,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     /**
     * Build the WebClientBuilder used to make WebClient.
+    * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
     public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
@@ -189,6 +190,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     /**
      * Build the WebClient used to make HTTP requests.
+     * @param mapper ObjectMapper used for serialize/deserialize
      * @return WebClient
      */
     public static WebClient buildWebClient(ObjectMapper mapper) {
