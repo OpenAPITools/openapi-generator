@@ -54,7 +54,6 @@ void
     bourne::json object = bourne::json::parse(jsonObj);
 
     {{#vars}}
-    // gchar has something to do with std::string?
     const gchar *{{name}}Key = "{{baseName}}";
     
     if(jsonObj.has_key({{name}}Key)) 
@@ -84,6 +83,53 @@ void
 bourne::json
 {{classname}}::toJson()
 {
+    bourne::json object = bourne::json::object();
+    bourne::json array = bourne::json::array();
+
+    {{#vars}}
+    {{#isContainer}}
+    {{#isArray}}
+    if(isprimitive("{{#items}}{{dataType}}{{/items}}"))
+    {
+        list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
+        bourne::json new_json_arr = bourne::json::array();
+        for (list<{{dataType}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+			new_json_arr.append(it); // maybe address/pointer smthing?
+		}
+        object["{{name}}"] = new_json_arr;        
+    }
+    else 
+    {
+        {{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+        list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
+        bourne::json new_json_arr = bourne::json::array();
+        for (list<{{dataType}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+			{{dataType}} obj = *it;
+			new_json_arr.append(obj.toJson());
+		}
+        object["{{name}}"] = new_json_arr; 
+        {{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
+    }
+    {{/isArray}}
+    {{/isContainer}}
+
+    {{^isContainer}}
+    if(isprimitive("{{baseType}}")) {
+        {{baseType}} var = {{getter}}();
+        object["{{name}}"] = var;
+    }
+    else 
+    {
+    {{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+	{{baseType}} obj = static_cast<{{baseType}}> ({{getter}}());
+	object["{{name}}"] = obj.toJson();
+	{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+    
+    }
+    {{/isContainer}}
+    {{/vars}}
+
+    return object;
 
 }
 
