@@ -71,7 +71,6 @@ public struct XmlItem: Codable, Hashable {
         self.prefixNsArray = prefixNsArray
         self.prefixNsWrappedArray = prefixNsWrappedArray
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributeString = "attribute_string"
         case attributeNumber = "attribute_number"
@@ -103,5 +102,42 @@ public struct XmlItem: Codable, Hashable {
         case prefixNsArray = "prefix_ns_array"
         case prefixNsWrappedArray = "prefix_ns_wrapped_array"
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(attributeString, forKey: .attributeString)
+        try container.encodeIfPresent(attributeNumber, forKey: .attributeNumber)
+        try container.encodeIfPresent(attributeInteger, forKey: .attributeInteger)
+        try container.encodeIfPresent(attributeBoolean, forKey: .attributeBoolean)
+        try container.encodeIfPresent(wrappedArray, forKey: .wrappedArray)
+        try container.encodeIfPresent(nameString, forKey: .nameString)
+        try container.encodeIfPresent(nameNumber, forKey: .nameNumber)
+        try container.encodeIfPresent(nameInteger, forKey: .nameInteger)
+        try container.encodeIfPresent(nameBoolean, forKey: .nameBoolean)
+        try container.encodeIfPresent(nameArray, forKey: .nameArray)
+        try container.encodeIfPresent(nameWrappedArray, forKey: .nameWrappedArray)
+        try container.encodeIfPresent(prefixString, forKey: .prefixString)
+        try container.encodeIfPresent(prefixNumber, forKey: .prefixNumber)
+        try container.encodeIfPresent(prefixInteger, forKey: .prefixInteger)
+        try container.encodeIfPresent(prefixBoolean, forKey: .prefixBoolean)
+        try container.encodeIfPresent(prefixArray, forKey: .prefixArray)
+        try container.encodeIfPresent(prefixWrappedArray, forKey: .prefixWrappedArray)
+        try container.encodeIfPresent(namespaceString, forKey: .namespaceString)
+        try container.encodeIfPresent(namespaceNumber, forKey: .namespaceNumber)
+        try container.encodeIfPresent(namespaceInteger, forKey: .namespaceInteger)
+        try container.encodeIfPresent(namespaceBoolean, forKey: .namespaceBoolean)
+        try container.encodeIfPresent(namespaceArray, forKey: .namespaceArray)
+        try container.encodeIfPresent(namespaceWrappedArray, forKey: .namespaceWrappedArray)
+        try container.encodeIfPresent(prefixNsString, forKey: .prefixNsString)
+        try container.encodeIfPresent(prefixNsNumber, forKey: .prefixNsNumber)
+        try container.encodeIfPresent(prefixNsInteger, forKey: .prefixNsInteger)
+        try container.encodeIfPresent(prefixNsBoolean, forKey: .prefixNsBoolean)
+        try container.encodeIfPresent(prefixNsArray, forKey: .prefixNsArray)
+        try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
+    }
+
+
 
 }

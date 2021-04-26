@@ -54,7 +54,16 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(mapString, forKey: .mapString)
+        try container.encodeIfPresent(mapNumber, forKey: .mapNumber)
+        try container.encodeIfPresent(mapInteger, forKey: .mapInteger)
+        try container.encodeIfPresent(mapBoolean, forKey: .mapBoolean)
+        try container.encodeIfPresent(mapArrayInteger, forKey: .mapArrayInteger)
+        try container.encodeIfPresent(mapArrayAnytype, forKey: .mapArrayAnytype)
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
+        try container.encodeIfPresent(mapMapAnytype, forKey: .mapMapAnytype)
+        try container.encodeIfPresent(anytype1, forKey: .anytype1)
+        try container.encodeIfPresent(anytype2, forKey: .anytype2)
+        try container.encodeIfPresent(anytype3, forKey: .anytype3)
     }
 
 
