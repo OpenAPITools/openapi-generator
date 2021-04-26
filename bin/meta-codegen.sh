@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
