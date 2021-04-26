@@ -692,12 +692,14 @@ paths:
                   type: number
                   format: float
                   maximum: 987.6
+                  exclusiveMaximum: true
                 double:
                   description: None
                   type: number
                   format: double
                   minimum: 67.8
                   maximum: 123.4
+                  exclusiveMaximum: true
                 string:
                   description: None
                   type: string
