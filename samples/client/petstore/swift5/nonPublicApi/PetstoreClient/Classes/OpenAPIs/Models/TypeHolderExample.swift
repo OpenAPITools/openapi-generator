@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct TypeHolderExample: Codable, Hashable {
 

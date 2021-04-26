@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model name same as property name */
 public struct Name: Codable, Hashable {

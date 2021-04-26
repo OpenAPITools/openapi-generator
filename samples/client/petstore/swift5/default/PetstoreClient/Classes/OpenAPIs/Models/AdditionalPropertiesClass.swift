@@ -6,19 +6,47 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct AdditionalPropertiesClass: Codable, Hashable {
 
     public var mapString: [String: String]?
+    public var mapNumber: [String: Double]?
+    public var mapInteger: [String: Int]?
+    public var mapBoolean: [String: Bool]?
+    public var mapArrayInteger: [String: [Int]]?
+    public var mapArrayAnytype: [String: [AnyCodable]]?
     public var mapMapString: [String: [String: String]]?
+    public var mapMapAnytype: [String: [String: AnyCodable]]?
+    public var anytype1: AnyCodable?
+    public var anytype2: AnyCodable?
+    public var anytype3: AnyCodable?
 
-    public init(mapString: [String: String]? = nil, mapMapString: [String: [String: String]]? = nil) {
+    public init(mapString: [String: String]? = nil, mapNumber: [String: Double]? = nil, mapInteger: [String: Int]? = nil, mapBoolean: [String: Bool]? = nil, mapArrayInteger: [String: [Int]]? = nil, mapArrayAnytype: [String: [AnyCodable]]? = nil, mapMapString: [String: [String: String]]? = nil, mapMapAnytype: [String: [String: AnyCodable]]? = nil, anytype1: AnyCodable? = nil, anytype2: AnyCodable? = nil, anytype3: AnyCodable? = nil) {
         self.mapString = mapString
+        self.mapNumber = mapNumber
+        self.mapInteger = mapInteger
+        self.mapBoolean = mapBoolean
+        self.mapArrayInteger = mapArrayInteger
+        self.mapArrayAnytype = mapArrayAnytype
         self.mapMapString = mapMapString
+        self.mapMapAnytype = mapMapAnytype
+        self.anytype1 = anytype1
+        self.anytype2 = anytype2
+        self.anytype3 = anytype3
     }
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
+        case mapNumber = "map_number"
+        case mapInteger = "map_integer"
+        case mapBoolean = "map_boolean"
+        case mapArrayInteger = "map_array_integer"
+        case mapArrayAnytype = "map_array_anytype"
         case mapMapString = "map_map_string"
+        case mapMapAnytype = "map_map_anytype"
+        case anytype1 = "anytype_1"
+        case anytype2 = "anytype_2"
+        case anytype3 = "anytype_3"
     }
 
     // Encodable protocol methods

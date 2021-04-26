@@ -225,8 +225,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "Any");
-        typeMapping.put("AnyType", "Any");
+        typeMapping.put("object", "AnyCodable");
+        typeMapping.put("AnyType", "AnyCodable");
 
         importMapping = new HashMap<>();
 
@@ -346,7 +346,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+            Schema inner = null;
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                inner = ap.getItems();
+            } else if (ModelUtils.isMapSchema(schema)) {
+                inner = getAdditionalProperties(schema);
+            }
+
+            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
         }
     }
 

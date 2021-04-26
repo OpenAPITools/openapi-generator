@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct FormatTest: Codable, Hashable {
 
@@ -22,8 +23,9 @@ public struct FormatTest: Codable, Hashable {
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
+    public var bigDecimal: Decimal?
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String, bigDecimal: Decimal? = nil) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64
@@ -37,6 +39,24 @@ public struct FormatTest: Codable, Hashable {
         self.dateTime = dateTime
         self.uuid = uuid
         self.password = password
+        self.bigDecimal = bigDecimal
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case integer
+        case int32
+        case int64
+        case number
+        case float
+        case double
+        case string
+        case byte
+        case binary
+        case date
+        case dateTime
+        case uuid
+        case password
+        case bigDecimal = "BigDecimal"
     }
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer

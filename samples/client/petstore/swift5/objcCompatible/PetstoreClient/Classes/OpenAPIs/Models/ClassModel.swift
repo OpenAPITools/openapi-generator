@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model with \&quot;_class\&quot; property */
 @objc public class ClassModel: NSObject, Codable {

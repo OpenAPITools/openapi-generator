@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Must be named &#x60;File&#x60; for test. */
 public struct File: Codable, Hashable {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public final class Dog: Codable, Hashable {
 

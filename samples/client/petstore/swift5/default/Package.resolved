@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AnyCodable",
+        "repositoryURL": "https://github.com/Flight-School/AnyCodable",
+        "state": {
+          "branch": null,
+          "revision": "38b05fc9f86501ef8018aa90cf3d83bd97f74067",
+          "version": "0.4.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

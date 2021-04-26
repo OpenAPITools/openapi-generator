@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model name starting with number */
 @objc public class Model200Response: NSObject, Codable {

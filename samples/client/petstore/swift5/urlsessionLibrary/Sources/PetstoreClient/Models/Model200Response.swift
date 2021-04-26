@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model name starting with number */
 public final class Model200Response: Codable, Hashable {

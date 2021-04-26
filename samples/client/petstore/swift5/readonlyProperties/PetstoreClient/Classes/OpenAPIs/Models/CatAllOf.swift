@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct CatAllOf: Codable, Hashable {
 
