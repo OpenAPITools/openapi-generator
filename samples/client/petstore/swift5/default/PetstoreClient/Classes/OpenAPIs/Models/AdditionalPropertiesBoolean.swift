@@ -15,6 +15,9 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
     public init(name: String? = nil) {
         self.name = name
     }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case name
+    }
     public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
@@ -33,11 +36,10 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeIfPresent(name, forKey: "name")
-        try container.encodeMap(additionalProperties)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
     }
 
     // Decodable protocol methods
@@ -50,5 +52,6 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 }

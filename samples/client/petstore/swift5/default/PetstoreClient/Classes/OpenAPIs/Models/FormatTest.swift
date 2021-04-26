@@ -41,7 +41,6 @@ public struct FormatTest: Codable, Hashable {
         self.password = password
         self.bigDecimal = bigDecimal
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32
@@ -57,21 +56,6 @@ public struct FormatTest: Codable, Hashable {
         case uuid
         case password
         case bigDecimal = "BigDecimal"
-    }
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case integer
-        case int32
-        case int64
-        case number
-        case float
-        case double
-        case string
-        case byte
-        case binary
-        case date
-        case dateTime
-        case uuid
-        case password
     }
 
     // Encodable protocol methods
@@ -91,6 +75,7 @@ public struct FormatTest: Codable, Hashable {
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
+        try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
     }
 
 
