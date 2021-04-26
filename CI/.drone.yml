@@ -2,6 +2,12 @@ kind: pipeline
 name: default
 
 steps:
+# run ensure-up-to-date
+- name: java11-test
+  image: openjdk:11.0
+  commands:
+  - ./mvnw --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - /bin/bash bin/utils/ensure-up-to-date
 # test nim client
 - name: nim-client-test
   image: nimlang/nim
