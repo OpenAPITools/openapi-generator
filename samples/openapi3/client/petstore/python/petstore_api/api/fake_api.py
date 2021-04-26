@@ -2239,7 +2239,7 @@ class FakeApi(object):
                     },
                     ('double',): {
 
-                        'inclusive_maximum': 123.4,
+                        'exclusive_maximum': 123.4,
                         'inclusive_minimum': 67.8,
                     },
                     ('pattern_without_delimiter',): {
@@ -2260,7 +2260,7 @@ class FakeApi(object):
                     },
                     ('float',): {
 
-                        'inclusive_maximum': 987.6,
+                        'exclusive_maximum': 987.6,
                     },
                     ('string',): {
 
