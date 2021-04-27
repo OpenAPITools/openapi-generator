@@ -12,29 +12,14 @@
 package org.openapitools.server.apis
 
 import com.google.gson.Gson
-import io.ktor.application.call
-import io.ktor.auth.UserIdPrincipal
-import io.ktor.auth.authentication
-import io.ktor.auth.authenticate
-import io.ktor.auth.OAuthAccessTokenResponse
-import io.ktor.auth.OAuthServerSettings
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
-import io.ktor.response.respondText
-import io.ktor.routing.Route
+import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.http.*
+import io.ktor.response.*
 import org.openapitools.server.Paths
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.delete
-import io.ktor.locations.get
-import io.ktor.locations.post
-import io.ktor.locations.put
-import io.ktor.locations.options
-import io.ktor.locations.head
-
+import io.ktor.locations.*
+import io.ktor.routing.*
 import org.openapitools.server.infrastructure.ApiPrincipal
-
-
 import org.openapitools.server.models.ApiResponse
 import org.openapitools.server.models.Pet
 
@@ -42,6 +27,7 @@ import org.openapitools.server.models.Pet
 fun Route.PetApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
+
     authenticate("petstore_auth") {
     post<Paths.addPet> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
