@@ -57,13 +57,13 @@ end:
 
 // Add a new pet to the store
 //
-void
-PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
+pet_t*
+PetAPI_addPet(apiClient_t *apiClient, pet_t * pet )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = NULL;
+    list_t *localVarHeaderType = list_create();
     list_t *localVarContentType = list_create();
     char      *localVarBodyParameters = NULL;
 
@@ -76,13 +76,15 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body = NULL;
-    if (body != NULL)
+    cJSON *localVarSingleItemJSON_pet = NULL;
+    if (pet != NULL)
     {
         //string
-        localVarSingleItemJSON_body = pet_convertToJSON(body);
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
     }
+    list_addElement(localVarHeaderType,"application/xml"); //produces
+    list_addElement(localVarHeaderType,"application/json"); //produces
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes
     apiClient_invoke(apiClient,
@@ -95,11 +97,21 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "POST");
 
+    if (apiClient->response_code == 200) {
+        printf("%s\n","successful operation");
+    }
     if (apiClient->response_code == 405) {
         printf("%s\n","Invalid input");
     }
-    //No return type
-end:
+    //nonprimitive not container
+    cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    pet_t *elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
+    cJSON_Delete(PetAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
         apiClient->dataReceived = NULL;
@@ -108,14 +120,18 @@ end:
     
     
     
-    
+    list_free(localVarHeaderType);
     list_free(localVarContentType);
     free(localVarPath);
-    if (localVarSingleItemJSON_body) {
-        cJSON_Delete(localVarSingleItemJSON_body);
-        localVarSingleItemJSON_body = NULL;
+    if (localVarSingleItemJSON_pet) {
+        cJSON_Delete(localVarSingleItemJSON_pet);
+        localVarSingleItemJSON_pet = NULL;
     }
     free(localVarBodyParameters);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
 
 }
 
@@ -453,13 +469,13 @@ end:
 
 // Update an existing pet
 //
-void
-PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
+pet_t*
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * pet )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = NULL;
+    list_t *localVarHeaderType = list_create();
     list_t *localVarContentType = list_create();
     char      *localVarBodyParameters = NULL;
 
@@ -472,13 +488,15 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body = NULL;
-    if (body != NULL)
+    cJSON *localVarSingleItemJSON_pet = NULL;
+    if (pet != NULL)
     {
         //string
-        localVarSingleItemJSON_body = pet_convertToJSON(body);
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
     }
+    list_addElement(localVarHeaderType,"application/xml"); //produces
+    list_addElement(localVarHeaderType,"application/json"); //produces
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes
     apiClient_invoke(apiClient,
@@ -491,6 +509,9 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "PUT");
 
+    if (apiClient->response_code == 200) {
+        printf("%s\n","successful operation");
+    }
     if (apiClient->response_code == 400) {
         printf("%s\n","Invalid ID supplied");
     }
@@ -500,8 +521,15 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
     if (apiClient->response_code == 405) {
         printf("%s\n","Validation exception");
     }
-    //No return type
-end:
+    //nonprimitive not container
+    cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    pet_t *elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
+    cJSON_Delete(PetAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
         apiClient->dataReceived = NULL;
@@ -510,14 +538,18 @@ end:
     
     
     
-    
+    list_free(localVarHeaderType);
     list_free(localVarContentType);
     free(localVarPath);
-    if (localVarSingleItemJSON_body) {
-        cJSON_Delete(localVarSingleItemJSON_body);
-        localVarSingleItemJSON_body = NULL;
+    if (localVarSingleItemJSON_pet) {
+        cJSON_Delete(localVarSingleItemJSON_pet);
+        localVarSingleItemJSON_pet = NULL;
     }
     free(localVarBodyParameters);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
 
 }
 

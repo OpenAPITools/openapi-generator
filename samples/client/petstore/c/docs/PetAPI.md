@@ -18,18 +18,19 @@ Method | HTTP request | Description
 ```c
 // Add a new pet to the store
 //
-void PetAPI_addPet(apiClient_t *apiClient, pet_t * body);
+pet_t* PetAPI_addPet(apiClient_t *apiClient, pet_t * pet);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
+**pet** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void
+[pet_t](pet.md) *
+
 
 ### Authorization
 
@@ -38,7 +39,7 @@ void
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -168,18 +169,19 @@ Name | Type | Description  | Notes
 ```c
 // Update an existing pet
 //
-void PetAPI_updatePet(apiClient_t *apiClient, pet_t * body);
+pet_t* PetAPI_updatePet(apiClient_t *apiClient, pet_t * pet);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
+**pet** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void
+[pet_t](pet.md) *
+
 
 ### Authorization
 
@@ -188,7 +190,7 @@ void
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

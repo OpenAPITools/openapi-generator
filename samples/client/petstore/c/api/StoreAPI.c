@@ -226,13 +226,13 @@ end:
 // Place an order for a pet
 //
 order_t*
-StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
+StoreAPI_placeOrder(apiClient_t *apiClient, order_t * order )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
+    list_t *localVarContentType = list_create();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -244,15 +244,16 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body = NULL;
-    if (body != NULL)
+    cJSON *localVarSingleItemJSON_order = NULL;
+    if (order != NULL)
     {
         //string
-        localVarSingleItemJSON_body = order_convertToJSON(body);
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_order = order_convertToJSON(order);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_order);
     }
     list_addElement(localVarHeaderType,"application/xml"); //produces
     list_addElement(localVarHeaderType,"application/json"); //produces
+    list_addElement(localVarContentType,"application/json"); //consumes
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -287,11 +288,11 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     
     
     list_free(localVarHeaderType);
-    
+    list_free(localVarContentType);
     free(localVarPath);
-    if (localVarSingleItemJSON_body) {
-        cJSON_Delete(localVarSingleItemJSON_body);
-        localVarSingleItemJSON_body = NULL;
+    if (localVarSingleItemJSON_order) {
+        cJSON_Delete(localVarSingleItemJSON_order);
+        localVarSingleItemJSON_order = NULL;
     }
     free(localVarBodyParameters);
     return elementToReturn;
