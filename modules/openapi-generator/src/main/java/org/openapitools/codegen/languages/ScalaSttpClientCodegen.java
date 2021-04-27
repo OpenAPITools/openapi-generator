@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -179,8 +181,17 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String encodePath(String input) {
-        String result = super.encodePath(input);
-        return result.replace("{", "${");
+        String path = super.encodePath(input);
+
+        // The parameter names in the URI must be converted to the same case as
+        // the method parameter.
+        StringBuffer buf = new StringBuffer(path.length());
+        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+        }
+        matcher.appendTail(buf);
+        return buf.toString();
     }
 
     @Override
