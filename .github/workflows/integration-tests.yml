@@ -76,6 +76,7 @@ jobs:
         path: |
           ~/.m2/repository
           ~/.gradle
+          ~/.sbt
         key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
     - name: Run tests
       uses: ./.github/actions/integration-test
