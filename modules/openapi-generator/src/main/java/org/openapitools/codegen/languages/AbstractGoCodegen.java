@@ -311,16 +311,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
+        final String apiName;
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
+        String api = name.replaceAll("-", "_");
         // e.g. PetApi.go => pet_api.go
-        name = "api_" + underscore(name);
-        if (isReservedFilename(name)) {
-            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
-            name += "_";
+        api = "api_" + underscore(api);
+        if (isReservedFilename(api)) {
+            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + api + "_.go");
+            api += "_";
         }
-        return name;
+        apiName = api;
+        return apiName;
     }
 
     /**
@@ -807,7 +808,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return; // skip if GO_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
                         "supporting-mustache",

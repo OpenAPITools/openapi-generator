@@ -414,6 +414,11 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: "TravelTime platform"
   image: "img/companies/traveltime.jpg"
   infoLink: "https://www.traveltimeplatform.com/"

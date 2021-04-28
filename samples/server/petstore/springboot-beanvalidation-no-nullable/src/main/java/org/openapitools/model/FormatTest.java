@@ -43,7 +43,7 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private org.springframework.core.io.Resource binary;
+  private org.springframework.web.multipart.MultipartFile binary;
 
   @JsonProperty("date")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
@@ -235,7 +235,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(org.springframework.core.io.Resource binary) {
+  public FormatTest binary(org.springframework.web.multipart.MultipartFile binary) {
     this.binary = binary;
     return this;
   }
@@ -248,11 +248,11 @@ public class FormatTest   {
 
   @Valid
 
-  public org.springframework.core.io.Resource getBinary() {
+  public org.springframework.web.multipart.MultipartFile getBinary() {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  public void setBinary(org.springframework.web.multipart.MultipartFile binary) {
     this.binary = binary;
   }
 

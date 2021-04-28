@@ -8,10 +8,9 @@ void main() {
 
   group(SpecialModelName, () {
     // int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket
-    test(
-        'to test the property `dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket`',
-        () async {
+    test('to test the property `dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket`', () async {
       // TODO
     });
+
   });
 }

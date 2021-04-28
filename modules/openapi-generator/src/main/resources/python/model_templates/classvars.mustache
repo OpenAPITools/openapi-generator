@@ -60,7 +60,7 @@
 {{/optionalVars}}
     }
 
-{{#additionalPropertiesType}}
+{{#additionalProperties}}
     @cached_property
     def additional_properties_type():
         """
@@ -72,11 +72,11 @@
         lazy_import()
 {{/-first}}
 {{/imports}}
-        return ({{{additionalPropertiesType}}},)  # noqa: E501
-{{/additionalPropertiesType}}
-{{^additionalPropertiesType}}
+        return ({{{dataType}}},)  # noqa: E501
+{{/additionalProperties}}
+{{^additionalProperties}}
     additional_properties_type = None
-{{/additionalPropertiesType}}
+{{/additionalProperties}}
 
     _nullable = {{#isNullable}}True{{/isNullable}}{{^isNullable}}False{{/isNullable}}
 

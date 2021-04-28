@@ -34,7 +34,7 @@ void main() {
             'integer': '45',
             'int32': '2147483647',
             'int64': '9223372036854775807',
-            'date': '2020-08-11T00:00:00.000Z',
+            'date': '2020-08-11',
             'dateTime': '2020-08-11T12:30:55.123Z',
             'binary': "Instance of 'MultipartFile'",
           },
@@ -53,7 +53,7 @@ void main() {
               integer: 45,
               int32: 2147483647,
               int64: 9223372036854775807,
-              date: DateTime.utc(2020, 8, 11),
+              date: Date(2020, 8, 11),
               dateTime: DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
               binary: Uint8List.fromList([0, 1, 2, 3, 4, 5]),
             );

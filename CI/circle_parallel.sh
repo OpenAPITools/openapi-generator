@@ -23,7 +23,6 @@ function installDart {
   sudo apt-get update
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
-  export DART_POST_PROCESS="dart format"
 }
 
 if [ "$NODE_INDEX" = "1" ]; then
@@ -48,7 +47,8 @@ elif [ "$NODE_INDEX" = "2" ]; then
     git checkout -- .
 
     # look for outdated samples
-    ./bin/utils/ensure-up-to-date
+    #./bin/utils/ensure-up-to-date
+    # UPDATE: moved to drone.io
   fi
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell

@@ -1086,7 +1086,6 @@ definitions:
     xml:
       name: Order
   Category:
-    x-swift-hashable: true
     type: object
     required:
       - name
@@ -1097,6 +1096,7 @@ definitions:
       name:
         type: string
         default: default-name
+        x-nullable: true
     xml:
       name: Category
   User:

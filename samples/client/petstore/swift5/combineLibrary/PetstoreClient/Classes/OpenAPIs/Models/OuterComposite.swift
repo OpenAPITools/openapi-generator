@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct OuterComposite: Codable {
+public struct OuterComposite: Codable, Hashable {
 
     public var myNumber: Double?
     public var myString: String?
@@ -18,11 +19,21 @@ public struct OuterComposite: Codable {
         self.myString = myString
         self.myBoolean = myBoolean
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(myNumber, forKey: .myNumber)
+        try container.encodeIfPresent(myString, forKey: .myString)
+        try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
+    }
+
+
 
 }

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -35,6 +36,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String RECURSION_LIMIT = "recursionLimit";
+    public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
 
     protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -430,5 +432,4 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
-
 }

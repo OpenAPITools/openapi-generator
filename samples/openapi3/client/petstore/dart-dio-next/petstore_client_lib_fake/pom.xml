@@ -41,12 +41,6 @@
                     </execution>
                     <execution>
                         <id>format</id>
-                        <!--
-                        This needs to run before the build_runner so that we don't
-                        format by build_runner generated files.
-                        This should fail the build if there are format changes but
-                        requires https://github.com/dart-lang/sdk/issues/44582 to be fixed.
-                        -->
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -55,7 +49,11 @@
                             <executable>dart</executable>
                             <arguments>
                                 <argument>format</argument>
-                                <argument>--set-exit-if-changed</argument>
+                                <!--
+                                    Need to format first so that analyze can be run later.
+                                    But can not break the build with set-exit-if-changed
+                                    since sample files are not formatted.
+                                -->
                                 <argument>--output=none</argument>
                                 <argument>.</argument>
                             </arguments>

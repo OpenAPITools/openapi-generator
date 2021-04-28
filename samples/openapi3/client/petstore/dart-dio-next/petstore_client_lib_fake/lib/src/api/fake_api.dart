@@ -7,18 +7,20 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:openapi/src/model/file_schema_test_class.dart';
-import 'package:openapi/src/model/outer_composite.dart';
-import 'package:openapi/src/model/outer_object_with_enum_property.dart';
-import 'package:openapi/src/model/user.dart';
-import 'package:openapi/src/model/health_check_result.dart';
-import 'package:openapi/src/model/pet.dart';
-import 'package:openapi/src/model/model_client.dart';
-import 'package:openapi/src/api_util.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/api_util.dart';
+import 'package:openapi/src/model/date.dart';
+import 'package:openapi/src/model/file_schema_test_class.dart';
+import 'package:openapi/src/model/health_check_result.dart';
+import 'package:openapi/src/model/model_client.dart';
+import 'package:openapi/src/model/outer_composite.dart';
+import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/user.dart';
 
 class FakeApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -27,8 +29,8 @@ class FakeApi {
 
   /// Health check endpoint
   ///
-  ///
-  Future<Response<HealthCheckResult>> fakeHealthGet({
+  /// 
+  Future<Response<HealthCheckResult>> fakeHealthGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -52,7 +54,8 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     final _response = await _dio.request<Object>(
       _path,
@@ -71,6 +74,7 @@ class FakeApi {
         _response.data!,
         specifiedType: _responseType,
       ) as HealthCheckResult;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -94,8 +98,8 @@ class FakeApi {
 
   /// test http signature authentication
   ///
-  ///
-  Future<Response<void>> fakeHttpSignatureTest({
+  /// 
+  Future<Response<void>> fakeHttpSignatureTest({ 
     required Pet pet,
     String? query1,
     String? header1,
@@ -138,9 +142,10 @@ class FakeApi {
     try {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -163,10 +168,10 @@ class FakeApi {
     return _response;
   }
 
-  ///
+  /// 
   ///
   /// Test serialization of outer boolean types
-  Future<Response<bool>> fakeOuterBooleanSerialize({
+  Future<Response<bool>> fakeOuterBooleanSerialize({ 
     bool? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -191,15 +196,17 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = body;
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -223,6 +230,7 @@ class FakeApi {
 
     try {
       _responseData = _response.data as bool;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -244,10 +252,10 @@ class FakeApi {
     );
   }
 
-  ///
+  /// 
   ///
   /// Test serialization of object with outer number type
-  Future<Response<OuterComposite>> fakeOuterCompositeSerialize({
+  Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
     OuterComposite? outerComposite,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -272,18 +280,18 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(OuterComposite);
-      _bodyData = outerComposite == null
-          ? null
-          : _serializers.serialize(outerComposite, specifiedType: _type);
-    } catch (error) {
+      _bodyData = outerComposite == null ? null : _serializers.serialize(outerComposite, specifiedType: _type);
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -311,6 +319,7 @@ class FakeApi {
         _response.data!,
         specifiedType: _responseType,
       ) as OuterComposite;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -332,10 +341,10 @@ class FakeApi {
     );
   }
 
-  ///
+  /// 
   ///
   /// Test serialization of outer number types
-  Future<Response<num>> fakeOuterNumberSerialize({
+  Future<Response<num>> fakeOuterNumberSerialize({ 
     num? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -360,15 +369,17 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = body;
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -392,6 +403,7 @@ class FakeApi {
 
     try {
       _responseData = _response.data as num;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -413,10 +425,10 @@ class FakeApi {
     );
   }
 
-  ///
+  /// 
   ///
   /// Test serialization of outer string types
-  Future<Response<String>> fakeOuterStringSerialize({
+  Future<Response<String>> fakeOuterStringSerialize({ 
     String? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -441,15 +453,17 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = body;
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -473,6 +487,7 @@ class FakeApi {
 
     try {
       _responseData = _response.data as String;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -494,11 +509,10 @@ class FakeApi {
     );
   }
 
-  ///
+  /// 
   ///
   /// Test serialization of enum (int) properties with examples
-  Future<Response<OuterObjectWithEnumProperty>>
-      fakePropertyEnumIntegerSerialize({
+  Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize({ 
     required OuterObjectWithEnumProperty outerObjectWithEnumProperty,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -523,17 +537,18 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(OuterObjectWithEnumProperty);
-      _bodyData = _serializers.serialize(outerObjectWithEnumProperty,
-          specifiedType: _type);
-    } catch (error) {
+      _bodyData = _serializers.serialize(outerObjectWithEnumProperty, specifiedType: _type);
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -561,6 +576,7 @@ class FakeApi {
         _response.data!,
         specifiedType: _responseType,
       ) as OuterObjectWithEnumProperty;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -582,10 +598,10 @@ class FakeApi {
     );
   }
 
-  ///
+  /// 
   ///
   /// For this test, the body for this request much reference a schema named `File`.
-  Future<Response<void>> testBodyWithFileSchema({
+  Future<Response<void>> testBodyWithFileSchema({ 
     required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -610,17 +626,18 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(FileSchemaTestClass);
-      _bodyData =
-          _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
-    } catch (error) {
+      _bodyData = _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -643,10 +660,10 @@ class FakeApi {
     return _response;
   }
 
+  /// 
   ///
-  ///
-  ///
-  Future<Response<void>> testBodyWithQueryParams({
+  /// 
+  Future<Response<void>> testBodyWithQueryParams({ 
     required String query,
     required User user,
     CancelToken? cancelToken,
@@ -681,9 +698,10 @@ class FakeApi {
     try {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -709,7 +727,7 @@ class FakeApi {
   /// To test \"client\" model
   ///
   /// To test \"client\" model
-  Future<Response<ModelClient>> testClientModel({
+  Future<Response<ModelClient>> testClientModel({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -734,16 +752,18 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -771,6 +791,7 @@ class FakeApi {
         _response.data!,
         specifiedType: _responseType,
       ) as ModelClient;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -792,10 +813,10 @@ class FakeApi {
     );
   }
 
-  /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+  /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   ///
-  /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-  Future<Response<void>> testEndpointParameters({
+  /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  Future<Response<void>> testEndpointParameters({ 
     required num number,
     required double double_,
     required String patternWithoutDelimiter,
@@ -806,7 +827,7 @@ class FakeApi {
     double? float,
     String? string,
     Uint8List? binary,
-    DateTime? date,
+    Date? date,
     DateTime? dateTime,
     String? password,
     String? callback,
@@ -838,53 +859,32 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (integer != null)
-          r'integer':
-              encodeFormParameter(_serializers, integer, const FullType(int)),
-        if (int32 != null)
-          r'int32':
-              encodeFormParameter(_serializers, int32, const FullType(int)),
-        if (int64 != null)
-          r'int64':
-              encodeFormParameter(_serializers, int64, const FullType(int)),
-        r'number':
-            encodeFormParameter(_serializers, number, const FullType(num)),
-        if (float != null)
-          r'float':
-              encodeFormParameter(_serializers, float, const FullType(double)),
-        r'double':
-            encodeFormParameter(_serializers, double_, const FullType(double)),
-        if (string != null)
-          r'string':
-              encodeFormParameter(_serializers, string, const FullType(String)),
-        r'pattern_without_delimiter': encodeFormParameter(
-            _serializers, patternWithoutDelimiter, const FullType(String)),
-        r'byte':
-            encodeFormParameter(_serializers, byte, const FullType(String)),
-        if (binary != null)
-          r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
-        if (date != null)
-          r'date':
-              encodeFormParameter(_serializers, date, const FullType(DateTime)),
-        if (dateTime != null)
-          r'dateTime': encodeFormParameter(
-              _serializers, dateTime, const FullType(DateTime)),
-        if (password != null)
-          r'password': encodeFormParameter(
-              _serializers, password, const FullType(String)),
-        if (callback != null)
-          r'callback': encodeFormParameter(
-              _serializers, callback, const FullType(String)),
+        if (integer != null) r'integer': encodeFormParameter(_serializers, integer, const FullType(int)),
+        if (int32 != null) r'int32': encodeFormParameter(_serializers, int32, const FullType(int)),
+        if (int64 != null) r'int64': encodeFormParameter(_serializers, int64, const FullType(int)),
+        r'number': encodeFormParameter(_serializers, number, const FullType(num)),
+        if (float != null) r'float': encodeFormParameter(_serializers, float, const FullType(double)),
+        r'double': encodeFormParameter(_serializers, double_, const FullType(double)),
+        if (string != null) r'string': encodeFormParameter(_serializers, string, const FullType(String)),
+        r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
+        r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
+        if (binary != null) r'binary': MultipartFile.fromBytes(binary, filename: r'binary'),
+        if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(Date)),
+        if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
+        if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
+        if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
       };
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -910,7 +910,7 @@ class FakeApi {
   /// To test enum parameters
   ///
   /// To test enum parameters
-  Future<Response<void>> testEnumParameters({
+  Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
     String? enumHeaderString,
     BuiltList<String>? enumQueryStringArray,
@@ -930,8 +930,7 @@ class FakeApi {
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (enumHeaderStringArray != null)
-          r'enum_header_string_array': enumHeaderStringArray,
+        if (enumHeaderStringArray != null) r'enum_header_string_array': enumHeaderStringArray,
         if (enumHeaderString != null) r'enum_header_string': enumHeaderString,
         ...?headers,
       },
@@ -946,8 +945,7 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enumQueryStringArray != null)
-        r'enum_query_string_array': enumQueryStringArray,
+      if (enumQueryStringArray != null) r'enum_query_string_array': enumQueryStringArray,
       if (enumQueryString != null) r'enum_query_string': enumQueryString,
       if (enumQueryInteger != null) r'enum_query_integer': enumQueryInteger,
       if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
@@ -957,18 +955,13 @@ class FakeApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (enumFormStringArray != null)
-          r'enum_form_string_array': encodeFormParameter(
-              _serializers,
-              enumFormStringArray,
-              const FullType(BuiltList, [FullType(String)])),
-        if (enumFormString != null)
-          r'enum_form_string': encodeFormParameter(
-              _serializers, enumFormString, const FullType(String)),
+        if (enumFormStringArray != null) r'enum_form_string_array': encodeFormParameter(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)])),
+        if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
       };
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -994,7 +987,7 @@ class FakeApi {
   /// Fake endpoint to test group parameters (optional)
   ///
   /// Fake endpoint to test group parameters (optional)
-  Future<Response<void>> testGroupParameters({
+  Future<Response<void>> testGroupParameters({ 
     required int requiredStringGroup,
     required bool requiredBooleanGroup,
     required int requiredInt64Group,
@@ -1052,8 +1045,8 @@ class FakeApi {
 
   /// test inline additionalProperties
   ///
-  ///
-  Future<Response<void>> testInlineAdditionalProperties({
+  /// 
+  Future<Response<void>> testInlineAdditionalProperties({ 
     required BuiltMap<String, String> requestBody,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1078,16 +1071,18 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(BuiltMap, [FullType(String), FullType(String)]);
       _bodyData = _serializers.serialize(requestBody, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -1112,8 +1107,8 @@ class FakeApi {
 
   /// test json serialization of form data
   ///
-  ///
-  Future<Response<void>> testJsonFormData({
+  /// 
+  Future<Response<void>> testJsonFormData({ 
     required String param,
     required String param2,
     CancelToken? cancelToken,
@@ -1139,20 +1134,20 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        r'param':
-            encodeFormParameter(_serializers, param, const FullType(String)),
-        r'param2':
-            encodeFormParameter(_serializers, param2, const FullType(String)),
+        r'param': encodeFormParameter(_serializers, param, const FullType(String)),
+        r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
       };
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -1175,10 +1170,10 @@ class FakeApi {
     return _response;
   }
 
-  ///
+  /// 
   ///
   /// To test the collection format in query parameters
-  Future<Response<void>> testQueryParameterCollectionFormat({
+  Future<Response<void>> testQueryParameterCollectionFormat({ 
     required BuiltList<String> pipe,
     required BuiltList<String> ioutil,
     required BuiltList<String> http,
@@ -1226,4 +1221,5 @@ class FakeApi {
 
     return _response;
   }
+
 }

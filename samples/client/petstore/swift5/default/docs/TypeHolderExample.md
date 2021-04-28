@@ -5,6 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stringItem** | **String** |  | 
 **numberItem** | **Double** |  | 
+**floatItem** | **Float** |  | 
 **integerItem** | **Int** |  | 
 **boolItem** | **Bool** |  | 
 **arrayItem** | **[Int]** |  | 

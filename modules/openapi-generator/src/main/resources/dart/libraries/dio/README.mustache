@@ -21,25 +21,32 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 * Dart 2.12.0 or later OR Flutter 1.26.0 or later
 * Dio 4.0.0+
+{{#useDateLibTimeMachine}}
 * timemachine option currently **DOES NOT** support sound null-safety and may not work
+{{/useDateLibTimeMachine}}
 
 ## Installation & Usage
 
-### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
-```
-name: {{pubName}}
-version: {{pubVersion}}
-description: {{pubDescription}}
+### pub.dev
+To use the package from [pub.dev](https://pub.dev), please include the following in pubspec.yaml
+```yaml
 dependencies:
-  {{pubName}}:
-    git: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
-      version: 'any'
+  {{pubName}}: {{pubVersion}}
 ```
 
-### Local
-To use the package in your local drive, please include the following in pubspec.yaml
+### Github
+If this Dart package is published to Github, please include the following in pubspec.yaml
+```yaml
+dependencies:
+  {{pubName}}:
+    git:
+      url: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
+      #ref: main
 ```
+
+### Local development
+To use the package from your local drive, please include the following in pubspec.yaml
+```yaml
 dependencies:
   {{pubName}}:
     path: /path/to/{{pubName}}

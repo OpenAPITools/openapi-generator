@@ -1560,12 +1560,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             LOGGER.trace("Post processing model: {}", cm);
 
-            if (cm.dataType != null && "object".equals(cm.dataType)) {
+            if ("object".equals(cm.dataType)) {
                 // Object isn't a sensible default. Instead, we set it to
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
-            } else if (cm.dataType != null && "map".equals(cm.dataType)) {
+            } else if ("map".equals(cm.dataType)) {
                 if (!cm.allVars.isEmpty() || cm.additionalPropertiesType == null) {
                     // We don't yet support `additionalProperties` that also have
                     // properties. If we see variables, we ignore the

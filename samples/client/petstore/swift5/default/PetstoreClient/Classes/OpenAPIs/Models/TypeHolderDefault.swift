@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct TypeHolderDefault: Codable {
+public struct TypeHolderDefault: Codable, Hashable {
 
     public var stringItem: String = "what"
     public var numberItem: Double
@@ -22,7 +23,6 @@ public struct TypeHolderDefault: Codable {
         self.boolItem = boolItem
         self.arrayItem = arrayItem
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
@@ -30,5 +30,18 @@ public struct TypeHolderDefault: Codable {
         case boolItem = "bool_item"
         case arrayItem = "array_item"
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(stringItem, forKey: .stringItem)
+        try container.encode(numberItem, forKey: .numberItem)
+        try container.encode(integerItem, forKey: .integerItem)
+        try container.encode(boolItem, forKey: .boolItem)
+        try container.encode(arrayItem, forKey: .arrayItem)
+    }
+
+
 
 }

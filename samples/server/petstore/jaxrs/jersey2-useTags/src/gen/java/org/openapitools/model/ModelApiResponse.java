@@ -53,7 +53,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
    **/
-  @JsonProperty("code")
+  @JsonProperty(value = "code")
   @ApiModelProperty(value = "")
   
   public Integer getCode() {
@@ -73,7 +73,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
    **/
-  @JsonProperty("type")
+  @JsonProperty(value = "type")
   @ApiModelProperty(value = "")
   
   public String getType() {
@@ -93,7 +93,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
    **/
-  @JsonProperty("message")
+  @JsonProperty(value = "message")
   @ApiModelProperty(value = "")
   
   public String getMessage() {

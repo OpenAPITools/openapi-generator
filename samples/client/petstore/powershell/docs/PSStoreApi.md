@@ -39,7 +39,7 @@ Name | Type | Description  | Notes
  **OrderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -84,7 +84,7 @@ try {
 This endpoint does not need any parameter.
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 **System.Collections.Hashtable**
 
 ### Authorization
@@ -127,8 +127,8 @@ Name | Type | Description  | Notes
  **OrderId** | **Int64**| ID of pet that needs to be fetched | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Order**](Order.md)
+
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 
@@ -168,8 +168,8 @@ Name | Type | Description  | Notes
  **Order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Order**](Order.md)
+
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 

@@ -57,7 +57,13 @@ class AdditionalPropertiesClass(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = None
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
@@ -78,7 +84,7 @@ class AdditionalPropertiesClass(ModelNormal):
             'map_with_undeclared_properties_anytype_1': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'map_with_undeclared_properties_anytype_2': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'map_with_undeclared_properties_anytype_3': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
-            'empty_map': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'empty_map': (dict,),  # noqa: E501
             'map_with_undeclared_properties_string': ({str: (str,)},),  # noqa: E501
         }
 
@@ -150,7 +156,7 @@ class AdditionalPropertiesClass(ModelNormal):
             map_with_undeclared_properties_anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
             map_with_undeclared_properties_anytype_2 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
             map_with_undeclared_properties_anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
-            empty_map (bool, date, datetime, dict, float, int, list, str): an object with no declared properties and no undeclared properties, hence it's an empty map.. [optional]  # noqa: E501
+            empty_map (dict): an object with no declared properties and no undeclared properties, hence it's an empty map.. [optional]  # noqa: E501
             map_with_undeclared_properties_string ({str: (str,)}): [optional]  # noqa: E501
         """
 

@@ -58,6 +58,14 @@ public class FakeClassnameTags123Api {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * To test class name in snake case
    * To test class name in snake case
@@ -87,10 +95,7 @@ public class FakeClassnameTags123Api {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testClassname call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testClassname call received non-success response");
       }
       return new ApiResponse<Client>(
           localVarResponse.statusCode(),

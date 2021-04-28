@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -186,22 +187,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
 
-        additionalReservedWords.addAll(Sets.newHashSet(
-                "EnumClass",
-                // The following are reserved dataTypes but can not be added to defaultIncludes
-                // as this would prevent them from being added to the imports.
-                "BuiltList",
-                "BuiltSet",
-                "BuiltMap",
-                "Uint8List",
-                "JsonObject"
-        ));
-
-        importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
-        importMapping.put("BuiltSet", "package:built_collection/built_collection.dart");
-        importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
-        importMapping.put("JsonObject", "package:built_value/json_object.dart");
-        importMapping.put("Uint8List", "dart:typed_data");
+        imports.put("BuiltList", "package:built_collection/built_collection.dart");
+        imports.put("BuiltSet", "package:built_collection/built_collection.dart");
+        imports.put("BuiltMap", "package:built_collection/built_collection.dart");
+        imports.put("JsonObject", "package:built_value/json_object.dart");
+        imports.put("Uint8List", "dart:typed_data");
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -212,17 +202,22 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 typeMapping.put("Date", "OffsetDate");
                 typeMapping.put("DateTime", "OffsetDateTime");
                 typeMapping.put("datetime", "OffsetDateTime");
-                additionalReservedWords.addAll(Sets.newHashSet("OffsetDate", "OffsetDateTime"));
-                importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
-                importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
+                imports.put("OffsetDate", "package:time_machine/time_machine.dart");
+                imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                    supportingFiles.add(new SupportingFile("serialization/built_value/local_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:
             case DATE_LIBRARY_CORE:
-                // this option uses the dart core classes
                 additionalProperties.put("useDateLibCore", "true");
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                    typeMapping.put("date", "Date");
+                    typeMapping.put("Date", "Date");
+                    importMapping.put("Date", "package:" + pubName + "/src/model/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + "model", "date.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
+                }
                 break;
         }
     }
@@ -261,21 +256,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
-            Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
-            for (String modelImport : cm.imports) {
-                if (needToImport(modelImport)) {
-                    if (importMapping().containsKey(modelImport)) {
-                        modelImports.add(importMapping().get(modelImport));
-                    } else {
-                        modelImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
-                    }
-                }
-            }
-
-            cm.imports = modelImports;
-            boolean hasVars = cm.vars.size() > 0;
-            cm.vendorExtensions.put("x-has-vars", hasVars);
+            cm.imports = rewriteImports(cm.imports);
+            cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
         }
         return objs;
     }
@@ -319,6 +302,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         sb.append(")]");
     }
 
+
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
@@ -326,8 +310,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         Set<Map<String, Object>> serializers = new HashSet<>();
-        Set<String> modelImports = new HashSet<>();
-        Set<String> fullImports = new HashSet<>();
+        Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
@@ -365,22 +348,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             op.vendorExtensions.put("x-is-form", isForm);
             op.vendorExtensions.put("x-is-multipart", isMultipart);
 
+            resultImports.addAll(rewriteImports(op.imports));
             if (op.getHasFormParams()) {
-                fullImports.add("package:" + pubName + "/src/api_util.dart");
+                resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
-
-            Set<String> imports = new HashSet<>();
-            for (String item : op.imports) {
-                if (needToImport(item)) {
-                    if (importMapping().containsKey(item)) {
-                        fullImports.add(importMapping().get(item));
-                    } else {
-                        imports.add(underscore(item));
-                    }
-                }
-            }
-            modelImports.addAll(imports);
-            op.imports = imports;
 
             if (op.returnContainer != null) {
                 final Map<String, Object> serializer = new HashMap<>();
@@ -392,11 +363,21 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         }
 
-        objs.put("modelImports", modelImports);
-        objs.put("fullImports", fullImports);
+        objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
         objs.put("serializers", serializers);
 
         return objs;
     }
 
+    private Set<String> rewriteImports(Set<String> originalImports) {
+        Set<String> resultImports = Sets.newHashSet();
+        for (String modelImport : originalImports) {
+            if (imports.containsKey(modelImport)) {
+                resultImports.add(imports.get(modelImport));
+            } else {
+                resultImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
+            }
+        }
+        return resultImports;
+    }
 }

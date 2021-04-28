@@ -7,10 +7,11 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:openapi/src/model/order.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/model/order.dart';
 
 class StoreApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -20,7 +21,7 @@ class StoreApi {
   /// Delete purchase order by ID
   ///
   /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-  Future<Response<void>> deleteOrder({
+  Future<Response<void>> deleteOrder({ 
     required String orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -29,8 +30,7 @@ class StoreApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'
-        .replaceAll('{' r'order_id' '}', orderId.toString());
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -46,7 +46,8 @@ class StoreApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     final _response = await _dio.request<Object>(
       _path,
@@ -63,7 +64,7 @@ class StoreApi {
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
-  Future<Response<BuiltMap<String, int>>> getInventory({
+  Future<Response<BuiltMap<String, int>>> getInventory({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -94,7 +95,8 @@ class StoreApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     final _response = await _dio.request<Object>(
       _path,
@@ -108,12 +110,12 @@ class StoreApi {
     BuiltMap<String, int> _responseData;
 
     try {
-      const _responseType =
-          FullType(BuiltMap, [FullType(String), FullType(int)]);
+      const _responseType = FullType(BuiltMap, [FullType(String), FullType(int)]);
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
       ) as BuiltMap<String, int>;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -138,7 +140,7 @@ class StoreApi {
   /// Find purchase order by ID
   ///
   /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-  Future<Response<Order>> getOrderById({
+  Future<Response<Order>> getOrderById({ 
     required int orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -147,8 +149,7 @@ class StoreApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'
-        .replaceAll('{' r'order_id' '}', orderId.toString());
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -164,7 +165,8 @@ class StoreApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     final _response = await _dio.request<Object>(
       _path,
@@ -183,6 +185,7 @@ class StoreApi {
         _response.data!,
         specifiedType: _responseType,
       ) as Order;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -206,8 +209,8 @@ class StoreApi {
 
   /// Place an order for a pet
   ///
-  ///
-  Future<Response<Order>> placeOrder({
+  /// 
+  Future<Response<Order>> placeOrder({ 
     required Order order,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -232,16 +235,18 @@ class StoreApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{};
+    final _queryParameters = <String, dynamic>{
+    };
 
     dynamic _bodyData;
 
     try {
       const _type = FullType(Order);
       _bodyData = _serializers.serialize(order, specifiedType: _type);
-    } catch (error) {
+
+    } catch(error) {
       throw DioError(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -269,6 +274,7 @@ class StoreApi {
         _response.data!,
         specifiedType: _responseType,
       ) as Order;
+
     } catch (error) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -289,4 +295,5 @@ class StoreApi {
       extra: _response.extra,
     );
   }
+
 }
