@@ -188,12 +188,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      */
     public function listInvalidProperties()
     {
-        {{#parent}}
+        {{#parentSchema}}
         $invalidProperties = parent::listInvalidProperties();
-        {{/parent}}
-        {{^parent}}
+        {{/parentSchema}}
+        {{^parentSchema}}
         $invalidProperties = [];
-        {{/parent}}
+        {{/parentSchema}}
 
         {{#vars}}
         {{#required}}
