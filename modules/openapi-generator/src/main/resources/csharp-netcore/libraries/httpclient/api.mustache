@@ -108,6 +108,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}() : this((string)null)
         {
         }
@@ -116,8 +117,9 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}(String basePath)
         {
             this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
@@ -138,6 +140,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}({{packageName}}.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -158,13 +161,14 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public {{classname}}(HttpClient client) : this(client, (string)null)
+        public {{classname}}(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
         {
         }
 
@@ -173,14 +177,15 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-    	/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public {{classname}}(HttpClient client, String basePath)
+        public {{classname}}(HttpClient client, String basePath, HttpClientHandler handler = null)
         {
             if (client == null) throw new ArgumentNullException("client");
 
@@ -188,7 +193,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 new {{packageName}}.Client.Configuration { BasePath = basePath }
             );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(client, this.Configuration.BasePath);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(client, this.Configuration.BasePath, handler);
             this.Client =  this.ApiClient;
             {{#supportsAsync}}
             this.AsynchronousClient = this.ApiClient;
@@ -201,85 +206,23 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         /// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public {{classname}}(HttpClient client, {{packageName}}.Client.Configuration configuration)
+        public {{classname}}(HttpClient client, {{packageName}}.Client.Configuration configuration, HttpClientHandler handler = null)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
-
-            this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
-                {{packageName}}.Client.GlobalConfiguration.Instance,
-                configuration
-            );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(client, this.Configuration.BasePath);
-            this.Client = this.ApiClient;
-            {{#supportsAsync}}
-            this.AsynchronousClient = this.ApiClient;
-            {{/supportsAsync}}
-            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}"/> class.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        public {{classname}}(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}"/> class.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <param name="basePath">The target service's base path in URL format.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-        /// <returns></returns>
-        public {{classname}}(HttpClient client, HttpClientHandler handler, String basePath)
-        {
             if (client == null) throw new ArgumentNullException("client");
-			if (handler == null) throw new ArgumentNullException("handler");
-
-            this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
-                {{packageName}}.Client.GlobalConfiguration.Instance,
-                new {{packageName}}.Client.Configuration { BasePath = basePath }
-            );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(client, handler, this.Configuration.BasePath);
-            this.Client =  this.ApiClient;
-            {{#supportsAsync}}
-            this.AsynchronousClient = this.ApiClient;
-            {{/supportsAsync}}
-            this.ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}"/> class using Configuration object.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <param name="configuration">An instance of Configuration.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns></returns>
-        public {{classname}}(HttpClient client, HttpClientHandler handler, {{packageName}}.Client.Configuration configuration)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-			if (client == null) throw new ArgumentNullException("client");
-			if (handler == null) throw new ArgumentNullException("handler");
 
             this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
                 {{packageName}}.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.ApiClient = new {{packageName}}.Client.ApiClient(client, handler, this.Configuration.BasePath);
+            this.ApiClient = new {{packageName}}.Client.ApiClient(client, this.Configuration.BasePath, handler);
             this.Client = this.ApiClient;
             {{#supportsAsync}}
             this.AsynchronousClient = this.ApiClient;

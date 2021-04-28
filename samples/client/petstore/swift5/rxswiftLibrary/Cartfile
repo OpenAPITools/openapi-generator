@@ -1,2 +1,3 @@
 
 github "ReactiveX/RxSwift" ~> 5.1.1
+github "Flight-School/AnyCodable" ~> 0.4.0

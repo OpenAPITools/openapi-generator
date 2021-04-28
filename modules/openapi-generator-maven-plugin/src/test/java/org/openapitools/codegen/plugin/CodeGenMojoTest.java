@@ -16,9 +16,20 @@
 
 package org.openapitools.codegen.plugin;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.execution.DefaultMavenExecutionRequest;
+import org.apache.maven.execution.MavenExecutionRequest;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.ProjectBuilder;
+import org.apache.maven.project.ProjectBuildingRequest;
+import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.openapitools.codegen.plugin.stubs.StubUtility;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class CodeGenMojoTest extends BaseTestCase {
@@ -29,8 +40,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     @SuppressWarnings("unchecked")
     public void testCommonConfiguration() throws Exception {
-        File testPom = StubUtility.basedPath(getUnitTestDir().toFile(), "common-maven", "common-maven.xml").toFile();
-        final CodeGenMojo mojo = (CodeGenMojo) lookupMojo("generate", testPom);
+        File folder = Files.createTempDirectory("test").toFile();
+        CodeGenMojo mojo = loadMojo(folder, "src/test/resources/default");
         mojo.execute();
         assertEquals("java", getVariableValueFromObject(mojo, "generatorName"));
         assertEquals("jersey2", getVariableValueFromObject(mojo, "library"));
@@ -41,5 +52,50 @@ public class CodeGenMojoTest extends BaseTestCase {
         Map<String, Object> configOptions = (Map<String, Object>) getVariableValueFromObject(mojo, "configOptions");
         assertNotNull(configOptions);
         assertEquals("joda", configOptions.get("dateLibrary"));
+    }
+
+    public void testHashGenerationFileContainsExecutionId() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        assertTrue(hashFolder.resolve("petstore.yaml-executionId.sha256").toFile().exists());
+    }
+
+    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot) throws Exception {
+        return loadMojo(temporaryFolder, projectRoot, "default");
+    }
+
+    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String executionId) throws Exception {
+        File file = new File(projectRoot);
+        FileUtils.copyDirectory(file, temporaryFolder);
+        MavenProject project = readMavenProject(temporaryFolder);
+        MavenSession session = newMavenSession(project);
+        MojoExecution execution = newMojoExecution("generate");
+        MojoExecution executionWithId = copyWithExecutionId(executionId, execution);
+        return (CodeGenMojo) lookupConfiguredMojo(session, executionWithId);
+    }
+
+    private MojoExecution copyWithExecutionId(String executionId, MojoExecution execution) {
+        MojoExecution executionWithId  = new MojoExecution(execution.getMojoDescriptor(), executionId);
+        executionWithId.setConfiguration(execution.getConfiguration());
+        return executionWithId;
+    }
+
+    protected MavenProject readMavenProject(File basedir)
+            throws Exception {
+        File pom = new File(basedir, "pom.xml");
+        MavenExecutionRequest request = new DefaultMavenExecutionRequest();
+        request.setBaseDirectory(basedir);
+        ProjectBuildingRequest configuration = request.getProjectBuildingRequest();
+        configuration.setRepositorySession(new DefaultRepositorySystemSession());
+        MavenProject project = lookup(ProjectBuilder.class).build(pom, configuration).getProject();
+        assertNotNull(project);
+        return project;
     }
 }

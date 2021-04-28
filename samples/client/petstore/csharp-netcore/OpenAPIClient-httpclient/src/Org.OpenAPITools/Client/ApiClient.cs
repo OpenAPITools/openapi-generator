@@ -168,9 +168,9 @@ namespace Org.OpenAPITools.Client
     {
         private readonly String _baseUrl;
 
-		private readonly HttpClientHandler _httpClientHandler;
-		private readonly HttpClient _httpClient;	
-		private readonly bool _disposeClient;
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;    
+        private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -192,88 +192,63 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient() :
                  this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
-        {	
+        {    
         }
-		
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
+        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient(String basePath)
-        {	
-		    if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+        {    
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
-			_httpClientHandler = new HttpClientHandler();
-			_httpClient = new HttpClient(_httpClientHandler, true);
+            _httpClientHandler = new HttpClientHandler();
+            _httpClient = new HttpClient(_httpClientHandler, true);
             _disposeClient = true;
-			_baseUrl = basePath;
+            _baseUrl = basePath;
         }
-		
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-		/// </remarks>
-        public ApiClient(HttpClient client) :
-                 this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
-        {	
+        /// </remarks>
+        public ApiClient(HttpClient client, HttpClientHandler handler = null) :
+                 this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, handler)
+        {    
         }
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ApiClient" />
-        /// </summary>	
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-		/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>		
-        public ApiClient(HttpClient client, String basePath)
-        {	
-		    if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-			
-			_httpClient = client;
-			_baseUrl = basePath;
-        }
-		
-		/// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler) :
-                 this(client, handler, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
-        {	
-        }
-		
-		/// <summary>
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler, String basePath)
-        {	
-			if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (handler == null) throw new ArgumentNullException("handler cannot be null");
-			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-			
-			_httpClientHandler = handler;
-			_httpClient = client;
-			_baseUrl = basePath;
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public ApiClient(HttpClient client, String basePath, HttpClientHandler handler = null)
+        {    
+            if (client == null) throw new ArgumentNullException("client cannot be null");
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+            
+            _httpClientHandler = handler;
+            _httpClient = client;
+            _baseUrl = basePath;
         }
 
         /// <summary>

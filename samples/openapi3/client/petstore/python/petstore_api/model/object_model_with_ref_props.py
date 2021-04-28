@@ -28,7 +28,9 @@ from petstore_api.model_utils import (  # noqa: F401
 
 def lazy_import():
     from petstore_api.model.number_with_validations import NumberWithValidations
+    from petstore_api.model.readonly import Readonly
     globals()['NumberWithValidations'] = NumberWithValidations
+    globals()['Readonly'] = Readonly
 
 
 class ObjectModelWithRefProps(ModelNormal):
@@ -85,6 +87,7 @@ class ObjectModelWithRefProps(ModelNormal):
         lazy_import()
         return {
             'my_number': (NumberWithValidations,),  # noqa: E501
+            'my_readonly': (Readonly,),  # noqa: E501
             'my_string': (str,),  # noqa: E501
             'my_boolean': (bool,),  # noqa: E501
         }
@@ -96,6 +99,7 @@ class ObjectModelWithRefProps(ModelNormal):
 
     attribute_map = {
         'my_number': 'my_number',  # noqa: E501
+        'my_readonly': 'my_readonly',  # noqa: E501
         'my_string': 'my_string',  # noqa: E501
         'my_boolean': 'my_boolean',  # noqa: E501
     }
@@ -147,6 +151,7 @@ class ObjectModelWithRefProps(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             my_number (NumberWithValidations): [optional]  # noqa: E501
+            my_readonly (Readonly): [optional]  # noqa: E501
             my_string (str): [optional]  # noqa: E501
             my_boolean (bool): [optional]  # noqa: E501
         """

@@ -478,7 +478,7 @@ var int64 = 789; // int | None
 var float = 3.4; // double | None
 var string = string_example; // String | None
 var binary = BINARY_DATA_HERE; // Uint8List | None
-var date = 2013-10-20; // DateTime | None
+var date = 2013-10-20; // Date | None
 var dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 var password = password_example; // String | None
 var callback = callback_example; // String | None
@@ -504,7 +504,7 @@ Name | Type | Description  | Notes
  **float** | **double**| None | [optional] 
  **string** | **String**| None | [optional] 
  **binary** | **Uint8List**| None | [optional] 
- **date** | **DateTime**| None | [optional] 
+ **date** | **Date**| None | [optional] 
  **dateTime** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 
  **callback** | **String**| None | [optional] 

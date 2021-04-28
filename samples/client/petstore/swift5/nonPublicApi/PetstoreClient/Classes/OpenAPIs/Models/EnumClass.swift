@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal enum EnumClass: String, Codable, CaseIterable {
     case abc = "_abc"

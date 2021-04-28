@@ -4,10 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
-{{/modelImports}}
-{{#fullImports}}import '{{.}}';
-{{/fullImports}}
+{{#imports}}import '{{.}}';
+{{/imports}}
 
 class {{classname}} {
 

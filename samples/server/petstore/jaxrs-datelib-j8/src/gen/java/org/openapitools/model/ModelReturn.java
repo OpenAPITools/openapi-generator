@@ -45,7 +45,7 @@ public class ModelReturn  implements Serializable {
    * Get _return
    * @return _return
    **/
-  @JsonProperty("return")
+  @JsonProperty(value = "return")
   @ApiModelProperty(value = "")
   
   public Integer getReturn() {

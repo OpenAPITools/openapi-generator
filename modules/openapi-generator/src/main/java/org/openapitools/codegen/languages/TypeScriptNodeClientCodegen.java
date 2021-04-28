@@ -82,7 +82,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && "RequestFile".equals(dataType);
+        return "RequestFile".equals(dataType);
     }
 
     @Override

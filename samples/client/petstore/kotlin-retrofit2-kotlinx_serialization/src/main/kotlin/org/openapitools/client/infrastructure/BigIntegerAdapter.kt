@@ -12,7 +12,6 @@ import java.math.BigInteger
 @Serializer(forClass = BigInteger::class)
 object BigIntegerAdapter : KSerializer<BigInteger> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
-
     override fun deserialize(decoder: Decoder): BigInteger {
         return BigInteger(decoder.decodeString())
     }

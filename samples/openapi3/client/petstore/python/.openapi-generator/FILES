@@ -40,6 +40,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
+docs/FakeGetInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -50,6 +51,8 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/InlineAdditionalPropertiesRefPayload.md
+docs/InlineObject6.md
 docs/InlineResponseDefault.md
 docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
@@ -77,12 +80,14 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Readonly.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SomeObject.md
+docs/SomeObjectWithSelfAttr.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringBooleanMap.md
@@ -144,6 +149,7 @@ petstore_api/model/enum_arrays.py
 petstore_api/model/enum_class.py
 petstore_api/model/enum_test.py
 petstore_api/model/equilateral_triangle.py
+petstore_api/model/fake_get_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
@@ -154,6 +160,8 @@ petstore_api/model/gm_fruit.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
+petstore_api/model/inline_additional_properties_ref_payload.py
+petstore_api/model/inline_object6.py
 petstore_api/model/inline_response_default.py
 petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
@@ -180,12 +188,14 @@ petstore_api/model/pig.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
+petstore_api/model/readonly.py
 petstore_api/model/scalene_triangle.py
 petstore_api/model/shape.py
 petstore_api/model/shape_interface.py
 petstore_api/model/shape_or_null.py
 petstore_api/model/simple_quadrilateral.py
 petstore_api/model/some_object.py
+petstore_api/model/some_object_with_self_attr.py
 petstore_api/model/special_model_name.py
 petstore_api/model/string_boolean_map.py
 petstore_api/model/string_enum.py

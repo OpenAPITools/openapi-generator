@@ -82,7 +82,7 @@ public class BigCat extends Cat implements Serializable {
    * Get kind
    * @return kind
    **/
-  @JsonProperty("kind")
+  @JsonProperty(value = "kind")
   @ApiModelProperty(value = "")
   
   public KindEnum getKind() {

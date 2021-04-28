@@ -64,15 +64,19 @@ export class {{configurationClassName}} {
 {{#isApiKey}}
             this.credentials['{{name}}'] = () => {
                 {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
-                return this.apiKeys['{{name}}'] || this.apiKeys['{{keyParamName}}'];
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['{{name}}'] || this.apiKeys['{{keyParamName}}'];
+                }
             };
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
             this.credentials['{{name}}'] = () => {
-                if (this.username || this.password) {
-                    return btoa(this.username + ':' + this.password);
-                }
+                return (this.username || this.password)
+                    ? btoa(this.username + ':' + this.password)
+                    : undefined;
             };
     {{/isBasicBasic}}
     {{#isBasicBearer}}

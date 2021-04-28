@@ -677,4 +677,29 @@ public class RubyClientCodegenTest {
         // pattern_dont_escape_backslash '/^pattern\d{3}$/i' NOTE: the double \ is to escape \ in string but is read as single \
         Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/i");
     }
+
+    /**
+     * We want to make sure that the type mapping works as expect
+     */
+    @Test(description = "test type mapping to handle special format, e.g. string+special")
+    public void typeMappingTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/type_mapping_test.yaml");
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.typeMapping().put("string+special", "VerySpecialStringInRuby");
+
+        codegen.setOpenAPI(openAPI);
+        final String path = "/animals";
+        final Operation p = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).dataType, "VerySpecialStringInRuby");
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("Animal");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel animal = codegen.fromModel("Animal", schema);
+        Assert.assertNotNull(animal);
+        CodegenProperty cp2 = animal.getVars().get(2);
+        Assert.assertEquals(cp2.name, "mapping_test");
+        Assert.assertFalse(cp2.required);
+        Assert.assertEquals(cp2.dataType, "VerySpecialStringInRuby");
+    }
 }

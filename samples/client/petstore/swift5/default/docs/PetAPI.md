@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
+    open class func findPetsByTags(tags: Set<String>, completion: @escaping (_ data: Set<Pet>?, _ error: Error?) -> Void)
 ```
 
 Finds Pets by tags
@@ -177,7 +177,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let tags = ["inner_example"] // [String] | Tags to filter by
+let tags = ["inner_example"] // Set<String> | Tags to filter by
 
 // Finds Pets by tags
 PetAPI.findPetsByTags(tags: tags) { (response, error) in
@@ -196,11 +196,11 @@ PetAPI.findPetsByTags(tags: tags) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[String]**](String.md) | Tags to filter by | 
+ **tags** | [**Set&lt;String&gt;**](String.md) | Tags to filter by | 
 
 ### Return type
 
-[**[Pet]**](Pet.md)
+[**Set<Pet>**](Pet.md)
 
 ### Authorization
 

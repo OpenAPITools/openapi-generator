@@ -296,7 +296,7 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "call123TestSpecialTags[To test special tags]"             "fooGet[]"             "fakeHealthGet[Health check endpoint]" \
+            "call123TestSpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
@@ -305,9 +305,9 @@ case $state in
             "testBodyWithQueryParams[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트]" \
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트]" \
             "testEnumParameters[To test enum parameters]" \
             "testGroupParameters[Fake endpoint to test group parameters (optional)]" \
             "testInlineAdditionalProperties[test inline additionalProperties]" \
@@ -330,7 +330,8 @@ case $state in
             "getUserByName[Get user by user name]" \
             "loginUser[Logs user into the system]" \
             "logoutUser[Logs out current logged in user session]" \
-            "updateUser[Updated user]" 
+            "updateUser[Updated user]" \
+
     _arguments "(--help)--help[Print information about operation]"
 
     ret=0
@@ -343,13 +344,7 @@ case $state in
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      fooGet)
-        local -a _op_arguments
-        _op_arguments=(
-                              )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      fakeHealthGet)
+      createXmlItem)
         local -a _op_arguments
         _op_arguments=(
                               )

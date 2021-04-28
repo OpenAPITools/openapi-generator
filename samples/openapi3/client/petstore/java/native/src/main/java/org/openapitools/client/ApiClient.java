@@ -25,7 +25,6 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +34,8 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Configuration and utility class for API clients.
@@ -51,8 +52,6 @@ import java.util.stream.Collectors;
  */
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
-
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
 
   private HttpClient.Builder builder;
   private ObjectMapper mapper;
@@ -176,7 +175,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri);
+    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
     interceptor = null;
     readTimeout = null;
     responseInterceptor = null;
