@@ -72,7 +72,11 @@ jobs:
       run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
     - name: Publish unit test reports
       if: ${{ always() }}
-      uses: scacap/action-surefire-report@v1
+      uses: dorny/test-reporter@v1
+      with:
+        name: Unit Test results
+        path: '**/surefire-reports/TEST-*.xml'
+        reporter: java-junit
 
   documentation:
     name: Check docs up-to-date
