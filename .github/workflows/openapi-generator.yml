@@ -72,11 +72,10 @@ jobs:
       run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
     - name: Publish unit test reports
       if: ${{ always() }}
-      uses: dorny/test-reporter@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: Unit Test results
+        name: surefire-test-results
         path: '**/surefire-reports/TEST-*.xml'
-        reporter: java-junit
 
   documentation:
     name: Check docs up-to-date
