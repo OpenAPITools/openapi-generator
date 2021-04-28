@@ -9,6 +9,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
+import org.openapitools.codegen.languages.KotlinServerDeprecatedCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
 import org.testng.annotations.DataProvider;
@@ -28,6 +29,7 @@ public class KotlinModelCodegenTest {
         return new Object[][]{
                 {new KotlinClientCodegen()},
                 {new KotlinServerCodegen()},
+                {new KotlinServerDeprecatedCodegen()},
                 {new KotlinSpringServerCodegen()},
                 {new KotlinVertxServerCodegen()},
         };
