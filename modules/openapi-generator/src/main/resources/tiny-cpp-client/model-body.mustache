@@ -1,17 +1,17 @@
-#include "bourne/json.hpp"
 
 {{#models}}{{#model}}
 #include "{{classname}}.h"
 
+using namespace Tiny;
 
 {{classname}}::{{classname}}()
 {
     __init();
 }
 
-{{classname}}::{{classname}}(bourne::json jsonObj)
+{{classname}}::{{classname}}(std::string jsonString)
 {
-	this->fromJson(jsonObj);
+	this->fromJson(jsonString);
 }
 
 {{classname}}::~{{classname}}()
@@ -43,6 +43,7 @@ void
 	//{{/vars}}
 }
 
+void
 {{classname}}::fromJson(std::string jsonObj)
 {
     // name = variable name
@@ -51,9 +52,9 @@ void
     bourne::json object = bourne::json::parse(jsonObj);
 
     {{#vars}}
-    const gchar *{{name}}Key = "{{baseName}}";
+    const char *{{name}}Key = "{{baseName}}";
     
-    if(jsonObj.has_key({{name}}Key)) 
+    if(object.has_key({{name}}Key)) 
     {
         bourne::json value = object[{{name}}Key];
 
@@ -65,15 +66,15 @@ void
         {
             if(isprimitive("{{#items}}{{dataType}}{{/items}}"))
             {
-                jsonToValue(&element, var, "{{#items}}{{dataType}}{{/items}}");
+                jsonToValue(&element, var.dump(), "{{#items}}{{dataType}}{{/items}}");
             }
             else
             {
                 {{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
-				element.fromJson(var);
+				element.fromJson(var.dump());
 				{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
             }
-            new_list.push(element);
+            new_list.push_back(element);
         }
 
         {{/isArray}}
@@ -83,7 +84,7 @@ void
         {{^isContainer}}
         if(isprimitive("{{baseType}}"))
         {
-            jsonToValue(&{{name}}, value, {{baseType}});
+            jsonToValue(&{{name}}, value, "{{baseType}}");
         } 
         else 
         {
@@ -113,9 +114,11 @@ bourne::json
     {{#isArray}}
     if(isprimitive("{{#items}}{{dataType}}{{/items}}"))
     {
-        list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
+        std::list<{{#items}}{{dataType}}{{/items}}> tmp_list = static_cast<std::list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
         bourne::json new_json_arr = bourne::json::array();
-        for (list<{{dataType}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+        std::list<{{#items}}{{dataType}}{{/items}}>::iterator it;
+
+        for (it = tmp_list.begin(); it != tmp_list.end(); it++) {
 			new_json_arr.append(it); // maybe address/pointer smthing?
 		}
         object["{{name}}"] = new_json_arr;        
@@ -123,9 +126,11 @@ bourne::json
     else 
     {
         {{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
-        list<{{#items}}{{dataType}}{{/items}}> new_list = static_cast<list <{{#items}}{{dataType}}{{/items}}> > ({{getter}}());
+        std::list<{{dataType}}> tmp_list = static_cast<std::list <{{dataType}}> > ({{getter}}());
         bourne::json new_json_arr = bourne::json::array();
-        for (list<{{dataType}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+        std::list<{{dataType}}>::iterator it;
+
+        for (it = tmp_list.begin(); it != tmp_list.end(); it++) {
 			{{dataType}} obj = *it;
 			new_json_arr.append(obj.toJson());
 		}
