@@ -1,8 +1,0 @@
-generatorName: kotlin-server-deprecated
-outputDir: samples/server/petstore/kotlin-server-deprecated/ktor
-library: ktor
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/kotlin-server-deprecated
-additionalProperties:
-  hideGenerationTimestamp: "true"
-  serializableModel: "true"
