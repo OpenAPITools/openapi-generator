@@ -9,14 +9,12 @@
 #define _{{classname}}_H_
 
 {{/model}}{{/models}}
-
 #include <string>
 {{#imports}}
 {{{import}}}
 {{/imports}}
 
 namespace Tiny {
-namespace {{prefix}} {
 {{#models}}{{#model}}
 
 /*! \brief {{{description}}}
@@ -68,7 +66,6 @@ public:
 };
 {{/model}}
 {{/models}}
-}
 }
 
 #endif /* _{{classname}}_H_ */

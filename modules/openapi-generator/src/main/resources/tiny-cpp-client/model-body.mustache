@@ -1,11 +1,8 @@
-#include <cstdlib>
 #include "bourne/json.hpp"
 
 {{#models}}{{#model}}
 #include "{{classname}}.h"
 
-using namespace std;
-using namespace Tiny::{{prefix}};
 
 {{classname}}::{{classname}}()
 {
@@ -59,7 +56,31 @@ void
     if(jsonObj.has_key({{name}}Key)) 
     {
         bourne::json value = object[{{name}}Key];
-     
+
+        {{#isContainer}}
+        {{#isArray}}
+        list<{{#items}}{{dataType}}{{/items}}> new_list;
+        {{#items}}{{dataType}}{{/items}} element;
+        for(auto& var : value.array_range())
+        {
+            if(isprimitive("{{#items}}{{dataType}}{{/items}}"))
+            {
+                jsonToValue(&element, var, "{{#items}}{{dataType}}{{/items}}");
+            }
+            else
+            {
+                {{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+				element.fromJson(var);
+				{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
+            }
+            new_list.push(element);
+        }
+
+        {{/isArray}}
+        {{/isContainer}}
+
+
+        {{^isContainer}}
         if(isprimitive("{{baseType}}"))
         {
             jsonToValue(&{{name}}, value, {{baseType}});
@@ -73,6 +94,7 @@ void
 			
             {{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
         }
+        {{/isContainer}}
 
     }
 
