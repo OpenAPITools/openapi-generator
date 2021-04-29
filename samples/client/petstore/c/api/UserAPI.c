@@ -17,13 +17,13 @@
 // This can only be done by the logged in user.
 //
 void
-UserAPI_createUser(apiClient_t *apiClient, user_t * user )
+UserAPI_createUser(apiClient_t *apiClient, user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -35,14 +35,13 @@ UserAPI_createUser(apiClient_t *apiClient, user_t * user )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_user = NULL;
-    if (user != NULL)
+    cJSON *localVarSingleItemJSON_body = NULL;
+    if (body != NULL)
     {
         //string
-        localVarSingleItemJSON_user = user_convertToJSON(user);
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
+        localVarSingleItemJSON_body = user_convertToJSON(body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
-    list_addElement(localVarContentType,"application/json"); //consumes
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -67,11 +66,11 @@ end:
     
     
     
-    list_free(localVarContentType);
+    
     free(localVarPath);
-    if (localVarSingleItemJSON_user) {
-        cJSON_Delete(localVarSingleItemJSON_user);
-        localVarSingleItemJSON_user = NULL;
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
     }
     free(localVarBodyParameters);
 
@@ -80,13 +79,13 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * user )
+UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -99,14 +98,14 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * user )
 
     // Body Param
     //notstring
-    cJSON *localVar_user = NULL;
-    cJSON *localVarItemJSON_user = NULL;
-    cJSON *localVarSingleItemJSON_user = NULL;
-    if (user != NULL)
+    cJSON *localVar_body = NULL;
+    cJSON *localVarItemJSON_body = NULL;
+    cJSON *localVarSingleItemJSON_body = NULL;
+    if (body != NULL)
     {
-        localVarItemJSON_user = cJSON_CreateObject();
-        localVarSingleItemJSON_user = cJSON_AddArrayToObject(localVarItemJSON_user, "user");
-        if (localVarSingleItemJSON_user == NULL)
+        localVarItemJSON_body = cJSON_CreateObject();
+        localVarSingleItemJSON_body = cJSON_AddArrayToObject(localVarItemJSON_body, "body");
+        if (localVarSingleItemJSON_body == NULL)
         {
             // nonprimitive container
 
@@ -114,18 +113,17 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * user )
         }
     }
 
-    listEntry_t *userBodyListEntry;
-    list_ForEach(userBodyListEntry, user)
+    listEntry_t *bodyBodyListEntry;
+    list_ForEach(bodyBodyListEntry, body)
     {
-        localVar_user = user_convertToJSON(userBodyListEntry->data);
-        if(localVar_user == NULL)
+        localVar_body = user_convertToJSON(bodyBodyListEntry->data);
+        if(localVar_body == NULL)
         {
             goto end;
         }
-        cJSON_AddItemToArray(localVarSingleItemJSON_user, localVar_user);
-        localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+        cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
+        localVarBodyParameters = cJSON_Print(localVarItemJSON_body);
     }
-    list_addElement(localVarContentType,"application/json"); //consumes
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -150,19 +148,19 @@ end:
     
     
     
-    list_free(localVarContentType);
+    
     free(localVarPath);
-    if (localVarItemJSON_user) {
-        cJSON_Delete(localVarItemJSON_user);
-        localVarItemJSON_user = NULL;
+    if (localVarItemJSON_body) {
+        cJSON_Delete(localVarItemJSON_body);
+        localVarItemJSON_body = NULL;
     }
-    if (localVarSingleItemJSON_user) {
-        cJSON_Delete(localVarSingleItemJSON_user);
-        localVarSingleItemJSON_user = NULL;
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
     }
-    if (localVar_user) {
-        cJSON_Delete(localVar_user);
-        localVar_user = NULL;
+    if (localVar_body) {
+        cJSON_Delete(localVar_body);
+        localVar_body = NULL;
     }
     free(localVarBodyParameters);
 
@@ -171,13 +169,13 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * user )
+UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -190,14 +188,14 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * user )
 
     // Body Param
     //notstring
-    cJSON *localVar_user = NULL;
-    cJSON *localVarItemJSON_user = NULL;
-    cJSON *localVarSingleItemJSON_user = NULL;
-    if (user != NULL)
+    cJSON *localVar_body = NULL;
+    cJSON *localVarItemJSON_body = NULL;
+    cJSON *localVarSingleItemJSON_body = NULL;
+    if (body != NULL)
     {
-        localVarItemJSON_user = cJSON_CreateObject();
-        localVarSingleItemJSON_user = cJSON_AddArrayToObject(localVarItemJSON_user, "user");
-        if (localVarSingleItemJSON_user == NULL)
+        localVarItemJSON_body = cJSON_CreateObject();
+        localVarSingleItemJSON_body = cJSON_AddArrayToObject(localVarItemJSON_body, "body");
+        if (localVarSingleItemJSON_body == NULL)
         {
             // nonprimitive container
 
@@ -205,18 +203,17 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * user )
         }
     }
 
-    listEntry_t *userBodyListEntry;
-    list_ForEach(userBodyListEntry, user)
+    listEntry_t *bodyBodyListEntry;
+    list_ForEach(bodyBodyListEntry, body)
     {
-        localVar_user = user_convertToJSON(userBodyListEntry->data);
-        if(localVar_user == NULL)
+        localVar_body = user_convertToJSON(bodyBodyListEntry->data);
+        if(localVar_body == NULL)
         {
             goto end;
         }
-        cJSON_AddItemToArray(localVarSingleItemJSON_user, localVar_user);
-        localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+        cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
+        localVarBodyParameters = cJSON_Print(localVarItemJSON_body);
     }
-    list_addElement(localVarContentType,"application/json"); //consumes
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -241,19 +238,19 @@ end:
     
     
     
-    list_free(localVarContentType);
+    
     free(localVarPath);
-    if (localVarItemJSON_user) {
-        cJSON_Delete(localVarItemJSON_user);
-        localVarItemJSON_user = NULL;
+    if (localVarItemJSON_body) {
+        cJSON_Delete(localVarItemJSON_body);
+        localVarItemJSON_body = NULL;
     }
-    if (localVarSingleItemJSON_user) {
-        cJSON_Delete(localVarSingleItemJSON_user);
-        localVarSingleItemJSON_user = NULL;
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
     }
-    if (localVar_user) {
-        cJSON_Delete(localVar_user);
-        localVar_user = NULL;
+    if (localVar_body) {
+        cJSON_Delete(localVar_body);
+        localVar_body = NULL;
     }
     free(localVarBodyParameters);
 
@@ -560,13 +557,13 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * user )
+UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -588,14 +585,13 @@ UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * user )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_user = NULL;
-    if (user != NULL)
+    cJSON *localVarSingleItemJSON_body = NULL;
+    if (body != NULL)
     {
         //string
-        localVarSingleItemJSON_user = user_convertToJSON(user);
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
+        localVarSingleItemJSON_body = user_convertToJSON(body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
-    list_addElement(localVarContentType,"application/json"); //consumes
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -623,12 +619,12 @@ end:
     
     
     
-    list_free(localVarContentType);
+    
     free(localVarPath);
     free(localVarToReplace_username);
-    if (localVarSingleItemJSON_user) {
-        cJSON_Delete(localVarSingleItemJSON_user);
-        localVarSingleItemJSON_user = NULL;
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
     }
     free(localVarBodyParameters);
 

@@ -18,19 +18,18 @@ Method | HTTP request | Description
 ```c
 // Add a new pet to the store
 //
-pet_t* PetAPI_addPet(apiClient_t *apiClient, pet_t * pet);
+void PetAPI_addPet(apiClient_t *apiClient, pet_t * body);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**pet** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
+**body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
 
-[pet_t](pet.md) *
-
+void
 
 ### Authorization
 
@@ -39,7 +38,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -169,19 +168,18 @@ Name | Type | Description  | Notes
 ```c
 // Update an existing pet
 //
-pet_t* PetAPI_updatePet(apiClient_t *apiClient, pet_t * pet);
+void PetAPI_updatePet(apiClient_t *apiClient, pet_t * body);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**pet** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
+**body** | **[pet_t](pet.md) \*** | Pet object that needs to be added to the store | 
 
 ### Return type
 
-[pet_t](pet.md) *
-
+void
 
 ### Authorization
 
@@ -190,7 +188,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

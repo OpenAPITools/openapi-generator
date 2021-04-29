@@ -13,19 +13,19 @@
 // This can only be done by the logged in user.
 //
 void
-UserAPI_createUser(apiClient_t *apiClient, user_t * user );
+UserAPI_createUser(apiClient_t *apiClient, user_t * body );
 
 
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * user );
+UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body );
 
 
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * user );
+UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body );
 
 
 // Delete user
@@ -59,6 +59,6 @@ UserAPI_logoutUser(apiClient_t *apiClient);
 // This can only be done by the logged in user.
 //
 void
-UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * user );
+UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body );
 
 

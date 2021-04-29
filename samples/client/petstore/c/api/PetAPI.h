@@ -14,8 +14,8 @@ typedef enum  { openapi_petstore_findPetsByStatus_STATUS_NULL = 0, openapi_petst
 
 // Add a new pet to the store
 //
-pet_t*
-PetAPI_addPet(apiClient_t *apiClient, pet_t * pet );
+void
+PetAPI_addPet(apiClient_t *apiClient, pet_t * body );
 
 
 // Deletes a pet
@@ -50,8 +50,8 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId );
 
 // Update an existing pet
 //
-pet_t*
-PetAPI_updatePet(apiClient_t *apiClient, pet_t * pet );
+void
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * body );
 
 
 // Updates a pet in the store with form data

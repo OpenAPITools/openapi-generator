@@ -20,14 +20,14 @@ Method | HTTP request | Description
 //
 // This can only be done by the logged in user.
 //
-void UserAPI_createUser(apiClient_t *apiClient, user_t * user);
+void UserAPI_createUser(apiClient_t *apiClient, user_t * body);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**user** | **[user_t](user.md) \*** | Created user object | 
+**body** | **[user_t](user.md) \*** | Created user object | 
 
 ### Return type
 
@@ -35,11 +35,11 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -48,14 +48,14 @@ void
 ```c
 // Creates list of users with given input array
 //
-void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * user);
+void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**user** | **[list_t](user.md) \*** | List of user object | 
+**body** | **[list_t](user.md) \*** | List of user object | 
 
 ### Return type
 
@@ -63,11 +63,11 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -76,14 +76,14 @@ void
 ```c
 // Creates list of users with given input array
 //
-void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * user);
+void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
-**user** | **[list_t](user.md) \*** | List of user object | 
+**body** | **[list_t](user.md) \*** | List of user object | 
 
 ### Return type
 
@@ -91,11 +91,11 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -121,7 +121,7 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -208,7 +208,7 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -223,7 +223,7 @@ void
 //
 // This can only be done by the logged in user.
 //
-void UserAPI_updateUser(apiClient_t *apiClient, char * username, user_t * user);
+void UserAPI_updateUser(apiClient_t *apiClient, char * username, user_t * body);
 ```
 
 ### Parameters
@@ -231,7 +231,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration | 
 **username** | **char \*** | name that need to be deleted | 
-**user** | **[user_t](user.md) \*** | Updated user object | 
+**body** | **[user_t](user.md) \*** | Updated user object | 
 
 ### Return type
 
@@ -239,11 +239,11 @@ void
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
