@@ -36,7 +36,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         modelTemplateFiles.put("model.mustache", ".md");
-        apiTemplateFiles.put("api.mustache", ".md");
+        apiTemplateFiles.put("api-header.mustache", ".h");
+        apiTemplateFiles.put("api-body.mustache", ".cpp");
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
         apiPackage = "Apis";
         modelPackage = "Models";

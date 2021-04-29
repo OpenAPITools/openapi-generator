@@ -1,0 +1,58 @@
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
+
+#include "Response.h"
+namespace Tinyclient {
+
+{{#operations}}
+/**
+ *  Class {{basename}}
+ * Generated with openapi::tiny-cpp-client
+ */
+
+class {{classname}}{
+public:
+    {{! Constructor }}
+    {{classname}}();
+
+    {{! Destructor }}
+    virtual ~{{classname}}();
+
+    {{! Service endpoint }}
+    {{#operation}}
+    /**
+    * {{{summary}}}.
+    *
+    * {{{notes}}}{{#allParams}}
+    * \param {{paramName}} {{{description}}}{{#required}} *Required*{{/required}}{{/allParams}}
+    */
+    Response
+    {{#allParams}}
+        {{#returnType}}
+            <
+            {{!Arrays }}
+            {{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{/returnContainer}}
+            {{! Normal types/objects }}
+            {{^returnContainer}}{{returnType}}{{/returnContainer}}
+            >
+        {{/returnType}}
+    {{/allParams}}
+        {{! Method name }}
+    {{nickname}}(
+        {{! Params }}
+        {{#allParams}}
+            {{! Arrays }}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}
+            {{! Normal types/objects }}
+            {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
+            {{^-last}}, {{/-last}}
+        {{/allParams}}
+    );
+    {{/operation}}
+} {{! Service endpoint end }}
+
+{{/operations}}
+
+} {{! namespace end }}
+
+#endif /* {{classname}}_H_ */
