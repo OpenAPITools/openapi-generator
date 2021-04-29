@@ -8,6 +8,7 @@ import java.time.OffsetDateTime
 import java.util.UUID
 import java.util.Date
 
+
 object Serializer {
     @JvmStatic
     val gsonBuilder: GsonBuilder = GsonBuilder()

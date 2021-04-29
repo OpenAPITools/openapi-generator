@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import java.util.Date
+
 import org.openapitools.client.models.*
 
 internal object Serializer {
@@ -14,10 +15,10 @@ internal object Serializer {
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
-        
-        .add(KotlinJsonAdapterFactory())
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
+        .add(KotlinJsonAdapterFactory())
+        
 
     @JvmStatic
     val moshi: Moshi by lazy {

@@ -52,7 +52,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 {{/kotlinx_serialization}}
 
-{{#moshi}}import {{modelPackage}}.*{{/moshi}}
+{{#moshi}}
+import {{modelPackage}}.*
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
@@ -63,16 +65,16 @@ import java.util.concurrent.atomic.AtomicLong
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        .add(BigDecimalAdapter())
+        .add(BigIntegerAdapter())
+        {{^moshiCodeGen}}
+        .add(KotlinJsonAdapterFactory())
+        {{/moshiCodeGen}}
         {{#models}}{{#model}}{{#discriminator}}.add(PolymorphicJsonAdapterFactory.of({{classname}}::class.java, "{{{vendorExtensions.x-base-name-discriminator-literal}}}")
         {{#mappedModels}}
             .withSubtype({{modelName}}::class.java, "{{mappingName}}")
         {{/mappedModels}}
         ){{/discriminator}}{{/model}}{{/models}}
-        {{^moshiCodeGen}}
-        .add(KotlinJsonAdapterFactory())
-        {{/moshiCodeGen}}
-        .add(BigDecimalAdapter())
-        .add(BigIntegerAdapter())
 
     @JvmStatic
     val moshi: Moshi by lazy {
