@@ -23,6 +23,8 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +57,7 @@ public class KotlinServerDeprecatedCodegen extends AbstractKotlinCodegen {
             .build();
 
     /**
-     * Constructs an instance of `KotlinServerCodegen`.
+     * Constructs an instance of `KotlinServerDeprecatedCodegen`.
      */
     public KotlinServerDeprecatedCodegen() {
         super();
@@ -81,6 +83,10 @@ public class KotlinServerDeprecatedCodegen extends AbstractKotlinCodegen {
                         ParameterFeature.Cookie
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.DEPRECATED)
+            .build();
 
         artifactId = "kotlin-server-deprecated";
         packageName = "org.openapitools.server";
@@ -145,7 +151,8 @@ public class KotlinServerDeprecatedCodegen extends AbstractKotlinCodegen {
     }
 
     public String getHelp() {
-        return "Generates a Kotlin server.";
+        return "Generates a Kotlin server (Ktor v1.1.3). IMPORTANT: this generator has been deprecated." +
+            " Please migrate to `kotlin-server` which supports Ktor v1.5.2+.";
     }
 
     public Boolean getHstsFeatureEnabled() {
