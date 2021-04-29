@@ -48,7 +48,11 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "", "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", "", "Helpers.cpp"));
-        // TODO: Fill this out.
+        
+        // Example:
+        supportingFiles.add(new SupportingFile("platformio.ini.mustache", "", "platformio.ini"));
+        supportingFiles.add(new SupportingFile("main.mustache", "src", "main.cpp"));
+        supportingFiles.add(new SupportingFile("unittest.mustache", "test", "unittest.cpp"));
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -82,9 +86,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
-            return instantiationTypes.get("map");
-        } else if (ModelUtils.isArraySchema(p)) {
+         if (ModelUtils.isArraySchema(p)) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -141,12 +143,23 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     public String toModelImport(String name) {
         if (name.equals("std::string")) {
             return "#include <string>";
-        } else if (name.equals("std::map")) {
-            return "#include <map>";
         } else if (name.equals("std::list")) {
             return "#include <list>";
         }
         return "#include \"" + name + ".h\"";
+    }
+
+    @Override
+    public String toVarName(String name) {
+        String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
+        if (name.length() > 0 ) {
+            // additionalProperties name is "" so name.length() == 0
+            paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        }
+        if (isReservedWord(paramName)) {
+            return escapeReservedWord(paramName);
+        }
+        return "" + paramName;
     }
     
 

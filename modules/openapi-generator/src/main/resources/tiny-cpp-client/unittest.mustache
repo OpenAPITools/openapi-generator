@@ -1,0 +1,61 @@
+#include <string>
+#include <unity.h>
+
+#include "Models/Pet.h"
+
+Tiny::Pet pet;
+
+void setUp(){
+    
+    //long Id;
+	//Category Category;
+	//std::string Name;
+	//std::list <std::string>PhotoUrls;
+	//std::list <Tag>Tags;
+	//std::string Status;
+
+    bourne::json petJSON = 
+    {
+        "Id", 1,
+        "Status", "Sold"
+    };
+
+    pet = Pet(petJson);
+
+}
+
+
+void tearDown(){
+    delete pet;
+}
+
+void test_properties_are_assigned(){
+    
+    TEST_ASSERT_INT(pet.getId(), 1);
+    TEST_ASSERT_STRING(pet.getStatus(), "Sold");
+    
+}
+
+
+
+void runTests(){
+    RUN_TEST(test_properties_are_assigned);
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    runTests();
+    return UNITY_END();
+}
+
+void setup() {
+    UNITY_BEGIN();
+    runTests();
+    UNITY_END();
+}
+
+void loop() {
+    
+}
+
+
