@@ -15,6 +15,7 @@ public struct NumberOnly: Codable, Hashable {
     public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
@@ -26,6 +27,4 @@ public struct NumberOnly: Codable, Hashable {
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
         
     }
-
-
 }

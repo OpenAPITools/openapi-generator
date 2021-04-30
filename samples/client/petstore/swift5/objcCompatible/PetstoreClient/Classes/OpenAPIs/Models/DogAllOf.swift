@@ -15,6 +15,7 @@ import AnyCodable
     public init(breed: String? = nil) {
         self.breed = breed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case breed
     }
@@ -26,6 +27,4 @@ import AnyCodable
         try container.encodeIfPresent(breed, forKey: .breed)
         
     }
-
-
 }

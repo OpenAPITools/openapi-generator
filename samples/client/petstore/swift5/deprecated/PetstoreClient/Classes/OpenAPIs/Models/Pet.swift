@@ -33,6 +33,7 @@ public struct Pet: Codable, Hashable {
         self.tags = tags
         self.status = status
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case category
@@ -54,6 +55,4 @@ public struct Pet: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
         
     }
-
-
 }

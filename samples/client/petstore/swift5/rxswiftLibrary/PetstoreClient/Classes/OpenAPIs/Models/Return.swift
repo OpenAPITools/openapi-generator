@@ -16,6 +16,7 @@ public struct Return: Codable, Hashable {
     public init(`return`: Int? = nil) {
         self.`return` = `return`
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case `return` = "return"
     }
@@ -27,6 +28,4 @@ public struct Return: Codable, Hashable {
         try container.encodeIfPresent(`return`, forKey: .`return`)
         
     }
-
-
 }

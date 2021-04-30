@@ -17,6 +17,7 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         self.file = file
         self.files = files
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files
@@ -30,6 +31,4 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         try container.encodeIfPresent(files, forKey: .files)
         
     }
-
-
 }

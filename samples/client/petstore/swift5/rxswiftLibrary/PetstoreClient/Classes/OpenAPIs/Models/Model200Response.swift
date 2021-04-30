@@ -18,6 +18,7 @@ public struct Model200Response: Codable, Hashable {
         self.name = name
         self.`class` = `class`
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case `class` = "class"
@@ -31,6 +32,4 @@ public struct Model200Response: Codable, Hashable {
         try container.encodeIfPresent(`class`, forKey: .`class`)
         
     }
-
-
 }

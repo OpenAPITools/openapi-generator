@@ -15,6 +15,7 @@ public final class ArrayOfNumberOnly: Codable, Hashable {
     public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
@@ -27,7 +28,6 @@ public final class ArrayOfNumberOnly: Codable, Hashable {
         
     }
 
-
     public static func == (lhs: ArrayOfNumberOnly, rhs: ArrayOfNumberOnly) -> Bool {
         lhs.arrayNumber == rhs.arrayNumber
         
@@ -37,5 +37,4 @@ public final class ArrayOfNumberOnly: Codable, Hashable {
         hasher.combine(arrayNumber?.hashValue)
         
     }
-
 }

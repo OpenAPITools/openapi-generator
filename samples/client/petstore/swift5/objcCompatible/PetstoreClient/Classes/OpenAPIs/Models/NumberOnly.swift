@@ -15,6 +15,7 @@ import AnyCodable
     public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
@@ -26,6 +27,4 @@ import AnyCodable
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
         
     }
-
-
 }

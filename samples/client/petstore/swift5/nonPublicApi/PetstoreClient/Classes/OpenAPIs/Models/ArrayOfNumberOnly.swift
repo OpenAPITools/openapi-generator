@@ -15,6 +15,7 @@ internal struct ArrayOfNumberOnly: Codable, Hashable {
     internal init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
@@ -26,6 +27,4 @@ internal struct ArrayOfNumberOnly: Codable, Hashable {
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
         
     }
-
-
 }

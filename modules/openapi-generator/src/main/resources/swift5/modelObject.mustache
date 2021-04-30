@@ -36,6 +36,7 @@
         {{/allVars}}
     }
 {{/hasVars}}
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: {{#hasVars}}String, {{/hasVars}}CodingKey, CaseIterable {
         {{#allVars}}
         case {{{name}}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}
@@ -83,9 +84,8 @@
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
         {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#useClasses}}
 
-{{^objcCompatible}}{{#useClasses}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
         {{#allVars}}
         lhs.{{{name}}} == rhs.{{{name}}}{{^-last}} &&{{/-last}}
@@ -98,6 +98,5 @@
         hasher.combine({{{name}}}{{^required}}?{{/required}}.hashValue)
         {{/allVars}}
         {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
-    }
-{{/useClasses}}{{/objcCompatible}}
+    }{{/useClasses}}{{/objcCompatible}}
 }

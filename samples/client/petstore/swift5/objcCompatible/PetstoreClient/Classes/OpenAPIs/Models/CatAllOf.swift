@@ -20,6 +20,7 @@ import AnyCodable
     public init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case declawed
     }
@@ -31,6 +32,4 @@ import AnyCodable
         try container.encodeIfPresent(declawed, forKey: .declawed)
         
     }
-
-
 }

@@ -17,6 +17,7 @@ public final class FileSchemaTestClass: Codable, Hashable {
         self.file = file
         self.files = files
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files
@@ -31,7 +32,6 @@ public final class FileSchemaTestClass: Codable, Hashable {
         
     }
 
-
     public static func == (lhs: FileSchemaTestClass, rhs: FileSchemaTestClass) -> Bool {
         lhs.file == rhs.file &&
         lhs.files == rhs.files
@@ -43,5 +43,4 @@ public final class FileSchemaTestClass: Codable, Hashable {
         hasher.combine(files?.hashValue)
         
     }
-
 }

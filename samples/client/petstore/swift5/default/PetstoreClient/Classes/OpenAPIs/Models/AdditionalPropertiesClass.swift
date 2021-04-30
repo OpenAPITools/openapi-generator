@@ -35,6 +35,7 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         self.anytype2 = anytype2
         self.anytype3 = anytype3
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapNumber = "map_number"
@@ -66,6 +67,4 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(anytype3, forKey: .anytype3)
         
     }
-
-
 }

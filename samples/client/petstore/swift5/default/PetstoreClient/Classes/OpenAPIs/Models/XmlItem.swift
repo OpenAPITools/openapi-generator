@@ -71,6 +71,7 @@ public struct XmlItem: Codable, Hashable {
         self.prefixNsArray = prefixNsArray
         self.prefixNsWrappedArray = prefixNsWrappedArray
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributeString = "attribute_string"
         case attributeNumber = "attribute_number"
@@ -138,6 +139,4 @@ public struct XmlItem: Codable, Hashable {
         try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
         
     }
-
-
 }

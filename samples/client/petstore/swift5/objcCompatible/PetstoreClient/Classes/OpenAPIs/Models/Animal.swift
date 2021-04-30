@@ -17,6 +17,7 @@ import AnyCodable
         self._className = _className
         self.color = color
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _className = "className"
         case color
@@ -30,6 +31,4 @@ import AnyCodable
         try container.encodeIfPresent(color, forKey: .color)
         
     }
-
-
 }

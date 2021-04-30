@@ -51,6 +51,7 @@ import AnyCodable
         self.status = status
         self.complete = complete
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case petId
@@ -72,6 +73,4 @@ import AnyCodable
         try container.encodeIfPresent(complete, forKey: .complete)
         
     }
-
-
 }

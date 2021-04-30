@@ -25,6 +25,7 @@ internal struct MapTest: Codable, Hashable {
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
@@ -42,6 +43,4 @@ internal struct MapTest: Codable, Hashable {
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
         
     }
-
-
 }

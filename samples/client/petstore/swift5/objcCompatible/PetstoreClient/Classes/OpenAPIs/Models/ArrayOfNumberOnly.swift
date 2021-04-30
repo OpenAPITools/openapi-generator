@@ -15,6 +15,7 @@ import AnyCodable
     public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
@@ -26,6 +27,4 @@ import AnyCodable
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
         
     }
-
-
 }

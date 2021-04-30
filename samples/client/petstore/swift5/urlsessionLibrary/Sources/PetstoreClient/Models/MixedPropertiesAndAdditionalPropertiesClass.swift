@@ -19,6 +19,7 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         self.dateTime = dateTime
         self.map = map
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime
@@ -35,7 +36,6 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         
     }
 
-
     public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
         lhs.uuid == rhs.uuid &&
         lhs.dateTime == rhs.dateTime &&
@@ -49,5 +49,4 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         hasher.combine(map?.hashValue)
         
     }
-
 }

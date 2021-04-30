@@ -17,6 +17,7 @@ import AnyCodable
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -28,6 +29,4 @@ import AnyCodable
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
         
     }
-
-
 }

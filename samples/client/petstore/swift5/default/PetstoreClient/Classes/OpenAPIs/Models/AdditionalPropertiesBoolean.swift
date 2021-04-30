@@ -15,6 +15,7 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
     public init(name: String? = nil) {
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
     }
@@ -55,6 +56,4 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }

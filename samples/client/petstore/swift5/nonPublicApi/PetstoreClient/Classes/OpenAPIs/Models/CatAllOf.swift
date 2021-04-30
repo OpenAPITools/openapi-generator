@@ -15,6 +15,7 @@ internal struct CatAllOf: Codable, Hashable {
     internal init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case declawed
     }
@@ -26,6 +27,4 @@ internal struct CatAllOf: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
         
     }
-
-
 }

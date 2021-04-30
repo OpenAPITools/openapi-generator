@@ -19,6 +19,7 @@ public struct Cat: Codable, Hashable {
         self.color = color
         self.declawed = declawed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -34,6 +35,4 @@ public struct Cat: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
         
     }
-
-
 }

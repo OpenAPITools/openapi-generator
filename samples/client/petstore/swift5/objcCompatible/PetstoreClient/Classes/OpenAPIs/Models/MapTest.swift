@@ -25,6 +25,7 @@ import AnyCodable
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
@@ -42,6 +43,4 @@ import AnyCodable
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
         
     }
-
-
 }

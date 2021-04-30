@@ -30,6 +30,7 @@ internal struct User: Codable, Hashable {
         self.phone = phone
         self.userStatus = userStatus
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case username
@@ -55,6 +56,4 @@ internal struct User: Codable, Hashable {
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
         
     }
-
-
 }

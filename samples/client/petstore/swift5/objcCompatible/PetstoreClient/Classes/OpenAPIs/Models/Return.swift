@@ -21,6 +21,7 @@ import AnyCodable
     public init(_return: Int? = nil) {
         self._return = _return
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }
@@ -32,6 +33,4 @@ import AnyCodable
         try container.encodeIfPresent(_return, forKey: ._return)
         
     }
-
-
 }

@@ -19,6 +19,7 @@ internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         self.dateTime = dateTime
         self.map = map
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime
@@ -34,6 +35,4 @@ internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(map, forKey: .map)
         
     }
-
-
 }

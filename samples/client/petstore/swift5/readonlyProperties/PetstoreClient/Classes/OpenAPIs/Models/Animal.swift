@@ -17,6 +17,7 @@ public struct Animal: Codable, Hashable {
         self.className = className
         self.color = color
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -30,6 +31,4 @@ public struct Animal: Codable, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
         
     }
-
-
 }

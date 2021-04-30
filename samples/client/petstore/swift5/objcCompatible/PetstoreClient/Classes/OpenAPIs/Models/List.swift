@@ -15,6 +15,7 @@ import AnyCodable
     public init(_123list: String? = nil) {
         self._123list = _123list
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
@@ -26,6 +27,4 @@ import AnyCodable
         try container.encodeIfPresent(_123list, forKey: ._123list)
         
     }
-
-
 }

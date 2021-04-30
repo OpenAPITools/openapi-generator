@@ -10,6 +10,7 @@ import AnyCodable
 
 public struct StringBooleanMap: Codable, Hashable {
 
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
 
@@ -19,6 +20,4 @@ public struct StringBooleanMap: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
     }
-
-
 }

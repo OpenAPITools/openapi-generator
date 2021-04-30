@@ -23,6 +23,7 @@ import AnyCodable
         self.name = name
         self._class = _class
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _class = "class"
@@ -36,6 +37,4 @@ import AnyCodable
         try container.encodeIfPresent(_class, forKey: ._class)
         
     }
-
-
 }

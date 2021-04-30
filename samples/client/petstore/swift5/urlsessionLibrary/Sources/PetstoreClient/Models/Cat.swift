@@ -19,6 +19,7 @@ public final class Cat: Codable, Hashable {
         self.color = color
         self.declawed = declawed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -35,7 +36,6 @@ public final class Cat: Codable, Hashable {
         
     }
 
-
     public static func == (lhs: Cat, rhs: Cat) -> Bool {
         lhs.className == rhs.className &&
         lhs.color == rhs.color &&
@@ -49,5 +49,4 @@ public final class Cat: Codable, Hashable {
         hasher.combine(declawed?.hashValue)
         
     }
-
 }

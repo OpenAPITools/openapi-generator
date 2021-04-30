@@ -31,6 +31,7 @@ public struct Order: Codable, Hashable {
         self.status = status
         self.complete = complete
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId
@@ -52,6 +53,4 @@ public struct Order: Codable, Hashable {
         try container.encodeIfPresent(complete, forKey: .complete)
         
     }
-
-
 }

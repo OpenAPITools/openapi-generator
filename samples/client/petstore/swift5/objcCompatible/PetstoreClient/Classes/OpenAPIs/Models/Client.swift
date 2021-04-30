@@ -15,6 +15,7 @@ import AnyCodable
     public init(client: String? = nil) {
         self.client = client
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case client
     }
@@ -26,6 +27,4 @@ import AnyCodable
         try container.encodeIfPresent(client, forKey: .client)
         
     }
-
-
 }

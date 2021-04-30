@@ -15,6 +15,7 @@ public struct DogAllOf: Codable, Hashable {
     public init(breed: String? = nil) {
         self.breed = breed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case breed
     }
@@ -26,6 +27,4 @@ public struct DogAllOf: Codable, Hashable {
         try container.encodeIfPresent(breed, forKey: .breed)
         
     }
-
-
 }

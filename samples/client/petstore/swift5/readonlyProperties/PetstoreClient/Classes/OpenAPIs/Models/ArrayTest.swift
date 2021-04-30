@@ -19,6 +19,7 @@ public struct ArrayTest: Codable, Hashable {
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
@@ -34,6 +35,4 @@ public struct ArrayTest: Codable, Hashable {
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
         
     }
-
-
 }

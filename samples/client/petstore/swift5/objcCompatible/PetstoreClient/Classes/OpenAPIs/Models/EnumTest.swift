@@ -41,6 +41,7 @@ import AnyCodable
         self.enumNumber = enumNumber
         self.outerEnum = outerEnum
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
@@ -60,6 +61,4 @@ import AnyCodable
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
         
     }
-
-
 }

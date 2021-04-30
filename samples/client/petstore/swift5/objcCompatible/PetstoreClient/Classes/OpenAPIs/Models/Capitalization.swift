@@ -26,6 +26,7 @@ import AnyCodable
         self.sCAETHFlowPoints = sCAETHFlowPoints
         self.ATT_NAME = ATT_NAME
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
@@ -47,6 +48,4 @@ import AnyCodable
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
         
     }
-
-
 }

@@ -15,6 +15,7 @@ public final class SpecialModelName: Codable, Hashable {
     public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case specialPropertyName = "$special[property.name]"
     }
@@ -27,7 +28,6 @@ public final class SpecialModelName: Codable, Hashable {
         
     }
 
-
     public static func == (lhs: SpecialModelName, rhs: SpecialModelName) -> Bool {
         lhs.specialPropertyName == rhs.specialPropertyName
         
@@ -37,5 +37,4 @@ public final class SpecialModelName: Codable, Hashable {
         hasher.combine(specialPropertyName?.hashValue)
         
     }
-
 }

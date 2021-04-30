@@ -23,6 +23,7 @@ import AnyCodable
         self.boolItem = boolItem
         self.arrayItem = arrayItem
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
@@ -42,6 +43,4 @@ import AnyCodable
         try container.encode(arrayItem, forKey: .arrayItem)
         
     }
-
-
 }

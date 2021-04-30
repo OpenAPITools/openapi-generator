@@ -30,6 +30,7 @@ public final class User: Codable, Hashable {
         self.phone = phone
         self.userStatus = userStatus
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case username
@@ -56,7 +57,6 @@ public final class User: Codable, Hashable {
         
     }
 
-
     public static func == (lhs: User, rhs: User) -> Bool {
         lhs.id == rhs.id &&
         lhs.username == rhs.username &&
@@ -80,5 +80,4 @@ public final class User: Codable, Hashable {
         hasher.combine(userStatus?.hashValue)
         
     }
-
 }

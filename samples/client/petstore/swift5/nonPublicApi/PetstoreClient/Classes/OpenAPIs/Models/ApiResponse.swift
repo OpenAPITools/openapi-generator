@@ -19,6 +19,7 @@ internal struct ApiResponse: Codable, Hashable {
         self.type = type
         self.message = message
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type
@@ -34,6 +35,4 @@ internal struct ApiResponse: Codable, Hashable {
         try container.encodeIfPresent(message, forKey: .message)
         
     }
-
-
 }

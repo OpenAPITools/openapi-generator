@@ -10,6 +10,7 @@ import AnyCodable
 
 public struct StringBooleanMap: Codable, Hashable {
 
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
 
@@ -46,6 +47,4 @@ public struct StringBooleanMap: Codable, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }

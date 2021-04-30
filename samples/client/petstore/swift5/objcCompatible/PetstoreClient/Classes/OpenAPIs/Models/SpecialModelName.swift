@@ -20,6 +20,7 @@ import AnyCodable
     public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case specialPropertyName = "$special[property.name]"
     }
@@ -31,6 +32,4 @@ import AnyCodable
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
         
     }
-
-
 }

@@ -17,6 +17,7 @@ public struct File: Codable, Hashable {
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -28,6 +29,4 @@ public struct File: Codable, Hashable {
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
         
     }
-
-
 }

@@ -21,6 +21,7 @@ public struct BigCatAllOf: Codable, Hashable {
     public init(kind: Kind? = nil) {
         self.kind = kind
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case kind
     }
@@ -32,6 +33,4 @@ public struct BigCatAllOf: Codable, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
         
     }
-
-
 }
