@@ -955,6 +955,82 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        final Map<String, Object> processed = super.postProcessAllModels(objs);
+        postProcessEnumRefs(processed);
+        return processed;
+    }
+
+    /**
+     * The following function is copied and adapted from `AbstractCSharpCodegen.java`.
+     * Its purpose is to correctly set `isEnum`, `isPrimitiveType` and `dataType`
+     * on global enums.
+     *
+     * @param models processed models to be further processed for enum references
+     */
+    @SuppressWarnings({"unchecked"})
+    private void postProcessEnumRefs(final Map<String, Object> models) {
+        Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+            if (model.isEnum) {
+                enumRefs.put(entry.getKey(), model);
+            }
+        }
+
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.allVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.dataType = refModel.dataType;
+                        var.isEnum = true;
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.vars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.dataType = refModel.dataType;
+                        var.isEnum = true;
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readWriteVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.dataType = refModel.dataType;
+                        var.isEnum = true;
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readOnlyVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.dataType = refModel.dataType;
+                        var.isEnum = true;
+                        var.isPrimitiveType = true;
+                    }
+                }
+            } else {
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+            }
+        }
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
