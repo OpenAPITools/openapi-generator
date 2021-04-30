@@ -11,12 +11,11 @@
  */
 import { Apple } from './apple';
 import { Grape } from './grape';
-import { Banana } from './banana';
 
 
 /**
  * @type Fruit
  * @export
  */
-export type Fruit = Apple | Array<Grape> | Banana;
+export type Fruit = Array<Grape> | { [key: string]: Apple; };
 
