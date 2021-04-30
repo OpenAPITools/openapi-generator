@@ -47,6 +47,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String READONLY_PROPERTIES_VALUE = "false";
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
     public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
+    public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String LIBRARY_VALUE = "alamofire";
@@ -91,6 +92,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(Swift5ClientCodegen.USE_SPM_FILE_STRUCTURE, USE_SPM_FILE_STRUCTURE_VALUE)
                 .put(Swift5ClientCodegen.SWIFT_PACKAGE_PATH, SWIFT_PACKAGE_PATH_VALUE)
+                .put(Swift5ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES, GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .build();
     }
 

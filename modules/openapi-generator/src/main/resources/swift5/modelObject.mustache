@@ -40,8 +40,8 @@
         {{#allVars}}
         case {{{name}}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}
         {{/allVars}}
-    }
-{{#additionalPropertiesType}}
+    }{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var additionalProperties: [String: {{{additionalPropertiesType}}}] = [:]
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} subscript(key: String) -> {{{additionalPropertiesType}}}? {
@@ -55,8 +55,7 @@
         set {
             additionalProperties[key] = newValue
         }
-    }
-{{/additionalPropertiesType}}
+    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
 
     // Encodable protocol methods
 
@@ -65,13 +64,13 @@
         {{#allVars}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
         {{/allVars}}
-        {{#additionalPropertiesType}}
+        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
-        {{/additionalPropertiesType}}
+        {{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
     }
 
-{{#additionalPropertiesType}}
+{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
     // Decodable protocol methods
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}}{{#objcCompatible}} required{{/objcCompatible}} init(from decoder: Decoder) throws {
@@ -86,21 +85,21 @@
         {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-{{/additionalPropertiesType}}
+{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
 
 {{^objcCompatible}}{{#useClasses}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
         {{#allVars}}
         lhs.{{{name}}} == rhs.{{{name}}}{{^-last}} &&{{/-last}}
         {{/allVars}}
-        {{#additionalPropertiesType}}{{#hasVars}}&& {{/hasVars}}lhs.additionalProperties == rhs.additionalProperties{{/additionalPropertiesType}}
+        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}{{#hasVars}}&& {{/hasVars}}lhs.additionalProperties == rhs.additionalProperties{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func hash(into hasher: inout Hasher) {
         {{#allVars}}
         hasher.combine({{{name}}}{{^required}}?{{/required}}.hashValue)
         {{/allVars}}
-        {{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}
+        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
     }
 {{/useClasses}}{{/objcCompatible}}
 }
