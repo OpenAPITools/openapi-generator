@@ -32,7 +32,9 @@ import AnyCodable
         try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
         try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+        
     }
+
 
 
 

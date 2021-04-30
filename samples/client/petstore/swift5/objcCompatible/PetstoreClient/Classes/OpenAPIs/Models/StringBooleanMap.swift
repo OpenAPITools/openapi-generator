@@ -12,6 +12,7 @@ import AnyCodable
 
     public enum CodingKeys: CodingKey, CaseIterable {
     }
+
     public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
@@ -31,9 +32,12 @@ import AnyCodable
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
+        
     }
+
 
     // Decodable protocol methods
 
@@ -43,6 +47,7 @@ import AnyCodable
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 
 }

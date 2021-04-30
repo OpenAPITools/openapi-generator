@@ -32,7 +32,9 @@ public final class OuterComposite: Codable, Hashable {
         try container.encodeIfPresent(myNumber, forKey: .myNumber)
         try container.encodeIfPresent(myString, forKey: .myString)
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
+        
     }
+
 
 
 

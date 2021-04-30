@@ -58,7 +58,9 @@ public struct EnumTest: Codable, Hashable {
         try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
         try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
+        
     }
+
 
 
 

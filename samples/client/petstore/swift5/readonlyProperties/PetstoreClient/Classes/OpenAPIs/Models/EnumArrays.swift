@@ -36,7 +36,9 @@ public struct EnumArrays: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
+        
     }
+
 
 
 

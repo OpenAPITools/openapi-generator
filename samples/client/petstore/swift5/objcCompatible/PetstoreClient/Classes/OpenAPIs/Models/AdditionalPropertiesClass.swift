@@ -28,7 +28,9 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(mapString, forKey: .mapString)
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
+        
     }
+
 
 
 

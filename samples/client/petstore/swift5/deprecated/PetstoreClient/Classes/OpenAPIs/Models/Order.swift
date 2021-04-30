@@ -52,7 +52,9 @@ public struct Order: Codable, Hashable {
         try container.encodeIfPresent(shipDate, forKey: .shipDate)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(complete, forKey: .complete)
+        
     }
+
 
 
 

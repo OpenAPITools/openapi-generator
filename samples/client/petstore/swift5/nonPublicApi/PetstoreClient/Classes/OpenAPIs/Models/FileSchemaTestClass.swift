@@ -28,7 +28,9 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(file, forKey: .file)
         try container.encodeIfPresent(files, forKey: .files)
+        
     }
+
 
 
 

@@ -55,7 +55,9 @@ import AnyCodable
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
+        
     }
+
 
 
 

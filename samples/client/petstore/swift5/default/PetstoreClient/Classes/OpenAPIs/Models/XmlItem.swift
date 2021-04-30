@@ -136,7 +136,9 @@ public struct XmlItem: Codable, Hashable {
         try container.encodeIfPresent(prefixNsBoolean, forKey: .prefixNsBoolean)
         try container.encodeIfPresent(prefixNsArray, forKey: .prefixNsArray)
         try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
+        
     }
+
 
 
 

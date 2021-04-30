@@ -29,7 +29,9 @@ import AnyCodable
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
+        
     }
+
 
 
 

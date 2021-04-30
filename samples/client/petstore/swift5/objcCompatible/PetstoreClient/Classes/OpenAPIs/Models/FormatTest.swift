@@ -97,7 +97,9 @@ import AnyCodable
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
+        
     }
+
 
 
 

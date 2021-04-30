@@ -64,7 +64,9 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(anytype1, forKey: .anytype1)
         try container.encodeIfPresent(anytype2, forKey: .anytype2)
         try container.encodeIfPresent(anytype3, forKey: .anytype3)
+        
     }
+
 
 
 

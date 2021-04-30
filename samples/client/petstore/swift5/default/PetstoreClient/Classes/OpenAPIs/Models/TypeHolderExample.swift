@@ -44,7 +44,9 @@ public struct TypeHolderExample: Codable, Hashable {
         try container.encode(integerItem, forKey: .integerItem)
         try container.encode(boolItem, forKey: .boolItem)
         try container.encode(arrayItem, forKey: .arrayItem)
+        
     }
+
 
 
 

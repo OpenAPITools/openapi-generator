@@ -45,7 +45,9 @@ public final class Capitalization: Codable, Hashable {
         try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
         try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
+        
     }
+
 
 
 

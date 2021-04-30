@@ -32,7 +32,9 @@ public struct ApiResponse: Codable, Hashable {
         try container.encodeIfPresent(code, forKey: .code)
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(message, forKey: .message)
+        
     }
+
 
 
 

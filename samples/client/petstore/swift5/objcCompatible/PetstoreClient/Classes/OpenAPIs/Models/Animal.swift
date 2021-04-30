@@ -28,7 +28,9 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(_className, forKey: ._className)
         try container.encodeIfPresent(color, forKey: .color)
+        
     }
+
 
 
 
