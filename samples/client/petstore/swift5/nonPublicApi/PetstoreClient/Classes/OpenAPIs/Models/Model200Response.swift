@@ -33,6 +33,4 @@ internal struct Model200Response: Codable, Hashable {
     }
 
 
-
-
 }

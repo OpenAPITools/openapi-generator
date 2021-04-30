@@ -28,8 +28,6 @@ public final class List: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: List, rhs: List) -> Bool {
         lhs._123list == rhs._123list
         

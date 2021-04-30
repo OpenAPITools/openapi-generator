@@ -57,6 +57,4 @@ public struct User: Codable, Hashable {
     }
 
 
-
-
 }

@@ -62,6 +62,4 @@ public struct EnumTest: Codable, Hashable {
     }
 
 
-
-
 }

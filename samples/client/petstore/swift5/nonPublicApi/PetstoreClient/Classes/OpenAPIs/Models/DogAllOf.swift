@@ -28,6 +28,4 @@ internal struct DogAllOf: Codable, Hashable {
     }
 
 
-
-
 }

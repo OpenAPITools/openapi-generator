@@ -45,7 +45,6 @@ public struct AdditionalPropertiesAnyType: Codable, Hashable {
         
     }
 
-
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -56,7 +55,6 @@ public struct AdditionalPropertiesAnyType: Codable, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         additionalProperties = try container.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
 
 
 }

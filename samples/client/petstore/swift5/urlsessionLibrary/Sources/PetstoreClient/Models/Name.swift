@@ -41,8 +41,6 @@ public final class Name: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Name, rhs: Name) -> Bool {
         lhs.name == rhs.name &&
         lhs.snakeCase == rhs.snakeCase &&

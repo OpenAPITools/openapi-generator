@@ -36,8 +36,6 @@ public final class Cat: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Cat, rhs: Cat) -> Bool {
         lhs.className == rhs.className &&
         lhs.color == rhs.color &&

@@ -28,8 +28,6 @@ public final class ArrayOfNumberOnly: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: ArrayOfNumberOnly, rhs: ArrayOfNumberOnly) -> Bool {
         lhs.arrayNumber == rhs.arrayNumber
         

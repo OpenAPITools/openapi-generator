@@ -62,6 +62,4 @@ internal struct EnumTest: Codable, Hashable {
     }
 
 
-
-
 }

@@ -57,6 +57,4 @@ internal struct User: Codable, Hashable {
     }
 
 
-
-
 }

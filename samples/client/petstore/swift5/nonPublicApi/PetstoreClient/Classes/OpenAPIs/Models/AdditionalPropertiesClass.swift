@@ -32,6 +32,4 @@ internal struct AdditionalPropertiesClass: Codable, Hashable {
     }
 
 
-
-
 }

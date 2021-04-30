@@ -28,8 +28,6 @@ public final class Client: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Client, rhs: Client) -> Bool {
         lhs.client == rhs.client
         

@@ -36,6 +36,4 @@ internal struct Cat: Codable, Hashable {
     }
 
 
-
-
 }

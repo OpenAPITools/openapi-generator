@@ -32,6 +32,4 @@ internal struct Animal: Codable, Hashable {
     }
 
 
-
-
 }

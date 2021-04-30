@@ -40,6 +40,4 @@ public struct EnumArrays: Codable, Hashable {
     }
 
 
-
-
 }

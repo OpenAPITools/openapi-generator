@@ -38,7 +38,6 @@ import AnyCodable
         
     }
 
-
     // Decodable protocol methods
 
     public required init(from decoder: Decoder) throws {
@@ -47,7 +46,6 @@ import AnyCodable
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
 
 
 }

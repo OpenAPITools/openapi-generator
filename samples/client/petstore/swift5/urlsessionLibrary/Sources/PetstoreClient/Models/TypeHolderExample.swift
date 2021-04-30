@@ -44,8 +44,6 @@ public final class TypeHolderExample: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: TypeHolderExample, rhs: TypeHolderExample) -> Bool {
         lhs.stringItem == rhs.stringItem &&
         lhs.numberItem == rhs.numberItem &&

@@ -28,6 +28,4 @@ public struct Client: Codable, Hashable {
     }
 
 
-
-
 }

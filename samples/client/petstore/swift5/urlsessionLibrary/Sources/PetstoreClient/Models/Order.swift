@@ -54,8 +54,6 @@ public final class Order: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Order, rhs: Order) -> Bool {
         lhs.id == rhs.id &&
         lhs.petId == rhs.petId &&

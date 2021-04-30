@@ -36,6 +36,4 @@ public struct Dog: Codable, Hashable {
     }
 
 
-
-
 }

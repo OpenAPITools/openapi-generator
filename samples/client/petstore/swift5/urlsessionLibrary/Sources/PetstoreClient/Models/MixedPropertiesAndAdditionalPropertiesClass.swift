@@ -36,8 +36,6 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
     }
 
 
-
-
     public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
         lhs.uuid == rhs.uuid &&
         lhs.dateTime == rhs.dateTime &&

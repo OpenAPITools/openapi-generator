@@ -34,6 +34,4 @@ public struct BigCat: Codable, Hashable {
     }
 
 
-
-
 }

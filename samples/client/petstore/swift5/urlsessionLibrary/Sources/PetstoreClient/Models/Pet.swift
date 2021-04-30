@@ -54,8 +54,6 @@ public final class Pet: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Pet, rhs: Pet) -> Bool {
         lhs.id == rhs.id &&
         lhs.category == rhs.category &&

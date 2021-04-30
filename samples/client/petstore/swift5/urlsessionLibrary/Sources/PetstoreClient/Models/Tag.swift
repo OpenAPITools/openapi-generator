@@ -32,8 +32,6 @@ public final class Tag: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Tag, rhs: Tag) -> Bool {
         lhs.id == rhs.id &&
         lhs.name == rhs.name

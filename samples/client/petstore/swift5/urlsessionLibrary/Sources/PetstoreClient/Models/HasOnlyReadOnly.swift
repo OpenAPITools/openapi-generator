@@ -32,8 +32,6 @@ public final class HasOnlyReadOnly: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: HasOnlyReadOnly, rhs: HasOnlyReadOnly) -> Bool {
         lhs.bar == rhs.bar &&
         lhs.foo == rhs.foo

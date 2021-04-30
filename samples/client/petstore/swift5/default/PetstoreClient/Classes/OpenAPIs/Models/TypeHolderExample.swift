@@ -48,6 +48,4 @@ public struct TypeHolderExample: Codable, Hashable {
     }
 
 
-
-
 }

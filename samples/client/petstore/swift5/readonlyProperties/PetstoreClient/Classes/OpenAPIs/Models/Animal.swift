@@ -32,6 +32,4 @@ public struct Animal: Codable, Hashable {
     }
 
 
-
-
 }

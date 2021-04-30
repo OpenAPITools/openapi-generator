@@ -32,6 +32,4 @@ public struct FileSchemaTestClass: Codable, Hashable {
     }
 
 
-
-
 }

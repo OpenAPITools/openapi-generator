@@ -36,6 +36,4 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
     }
 
 
-
-
 }

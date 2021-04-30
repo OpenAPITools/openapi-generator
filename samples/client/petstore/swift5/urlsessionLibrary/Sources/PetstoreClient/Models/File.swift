@@ -30,8 +30,6 @@ public final class File: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: File, rhs: File) -> Bool {
         lhs.sourceURI == rhs.sourceURI
         

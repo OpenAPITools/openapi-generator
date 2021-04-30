@@ -40,8 +40,6 @@ public final class EnumArrays: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: EnumArrays, rhs: EnumArrays) -> Bool {
         lhs.justSymbol == rhs.justSymbol &&
         lhs.arrayEnum == rhs.arrayEnum

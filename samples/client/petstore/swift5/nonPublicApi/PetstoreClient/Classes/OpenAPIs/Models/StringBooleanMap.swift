@@ -38,7 +38,6 @@ internal struct StringBooleanMap: Codable, Hashable {
         
     }
 
-
     // Decodable protocol methods
 
     internal init(from decoder: Decoder) throws {
@@ -47,7 +46,6 @@ internal struct StringBooleanMap: Codable, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
 
 
 }

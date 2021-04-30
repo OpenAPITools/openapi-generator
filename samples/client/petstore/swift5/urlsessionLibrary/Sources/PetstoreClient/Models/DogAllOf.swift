@@ -28,8 +28,6 @@ public final class DogAllOf: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: DogAllOf, rhs: DogAllOf) -> Bool {
         lhs.breed == rhs.breed
         

@@ -36,6 +36,4 @@ public struct ArrayTest: Codable, Hashable {
     }
 
 
-
-
 }

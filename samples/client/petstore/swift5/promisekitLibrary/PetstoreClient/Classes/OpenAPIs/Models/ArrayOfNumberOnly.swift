@@ -28,6 +28,4 @@ public struct ArrayOfNumberOnly: Codable, Hashable {
     }
 
 
-
-
 }

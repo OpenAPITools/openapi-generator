@@ -32,8 +32,6 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: AdditionalPropertiesClass, rhs: AdditionalPropertiesClass) -> Bool {
         lhs.mapString == rhs.mapString &&
         lhs.mapMapString == rhs.mapMapString

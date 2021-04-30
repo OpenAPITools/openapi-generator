@@ -41,6 +41,4 @@ public struct Name: Codable, Hashable {
     }
 
 
-
-
 }

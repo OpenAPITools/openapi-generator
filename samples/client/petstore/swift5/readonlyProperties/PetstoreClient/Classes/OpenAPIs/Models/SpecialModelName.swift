@@ -28,6 +28,4 @@ public struct SpecialModelName: Codable, Hashable {
     }
 
 
-
-
 }

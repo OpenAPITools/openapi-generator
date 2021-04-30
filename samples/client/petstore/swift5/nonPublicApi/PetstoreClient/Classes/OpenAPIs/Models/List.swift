@@ -28,6 +28,4 @@ internal struct List: Codable, Hashable {
     }
 
 
-
-
 }

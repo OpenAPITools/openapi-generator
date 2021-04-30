@@ -29,8 +29,6 @@ public final class ClassModel: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: ClassModel, rhs: ClassModel) -> Bool {
         lhs._class == rhs._class
         

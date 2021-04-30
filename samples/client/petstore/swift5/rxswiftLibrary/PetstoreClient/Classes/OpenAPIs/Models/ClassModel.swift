@@ -29,6 +29,4 @@ public struct ClassModel: Codable, Hashable {
     }
 
 
-
-
 }

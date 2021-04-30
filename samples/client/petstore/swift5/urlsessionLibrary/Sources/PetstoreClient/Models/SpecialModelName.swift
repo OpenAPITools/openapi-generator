@@ -28,8 +28,6 @@ public final class SpecialModelName: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: SpecialModelName, rhs: SpecialModelName) -> Bool {
         lhs.specialPropertyName == rhs.specialPropertyName
         

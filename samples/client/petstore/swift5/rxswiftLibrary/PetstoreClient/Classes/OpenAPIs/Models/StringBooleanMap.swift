@@ -21,6 +21,4 @@ public struct StringBooleanMap: Codable, Hashable {
     }
 
 
-
-
 }

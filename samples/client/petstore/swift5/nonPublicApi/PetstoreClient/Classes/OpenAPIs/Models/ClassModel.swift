@@ -29,6 +29,4 @@ internal struct ClassModel: Codable, Hashable {
     }
 
 
-
-
 }

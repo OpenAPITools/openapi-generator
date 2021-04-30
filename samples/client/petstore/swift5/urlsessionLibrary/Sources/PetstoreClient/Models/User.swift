@@ -57,8 +57,6 @@ public final class User: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: User, rhs: User) -> Bool {
         lhs.id == rhs.id &&
         lhs.username == rhs.username &&

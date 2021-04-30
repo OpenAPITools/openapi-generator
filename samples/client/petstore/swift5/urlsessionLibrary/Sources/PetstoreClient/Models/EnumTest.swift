@@ -62,8 +62,6 @@ public final class EnumTest: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: EnumTest, rhs: EnumTest) -> Bool {
         lhs.enumString == rhs.enumString &&
         lhs.enumStringRequired == rhs.enumStringRequired &&

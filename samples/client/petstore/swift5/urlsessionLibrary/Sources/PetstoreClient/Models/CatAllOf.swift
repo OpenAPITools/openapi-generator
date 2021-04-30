@@ -28,8 +28,6 @@ public final class CatAllOf: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: CatAllOf, rhs: CatAllOf) -> Bool {
         lhs.declawed == rhs.declawed
         

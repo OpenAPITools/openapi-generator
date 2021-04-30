@@ -32,8 +32,6 @@ public final class FileSchemaTestClass: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: FileSchemaTestClass, rhs: FileSchemaTestClass) -> Bool {
         lhs.file == rhs.file &&
         lhs.files == rhs.files

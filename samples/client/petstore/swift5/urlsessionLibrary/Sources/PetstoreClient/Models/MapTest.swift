@@ -44,8 +44,6 @@ public final class MapTest: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: MapTest, rhs: MapTest) -> Bool {
         lhs.mapMapOfString == rhs.mapMapOfString &&
         lhs.mapOfEnumString == rhs.mapOfEnumString &&

@@ -36,6 +36,4 @@ internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
     }
 
 
-
-
 }

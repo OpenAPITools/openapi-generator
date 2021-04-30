@@ -36,8 +36,6 @@ public final class OuterComposite: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: OuterComposite, rhs: OuterComposite) -> Bool {
         lhs.myNumber == rhs.myNumber &&
         lhs.myString == rhs.myString &&

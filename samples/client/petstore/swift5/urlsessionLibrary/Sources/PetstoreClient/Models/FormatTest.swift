@@ -76,8 +76,6 @@ public final class FormatTest: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: FormatTest, rhs: FormatTest) -> Bool {
         lhs.integer == rhs.integer &&
         lhs.int32 == rhs.int32 &&

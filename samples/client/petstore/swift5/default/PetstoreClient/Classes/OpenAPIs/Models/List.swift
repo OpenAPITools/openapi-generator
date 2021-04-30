@@ -28,6 +28,4 @@ public struct List: Codable, Hashable {
     }
 
 
-
-
 }

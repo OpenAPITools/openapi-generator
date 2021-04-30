@@ -36,6 +36,4 @@ public struct ApiResponse: Codable, Hashable {
     }
 
 
-
-
 }

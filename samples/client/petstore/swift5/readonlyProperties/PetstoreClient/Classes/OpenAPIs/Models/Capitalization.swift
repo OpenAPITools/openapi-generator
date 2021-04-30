@@ -49,6 +49,4 @@ public struct Capitalization: Codable, Hashable {
     }
 
 
-
-
 }

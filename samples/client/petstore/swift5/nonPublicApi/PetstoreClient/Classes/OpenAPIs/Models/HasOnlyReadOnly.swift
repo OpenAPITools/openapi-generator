@@ -32,6 +32,4 @@ internal struct HasOnlyReadOnly: Codable, Hashable {
     }
 
 
-
-
 }

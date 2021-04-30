@@ -54,6 +54,4 @@ internal struct Pet: Codable, Hashable {
     }
 
 
-
-
 }

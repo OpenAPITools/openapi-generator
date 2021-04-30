@@ -28,6 +28,4 @@ public struct CatAllOf: Codable, Hashable {
     }
 
 
-
-
 }

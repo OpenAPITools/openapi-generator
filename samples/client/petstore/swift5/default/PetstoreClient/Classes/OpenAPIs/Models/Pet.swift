@@ -54,6 +54,4 @@ public struct Pet: Codable, Hashable {
     }
 
 
-
-
 }

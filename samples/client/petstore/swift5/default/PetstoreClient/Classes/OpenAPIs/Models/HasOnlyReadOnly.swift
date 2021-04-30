@@ -32,6 +32,4 @@ public struct HasOnlyReadOnly: Codable, Hashable {
     }
 
 
-
-
 }

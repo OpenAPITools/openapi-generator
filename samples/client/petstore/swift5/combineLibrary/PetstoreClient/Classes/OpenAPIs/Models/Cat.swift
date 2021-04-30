@@ -36,6 +36,4 @@ public struct Cat: Codable, Hashable {
     }
 
 
-
-
 }

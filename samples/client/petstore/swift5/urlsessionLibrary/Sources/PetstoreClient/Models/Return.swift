@@ -29,8 +29,6 @@ public final class Return: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Return, rhs: Return) -> Bool {
         lhs._return == rhs._return
         

@@ -32,6 +32,4 @@ internal struct FileSchemaTestClass: Codable, Hashable {
     }
 
 
-
-
 }

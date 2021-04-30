@@ -32,8 +32,6 @@ public final class ReadOnlyFirst: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: ReadOnlyFirst, rhs: ReadOnlyFirst) -> Bool {
         lhs.bar == rhs.bar &&
         lhs.baz == rhs.baz

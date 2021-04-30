@@ -36,6 +36,4 @@ internal struct ApiResponse: Codable, Hashable {
     }
 
 
-
-
 }

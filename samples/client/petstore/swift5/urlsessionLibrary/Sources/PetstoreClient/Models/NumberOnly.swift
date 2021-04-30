@@ -28,8 +28,6 @@ public final class NumberOnly: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: NumberOnly, rhs: NumberOnly) -> Bool {
         lhs.justNumber == rhs.justNumber
         

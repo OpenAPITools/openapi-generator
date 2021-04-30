@@ -68,9 +68,8 @@
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
         {{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
-    }
+    }{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
 
-{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
     // Decodable protocol methods
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}}{{#objcCompatible}} required{{/objcCompatible}} init(from decoder: Decoder) throws {
@@ -84,8 +83,7 @@
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
         {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }
-{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
 
 {{^objcCompatible}}{{#useClasses}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {

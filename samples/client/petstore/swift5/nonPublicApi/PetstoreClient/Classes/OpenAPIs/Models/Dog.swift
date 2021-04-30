@@ -36,6 +36,4 @@ internal struct Dog: Codable, Hashable {
     }
 
 
-
-
 }

@@ -36,8 +36,6 @@ public final class ApiResponse: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: ApiResponse, rhs: ApiResponse) -> Bool {
         lhs.code == rhs.code &&
         lhs.type == rhs.type &&

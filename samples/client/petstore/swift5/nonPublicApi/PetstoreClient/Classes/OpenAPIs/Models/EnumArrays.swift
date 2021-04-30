@@ -40,6 +40,4 @@ internal struct EnumArrays: Codable, Hashable {
     }
 
 
-
-
 }

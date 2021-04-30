@@ -36,8 +36,6 @@ public final class ArrayTest: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
         lhs.arrayOfString == rhs.arrayOfString &&
         lhs.arrayArrayOfInteger == rhs.arrayArrayOfInteger &&

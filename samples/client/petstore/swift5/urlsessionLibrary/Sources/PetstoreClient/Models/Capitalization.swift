@@ -49,8 +49,6 @@ public final class Capitalization: Codable, Hashable {
     }
 
 
-
-
     public static func == (lhs: Capitalization, rhs: Capitalization) -> Bool {
         lhs.smallCamel == rhs.smallCamel &&
         lhs.capitalCamel == rhs.capitalCamel &&
