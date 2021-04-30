@@ -1,0 +1,55 @@
+#include "{{classname}}.h"
+
+using namespace std;
+using namespace Tinyclient;
+
+{{#operations}}
+
+    {{classname}}::{{classname}}()
+    {
+
+    }
+
+    {{classname}}::~{{classname}}()
+    {
+
+    }
+    {{! Method }}
+    {{#operation}}
+
+        Response
+        {{#allParams}}
+            {{#returnType}}
+                <
+                {{!Arrays }}
+                {{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{/returnContainer}}
+                {{! Normal types/objects }}
+                {{^returnContainer}}{{returnType}}{{/returnContainer}}
+                >
+            {{/returnType}}
+        {{/allParams}}
+        {{! Method name }}
+        {{nickname}}(
+        {{! Params }}
+        {{#allParams}}
+        {{! Arrays }}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}
+            {{! Normal types/objects }}
+            {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
+            {{^-last}}, {{/-last}}
+        {{/allParams}}
+        )
+        {{! Method start}}
+        {
+
+
+
+
+        }
+    {{/operation}}
+
+    private:
+
+
+
+{{/operations}}

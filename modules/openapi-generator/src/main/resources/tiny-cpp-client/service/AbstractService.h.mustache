@@ -1,0 +1,38 @@
+#ifndef _AbstractService_H_
+#define _AbstractService_H_
+
+namespace Tinyclient {
+
+/**
+*  Class
+* Generated with openapi::tiny-cpp-client
+*/
+class AbstractService {
+    public:
+        std::string basepath = {{{basePath}}};
+        HTTPClient http;
+
+    private:
+        Response Request(const char * type, String payload){
+        String url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
+        // Query {{#queryParams}}{{paramName}} {{/queryParams}}
+        // Headers {{#headerParams}}{{paramName}} {{/headerParams}}
+        // Headers {{#formParams}}{{paramName}} {{/formParams}}
+        // Body  {{#bodyParam}}{{paramName}} {{/bodyParam}}
+        Serial.println("Connecting to website: " + url);
+        HTTPClient http;
+        http.begin(url, test_root_ca); //HTTPS example connection
+
+        // Send Request
+        // METHOD {{httpMethod}}
+        int httpCode = http.GET();
+        // Hanlde Request
+        String payload = http.getString();
+        http.end();
+
+        Response<Pet> response(Pet(payload), httpCode);
+        return response;
+        }
+    };
+} // namespace Tinyclient
+#endif // _AbstractService_H_

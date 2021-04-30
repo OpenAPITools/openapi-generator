@@ -1,7 +1,14 @@
 #ifndef _{{classname}}_H_
 #define _{{classname}}_H_
 
+// TODO import used models i this service.
+{{#imports}}
+    #include "{{classname}}.h"
+{{/imports}}
+
 #include "Response.h"
+#include "Arduino.h"
+#include "AbstractService.h"
 namespace Tinyclient {
 
 {{#operations}}
@@ -10,7 +17,7 @@ namespace Tinyclient {
  * Generated with openapi::tiny-cpp-client
  */
 
-class {{classname}}{
+class {{classname}} : AbstractService {
 public:
     {{! Constructor }}
     {{classname}}();
