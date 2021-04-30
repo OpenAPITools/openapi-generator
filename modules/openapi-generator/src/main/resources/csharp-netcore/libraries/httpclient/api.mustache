@@ -108,7 +108,6 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}() : this((string)null)
         {
         }
@@ -119,7 +118,6 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}(String basePath)
         {
             this.Configuration = {{packageName}}.Client.Configuration.MergeConfigurations(
@@ -140,7 +138,6 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public {{classname}}({{packageName}}.Client.Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
