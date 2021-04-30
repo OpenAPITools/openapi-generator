@@ -73,35 +73,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "Empty";
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
-        }
-
-        // number
-        if ("number".equals(datatype)) {
-            String varName = "NUMBER_" + name;
-
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        String enumName = name;
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
-    }
-
-    @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = toModelName(property.name);
 
