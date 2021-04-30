@@ -31,17 +31,20 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         return "Generates a Arduino rest client.";
     }
 
+
+
     public TinyCppClientCodegen() {
         super();
-
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         modelTemplateFiles.put("model.mustache", ".md");
-        apiTemplateFiles.put("api-header.mustache", ".h");
-        apiTemplateFiles.put("api-body.mustache", ".cpp");
+        apiTemplateFiles.put("service/api-header.mustache", ".h");
+        apiTemplateFiles.put("service/api-body.mustache", ".cpp");
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
         apiPackage = "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("service/Response.h.mustache", "service", "Response.h")); // TODO find right function for folder
+        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", "service", "AbstractService.h")); // TODO find right function for folder
         // TODO: Fill this out.
     }
 }
