@@ -1,0 +1,108 @@
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+using namespace Tiny;
+
+#include <string>
+#include <list>
+#include <unity.h>
+#include "bourne/json.hpp"
+
+void setUp(){    
+}
+
+
+void tearDown(){
+}
+
+{{#vars}}
+
+void test_{{name}}_is_assigned()
+{
+    {{#isInteger}}
+    bourne::json {{classname}}JSON = 
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj{{classname}}({{classname}}JSON.dump());
+
+    TEST_ASSERT_EQUAL_INT(1, obj{{classname}}.{{getter}}());
+    {{/isInteger}}
+
+
+    {{#isString}}
+    bourne::json {{classname}}JSON = 
+    {
+        "{{name}}", "hello"
+    };
+
+    {{classname}} obj{{classname}}({{classname}}JSON.dump());
+
+    TEST_ASSERT_EQUAL_STRING("hello", obj{{classname}}.{{getter}}().c_str());
+    {{/isString}}
+
+
+    {{#isBoolean}}
+    bourne::json {{classname}}JSON = 
+    {
+        "{{name}}", true
+    };
+
+    {{classname}} obj{{classname}}({{classname}}JSON.dump());
+
+    TEST_ASSERT(true == obj{{classname}}.{{getter}}());
+    {{/isBoolean}}
+
+
+    {{#isLong}}
+    bourne::json {{classname}}JSON = 
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj{{classname}}({{classname}}JSON.dump());
+
+    TEST_ASSERT_EQUAL_INT64(1, obj{{classname}}.{{getter}}());
+    {{/isLong}}
+
+
+     {{#isFloat}}
+    bourne::json {{classname}}JSON = 
+    {
+        "{{name}}", 1.0
+    };
+
+    {{classname}} obj{{classname}}({{classname}}JSON.dump());
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0, obj{{classname}}.{{getter}}());
+    {{/isFloat}}
+}
+
+
+{{/vars}}
+
+void runTests(){
+    {{#vars}}
+    RUN_TEST(test_{{name}}_is_assigned);
+    {{/vars}}
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    runTests();
+    return UNITY_END();
+}
+
+void setup() {
+    UNITY_BEGIN();
+    runTests();
+    UNITY_END();
+}
+
+void loop() {
+    
+}
+
+{{/model}}
+{{/models}}
