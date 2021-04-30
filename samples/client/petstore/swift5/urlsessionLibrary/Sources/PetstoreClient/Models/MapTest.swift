@@ -41,7 +41,6 @@ public final class MapTest: Codable, Hashable {
         try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
         try container.encodeIfPresent(directMap, forKey: .directMap)
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
-        
     }
 
     public static func == (lhs: MapTest, rhs: MapTest) -> Bool {

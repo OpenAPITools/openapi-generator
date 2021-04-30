@@ -38,6 +38,5 @@ public struct Name: Codable, Hashable {
         try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
-        
     }
 }

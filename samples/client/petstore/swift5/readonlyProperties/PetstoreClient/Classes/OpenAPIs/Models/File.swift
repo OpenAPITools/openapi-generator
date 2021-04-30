@@ -27,6 +27,5 @@ public struct File: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
-        
     }
 }

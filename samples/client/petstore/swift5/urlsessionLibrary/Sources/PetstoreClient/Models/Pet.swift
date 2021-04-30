@@ -51,7 +51,6 @@ public final class Pet: Codable, Hashable {
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
-        
     }
 
     public static func == (lhs: Pet, rhs: Pet) -> Bool {

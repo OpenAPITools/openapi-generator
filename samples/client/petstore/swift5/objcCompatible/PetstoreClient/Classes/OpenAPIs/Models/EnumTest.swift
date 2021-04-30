@@ -59,6 +59,5 @@ import AnyCodable
         try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
         try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
-        
     }
 }

@@ -35,6 +35,5 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(_class, forKey: ._class)
-        
     }
 }

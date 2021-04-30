@@ -29,7 +29,6 @@ public final class HasOnlyReadOnly: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(foo, forKey: .foo)
-        
     }
 
     public static func == (lhs: HasOnlyReadOnly, rhs: HasOnlyReadOnly) -> Bool {

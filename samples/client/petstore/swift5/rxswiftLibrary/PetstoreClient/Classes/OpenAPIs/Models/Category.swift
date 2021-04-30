@@ -29,6 +29,5 @@ public struct Category: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        
     }
 }

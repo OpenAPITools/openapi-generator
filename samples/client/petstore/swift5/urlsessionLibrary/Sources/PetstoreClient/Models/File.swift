@@ -27,7 +27,6 @@ public final class File: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
-        
     }
 
     public static func == (lhs: File, rhs: File) -> Bool {

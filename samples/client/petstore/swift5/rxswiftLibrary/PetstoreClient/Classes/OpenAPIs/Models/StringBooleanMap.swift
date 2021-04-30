@@ -18,6 +18,5 @@ public struct StringBooleanMap: Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
     }
 }

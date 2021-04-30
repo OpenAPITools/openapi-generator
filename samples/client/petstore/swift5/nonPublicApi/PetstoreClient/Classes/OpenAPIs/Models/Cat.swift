@@ -33,6 +33,5 @@ internal struct Cat: Codable, Hashable {
         try container.encode(className, forKey: .className)
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(declawed, forKey: .declawed)
-        
     }
 }

@@ -33,7 +33,6 @@ public final class Cat: Codable, Hashable {
         try container.encode(className, forKey: .className)
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(declawed, forKey: .declawed)
-        
     }
 
     public static func == (lhs: Cat, rhs: Cat) -> Bool {

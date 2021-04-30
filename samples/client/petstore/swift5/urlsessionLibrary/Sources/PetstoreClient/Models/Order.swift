@@ -51,7 +51,6 @@ public final class Order: Codable, Hashable {
         try container.encodeIfPresent(shipDate, forKey: .shipDate)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(complete, forKey: .complete)
-        
     }
 
     public static func == (lhs: Order, rhs: Order) -> Bool {

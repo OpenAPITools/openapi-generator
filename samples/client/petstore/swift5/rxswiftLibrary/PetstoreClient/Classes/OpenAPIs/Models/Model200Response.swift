@@ -30,6 +30,5 @@ public struct Model200Response: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(`class`, forKey: .`class`)
-        
     }
 }

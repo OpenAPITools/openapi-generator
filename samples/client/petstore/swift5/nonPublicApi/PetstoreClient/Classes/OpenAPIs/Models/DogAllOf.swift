@@ -25,6 +25,5 @@ internal struct DogAllOf: Codable, Hashable {
     internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(breed, forKey: .breed)
-        
     }
 }

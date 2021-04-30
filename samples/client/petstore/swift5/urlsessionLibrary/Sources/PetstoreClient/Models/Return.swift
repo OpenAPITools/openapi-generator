@@ -26,7 +26,6 @@ public final class Return: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_return, forKey: ._return)
-        
     }
 
     public static func == (lhs: Return, rhs: Return) -> Bool {

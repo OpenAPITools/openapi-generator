@@ -64,6 +64,5 @@ import AnyCodable
         try container.encodeIfPresent(password, forKey: .password)
         try container.encodeIfPresent(phone, forKey: .phone)
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
-        
     }
 }

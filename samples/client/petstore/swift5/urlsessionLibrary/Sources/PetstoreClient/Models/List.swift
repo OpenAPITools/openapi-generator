@@ -25,7 +25,6 @@ public final class List: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_123list, forKey: ._123list)
-        
     }
 
     public static func == (lhs: List, rhs: List) -> Bool {

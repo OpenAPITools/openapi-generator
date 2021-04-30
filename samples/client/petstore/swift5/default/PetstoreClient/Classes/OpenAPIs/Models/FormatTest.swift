@@ -77,6 +77,5 @@ public struct FormatTest: Codable, Hashable {
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
         try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
-        
     }
 }

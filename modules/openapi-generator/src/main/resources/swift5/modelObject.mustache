@@ -65,10 +65,12 @@
         {{#allVars}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
         {{/allVars}}
-        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
+        {{#generateModelAdditionalProperties}}
+        {{#additionalPropertiesType}}
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
-        {{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+        {{/additionalPropertiesType}}
+        {{/generateModelAdditionalProperties}}
     }{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
 
     // Decodable protocol methods

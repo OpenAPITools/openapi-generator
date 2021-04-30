@@ -33,6 +33,5 @@ import AnyCodable
         try container.encode(_className, forKey: ._className)
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(breed, forKey: .breed)
-        
     }
 }

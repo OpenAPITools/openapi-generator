@@ -29,7 +29,6 @@ public final class Tag: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
-        
     }
 
     public static func == (lhs: Tag, rhs: Tag) -> Bool {

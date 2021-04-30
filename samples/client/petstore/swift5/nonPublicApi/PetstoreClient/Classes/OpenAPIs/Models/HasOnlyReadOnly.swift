@@ -29,6 +29,5 @@ internal struct HasOnlyReadOnly: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(foo, forKey: .foo)
-        
     }
 }
