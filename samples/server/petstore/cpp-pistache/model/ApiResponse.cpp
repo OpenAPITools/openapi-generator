@@ -49,33 +49,9 @@ bool ApiResponse::validate(std::stringstream& msg, const std::string& pathPrefix
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "ApiResponse" : pathPrefix;
 
-        if (codeIsSet())
-    {
-        const int32_t& value = m_Code;
-        const std::string currentValuePath = _pathPrefix + ".code";
-                
         
-
-
-    }
-    if (typeIsSet())
-    {
-        const std::string& value = m_Type;
-        const std::string currentValuePath = _pathPrefix + ".type";
-                
-        
-
-
-    }
-    if (messageIsSet())
-    {
-        const std::string& value = m_Message;
-        const std::string currentValuePath = _pathPrefix + ".message";
-                
-        
-
-
-    }
+    
+    
 
     return success;
 }

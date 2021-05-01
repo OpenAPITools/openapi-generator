@@ -55,73 +55,12 @@ bool Order::validate(std::stringstream& msg, const std::string& pathPrefix) cons
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Order" : pathPrefix;
 
-        if (idIsSet())
-    {
-        const int64_t& value = m_Id;
-        const std::string currentValuePath = _pathPrefix + ".id";
-                
         
-
-
-    }
-    if (petIdIsSet())
-    {
-        const int64_t& value = m_PetId;
-        const std::string currentValuePath = _pathPrefix + ".petId";
-                
-        
-
-
-    }
-    if (quantityIsSet())
-    {
-        const int32_t& value = m_Quantity;
-        const std::string currentValuePath = _pathPrefix + ".quantity";
-                
-        
-
-
-    }
-    if (shipDateIsSet())
-    {
-        const std::string& value = m_ShipDate;
-        const std::string currentValuePath = _pathPrefix + ".shipDate";
-                
-        
-        if (!org::openapitools::server::helpers::validateRfc3339_date_time(value))
-        {
-            success = false;
-            msg << currentValuePath << ": must be a valid RFC 3339 date-time string;";
-        }
-
-
-    }
-    if (statusIsSet())
-    {
-        const std::string& value = m_Status;
-        const std::string currentValuePath = _pathPrefix + ".status";
-                
-        
-        if (
-            value != "placed" &&
-            value != "approved" &&
-            value != "delivered"
-        ) {
-            success = false;
-            msg << currentValuePath << ": has invalid value \"" << value << "\";";
-        }
-
-
-    }
-    if (completeIsSet())
-    {
-        const bool& value = m_Complete;
-        const std::string currentValuePath = _pathPrefix + ".complete";
-                
-        
-
-
-    }
+    
+    
+    
+    
+    
 
     return success;
 }

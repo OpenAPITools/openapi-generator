@@ -47,24 +47,8 @@ bool Category::validate(std::stringstream& msg, const std::string& pathPrefix) c
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Category" : pathPrefix;
 
-        if (idIsSet())
-    {
-        const int64_t& value = m_Id;
-        const std::string currentValuePath = _pathPrefix + ".id";
-                
         
-
-
-    }
-    if (nameIsSet())
-    {
-        const std::string& value = m_Name;
-        const std::string currentValuePath = _pathPrefix + ".name";
-                
-        
-
-
-    }
+    
 
     return success;
 }

@@ -50,33 +50,10 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Pet" : pathPrefix;
 
-        if (idIsSet())
-    {
-        const int64_t& value = m_Id;
-        const std::string currentValuePath = _pathPrefix + ".id";
-                
         
-
-
-    }
-    if (categoryIsSet())
-    {
-        const Category& value = m_Category;
-        const std::string currentValuePath = _pathPrefix + ".category";
-                
-        success = value.validate(msg, currentValuePath + ".category") && success;
-
-
-    }
     
-    /* Name */ {
-        const std::string& value = m_Name;
-        const std::string currentValuePath = _pathPrefix + ".name";
-                
-        
-
-
-    }
+    
+     
     
     /* PhotoUrls */ {
         const std::vector<std::string>& value = m_PhotoUrls;
@@ -91,14 +68,14 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
                         
         
-
  
                 i++;
             }
         }
 
-
     }
+    
+     
     if (tagsIsSet())
     {
         const std::vector<Tag>& value = m_Tags;
@@ -113,31 +90,14 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
                 const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
                         
         success = value.validate(msg, currentValuePath + ".tags") && success;
-
  
                 i++;
             }
         }
 
-
     }
-    if (statusIsSet())
-    {
-        const std::string& value = m_Status;
-        const std::string currentValuePath = _pathPrefix + ".status";
-                
-        
-        if (
-            value != "available" &&
-            value != "pending" &&
-            value != "sold"
-        ) {
-            success = false;
-            msg << currentValuePath << ": has invalid value \"" << value << "\";";
-        }
-
-
-    }
+    
+    
 
     return success;
 }

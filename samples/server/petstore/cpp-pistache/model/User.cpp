@@ -59,78 +59,14 @@ bool User::validate(std::stringstream& msg, const std::string& pathPrefix) const
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "User" : pathPrefix;
 
-        if (idIsSet())
-    {
-        const int64_t& value = m_Id;
-        const std::string currentValuePath = _pathPrefix + ".id";
-                
         
-
-
-    }
-    if (usernameIsSet())
-    {
-        const std::string& value = m_Username;
-        const std::string currentValuePath = _pathPrefix + ".username";
-                
-        
-
-
-    }
-    if (firstNameIsSet())
-    {
-        const std::string& value = m_FirstName;
-        const std::string currentValuePath = _pathPrefix + ".firstName";
-                
-        
-
-
-    }
-    if (lastNameIsSet())
-    {
-        const std::string& value = m_LastName;
-        const std::string currentValuePath = _pathPrefix + ".lastName";
-                
-        
-
-
-    }
-    if (emailIsSet())
-    {
-        const std::string& value = m_Email;
-        const std::string currentValuePath = _pathPrefix + ".email";
-                
-        
-
-
-    }
-    if (passwordIsSet())
-    {
-        const std::string& value = m_Password;
-        const std::string currentValuePath = _pathPrefix + ".password";
-                
-        
-
-
-    }
-    if (phoneIsSet())
-    {
-        const std::string& value = m_Phone;
-        const std::string currentValuePath = _pathPrefix + ".phone";
-                
-        
-
-
-    }
-    if (userStatusIsSet())
-    {
-        const int32_t& value = m_UserStatus;
-        const std::string currentValuePath = _pathPrefix + ".userStatus";
-                
-        
-
-
-    }
+    
+    
+    
+    
+    
+    
+    
 
     return success;
 }
