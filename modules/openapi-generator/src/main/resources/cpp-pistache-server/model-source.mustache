@@ -46,12 +46,21 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
     {{/isEnum}}
     {{^isEnum}}
     {{#vars}}
+    {{#isArray}} {{! Always generate validation body for array types }}
     {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
     {{#required}}/* {{name}} */ {{/required}}{
         const {{{dataType}}}& value = m_{{name}};
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
         {{> model-validation-body }}
     }
+    {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
+    {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = m_{{name}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/hasValidation}}{{/isArray}}
     {{/vars}}
     {{/isEnum}}
 
