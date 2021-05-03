@@ -562,7 +562,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 
 ### [3.5 - IDE Integration](#table-of-contents)
 
-Here is a list of community-conitributed IDE plug-ins that integrate with OpenAPI Generator:
+Here is a list of community-contributed IDE plug-ins that integrate with OpenAPI Generator:
 
 - Eclipse: [Codewind OpenAPI Tools for Eclipse](https://www.eclipse.org/codewind/open-api-tools-for-eclipse.html) by [IBM](https://www.ibm.com)
 - IntelliJ IDEA: [OpenAPI Generator](https://plugins.jetbrains.com/plugin/8433-openapi-generator) by [Jim Schubert](https://jimschubert.us/#/)
