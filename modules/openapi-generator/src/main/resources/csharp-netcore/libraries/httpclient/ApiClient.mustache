@@ -399,10 +399,10 @@ namespace {{packageName}}.Client
         partial void InterceptRequest(HttpRequestMessage req);
         partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
-            string rawContent = response.Content.ToString();
+            string rawContent = await response.Content.ReadAsStringAsync();
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
             {
@@ -523,9 +523,7 @@ namespace {{packageName}}.Client
 
             InterceptResponse(req, response);
 
-            var result = ToApiResponse<T>(response, responseData, req.RequestUri);
-
-            return result;
+            return await ToApiResponse<T>(response, responseData, req.RequestUri);
         }
 
         {{#supportsAsync}}
