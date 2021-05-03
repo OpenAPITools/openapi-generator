@@ -19,14 +19,32 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
     static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
 
+    /**
+     * Configures the type of generator.
+     *
+     * @return the CodegenType for this generator
+     * @see org.openapitools.codegen.CodegenType
+     */
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    /**
+     * Configures a friendly name for the generator. This will be used by the
+     * generator to select the library with the -g flag.
+     *
+     * @return the friendly name for the generator
+     */
     public String getName() {
         return "tiny-cpp";
     }
 
+    /**
+     * Returns human-friendly help for the generator. Provide the consumer with
+     * help tips, parameters here
+     *
+     * @return A string value for the help message
+     */
     public String getHelp() {
         return "Generates a Arduino rest client.";
     }
