@@ -454,6 +454,11 @@
   infoLink: "https://www.viadee.de"
   pinned: false
 -
+  caption: "VMware"
+  image: "img/companies/vmware.png"
+  infoLink: "https://www.vmware.com/"
+  pinned: false
+-
   caption: Vonage
   image: "img/companies/vonage.png"
   infoLink: "https://vonage.com"
