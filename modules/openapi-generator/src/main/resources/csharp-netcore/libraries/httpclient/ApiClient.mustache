@@ -509,6 +509,11 @@ namespace {{packageName}}.Client
             }
 {{/supportsRetry}}
 
+            if (!response.IsSuccessStatusCode)
+            {
+                return await ToApiResponse<T>(response, default(T), req.RequestUri);
+            }
+			
             object responseData = deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
