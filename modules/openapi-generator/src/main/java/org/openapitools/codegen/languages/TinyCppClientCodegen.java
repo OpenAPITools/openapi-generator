@@ -37,22 +37,33 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         super();
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
+        String libFolder = "lib";
+        String sourceFolder = "src";
+        embeddedTemplateDir = templateDir = "tiny-cpp-client";
+
         
-        modelTemplateFiles.put("model.mustache", ".md");
+        modelPackage = libFolder + File.separator + "Models";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
+        
+        
+        testPackage = libFolder + File.separator + "TestFiles";
+        modelTestTemplateFiles.put("unit-test-model.mustache", ".cpp");
+
+        
+        apiPackage = libFolder + File.separator + "Apis";
         apiTemplateFiles.put("api.mustache", ".md");
-        embeddedTemplateDir = templateDir = "tiny-cpp-client";
-        apiPackage = "Apis";
-        modelPackage = "Models";
+        
+        
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", "", "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", "", "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
         
         // Example:
         supportingFiles.add(new SupportingFile("platformio.ini.mustache", "", "platformio.ini"));
-        supportingFiles.add(new SupportingFile("main.mustache", "src", "main.cpp"));
-        supportingFiles.add(new SupportingFile("unittest.mustache", "test", "unittest.cpp"));
+        supportingFiles.add(new SupportingFile("main.mustache", sourceFolder, "main.cpp"));
+        supportingFiles.add(new SupportingFile("run-tests.mustache", "test", "RunTests.cpp"));
+        supportingFiles.add(new SupportingFile("unittest.mustache", "test_example", "unittest.cpp"));
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
