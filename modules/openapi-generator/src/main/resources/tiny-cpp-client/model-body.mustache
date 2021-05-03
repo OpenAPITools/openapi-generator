@@ -22,14 +22,14 @@ using namespace Tiny;
 void
 {{classname}}::__init()
 {
-    {{#vars}}
-	{{#isContainer}}
+    //{{#vars}}
+	//{{#isContainer}}
 	//{{defaultValue}}{{baseType}}> {{name}};
-	{{/isContainer}}
-	{{^isContainer}}
+	//{{/isContainer}}
+	//{{^isContainer}}
 	//{{name}} = {{defaultValue}};
-	{{/isContainer}}
-	{{/vars}}
+	//{{/isContainer}}
+	//{{/vars}}
 }
 
 void
@@ -120,12 +120,6 @@ bourne::json
     }
     object["{{name}}"] = {{name}}_arr;
 
-
-    //std::list<{{dataType}}>::iterator {{name}}_it;
-    //for ({{name}}_it = {{name}}_list.begin(); {{name}}_it != {{name}}_list.end(); {{name}}_it++) 
-    //{
-    //    {{name}}_arr.append({{name}}_it); // maybe address/pointer smthing?
-    //}
     
     {{/isPrimitiveType}}
 
@@ -140,13 +134,6 @@ bourne::json
     }
     object["{{name}}"] = {{name}}_arr;
 
-    //std::list<{{dataType}}>::iterator {{name}}_it;
-
-    //for ({{name}}_it = {{name}}_list.begin(); {{name}}_it != {{name}}_list.end(); {{name}}_it++) 
-    //{
-    //    {{dataType}} obj = *{{name}}_it;
-    //    {{name}}_arr.append(obj.toJson());
-    //}
     {{/isPrimitiveType}} 
     {{/items}}
     {{/isArray}}
