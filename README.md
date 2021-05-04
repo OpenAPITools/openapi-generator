@@ -666,6 +666,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
+- [VMWare](https://www.vmware.com/)
 - [wbt-solutions](https://www.wbt-solutions.de/)
 - [Woleet](https://www.woleet.io/)
 - [WSO2](https://wso2.com/)
