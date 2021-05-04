@@ -117,6 +117,10 @@ class GmFruit(ModelComposed):
         'origin': 'origin',  # noqa: E501
     }
 
+
+    read_only_vars = {
+    }
+
     @classmethod
     @convert_js_args_to_python_args
     def from_openapi_data(cls, *args, **kwargs):  # noqa: E501
@@ -307,7 +311,9 @@ class GmFruit(ModelComposed):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
-
+            if var_name in self.read_only_vars:
+                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                                     f"class with read only attributes.")
 
     @cached_property
     def _composed_schemas():

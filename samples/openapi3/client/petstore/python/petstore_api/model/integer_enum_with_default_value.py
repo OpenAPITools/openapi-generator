@@ -91,6 +91,8 @@ class IntegerEnumWithDefaultValue(ModelSimple):
 
     attribute_map = {}
 
+    read_only_vars = set()
+
     _composed_schemas = None
 
     required_properties = set([

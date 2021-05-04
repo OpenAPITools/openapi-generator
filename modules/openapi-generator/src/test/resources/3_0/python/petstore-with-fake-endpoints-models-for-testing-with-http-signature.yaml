@@ -2332,3 +2332,21 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    Mole:
+      type: object
+      required:
+        - blind
+        - smell
+      properties:
+        blind:
+          type: boolean
+          readOnly: true
+        smell:
+          type: string
+          readOnly: false
+        touch:
+          type: boolean
+          readOnly: true
+        taste:
+          type: string
+          readOnly: false

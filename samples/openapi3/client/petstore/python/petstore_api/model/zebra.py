@@ -99,6 +99,9 @@ class Zebra(ModelNormal):
         'type': 'type',  # noqa: E501
     }
 
+    read_only_vars = {
+    }
+
     _composed_schemas = {}
 
     @classmethod
@@ -254,6 +257,7 @@ class Zebra(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.class_name = class_name
+
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -262,4 +266,7 @@ class Zebra(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
+            if var_name in self.read_only_vars:
+                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                                     f"class with read only attributes.")
 

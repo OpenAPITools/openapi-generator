@@ -165,6 +165,9 @@ class FormatTest(ModelNormal):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter',  # noqa: E501
     }
 
+    read_only_vars = {
+    }
+
     _composed_schemas = {}
 
     @classmethod
@@ -354,6 +357,7 @@ class FormatTest(ModelNormal):
         self.byte = byte
         self.date = date
         self.password = password
+
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -362,4 +366,7 @@ class FormatTest(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
+            if var_name in self.read_only_vars:
+                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                                     f"class with read only attributes.")
 

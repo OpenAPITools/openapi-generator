@@ -335,7 +335,7 @@ class OpenApiModel(object):
             # through Animal's discriminator because we passed in
             # _visited_composed_classes = (Animal,)
 
-            return cls.from_openapi_data(*args, **kwarg)
+            return cls.from_openapi_data(*args, **kwargs)
 
         # Get the name and value of the discriminator property.
         # The discriminator name is obtained from the discriminator meta-data
@@ -389,7 +389,7 @@ class OpenApiModel(object):
             # but we know we know that we already have Dog
             # because it is in visited_composed_classes
             # so make Animal here
-            return cls.from_openapi_data(*args, **kwarg)
+            return cls.from_openapi_data(*args, **kwargs)
 
         # Build a list containing all oneOf and anyOf descendants.
         oneof_anyof_classes = None
@@ -403,10 +403,10 @@ class OpenApiModel(object):
         if cls._composed_schemas.get('allOf') and oneof_anyof_child:
             # Validate that we can make self because when we make the
             # new_cls it will not include the allOf validations in self
-            self_inst = cls.from_openapi_data(*args, **kwarg)
+            self_inst = cls.from_openapi_data(*args, **kwargs)
 
 
-        new_inst = new_cls.from_openapi_data(*args, **kwargs)
+        new_inst = new_cls.new_from_openapi_data(*args, **kwargs)
         return new_inst
 
 class ModelSimple(OpenApiModel):
