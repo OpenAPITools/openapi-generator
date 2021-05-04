@@ -8,7 +8,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
-|buildTarget|Target to build an application or library| |program|
+|buildTarget|Target to build an application or library| <dl><dt>program</dt><dd>Generate code for a standalone server</dd><dt>library</dt><dd>Generate code for a server abstract class library</dd></dl> |program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
