@@ -63,12 +63,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
+    protected static final String LIBRARY_VAPOR = "vapor";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
@@ -82,6 +84,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
     protected boolean hashableModels = true;
@@ -282,6 +285,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
                 + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
+        cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(HASHABLE_MODELS,
             "Make hashable models (default: true)")
@@ -482,6 +487,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (mapFileBinaryToData) {
             typeMapping.put("file", "Data");
             typeMapping.put("binary", "Data");
+        }
+
+        if (additionalProperties.containsKey(USE_CLASSES)) {
+            setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
         }
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
@@ -902,6 +911,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setSwiftPackagePath(String swiftPackagePath) {
         this.swiftPackagePath = swiftPackagePath;
+    }
+
+    public void setUseClasses(boolean useClasses) {
+        this.useClasses = useClasses;
     }
 
     public void setUseBacktickEscapes(boolean useBacktickEscapes) {
