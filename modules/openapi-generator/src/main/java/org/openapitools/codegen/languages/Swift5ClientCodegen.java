@@ -120,7 +120,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Bool",
                         "Void",
                         "String",
-                        "URL",
                         "Data",
                         "Date",
                         "Character",
@@ -224,8 +223,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
-        typeMapping.put("file", "URL");
-        typeMapping.put("binary", "URL");
+        typeMapping.put("file", "Data");
+        typeMapping.put("binary", "Data");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
@@ -602,7 +601,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return "URL".equals(dataType);
+        return "Data".equals(dataType);
     }
 
     @Override
