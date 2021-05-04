@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -463,6 +465,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
                 break;
 
             case gson:
@@ -652,6 +656,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
+                }
+
+                // sorting operation parameters to make sure path params are parsed before query params
+                if (operation.allParams != null) {
+                    sort(operation.allParams, (one, another) -> {
+                        if (one.isPathParam && another.isQueryParam) {
+                            return -1;
+                        }
+                        if (one.isQueryParam && another.isPathParam){
+                            return 1;
+                        }
+
+                        return 0;
+                    });
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds

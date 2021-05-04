@@ -114,3 +114,11 @@ dependencies {
     {{/jvm-retrofit2}}
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
+{{#kotlinx_serialization}}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+    }
+}
+{{/kotlinx_serialization}}

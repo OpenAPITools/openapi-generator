@@ -40,7 +40,7 @@ open class PetAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             :
@@ -50,7 +50,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -90,7 +90,7 @@ open class PetAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String: Any]? = nil
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             "api_key": apiKey?.encodeToJSON(),
@@ -100,7 +100,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -145,8 +145,8 @@ open class PetAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String: Any]? = nil
 
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
+        var urlComponents = URLComponents(string: URLString)
+        urlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "status": status.encodeToJSON(),
         ])
 
@@ -158,7 +158,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -169,7 +169,7 @@ open class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
+    open class func findPetsByTags(tags: Set<String>, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Set<Pet>?, _ error: Error?) -> Void)) {
         findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -188,16 +188,16 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter tags: (query) Tags to filter by 
-     - returns: RequestBuilder<[Pet]> 
+     - returns: RequestBuilder<Set<Pet>> 
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
+    open class func findPetsByTagsWithRequestBuilder(tags: Set<String>) -> RequestBuilder<Set<Pet>> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String: Any]? = nil
 
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
+        var urlComponents = URLComponents(string: URLString)
+        urlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "tags": tags.encodeToJSON(),
         ])
 
@@ -207,9 +207,9 @@ open class PetAPI {
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
-        let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Set<Pet>>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -248,7 +248,7 @@ open class PetAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String: Any]? = nil
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             :
@@ -258,7 +258,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<Pet>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -293,7 +293,7 @@ open class PetAPI {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             :
@@ -303,7 +303,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -351,7 +351,7 @@ open class PetAPI {
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             "Content-Type": "application/x-www-form-urlencoded",
@@ -361,7 +361,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -409,7 +409,7 @@ open class PetAPI {
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             "Content-Type": "multipart/form-data",
@@ -419,7 +419,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
     /**
@@ -467,7 +467,7 @@ open class PetAPI {
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             "Content-Type": "multipart/form-data",
@@ -477,7 +477,7 @@ open class PetAPI {
 
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
 }

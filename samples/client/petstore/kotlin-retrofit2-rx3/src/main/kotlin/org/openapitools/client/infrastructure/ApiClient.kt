@@ -11,6 +11,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -21,7 +22,8 @@ class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
-    private val okHttpClient : OkHttpClient? = null
+    private val okHttpClient : OkHttpClient? = null,
+    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -33,6 +35,11 @@ class ApiClient(
 
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
+            .apply {
+                if (converterFactory != null) {
+                    addConverterFactory(converterFactory)
+                }
+            }
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {

@@ -46,7 +46,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {

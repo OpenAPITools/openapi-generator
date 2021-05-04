@@ -416,20 +416,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 if (param.isContainer) {
                     param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
                 }
-
-                // Quote default values for strings
-                // @todo: The default values for headers, forms and query params are handled
-                //        in DefaultCodegen fromParameter with no real possibility to override
-                //        the functionality. Thus we are handling quoting of string values here
-                if ("string".equals(param.dataType) && param.defaultValue != null && !param.defaultValue.isEmpty()) {
-                    param.defaultValue = "'" + param.defaultValue + "'";
-                }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
                 op.vendorExtensions.put("x-comment-type", op.returnType);
-                if (op.returnContainer != null && "array".equals(op.returnContainer)) {
+                if ("array".equals(op.returnContainer)) {
                     op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
                 }
             } else {

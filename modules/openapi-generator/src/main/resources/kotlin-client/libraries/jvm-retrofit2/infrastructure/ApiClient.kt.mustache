@@ -25,6 +25,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#useRxJava}}
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -55,7 +56,8 @@ import okhttp3.MediaType.Companion.toMediaType
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder{{/kotlinx_serialization}},
-    private val okHttpClient : OkHttpClient? = null
+    private val okHttpClient : OkHttpClient? = null,
+    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -81,6 +83,11 @@ import okhttp3.MediaType.Companion.toMediaType
             {{#kotlinx_serialization}}
             .addConverterFactory(jvmJson.asConverterFactory("application/json".toMediaType()))
             {{/kotlinx_serialization}}
+            .apply {
+                if (converterFactory != null) {
+                    addConverterFactory(converterFactory)
+                }
+            }
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {

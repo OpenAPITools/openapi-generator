@@ -25,6 +25,12 @@ const (
 	XYZ EnumClass = "(xyz)"
 )
 
+var allowedEnumClassEnumValues = []EnumClass{
+	"_abc",
+	"-efg",
+	"(xyz)",
+}
+
 func (v *EnumClass) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)
@@ -32,7 +38,7 @@ func (v *EnumClass) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := EnumClass(value)
-	for _, existing := range []EnumClass{ "_abc", "-efg", "(xyz)",   } {
+	for _, existing := range allowedEnumClassEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -40,6 +46,27 @@ func (v *EnumClass) UnmarshalJSON(src []byte) error {
 	}
 
 	return fmt.Errorf("%+v is not a valid EnumClass", value)
+}
+
+// NewEnumClassFromValue returns a pointer to a valid EnumClass
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewEnumClassFromValue(v string) (*EnumClass, error) {
+	ev := EnumClass(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for EnumClass: valid values are %v", v, allowedEnumClassEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v EnumClass) IsValid() bool {
+	for _, existing := range allowedEnumClassEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
 }
 
 // Ptr returns reference to EnumClass value

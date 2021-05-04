@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct ArrayTest: Codable {
+public struct ArrayTest: Codable, Hashable {
 
     public private(set) var arrayOfString: [String]?
     public private(set) var arrayArrayOfInteger: [[Int64]]?
@@ -18,11 +19,21 @@ public struct ArrayTest: Codable {
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
         case arrayArrayOfModel = "array_array_of_model"
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+    }
+
+
 
 }
