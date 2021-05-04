@@ -109,7 +109,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
         this.cliOptions.add(CliOption.newBoolean(SUBTYPE_VISITOR,
-                "Use discriminators to create a subtype visitor (doesn't work with tagged unions).",
+                "Use discriminators to create a subtype visitor.",
                 this.subtypeVisitor));
         this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.",
@@ -523,7 +523,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (taggedUnions) {
                     mo.put(TAGGED_UNIONS, true);
-                } else if (subtypeVisitor) {
+                }
+                if (subtypeVisitor) {
                     mo.put(SUBTYPE_VISITOR, true);
                 }
                 if (taggedUnions || subtypeVisitor) {
