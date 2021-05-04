@@ -25,6 +25,7 @@ Add a new pet to the store
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -40,7 +41,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
@@ -96,6 +100,7 @@ Deletes a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -111,7 +116,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | Pet id to delete
             var apiKey = apiKey_example;  // string |  (optional) 
 
@@ -171,6 +179,7 @@ Multiple status values can be provided with comma separated strings
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -186,7 +195,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var status = status_example;  // List<string> | Status values that need to be considered for filter
 
             try
@@ -246,6 +258,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -261,7 +274,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var tags = new List<string>(); // List<string> | Tags to filter by
 
             try
@@ -321,6 +337,7 @@ Returns a single pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -338,7 +355,10 @@ namespace Example
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet to return
 
             try
@@ -397,6 +417,7 @@ Update an existing pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -412,7 +433,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
@@ -470,6 +494,7 @@ Updates a pet in the store with form data
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -485,7 +510,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet that needs to be updated
             var name = name_example;  // string | Updated name of the pet (optional) 
             var status = status_example;  // string | Updated status of the pet (optional) 
@@ -545,6 +573,7 @@ uploads an image
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -560,7 +589,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
             var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
@@ -621,6 +653,7 @@ uploads an image (required)
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -636,7 +669,10 @@ namespace Example
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet to update
             var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
