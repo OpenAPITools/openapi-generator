@@ -148,6 +148,7 @@ class ObjectModelWithRefProps(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             my_number (NumberWithValidations): [optional]  # noqa: E501
+            my_readonly (Readonly): [optional]  # noqa: E501
             my_string (str): [optional]  # noqa: E501
             my_boolean (bool): [optional]  # noqa: E501
         """
