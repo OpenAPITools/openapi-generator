@@ -191,8 +191,9 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient() :
                  this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
         {    
@@ -200,10 +201,11 @@ namespace Org.OpenAPITools.Client
         
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient(String basePath)
         {    
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");

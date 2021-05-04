@@ -31,6 +31,7 @@ Health check endpoint
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -43,7 +44,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
 
             try
             {
@@ -98,6 +102,7 @@ Test serialization of outer boolean types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -110,7 +115,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var body = true;  // bool? | Input boolean as post body (optional) 
 
             try
@@ -168,6 +176,7 @@ Test serialization of object with outer number type
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -180,7 +189,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
@@ -238,6 +250,7 @@ Test serialization of outer number types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -250,7 +263,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var body = 8.14;  // decimal? | Input number as post body (optional) 
 
             try
@@ -308,6 +324,7 @@ Test serialization of outer string types
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -320,7 +337,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var body = body_example;  // string | Input string as post body (optional) 
 
             try
@@ -376,6 +396,7 @@ Array of Enums
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -388,7 +409,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
 
             try
             {
@@ -443,6 +467,7 @@ For this test, the body for this request much reference a schema named `File`.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -455,7 +480,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
@@ -510,6 +538,7 @@ No authorization required
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -522,7 +551,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var query = query_example;  // string | 
             var user = new User(); // User | 
 
@@ -581,6 +613,7 @@ To test \"client\" model
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -593,7 +626,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var modelClient = new ModelClient(); // ModelClient | client model
 
             try
@@ -652,6 +688,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -668,7 +705,10 @@ namespace Example
             config.Username = "YOUR_USERNAME";
             config.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var number = 8.14;  // decimal | None
             var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
@@ -753,6 +793,7 @@ To test enum parameters
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -765,7 +806,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var enumHeaderStringArray = enumHeaderStringArray_example;  // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
@@ -838,6 +882,7 @@ Fake endpoint to test group parameters (optional)
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -853,7 +898,10 @@ namespace Example
             // Configure Bearer token for authorization: bearer_test
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredInt64Group = 789;  // long | Required Integer in group parameters
@@ -919,6 +967,7 @@ test inline additionalProperties
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -931,7 +980,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
@@ -987,6 +1039,7 @@ test json serialization of form data
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -999,7 +1052,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var param = param_example;  // string | field1
             var param2 = param2_example;  // string | field2
 
@@ -1059,6 +1115,7 @@ To test the collection format in query parameters
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -1071,7 +1128,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new FakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var pipe = new List<string>(); // List<string> | 
             var ioutil = new List<string>(); // List<string> | 
             var http = new List<string>(); // List<string> | 

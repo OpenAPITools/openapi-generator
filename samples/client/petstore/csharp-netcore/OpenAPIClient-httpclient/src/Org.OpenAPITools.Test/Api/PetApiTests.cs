@@ -16,6 +16,8 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
+using System.Net.Http;
+
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
@@ -73,8 +75,10 @@ namespace Org.OpenAPITools.Test
         }
 
         public PetApiTests()
-        { 
-            instance = new PetApi();
+        {
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            instance = new PetApi(httpClient, httpClientHandler);
 
             // create pet
             Pet p = createPet();
@@ -153,7 +157,9 @@ namespace Org.OpenAPITools.Test
             c1.Timeout = 10000;
             c1.UserAgent = "TEST_USER_AGENT";
 
-            PetApi petApi = new PetApi(c1);
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            PetApi petApi = new PetApi(httpClient, c1, httpClientHandler);
             Pet response = petApi.GetPetById(petId);
             Assert.IsType<Pet>(response);
 
