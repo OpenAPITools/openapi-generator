@@ -142,7 +142,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarQueryParameter['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
             }
             {{/isArray}}
@@ -166,7 +166,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isArray}}
             if ({{paramName}}) {
-                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarHeaderParameter['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
             {{/isArray}}
             {{^isArray}}
@@ -185,7 +185,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                    localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+                    localVarFormParams.set('{{baseName}}', {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
             }
             {{/isArray}}
