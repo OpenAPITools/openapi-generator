@@ -104,16 +104,16 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isKeyInHeader}}
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("{{keyParamName}}")
-					: configuration.apiKey;
+                ? configuration.apiKey("{{keyParamName}}")
+                : configuration.apiKey;
                 localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("{{keyParamName}}")
-					: configuration.apiKey;
+                ? configuration.apiKey("{{keyParamName}}")
+                : configuration.apiKey;
                 localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInQuery}}
@@ -127,9 +127,9 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isOAuth}}
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
-					: configuration.accessToken;
+            const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                ? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
             {{/isOAuth}}
