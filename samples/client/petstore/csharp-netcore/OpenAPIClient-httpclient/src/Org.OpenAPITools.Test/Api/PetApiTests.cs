@@ -206,7 +206,6 @@ namespace Org.OpenAPITools.Test
         public void TestGetPetById_TestException()
         {
 	        PetApi petApi = new PetApi();
-	        var task = petApi.GetPetById(notExsistentPetId);
 
 	        var exception = Assert.Throws<ApiException>(() =>
 	        {
