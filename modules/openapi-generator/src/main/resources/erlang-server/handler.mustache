@@ -209,7 +209,7 @@ process_response(Response, Req0, State = #state{operation_id = OperationID}) ->
             {stop, Req, State}
     end.
 
--spec handle_request_json(cowboy_req:req(), state()) -> {cowboy_req:resp_body(), cowboy_req:req(), state()}.
+-spec handle_request_json(cowboy_req:req(), state()) -> processed_response().
 
 handle_request_json(
     Req0,
