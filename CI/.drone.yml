@@ -2,6 +2,11 @@ kind: pipeline
 name: default
 
 steps:
+# test Elm client
+- name: elm
+  image: odesimple/elm:0.19
+  commands:
+  - (cd samples/openapi3/client/petstore/elm && ./elm-compile-test)
 # test Java 11 HTTP client
 - name: java11-test
   image: openjdk:11.0
