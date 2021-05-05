@@ -128,6 +128,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::vector");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "std::string");
