@@ -1,14 +1,6 @@
-    required_properties = set([
-        '_data_store',
-        '_check_type',
-        '_spec_property_naming',
-        '_path_to_item',
-        '_configuration',
-        '_visited_composed_classes',
-    ])
-
+    @classmethod
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):
+    def from_openapi_data(cls, *args, **kwargs):
         """{{classname}} - a model defined in OpenAPI
 
         Note that value can be passed either in args or in kwargs, but not in both.
@@ -22,6 +14,8 @@
         """
         # required up here when default value is not given
         _path_to_item = kwargs.pop('_path_to_item', ())
+
+        self = super(OpenApiModel, cls).__new__(cls)
 
         if 'value' in kwargs:
             value = kwargs.pop('value')
@@ -64,3 +58,5 @@
                 path_to_item=_path_to_item,
                 valid_classes=(self.__class__,),
             )
+
+        return self

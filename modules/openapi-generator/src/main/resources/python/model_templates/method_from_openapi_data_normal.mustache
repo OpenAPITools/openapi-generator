@@ -1,21 +1,10 @@
-    required_properties = set([
-        '_data_store',
-        '_check_type',
-        '_spec_property_naming',
-        '_path_to_item',
-        '_configuration',
-        '_visited_composed_classes',
-    ])
-
-{{> model_templates/method_init_shared }}
+{{> model_templates/method_from_openapi_data_shared }}
 
 {{#isEnum}}
         self.value = value
 {{/isEnum}}
 {{#requiredVars}}
-{{^isReadOnly}}
         self.{{name}} = {{name}}
-{{/isReadOnly}}
 {{/requiredVars}}
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
@@ -25,6 +14,4 @@
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
-            if var_name in self.read_only_vars:
-                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
-                                     f"class with read only attributes.")
+        return self
