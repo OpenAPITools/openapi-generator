@@ -8,7 +8,8 @@
 import Foundation
 #if canImport(AnyCodable)
 import AnyCodable
-#endif
+#endif{{#useVapor}}
+import Vapor{{/useVapor}}
 {{#description}}
 
 /** {{description}} */{{/description}}{{#isDeprecated}}
