@@ -592,6 +592,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setBuildTarget() {
         setCliOption(buildTarget);
         if ("library".equals(buildTarget.getOptValue())) {
+            LOGGER.warn("buildTarget is {} so changing default isLibrary to true",  buildTarget.getOptValue());
             isLibrary = true;
             projectSdk = SDK_LIB;
             additionalProperties.put(CLASS_MODIFIER, "abstract");
@@ -636,7 +637,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseSwashbuckle() {
         if (isLibrary) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default isLibrary to false ");
+            LOGGER.warn("isLibrary is true so changing default useSwashbuckle to false");
             useSwashbuckle = false;
         } else {
             useSwashbuckle = true;
