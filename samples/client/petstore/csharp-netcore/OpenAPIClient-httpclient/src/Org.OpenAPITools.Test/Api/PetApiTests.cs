@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Test
         private PetApi instance;
 
         private long petId = 11088;
+        private long notExsistentPetId = 99999;
 
         /// <summary>
         /// Create a Pet object
@@ -204,6 +205,25 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("sample category name2", response.Category.Name);
         }
 
+        /// <summary>
+        /// Test GetPetById on an not existent Id
+        /// </summary>
+        [Fact]
+        public void TestGetPetById_TestException()
+        {
+	        PetApi petApi = new PetApi();
+
+	        var exception = Assert.Throws<ApiException>(() =>
+	        {
+		        petApi.GetPetById(notExsistentPetId);
+	        });
+
+	        Assert.IsType<ApiException>(exception);
+	        Assert.Equal(404, exception.ErrorCode);
+	        Assert.Equal("{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", exception.ErrorContent);
+	        Assert.Equal("Error calling GetPetById: {\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", exception.Message);
+        }
+
         /* a simple test for binary response. no longer in use.
         [Fact]
         public void TestGetByIdBinaryResponse()
@@ -247,7 +267,25 @@ namespace Org.OpenAPITools.Test
             Assert.Equal(56, response.Category.Id);
             Assert.Equal("sample category name2", response.Category.Name);
         }
-        
+
+        [Fact]
+        public void TestGetPetByIdWithHttpInfoAsync_Test404Response()
+        {
+	        PetApi petApi = new PetApi();
+	        petApi.ExceptionFactory = null;
+	        var response = petApi.GetPetByIdWithHttpInfoAsync(notExsistentPetId).Result;
+	        Pet result = response.Data;
+
+	        Assert.IsType<ApiResponse<Pet>>(response);
+	        Assert.Equal(404, (int)response.StatusCode);
+	        Assert.True(response.Headers.ContainsKey("Content-Type"));
+	        Assert.Equal("application/json", response.Headers["Content-Type"][0]);
+
+	        Assert.Null(result);
+	        Assert.Equal("{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", response.RawContent);
+	        Assert.Equal("Not Found", response.ErrorText);
+        }
+
         /// <summary>
         /// Test UpdatePet
         /// </summary>
