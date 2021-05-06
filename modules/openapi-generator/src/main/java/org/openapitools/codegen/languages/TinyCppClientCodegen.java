@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
@@ -21,6 +22,11 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
     static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
 
+
+    public static final String MICROCONTROLLER = "controller";
+    protected String controller = "esp32";
+
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -31,6 +37,19 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
     public String getHelp() {
         return "Generates a tiny-cpp client.";
+    }
+
+    public void addControllerToAdditionalProperties(){
+        Map<String, String> supportedControllers = new HashMap<String, String>(){{
+            put("esp32", "isESP32");
+            put("esp8266", "isESP8266");
+        }};
+        if (supportedControllers.containsKey(controller)) {
+            additionalProperties.put(supportedControllers.get(controller), true);
+        }
+        else {
+            throw new UnsupportedOperationException(String.format("The specified controller: %s is not supported.\nSupported controllers are: %s", controller, supportedControllers.keySet().toString()));
+        }
     }
 
     public TinyCppClientCodegen() {
@@ -45,7 +64,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         modelPackage = libFolder + File.separator + "Models";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
-        
         
         testPackage = libFolder + File.separator + "TestFiles";
         modelTestTemplateFiles.put("unit-test-model.mustache", ".cpp");
@@ -84,14 +102,31 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         );
 
     
-
+        
         super.typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "std::string");
         typeMapping.put("integer", "int");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::list");
         typeMapping.put("DateTime", "std::string");
+
+        cliOptions.add(new CliOption(MICROCONTROLLER, "name of microcontroller (e.g esp32 or esp8266)").
+                defaultValue("esp32"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        // Throw exception if http and esp8266
         
+        // -- --additional-properties=controller=<controllername>
+        if (additionalProperties.containsKey(MICROCONTROLLER)) {
+             controller = additionalProperties.get(MICROCONTROLLER).toString();
+        }
+
+        addControllerToAdditionalProperties();
+        
+        LOGGER.info("Generator targeting the following microcontroller: {}", controller);
     }
 
 
@@ -171,6 +206,28 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
             return escapeReservedWord(paramName);
         }
         return "" + paramName;
+    }
+
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            return "bool(false)";
+        } else if (ModelUtils.isNumberSchema(p)) {
+            return "float(0)";
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+                return "long(0)";
+            }
+            return "int(0)";
+        } else if (ModelUtils.isArraySchema(p)) {
+            return "std::list";
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
+            return "std::string()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "std::string()";
+        }
+        return "null";
     }
     
 
