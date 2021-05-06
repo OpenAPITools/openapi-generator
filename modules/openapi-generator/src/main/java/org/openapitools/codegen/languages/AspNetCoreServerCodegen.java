@@ -199,14 +199,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.setDefault("3.1");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
-        addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
+        cliOptions.add(aspnetCoreVersion);
 
         swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.setDefault("3.0.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
-        addOption(swashbuckleVersion.getOpt(), swashbuckleVersion.getDescription(), swashbuckleVersion.getOptValue());
+        cliOptions.add(swashbuckleVersion);
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -261,19 +261,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
         classModifier.setOptValue(classModifier.getDefault());
-        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
+        cliOptions.add(classModifier);
 
         operationModifier.addEnum("virtual", "Keep method virtual");
         operationModifier.addEnum("abstract", "Make method abstract");
         operationModifier.setDefault("virtual");
         operationModifier.setOptValue(operationModifier.getDefault());
-        addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
+        cliOptions.add(operationModifier);
 
         buildTarget.addEnum("program", "Generate code for a standalone server");
         buildTarget.addEnum("library", "Generate code for a server abstract class library");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
-        addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
+        cliOptions.add(buildTarget);
 
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
@@ -292,7 +292,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.addEnum("partial", "Make model class partial");
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
-        addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
+        cliOptions.add(modelClassModifier);
     }
 
     @Override
