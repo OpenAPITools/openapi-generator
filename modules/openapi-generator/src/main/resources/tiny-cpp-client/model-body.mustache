@@ -22,14 +22,14 @@ using namespace Tiny;
 void
 {{classname}}::__init()
 {
-    //{{#vars}}
-	//{{#isContainer}}
-	//{{defaultValue}}{{baseType}}> {{name}};
-	//{{/isContainer}}
-	//{{^isContainer}}
-	//{{name}} = {{defaultValue}};
-	//{{/isContainer}}
-	//{{/vars}}
+    {{#vars}}
+	{{#isContainer}}
+	{{name}} = {{defaultValue}}<{{#items}}{{baseType}}{{/items}}>();
+	{{/isContainer}}
+	{{^isContainer}}
+	{{name}} = {{defaultValue}};
+	{{/isContainer}}
+	{{/vars}}
 }
 
 void
