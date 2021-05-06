@@ -41,10 +41,25 @@ using namespace Tinyclient;
         )
         {{! Method start}}
         {
+            String url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
+            // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
+            // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
+            // Headers  | {{#formParams}}{{paramName}} {{/formParams}}
+            // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
+            Serial.println("Connecting to website: " + url);
+            HTTPClient http;
+            http.begin(url, test_root_ca); //HTTPS example connection
 
+            // Send Request
+            // METHOD | {{httpMethod}}
+            int httpCode = http.{{httpMethod}}();
 
+            // Handle Request
+            String payload = http.getString();
+            http.end();
 
-
+            Response<Pet> response(Pet(payload), httpCode);
+            return response;
         }
     {{/operation}}
 
@@ -53,3 +68,4 @@ using namespace Tinyclient;
 
 
 {{/operations}}
+}

@@ -15,18 +15,18 @@ class AbstractService {
     private:
         Response Request(const char * type, String payload){
         String url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
-        // Query {{#queryParams}}{{paramName}} {{/queryParams}}
-        // Headers {{#headerParams}}{{paramName}} {{/headerParams}}
-        // Headers {{#formParams}}{{paramName}} {{/formParams}}
-        // Body  {{#bodyParam}}{{paramName}} {{/bodyParam}}
+        // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
+        // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
+        // Headers  | {{#formParams}}{{paramName}} {{/formParams}}
+        // Body     | {{#bodyParam}}{{paramName}} {{/bodyParam}}
         Serial.println("Connecting to website: " + url);
         HTTPClient http;
         http.begin(url, test_root_ca); //HTTPS example connection
 
         // Send Request
-        // METHOD {{httpMethod}}
+        // METHOD   | {{#httpMethod}} {{httpMethod}} {{/httpMethod}}
         int httpCode = http.GET();
-        // Hanlde Request
+        // Handle Request
         String payload = http.getString();
         http.end();
 

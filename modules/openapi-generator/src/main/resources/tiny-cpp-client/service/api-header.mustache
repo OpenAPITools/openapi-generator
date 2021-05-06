@@ -1,14 +1,17 @@
 #ifndef _{{classname}}_H_
 #define _{{classname}}_H_
 
-// TODO import used models i this service.
-{{#imports}}
-    #include "{{classname}}.h"
-{{/imports}}
-
+{{{defaultInclude}}}
+// TODO Are these default imports?
 #include "Response.h"
 #include "Arduino.h"
 #include "AbstractService.h"
+
+// TODO import used models i this service.
+{{#imports}}
+{{{import}}}
+{{/imports}}
+
 namespace Tinyclient {
 
 {{#operations}}
