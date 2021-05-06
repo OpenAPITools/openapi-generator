@@ -59,4 +59,4 @@ steps:
   commands:
   - (cd samples/client/petstore/erlang-client && rebar3 compile)
   - (cd samples/client/petstore/erlang-proper && rebar3 compile)
-  #- (cd samples/server/petstore/erlang-server && rebar3 compile)
+  - (cd samples/server/petstore/erlang-server && rebar3 compile)
