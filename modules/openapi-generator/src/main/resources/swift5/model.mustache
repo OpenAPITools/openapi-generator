@@ -8,9 +8,10 @@
 import Foundation
 #if canImport(AnyCodable)
 import AnyCodable
-#endif
-{{#swiftUseApiNamespace}}
+#endif{{#useVapor}}
+import Vapor{{/useVapor}}
 
+{{#swiftUseApiNamespace}}
 @available(*, deprecated, renamed: "{{projectName}}.{{classname}}")
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{classname}} = {{projectName}}.{{classname}}
 

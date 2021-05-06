@@ -70,6 +70,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
+    protected static final String LIBRARY_VAPOR = "vapor";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
@@ -297,6 +298,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
+        supportedLibraries.put(LIBRARY_VAPOR, "HTTP client: Vapor");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -499,57 +501,59 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        supportingFiles.add(new SupportingFile("Podspec.mustache",
-                "",
-                projectName + ".podspec"));
-        supportingFiles.add(new SupportingFile("Cartfile.mustache",
-                "",
-                "Cartfile"));
+        if (!getLibrary().equals(LIBRARY_VAPOR)) {
+            supportingFiles.add(new SupportingFile("Podspec.mustache",
+                    "",
+                    projectName + ".podspec"));
+            supportingFiles.add(new SupportingFile("Cartfile.mustache",
+                    "",
+                    "Cartfile"));
+            supportingFiles.add(new SupportingFile("CodableHelper.mustache",
+                    sourceFolder,
+                    "CodableHelper.swift"));
+            supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                    sourceFolder,
+                    "OpenISO8601DateFormatter.swift"));
+            supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
+                    sourceFolder,
+                    "JSONDataEncoding.swift"));
+            supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
+                    sourceFolder,
+                    "JSONEncodingHelper.swift"));
+            supportingFiles.add(new SupportingFile("git_push.sh.mustache",
+                    "",
+                    "git_push.sh"));
+            supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
+                    sourceFolder,
+                    "SynchronizedDictionary.swift"));
+            supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                    "",
+                    "project.yml"));
+            supportingFiles.add(new SupportingFile("APIHelper.mustache",
+                    sourceFolder,
+                    "APIHelper.swift"));
+            supportingFiles.add(new SupportingFile("Models.mustache",
+                    sourceFolder,
+                    "Models.swift"));
+        }
         supportingFiles.add(new SupportingFile("Package.swift.mustache",
                 "",
                 "Package.swift"));
-        supportingFiles.add(new SupportingFile("APIHelper.mustache",
-                sourceFolder,
-                "APIHelper.swift"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder,
                 "Configuration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
-        supportingFiles.add(new SupportingFile("Models.mustache",
-                sourceFolder,
-                "Models.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
-        supportingFiles.add(new SupportingFile("CodableHelper.mustache",
-                sourceFolder,
-                "CodableHelper.swift"));
-        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                sourceFolder,
-                "OpenISO8601DateFormatter.swift"));
-        supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
-                sourceFolder,
-                "JSONDataEncoding.swift"));
-        supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
-                sourceFolder,
-                "JSONEncodingHelper.swift"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache",
-                "",
-                "git_push.sh"));
-        supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
-                sourceFolder,
-                "SynchronizedDictionary.swift"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
-        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
-                "",
-                "project.yml"));
 
         switch (getLibrary()) {
             case LIBRARY_ALAMOFIRE:
@@ -563,6 +567,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 supportingFiles.add(new SupportingFile("URLSessionImplementations.mustache",
                         sourceFolder,
                         "URLSessionImplementations.swift"));
+                break;
+            case LIBRARY_VAPOR:
+                additionalProperties.put("useVapor", true);
                 break;
             default:
                 break;
