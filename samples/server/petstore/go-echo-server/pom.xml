@@ -35,7 +35,6 @@
                         <configuration>
                             <executable>go</executable>
                             <arguments>
-                                <argument>go</argument>
                                 <argument>mod</argument>
                                 <argument>download</argument>
                             </arguments>
