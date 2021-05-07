@@ -5,18 +5,19 @@ import org.openapitools.client.api._
 import org.openapitools.client.core.{ApiInvoker, ApiKeyValue}
 import org.openapitools.client.model._
 import org.scalatest.Inspectors._
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class PetApiTest extends AsyncFlatSpec with Matchers {
 
-  private implicit val system: ActorSystem = ActorSystem()
+  implicit private val system: ActorSystem = ActorSystem()
 
   behavior of "PetApi"
-  val api: PetApi = PetApi()
-  val invoker: ApiInvoker = ApiInvoker(EnumsSerializers.all)
-  private implicit val apiKey: ApiKeyValue = ApiKeyValue("special-key")
+  val api: PetApi                          = PetApi()
+  val invoker: ApiInvoker                  = ApiInvoker(EnumsSerializers.all)
+  implicit private val apiKey: ApiKeyValue = ApiKeyValue("special-key")
 
   it should "add and fetch a pet" in {
     val petId = 1000
@@ -34,7 +35,7 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
 
     for {
       addResponse <- invoker.execute(addPetRequest)
-      response <- invoker.execute(getPetRequest)
+      response    <- invoker.execute(getPetRequest)
     } yield {
       addResponse.code should be(200)
 
@@ -54,7 +55,7 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
   }
 
   it should "update a pet" in {
-    val petId = (Math.random()*1000000000).toLong
+    val petId = (Math.random() * 1000000000).toLong
     val createdPet = Pet(
       Some(petId),
       Some(Category(Some(1), Some("sold"))),
@@ -64,12 +65,12 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
       Some(PetEnums.Status.Available)
     )
 
-     for {
-      createdPet <- invoker.execute(api.addPet(createdPet))
+    for {
+      createdPet                 <- invoker.execute(api.addPet(createdPet))
       pet: core.ApiResponse[Pet] <- invoker.execute(api.getPetById(createdPet.content.id.get))
       updatedPet = pet.content.copy(status = Some(PetEnums.Status.Sold), name = "developer")
       updatedPetResponse: core.ApiResponse[Pet] <- invoker.execute(api.updatePet(updatedPet))
-      updatedRequested: core.ApiResponse[Pet] <- invoker.execute(api.getPetById(createdPet.content.id.get))
+      updatedRequested: core.ApiResponse[Pet]   <- invoker.execute(api.getPetById(createdPet.content.id.get))
     } yield {
       pet.content.name should be("programmer")
       pet.content.status should be(Some(PetEnums.Status.Available))
@@ -120,4 +121,3 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
   }
   */
 }
-

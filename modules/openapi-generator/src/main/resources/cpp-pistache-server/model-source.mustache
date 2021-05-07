@@ -2,12 +2,12 @@
 {{#models}}{{#model}}
 
 #include "{{classname}}.h"
-{{#isEnum}}#include <stdexcept>
-#include <sstream>{{/isEnum}}
+#include "{{prefix}}Helpers.h"
+{{#isEnum}}#include <stdexcept>{{/isEnum}}
+#include <sstream>
 
-{{#modelNamespaceDeclarations}}
-namespace {{this}} {
-{{/modelNamespaceDeclarations}}
+namespace {{modelNamespace}}
+{
 
 {{classname}}::{{classname}}()
 {
@@ -18,13 +18,69 @@ namespace {{this}} {
     {{/required}}{{/vars}}
 }
 
-{{classname}}::~{{classname}}()
+void {{classname}}::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw {{helpersNamespace}}::ValidationException(msg.str());
+    }
 }
 
-void {{classname}}::validate()
+bool {{classname}}::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "{{classname}}" : pathPrefix;
+
+    {{#isEnum}}{{! Special case for enum types }}
+    if (m_value == {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED)
+    {
+        success = false;
+        msg << _pathPrefix << ": has no value;";
+    }
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#vars}}
+    {{#isArray}} {{! Always generate validation body for array types }}
+    {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = m_{{name}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
+    {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = m_{{name}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/hasValidation}}{{/isArray}}
+    {{/vars}}
+    {{/isEnum}}
+
+    return success;
+}
+
+bool {{classname}}::operator==(const {{classname}}& rhs) const
+{
+    return
+    {{#isEnum}}getValue() == rhs.getValue(){{/isEnum}}
+    {{^isEnum}}{{#vars}}
+    {{#required}}({{getter}}() == rhs.{{getter}}()){{/required}}
+    {{^required}}((!{{nameInCamelCase}}IsSet() && !rhs.{{nameInCamelCase}}IsSet()) || ({{nameInCamelCase}}IsSet() && rhs.{{nameInCamelCase}}IsSet() && {{getter}}() == rhs.{{getter}}())){{/required}}{{^-last}} &&{{/-last}}
+    {{/vars}}{{/isEnum}}
+    ;
+}
+
+bool {{classname}}::operator!=(const {{classname}}& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const {{classname}}& o)
@@ -74,7 +130,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
 {{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
-{{#vars}}{{{dataType}}}{{#isContainer}}&{{/isContainer}} {{classname}}::{{getter}}(){{^isContainer}} const{{/isContainer}}
+{{#vars}}{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
@@ -102,9 +158,7 @@ void {{classname}}::setValue({{classname}}::e{{classname}} value)
     m_value = value;
 }{{/isEnum}}
 
-{{#modelNamespaceDeclarations}}
-}
-{{/modelNamespaceDeclarations}}
+} // namespace {{modelNamespace}}
 
 {{/model}}
 {{/models}}

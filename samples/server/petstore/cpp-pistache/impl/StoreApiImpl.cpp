@@ -19,9 +19,10 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-StoreApiImpl::StoreApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+StoreApiImpl::StoreApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : StoreApi(rtr)
-    { }
+{
+}
 
 void StoreApiImpl::delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
