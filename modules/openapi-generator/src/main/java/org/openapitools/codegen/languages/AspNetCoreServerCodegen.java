@@ -60,6 +60,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String USE_ENDPOINTS = "useEndpoints";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
@@ -81,6 +82,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
+    private boolean useEndpoints = false;
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
@@ -123,7 +125,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         outputFolder = "generated-code" + File.separator + getName();
 
         modelTemplateFiles.put("model.mustache", ".cs");
-        apiTemplateFiles.put("controller.mustache", ".cs");
 
         embeddedTemplateDir = templateDir = "aspnetcore/3.0";
 
@@ -275,6 +276,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         buildTarget.setOptValue(buildTarget.getDefault());
         cliOptions.add(buildTarget);
 
+        addSwitch(USE_ENDPOINTS, "Use one class per operation", useEndpoints);
+
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
                 generateBody);
@@ -343,6 +346,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setUseSwashbuckle();
         setOperationIsAsync();
 
+
+
         // Check for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
@@ -366,6 +371,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
+        setUseEndpoints();
+
+        if(useEndpoints && Double.parseDouble(aspnetCoreVersion.getOptValue()) >= 3.0) {
+            apiTemplateFiles.put("controllerEndpoints.mustache", ".cs");
+        }
+        else {
+            apiTemplateFiles.put("controller.mustache", ".cs");
+        }
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -646,6 +659,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
         } else {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+    }
+
+    private void setUseEndpoints() {
+        if (useEndpoints) {
+            additionalProperties.put(USE_ENDPOINTS, useEndpoints);
+        } else if (additionalProperties.containsKey(USE_ENDPOINTS)) {
+            useEndpoints = convertPropertyToBooleanAndWriteBack(USE_ENDPOINTS);
+        } else {
+            additionalProperties.put(USE_ENDPOINTS, useEndpoints);
         }
     }
 
