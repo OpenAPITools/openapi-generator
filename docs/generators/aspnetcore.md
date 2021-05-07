@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
+|useEndpoints|Use one class per operation| |false|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
