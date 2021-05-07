@@ -1,6 +1,5 @@
 kind: pipeline
 name: default
-
 steps:
 # test Java 11 HTTP client
 - name: java11-test
@@ -54,3 +53,10 @@ steps:
   image: haskell:8.6.5
   commands:
   - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
+# test erlang client and server
+- name: erlang
+  image: erlang:alpine
+  commands:
+  - (cd samples/client/petstore/erlang-client && rebar3 compile)
+  - (cd samples/client/petstore/erlang-proper && rebar3 compile)
+  #- (cd samples/server/petstore/erlang-server && rebar3 compile)

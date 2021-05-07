@@ -16,6 +16,8 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
+using System.Net.Http;
+
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
@@ -34,6 +36,7 @@ namespace Org.OpenAPITools.Test
         private PetApi instance;
 
         private long petId = 11088;
+        private long notExsistentPetId = 99999;
 
         /// <summary>
         /// Create a Pet object
@@ -73,8 +76,10 @@ namespace Org.OpenAPITools.Test
         }
 
         public PetApiTests()
-        { 
-            instance = new PetApi();
+        {
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            instance = new PetApi(httpClient, httpClientHandler);
 
             // create pet
             Pet p = createPet();
@@ -153,7 +158,9 @@ namespace Org.OpenAPITools.Test
             c1.Timeout = 10000;
             c1.UserAgent = "TEST_USER_AGENT";
 
-            PetApi petApi = new PetApi(c1);
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            PetApi petApi = new PetApi(httpClient, c1, httpClientHandler);
             Pet response = petApi.GetPetById(petId);
             Assert.IsType<Pet>(response);
 
@@ -196,6 +203,25 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Category>(response.Category);
             Assert.Equal(56, response.Category.Id);
             Assert.Equal("sample category name2", response.Category.Name);
+        }
+
+        /// <summary>
+        /// Test GetPetById on an not existent Id
+        /// </summary>
+        [Fact]
+        public void TestGetPetById_TestException()
+        {
+	        PetApi petApi = new PetApi();
+
+	        var exception = Assert.Throws<ApiException>(() =>
+	        {
+		        petApi.GetPetById(notExsistentPetId);
+	        });
+
+	        Assert.IsType<ApiException>(exception);
+	        Assert.Equal(404, exception.ErrorCode);
+	        Assert.Equal("{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", exception.ErrorContent);
+	        Assert.Equal("Error calling GetPetById: {\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", exception.Message);
         }
 
         /* a simple test for binary response. no longer in use.
@@ -241,7 +267,25 @@ namespace Org.OpenAPITools.Test
             Assert.Equal(56, response.Category.Id);
             Assert.Equal("sample category name2", response.Category.Name);
         }
-        
+
+        [Fact]
+        public void TestGetPetByIdWithHttpInfoAsync_Test404Response()
+        {
+	        PetApi petApi = new PetApi();
+	        petApi.ExceptionFactory = null;
+	        var response = petApi.GetPetByIdWithHttpInfoAsync(notExsistentPetId).Result;
+	        Pet result = response.Data;
+
+	        Assert.IsType<ApiResponse<Pet>>(response);
+	        Assert.Equal(404, (int)response.StatusCode);
+	        Assert.True(response.Headers.ContainsKey("Content-Type"));
+	        Assert.Equal("application/json", response.Headers["Content-Type"][0]);
+
+	        Assert.Null(result);
+	        Assert.Equal("{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}", response.RawContent);
+	        Assert.Equal("Not Found", response.ErrorText);
+        }
+
         /// <summary>
         /// Test UpdatePet
         /// </summary>

@@ -562,7 +562,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 
 ### [3.5 - IDE Integration](#table-of-contents)
 
-Here is a list of community-conitributed IDE plug-ins that integrate with OpenAPI Generator:
+Here is a list of community-contributed IDE plug-ins that integrate with OpenAPI Generator:
 
 - Eclipse: [Codewind OpenAPI Tools for Eclipse](https://www.eclipse.org/codewind/open-api-tools-for-eclipse.html) by [IBM](https://www.ibm.com)
 - IntelliJ IDEA: [OpenAPI Generator](https://plugins.jetbrains.com/plugin/8433-openapi-generator) by [Jim Schubert](https://jimschubert.us/#/)
@@ -666,6 +666,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Twitter](https://twitter.com)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
+- [VMWare](https://www.vmware.com/)
 - [wbt-solutions](https://www.wbt-solutions.de/)
 - [Woleet](https://www.woleet.io/)
 - [WSO2](https://wso2.com/)

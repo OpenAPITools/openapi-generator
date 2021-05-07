@@ -97,7 +97,7 @@ import {{packageName}}.infrastructure.toMultiValue
             {{/hasQueryParams}}
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{/hasFormParams}})
         {{#headerParams}}
-        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
         {{/headerParams}}
         
         val localVariableConfig = RequestConfig(
