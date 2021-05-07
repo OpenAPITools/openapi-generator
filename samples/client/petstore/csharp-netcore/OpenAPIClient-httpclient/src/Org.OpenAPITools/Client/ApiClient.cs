@@ -214,6 +214,7 @@ namespace Org.OpenAPITools.Client
             _httpClient = new HttpClient(_httpClientHandler, true);
             _disposeClient = true;
             _baseUrl = basePath;
+            #warning
         }
         
         /// <summary>
@@ -277,12 +278,10 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var fileStream = fileParam.Value as FileStream;
-                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
-                    var content = new StreamContent(fileParam.Value);
+                    var content = new StreamContent(fileParam.Value.Content);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     multipartContent.Add(content, fileParam.Key,
-                        fileStreamName ?? "no_file_name_provided");
+                        fileParam.Value.Name);
                 }
             }
             return multipartContent;
@@ -368,11 +367,11 @@ namespace Org.OpenAPITools.Client
             {
                 if (options.Data != null)
                 {
-                    if (options.Data is Stream s)
+                    if (options.Data is FileParameter fp)
                     {
                         contentType = contentType ?? "application/octet-stream";
 
-                        var streamContent = new StreamContent(s);
+                        var streamContent = new StreamContent(fp.Content);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         request.Content = streamContent;
                     }
