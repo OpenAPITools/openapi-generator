@@ -26,7 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 from ..model_utils import OpenApiModel
-
+from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
@@ -197,7 +197,7 @@ class ArrayOfEnums(ModelSimple):
 
     @classmethod
     @convert_js_args_to_python_args
-    def from_openapi_data(cls, *args, **kwargs):
+    def _from_openapi_data(cls, *args, **kwargs):
         """ArrayOfEnums - a model defined in OpenAPI
 
         Note that value can be passed either in args or in kwargs, but not in both.

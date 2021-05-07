@@ -1,6 +1,6 @@
     @classmethod
     @convert_js_args_to_python_args
-    def from_openapi_data(cls{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}, *args, **kwargs):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
 {{#requiredVars}}

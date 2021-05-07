@@ -26,7 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 from ..model_utils import OpenApiModel
-
+from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
@@ -114,7 +114,7 @@ class ObjectModelWithRefProps(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def from_openapi_data(cls, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, *args, **kwargs):  # noqa: E501
         """ObjectModelWithRefProps - a model defined in OpenAPI
 
         Keyword Args:
@@ -271,5 +271,5 @@ class ObjectModelWithRefProps(ModelNormal):
                 continue
             setattr(self, var_name, var_value)
             if var_name in self.read_only_vars:
-                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                raise ApiAttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
                                      f"class with read only attributes.")

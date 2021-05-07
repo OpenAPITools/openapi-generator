@@ -40,7 +40,7 @@ def convert_js_args_to_python_args(fn):
         """
         spec_property_naming = kwargs.get('_spec_property_naming', False)
         if spec_property_naming:
-            kwargs = change_keys_js_to_python(kwargs, _self.__class__)
+            kwargs = change_keys_js_to_python(kwargs, _self if isinstance(_self, type) else _self.__class__)
         return fn(_self, *args, **kwargs)
     return wrapped_init
 
@@ -302,7 +302,7 @@ class OpenApiModel(object):
 
     @classmethod
     @convert_js_args_to_python_args
-    def new_from_openapi_data(cls, *args, **kwargs):
+    def _new_from_openapi_data(cls, *args, **kwargs):
         # this function uses the discriminator to
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
@@ -340,7 +340,7 @@ class OpenApiModel(object):
             # through Animal's discriminator because we passed in
             # _visited_composed_classes = (Animal,)
 
-            return cls.from_openapi_data(*args, **kwargs)
+            return cls._from_openapi_data(*args, **kwargs)
 
         # Get the name and value of the discriminator property.
         # The discriminator name is obtained from the discriminator meta-data
@@ -394,7 +394,7 @@ class OpenApiModel(object):
             # but we know we know that we already have Dog
             # because it is in visited_composed_classes
             # so make Animal here
-            return cls.from_openapi_data(*args, **kwargs)
+            return cls._from_openapi_data(*args, **kwargs)
 
         # Build a list containing all oneOf and anyOf descendants.
         oneof_anyof_classes = None
@@ -408,10 +408,10 @@ class OpenApiModel(object):
         if cls._composed_schemas.get('allOf') and oneof_anyof_child:
             # Validate that we can make self because when we make the
             # new_cls it will not include the allOf validations in self
-            self_inst = cls.from_openapi_data(*args, **kwargs)
+            self_inst = cls._from_openapi_data(*args, **kwargs)
 
 
-        new_inst = new_cls.new_from_openapi_data(*args, **kwargs)
+        new_inst = new_cls._new_from_openapi_data(*args, **kwargs)
         return new_inst
 
 
@@ -1339,14 +1339,14 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
                    _spec_property_naming=spec_property_naming)
 
     if issubclass(model_class, ModelSimple):
-        return model_class.new_from_openapi_data(model_data, **kw_args)
+        return model_class._new_from_openapi_data(model_data, **kw_args)
     elif isinstance(model_data, list):
-        return model_class.new_from_openapi_data(*model_data, **kw_args)
+        return model_class._new_from_openapi_data(*model_data, **kw_args)
     if isinstance(model_data, dict):
         kw_args.update(model_data)
-        return model_class.new_from_openapi_data(**kw_args)
+        return model_class._new_from_openapi_data(**kw_args)
     elif isinstance(model_data, PRIMITIVE_TYPES):
-        return model_class.new_from_openapi_data(model_data, **kw_args)
+        return model_class._new_from_openapi_data(model_data, **kw_args)
 
 
 def deserialize_file(response_data, configuration, content_disposition=None):

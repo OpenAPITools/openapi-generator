@@ -2427,6 +2427,7 @@ components:
       required:
         - blind
         - smell
+        - hearing
       properties:
         blind:
           type: boolean
@@ -2440,3 +2441,7 @@ components:
         taste:
           type: string
           readOnly: false
+        hearing:
+          type: boolean
+        seeingGhosts:
+          type: boolean

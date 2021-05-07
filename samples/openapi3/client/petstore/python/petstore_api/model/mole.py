@@ -26,7 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 from ..model_utils import OpenApiModel
-
+from petstore_api.exceptions import ApiAttributeError
 
 
 
@@ -83,8 +83,10 @@ class Mole(ModelNormal):
         return {
             'blind': (bool,),  # noqa: E501
             'smell': (str,),  # noqa: E501
+            'hearing': (bool,),  # noqa: E501
             'touch': (bool,),  # noqa: E501
             'taste': (str,),  # noqa: E501
+            'seeing_ghosts': (bool,),  # noqa: E501
         }
 
     @cached_property
@@ -95,8 +97,10 @@ class Mole(ModelNormal):
     attribute_map = {
         'blind': 'blind',  # noqa: E501
         'smell': 'smell',  # noqa: E501
+        'hearing': 'hearing',  # noqa: E501
         'touch': 'touch',  # noqa: E501
         'taste': 'taste',  # noqa: E501
+        'seeing_ghosts': 'seeingGhosts',  # noqa: E501
     }
 
     read_only_vars = {
@@ -108,12 +112,13 @@ class Mole(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def from_openapi_data(cls, blind, smell, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, blind, smell, hearing, *args, **kwargs):  # noqa: E501
         """Mole - a model defined in OpenAPI
 
         Args:
             blind (bool):
             smell (str):
+            hearing (bool):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -148,6 +153,7 @@ class Mole(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             touch (bool): [optional]  # noqa: E501
             taste (str): [optional]  # noqa: E501
+            seeing_ghosts (bool): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -177,6 +183,7 @@ class Mole(ModelNormal):
 
         self.blind = blind
         self.smell = smell
+        self.hearing = hearing
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -197,10 +204,11 @@ class Mole(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, smell, *args, **kwargs):  # noqa: E501
+    def __init__(self, smell, hearing, *args, **kwargs):  # noqa: E501
         """Mole - a model defined in OpenAPI
 
             smell (str):
+            hearing (bool):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -235,6 +243,7 @@ class Mole(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             touch (bool): [optional]  # noqa: E501
             taste (str): [optional]  # noqa: E501
+            seeing_ghosts (bool): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -261,6 +270,7 @@ class Mole(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.smell = smell
+        self.hearing = hearing
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -270,5 +280,5 @@ class Mole(ModelNormal):
                 continue
             setattr(self, var_name, var_value)
             if var_name in self.read_only_vars:
-                raise AttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                raise ApiAttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
                                      f"class with read only attributes.")
