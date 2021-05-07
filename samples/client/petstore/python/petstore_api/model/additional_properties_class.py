@@ -57,7 +57,13 @@ class AdditionalPropertiesClass(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = None
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
@@ -77,12 +83,12 @@ class AdditionalPropertiesClass(ModelNormal):
             'map_integer': ({str: (int,)},),  # noqa: E501
             'map_boolean': ({str: (bool,)},),  # noqa: E501
             'map_array_integer': ({str: ([int],)},),  # noqa: E501
-            'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
+            'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str, none_type],)},),  # noqa: E501
             'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
-            'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
-            'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-            'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-            'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type,)},)},),  # noqa: E501
+            'anytype_1': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'anytype_2': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'anytype_3': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
         }
 
     @cached_property
@@ -155,12 +161,12 @@ class AdditionalPropertiesClass(ModelNormal):
             map_integer ({str: (int,)}): [optional]  # noqa: E501
             map_boolean ({str: (bool,)}): [optional]  # noqa: E501
             map_array_integer ({str: ([int],)}): [optional]  # noqa: E501
-            map_array_anytype ({str: ([bool, date, datetime, dict, float, int, list, str],)}): [optional]  # noqa: E501
+            map_array_anytype ({str: ([bool, date, datetime, dict, float, int, list, str, none_type],)}): [optional]  # noqa: E501
             map_map_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
-            map_map_anytype ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): [optional]  # noqa: E501
-            anytype_1 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
-            anytype_2 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
-            anytype_3 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            map_map_anytype ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type,)},)}): [optional]  # noqa: E501
+            anytype_1 (bool, date, datetime, dict, float, int, list, str, none_type): [optional]  # noqa: E501
+            anytype_2 (bool, date, datetime, dict, float, int, list, str, none_type): no type is set for this. [optional]  # noqa: E501
+            anytype_3 (bool, date, datetime, dict, float, int, list, str, none_type): because of a bug in swagger-parser, this should have values {str: (str, int, float...)} but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -34,6 +34,7 @@ from petstore_api.model.class_model import ClassModel
 from petstore_api.model.client import Client
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.composed_schema_with_props_and_no_add_props import ComposedSchemaWithPropsAndNoAddProps
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf

@@ -14,21 +14,17 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import apple
-except ImportError:
-    apple = sys.modules[
-        'petstore_api.model.apple']
-try:
-    from petstore_api.model import banana
-except ImportError:
-    banana = sys.modules[
-        'petstore_api.model.banana']
+from petstore_api.model import apple
+from petstore_api.model import banana
 from petstore_api.model.fruit import Fruit
 
 
 class TestFruit(unittest.TestCase):
     """Fruit unit test stubs"""
+
+    length_cm = 20.3
+    color = 'yellow'
+
 
     def setUp(self):
         pass
@@ -36,34 +32,52 @@ class TestFruit(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFruit(self):
-        """Test Fruit"""
+    def test_fruit_with_additional_props(self):
+        # including extra parameters works because the oneOf models include additionalProperties
+        some_value = 'some_value'
+        some_fruit = Fruit(
+            color=self.color,
+            length_cm=self.length_cm,
+            unknown_property=some_value
+        )
+        assert some_fruit['unknown_property'] == some_value
 
-        # make an instance of Fruit, a composed schema oneOf model
-        # banana test
-        length_cm = 20.3
-        color = 'yellow'
-        fruit = Fruit(length_cm=length_cm, color=color)
-        # check its properties
-        self.assertEqual(fruit.length_cm, length_cm)
-        self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(fruit.get('length_cm'), length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
-        self.assertEqual(fruit.color, color)
-        self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
-        # check the dict representation
+    def test_fruit_assigning_additional_props_in_client(self):
+        # setting a value that doesn't exist works because additional_properties_type allows any type
+        other_fruit = Fruit(length_cm=self.length_cm, color=self.color)
+        blah = 'blah'
+        other_fruit['a'] = blah
+        assert other_fruit.a == blah
+
+        # with setattr
+        setattr(other_fruit, 'b', blah)
+        assert other_fruit.b == blah
+
         self.assertEqual(
-            fruit.to_dict(),
+            other_fruit.to_dict(),
             {
-                'length_cm': length_cm,
-                'color': color
+                'a': 'blah',
+                'b': 'blah',
+                'length_cm': self.length_cm,
+                'color': self.color
             }
         )
-        # setting a value that doesn't exist raises an exception
+
+    def test_fruit_access_errors(self):
+        fruit = Fruit(length_cm=self.length_cm, color=self.color)
+
+        # getting a value that doesn't exist raises an exception
         # with a key
         with self.assertRaises(AttributeError):
-            fruit['invalid_variable'] = 'some value'
+            invalid_variable = fruit['cultivar']
+
+        # Per Python doc, if the named attribute does not exist,
+        # default is returned if provided, otherwise AttributeError is raised.
+        with self.assertRaises(AttributeError):
+            getattr(fruit, 'cultivar')
+
+    def test_fruit_attribute_access(self):
+        fruit = Fruit(length_cm=self.length_cm, color=self.color)
 
         # Assert that we can call the builtin hasattr() function.
         # hasattr should return False for non-existent attribute.
@@ -74,14 +88,6 @@ class TestFruit(unittest.TestCase):
         # hasattr should return True for existent attribute.
         self.assertTrue(hasattr(fruit, 'color'))
 
-        # with setattr
-        with self.assertRaises(AttributeError):
-            setattr(fruit, 'invalid_variable', 'some value')
-
-        # getting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(AttributeError):
-            invalid_variable = fruit['cultivar']
         # with getattr
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided.
@@ -89,10 +95,28 @@ class TestFruit(unittest.TestCase):
         self.assertEqual(fruit.get('cultivar'), None)
         self.assertEqual(fruit.get('cultivar', 'some value'), 'some value')
 
-        # Per Python doc, if the named attribute does not exist,
-        # default is returned if provided, otherwise AttributeError is raised.
-        with self.assertRaises(AttributeError):
-            getattr(fruit, 'cultivar')
+    def test_banana_fruit(self):
+        """Test Fruit"""
+
+        # make an instance of Fruit, a composed schema oneOf model
+        # banana test
+        fruit = Fruit(length_cm=self.length_cm, color=self.color)
+        # check its properties
+        self.assertEqual(fruit.length_cm, self.length_cm)
+        self.assertEqual(fruit['length_cm'], self.length_cm)
+        self.assertEqual(fruit.get('length_cm'), self.length_cm)
+        self.assertEqual(getattr(fruit, 'length_cm'), self.length_cm)
+        self.assertEqual(fruit.color, self.color)
+        self.assertEqual(fruit['color'], self.color)
+        self.assertEqual(getattr(fruit, 'color'), self.color)
+        # check the dict representation
+        self.assertEqual(
+            fruit.to_dict(),
+            {
+                'length_cm': self.length_cm,
+                'color': self.color
+            }
+        )
 
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
@@ -109,6 +133,7 @@ class TestFruit(unittest.TestCase):
         )
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
+        self.assertEqual(len(fruit._composed_instances), 1)
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == banana.Banana:
                 banana_instance = composed_instance
@@ -118,19 +143,16 @@ class TestFruit(unittest.TestCase):
         )
         # model._var_name_to_model_instances maps the variable name to the
         # model instances which store that variable
+        print(fruit._var_name_to_model_instances)
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit],
+                'color': [fruit, banana_instance],
                 'length_cm': [fruit, banana_instance],
-                'cultivar': [fruit],
-                'origin': [fruit],
             }
         )
-        # model._additional_properties_model_instances stores a list of
-        # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [fruit]
         )
 
         # if we modify one of the properties owned by multiple
@@ -140,20 +162,14 @@ class TestFruit(unittest.TestCase):
         with self.assertRaises(petstore_api.ApiValueError):
             some_length_cm = fruit.length_cm
 
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            fruit = Fruit(
-                color=color,
-                length_cm=length_cm,
-                unknown_property='some value'
-            )
-
         # including input parameters for two oneOf instances raise an exception
         with self.assertRaises(petstore_api.ApiValueError):
             fruit = Fruit(
-                length_cm=length_cm,
+                length_cm=self.length_cm,
                 cultivar='granny smith'
             )
+
+    def test_apple_fruit(self):
 
         # make an instance of Fruit, a composed schema oneOf model
         # apple test
@@ -190,19 +206,15 @@ class TestFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit],
-                'length_cm': [fruit],
+                'color': [fruit, apple_instance],
                 'cultivar': [fruit, apple_instance],
-                'origin': [fruit, apple_instance],
             }
         )
-        # model._additional_properties_model_instances stores a list of
-        # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [fruit]
         )
 
-    def testFruitNullValue(self):
+    def test_null_fruit(self):
         # Since 'apple' is nullable, validate we can create an apple with the 'null' value.
         fruit = apple.Apple(None)
         self.assertIsNone(fruit)
@@ -219,6 +231,17 @@ class TestFruit(unittest.TestCase):
         # Redo the same thing, this time passing a null Apple to the Fruit constructor.
         fruit = Fruit(apple.Apple(None))
         self.assertIsNone(fruit)
+
+    def test_fruit_with_invalid_input_type(self):
+
+        """
+        color must be a str, color's str type is only defined at the Fruit level
+        Banana + Apple would allow color to be assigned with any type of value
+        """
+        invalid_value = 1
+        with self.assertRaises(petstore_api.ApiTypeError):
+            fruit = Fruit(color=invalid_value, length_cm=self.length_cm)
+
 
 if __name__ == '__main__':
     unittest.main()
