@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**object_with_no_reference_schema**](docs/FakeApi.md#object_with_no_reference_schema) | **GET** /fake/refs/object_with_no_reference_schema | 
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -199,6 +200,7 @@ Class | Method | HTTP request | Description
  - [NumberWithValidations](docs/NumberWithValidations.md)
  - [ObjectInterface](docs/ObjectInterface.md)
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
+ - [ObjectWithNoReferenceSchema](docs/ObjectWithNoReferenceSchema.md)
  - [ObjectWithValidations](docs/ObjectWithValidations.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)

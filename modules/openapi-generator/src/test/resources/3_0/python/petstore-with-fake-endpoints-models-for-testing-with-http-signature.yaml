@@ -1348,6 +1348,19 @@ paths:
                         items:
                           type: string
                           nullable: true
+  /fake/refs/object_with_no_reference_schema:
+    get:
+      tags:
+        - fake
+      operationId: objectWithNoReferenceSchema
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithNoReferenceSchema'
+          description: My description
+
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2422,3 +2435,16 @@ components:
                 items:
                   type: string
                   nullable: true
+    ObjectWithNoReferenceSchema:
+      items:
+        additionalProperties: false
+        properties:
+          id:
+            description: identifier
+            readOnly: true
+            type: integer
+        required:
+          - id
+        type: object
+      minItems: 1
+      type: array

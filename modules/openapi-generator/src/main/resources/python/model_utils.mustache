@@ -728,6 +728,8 @@ def get_required_type_classes(required_types_mixed, spec_property_naming):
         elif isinstance(required_type, tuple):
             valid_classes.append(tuple)
             child_req_types_by_current_type[tuple] = required_type
+        elif required_type is object:
+            valid_classes.append(dict)
         elif isinstance(required_type, dict):
             valid_classes.append(dict)
             child_req_types_by_current_type[dict] = required_type[str]
