@@ -42,15 +42,13 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "2.2.0");
+            "sttp client", "3.0.0");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
-    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.6");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
-            "library", "3.6.8");
+            "library", "3.6.10");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
@@ -59,7 +57,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
     private static final List<Property<?>> properties = Arrays.asList(
-            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
+            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
             JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
@@ -165,6 +163,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
+        supportingFiles.add(new SupportingFile("apiModel.mustache", invokerFolder, "ApiModel.scala"));
     }
 
     @Override
@@ -212,21 +211,25 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
+                HashSet<Integer> unknownCodes = new HashSet<>();
                 for (CodegenOperation operation : opsMap.get("operation")) {
+                    boolean hasOnlyDefaultResponse = true;
                     for (CodegenResponse response : operation.responses) {
-                        if ("default".equals(response.code)) {
+                        if (response.isDefault) {
                             continue;
                         }
                         try {
                             int code = Integer.parseInt(response.code);
+                            hasOnlyDefaultResponse = false;
                             if (code >= 600) {
                                 unknownCodes.add(code);
                             }
+                            response.vendorExtensions.put("x-error-code", response.is4xx || response.is5xx);
                         } catch (NumberFormatException e) {
                             LOGGER.error("Status code is not an integer : response.code", e);
                         }
                     }
+                    operation.vendorExtensions.put("x-has-only-default-response", hasOnlyDefaultResponse);
                 }
                 if (!unknownCodes.isEmpty()) {
                     additionalProperties.put("unknownStatusCodes", unknownCodes);

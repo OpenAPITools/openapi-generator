@@ -13,7 +13,7 @@ package org.openapitools.client.core
 
 import org.openapitools.client.model._
 import org.json4s._
-import sttp.client.json4s.SttpJson4sApi
+import sttp.client3.json4s.SttpJson4sApi
 import scala.reflect.ClassTag
 
 object JsonSupport extends SttpJson4sApi {
@@ -43,6 +43,18 @@ object JsonSupport extends SttpJson4sApi {
       }
     }
 
-  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all
+  def apiModelSerializers: Seq[Serializer[_]] = Seq[Serializer[_]]() :+
+    new CustomSerializer[ApiModel](_ => ({
+      case _ => EmptyApiModel
+    }, {
+      case _: ApiModel => JObject()
+    })) :+
+    new CustomSerializer[ExceptionApiModel](_ => ({
+      case _ => EmptyExceptionApiModel
+    }, {
+      case _: ExceptionApiModel => JObject()
+    }))
+
+  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all ++ apiModelSerializers
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
 }

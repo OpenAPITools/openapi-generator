@@ -9,15 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package org.openapitools.client.model
+package org.openapitools.client.core
 
-import java.io.File
-
-case class InlineObject1(
-  /* Additional data to pass to server */
-  additionalMetadata: Option[String] = None,
-  /* file to upload */
-  file: Option[File] = None
-)
-
-
+trait ApiModel
+trait ExceptionApiModel
+case object EmptyApiModel extends ApiModel {}
+case object EmptyExceptionApiModel extends ExceptionApiModel {}
