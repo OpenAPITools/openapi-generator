@@ -153,6 +153,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
     * Build the WebClientBuilder used to make WebClient.
+    * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
     public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
@@ -176,6 +177,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Build the WebClient used to make HTTP requests.
+     * @param mapper ObjectMapper used for serialize/deserialize
      * @return WebClient
      */
     public static WebClient buildWebClient(ObjectMapper mapper) {
@@ -376,7 +378,7 @@ public class ApiClient extends JavaTimeFormatter {
         return dateFormat.format(date);
     }
 
-        /**
+    /**
      * Get the ObjectMapper used to make HTTP requests.
      * @return ObjectMapper objectMapper
      */
