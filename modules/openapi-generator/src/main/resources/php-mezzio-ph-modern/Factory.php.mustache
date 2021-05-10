@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace {{invokerPackage}};
 
-use App\Middleware;
+use {{invokerPackage}}\Middleware;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,10 +29,7 @@ class Factory implements FactoryInterface
             $pipeline,
             $container->get(EmitterInterface::class),
             $container->get(ServerRequestInterface::class),
-            static function(\Throwable $error) use ($errorMiddleware) : ResponseInterface
-            {
-                return $errorMiddleware->handleError($error);
-            }
+            static fn(\Throwable $error): ResponseInterface => $errorMiddleware->handleError($error)
         );
         $application = new Application(
             $container->get(MiddlewareFactory::class),

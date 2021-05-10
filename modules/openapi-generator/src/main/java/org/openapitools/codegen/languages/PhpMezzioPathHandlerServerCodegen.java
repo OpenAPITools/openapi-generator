@@ -39,7 +39,8 @@ import java.util.*;
 
 public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PhpMezzioPathHandlerServerCodegen.class);
-
+    // Custom generator option names
+    public static final String OPT_MODERN = "modern";
     // Internal vendor extension names for extra template data that should not be set in specification
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
@@ -47,6 +48,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     public static final String VEN_HAS_QUERY_DATA = "internal.ze-ph.hasQueryData";
     public static final String VEN_FROM_CONTAINER = "internal.ze-ph.fromContainer";
     public static final String VEN_CONTAINER_DATA_TYPE = "internal.ze-ph.containerDataType";
+
+    private boolean useModernSyntax = false;
 
     @Override
     public CodegenType getTag() {
@@ -111,6 +114,17 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("InternalServerError.php.mustache", srcBasePath + File.separator + "Middleware", "InternalServerError.php"));
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
+        //Register custom CLI options
+        addSwitch(OPT_MODERN, "use modern language features (generated code will require PHP 8.0)", useModernSyntax);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        if (additionalProperties.containsKey(OPT_MODERN)) {
+            embeddedTemplateDir = templateDir = "php-mezzio-ph-modern";
+            useModernSyntax = true;
+        }
     }
 
     /**
@@ -155,6 +169,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
         Map<String, Object> extensions = p.getExtensions();
         if ((extensions != null) && extensions.containsKey(VEN_CONTAINER_DATA_TYPE)) {
             result = (String) extensions.get(VEN_CONTAINER_DATA_TYPE);
+        } else if (useModernSyntax && (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p))) {
+            result = "array";
         } else {
             result = super.getTypeDeclaration(p);
         }

@@ -29,7 +29,7 @@ class Factory implements FactoryInterface
             $pipeline,
             $container->get(EmitterInterface::class),
             $container->get(ServerRequestInterface::class),
-            function(\Throwable $error) use ($errorMiddleware) : ResponseInterface
+            static function(\Throwable $error) use ($errorMiddleware) : ResponseInterface
             {
                 return $errorMiddleware->handleError($error);
             }
