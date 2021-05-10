@@ -104,7 +104,7 @@ class {{{classname}}} {
       nullableContentType.toLowerCase().startsWith('multipart/form-data')
     ) {
       bool hasFields = false;
-      final mp = MultipartRequest(null, null);
+      final mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(path));
       {{#formParams}}
       {{^isFile}}
       if ({{{paramName}}} != null) {
