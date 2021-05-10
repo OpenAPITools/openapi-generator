@@ -104,16 +104,16 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isKeyInHeader}}
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("{{keyParamName}}")
-					: configuration.apiKey;
+                ? configuration.apiKey("{{keyParamName}}")
+                : configuration.apiKey;
                 localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("{{keyParamName}}")
-					: configuration.apiKey;
+                ? configuration.apiKey("{{keyParamName}}")
+                : configuration.apiKey;
                 localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInQuery}}
@@ -127,9 +127,9 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isOAuth}}
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
-					: configuration.accessToken;
+            const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                ? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
             {{/isOAuth}}
@@ -142,7 +142,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarQueryParameter['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
             }
             {{/isArray}}
@@ -166,7 +166,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isArray}}
             if ({{paramName}}) {
-                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarHeaderParameter['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
             {{/isArray}}
             {{^isArray}}
@@ -185,7 +185,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                    localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+                    localVarFormParams.set('{{baseName}}', {{#uniqueItems}}Array.from({{/uniqueItems}}{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
             }
             {{/isArray}}
