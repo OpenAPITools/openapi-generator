@@ -8,15 +8,16 @@
 #OpenAPI Generator version: 5.2.0-SNAPSHOT
 #
 
+require "json"
 require "time"
 
 module Petstore
   # A category for a pet
-  class Category include JSON::Serializable
-   include JSON::Serializable 
+  class Category
+    include JSON::Serializable
+
     @[JSON::Field(key: id, type: Int64)]
     property id : Int64
-
 
     @[JSON::Field(key: name, type: String)]
     property name : String

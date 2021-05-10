@@ -8,39 +8,34 @@
 #OpenAPI Generator version: 5.2.0-SNAPSHOT
 #
 
+require "json"
 require "time"
 
 module Petstore
   # A User who is purchasing from the pet store
-  class User include JSON::Serializable
-   include JSON::Serializable 
+  class User
+    include JSON::Serializable
+
     @[JSON::Field(key: id, type: Int64)]
     property id : Int64
-
 
     @[JSON::Field(key: username, type: String)]
     property username : String
 
-
     @[JSON::Field(key: firstName, type: String)]
     property first_name : String
-
 
     @[JSON::Field(key: lastName, type: String)]
     property last_name : String
 
-
     @[JSON::Field(key: email, type: String)]
     property email : String
-
 
     @[JSON::Field(key: password, type: String)]
     property password : String
 
-
     @[JSON::Field(key: phone, type: String)]
     property phone : String
-
 
     # User Status
     @[JSON::Field(key: userStatus, type: Int32)]
