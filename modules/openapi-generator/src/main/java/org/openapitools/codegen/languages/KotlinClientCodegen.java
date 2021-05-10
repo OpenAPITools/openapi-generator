@@ -61,6 +61,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
 
+    public static final String MOSHI_CODE_GEN = "moshiCodeGen";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -204,6 +206,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
+
+        cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
     }
 
     public CodegenType getTag() {
