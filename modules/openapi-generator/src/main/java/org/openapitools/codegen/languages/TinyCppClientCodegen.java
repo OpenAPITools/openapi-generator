@@ -149,6 +149,17 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     @Override
+    public String getTypeDeclaration(Schema p) {
+        String openAPIType = getSchemaType(p);
+        if (languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
+        } else {
+            return openAPIType + "";
+        }
+    }
+
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
@@ -163,15 +174,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         return toModelName(type);
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        String openAPIType = getSchemaType(p);
-        if (languageSpecificPrimitives.contains(openAPIType)) {
-            return toModelName(openAPIType);
-        } else {
-            return openAPIType + "";
-        }
-    }
+    
 
     @Override
     public String toModelName(String type) {
@@ -199,7 +202,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
         if (name.length() > 0 ) {
-            // additionalProperties name is "" so name.length() == 0
             paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
         }
         if (isReservedWord(paramName)) {
