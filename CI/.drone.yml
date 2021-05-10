@@ -52,7 +52,7 @@ steps:
 - name: haskell-client-test
   image: haskell:8.6.5
   commands:
-  - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
+  - (cd samples/client/petstore/haskell-http-client/ && stack --allow-different-user --install-ghc --no-haddock-deps haddock --fast && stack --allow-different-user test --fast)
 # test erlang client and server
 - name: erlang
   image: erlang:alpine

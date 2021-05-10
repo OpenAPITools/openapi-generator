@@ -48,6 +48,7 @@ Code change should conform to the programming style guide of the respective lang
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
+- C++ (Unreal Engine 4): https://docs.unrealengine.com/en-US/ProductionPipelines/DevelopmentSetup/CodingStandard/index.html
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Crystal: https://crystal-lang.org/reference/conventions/coding_style.html
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style

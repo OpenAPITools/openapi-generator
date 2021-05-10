@@ -159,6 +159,7 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [ComposedOneOfNumberWithValidations](docs/ComposedOneOfNumberWithValidations.md)
+ - [ComposedSchemaWithPropsAndNoAddProps](docs/ComposedSchemaWithPropsAndNoAddProps.md)
  - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)

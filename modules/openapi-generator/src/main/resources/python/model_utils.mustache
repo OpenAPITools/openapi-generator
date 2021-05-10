@@ -1302,8 +1302,13 @@ def get_allof_instances(self, model_args, constant_args):
         self: the class we are handling
         model_args (dict): var_name to var_value
             used to make instances
-        constant_args (dict): var_name to var_value
-            used to make instances
+        constant_args (dict):
+            metadata arguments:
+            _check_type
+            _path_to_item
+            _spec_property_naming
+            _configuration
+            _visited_composed_classes
 
     Returns
         composed_instances (list)
@@ -1311,20 +1316,8 @@ def get_allof_instances(self, model_args, constant_args):
     composed_instances = []
     for allof_class in self._composed_schemas['allOf']:
 
-        # no need to handle changing js keys to python because
-        # for composed schemas, allof parameters are included in the
-        # composed schema and were changed to python keys in __new__
-        # extract a dict of only required keys from fixed_model_args
-        kwargs = {}
-        var_names = set(allof_class.openapi_types.keys())
-        for var_name in var_names:
-            if var_name in model_args:
-                kwargs[var_name] = model_args[var_name]
-
-        # and use it to make the instance
-        kwargs.update(constant_args)
         try:
-            allof_instance = allof_class(**kwargs)
+            allof_instance = allof_class(**model_args, **constant_args)
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(
@@ -1384,31 +1377,9 @@ def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
 
         single_value_input = allows_single_value_input(oneof_class)
 
-        if not single_value_input:
-            # transform js keys from input data to python keys in fixed_model_args
-            fixed_model_args = change_keys_js_to_python(
-                model_kwargs, oneof_class)
-
-            # Extract a dict with the properties that are declared in the oneOf schema.
-            # Undeclared properties (e.g. properties that are allowed because of the
-            # additionalProperties attribute in the OAS document) are not added to
-            # the dict.
-            kwargs = {}
-            var_names = set(oneof_class.openapi_types.keys())
-            for var_name in var_names:
-                if var_name in fixed_model_args:
-                    kwargs[var_name] = fixed_model_args[var_name]
-
-            # do not try to make a model with no input args
-            if len(kwargs) == 0:
-                continue
-
-            # and use it to make the instance
-            kwargs.update(constant_kwargs)
-
         try:
             if not single_value_input:
-                oneof_instance = oneof_class(**kwargs)
+                oneof_instance = oneof_class(**model_kwargs, **constant_kwargs)
             else:
                 if issubclass(oneof_class, ModelSimple):
                     oneof_instance = oneof_class(model_arg, **constant_kwargs)
@@ -1465,24 +1436,8 @@ def get_anyof_instances(self, model_args, constant_args):
             # none_type deserialization is handled in the __new__ method
             continue
 
-        # transform js keys to python keys in fixed_model_args
-        fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
-
-        # extract a dict of only required keys from these_model_vars
-        kwargs = {}
-        var_names = set(anyof_class.openapi_types.keys())
-        for var_name in var_names:
-            if var_name in fixed_model_args:
-                kwargs[var_name] = fixed_model_args[var_name]
-
-        # do not try to make a model with no input args
-        if len(kwargs) == 0:
-            continue
-
-        # and use it to make the instance
-        kwargs.update(constant_args)
         try:
-            anyof_instance = anyof_class(**kwargs)
+            anyof_instance = anyof_class(**model_args, **constant_args)
             anyof_instances.append(anyof_instance)
         except Exception:
             pass
@@ -1495,47 +1450,34 @@ def get_anyof_instances(self, model_args, constant_args):
     return anyof_instances
 
 
-def get_additional_properties_model_instances(
-        composed_instances, self):
-    additional_properties_model_instances = []
-    all_instances = [self]
-    all_instances.extend(composed_instances)
-    for instance in all_instances:
-        if instance.additional_properties_type is not None:
-            additional_properties_model_instances.append(instance)
-    return additional_properties_model_instances
-
-
-def get_var_name_to_model_instances(self, composed_instances):
-    var_name_to_model_instances = {}
-    all_instances = [self]
-    all_instances.extend(composed_instances)
-    for instance in all_instances:
-        for var_name in instance.openapi_types:
-            if var_name not in var_name_to_model_instances:
-                var_name_to_model_instances[var_name] = [instance]
-            else:
-                var_name_to_model_instances[var_name].append(instance)
-    return var_name_to_model_instances
-
-
-def get_unused_args(self, composed_instances, model_args):
-    unused_args = dict(model_args)
-    # arguments apssed to self were already converted to python names
+def get_discarded_args(self, composed_instances, model_args):
+    """
+    Gathers the args that were discarded by configuration.discard_unknown_keys
+    """
+    model_arg_keys = model_args.keys()
+    discarded_args = set()
+    # arguments passed to self were already converted to python names
     # before __init__ was called
-    for var_name_py in self.attribute_map:
-        if var_name_py in unused_args:
-            del unused_args[var_name_py]
     for instance in composed_instances:
         if instance.__class__ in self._composed_schemas['allOf']:
-            for var_name_py in instance.attribute_map:
-                if var_name_py in unused_args:
-                    del unused_args[var_name_py]
+            try:
+                keys = instance.to_dict().keys()
+                discarded_keys = model_args - keys
+                discarded_args.update(discarded_keys)
+            except Exception:
+                # allOf integer schema will throw exception
+                pass
         else:
-            for var_name_js in instance.attribute_map.values():
-                if var_name_js in unused_args:
-                    del unused_args[var_name_js]
-    return unused_args
+            try:
+                all_keys = set(model_to_dict(instance, serialize=False).keys())
+                js_keys = model_to_dict(instance, serialize=True).keys()
+                all_keys.update(js_keys)
+                discarded_keys = model_arg_keys - all_keys
+                discarded_args.update(discarded_keys)
+            except Exception:
+                # allOf integer schema will throw exception
+                pass
+    return discarded_args
 
 
 def validate_get_composed_info(constant_args, model_args, self):
@@ -1579,36 +1521,42 @@ def validate_get_composed_info(constant_args, model_args, self):
         composed_instances.append(oneof_instance)
     anyof_instances = get_anyof_instances(self, model_args, constant_args)
     composed_instances.extend(anyof_instances)
+    """
+    set additional_properties_model_instances
+    additional properties must be evaluated at the schema level
+    so self's additional properties are most important
+    If self is a composed schema with:
+    - no properties defined in self
+    - additionalProperties: False
+    Then for object payloads every property is an additional property
+    and they are not allowed, so only empty dict is allowed
+
+    Properties must be set on all matching schemas
+    so when a property is assigned toa composed instance, it must be set on all
+    composed instances regardless of additionalProperties presence
+    keeping it to prevent breaking changes in v5.0.1
+    TODO remove cls._additional_properties_model_instances in 6.0.0
+    """
+    additional_properties_model_instances = []
+    if self.additional_properties_type is not None:
+        additional_properties_model_instances = [self]
+
+    """
+    no need to set properties on self in here, they will be set in __init__
+    By here all composed schema oneOf/anyOf/allOf instances have their properties set using
+    model_args
+    """
+    discarded_args = get_discarded_args(self, composed_instances, model_args)
 
     # map variable names to composed_instances
-    var_name_to_model_instances = get_var_name_to_model_instances(
-        self, composed_instances)
-
-    # set additional_properties_model_instances
-    additional_properties_model_instances = (
-        get_additional_properties_model_instances(composed_instances, self)
-    )
-
-    # set any remaining values
-    unused_args = get_unused_args(self, composed_instances, model_args)
-    if len(unused_args) > 0 and \
-            len(additional_properties_model_instances) == 0 and \
-            (self._configuration is None or
-                not self._configuration.discard_unknown_keys):
-        raise ApiValueError(
-            "Invalid input arguments input when making an instance of "
-            "class %s. Not all inputs were used. The unused input data "
-            "is %s" % (self.__class__.__name__, unused_args)
-        )
-
-    # no need to add additional_properties to var_name_to_model_instances here
-    # because additional_properties_model_instances will direct us to that
-    # instance when we use getattr or setattr
-    # and we update var_name_to_model_instances in setattr
+    var_name_to_model_instances = {}
+    for prop_name in model_args:
+        if prop_name not in discarded_args:
+            var_name_to_model_instances[prop_name] = [self] + composed_instances
 
     return [
       composed_instances,
       var_name_to_model_instances,
       additional_properties_model_instances,
-      unused_args
+      discarded_args
     ]
