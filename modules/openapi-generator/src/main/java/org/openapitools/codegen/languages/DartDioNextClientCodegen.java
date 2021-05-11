@@ -324,7 +324,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                         isJson = type.equalsIgnoreCase("application/json");
                         isForm = type.equalsIgnoreCase("application/x-www-form-urlencoded");
                         isMultipart = type.equalsIgnoreCase("multipart/form-data");
-                        break;
+                        if (isJson || isForm || isMultipart) {
+                            break;
+                        }
                     }
                 }
             }
