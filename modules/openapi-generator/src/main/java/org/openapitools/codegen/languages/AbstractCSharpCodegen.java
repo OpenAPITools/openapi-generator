@@ -357,6 +357,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
+            setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+        } else {
+            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -1114,6 +1120,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setInterfacePrefix(final String interfacePrefix) {
         this.interfacePrefix = interfacePrefix;
+    }
+
+    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
+        this.nullReferenceTypesFlag = nullReferenceTypesFlag;
+        if (nullReferenceTypesFlag == true){
+            this.nullableType.add("string");
+        }
     }
 
     public void setEnumNameSuffix(final String enumNameSuffix) {
