@@ -18,6 +18,7 @@ import re
 import typing
 from urllib.parse import quote
 from urllib3.fields import RequestField
+from urllib3.connection import HTTPHeaderDict
 
 
 from petstore_api import rest
@@ -143,8 +144,8 @@ class ApiClient(object):
             header_params['Cookie'] = self.cookie
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
-            header_params = dict(self.parameters_to_tuples(header_params,
-                                                           collection_formats))
+            header_params = HTTPHeaderDict(self.parameters_to_tuples(header_params,
+                                                                     collection_formats))
 
         # path parameters
         if path_params:
