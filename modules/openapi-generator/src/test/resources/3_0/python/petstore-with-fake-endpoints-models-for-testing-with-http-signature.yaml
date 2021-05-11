@@ -2422,3 +2422,26 @@ components:
                 items:
                   type: string
                   nullable: true
+    Mole:
+      type: object
+      required:
+        - blind
+        - smell
+        - hearing
+      properties:
+        blind:
+          type: boolean
+          readOnly: true
+        smell:
+          type: string
+          readOnly: false
+        touch:
+          type: boolean
+          readOnly: true
+        taste:
+          type: string
+          readOnly: false
+        hearing:
+          type: boolean
+        seeingGhosts:
+          type: boolean
