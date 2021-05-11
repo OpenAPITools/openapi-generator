@@ -40,20 +40,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
-            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -98,20 +86,8 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
 
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
-    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -126,27 +102,27 @@ if(hasProperty('target') && target == 'android') {
 }
 
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.24'
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile 'com.squareup.okhttp3:okhttp:3.14.7'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.14.7'
-    compile 'com.google.code.gson:gson:2.8.6'
-    compile 'io.gsonfire:gson-fire:1.8.4'
+    implementation 'io.swagger:swagger-annotations:1.5.24'
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'io.gsonfire:gson-fire:1.8.4'
     {{#hasOAuthMethods}}
-    compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
+    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
     {{/hasOAuthMethods}}
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     {{#joda}}
-    compile 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.9.9'
     {{/joda}}
     {{#threetenbp}}
-    compile 'org.threeten:threetenbp:1.4.3'
+    implementation 'org.threeten:threetenbp:1.4.3'
     {{/threetenbp}}
     {{#dynamicOperations}}
-    compile 'io.swagger.parser.v3:swagger-parser-v3:2.0.23'
+    implementation 'io.swagger.parser.v3:swagger-parser-v3:2.0.23'
     {{/dynamicOperations}}
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile 'junit:junit:4.13.1'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation 'junit:junit:4.13.1'
 }
 
 javadoc {

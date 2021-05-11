@@ -31,7 +31,7 @@ import android.os.Parcel;
  * Order
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Order {
+public class Order implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -267,7 +267,6 @@ public class Order {
   public int hashCode() {
     return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
-
 
   @Override
   public String toString() {

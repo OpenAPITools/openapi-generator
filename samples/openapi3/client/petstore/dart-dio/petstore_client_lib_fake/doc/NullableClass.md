@@ -8,18 +8,18 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**integerProp** | **int** |  | [optional] [default to null]
-**numberProp** | **num** |  | [optional] [default to null]
-**booleanProp** | **bool** |  | [optional] [default to null]
-**stringProp** | **String** |  | [optional] [default to null]
-**dateProp** | [**DateTime**](DateTime.md) |  | [optional] [default to null]
-**datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] [default to null]
-**arrayNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] [default to const []]
-**arrayAndItemsNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] [default to const []]
-**arrayItemsNullable** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] [default to const []]
-**objectNullableProp** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] [default to const {}]
-**objectAndItemsNullableProp** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] [default to const {}]
-**objectItemsNullable** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] [default to const {}]
+**integerProp** | **int** |  | [optional] 
+**numberProp** | **num** |  | [optional] 
+**booleanProp** | **bool** |  | [optional] 
+**stringProp** | **String** |  | [optional] 
+**dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
+**datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
+**arrayNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] 
+**arrayAndItemsNullableProp** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] 
+**arrayItemsNullable** | [**BuiltList<JsonObject>**](JsonObject.md) |  | [optional] 
+**objectNullableProp** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] 
+**objectAndItemsNullableProp** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] 
+**objectItemsNullable** | [**BuiltMap<String, JsonObject>**](JsonObject.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -206,7 +206,7 @@ public class CodegenConstants {
     public static final String MODEL_PROPERTY_NAMING_DESC = "Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
 
     public static final String DOTNET_FRAMEWORK = "targetFramework";
-    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
+    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`";
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
@@ -226,7 +226,7 @@ public class CodegenConstants {
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
 
     public static final String API_NAME_SUFFIX = "apiNameSuffix";
-    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators suppport this feature at the moment.";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators support this feature at the moment.";
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
@@ -309,6 +309,9 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 
+    public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
+    public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";
+
     public static final String STRIP_PACKAGE_NAME = "stripPackageName";
     public static final String STRIP_PACKAGE_NAME_DESC = "Whether to strip leading dot-separated packages from generated model classes";
 
@@ -357,7 +360,7 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
-    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
+    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
 
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
@@ -367,5 +370,5 @@ public class CodegenConstants {
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
-    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.";
+    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
 }

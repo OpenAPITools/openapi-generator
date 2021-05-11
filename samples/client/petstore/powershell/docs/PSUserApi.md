@@ -25,16 +25,14 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-
-$User = (Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123) # User | Created user object
+$User = (Initialize-User -Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123) # User | Created user object
 
 # Create user
 try {
@@ -52,7 +50,7 @@ Name | Type | Description  | Notes
  **User** | [**User**](User.md)| Created user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -75,16 +73,14 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-
-$User = @((Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123)) # User[] | List of user object
+$User = @((Initialize-User -Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -102,7 +98,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -125,14 +121,12 @@ Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
 $User = @() # User[] | List of user object
 
@@ -152,7 +146,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -177,14 +171,12 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
 $Username = "Username_example" # String | The name that needs to be deleted
 
@@ -204,7 +196,7 @@ Name | Type | Description  | Notes
  **Username** | **String**| The name that needs to be deleted | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -227,8 +219,6 @@ Get user by user name
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing.
 
 # Get user by user name
@@ -247,8 +237,8 @@ Name | Type | Description  | Notes
  **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**User**](User.md)
+
+[**User**](User.md) (PSCustomObject)
 
 ### Authorization
 
@@ -271,8 +261,6 @@ Logs user into the system
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
 $Username = "Username_example" # String | The user name for login
 $Password = "Password_example" # String | The password for login in clear text
 
@@ -293,7 +281,7 @@ Name | Type | Description  | Notes
  **Password** | **String**| The password for login in clear text | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 **String**
 
 ### Authorization
@@ -315,14 +303,12 @@ Logs out current logged in user session
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
 
 # Logs out current logged in user session
@@ -338,7 +324,7 @@ try {
 This endpoint does not need any parameter.
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -364,14 +350,12 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+$Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
 $Username = "Username_example" # String | name that need to be deleted
 $User =  # User | Updated user object
@@ -393,7 +377,7 @@ Name | Type | Description  | Notes
  **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization

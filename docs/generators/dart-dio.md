@@ -11,8 +11,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |dateLibrary|Option. Date library to use|<dl><dt>**core**</dt><dd>Dart core library (DateTime)</dd><dt>**timemachine**</dt><dd>Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.</dd></dl>|core|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|nullableFields|Is the null fields should be in the JSON payload| |null|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|nullableFields|Make all fields nullable in the JSON payload| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |pubAuthor|Author name in generated pubspec| |null|
 |pubAuthorEmail|Email address of the author in generated pubspec| |null|
@@ -30,19 +30,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|BuiltList|package:built_collection/built_collection.dart|
-|BuiltMap|package:built_collection/built_collection.dart|
-|BuiltSet|package:built_collection/built_collection.dart|
-|JsonObject|package:built_value/json_object.dart|
-|Uint8List|dart:typed_data|
 
 
 ## INSTANTIATION TYPES
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|List|
-|map|Map|
 
 
 ## LANGUAGE PRIMITIVES
@@ -51,7 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>bool</li>
 <li>double</li>
-<li>dynamic</li>
 <li>int</li>
 <li>num</li>
 </ul>
@@ -137,8 +129,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |BasePath|✓|ToolingExtension
-|Authorizations|✗|ToolingExtension
-|UserAgent|✗|ToolingExtension
+|Authorizations|✓|ToolingExtension
+|UserAgent|✓|ToolingExtension
 |MockServer|✗|ToolingExtension
 
 ### Data Type Feature
@@ -215,7 +207,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
-|Composite|✓|OAS2,OAS3
+|Composite|✗|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 
@@ -225,7 +217,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
@@ -235,6 +227,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✓|OAS2,OAS3
+|XML|✗|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3

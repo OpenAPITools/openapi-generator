@@ -59,7 +59,7 @@ Short term are focused on improving contributor and user productivity (part of t
 * SPI plugins
   * Templating engine
   * Language extensions
-  * Custom extensions (e.g. allowing users to load support for https://github.com/Azure/azure-rest-api-specs[azure-rest-api-specs])
+  * Custom extensions (e.g. allowing users to load support for [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs))
 * Customizable templating engines (handlebars support)
 * Unit-testing templates (to previously mentioned explicit type as an interface to the template)
 * Reduce coupling

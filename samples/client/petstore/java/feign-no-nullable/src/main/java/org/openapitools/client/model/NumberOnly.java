@@ -59,6 +59,8 @@ public class NumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
@@ -80,7 +82,6 @@ public class NumberOnly {
   public int hashCode() {
     return Objects.hash(justNumber);
   }
-
 
   @Override
   public String toString() {

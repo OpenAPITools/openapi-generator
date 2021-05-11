@@ -77,6 +77,7 @@ null (empty response body)
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -146,6 +147,7 @@ null (empty response body)
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -218,6 +220,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -288,6 +291,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -362,6 +366,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -430,6 +435,7 @@ null (empty response body)
 
 - **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -505,6 +511,7 @@ null (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -577,6 +584,7 @@ Name | Type | Description  | Notes
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -648,6 +656,7 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: multipart/form-data
 - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -57,10 +55,36 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_download_attachment(self):
+        """Test case for download_attachment
+
+        downloads a file using Content-Disposition  # noqa: E501
+        """
+        pass
+
+    def test_enum_test(self):
+        """Test case for enum_test
+
+        Object contains enum properties and array properties containing enums  # noqa: E501
+        """
+        pass
+
     def test_fake_health_get(self):
         """Test case for fake_health_get
 
         Health check endpoint  # noqa: E501
+        """
+        pass
+
+    def test_get_inline_additionl_properties_ref_payload(self):
+        """Test case for get_inline_additionl_properties_ref_payload
+
+        """
+        pass
+
+    def test_mammal(self):
+        """Test case for mammal
+
         """
         pass
 
@@ -145,6 +169,27 @@ class TestFakeApi(unittest.TestCase):
     def test_test_query_parameter_collection_format(self):
         """Test case for test_query_parameter_collection_format
 
+        """
+        pass
+
+    def test_upload_download_file(self):
+        """Test case for upload_download_file
+
+        uploads a file and downloads a file using application/octet-stream  # noqa: E501
+        """
+        pass
+
+    def test_upload_file(self):
+        """Test case for upload_file
+
+        uploads a file using multipart/form-data  # noqa: E501
+        """
+        pass
+
+    def test_upload_files(self):
+        """Test case for upload_files
+
+        uploads files using multipart/form-data  # noqa: E501
         """
         pass
 

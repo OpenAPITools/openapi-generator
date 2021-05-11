@@ -31,17 +31,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OCamlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OCamlClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
@@ -727,6 +726,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
+
+            if (operation.returnType != null && operation.returnType.startsWith("Enums.")) {
+                String returnTypeEnum = operation.returnType.replaceAll(" list$", "");
+                operation.vendorExtensions.put("x-returntype-enum", returnTypeEnum);
+                operation.vendorExtensions.put("x-returntype-is-enum", true);
+            }
         }
 
         for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
@@ -811,8 +816,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

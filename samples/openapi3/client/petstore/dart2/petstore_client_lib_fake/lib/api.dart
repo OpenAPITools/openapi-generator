@@ -55,12 +55,6 @@ part 'model/foo.dart';
 part 'model/format_test.dart';
 part 'model/has_only_read_only.dart';
 part 'model/health_check_result.dart';
-part 'model/inline_object.dart';
-part 'model/inline_object1.dart';
-part 'model/inline_object2.dart';
-part 'model/inline_object3.dart';
-part 'model/inline_object4.dart';
-part 'model/inline_object5.dart';
 part 'model/inline_response_default.dart';
 part 'model/map_test.dart';
 part 'model/mixed_properties_and_additional_properties_class.dart';
@@ -78,16 +72,19 @@ part 'model/outer_enum.dart';
 part 'model/outer_enum_default_value.dart';
 part 'model/outer_enum_integer.dart';
 part 'model/outer_enum_integer_default_value.dart';
+part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
 part 'model/user.dart';
 
+
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
 final _dateFormatter = DateFormat('yyyy-MM-dd');
 final _regList = RegExp(r'^List<(.*)>$');
+final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();

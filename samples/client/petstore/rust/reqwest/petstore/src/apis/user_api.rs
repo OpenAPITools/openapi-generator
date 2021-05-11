@@ -102,7 +102,7 @@ pub fn create_user(configuration: &configuration::Configuration, body: crate::mo
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<CreateUserError> = serde_json::from_str(&local_var_content).ok();
@@ -129,7 +129,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&local_var_content).ok();
@@ -156,7 +156,7 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&local_var_content).ok();
@@ -183,7 +183,7 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
@@ -209,7 +209,7 @@ pub fn get_user_by_name(configuration: &configuration::Configuration, username: 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
@@ -237,7 +237,7 @@ pub fn login_user(configuration: &configuration::Configuration, username: &str, 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
@@ -263,7 +263,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<LogoutUserError> = serde_json::from_str(&local_var_content).ok();
@@ -291,7 +291,7 @@ pub fn update_user(configuration: &configuration::Configuration, username: &str,
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
         let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();

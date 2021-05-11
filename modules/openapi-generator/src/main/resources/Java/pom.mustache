@@ -159,11 +159,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                         <target>1.8</target>
@@ -172,7 +167,6 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>
@@ -181,17 +175,12 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                     {{/java8}}
                     {{^java8}}
                         <source>1.7</source>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
                 <executions>
                     <execution>
@@ -329,18 +318,6 @@
                 <version>2.2</version>
             </dependency>
         {{/java8}}
-        {{#supportJava6}}
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons_lang3_version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons_io_version}</version>
-            </dependency>
-        {{/supportJava6}}
         {{#useBeanValidation}}
             <!-- Bean Validation API support -->
             <dependency>
@@ -385,11 +362,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jersey-version>1.19.4</jersey-version>
-        {{#supportJava6}}
-        <commons_io_version>2.5</commons_io_version>
-        <commons_lang3_version>3.6</commons_lang3_version>
-        {{/supportJava6}}
-        <jackson-version>2.10.3</jackson-version>
+        <jackson-version>2.12.1</jackson-version>
         {{#threetenbp}}
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         {{/threetenbp}}

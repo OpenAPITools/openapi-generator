@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct Tag: Codable {
+public struct Tag: Codable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var name: String?
@@ -16,5 +17,19 @@ public struct Tag: Codable {
         self.id = id
         self.name = name
     }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case name
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+    }
+
+
 
 }

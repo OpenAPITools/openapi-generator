@@ -134,6 +134,8 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
@@ -167,6 +169,8 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
@@ -189,7 +193,6 @@ public class EnumArrays {
   public int hashCode() {
     return Objects.hash(justSymbol, arrayEnum);
   }
-
 
   @Override
   public String toString() {

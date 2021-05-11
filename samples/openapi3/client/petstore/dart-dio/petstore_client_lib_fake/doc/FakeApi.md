@@ -9,21 +9,22 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **get** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **get** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **post** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **post** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **post** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **post** /fake/outer/string | 
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **put** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **put** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **patch** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **get** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **get** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **put** /fake/test-query-paramters | 
+[**fakeHealthGet**](FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
+[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
+[**testClientModel**](FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
+[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumParameters**](FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
+[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData**](FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
 
 
 # **fakeHealthGet**
@@ -92,8 +93,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query1** | **String**| query parameter | [optional] [default to null]
- **header1** | **String**| header parameter | [optional] [default to null]
+ **query1** | **String**| query parameter | [optional] 
+ **header1** | **String**| header parameter | [optional] 
 
 ### Return type
 
@@ -282,6 +283,49 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **fakePropertyEnumIntegerSerialize**
+> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+
+
+
+Test serialization of enum (int) properties with examples
+
+### Example 
+```dart
+import 'package:openapi/api.dart';
+
+var api_instance = new FakeApi();
+var outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
+
+try { 
+    var result = api_instance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+    print(result);
+} catch (e) {
+    print('Exception when calling FakeApi->fakePropertyEnumIntegerSerialize: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
@@ -348,7 +392,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **String**|  | [default to null]
+ **query** | **String**|  | 
  **user** | [**User**](User.md)|  | 
 
 ### Return type
@@ -450,20 +494,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **num**| None | [default to null]
- **double_** | **double**| None | [default to null]
- **patternWithoutDelimiter** | **String**| None | [default to null]
- **byte** | **String**| None | [default to null]
- **integer** | **int**| None | [optional] [default to null]
- **int32** | **int**| None | [optional] [default to null]
- **int64** | **int**| None | [optional] [default to null]
- **float** | **double**| None | [optional] [default to null]
- **string** | **String**| None | [optional] [default to null]
- **binary** | **Uint8List**| None | [optional] [default to null]
- **date** | **DateTime**| None | [optional] [default to null]
- **dateTime** | **DateTime**| None | [optional] [default to null]
- **password** | **String**| None | [optional] [default to null]
- **callback** | **String**| None | [optional] [default to null]
+ **number** | **num**| None | 
+ **double_** | **double**| None | 
+ **patternWithoutDelimiter** | **String**| None | 
+ **byte** | **String**| None | 
+ **integer** | **int**| None | [optional] 
+ **int32** | **int**| None | [optional] 
+ **int64** | **int**| None | [optional] 
+ **float** | **double**| None | [optional] 
+ **string** | **String**| None | [optional] 
+ **binary** | **Uint8List**| None | [optional] 
+ **date** | **DateTime**| None | [optional] 
+ **dateTime** | **DateTime**| None | [optional] 
+ **password** | **String**| None | [optional] 
+ **callback** | **String**| None | [optional] 
 
 ### Return type
 
@@ -512,12 +556,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**BuiltList<String>**](String.md)| Header parameter enum test (string array) | [optional] [default to const []]
+ **enumHeaderStringArray** | [**BuiltList<String>**](String.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryStringArray** | [**BuiltList<String>**](String.md)| Query parameter enum test (string array) | [optional] [default to const []]
+ **enumQueryStringArray** | [**BuiltList<String>**](String.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] [default to null]
- **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] [default to null]
+ **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**BuiltList<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
@@ -569,12 +613,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int**| Required String in group parameters | [default to null]
- **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | [default to null]
- **requiredInt64Group** | **int**| Required Integer in group parameters | [default to null]
- **stringGroup** | **int**| String in group parameters | [optional] [default to null]
- **booleanGroup** | **bool**| Boolean in group parameters | [optional] [default to null]
- **int64Group** | **int**| Integer in group parameters | [optional] [default to null]
+ **requiredStringGroup** | **int**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **int**| Required Integer in group parameters | 
+ **stringGroup** | **int**| String in group parameters | [optional] 
+ **booleanGroup** | **bool**| Boolean in group parameters | [optional] 
+ **int64Group** | **int**| Integer in group parameters | [optional] 
 
 ### Return type
 
@@ -655,8 +699,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | [default to null]
- **param2** | **String**| field2 | [default to null]
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
 
 ### Return type
 
@@ -702,11 +746,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**BuiltList<String>**](String.md)|  | [default to const []]
- **ioutil** | [**BuiltList<String>**](String.md)|  | [default to const []]
- **http** | [**BuiltList<String>**](String.md)|  | [default to const []]
- **url** | [**BuiltList<String>**](String.md)|  | [default to const []]
- **context** | [**BuiltList<String>**](String.md)|  | [default to const []]
+ **pipe** | [**BuiltList<String>**](String.md)|  | 
+ **ioutil** | [**BuiltList<String>**](String.md)|  | 
+ **http** | [**BuiltList<String>**](String.md)|  | 
+ **url** | [**BuiltList<String>**](String.md)|  | 
+ **context** | [**BuiltList<String>**](String.md)|  | 
 
 ### Return type
 

@@ -59,6 +59,8 @@ public class Foo {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBar(String bar) {
     this.bar = bar;
   }
@@ -83,7 +85,6 @@ public class Foo {
   public int hashCode() {
     return Objects.hash(bar);
   }
-
 
   @Override
   public String toString() {

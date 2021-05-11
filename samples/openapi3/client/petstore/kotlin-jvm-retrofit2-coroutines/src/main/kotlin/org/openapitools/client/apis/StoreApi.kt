@@ -16,7 +16,7 @@ interface StoreApi {
      *  - 404: Order not found
      * 
      * @param orderId ID of the order that needs to be deleted 
-    * @return [Unit]
+     * @return [Unit]
      */
     @DELETE("store/order/{order_id}")
     suspend fun deleteOrder(@Path("order_id") orderId: kotlin.String): Response<Unit>
@@ -27,7 +27,7 @@ interface StoreApi {
      * Responses:
      *  - 200: successful operation
      * 
-    * @return [kotlin.collections.Map<kotlin.String, kotlin.Int>]
+     * @return [kotlin.collections.Map<kotlin.String, kotlin.Int>]
      */
     @GET("store/inventory")
     suspend fun getInventory(): Response<kotlin.collections.Map<kotlin.String, kotlin.Int>>
@@ -41,7 +41,7 @@ interface StoreApi {
      *  - 404: Order not found
      * 
      * @param orderId ID of pet that needs to be fetched 
-    * @return [Order]
+     * @return [Order]
      */
     @GET("store/order/{order_id}")
     suspend fun getOrderById(@Path("order_id") orderId: kotlin.Long): Response<Order>
@@ -54,7 +54,7 @@ interface StoreApi {
      *  - 400: Invalid Order
      * 
      * @param order order placed for purchasing the pet 
-    * @return [Order]
+     * @return [Order]
      */
     @POST("store/order")
     suspend fun placeOrder(@Body order: Order): Response<Order>

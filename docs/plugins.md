@@ -15,7 +15,9 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>4.3.1</version>
+    <!-- RELEASE_VERSION -->
+    <version>5.1.0</version>
+    <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
             <goals>
@@ -76,7 +78,7 @@ buildscript {
     maven { url "https://repo1.maven.org/maven2" }
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:5.0.0"
   }
 }
 
@@ -111,9 +113,6 @@ openApiGenerate {
     apiPackage = "org.openapi.example.api"
     invokerPackage = "org.openapi.example.invoker"
     modelPackage = "org.openapi.example.model"
-    modelFilesConstrainedTo = [
-            "Error"
-    ]
     configOptions = [
         dateLibrary: "java8"
     ]

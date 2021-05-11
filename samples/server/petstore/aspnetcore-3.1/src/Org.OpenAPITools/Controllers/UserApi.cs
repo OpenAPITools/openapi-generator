@@ -11,9 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteUser")]
-        public virtual IActionResult DeleteUser([FromRoute][Required]string username)
+        public virtual IActionResult DeleteUser([FromRoute (Name = "username")][Required]string username)
         { 
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -116,7 +117,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
         [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
-        public virtual IActionResult GetUserByName([FromRoute][Required]string username)
+        public virtual IActionResult GetUserByName([FromRoute (Name = "username")][Required]string username)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -148,7 +149,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
-        public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
+        public virtual IActionResult LoginUser([FromQuery (Name = "username")][Required()]string username, [FromQuery (Name = "password")][Required()]string password)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -193,7 +194,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
-        public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User body)
+        public virtual IActionResult UpdateUser([FromRoute (Name = "username")][Required]string username, [FromBody]User body)
         { 
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

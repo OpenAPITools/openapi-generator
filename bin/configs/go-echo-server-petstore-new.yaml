@@ -1,0 +1,6 @@
+generatorName: go-echo-server
+outputDir: samples/server/petstore/go-echo-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/go-echo-server
+additionalProperties:
+  hideGenerationTimestamp: "true"

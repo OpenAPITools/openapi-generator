@@ -9,10 +9,10 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **delete** /store/order/{orderId} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **get** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **get** /store/order/{orderId} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **post** /store/order | Place an order for a pet
+[**deleteOrder**](StoreApi.md#deleteorder) | **delete** /store/order/{orderId} | Delete purchase order by ID
+[**getInventory**](StoreApi.md#getinventory) | **get** /store/inventory | Returns pet inventories by status
+[**getOrderById**](StoreApi.md#getorderbyid) | **get** /store/order/{orderId} | Find purchase order by ID
+[**placeOrder**](StoreApi.md#placeorder) | **post** /store/order | Place an order for a pet
 
 
 # **deleteOrder**
@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
+ **orderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -126,7 +126,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int**| ID of pet that needs to be fetched | [default to null]
+ **orderId** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 

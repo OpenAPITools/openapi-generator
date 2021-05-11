@@ -67,6 +67,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -91,6 +93,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(String type) {
     this.type = type;
   }
@@ -115,6 +119,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(String message) {
     this.message = message;
   }
@@ -141,7 +147,6 @@ public class ModelApiResponse {
   public int hashCode() {
     return Objects.hash(code, type, message);
   }
-
 
   @Override
   public String toString() {

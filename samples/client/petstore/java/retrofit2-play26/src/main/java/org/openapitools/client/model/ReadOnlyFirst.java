@@ -79,6 +79,8 @@ public class ReadOnlyFirst {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(String baz) {
     this.baz = baz;
   }
@@ -101,7 +103,6 @@ public class ReadOnlyFirst {
   public int hashCode() {
     return Objects.hash(bar, baz);
   }
-
 
   @Override
   public String toString() {

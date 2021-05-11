@@ -157,11 +157,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
+                }
+                else
+                {
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Quadrilateral");
                 match++;
@@ -174,11 +177,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
+                }
+                else
+                {
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Triangle");
                 match++;
@@ -197,7 +203,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newShapeOrNull;
         }

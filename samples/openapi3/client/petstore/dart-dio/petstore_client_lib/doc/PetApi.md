@@ -9,14 +9,14 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **post** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **delete** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **get** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **get** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **get** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **put** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **post** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **post** /pet/{petId}/uploadImage | uploads an image
+[**addPet**](PetApi.md#addpet) | **post** /pet | Add a new pet to the store
+[**deletePet**](PetApi.md#deletepet) | **delete** /pet/{petId} | Deletes a pet
+[**findPetsByStatus**](PetApi.md#findpetsbystatus) | **get** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](PetApi.md#findpetsbytags) | **get** /pet/findByTags | Finds Pets by tags
+[**getPetById**](PetApi.md#getpetbyid) | **get** /pet/{petId} | Find pet by ID
+[**updatePet**](PetApi.md#updatepet) | **put** /pet | Update an existing pet
+[**updatePetWithForm**](PetApi.md#updatepetwithform) | **post** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](PetApi.md#uploadfile) | **post** /pet/{petId}/uploadImage | uploads an image
 
 
 # **addPet**
@@ -88,8 +88,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **petId** | **int**| Pet id to delete | 
+ **apiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -134,7 +134,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**BuiltList<String>**](String.md)| Status values that need to be considered for filter | [default to const []]
+ **status** | [**BuiltList<String>**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | [default to const []]
+ **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | 
 
 ### Return type
 
@@ -226,7 +226,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to return | [default to null]
+ **petId** | **int**| ID of pet to return | 
 
 ### Return type
 
@@ -313,9 +313,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **petId** | **int**| ID of pet that needs to be updated | 
+ **name** | **String**| Updated name of the pet | [optional] 
+ **status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -360,9 +360,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **Uint8List**| file to upload | [optional] [default to null]
+ **petId** | **int**| ID of pet to update | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **file** | **Uint8List**| file to upload | [optional] 
 
 ### Return type
 

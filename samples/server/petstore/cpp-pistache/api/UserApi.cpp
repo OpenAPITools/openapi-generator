@@ -13,16 +13,17 @@
 #include "UserApi.h"
 #include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace api {
+namespace org::openapitools::server::api
+{
 
 using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
-UserApi::UserApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
-    router = rtr;
+const std::string UserApi::base = "/v2";
+
+UserApi::UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
+    : router(rtr)
+{
 }
 
 void UserApi::init() {
@@ -45,114 +46,166 @@ void UserApi::setupRoutes() {
     router->addCustomHandler(Routes::bind(&UserApi::user_api_default_handler, this));
 }
 
+std::pair<Pistache::Http::Code, std::string> UserApi::handleParsingException(const std::exception& ex) const noexcept
+{
+    try {
+        throw ex;
+    } catch (nlohmann::detail::exception &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    } catch (org::openapitools::server::helpers::ValidationException &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    }
+}
+
+std::pair<Pistache::Http::Code, std::string> UserApi::handleOperationException(const std::exception& ex) const noexcept
+{
+    return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
+}
+
 void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     // Getting the body param
     
     User body;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->create_user(body, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
+        nlohmann::json::parse(request.body()).get_to(body);
+        body.validate();
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    try {
+        this->create_user(body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     // Getting the body param
     std::vector<User> body;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->create_users_with_array_input(body, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
+        nlohmann::json::parse(request.body()).get_to(body);
+        body.validate();
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    try {
+        this->create_users_with_array_input(body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     // Getting the body param
     std::vector<User> body;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->create_users_with_list_input(body, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
+        nlohmann::json::parse(request.body()).get_to(body);
+        body.validate();
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    try {
+        this->create_users_with_list_input(body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
     try {
-      this->delete_user(username, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->delete_user(username, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
     try {
-      this->get_user_by_name(username, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->get_user_by_name(username, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     // Getting the query params
     auto usernameQuery = request.query().get("username");
@@ -173,40 +226,44 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     }
     
     try {
-      this->login_user(username, password, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->login_user(username, password, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     try {
-      this->logout_user(response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->logout_user(response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
@@ -215,19 +272,27 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
     User body;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->update_user(username, body, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
+        nlohmann::json::parse(request.body()).get_to(body);
+        body.validate();
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    try {
+        this->update_user(username, body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
@@ -236,8 +301,5 @@ void UserApi::user_api_default_handler(const Pistache::Rest::Request &, Pistache
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::api
 

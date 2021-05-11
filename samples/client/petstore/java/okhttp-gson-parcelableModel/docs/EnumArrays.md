@@ -2,6 +2,7 @@
 
 # EnumArrays
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -27,5 +28,9 @@ Name | Value
 FISH | &quot;fish&quot;
 CRAB | &quot;crab&quot;
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

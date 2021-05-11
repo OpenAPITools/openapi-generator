@@ -145,11 +145,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                         <target>1.8</target>
@@ -158,7 +153,6 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     {{/java8}}
-                    {{/supportJava6}}
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>512m</maxmem>
@@ -182,17 +176,12 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                     {{/java8}}
                     {{^java8}}
                         <source>1.7</source>
                     {{/java8}}
-                    {{/supportJava6}}
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -262,13 +251,11 @@
             <artifactId>jersey-client</artifactId>
             <version>${jersey-version}</version>
         </dependency>
-        {{^supportJava6}}
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey-version}</version>
         </dependency>
-        {{/supportJava6}}
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
@@ -340,18 +327,6 @@
             <version>2.2</version>
         </dependency>
         {{/java8}}
-        {{#supportJava6}}
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io-version}</version>
-        </dependency>
-        {{/supportJava6}}
         {{#hasHttpSignatureMethods}}
         <dependency>
             <groupId>org.tomitribe</groupId>
@@ -397,16 +372,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.6.1</swagger-annotations-version>
-        {{^supportJava6}}
         <jersey-version>2.30.1</jersey-version>
-        {{/supportJava6}}
-        {{#supportJava6}}
-        <jersey-version>2.6</jersey-version>
-        <commons-io-version>2.5</commons-io-version>
-        <commons-lang3-version>3.6</commons-lang3-version>
-        {{/supportJava6}}
-        <jackson-version>2.10.4</jackson-version>
-        <jackson-databind-version>2.10.4</jackson-databind-version>
+        <jackson-version>2.10.5</jackson-version>
+        <jackson-databind-version>2.10.5.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         {{#threetenbp}}
         <threetenbp-version>2.9.10</threetenbp-version>

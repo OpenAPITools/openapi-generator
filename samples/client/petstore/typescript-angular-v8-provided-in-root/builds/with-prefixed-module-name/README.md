@@ -75,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { PetStoreApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): PetStoreConfiguration => {
+export function apiConfigFactory (): PetStoreConfiguration {
   const params: PetStoreConfigurationParameters = {
     // set configuration parameters here.
   }
@@ -120,7 +120,7 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/typescript-angular-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 

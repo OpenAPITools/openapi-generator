@@ -1,6 +1,7 @@
 package org.openapitools.server
 
 import java.io.File
+import java.nio.file.Files
 
 import akka.annotation.ApiMayChange
 import akka.http.scaladsl.model.Multipart.FormData
@@ -69,7 +70,7 @@ trait MultipartDirectives {
 
 object MultipartDirectives extends MultipartDirectives with FileUploadDirectives {
   val tempFileFromFileInfo: FileInfo => File = {
-    file: FileInfo => File.createTempFile(file.fileName, ".tmp")
+    file: FileInfo => Files.createTempFile(file.fileName, ".tmp").toFile()
   }
 }
 

@@ -217,6 +217,15 @@ spec. If so, this is available via the `class_documentation()` and
 
 Each of these calls returns a hashref with various useful pieces of information.
 
+# Installation Prerequisites
+
+Use [cpanm](https://metacpan.org/pod/distribution/App-cpanminus/bin/cpanm) to install the module dependencies:
+
+```
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm --quiet --no-interactive Class::Accessor Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON
+```
+
 # LOAD THE MODULES
 
 To load the API packages:
@@ -256,12 +265,6 @@ use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineObject;
-use WWW::OpenAPIClient::Object::InlineObject1;
-use WWW::OpenAPIClient::Object::InlineObject2;
-use WWW::OpenAPIClient::Object::InlineObject3;
-use WWW::OpenAPIClient::Object::InlineObject4;
-use WWW::OpenAPIClient::Object::InlineObject5;
 use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
@@ -277,6 +280,7 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
@@ -325,12 +329,6 @@ use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineObject;
-use WWW::OpenAPIClient::Object::InlineObject1;
-use WWW::OpenAPIClient::Object::InlineObject2;
-use WWW::OpenAPIClient::Object::InlineObject3;
-use WWW::OpenAPIClient::Object::InlineObject4;
-use WWW::OpenAPIClient::Object::InlineObject5;
 use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
@@ -346,6 +344,7 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
+use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
@@ -354,9 +353,9 @@ use WWW::OpenAPIClient::Object::User;
 
 # for displaying the API response data
 use Data::Dumper;
-use WWW::OpenAPIClient::;
 
-my $api_instance = WWW::OpenAPIClient::->new(
+
+my $api_instance = WWW::OpenAPIClient::AnotherFakeApi->new(
 );
 
 my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
@@ -385,6 +384,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -442,12 +442,6 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [WWW::OpenAPIClient::Object::HealthCheckResult](docs/HealthCheckResult.md)
- - [WWW::OpenAPIClient::Object::InlineObject](docs/InlineObject.md)
- - [WWW::OpenAPIClient::Object::InlineObject1](docs/InlineObject1.md)
- - [WWW::OpenAPIClient::Object::InlineObject2](docs/InlineObject2.md)
- - [WWW::OpenAPIClient::Object::InlineObject3](docs/InlineObject3.md)
- - [WWW::OpenAPIClient::Object::InlineObject4](docs/InlineObject4.md)
- - [WWW::OpenAPIClient::Object::InlineObject5](docs/InlineObject5.md)
  - [WWW::OpenAPIClient::Object::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
@@ -463,6 +457,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [WWW::OpenAPIClient::Object::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)

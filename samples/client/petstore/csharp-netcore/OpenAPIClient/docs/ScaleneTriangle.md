@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.ScaleneTriangle
+
 ## Properties
 
 Name | Type | Description | Notes

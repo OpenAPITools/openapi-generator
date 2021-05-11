@@ -20,6 +20,7 @@
 #include <QJsonValue>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QVariant>
 
 #include "PFXEnum.h"
@@ -28,13 +29,41 @@
 
 namespace test_namespace {
 
-bool setDateTimeFormat(const QString&);
+template <typename T>
+class OptionalParam {
+public:
+    T m_Value;
+    bool m_hasValue;
+public:
+    OptionalParam(){
+        m_hasValue = false;
+    }
+    OptionalParam(const T &val){
+        m_hasValue = true;
+        m_Value = val;
+    }
+    bool hasValue() const {
+        return m_hasValue;
+    }
+    T value() const{
+        return m_Value;
+    }
+};
+
+bool setDateTimeFormat(const QString &format);
+bool setDateTimeFormat(const Qt::DateFormat &format);
 
 template <typename T>
 QString toStringValue(const QList<T> &val);
 
 template <typename T>
+QString toStringValue(const QSet<T> &val);
+
+template <typename T>
 bool fromStringValue(const QList<QString> &inStr, QList<T> &val);
+
+template <typename T>
+bool fromStringValue(const QSet<QString> &inStr, QList<T> &val);
 
 template <typename T>
 bool fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val);
@@ -43,10 +72,16 @@ template <typename T>
 QJsonValue toJsonValue(const QList<T> &val);
 
 template <typename T>
+QJsonValue toJsonValue(const QSet<T> &val);
+
+template <typename T>
 QJsonValue toJsonValue(const QMap<QString, T> &val);
 
 template <typename T>
 bool fromJsonValue(QList<T> &val, const QJsonValue &jval);
+
+template <typename T>
+bool fromJsonValue(QSet<T> &val, const QJsonValue &jval);
 
 template <typename T>
 bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval);
@@ -76,6 +111,18 @@ QString toStringValue(const QList<T> &val) {
     return strArray;
 }
 
+template <typename T>
+QString toStringValue(const QSet<T> &val) {
+    QString strArray;
+    for (const auto &item : val) {
+        strArray.append(toStringValue(item) + ",");
+    }
+    if (val.count() > 0) {
+        strArray.chop(1);
+    }
+    return strArray;
+}
+
 QJsonValue toJsonValue(const QString &value);
 QJsonValue toJsonValue(const QDateTime &value);
 QJsonValue toJsonValue(const QByteArray &value);
@@ -91,6 +138,15 @@ QJsonValue toJsonValue(const PFXHttpFileElement &value);
 
 template <typename T>
 QJsonValue toJsonValue(const QList<T> &val) {
+    QJsonArray jArray;
+    for (const auto &item : val) {
+        jArray.append(toJsonValue(item));
+    }
+    return jArray;
+}
+
+template <typename T>
+QJsonValue toJsonValue(const QSet<T> &val) {
     QJsonArray jArray;
     for (const auto &item : val) {
         jArray.append(toJsonValue(item));
@@ -132,6 +188,17 @@ bool fromStringValue(const QList<QString> &inStr, QList<T> &val) {
 }
 
 template <typename T>
+bool fromStringValue(const QSet<QString> &inStr, QList<T> &val) {
+    bool ok = (inStr.count() > 0);
+    for (const auto &item : inStr) {
+        T itemVal;
+        ok &= fromStringValue(item, itemVal);
+        val.push_back(itemVal);
+    }
+    return ok;
+}
+
+template <typename T>
 bool fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val) {
     bool ok = (inStr.count() > 0);
     for (const auto &itemkey : inStr.keys()) {
@@ -163,6 +230,21 @@ bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {
             T item;
             ok &= fromJsonValue(item, jitem);
             val.push_back(item);
+        }
+    } else {
+        ok = false;
+    }
+    return ok;
+}
+
+template <typename T>
+bool fromJsonValue(QSet<T> &val, const QJsonValue &jval) {
+    bool ok = true;
+    if (jval.isArray()) {
+        for (const auto jitem : jval.toArray()) {
+            T item;
+            ok &= fromJsonValue(item, jitem);
+            val.insert(item);
         }
     } else {
         ok = false;

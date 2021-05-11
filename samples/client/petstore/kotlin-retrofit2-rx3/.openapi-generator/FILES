@@ -9,6 +9,10 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 settings.gradle
 src/main/kotlin/org/openapitools/client/apis/PetApi.kt
 src/main/kotlin/org/openapitools/client/apis/StoreApi.kt
@@ -18,6 +22,8 @@ src/main/kotlin/org/openapitools/client/auth/OAuth.kt
 src/main/kotlin/org/openapitools/client/auth/OAuthFlow.kt
 src/main/kotlin/org/openapitools/client/auth/OAuthOkHttpClient.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
+src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt

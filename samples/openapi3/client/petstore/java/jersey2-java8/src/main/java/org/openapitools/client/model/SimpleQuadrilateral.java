@@ -68,6 +68,8 @@ public class SimpleQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -91,6 +93,8 @@ public class SimpleQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
@@ -154,7 +158,6 @@ public class SimpleQuadrilateral {
   public int hashCode() {
     return Objects.hash(shapeType, quadrilateralType, additionalProperties);
   }
-
 
   @Override
   public String toString() {
