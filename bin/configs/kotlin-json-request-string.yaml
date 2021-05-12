@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   requestDateConverter: toString
   artifactId: kotlin-petstore-json-request-string
+  parcelizeModels: true

@@ -59,4 +59,5 @@ steps:
   commands:
   - (cd samples/client/petstore/erlang-client && rebar3 compile)
   - (cd samples/client/petstore/erlang-proper && rebar3 compile)
+  # comment out as the tests pass locally but not in the CI
   #- (cd samples/server/petstore/erlang-server && rebar3 compile)
