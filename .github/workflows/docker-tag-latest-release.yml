@@ -14,7 +14,7 @@ jobs:
 
     # Pull the code so we have git metadata
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.3.4
 
     # This action will "unshallow" so we have all tag info
     - name: Get latest tag
