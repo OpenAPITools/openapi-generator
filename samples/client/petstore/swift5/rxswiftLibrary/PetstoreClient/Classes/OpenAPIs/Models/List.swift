@@ -16,9 +16,9 @@ public struct List: Codable, Hashable {
         self._123list = _123list
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"

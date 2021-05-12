@@ -20,9 +20,9 @@ public struct Cat: Codable, Hashable {
         self.declawed = declawed
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className

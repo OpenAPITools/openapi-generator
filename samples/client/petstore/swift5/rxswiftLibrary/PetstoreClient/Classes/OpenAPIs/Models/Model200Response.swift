@@ -19,9 +19,9 @@ public struct Model200Response: Codable, Hashable {
         self.`class` = `class`
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name

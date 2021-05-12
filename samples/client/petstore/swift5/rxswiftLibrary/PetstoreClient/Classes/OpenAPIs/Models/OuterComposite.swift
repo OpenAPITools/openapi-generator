@@ -20,9 +20,9 @@ public struct OuterComposite: Codable, Hashable {
         self.myBoolean = myBoolean
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"

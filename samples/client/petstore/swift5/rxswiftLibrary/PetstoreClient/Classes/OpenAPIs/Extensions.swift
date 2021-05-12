@@ -7,7 +7,7 @@
 import Foundation
 import AnyCodable
 
-not disallowAdditionalPropertiesIfNotPresent
+disallowAdditionalPropertiesIfNotPresent
 
 not isAdditionalPropertiesTrue
 

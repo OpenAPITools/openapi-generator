@@ -10,4 +10,4 @@ additionalProperties:
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator
   useBacktickEscapes: true
-  disallowAdditionalPropertiesIfNotPresent: false
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -26,9 +26,9 @@ public struct EnumArrays: Codable, Hashable {
         self.arrayEnum = arrayEnum
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justSymbol = "just_symbol"

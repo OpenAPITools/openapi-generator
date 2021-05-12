@@ -24,9 +24,9 @@ public struct TypeHolderDefault: Codable, Hashable {
         self.arrayItem = arrayItem
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"

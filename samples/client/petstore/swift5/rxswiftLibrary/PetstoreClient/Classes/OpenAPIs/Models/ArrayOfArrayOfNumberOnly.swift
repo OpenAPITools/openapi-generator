@@ -16,9 +16,9 @@ public struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
         self.arrayArrayNumber = arrayArrayNumber
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayArrayNumber = "ArrayArrayNumber"

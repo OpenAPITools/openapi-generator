@@ -27,9 +27,9 @@ public struct Capitalization: Codable, Hashable {
         self.ATT_NAME = ATT_NAME
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel

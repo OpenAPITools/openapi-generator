@@ -16,9 +16,9 @@ public struct NumberOnly: Codable, Hashable {
         self.justNumber = justNumber
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"

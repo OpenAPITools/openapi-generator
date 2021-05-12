@@ -20,9 +20,9 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         self.map = map
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid

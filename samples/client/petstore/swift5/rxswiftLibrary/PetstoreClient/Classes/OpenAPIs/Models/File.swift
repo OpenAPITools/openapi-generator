@@ -18,9 +18,9 @@ public struct File: Codable, Hashable {
         self.sourceURI = sourceURI
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI

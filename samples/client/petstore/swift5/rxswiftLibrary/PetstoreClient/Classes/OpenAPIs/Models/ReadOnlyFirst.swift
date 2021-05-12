@@ -18,9 +18,9 @@ public struct ReadOnlyFirst: Codable, Hashable {
         self.baz = baz
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar

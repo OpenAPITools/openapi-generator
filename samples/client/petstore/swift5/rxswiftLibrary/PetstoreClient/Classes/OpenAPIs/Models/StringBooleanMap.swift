@@ -11,7 +11,7 @@ import AnyCodable
 public struct StringBooleanMap: Codable, Hashable {
 
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
     not isAdditionalPropertiesTrue
 

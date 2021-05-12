@@ -20,9 +20,9 @@ public struct ArrayTest: Codable, Hashable {
         self.arrayArrayOfModel = arrayArrayOfModel
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"

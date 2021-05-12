@@ -18,9 +18,9 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         self.mapMapString = mapMapString
     }
 
-    not disallowAdditionalPropertiesIfNotPresent
+    disallowAdditionalPropertiesIfNotPresent
 
-    isAdditionalPropertiesTrue
+    not isAdditionalPropertiesTrue
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
