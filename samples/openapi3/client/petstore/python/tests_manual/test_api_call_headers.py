@@ -18,7 +18,7 @@ from urllib3.connection import HTTPHeaderDict
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
-from petstore_api.rest import RESTResponse
+from petstore_api.rest import RESTClientObject, RESTResponse
 
 HTTPResponse = namedtuple(
     'urllib3_response_HTTPResponse',
@@ -56,34 +56,29 @@ class TestFakeApi(unittest.TestCase):
         """Test case for passing multiple Impersonate-Group headers
 
         """
-        from petstore_api.api_client import ApiClient
-        api_client = ApiClient()
-        api_client.add_default_header('Impersonate-Group', 'dev')
-        api_client.add_default_header('Impersonate-Group', 'admin')
+        self.api.api_client.add_default_header('Impersonate-Group', 'dev')
+        self.api.api_client.add_default_header('Impersonate-Group', 'admin')
+        endpoint = self.api.string
 
-        with patch.object(api_client, 'request') as mock_method:
-            mock_method.return_value = self.mock_response([])
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            body = "blah"
+            value_simple = body
+            mock_method.return_value = self.mock_response(value_simple)
 
-            api_client.call_api(
-                '/fake',
-                'GET',
-                collection_formats = {'Impersonate-Group': 'multi'},
-                header_params = {
-                    'Impersonate-Group': ['dev', 'admin'],
-                },
-            )
-
+            response = endpoint(body=body)
             mock_method.assert_called_with(
-                'GET',
-                'http://petstore.swagger.io:80/v2/fake',
-                query_params=None,
+                'POST',
+                'http://petstore.swagger.io:80/v2/fake/refs/string',
+                query_params=[],
                 headers=HTTPHeaderDict([
+                    ('Accept', 'application/json'),
+                    ('Content-Type', 'application/json'),
                     ('Impersonate-Group', 'dev'),
                     ('Impersonate-Group', 'admin'),
                     ('User-Agent', 'OpenAPI-Generator/1.0.0/python'),
                 ]),
-                post_params=None,
-                body=None,
+                post_params=[],
+                body=value_simple,
                 _preload_content=True,
                 _request_timeout=None,
             )
