@@ -1,14 +1,13 @@
 IMAGE_NAME := openapi-generator
-VERSION := 5.1.2
 
 
-include ../mk-include/cc-begin.mk
-include ../mk-include/cc-semver.mk
-include ../mk-include/cc-docker.mk
-include ../mk-include/cc-end.mk
+include ./mk-include/cc-begin.mk
+include ./mk-include/cc-semver.mk
+include ./mk-include/cc-docker.mk
+include ./mk-include/cc-end.mk
 
 INIT_CI_TARGETS += node-deps
-
+VERSION := 5.1.2
  # Helper target. Ex: make bump-version-minispec VERSION=0.3.0
 .PHONY: bump-version-minispec
 bump-version-minispec:

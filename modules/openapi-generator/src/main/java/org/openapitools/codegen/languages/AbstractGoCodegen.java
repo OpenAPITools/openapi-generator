@@ -52,10 +52,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public AbstractGoCodegen() {
         super();
-
         supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
-
+        setUseOneOfInterfaces(true);
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
                         "map",
