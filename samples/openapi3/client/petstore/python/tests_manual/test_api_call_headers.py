@@ -58,6 +58,8 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.api_client import ApiClient
         api_client = ApiClient()
+        api_client.add_default_header('Impersonate-Group', 'dev')
+        api_client.add_default_header('Impersonate-Group', 'admin')
 
         with patch.object(api_client, 'request') as mock_method:
             mock_method.return_value = self.mock_response([])
