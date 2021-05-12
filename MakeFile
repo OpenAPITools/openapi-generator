@@ -5,18 +5,3 @@ include ./mk-include/cc-begin.mk
 include ./mk-include/cc-semver.mk
 include ./mk-include/cc-docker.mk
 include ./mk-include/cc-end.mk
-
-INIT_CI_TARGETS += node-deps
-VERSION := 5.1.2
- # Helper target. Ex: make bump-version-minispec VERSION=0.3.0
-.PHONY: bump-version-minispec
-bump-version-minispec:
-ifndef VERSION
-	$(error VERSION is not set. Usage: make bump-version-minispec VERSION=<version-no-v>)
-endif
- #	for now just assume backwards breaking change, so only new version is incompatible
-	@echo "COMPATIBLE_FORMAT_VERSIONS = ['$(VERSION)']" > minispec/version.py
-
-.PHONY: node-deps
-node-deps:
-	npm install
