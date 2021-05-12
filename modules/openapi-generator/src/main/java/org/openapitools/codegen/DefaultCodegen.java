@@ -6174,7 +6174,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    protected void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;

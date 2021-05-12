@@ -1496,7 +1496,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
     @Override
-    protected void addVarsRequiredVarsAdditionaProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (schema instanceof ComposedSchema && supportsAdditionalPropertiesWithComposedSchema) {
             // if schema has properties outside of allOf/oneOf/anyOf also add them
