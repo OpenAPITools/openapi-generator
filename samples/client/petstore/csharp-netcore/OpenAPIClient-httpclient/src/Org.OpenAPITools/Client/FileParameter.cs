@@ -10,7 +10,7 @@
 
 using System.IO;
 
-namespace MangoInc.Core.API.Client.Client
+namespace Org.OpenAPITools.Client
 {
 
     /// <summary>
