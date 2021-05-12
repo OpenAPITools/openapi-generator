@@ -2619,7 +2619,7 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
         if (schema.equals(new Schema())) {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
