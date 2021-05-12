@@ -48,6 +48,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private static final String CLIENT_NAME = "clientName";
 
+    private static final List<String> SUPPORTED_CONTENT_TYPES = Arrays.asList("application/json", "application/x-www-form-urlencoded", "multipart/form-data");
+
     private String dateLibrary;
 
     private String clientName;
@@ -314,22 +316,32 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-            boolean isJson = true; //default to JSON
-            boolean isForm = false;
-            boolean isMultipart = false;
-            if (op.consumes != null) {
+            String contentType = null;
+            String firstContentType = null;
+            if (op.consumes != null && !op.consumes.isEmpty()) {
                 for (Map<String, String> consume : op.consumes) {
                     if (consume.containsKey("mediaType")) {
                         String type = consume.get("mediaType");
-                        isJson = type.equalsIgnoreCase("application/json");
-                        isForm = type.equalsIgnoreCase("application/x-www-form-urlencoded");
-                        isMultipart = type.equalsIgnoreCase("multipart/form-data");
-                        if (isJson || isForm || isMultipart) {
-                            break;
+                        if (firstContentType == null) {
+                            firstContentType = type;
+                        }
+                        for (String supportedContentType : SUPPORTED_CONTENT_TYPES) {
+                            if (type.equalsIgnoreCase(supportedContentType)) {
+                                contentType = supportedContentType;
+                                break;
+                            }
                         }
                     }
                 }
+                if (contentType == null) {
+                    contentType = firstContentType;
+                }
             }
+            if (contentType == null) {
+                contentType = "application/json";
+            }
+
+            boolean isMultipart = contentType.equalsIgnoreCase("multipart/form-data");
 
             for (CodegenParameter param : op.bodyParams) {
                 if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
@@ -346,9 +358,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            op.vendorExtensions.put("x-is-json", isJson);
-            op.vendorExtensions.put("x-is-form", isForm);
-            op.vendorExtensions.put("x-is-multipart", isMultipart);
+            op.vendorExtensions.put("x-content-type", contentType);
 
             resultImports.addAll(rewriteImports(op.imports));
             if (op.getHasFormParams()) {

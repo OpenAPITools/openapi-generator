@@ -61,10 +61,7 @@ class {{classname}} {
         ],{{/hasAuthMethods}}
         ...?extra,
       },
-      contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
-      ].first,
+      contentType: {{#vendorExtensions}}'{{x-content-type}}'{{/vendorExtensions}},
       validateStatus: validateStatus,
     );
 
