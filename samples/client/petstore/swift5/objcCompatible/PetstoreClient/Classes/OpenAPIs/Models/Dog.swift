@@ -20,6 +20,10 @@ import AnyCodable
         self.breed = breed
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _className = "className"
         case color

@@ -24,6 +24,10 @@ public final class TypeHolderExample: Codable, Hashable {
         self.arrayItem = arrayItem
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"

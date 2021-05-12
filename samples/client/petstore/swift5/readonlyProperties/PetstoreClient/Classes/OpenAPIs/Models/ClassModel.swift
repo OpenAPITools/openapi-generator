@@ -17,6 +17,10 @@ public struct ClassModel: Codable, Hashable {
         self._class = _class
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class
     }

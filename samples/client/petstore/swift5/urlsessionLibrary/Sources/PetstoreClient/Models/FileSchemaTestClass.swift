@@ -18,6 +18,10 @@ public final class FileSchemaTestClass: Codable, Hashable {
         self.files = files
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files

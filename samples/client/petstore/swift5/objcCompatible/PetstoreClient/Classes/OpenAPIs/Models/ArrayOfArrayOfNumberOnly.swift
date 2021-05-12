@@ -16,6 +16,10 @@ import AnyCodable
         self.arrayArrayNumber = arrayArrayNumber
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayArrayNumber = "ArrayArrayNumber"
     }

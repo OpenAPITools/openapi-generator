@@ -19,6 +19,10 @@ internal struct Model200Response: Codable, Hashable {
         self._class = _class
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _class = "class"

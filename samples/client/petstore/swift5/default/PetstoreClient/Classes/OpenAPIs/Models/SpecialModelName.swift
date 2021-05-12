@@ -16,6 +16,10 @@ public struct SpecialModelName: Codable, Hashable {
         self.specialPropertyName = specialPropertyName
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case specialPropertyName = "$special[property.name]"
     }

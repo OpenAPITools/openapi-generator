@@ -22,6 +22,10 @@ public struct BigCat: Codable, Hashable {
         self.kind = kind
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case kind
     }

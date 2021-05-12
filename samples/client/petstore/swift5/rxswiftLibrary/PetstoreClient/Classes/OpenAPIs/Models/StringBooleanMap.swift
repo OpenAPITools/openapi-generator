@@ -11,6 +11,10 @@ import AnyCodable
 public struct StringBooleanMap: Codable, Hashable {
 
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    not isAdditionalPropertiesTrue
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
 

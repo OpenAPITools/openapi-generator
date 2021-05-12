@@ -16,23 +16,12 @@ public struct AdditionalPropertiesObject: Codable, Hashable {
         self.name = name
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    not isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
-    }
-
-    public var additionalProperties: [String: [String: AnyCodable]] = [:]
-
-    public subscript(key: String) -> [String: AnyCodable]? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            additionalProperties[key] = newValue
-        }
     }
 
     // Encodable protocol methods
@@ -40,18 +29,5 @@ public struct AdditionalPropertiesObject: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(additionalProperties)
-    }
-
-    // Decodable protocol methods
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        name = try container.decodeIfPresent(String.self, forKey: "name")
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("name")
-        additionalProperties = try container.decodeMap([String: AnyCodable].self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }

@@ -19,6 +19,10 @@ public struct Category: Codable, Hashable {
         self.name = name
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name

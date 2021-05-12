@@ -18,6 +18,10 @@ internal struct Category: Codable, Hashable {
         self.name = name
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name

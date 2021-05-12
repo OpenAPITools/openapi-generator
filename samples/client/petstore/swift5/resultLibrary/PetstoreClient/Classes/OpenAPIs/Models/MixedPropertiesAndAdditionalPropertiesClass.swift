@@ -20,6 +20,10 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         self.map = map
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime

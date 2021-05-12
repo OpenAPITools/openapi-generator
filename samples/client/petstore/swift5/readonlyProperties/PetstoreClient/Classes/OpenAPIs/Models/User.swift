@@ -31,6 +31,10 @@ public struct User: Codable, Hashable {
         self.userStatus = userStatus
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case username

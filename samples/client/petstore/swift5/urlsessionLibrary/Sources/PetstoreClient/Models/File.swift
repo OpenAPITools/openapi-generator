@@ -18,6 +18,10 @@ public final class File: Codable, Hashable {
         self.sourceURI = sourceURI
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }

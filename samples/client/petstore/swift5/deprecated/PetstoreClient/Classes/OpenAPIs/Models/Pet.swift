@@ -34,6 +34,10 @@ public struct Pet: Codable, Hashable {
         self.status = status
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case category

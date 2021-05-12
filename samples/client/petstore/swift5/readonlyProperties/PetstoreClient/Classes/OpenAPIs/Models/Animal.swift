@@ -18,6 +18,10 @@ public struct Animal: Codable, Hashable {
         self.color = color
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color

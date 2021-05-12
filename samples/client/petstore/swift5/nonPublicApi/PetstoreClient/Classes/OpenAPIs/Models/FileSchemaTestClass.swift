@@ -18,6 +18,10 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         self.files = files
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files

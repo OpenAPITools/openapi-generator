@@ -17,6 +17,10 @@ public struct Return: Codable, Hashable {
         self.`return` = `return`
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case `return` = "return"
     }

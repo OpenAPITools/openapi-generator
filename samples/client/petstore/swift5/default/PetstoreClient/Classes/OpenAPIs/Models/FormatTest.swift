@@ -42,6 +42,10 @@ public struct FormatTest: Codable, Hashable {
         self.bigDecimal = bigDecimal
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32

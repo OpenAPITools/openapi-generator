@@ -16,6 +16,10 @@ import AnyCodable
         self.justNumber = justNumber
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }

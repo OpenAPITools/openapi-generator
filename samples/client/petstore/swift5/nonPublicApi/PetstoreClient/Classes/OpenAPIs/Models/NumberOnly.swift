@@ -16,6 +16,10 @@ internal struct NumberOnly: Codable, Hashable {
         self.justNumber = justNumber
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }

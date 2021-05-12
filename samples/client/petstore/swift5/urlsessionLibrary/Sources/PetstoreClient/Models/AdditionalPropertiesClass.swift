@@ -18,6 +18,10 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         self.mapMapString = mapMapString
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapMapString = "map_map_string"

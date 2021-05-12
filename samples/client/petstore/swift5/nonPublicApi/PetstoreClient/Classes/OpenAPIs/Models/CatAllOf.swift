@@ -16,6 +16,10 @@ internal struct CatAllOf: Codable, Hashable {
         self.declawed = declawed
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case declawed
     }

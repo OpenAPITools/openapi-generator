@@ -40,6 +40,10 @@ internal struct FormatTest: Codable, Hashable {
         self.password = password
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32

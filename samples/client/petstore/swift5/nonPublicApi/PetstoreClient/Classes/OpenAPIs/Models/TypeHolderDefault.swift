@@ -24,6 +24,10 @@ internal struct TypeHolderDefault: Codable, Hashable {
         self.arrayItem = arrayItem
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"

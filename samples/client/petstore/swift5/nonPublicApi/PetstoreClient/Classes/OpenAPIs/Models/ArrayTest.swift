@@ -20,6 +20,10 @@ internal struct ArrayTest: Codable, Hashable {
         self.arrayArrayOfModel = arrayArrayOfModel
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"

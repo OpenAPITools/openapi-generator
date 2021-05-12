@@ -32,6 +32,10 @@ public struct Order: Codable, Hashable {
         self.complete = complete
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId

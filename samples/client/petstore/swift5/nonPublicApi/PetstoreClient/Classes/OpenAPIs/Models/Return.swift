@@ -17,6 +17,10 @@ internal struct Return: Codable, Hashable {
         self._return = _return
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }

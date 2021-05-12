@@ -8,6 +8,20 @@ import Foundation
 import AnyCodable{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}
 
+{{#disallowAdditionalPropertiesIfNotPresent}}
+disallowAdditionalPropertiesIfNotPresent
+{{/disallowAdditionalPropertiesIfNotPresent}}
+{{^disallowAdditionalPropertiesIfNotPresent}}
+not disallowAdditionalPropertiesIfNotPresent
+{{/disallowAdditionalPropertiesIfNotPresent}}
+
+{{#isAdditionalPropertiesTrue}}
+isAdditionalPropertiesTrue
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+not isAdditionalPropertiesTrue
+{{/isAdditionalPropertiesTrue}}
+
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
 }
@@ -92,7 +106,7 @@ extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString
     }
-}{{#generateModelAdditionalProperties}}
+}{{#isAdditionalPropertiesTrue}}
 
 extension String: CodingKey {
 
@@ -178,7 +192,7 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
-}{{/generateModelAdditionalProperties}}
+}{{/isAdditionalPropertiesTrue}}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {

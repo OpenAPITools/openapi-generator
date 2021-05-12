@@ -20,6 +20,10 @@ internal struct OuterComposite: Codable, Hashable {
         self.myBoolean = myBoolean
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"

@@ -7,6 +7,10 @@
 import Foundation
 import AnyCodable
 
+not disallowAdditionalPropertiesIfNotPresent
+
+not isAdditionalPropertiesTrue
+
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
 }

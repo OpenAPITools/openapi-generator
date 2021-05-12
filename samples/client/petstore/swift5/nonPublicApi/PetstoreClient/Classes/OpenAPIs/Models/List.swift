@@ -16,6 +16,10 @@ internal struct List: Codable, Hashable {
         self._123list = _123list
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }

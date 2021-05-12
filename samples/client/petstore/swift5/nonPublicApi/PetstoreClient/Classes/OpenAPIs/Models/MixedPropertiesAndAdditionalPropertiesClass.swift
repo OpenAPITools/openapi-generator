@@ -20,6 +20,10 @@ internal struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         self.map = map
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime

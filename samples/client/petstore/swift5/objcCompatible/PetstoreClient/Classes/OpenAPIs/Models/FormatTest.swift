@@ -65,6 +65,10 @@ import AnyCodable
         self.password = password
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32

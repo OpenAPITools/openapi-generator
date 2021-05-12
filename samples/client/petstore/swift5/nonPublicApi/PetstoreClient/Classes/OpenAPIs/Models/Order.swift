@@ -32,6 +32,10 @@ internal struct Order: Codable, Hashable {
         self.complete = complete
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId

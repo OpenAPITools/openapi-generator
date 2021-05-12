@@ -18,6 +18,10 @@ internal struct File: Codable, Hashable {
         self.sourceURI = sourceURI
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }

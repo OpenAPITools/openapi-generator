@@ -37,11 +37,25 @@
     }
 {{/hasVars}}
 
+    {{#disallowAdditionalPropertiesIfNotPresent}}
+    disallowAdditionalPropertiesIfNotPresent
+    {{/disallowAdditionalPropertiesIfNotPresent}}
+    {{^disallowAdditionalPropertiesIfNotPresent}}
+    not disallowAdditionalPropertiesIfNotPresent
+    {{/disallowAdditionalPropertiesIfNotPresent}}
+
+    {{#isAdditionalPropertiesTrue}}
+    isAdditionalPropertiesTrue
+    {{/isAdditionalPropertiesTrue}}
+    {{^isAdditionalPropertiesTrue}}
+    not isAdditionalPropertiesTrue
+    {{/isAdditionalPropertiesTrue}}
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: {{#hasVars}}String, {{/hasVars}}CodingKey, CaseIterable {
         {{#allVars}}
         case {{{name}}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}
         {{/allVars}}
-    }{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
+    }{{#isAdditionalPropertiesTrue}}{{#additionalPropertiesType}}
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var additionalProperties: [String: {{{additionalPropertiesType}}}] = [:]
 
@@ -56,7 +70,7 @@
         set {
             additionalProperties[key] = newValue
         }
-    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+    }{{/additionalPropertiesType}}{{/isAdditionalPropertiesTrue}}
 
     // Encodable protocol methods
 
@@ -65,13 +79,13 @@
         {{#allVars}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
         {{/allVars}}
-        {{#generateModelAdditionalProperties}}
+        {{#isAdditionalPropertiesTrue}}
         {{#additionalPropertiesType}}
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(additionalProperties)
         {{/additionalPropertiesType}}
-        {{/generateModelAdditionalProperties}}
-    }{{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}
+        {{/isAdditionalPropertiesTrue}}
+    }{{#isAdditionalPropertiesTrue}}{{#additionalPropertiesType}}
 
     // Decodable protocol methods
 
@@ -86,19 +100,19 @@
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
         {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#useClasses}}
+    }{{/additionalPropertiesType}}{{/isAdditionalPropertiesTrue}}{{^objcCompatible}}{{#useClasses}}
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
         {{#allVars}}
         lhs.{{{name}}} == rhs.{{{name}}}{{^-last}} &&{{/-last}}
         {{/allVars}}
-        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}{{#hasVars}}&& {{/hasVars}}lhs.additionalProperties == rhs.additionalProperties{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+        {{#isAdditionalPropertiesTrue}}{{#additionalPropertiesType}}{{#hasVars}}&& {{/hasVars}}lhs.additionalProperties == rhs.additionalProperties{{/additionalPropertiesType}}{{/isAdditionalPropertiesTrue}}
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func hash(into hasher: inout Hasher) {
         {{#allVars}}
         hasher.combine({{{name}}}{{^required}}?{{/required}}.hashValue)
         {{/allVars}}
-        {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
+        {{#isAdditionalPropertiesTrue}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/isAdditionalPropertiesTrue}}
     }{{/useClasses}}{{/objcCompatible}}
 }

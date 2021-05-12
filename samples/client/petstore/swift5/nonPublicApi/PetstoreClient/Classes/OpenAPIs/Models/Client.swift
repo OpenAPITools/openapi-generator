@@ -16,6 +16,10 @@ internal struct Client: Codable, Hashable {
         self.client = client
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case client
     }

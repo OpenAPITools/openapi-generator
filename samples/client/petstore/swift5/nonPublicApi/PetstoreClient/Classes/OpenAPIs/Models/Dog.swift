@@ -20,6 +20,10 @@ internal struct Dog: Codable, Hashable {
         self.breed = breed
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color

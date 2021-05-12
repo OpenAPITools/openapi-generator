@@ -18,6 +18,10 @@ internal struct HasOnlyReadOnly: Codable, Hashable {
         self.foo = foo
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case foo

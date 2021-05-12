@@ -23,6 +23,10 @@ public final class Name: Codable, Hashable {
         self._123number = _123number
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"

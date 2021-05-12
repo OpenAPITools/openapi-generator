@@ -16,6 +16,10 @@ public final class CatAllOf: Codable, Hashable {
         self.declawed = declawed
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case declawed
     }

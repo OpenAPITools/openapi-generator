@@ -20,6 +20,10 @@ internal struct Cat: Codable, Hashable {
         self.declawed = declawed
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color

@@ -25,6 +25,10 @@ import AnyCodable
         self.myBoolean = myBoolean
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"

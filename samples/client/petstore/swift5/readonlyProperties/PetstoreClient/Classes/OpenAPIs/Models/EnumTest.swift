@@ -42,6 +42,10 @@ public struct EnumTest: Codable, Hashable {
         self.outerEnum = outerEnum
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"

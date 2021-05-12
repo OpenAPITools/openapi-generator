@@ -20,6 +20,10 @@ internal struct ApiResponse: Codable, Hashable {
         self.message = message
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type

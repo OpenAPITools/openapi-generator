@@ -18,6 +18,10 @@ import AnyCodable
         self.foo = foo
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case foo

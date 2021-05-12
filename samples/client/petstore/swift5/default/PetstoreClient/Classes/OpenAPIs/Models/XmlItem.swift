@@ -72,6 +72,10 @@ public struct XmlItem: Codable, Hashable {
         self.prefixNsWrappedArray = prefixNsWrappedArray
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributeString = "attribute_string"
         case attributeNumber = "attribute_number"

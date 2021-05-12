@@ -36,6 +36,10 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         self.anytype3 = anytype3
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapNumber = "map_number"

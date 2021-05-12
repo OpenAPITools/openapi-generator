@@ -41,6 +41,10 @@ import AnyCodable
         self.userStatus = userStatus
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case username

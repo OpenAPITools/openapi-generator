@@ -20,6 +20,10 @@ import AnyCodable
         self.arrayArrayOfModel = arrayArrayOfModel
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"

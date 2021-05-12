@@ -16,6 +16,10 @@ internal struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
         self.arrayArrayNumber = arrayArrayNumber
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayArrayNumber = "ArrayArrayNumber"
     }

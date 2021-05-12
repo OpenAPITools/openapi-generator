@@ -27,6 +27,10 @@ internal struct Capitalization: Codable, Hashable {
         self.ATT_NAME = ATT_NAME
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"

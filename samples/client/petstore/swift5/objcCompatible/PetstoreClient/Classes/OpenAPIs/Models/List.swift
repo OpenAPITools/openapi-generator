@@ -16,6 +16,10 @@ import AnyCodable
         self._123list = _123list
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }

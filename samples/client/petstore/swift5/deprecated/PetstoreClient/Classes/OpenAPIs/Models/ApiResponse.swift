@@ -21,6 +21,10 @@ public struct ApiResponse: Codable, Hashable {
         self.message = message
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type

@@ -17,6 +17,10 @@ public final class Return: Codable, Hashable {
         self._return = _return
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }

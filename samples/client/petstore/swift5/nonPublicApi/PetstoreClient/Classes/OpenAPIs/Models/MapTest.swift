@@ -26,6 +26,10 @@ internal struct MapTest: Codable, Hashable {
         self.indirectMap = indirectMap
     }
 
+    not disallowAdditionalPropertiesIfNotPresent
+
+    isAdditionalPropertiesTrue
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
