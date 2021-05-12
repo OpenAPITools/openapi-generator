@@ -1,0 +1,19 @@
+[MASTER]
+ignore=decode_test2json.py  # from mk-include
+
+[BASIC]
+
+# kebab-case is okay for filenames if they're not being imported
+module-rgx=[^\W\dA-Z](?:-?[^\WA-Z]+)+$
+
+[FORMAT]
+
+max-line-length=120
+
+[TYPECHECK]
+
+generated-members=requests\.codes\..*
+
+[MESSAGES CONTROL]
+disable=fixme
+

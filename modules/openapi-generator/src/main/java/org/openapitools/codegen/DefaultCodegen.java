@@ -228,7 +228,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean enablePostProcessFile = false;
     private TemplatingEngineAdapter templatingEngine = new MustacheEngineAdapter();
     // flag to indicate whether to use the utils.OneOfImplementorAdditionalData related logic
-    protected boolean useOneOfInterfaces = false;
+    protected boolean useOneOfInterfaces = true;
     // whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
     protected boolean addOneOfInterfaceImports = false;
     protected List<CodegenModel> addOneOfInterfaces = new ArrayList<CodegenModel>();
@@ -6485,6 +6485,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        Map<String, String> customImport = new HashMap<String, String>();
+        customImport.put("import", "fmt");
+        imports.add(customImport);
     }
     //// End of methods related to the "useOneOfInterfaces" feature
 

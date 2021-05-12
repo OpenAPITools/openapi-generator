@@ -1,0 +1,35 @@
+SERVICE_NAME := test-service
+IMAGE_NAME := cc-$(SERVICE_NAME)
+CHART_NAME := cc_test_service
+
+BUILD_DOCKER_OVERRIDE := mvn-docker-package
+HELM_PACKAGE_DIR := target/charts/package
+RELEASE_NAME := $(CHART_NAME)
+DEPLOYER_DOWNSTREAM_DEPS := obs-helm
+MAVEN_INSTALL_PROFILES += ci
+CI_TEST := true
+
+include ./mk-include/cc-begin.mk
+include ./mk-include/cc-vault.mk
+include ./mk-include/cc-semver.mk
+include ./mk-include/cc-maven.mk
+include ./mk-include/cc-docker.mk
+include ./mk-include/cc-cpd.mk
+include ./mk-include/cc-semaphore.mk
+include ./mk-include/cc-helm.mk
+include ./mk-include/cc-deployer.mk
+include ./mk-include/cc-testbreak.mk
+include ./mk-include/cc-end.mk
+
+ifneq ($(SEMAPHORE_BUILD_NUMBER),)
+BUILD_NUMBER := $(SEMAPHORE_BUILD_NUMBER)
+else
+BUILD_NUMBER := local
+endif
+
+.PHONY: maven-docker-build-test
+maven-docker-build-test:
+	python3 -m venv maven-docker-build-test
+	source maven-docker-build-test/bin/activate && \
+	pip3 install pytest=="$(PYTEST_VERSION)" && \
+	pytest test.py -s

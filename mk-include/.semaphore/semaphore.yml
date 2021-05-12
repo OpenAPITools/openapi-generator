@@ -1,0 +1,104 @@
+version: v1.0
+name: cc-mk-include
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+auto_cancel:
+  running:
+    when: "true"
+global_job_config:
+  secrets:
+    - name: vault_sem2_approle
+  env_vars:
+    - name: PYTHON_VERSION
+      value: "3.7"
+    - name: PYTEST_LOG_LEVEL
+      value: "DEBUG"
+    - name: PYTEST_VERSION
+      value: "5.4.3"
+    - name: STRUCTLOG_VERSION
+      value: "20.1.0"
+  prologue:
+    commands:
+      - sem-version go 1.14
+      - sem-version python "${PYTHON_VERSION}"
+      - export "GOPATH=$(go env GOPATH)"
+      - >-
+        export
+        "SEMAPHORE_GIT_DIR=${GOPATH}/src/github.com/confluentinc/${SEMAPHORE_PROJECT_NAME}"
+      - 'export "PATH=${GOPATH}/bin:${PATH}"'
+      - 'mkdir -vp "${SEMAPHORE_GIT_DIR}" "${GOPATH}/bin"'
+      - >-
+        git config --global url."git@github.com:".insteadOf
+        "https://github.com/"
+      - export SEMAPHORE_CACHE_DIR=/home/semaphore
+      - checkout
+      - exec &> >(tee -a build.log)
+      - make copy-parent-mk-include
+      - make install-vault
+      - . mk-include/bin/vault-setup
+      # Set up secrets
+      - . vault-sem-get-secret semaphore-secrets-global
+      - . vault-sem-get-secret testbreak-reporting
+      - . vault-sem-get-secret eng_aws
+      - . vault-sem-get-secret cpd_gcloud
+      - . vault-sem-get-secret ssh_id_rsa
+      - . vault-sem-get-secret netrc
+      - . vault-sem-get-secret ssh_config
+      - . vault-sem-get-secret gitconfig
+      - . vault-sem-get-secret maven-settings
+      - chmod 400 ~/.ssh/id_rsa
+      - sudo apt-get update
+      - sudo apt-get install -y python3.7-venv
+  epilogue:
+    commands:
+      - make testbreak-after
+blocks:
+  - name: Go Docker Test
+    dependencies: []
+    task:
+      jobs:
+        - name: Go build, test, push docker
+          commands:
+            - make copy-mk-include-go-docker-build-test
+            - cd tests/go-docker-build-test
+            - make go-docker-build-test
+
+  - name: Auto Update Test
+    dependencies: []
+    task:
+      jobs:
+        - name: mock test
+          commands:
+            - make copy-mk-include-mk-include-auto-update-test
+            - cd tests/mk-include-auto-update-test
+            - make mk-include-auto-update-test
+
+  - name: Maven Docker Test
+    dependencies: []
+    task:
+      jobs:
+        - name: Maven build, test, push docker
+          commands:
+            - make copy-mk-include-maven-docker-build-test
+            - cd tests/maven-docker-build-test
+            - make maven-docker-build-test
+
+  - name: release cc-mk-include
+    skip:
+      when: "branch != 'master'"
+    dependencies:
+      - "Go Docker Test"
+      - "Maven Docker Test"
+      - "Auto Update Test"
+    task:
+      env_vars:
+        - name: PYTEST_LOG_LEVEL
+          value: "WARN"
+      jobs:
+        - name: release cc-mk-include
+          commands:
+            - make verify-version
+            - make upload-binary
+            - make release

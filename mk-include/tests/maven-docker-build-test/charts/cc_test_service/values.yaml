@@ -1,0 +1,19 @@
+---
+# Default values for cc-test-service.
+# This is a YAML-formatted file.
+
+replicaCount: 1
+
+nameOverride: "cc-test-service"
+fullnameOverride: "cc-test-service"
+
+image:
+  name: cc-test-service
+  pullPolicy: IfNotPresent
+  tag: ""
+  args: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi

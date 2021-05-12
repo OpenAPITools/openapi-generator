@@ -1,0 +1,72 @@
+GIT
+  remote: https://github.com/confluentinc/fpm
+  revision: b1e956e071e45040937a58483e343194d686357e
+  branch: master
+  specs:
+    fpm (1.11.0)
+      arr-pm (~> 0.0.10)
+      backports (>= 2.6.2)
+      cabin (>= 0.6.0)
+      childprocess (< 1.0.0)
+      clamp (~> 1.0.0)
+      ffi
+      git (>= 1.3.0, < 2.0)
+      json (>= 1.7.7, < 3.0)
+      pleaserun (~> 0.0.29)
+      ruby-xz (~> 0.2.3)
+      stud
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    arr-pm (0.0.10)
+      cabin (> 0)
+    aws-sdk (2.10.101)
+      aws-sdk-resources (= 2.10.101)
+    aws-sdk-core (2.10.101)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.10.101)
+      aws-sdk-core (= 2.10.101)
+    aws-sigv4 (1.0.2)
+    backports (3.10.3)
+    cabin (0.9.0)
+    childprocess (0.8.0)
+      ffi (~> 1.0, >= 1.0.11)
+    clamp (1.0.1)
+    deb-s3 (0.9.1)
+      aws-sdk (~> 2)
+      thor (~> 0.19.0)
+    dotenv (2.2.1)
+    ffi (1.9.24)
+    git (1.7.0)
+      rchardet (~> 1.8)
+    insist (1.0.0)
+    io-like (0.3.0)
+    jmespath (1.3.1)
+    json (2.3.0)
+    mustache (0.99.8)
+    pleaserun (0.0.30)
+      cabin (> 0)
+      clamp
+      dotenv
+      insist
+      mustache (= 0.99.8)
+      stud
+    rchardet (1.8.0)
+    ruby-xz (0.2.3)
+      ffi (~> 1.9)
+      io-like (~> 0.3)
+    stud (0.0.23)
+    thor (0.19.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  deb-s3 (~> 0.9)
+  fpm!
+  json (~> 2.3)
+
+BUNDLED WITH
+   1.16.0

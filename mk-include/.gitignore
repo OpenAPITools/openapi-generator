@@ -1,0 +1,47 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.DS_Store
+.ssh/
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+vendor/*
+!vendor/vendor.json
+
+# Terraform stuff
+*.tfstate*
+terraform.d
+.terraform/
+
+Dockerfile.build
+.netrc
+.idea/
+
+charts/package
+
+.dir-locals.el
+
+coverage.txt
+.gomodcache
+
+.aws
+.config
+.gitconfig
+
+helm-*.tar.gz
+linux-amd64/
+.semaphore-*
+
+**/mk-include
+
+# Chart dependencies
+**/charts/*.tgz
+
+# java
+**/target/

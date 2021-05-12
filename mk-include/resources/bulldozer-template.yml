@@ -1,0 +1,20 @@
+version: 1
+
+merge:
+  trigger:
+    labels:
+    - auto-merge
+    pr_body_substrings:
+    - update mk-include
+  method: squash
+  options:
+    squash:
+      title: github_default_title
+      body: pull_request_body
+      message_delimiter: '###### COMMIT MESSAGE'
+
+update:
+  trigger:
+    labels:
+    - auto-merge
+    - auto-update

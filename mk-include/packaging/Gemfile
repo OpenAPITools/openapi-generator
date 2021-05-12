@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gem 'fpm', :git => 'https://github.com/confluentinc/fpm', :branch => 'master'
+gem 'deb-s3', '~> 0.9'
+gem 'json', '~> 2.3'
