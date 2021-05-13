@@ -1,0 +1,85 @@
+#include "{{classname}}.h"
+
+using namespace std;
+using namespace Tinyclient;
+
+{{#operations}}
+
+    {{classname}}::{{classname}}()
+    {
+
+    }
+
+    {{classname}}::~{{classname}}()
+    {
+
+    }
+    {{! Method }}
+    {{#operation}}
+
+        Response<
+        {{#returnType}}
+            {{#returnContainer}}
+                {{#isArray}}
+                    {{returnType}}<{{returnBaseType}}>
+                {{/isArray}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+                {{returnType}}
+            {{/returnContainer}}
+        {{/returnType}}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        >
+        {{classname}}::
+        {{! Method name }}
+        {{nickname}}(
+        {{! Params }}
+        {{#allParams}}
+        {{! Arrays }}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}
+            {{! Normal types/objects }}
+            {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
+            {{^-last}}, {{/-last}}
+        {{/allParams}}
+        )
+        {{! Method start}}
+        {
+            std::string url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
+            // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
+            // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
+            // Headers  | {{#formParams}}{{paramName}} {{/formParams}}
+            // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
+
+            {{#pathParams}}
+                string s_{{paramName}}("{");
+                s_{{paramName}}.append("{{{baseName}}}");
+                s_{{paramName}}.append("}");
+
+                int pos = url.find(s_{{paramName}});
+
+                url.erase(pos, s_{{paramName}}.length());
+                url.insert(pos, "1"); //stringify(&{{paramName}}, "{{dataType}}"));
+            {{/pathParams}}
+
+            HTTPClient http;
+            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+
+            // Send Request
+            // METHOD | {{httpMethod}}
+            int httpCode = http.{{httpMethod}}();
+
+            // Handle Request
+            String payload = http.getString();
+            http.end();
+
+            Response<Pet> response(Pet(std::string(payload.c_str()), httpCode);
+            return response;
+        }
+    {{/operation}}
+
+
+
+{{/operations}}
+}

@@ -1,0 +1,19 @@
+#ifndef _Response_H_
+#define _Response_H_
+#include <string>
+
+namespace Tinyclient {
+
+/**
+*  Class
+* Generated with openapi::tiny-cpp-client
+*/
+template <typename T = std::string>
+    class Response {
+    public:
+    Response(T obj, int s);
+    int code;
+    T obj;
+    };
+    } // namespace Tinyclient
+#endif
