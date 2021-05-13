@@ -60,7 +60,7 @@ using namespace Tiny;
                 int pos = url.find(s_{{paramName}});
 
                 url.erase(pos, s_{{paramName}}.length());
-                url.insert(pos, "1"); //stringify(&{{paramName}}, "{{dataType}}"));
+                url.insert(pos, stringify({{paramName}})); //stringify(&{{paramName}}, "{{dataType}}"));
             {{/pathParams}}
 
             HTTPClient http;
@@ -72,9 +72,63 @@ using namespace Tiny;
 
             // Handle Request
             String payload = http.getString();
+            std::string payload_std_string(payload.c_str());
             http.end();
 
-            Response<Pet> response(Pet(std::string(payload.c_str()), httpCode);
+        {{! Declaration of obj }}
+        {{#returnType}}
+            {{#returnContainer}}
+                {{#isArray}}
+                    {{returnType}}<{{returnBaseType}}>
+                {{/isArray}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+                {{returnType}}
+            {{/returnContainer}}
+        {{/returnType}}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        {{! Obj var name }}
+        obj
+
+        {{! Array constructor }}
+        {{#isMap}}
+        {{#isArray}}
+        {{/isArray }}
+        {{/isMap }}
+
+        {{! primitive type }}
+        {{#returnType}}
+            {{#returnTypeIsPrimitive}}
+                ; jsonToValue(&obj, bourne::json(payload_std_string), "{{returnType}}") ;
+            {{/returnTypeIsPrimitive}}
+        {{/returnType}}
+
+        {{! Obj constructor }}
+        // Der gå rr noget galt her. Den fanger ikke alle klasser. fx getOrderById
+        // Kig på default response, og se om man ikke kan sætte en noget derind i. Pet(payload_str)
+        {{#returnType}}
+            {{#returnContainer}} {{! container er array eller map}}
+                {{returnType}}(payload_std_string);
+            {{/returnContainer}}
+        {{/returnType}}
+
+            Response<
+        {{#returnType}}
+            {{#returnContainer}}
+                {{#isArray}}
+                    {{returnType}}<{{returnBaseType}}>
+                {{/isArray}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+                {{returnType}}
+            {{/returnContainer}}
+        {{/returnType}}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        > response(obj, httpCode);
             return response;
         }
     {{/operation}}

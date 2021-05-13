@@ -65,6 +65,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     public TinyCppClientCodegen() {
         super();
 
+        // TODO Supporter ikke DELETE
+
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
 
@@ -169,6 +171,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("URI", "std::string");
     }
 
+
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -221,7 +225,19 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         return toModelName(type);
     }
 
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
+        for (CodegenOperation op : operationList) {
+            if (op.httpMethod.equals("DELETE")) {
+                op.httpMethod = "POST";
+            }
+        }
+
+        return objs;
+    }
 
     @Override
     public String toModelName(String type) {
@@ -245,6 +261,13 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
             return "#include <map>";
         }
         return "#include \"" + name + ".h\"";
+    }
+
+
+
+    @Override
+    public String toApiImport(String name) {
+        return super.toApiImport(name);
     }
 
     @Override
