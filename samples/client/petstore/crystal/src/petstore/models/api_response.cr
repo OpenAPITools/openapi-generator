@@ -8,19 +8,19 @@
 #OpenAPI Generator version: 6.0.0-SNAPSHOT
 #
 
+require "json"
 require "time"
 
 module Petstore
   # Describes the result of uploading an image resource
-  class ApiResponse include JSON::Serializable
-   include JSON::Serializable 
+  class ApiResponse
+    include JSON::Serializable
+
     @[JSON::Field(key: code, type: Int32)]
     property code : Int32
 
-
     @[JSON::Field(key: type, type: String)]
     property _type : String
-
 
     @[JSON::Field(key: message, type: String)]
     property message : String

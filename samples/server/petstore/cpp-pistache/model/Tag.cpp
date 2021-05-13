@@ -12,11 +12,12 @@
 
 
 #include "Tag.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 Tag::Tag()
 {
@@ -27,13 +28,48 @@ Tag::Tag()
     
 }
 
-Tag::~Tag()
+void Tag::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void Tag::validate()
+bool Tag::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool Tag::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "Tag" : pathPrefix;
+
+        
+    
+
+    return success;
+}
+
+bool Tag::operator==(const Tag& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!nameIsSet() && !rhs.nameIsSet()) || (nameIsSet() && rhs.nameIsSet() && getName() == rhs.getName()))
+    
+    ;
+}
+
+bool Tag::operator!=(const Tag& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const Tag& o)
@@ -97,8 +133,5 @@ void Tag::unsetName()
 }
 
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 

@@ -109,7 +109,7 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from((value.{{name}} as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON))),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}Array.from(value.{{name}} as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
         {{/uniqueItems}}
         {{^uniqueItems}}
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}({{#isNullable}}value.{{name}} === null ? null : {{/isNullable}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),

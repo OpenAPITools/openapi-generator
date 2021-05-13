@@ -22,6 +22,9 @@ Method | HTTP request | Description
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+{{#useHttpClient}}
+using System.Net.Http;
+{{/useHttpClient}}
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
 using {{packageName}}.{{modelPackage}};
@@ -58,7 +61,15 @@ namespace Example
             {{/authMethods}}
 
             {{/hasAuthMethods}}
+            {{#useHttpClient}}
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new {{classname}}(httpClient, config, httpClientHandler);
+            {{/useHttpClient}}
+            {{^useHttpClient}}
             var apiInstance = new {{classname}}(config);
+            {{/useHttpClient}}
             {{#allParams}}
             {{#isPrimitiveType}}
             var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}

@@ -16,11 +16,38 @@
 #include "Interfaces/IHttpResponse.h"
 #include "Serialization/JsonWriter.h"
 #include "Dom/JsonObject.h"
+#include "HttpRetrySystem.h"
+#include "Containers/Ticker.h"
 
 namespace OpenAPI 
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
+using namespace FHttpRetrySystem;
+
+struct OPENAPI_API HttpRetryManager : public FManager, public FTickerObjectBase
+{
+	using FManager::FManager;
+
+	bool Tick(float DeltaTime) final;
+};
+
+struct OPENAPI_API HttpRetryParams
+{
+	HttpRetryParams(
+		const FRetryLimitCountSetting& InRetryLimitCountOverride = FRetryLimitCountSetting(),
+		const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride = FRetryTimeoutRelativeSecondsSetting(),
+		const FRetryResponseCodes& InRetryResponseCodes = FRetryResponseCodes(),
+		const FRetryVerbs& InRetryVerbs = FRetryVerbs(),
+		const FRetryDomainsPtr& InRetryDomains = FRetryDomainsPtr()
+	);
+
+	FRetryLimitCountSetting              RetryLimitCountOverride;
+	FRetryTimeoutRelativeSecondsSetting  RetryTimeoutRelativeSecondsOverride;
+	FRetryResponseCodes					 RetryResponseCodes;
+	FRetryVerbs                          RetryVerbs;
+	FRetryDomainsPtr					 RetryDomains;
+};
 
 class OPENAPI_API Model
 { 
@@ -37,11 +64,12 @@ public:
 	virtual void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const = 0;
 	virtual FString ComputePath() const = 0;
 
-	void SetAutoRetryCount(int InCount) { AutoRetryCount = InCount; }
-	int GetAutoRetryCount() const { return AutoRetryCount; }
+	/* Enables retry and optionally sets a retry policy for this request */
+	void SetShouldRetry(const HttpRetryParams& Params = HttpRetryParams()) { RetryParams = Params; }
+	const TOptional<HttpRetryParams>& GetRetryParams() const { return RetryParams; }
 
 private:
-	int AutoRetryCount = 0;
+	TOptional<HttpRetryParams> RetryParams;
 };
 
 class OPENAPI_API Response
@@ -53,8 +81,6 @@ public:
 	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
 	bool IsSuccessful() const { return Successful; }
 
-	void AsyncRetry() const;
-
 	virtual void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode);
 	EHttpResponseCodes::Type GetHttpResponseCode() const { return ResponseCode; }
 
@@ -64,15 +90,11 @@ public:
 	void SetHttpResponse(const FHttpResponsePtr& InHttpResponse) { HttpResponse = InHttpResponse; }
 	const FHttpResponsePtr& GetHttpResponse() const { return HttpResponse; }
 
-	void SetHttpRequest(const FHttpRequestPtr& InHttpRequest) { HttpRequest = InHttpRequest; }
-	const FHttpRequestPtr& GetHttpRequest() const { return HttpRequest; }
-
 private:
 	bool Successful;
 	EHttpResponseCodes::Type ResponseCode;
 	FString ResponseString;
 	FHttpResponsePtr HttpResponse;
-	FHttpRequestPtr HttpRequest;
 };
 
 }

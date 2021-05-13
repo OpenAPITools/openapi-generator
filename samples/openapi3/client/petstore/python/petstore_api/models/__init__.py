@@ -67,6 +67,7 @@ from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
 from petstore_api.model.model_return import ModelReturn
+from petstore_api.model.mole import Mole
 from petstore_api.model.name import Name
 from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape

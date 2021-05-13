@@ -19,9 +19,10 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-UserApiImpl::UserApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+UserApiImpl::UserApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : UserApi(rtr)
-    { }
+{
+}
 
 void UserApiImpl::create_user(const User &body, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");

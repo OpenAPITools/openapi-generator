@@ -62,8 +62,8 @@ export class Observable{{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-        const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+        const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

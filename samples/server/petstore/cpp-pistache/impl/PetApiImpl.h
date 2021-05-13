@@ -33,17 +33,15 @@
 #include "Pet.h"
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace api {
+namespace org::openapitools::server::api
+{
 
 using namespace org::openapitools::server::model;
 
 class PetApiImpl : public org::openapitools::server::api::PetApi {
 public:
-    PetApiImpl(std::shared_ptr<Pistache::Rest::Router>);
-    ~PetApiImpl() {}
+    explicit PetApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
+    ~PetApiImpl() override = default;
 
     void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response);
     void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
@@ -56,10 +54,7 @@ public:
 
 };
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::api
 
 
 

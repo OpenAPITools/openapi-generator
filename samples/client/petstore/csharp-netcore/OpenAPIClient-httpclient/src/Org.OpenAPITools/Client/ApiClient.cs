@@ -98,13 +98,13 @@ namespace Org.OpenAPITools.Client
 
             if (type == typeof(byte[])) // return byte array
             {
-                return response.Content.ReadAsByteArrayAsync().Result;
+                return response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().Result;
+                var bytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
                 if (headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -128,18 +128,18 @@ namespace Org.OpenAPITools.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content.ReadAsStringAsync().Result, null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().Result, type);
+                return Convert.ChangeType(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, type, _serializerSettings);
+                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -191,8 +191,9 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient() :
                  this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
         {    
@@ -200,10 +201,11 @@ namespace Org.OpenAPITools.Client
         
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        [Obsolete("Constructors without HttpClient have non-trivial drawbacks and are thus considered deprecated. Check README.md for details.")]
         public ApiClient(String basePath)
         {    
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
@@ -397,10 +399,10 @@ namespace Org.OpenAPITools.Client
         partial void InterceptRequest(HttpRequestMessage req);
         partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
-            string rawContent = response.Content.ToString();
+            string rawContent = await response.Content.ReadAsStringAsync();
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
@@ -442,7 +444,7 @@ namespace Org.OpenAPITools.Client
 
         private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
         {
-            return ExecAsync<T>(req, configuration).Result;
+            return ExecAsync<T>(req, configuration).GetAwaiter().GetResult();
         }
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
@@ -503,6 +505,11 @@ namespace Org.OpenAPITools.Client
                 response = await _httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
             }
 
+            if (!response.IsSuccessStatusCode)
+            {
+                return await ToApiResponse<T>(response, default(T), req.RequestUri);
+            }
+			
             object responseData = deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
@@ -517,9 +524,7 @@ namespace Org.OpenAPITools.Client
 
             InterceptResponse(req, response);
 
-            var result = ToApiResponse<T>(response, responseData, req.RequestUri);
-
-            return result;
+            return await ToApiResponse<T>(response, responseData, req.RequestUri);
         }
 
         #region IAsynchronousClient
