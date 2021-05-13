@@ -10,6 +10,8 @@
 
 {{/model}}{{/models}}
 #include <string>
+#include "bourne/json.hpp"
+#include "Helpers.h"
 {{#imports}}
 {{{import}}}
 {{/imports}}
@@ -29,7 +31,7 @@ public:
     /*! \brief Constructor.
 	 */
     {{classname}}();
-    {{classname}}(bourne::json jsonObj);
+    {{classname}}(std::string jsonString);
 
 
     /*! \brief Destructor.
@@ -39,12 +41,12 @@ public:
 
     /*! \brief Retrieve a bourne JSON representation of this class.
 	 */
-    bourne::json tojson();
+    bourne::json toJson();
 
 
     /*! \brief Fills in members of this class from bourne JSON object representing it.
 	 */
-    void fromJson(bourne::json jsonObj);
+    void fromJson(std::string jsonObj);
 
     {{#vars}}
 	/*! \brief Get {{{description}}}

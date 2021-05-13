@@ -19,7 +19,7 @@ bool isprimitive(string type){
 void
 jsonToValue(void* target, bourne::json value, string type)
 {
-	if (target == NULL || node == NULL || value.is_null()) {
+	if (target == NULL || value.is_null()) {
 		return;
 	} 
     
@@ -58,4 +58,32 @@ jsonToValue(void* target, bourne::json value, string type)
 		string* val = static_cast<string*> (target);
 		*val = value.to_string();
     }
+	else {
+		return;
+	}
 }
+
+std::string 
+stringify(long input){
+	return std::to_string(input);
+};
+
+std::string 
+stringify(int input){
+	return std::to_string(input);
+};
+
+std::string 
+stringify(double input){
+	return std::to_string(input);
+};
+
+std::string 
+stringify(float input){
+	return std::to_string(input);
+};
+
+std::string 
+stringify(std::string input){
+	return input;
+};
