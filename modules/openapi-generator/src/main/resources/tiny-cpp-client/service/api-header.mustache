@@ -6,6 +6,7 @@
 #include "Response.h"
 #include "Arduino.h"
 #include "AbstractService.h"
+#include <list> // TODO: only if list is used
 
 // TODO import used models i this service.
 {{#imports}}
@@ -20,7 +21,7 @@ namespace Tinyclient {
  * Generated with openapi::tiny-cpp-client
  */
 
-class {{classname}} : AbstractService {
+class {{classname}} : public AbstractService {
 public:
     {{! Constructor }}
     {{classname}}();
@@ -36,18 +37,22 @@ public:
     * {{{notes}}}{{#allParams}}
     * \param {{paramName}} {{{description}}}{{#required}} *Required*{{/required}}{{/allParams}}
     */
-    Response
-    {{#allParams}}
+    Response<
         {{#returnType}}
-            <
-            {{!Arrays }}
-            {{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{/returnContainer}}
-            {{! Normal types/objects }}
-            {{^returnContainer}}{{returnType}}{{/returnContainer}}
-            >
+            {{#returnContainer}}
+                {{#isArray}}
+                    {{returnType}}<{{returnBaseType}}>
+                {{/isArray}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+                {{returnType}}
+            {{/returnContainer}}
         {{/returnType}}
-    {{/allParams}}
-        {{! Method name }}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        >
+    {{! Method name }}
     {{nickname}}(
         {{! Params }}
         {{#allParams}}
@@ -59,8 +64,7 @@ public:
         {{/allParams}}
     );
     {{/operation}}
-} {{! Service endpoint end }}
-
+}; {{! Service endpoint end }}
 {{/operations}}
 
 } {{! namespace end }}

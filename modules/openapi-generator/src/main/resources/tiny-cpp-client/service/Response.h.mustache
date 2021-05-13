@@ -1,5 +1,6 @@
 #ifndef _Response_H_
 #define _Response_H_
+#include <string>
 
 namespace Tinyclient {
 
@@ -7,7 +8,7 @@ namespace Tinyclient {
 *  Class
 * Generated with openapi::tiny-cpp-client
 */
-template <typename T>
+template <typename T = std::string>
     class Response {
     public:
     Response(T obj, int s);

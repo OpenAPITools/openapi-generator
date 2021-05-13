@@ -1,6 +1,8 @@
 #ifndef _AbstractService_H_
 #define _AbstractService_H_
 
+#include "HTTPClient.h"
+#include "Response.h"
 namespace Tinyclient {
 
 /**
@@ -8,31 +10,17 @@ namespace Tinyclient {
 * Generated with openapi::tiny-cpp-client
 */
 class AbstractService {
-    public:
-        std::string basepath = {{{basePath}}};
-        HTTPClient http;
+public:
+HTTPClient http;
+std::string basepath = "http://petstore.swagger.io/v2"; //TODO Fix
 
-    private:
-        Response Request(const char * type, String payload){
-        String url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
-        // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
-        // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
-        // Headers  | {{#formParams}}{{paramName}} {{/formParams}}
-        // Body     | {{#bodyParam}}{{paramName}} {{/bodyParam}}
-        Serial.println("Connecting to website: " + url);
-        HTTPClient http;
-        http.begin(url, test_root_ca); //HTTPS example connection
+// Certificate from file
+const char* test_root_ca =
+#include "../../root.cert"
+;
 
-        // Send Request
-        // METHOD   | {{#httpMethod}} {{httpMethod}} {{/httpMethod}}
-        int httpCode = http.GET();
-        // Handle Request
-        String payload = http.getString();
-        http.end();
 
-        Response<Pet> response(Pet(payload), httpCode);
-        return response;
-        }
-    };
-} // namespace Tinyclient
+Response<String> Request(const char * type, String payload);
+    }; // end class
+}// namespace Tinyclient
 #endif // _AbstractService_H_
