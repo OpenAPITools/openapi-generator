@@ -1,0 +1,71 @@
+
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
+
+{{/model}}{{/models}}
+#include <string>
+{{#imports}}
+{{{import}}}
+{{/imports}}
+
+namespace Tiny {
+{{#models}}{{#model}}
+
+/*! \brief {{{description}}}
+ *
+ *  \ingroup Models
+ *
+ */
+
+class {{classname}}{
+public:
+
+    /*! \brief Constructor.
+	 */
+    {{classname}}();
+    {{classname}}(bourne::json jsonObj);
+
+
+    /*! \brief Destructor.
+	 */
+    virtual ~{{classname}}();
+
+
+    /*! \brief Retrieve a bourne JSON representation of this class.
+	 */
+    bourne::json tojson();
+
+
+    /*! \brief Fills in members of this class from bourne JSON object representing it.
+	 */
+    void fromJson(bourne::json jsonObj);
+
+    {{#vars}}
+	/*! \brief Get {{{description}}}
+	 */
+	{{dataType}}{{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{getter}}();
+
+	/*! \brief Set {{{description}}}
+	 */
+	void {{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}});
+	{{/vars}}
+
+
+    private:
+    {{#vars}}
+	{{dataType}} {{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}}{{name}};
+	{{/vars}}
+    void __init();
+    void __cleanup();
+};
+{{/model}}
+{{/models}}
+}
+
+#endif /* _{{classname}}_H_ */
