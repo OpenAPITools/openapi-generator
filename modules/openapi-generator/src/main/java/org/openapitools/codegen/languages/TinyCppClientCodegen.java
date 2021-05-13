@@ -22,13 +22,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
     static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
 
-    /**
-     * Configures the type of generator.
-     *
-     * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
-     */
-
     public static final String MICROCONTROLLER = "controller";
     protected String controller = "esp32";
 
@@ -66,41 +59,41 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
             additionalProperties.put(supportedControllers.get(controller), true);
         }
         else {
-            throw new UnsupportedOperationException(String.format("The specified controller: %s is not supported.\nSupported controllers are: %s", controller, supportedControllers.keySet().toString()));
+            //String msg = String.format("The specified controller: %s is not supported.\nSupported controllers are: %s",
+            //        controller,
+            //        supportedControllers.keySet());
+            throw new UnsupportedOperationException("Supported controllers are: ESP32, ESP8266");
         }
     }
 
     public TinyCppClientCodegen() {
         super();
 
-        outputFolder = "generated-code" + File.separator + "tiny-cpp";
-
-        modelTemplateFiles.put("model.mustache", ".md");
         String libFolder = "lib";
         String sourceFolder = "src";
+        outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
 
-
+        // MODELS
         modelPackage = libFolder + File.separator + "Models";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
 
+        // MODELS: TESTS
         testPackage = libFolder + File.separator + "TestFiles";
         modelTestTemplateFiles.put("unit-test-model.mustache", ".cpp");
+        supportingFiles.add(new SupportingFile("run-tests.mustache", "test", "RunTests.cpp"));
+        supportingFiles.add(new SupportingFile("unittest.mustache", "test_example", "unittest.cpp"));
 
-
-        apiPackage = libFolder + File.separator + "Apis";
-        apiTemplateFiles.put("api.mustache", ".md");
-
-        modelPackage = sourceFolder + File.separator + "models";
-        modelTemplateFiles.put("model.mustache", ".h");
-
+        // SERVICES
         apiPackage = sourceFolder + File.separator + "service";
         apiTemplateFiles.put("service/api-header.mustache".replace('/', File.separatorChar), ".h");
-
         apiTemplateFiles.put("service/api-body.mustache".replace('/', File.separatorChar), ".cpp");
 
-        embeddedTemplateDir = templateDir = "tiny-cpp-client";
+        // SERVICES: Helpers
+        supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h")); // TODO find right function for folder
+        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h")); // TODO find right function for folder
+        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp")); // TODO find right function for folder
 
 
 
@@ -108,11 +101,9 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
 
-        // Example:
+        // Main
         supportingFiles.add(new SupportingFile("platformio.ini.mustache", "", "platformio.ini"));
         supportingFiles.add(new SupportingFile("main.mustache", sourceFolder, "main.cpp"));
-        supportingFiles.add(new SupportingFile("run-tests.mustache", "test", "RunTests.cpp"));
-        supportingFiles.add(new SupportingFile("unittest.mustache", "test_example", "unittest.cpp"));
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -145,10 +136,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
         cliOptions.add(new CliOption(MICROCONTROLLER, "name of microcontroller (e.g esp32 or esp8266)").
                 defaultValue("esp32"));
-
-        supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h")); // TODO find right function for folder
-        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h")); // TODO find right function for folder
-        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp")); // TODO find right function for folder
 
         makeTypeMappings();
 
