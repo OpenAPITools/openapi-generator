@@ -1,0 +1,11 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:9.6.3
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "mothership"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./mothership-seed.sql:/docker-entrypoint-initdb.d/seed.sql

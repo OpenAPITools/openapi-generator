@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf8" />
+  <title>{{title}}</title>
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{#if templateOptions.segmentWriteKey~}}
+  <script>
+    !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+    analytics.load("{{templateOptions.segmentWriteKey}}");
+    analytics.page();
+    }}();
+  </script>
+  {{~/if}}
+  {{{redocHead}}}
+  {{#if templateOptions.style~}}<style>{{{templateOptions.style}}}</style>{{~/if~}}
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Left nav (redoc built-in) */
+
+    .menu-content {
+      background: linear-gradient(185.57deg, #F8F8FA -2.89%, #FFFFFF 50.18%);
+      margin-top: -56px;
+      border-right-color: rgb(224, 224, 231);
+      border-right-style: solid;
+      border-right-width: 1px;
+    }
+
+    /* Top nav */
+
+    .cloud-sign-up-banner {
+        height: 40px;
+        line-height: 40px;
+        background-color: rgb(7, 10, 31);
+        color: rgb(255, 255, 255);
+        display: block;
+        font-size: 11px;
+        text-align: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", "Segoe UI";
+    }
+
+    .docs-banner-link {
+        color: rgb(0, 248, 255);
+        outline-color: rgb(0, 248, 255);
+        text-decoration: underline rgb(0, 248, 255);
+        text-decoration-color: rgb(0, 248, 255);
+        text-decoration-style: solid;
+        text-decoration-line: underline;
+    }
+
+    .navigation > a {
+        color: rgb(17, 24, 32);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", "Segoe UI";
+        font-size: 12px;
+        margin: 0 20px;
+        text-decoration: rgb(17, 24, 32);
+        text-decoration-color: rgb(17, 24, 32);
+        text-decoration-line: none;
+        text-decoration-style: solid;
+    }
+
+    .content-header {
+        border-bottom-color: rgb(224, 224, 231);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        line-height: 20px;
+        padding: 18px;
+        text-align: right;
+    }
+
+    /* Status boxes ("Note") */
+
+    .status-info {
+        background-color: rgb(231, 242, 250);
+        overflow: auto;
+        margin: 20px 0px 24px 0px;
+        padding: 30px 20px 20px 20px;
+        overflow-y: hidden;
+    }
+
+    .status-info p.status-info-title {
+        background-color: rgb(106, 176, 222);
+        color: rgb(255, 255, 255);
+        margin: -3rem -2rem 2rem;
+        padding: 12px 20px;
+        margin: -30px -20px 20px -20px;
+        font-weight: 600;
+    }
+
+    /* Content styling */
+
+    .api-info h1 {
+      font-size: 2.2em;
+      line-height: 30px;
+    }
+
+    td:first-child {
+      font-weight: 500;
+    }
+
+    strong {
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cloud-sign-up-banner">
+        Get Confluent | Sign up for
+        <a class="docs-banner-link" href="https://www.confluent.io/confluent-cloud" target="_blank">Confluent Cloud</a>
+        or download&nbsp;<a class="docs-banner-link" href="https://www.confluent.io/download/#confluent-platform" target="_blank">Confluent Platform</a>
+  </div>
+  <header class="content-header">
+        <nav class="navigation">
+        <a href="https://docs.confluent.io/home/overview.html"> Home </a>
+        <a href="https://docs.confluent.io/platform/current/overview.html"> Platform </a>
+        <a href="https://docs.confluent.io/cloud/current/overview.html"> Cloud </a>
+        <a href="https://docs.confluent.io/home/connect/overview.html"> Connectors </a>
+        <a href="https://docs.confluent.io/home/tools/overview.html"> Tools </a>
+        <a href="https://docs.confluent.io/home/clients/overview.html"> Clients </a>
+    </nav>
+  </header>
+  {{{redocHTML}}}
+</body>
+
+</html>

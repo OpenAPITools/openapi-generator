@@ -26,14 +26,14 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 java $JAVA_OPTS -jar $executable $ags
 
 if [ ! -f "${root}"samples/meta-codegen-kotlin/gradle/wrapper/gradle-wrapper.jar ]; then
-  (cd "${root}"/samples/meta-codegen-kotlin/ && gradle wrapper --gradle-version 5.6.2 --distribution-type bin)
+  (cd "${root}"/samples/meta-codegen-kotlin/ && gradle --no-daemon wrapper --gradle-version 5.6.2 --distribution-type bin)
 fi
 
 
 (cp "${root}"/samples/meta-codegen-kotlin/gradlew "${root}"/samples/meta-codegen-kotlin/lib/ && \
  cp -R "${root}"/samples/meta-codegen-kotlin/gradle "${root}"/samples/meta-codegen-kotlin/lib/ && \
   cd "${root}"/samples/meta-codegen-kotlin/lib && \
-  ./gradlew shadowJar)
+  ./gradlew --no-daemon shadowJar)
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen-kotlin/usage $@"
 

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String JQUERY_ALREADY_IMPORTED = "jqueryAlreadyImported";
@@ -112,7 +112,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 

@@ -1,0 +1,12 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/api/ApiUtil.java
+src/main/java/org/openapitools/api/PetApi.java
+src/main/java/org/openapitools/api/StoreApi.java
+src/main/java/org/openapitools/api/UserApi.java
+src/main/java/org/openapitools/model/Category.java
+src/main/java/org/openapitools/model/ModelApiResponse.java
+src/main/java/org/openapitools/model/Order.java
+src/main/java/org/openapitools/model/Pet.java
+src/main/java/org/openapitools/model/Tag.java
+src/main/java/org/openapitools/model/User.java

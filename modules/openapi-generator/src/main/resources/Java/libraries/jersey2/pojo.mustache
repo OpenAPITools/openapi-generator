@@ -18,7 +18,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
+    {{^vendorExtensions.x-enum-as-string}}
 {{>modelInnerEnum}}
+    {{/vendorExtensions.x-enum-as-string}}
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
@@ -98,12 +100,28 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
 
   {{^isReadOnly}}
+  {{#vendorExtensions.x-enum-as-string}}
+  public static final Set<String> {{{nameInSnakeCase}}}_VALUES = new HashSet<>(Arrays.asList(
+    {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+  ));
+
+  {{/vendorExtensions.x-enum-as-string}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = {{name}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
@@ -127,8 +145,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
@@ -152,7 +170,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
-  {{/isMapContainer}}
+  {{/isMap}}
 
   {{/isReadOnly}}
    /**
@@ -215,7 +233,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -226,10 +250,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/isReadOnly}}
 
   {{/vars}}
-
-{{^supportJava6}}
+{{>libraries/jersey2/additional_properties}}
+  /**
+   * Return true if this {{name}} object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
   {{#useReflectionEqualsHashCode}}
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   {{/useReflectionEqualsHashCode}}
@@ -241,8 +267,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{#parent}} &&
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#additionalPropertiesType}}&&
+        Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
   {{/useReflectionEqualsHashCode}}
@@ -254,33 +281,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     return HashCodeBuilder.reflectionHashCode(this);
   {{/useReflectionEqualsHashCode}}
   {{^useReflectionEqualsHashCode}}
-    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/additionalPropertiesType}});
   {{/useReflectionEqualsHashCode}}
   }
-
-{{/supportJava6}}
-{{#supportJava6}}
-  @Override
-  public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }{{#hasVars}}
-    {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-    {{/hasMore}}{{/vars}}{{#parent}} &&
-    super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
-
-{{/supportJava6}}
 
   @Override
   public String toString() {
@@ -292,6 +295,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{#vars}}
     sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
     {{/vars}}
+    {{#additionalPropertiesType}}
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
+    {{/additionalPropertiesType}}
     sb.append("}");
     return sb.toString();
   }
@@ -300,7 +306,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -311,25 +317,25 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   public void writeToParcel(Parcel out, int flags) {
 {{#model}}
-{{#isArrayModel}}
+{{#isArray}}
     out.writeList(this);
-{{/isArrayModel}}
-{{^isArrayModel}}
+{{/isArray}}
+{{^isArray}}
 {{#parent}}
     super.writeToParcel(out, flags);
 {{/parent}}
 {{#vars}}
     out.writeValue({{name}});
 {{/vars}}
-{{/isArrayModel}}
+{{/isArray}}
 {{/model}}
   }
 
   {{classname}}(Parcel in) {
-{{#isArrayModel}}
+{{#isArray}}
     in.readTypedList(this, {{arrayModelType}}.CREATOR);
-{{/isArrayModel}}
-{{^isArrayModel}}
+{{/isArray}}
+{{^isArray}}
 {{#parent}}
     super(in);
 {{/parent}}
@@ -341,7 +347,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
 {{/isPrimitiveType}}
 {{/vars}}
-{{/isArrayModel}}
+{{/isArray}}
   }
 
   public int describeContents() {
@@ -351,14 +357,14 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
     public {{classname}} createFromParcel(Parcel in) {
 {{#model}}
-{{#isArrayModel}}
+{{#isArray}}
       {{classname}} result = new {{classname}}();
       result.addAll(in.readArrayList({{arrayModelType}}.class.getClassLoader()));
       return result;
-{{/isArrayModel}}
-{{^isArrayModel}}
+{{/isArray}}
+{{^isArray}}
       return new {{classname}}(in);
-{{/isArrayModel}}
+{{/isArray}}
 {{/model}}
     }
     public {{classname}}[] newArray(int size) {
@@ -366,4 +372,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     }
   };
 {{/parcelableModel}}
+{{#discriminator}}
+static {
+  // Initialize and register the discriminator mappings.
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  {{#mappedModels}}
+  mappings.put("{{mappingName}}", {{modelName}}.class);
+  {{/mappedModels}}
+  mappings.put("{{name}}", {{classname}}.class);
+  JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+}
+{{/discriminator}}
 }

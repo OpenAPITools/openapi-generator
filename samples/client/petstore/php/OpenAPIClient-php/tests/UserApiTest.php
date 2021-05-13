@@ -11,7 +11,7 @@ class UserApiTest extends TestCase
     /** @var UserApi*/
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api\UserApi();
     }
@@ -23,11 +23,15 @@ class UserApiTest extends TestCase
         // login
         $response = $this->api->loginUser('xxxxx', 'yyyyyyyy');
         
-        $this->assertInternalType('string', $response);
-        $this->assertRegExp(
-            '/logged in user session/',
-            $response,
-            "response string starts with 'logged in user session'"
-        );
+        $this->assertIsString($response);
+
+        $pattern = '/logged in user session/';
+        $assertMessage = "response string starts with 'logged in user session'";
+        $this->assertIsString($response);
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression($pattern, $response, $assertMessage);
+        } else {
+            $this->assertRegExp($pattern, $response, $assertMessage);
+        }
     }
 }

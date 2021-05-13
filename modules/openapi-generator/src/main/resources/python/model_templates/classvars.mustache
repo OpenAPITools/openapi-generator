@@ -1,0 +1,138 @@
+    allowed_values = {
+{{#isEnum}}
+        ('value',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{#requiredVars}}
+{{#isEnum}}
+        ('{{name}}',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#isEnum}}
+        ('{{name}}',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{/optionalVars}}
+    }
+
+    validations = {
+{{#hasValidation}}
+        ('value',): {
+{{> model_templates/validations }}
+{{/hasValidation}}
+{{#requiredVars}}
+{{#hasValidation}}
+        ('{{name}}',): {
+{{> model_templates/validations }}
+{{/hasValidation}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#hasValidation}}
+        ('{{name}}',): {
+{{> model_templates/validations }}
+{{/hasValidation}}
+{{/optionalVars}}
+    }
+
+{{#additionalProperties}}
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+        return ({{{dataType}}},)  # noqa: E501
+{{/additionalProperties}}
+{{^additionalProperties}}
+    additional_properties_type = None
+{{/additionalProperties}}
+
+    _nullable = {{#isNullable}}True{{/isNullable}}{{^isNullable}}False{{/isNullable}}
+
+    @cached_property
+    def openapi_types():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+        return {
+{{#isAlias}}
+            'value': ({{{dataType}}},),
+{{/isAlias}}
+{{#isEnum}}
+            'value': ({{{dataType}}},),
+{{/isEnum}}
+{{#isArray}}
+            'value': ({{{dataType}}},),
+{{/isArray}}
+{{#requiredVars}}
+            '{{name}}': ({{{dataType}}},),  # noqa: E501
+{{/requiredVars}}
+{{#optionalVars}}
+            '{{name}}': ({{{dataType}}},),  # noqa: E501
+{{/optionalVars}}
+        }
+
+    @cached_property
+    def discriminator():
+{{^discriminator}}
+        return None
+{{/discriminator}}
+{{#discriminator}}
+{{#mappedModels}}
+{{#-first}}
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+{{/-first}}
+{{/mappedModels}}
+        val = {
+{{#mappedModels}}
+            '{{mappingName}}': {{{modelName}}},
+{{/mappedModels}}
+        }
+        if not val:
+            return None
+        return {'{{{discriminatorName}}}': val}{{/discriminator}}

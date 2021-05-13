@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>5.0.0-SNAPSHOT</version>
+        <version>5.2.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -94,6 +94,7 @@
                             <tasks>
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
+                                <task>check</task>
                                 <task>assemble</task>
                                 <task>publishToMavenLocal</task>
                                 <task>publishPluginMavenPublicationToMavenLocal</task>

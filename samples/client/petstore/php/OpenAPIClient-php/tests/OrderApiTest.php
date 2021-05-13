@@ -8,7 +8,7 @@ class OrderApiTest extends TestCase
 {
 
     // add a new pet (id 10005) to ensure the pet object is available for all the tests
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // for error reporting (need to run with php5.3 to get no warning)
         //ini_set('display_errors', 1);
@@ -31,13 +31,11 @@ class OrderApiTest extends TestCase
         $order->setStatus("placed");
         $this->assertSame("placed", $order->getStatus());
     }
- 
-    /**
-     * @expectedException InvalidArgumentException
-     */
+
     public function testOrderException()
     {
         // initialize the API client
+        $this->expectException(\InvalidArgumentException::class);
         $order = new Model\Order();
         $order->setStatus("invalid_value");
     }
@@ -116,9 +114,26 @@ ORDER;
   }
 }
 ORDER;
+        // Legacy.
         $order = ObjectSerializer::deserialize(
             json_decode($order_json),
             'map[string,map[string,\OpenAPI\Client\Model\Order]]'
+        );
+
+        $this->assertArrayHasKey('test', $order);
+        $this->assertArrayHasKey('test2', $order['test']);
+        $_order = $order['test']['test2'];
+        $this->assertInstanceOf('OpenAPI\Client\Model\Order', $_order);
+        $this->assertSame(10, $_order->getId());
+        $this->assertSame(20, $_order->getPetId());
+        $this->assertSame(30, $_order->getQuantity());
+        $this->assertTrue(new \DateTime("2015-08-22T07:13:36.613Z") == $_order->getShipDate());
+        $this->assertSame("placed", $_order->getStatus());
+        $this->assertSame(false, $_order->getComplete());
+
+        $order = ObjectSerializer::deserialize(
+            json_decode($order_json),
+            'array<string,array<string,\OpenAPI\Client\Model\Order>>'
         );
 
         $this->assertArrayHasKey('test', $order);

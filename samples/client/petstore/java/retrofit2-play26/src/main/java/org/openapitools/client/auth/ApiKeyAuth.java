@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Holds ApiKey auth info
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;

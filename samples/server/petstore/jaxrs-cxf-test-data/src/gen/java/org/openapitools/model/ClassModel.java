@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Model for testing model with \"_class\" property
  */
 @ApiModel(description="Model for testing model with \"_class\" property")
+
 public class ClassModel  {
   
   @ApiModelProperty(value = "")
@@ -63,7 +64,7 @@ public class ClassModel  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

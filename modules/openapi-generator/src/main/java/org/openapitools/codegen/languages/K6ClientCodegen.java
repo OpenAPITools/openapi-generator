@@ -71,7 +71,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (obj == null || getClass() != obj.getClass())
                 return false;
             Parameter p = (Parameter) obj;
-            return key.equals(p.key) && value.equals((String) p.value);
+            return key.equals(p.key) && value.equals(p.value);
         }
     }
 
@@ -143,7 +143,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         public HTTPRequest(String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
                            @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks) {
-            this.method = method;
+            // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
+            this.method = method.equals("delete") ? "del" : method;
             this.path = path;
             this.query = query;
             this.body = body;
@@ -164,7 +165,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
@@ -184,7 +185,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String invokerPackage;
     protected String sourceFolder = "";
-    protected String localVariablePrefix = "";
     private String modelPropertyNaming = "camelCase";
     protected boolean preserveLeadingParamChar = false;
 

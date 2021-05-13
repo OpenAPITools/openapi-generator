@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct User: Codable {
+public struct User: Codable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var username: String?
@@ -19,7 +20,7 @@ public struct User: Codable {
     /** User Status */
     public private(set) var userStatus: Int?
 
-    public init(id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+    public init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self.id = id
         self.username = username
         self.firstName = firstName
@@ -29,5 +30,31 @@ public struct User: Codable {
         self.phone = phone
         self.userStatus = userStatus
     }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case username
+        case firstName
+        case lastName
+        case email
+        case password
+        case phone
+        case userStatus
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+    }
+
+
 
 }

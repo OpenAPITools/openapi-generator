@@ -123,7 +123,7 @@ api.findPetsByStatus()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to new ArrayList&lt;&gt;()] [enum: available, pending, sold]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> List&lt;Pet&gt; findPetsByTags(tags)
+> Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,11 +165,11 @@ api.findPetsByTags()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to new ArrayList&lt;&gt;()]
+ **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+[**Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 

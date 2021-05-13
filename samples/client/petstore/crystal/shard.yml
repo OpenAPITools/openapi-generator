@@ -1,0 +1,20 @@
+name: petstore
+version: 1.0.0
+authors:
+  - 
+description: |
+  - 
+crystal: ">= 0.35.1"
+dependencies:
+  crest:
+    github: mamantoha/crest
+    version: ~> 0.26.0
+
+development_dependencies:
+  kemal:
+    github: kemalcr/kemal
+    version: ~>0.27.0
+  ameba:
+    github: crystal-ameba/ameba
+
+license: 

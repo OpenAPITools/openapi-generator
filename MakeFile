@@ -1,0 +1,7 @@
+IMAGE_NAME := openapi-generator
+
+
+include ./mk-include/cc-begin.mk
+include ./mk-include/cc-semver.mk
+include ./mk-include/cc-docker.mk
+include ./mk-include/cc-end.mk

@@ -1,0 +1,35 @@
+openapi: "3.0.1"
+info:
+  title: test
+  version: "1.0"
+
+paths:
+
+  /api/v1/test/{id}:
+    get:
+      tags: [Test v1]
+      operationId: test1
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+
+  /api/v2/test:
+    get:
+      tags: [Test v2]
+      operationId: test2
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+

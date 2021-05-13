@@ -3,8 +3,8 @@ targets:
   PetstoreClient:
     type: framework
     platform: iOS
-    deploymentTarget: "10.0"
-    sources: [PetstoreClient]
+    deploymentTarget: "9.0"
+    sources: [Sources]
     info:
       path: ./Info.plist
       version: 1.0.0
@@ -12,3 +12,4 @@ targets:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
     
+    - carthage: AnyCodable

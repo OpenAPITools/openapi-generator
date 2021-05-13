@@ -1,0 +1,7 @@
+generatorName: csharp-nancyfx
+outputDir: samples/server/petstore/nancyfx-async
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-nancyfx
+additionalProperties:
+  asyncServer: "true"
+  packageGuid: '{768B8DC6-54EE-4D40-9B20-7857E1D742A4}'

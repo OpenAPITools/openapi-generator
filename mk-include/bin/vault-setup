@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# must be run directly after `checkout` on CI - in general, while in the
+# source directory of the checkout of the current project
+export PATH=$PATH:$PWD/ci-bin:$PWD/mk-include/bin
+: ${VAULT_AUTH_PATH:=app/devel}
+echo "Logging into Vault using '${VAULT_AUTH_PATH}' with VAULT_ROLE_ID=$VAULT_ROLE_ID"
+token="$(vault write -field=token "auth/${VAULT_AUTH_PATH}/login" \
+	role_id="${VAULT_ROLE_ID}" \
+	secret_id="${VAULT_SECRET_ID}"
+	)" || exit
+vault login -no-print token="${token}" && echo "Successfully Logged Into Vault"
+unset token

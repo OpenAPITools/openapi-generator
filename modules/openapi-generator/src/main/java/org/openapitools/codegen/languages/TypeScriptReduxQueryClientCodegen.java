@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
@@ -117,7 +116,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -249,7 +248,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
             if("object".equals(op.returnType)) {
-                op.isMapContainer = true;
+                op.isMap = true;
                 op.returnSimpleType = false;
             }
         }

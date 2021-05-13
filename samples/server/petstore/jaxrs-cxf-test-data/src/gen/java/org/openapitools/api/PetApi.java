@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -85,9 +86,9 @@ public interface PetApi  {
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by tags", tags={ "pet",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
-    public List<Pet> findPetsByTags(@QueryParam("tags") @NotNull  List<String> tags);
+    public Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull  Set<String> tags);
 
     /**
      * Find pet by ID

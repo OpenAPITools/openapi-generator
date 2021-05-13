@@ -14,7 +14,7 @@ class AsyncTest extends TestCase
     /** @var  int */
     private $petId;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api\PetApi();
 
@@ -58,15 +58,13 @@ class AsyncTest extends TestCase
 
         list($pet, $status, $headers) = $promise->wait();
         $this->assertEquals(200, $status);
-        $this->assertInternalType('array', $headers);
+        $this->assertIsArray($headers);
         $this->assertInstanceOf(Pet::class, $pet);
     }
 
-    /**
-     * @expectedException \OpenAPI\Client\ApiException
-     */
     public function testAsyncThrowingException()
     {
+        $this->expectException(\OpenAPI\Client\ApiException::class);
         $promise = $this->api->getPetByIdAsync(0);
         $promise->wait();
     }
@@ -80,11 +78,9 @@ class AsyncTest extends TestCase
         sleep(1);
     }
 
-    /**
-     * @expectedException \OpenAPI\Client\ApiException
-     */
     public function testAsyncHttpInfoThrowingException()
     {
+        $this->expectException(\OpenAPI\Client\ApiException::class);
         $promise = $this->api->getPetByIdAsyncWithHttpInfo(0);
         $promise->wait();
     }

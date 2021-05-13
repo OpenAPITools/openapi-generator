@@ -27,15 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     protected boolean withGoCodegenComment = false;
@@ -43,6 +43,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
     protected boolean structPrefix = false;
+    protected boolean generateInterfaces = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -51,10 +52,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public AbstractGoCodegen() {
         super();
-
         supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
-
+        setUseOneOfInterfaces(true);
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
                         "map",
@@ -94,7 +94,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "byte",
                         "map[string]interface{}",
                         "interface{}"
-                        )
+                )
         );
 
         instantiationTypes.clear();
@@ -107,7 +107,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("number", "float32");
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
-        typeMapping.put("BigDecimal", "float64");
+        typeMapping.put("decimal", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -119,6 +119,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
         // mapping a string to an instance".
@@ -129,7 +130,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // in golang as interface{}.
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
-        typeMapping.put("interface{}", "interface{}");
         typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
@@ -208,6 +208,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
             name = "Var" + name;
+
+        if ("AdditionalProperties".equals(name)) {
+            // AdditionalProperties is a reserved field (additionalProperties: true), use AdditionalPropertiesField instead
+            return "AdditionalPropertiesField";
+        }
 
         return name;
     }
@@ -305,21 +310,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
+        final String apiName;
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
+        String api = name.replaceAll("-", "_");
         // e.g. PetApi.go => pet_api.go
-        name = "api_" + underscore(name);
-        if (isReservedFilename(name)) {
-            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
-            name += "_";
+        api = "api_" + underscore(api);
+        if (isReservedFilename(api)) {
+            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + api + "_.go");
+            api += "_";
         }
-        return name;
+        apiName = api;
+        return apiName;
     }
 
     /**
      * Return the golang implementation type for the specified property.
-     * 
+     *
      * @param p the OAS property.
      * @return the golang implementation type.
      */
@@ -343,7 +349,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         }
         //return super.getTypeDeclaration(p);
@@ -377,7 +383,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     /**
      * Return the OpenAPI type for the property.
-     * 
+     *
      * @param p the OAS property.
      * @return the OpenAPI type.
      */
@@ -388,8 +394,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String type = null;
 
         if (ref != null && !ref.isEmpty()) {
-            type = openAPIType;
-        } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(p)) {
+            type = toModelName(openAPIType);
+        } else if ("object".equals(openAPIType) && isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
@@ -403,20 +409,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     /**
      * Determines the golang instantiation type of the specified schema.
-     *
+     * <p>
      * This function is called when the input schema is a map, and specifically
      * when the 'additionalProperties' attribute is present in the OAS specification.
      * Codegen invokes this function to resolve the "parent" association to
      * 'additionalProperties'.
-     *
+     * <p>
      * Note the 'parent' attribute in the codegen model is used in the following scenarios:
      * - Indicate a polymorphic association with some other type (e.g. class inheritance).
      * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
      * - Use of the 'additionalProperties' attribute in the OAS specification.
-     *   This is the specific scenario when codegen invokes this function.
+     * This is the specific scenario when codegen invokes this function.
      *
      * @param property the input schema
-     *
      * @return the golang instantiation type of the specified property.
      */
     @Override
@@ -455,9 +460,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
@@ -524,12 +526,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
                     // We need to specially map Time type to the optionals package
                     if ("time.Time".equals(param.dataType)) {
-                        param.vendorExtensions.put("x-optionalDataType", "Time"); // TODO: 5.0 Remove
                         param.vendorExtensions.put("x-optional-data-type", "Time");
                     } else {
                         // Map optional type to dataType
                         String optionalType = param.dataType.substring(0, 1).toUpperCase(Locale.ROOT) + param.dataType.substring(1);
-                        param.vendorExtensions.put("x-optionalDataType", optionalType); // TODO: 5.0 Remove
                         param.vendorExtensions.put("x-optional-data-type", optionalType);
                     }
                 }
@@ -538,13 +538,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 char nameFirstChar = param.paramName.charAt(0);
                 if (Character.isUpperCase(nameFirstChar)) {
                     // First char is already uppercase, just use paramName.
-                    param.vendorExtensions.put("x-exportParamName", param.paramName); // TODO: 5.0 Remove
                     param.vendorExtensions.put("x-export-param-name", param.paramName);
                 } else {
                     // It's a lowercase first char, let's convert it to uppercase
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-                    param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
                     param.vendorExtensions.put("x-export-param-name", sb.toString());
                 }
             }
@@ -578,21 +576,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     private void setExportParameterName(List<CodegenParameter> codegenParameters) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenParameter param : codegenParameters) {
             char nameFirstChar = param.paramName.charAt(0);
             if (Character.isUpperCase(nameFirstChar)) {
                 // First char is already uppercase, just use paramName.
-                param.vendorExtensions.put("x-exportParamName", param.paramName); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-export-param-name", param.paramName);
             } else {
                 // It's a lowercase first char, let's convert it to uppercase
                 StringBuilder sb = new StringBuilder(param.paramName);
                 sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-                param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-export-param-name", sb.toString());
             }
         }
@@ -603,7 +595,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
-        // For containers (e.g. Array, Map), the generated code returns the type directly. 
+        // For containers (e.g. Array, Map), the generated code returns the type directly.
         if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
@@ -638,6 +630,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }
+                }
+
+                if (this instanceof GoClientCodegen && model.isEnum) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                // if oneOf contains "null" type
+                if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.oneOf.remove("nil");
+                }
+
+                // if anyOf contains "null" type
+                if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.anyOf.remove("nil");
                 }
             }
         }
@@ -774,8 +782,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         this.structPrefix = structPrefix;
     }
 
+    public void setGenerateInterfaces(boolean generateInterfaces) {
+        this.generateInterfaces = generateInterfaces;
+    }
+
     @Override
     public String toDefaultValue(Schema schema) {
+        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {
@@ -794,7 +807,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return; // skip if GO_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
                         "supporting-mustache",
@@ -819,8 +832,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

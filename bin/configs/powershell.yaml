@@ -1,0 +1,16 @@
+generatorName: powershell
+outputDir: samples/client/petstore/powershell
+inputSpec: modules/openapi-generator/src/test/resources/3_0/powershell/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/powershell
+additionalProperties:
+  packageGuid: a27b908d-2a20-467f-bc32-af6f3a654ac5
+  commonVerbs: Delete=Remove:Patch=Update
+  packageVersion: 0.1.2
+  packageName: PSPetstore
+  powershellGalleryUrl: https://www.powershellgallery.com/packages/PSPetstore
+  apiNamePrefix: PS
+  powershellVersion: "5.0"
+  licenseUri: https://www.apache.org/licenses/LICENSE-2.0.txt
+  projectUri: https://github.com/OpenAPITools/openapi-generator
+  releaseNotes: 'This is a sample project'
+  tags: 'PetStore,powershell,sdk'

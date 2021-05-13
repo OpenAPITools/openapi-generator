@@ -31,7 +31,7 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FileSchemaTestClass   {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -50,7 +50,7 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
    **/
-  @JsonProperty("file")
+  @JsonProperty(value = "file")
   @ApiModelProperty(value = "")
   @Valid 
   public java.io.File getFile() {
@@ -78,7 +78,7 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
    **/
-  @JsonProperty("files")
+  @JsonProperty(value = "files")
   @ApiModelProperty(value = "")
   @Valid 
   public List<java.io.File> getFiles() {
@@ -91,7 +91,7 @@ public class FileSchemaTestClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -124,7 +124,7 @@ public class FileSchemaTestClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

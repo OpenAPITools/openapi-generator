@@ -30,9 +30,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.Exception;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -77,7 +76,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> nullableType = new HashSet<String>();
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
 
     public AbstractFSharpCodegen() {
         super();
@@ -535,7 +534,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.isArray = true;
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -548,7 +547,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.isMap = this.mapTypes.contains(typeMapping);
                         }
                     }
 
@@ -881,7 +880,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -1124,8 +1123,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

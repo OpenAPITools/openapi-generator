@@ -44,9 +44,9 @@ trait PetApi extends Service {
     * Add a new pet to the store
     * 
     *  
-    * @return void Body Parameter  Pet object that needs to be added to the store 
+    * @return Pet Body Parameter  Pet object that needs to be added to the store 
     */
-  def addPet(): ServiceCall[Pet ,Done]
+  def addPet(): ServiceCall[Pet ,Pet]
   
 
   // apiKey:String  -- not yet supported heder params
@@ -95,9 +95,9 @@ trait PetApi extends Service {
     * Update an existing pet
     * 
     *  
-    * @return void Body Parameter  Pet object that needs to be added to the store 
+    * @return Pet Body Parameter  Pet object that needs to be added to the store 
     */
-  def updatePet(): ServiceCall[Pet ,Done]
+  def updatePet(): ServiceCall[Pet ,Pet]
   
 
   // name:String  -- not yet supported x-www-form-urlencoded

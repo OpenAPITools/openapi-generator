@@ -1,0 +1,19 @@
+name: petstore_client_lib_fake_tests
+version: 1.0.0
+description: OpenAPI API Dart DIO client tests for petstore_client_lib_fake
+
+environment:
+  sdk: ">=2.10.0 <3.0.0"
+
+dev_dependencies:
+  built_collection: ">=4.3.2 <5.0.0"
+  built_value: ">=7.1.0 <8.0.0"
+  dio: 3.0.10
+  http_mock_adapter: 0.1.6
+  openapi:
+    path: ../petstore_client_lib_fake
+  test: 1.15.5
+
+dependency_overrides:
+  # This is required to prevent nullsafe versions from being pulled in
+  mockito: 4.1.1

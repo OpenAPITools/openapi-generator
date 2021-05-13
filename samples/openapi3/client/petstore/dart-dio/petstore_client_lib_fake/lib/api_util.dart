@@ -1,0 +1,31 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
+import 'dart:convert';
+
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/serializer.dart';
+
+/// Format the given form parameter object into something that Dio can handle.
+/// Returns primitive or String.
+/// Returns List/Map if the value is BuildList/BuiltMap.
+dynamic encodeFormParameter(Serializers serializers, dynamic value, FullType type) {
+  if (value == null) {
+    return '';
+  }
+  if (value is String || value is num || value is bool) {
+    return value;
+  }
+  final serialized = serializers.serialize(value, specifiedType: type);
+  if (serialized is String) {
+    return serialized;
+  }
+  if (value is BuiltList || value is BuiltMap) {
+    return serialized;
+  }
+  return json.encode(serialized);
+}

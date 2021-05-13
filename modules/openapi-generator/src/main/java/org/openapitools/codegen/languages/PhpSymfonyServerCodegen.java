@@ -29,12 +29,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
     public static final String BUNDLE_ALIAS = "bundleAlias";
@@ -257,7 +256,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        if (templateName.equals("api_controller.mustache"))
+        if ("api_controller.mustache".equals(templateName))
             return controllerFileFolder() + File.separator + toControllerName(tag) + suffix;
 
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
@@ -300,6 +299,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
         additionalProperties.put("controllerPackage", controllerPackage);
         additionalProperties.put("servicePackage", servicePackage);
+        additionalProperties.put("testsPackage", testsPackage);
         additionalProperties.put("apiTestsPackage", apiTestsPackage);
         additionalProperties.put("modelTestsPackage", modelTestsPackage);
         additionalProperties.put("controllerTestsPackage", controllerTestsPackage);
@@ -349,7 +349,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // Testing components
         supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("testing/pom.xml", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("testing/AppKernel.php", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
+        supportingFiles.add(new SupportingFile("testing/AppKernel.mustache", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
         supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
         supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
 
@@ -360,7 +360,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
+        supportingFiles.add(new SupportingFile(".php_cs.dist", "", ".php_cs.dist"));
+        supportingFiles.add(new SupportingFile(".coveralls.yml", "", ".coveralls.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Type-hintable primitive types
@@ -388,9 +389,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
         operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
@@ -406,42 +404,27 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 // to the templating engine
                 String typeHint = getTypeHint(param.dataType);
                 if (!typeHint.isEmpty()) {
-                    param.vendorExtensions.put("x-parameterType", typeHint); // TODO: 5.0 Remove
                     param.vendorExtensions.put("x-parameter-type", typeHint);
                 }
 
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-parameterType", getTypeHint(param.dataType + "[]")); // TODO: 5.0 Remove
                     param.vendorExtensions.put("x-parameter-type", getTypeHint(param.dataType + "[]"));
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
-                param.vendorExtensions.put("x-commentType", param.dataType); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-comment-type", param.dataType);
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-commentType", param.dataType + "[]"); // TODO: 5.0 Remove
                     param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
-                }
-
-                // Quote default values for strings
-                // @todo: The default values for headers, forms and query params are handled
-                //        in DefaultCodegen fromParameter with no real possibility to override
-                //        the functionality. Thus we are handling quoting of string values here
-                if (param.dataType.equals("string") && param.defaultValue != null && !param.defaultValue.isEmpty()) {
-                    param.defaultValue = "'" + param.defaultValue + "'";
                 }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
-                op.vendorExtensions.put("x-commentType", op.returnType); // TODO: 5.0 Remove
                 op.vendorExtensions.put("x-comment-type", op.returnType);
-                if (op.returnContainer != null && op.returnContainer.equals("array")) {
-                    op.vendorExtensions.put("x-commentType", op.returnType + "[]"); // TODO: 5.0 Remove
+                if ("array".equals(op.returnContainer)) {
                     op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
                 }
             } else {
-                op.vendorExtensions.put("x-commentType", "void"); // TODO: 5.0 Remove
                 op.vendorExtensions.put("x-comment-type", "void");
             }
 
@@ -464,9 +447,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         ArrayList<Object> modelsArray = (ArrayList<Object>) objs.get("models");
         Map<String, Object> models = (Map<String, Object>) modelsArray.get(0);
         CodegenModel model = (CodegenModel) models.get("model");
@@ -478,20 +458,16 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 // to the templating engine
                 String typeHint = getTypeHint(var.dataType);
                 if (!typeHint.isEmpty()) {
-                    var.vendorExtensions.put("x-parameterType", typeHint); // TODO: 5.0 Remove
                     var.vendorExtensions.put("x-parameter-type", typeHint);
                 }
 
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-parameterType", getTypeHint(var.dataType + "[]")); // TODO: 5.0 Remove
                     var.vendorExtensions.put("x-parameter-type", getTypeHint(var.dataType + "[]"));
                 }
 
                 // Create a variable to display the correct data type in comments for models
-                var.vendorExtensions.put("x-commentType", var.dataType); // TODO: 5.0 Remove
                 var.vendorExtensions.put("x-comment-type", var.dataType);
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-commentType", var.dataType + "[]"); // TODO: 5.0 Remove
                     var.vendorExtensions.put("x-comment-type", var.dataType + "[]");
                 }
             }
@@ -558,7 +534,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }
 

@@ -56,8 +56,8 @@ public class {{classname}}Test {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void {{operationId}}Test(TestContext context) {
-        Async async = context.async();
+    public void {{operationId}}Test(TestContext testContext) {
+        Async async = testContext.async();
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}

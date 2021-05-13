@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param bar 
@@ -25,12 +26,10 @@ data class HasOnlyReadOnly (
     val bar: kotlin.String? = null,
     @Json(name = "foo")
     val foo: kotlin.String? = null
-) 
-: Serializable 
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
-{
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
 }
 

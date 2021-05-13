@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  *
@@ -48,7 +46,7 @@ public class OneOfImplementorAdditionalData {
     private List<String> additionalInterfaces = new ArrayList<String>();
     private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
     private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
 
     public OneOfImplementorAdditionalData(String implementorName) {
         this.implementorName = implementorName;
@@ -75,9 +73,11 @@ public class OneOfImplementorAdditionalData {
         // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
         // as they might have different value of `hasMore` and thus are not equal
         List<String> omitAdding = new ArrayList<String>();
-        for (CodegenModel m : cm.interfaceModels) {
-            for (CodegenProperty v : m.vars) {
-                omitAdding.add(v.baseName);
+        if (cm.interfaceModels != null) {
+            for (CodegenModel m : cm.interfaceModels) {
+                for (CodegenProperty v : m.vars) {
+                    omitAdding.add(v.baseName);
+                }
             }
         }
         for (CodegenProperty v : toAdd) {
@@ -101,18 +101,13 @@ public class OneOfImplementorAdditionalData {
      * @param implImports imports of the implementing model
      * @param addInterfaceImports whether or not to add the interface model as import (will vary by language)
      */
+    @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-
-        implcm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>()); // TODO: 5.0 Remove
-        implcm.getVendorExtensions().putIfAbsent("x-implements", implcm.getVendorExtensions().get("implements"));
+        implcm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
 
         // Add implemented interfaces
         for (String intf : additionalInterfaces) {
-            List<String> impl = (List<String>) implcm.getVendorExtensions().get("implements");
+            List<String> impl = (List<String>) implcm.getVendorExtensions().get("x-implements");
             impl.add(intf);
             if (addInterfaceImports) {
                 // Add imports for interfaces
@@ -124,16 +119,8 @@ public class OneOfImplementorAdditionalData {
         }
 
         // Add oneOf-containing models properties - we need to properly set the hasMore values to make rendering correct
-        if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
-            implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
-        }
         for (int i = 0; i < additionalProps.size(); i++) {
             CodegenProperty var = additionalProps.get(i);
-            if (i == additionalProps.size() - 1) {
-                var.hasMore = false;
-            } else {
-                var.hasMore = true;
-            }
             implcm.vars.add(var);
         }
 

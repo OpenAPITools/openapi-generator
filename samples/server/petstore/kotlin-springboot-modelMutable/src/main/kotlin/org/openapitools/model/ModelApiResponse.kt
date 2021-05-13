@@ -9,6 +9,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -20,13 +21,13 @@ import io.swagger.annotations.ApiModelProperty
 data class ModelApiResponse(
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("code") var code: kotlin.Int? = null,
+    @field:JsonProperty("code") var code: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("type") var type: kotlin.String? = null,
+    @field:JsonProperty("type") var type: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("message") var message: kotlin.String? = null
+    @field:JsonProperty("message") var message: kotlin.String? = null
 ) {
 
 }

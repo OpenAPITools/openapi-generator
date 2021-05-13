@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,8 +44,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@javax.annotation.concurrent.Immutable
-
+@JsonTypeName("AdditionalPropertiesClass")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   private Map<String, String> mapString = null;
@@ -108,6 +109,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -141,6 +144,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -174,6 +179,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -207,6 +214,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -240,6 +249,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -273,6 +284,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -306,6 +319,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -339,6 +354,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
@@ -364,6 +381,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
@@ -389,6 +408,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
@@ -414,13 +435,15 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -446,7 +469,6 @@ public class AdditionalPropertiesClass {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -470,7 +492,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

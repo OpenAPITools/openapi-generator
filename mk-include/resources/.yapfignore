@@ -1,0 +1,9 @@
+README.md
+__pycache__
+node_modules
+*.js
+*.yaml
+*.json
+*.txt
+Pipfile
+Pipfile.lock

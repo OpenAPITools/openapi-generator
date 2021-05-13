@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-
+@JsonTypeName("EnumArrays")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "EnumArrays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumArrays")
@@ -42,9 +44,13 @@ public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
+  @XmlType(name="JustSymbolEnum")
+  @XmlEnum(String.class)
   public enum JustSymbolEnum {
+    @XmlEnumValue(">=")
     GREATER_THAN_OR_EQUAL_TO(">="),
     
+    @XmlEnumValue("$")
     DOLLAR("$");
 
     private String value;
@@ -81,9 +87,13 @@ public class EnumArrays {
   /**
    * Gets or Sets arrayEnum
    */
+  @XmlType(name="ArrayEnumEnum")
+  @XmlEnum(String.class)
   public enum ArrayEnumEnum {
+    @XmlEnumValue("fish")
     FISH("fish"),
     
+    @XmlEnumValue("crab")
     CRAB("crab");
 
     private String value;
@@ -142,6 +152,9 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "just_symbol")
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
@@ -175,13 +188,15 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -198,7 +213,6 @@ public class EnumArrays {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -213,7 +227,7 @@ public class EnumArrays {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

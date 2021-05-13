@@ -14,20 +14,19 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
- * @param `123minusList` 
+ * @param `123list` 
  */
 
 data class List (
     @Json(name = "123-list")
-    val `123minusList`: kotlin.String? = null
-) 
-: Serializable 
+    val `123list`: kotlin.String? = null
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
-{
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
 }
 

@@ -27,10 +27,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum EnumClass {
   
+  @XmlEnumValue("_abc")
   _ABC("_abc"),
   
+  @XmlEnumValue("-efg")
   _EFG("-efg"),
   
+  @XmlEnumValue("(xyz)")
   _XYZ_("(xyz)");
 
   private String value;

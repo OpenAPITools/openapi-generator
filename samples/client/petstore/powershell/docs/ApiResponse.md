@@ -3,22 +3,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **Int32** |  | [optional] [default to null]
-**Type** | **String** |  | [optional] [default to null]
-**Message** | **String** |  | [optional] [default to null]
+**Code** | **Int32** |  | [optional] 
+**Type** | **String** |  | [optional] 
+**Message** | **String** |  | [optional] 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstoreApiResponse  -Code null `
+$ApiResponse = Initialize-PSPetstoreApiResponse  -Code null `
  -Type null `
  -Message null
 ```
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$ApiResponse | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

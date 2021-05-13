@@ -12,12 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 /**
  * Model for testing reserved words
  **/
 @ApiModel(description = "Model for testing reserved words")
-public class ModelReturn  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelReturn  implements Serializable {
   
   private @Valid Integer _return;
 
@@ -29,18 +28,20 @@ public class ModelReturn  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }
+
   public void setReturn(Integer _return) {
     this._return = _return;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -70,11 +71,13 @@ public class ModelReturn  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

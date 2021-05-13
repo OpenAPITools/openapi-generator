@@ -1,0 +1,36 @@
+SERVICE_NAME := test-service
+IMAGE_NAME := cc-$(SERVICE_NAME)
+CHART_NAME := cc_test_service
+
+BUILD_DOCKER_OVERRIDE := mvn-docker-package
+HELM_PACKAGE_DIR := target/charts/package
+RELEASE_NAME := $(CHART_NAME)
+DEPLOYER_DOWNSTREAM_DEPS := obs-helm
+CI_TEST := true
+
+include ./mk-include/cc-begin.mk
+include ./mk-include/cc-vault.mk
+include ./mk-include/cc-semver.mk
+include ./mk-include/cc-maven.mk
+include ./mk-include/cc-docker.mk
+include ./mk-include/cc-cpd.mk
+include ./mk-include/cc-semaphore.mk
+include ./mk-include/cc-helm.mk
+include ./mk-include/cc-deployer.mk
+include ./mk-include/cc-testbreak.mk
+include ./mk-include/cc-end.mk
+
+.PHONY: restore-docker-noop
+restore-docker-noop: ;
+
+.PHONY: build-mvn-docker
+build-mvn-docker:
+	mvn -U package -DskipTests -Pdocker -Ddocker.tag=$(IMAGE_VERSION) -Ddocker.registry=$(DOCKER_REPO)/ -Ddocker.upstream-tag=$(BASE_VERSION)
+	docker tag $(DOCKER_REPO)/confluentinc/$(IMAGE_NAME):$(IMAGE_VERSION) confluentinc/$(IMAGE_NAME):$(IMAGE_VERSION)
+
+.PHONY: maven-docker-build-test
+maven-docker-build-test:
+	python3 -m venv maven-docker-build-test
+	source maven-docker-build-test/bin/activate && \
+	pip3 install pytest=="$(PYTEST_VERSION)" && \
+	pytest test.py -s

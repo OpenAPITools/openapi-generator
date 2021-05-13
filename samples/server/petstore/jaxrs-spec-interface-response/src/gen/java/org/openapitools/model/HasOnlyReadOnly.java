@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class HasOnlyReadOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class HasOnlyReadOnly  implements Serializable {
   
   private @Valid String bar;
   private @Valid String foo;
@@ -27,16 +27,17 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
+
   public void setBar(String bar) {
     this.bar = bar;
-  }
-
-  /**
+  }/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -44,18 +45,20 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }
+
   public void setFoo(String foo) {
     this.foo = foo;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -87,11 +90,13 @@ public class HasOnlyReadOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

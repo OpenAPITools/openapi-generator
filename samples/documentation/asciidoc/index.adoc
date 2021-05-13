@@ -54,13 +54,13 @@ Add a new pet to the store
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| Pet 
 | Pet object that needs to be added to the store <<Pet>> 
 | X 
 |  
@@ -74,10 +74,13 @@ Add a new pet to the store
 
 ===== Return Type
 
+<<Pet>>
 
 
--
+===== Content Type
 
+* application/xml
+* application/json
 
 ===== Responses
 
@@ -85,6 +88,11 @@ Add a new pet to the store
 [cols="2,3,1"]
 |===         
 | Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
 
 
 | 405
@@ -496,13 +504,13 @@ Update an existing pet
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| Pet 
 | Pet object that needs to be added to the store <<Pet>> 
 | X 
 |  
@@ -516,10 +524,13 @@ Update an existing pet
 
 ===== Return Type
 
+<<Pet>>
 
 
--
+===== Content Type
 
+* application/xml
+* application/json
 
 ===== Responses
 
@@ -527,6 +538,11 @@ Update an existing pet
 [cols="2,3,1"]
 |===         
 | Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
 
 
 | 400
@@ -600,7 +616,7 @@ Updates a pet in the store with form data
 |===         
 
 
-===== Form Parameter
+====== Form Parameters
 
 [cols="2,3,1,1,1"]
 |===         
@@ -699,7 +715,7 @@ uploads an image
 |===         
 
 
-===== Form Parameter
+====== Form Parameters
 
 [cols="2,3,1,1,1"]
 |===         
@@ -1038,13 +1054,13 @@ Place an order for a pet
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| Order 
 | order placed for purchasing the pet <<Order>> 
 | X 
 |  
@@ -1130,13 +1146,13 @@ This can only be done by the logged in user.
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| User 
 | Created user object <<User>> 
 | X 
 |  
@@ -1210,13 +1226,13 @@ Creates list of users with given input array
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| User 
 | List of user object <<User>> 
 | X 
 |  
@@ -1290,13 +1306,13 @@ Creates list of users with given input array
 ===== Parameters
 
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| User 
 | List of user object <<User>> 
 | X 
 |  
@@ -1561,7 +1577,7 @@ Logs user into the system
 | The user name for login  
 | X 
 | null 
-|  
+| /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/ 
 
 | password 
 | The password for login in clear text  
@@ -1723,13 +1739,13 @@ This can only be done by the logged in user.
 
 |===         
 
-===== Body Parameter
+====== Body Parameter
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| body 
+| User 
 | Updated user object <<User>> 
 | X 
 |  
@@ -1845,6 +1861,56 @@ A category for a pet
 | String  
 | 
 |  
+
+|===
+
+
+[#InlineObject]
+=== _InlineObject_ 
+
+
+
+[.fields-InlineObject]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| Updated name of the pet
+|  
+
+| status 
+|  
+| String  
+| Updated status of the pet
+|  
+
+|===
+
+
+[#InlineObject1]
+=== _InlineObject1_ 
+
+
+
+[.fields-InlineObject1]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| additionalMetadata 
+|  
+| String  
+| Additional data to pass to server
+|  
+
+| file 
+|  
+| File  
+| file to upload
+| binary 
 
 |===
 

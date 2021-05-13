@@ -4,7 +4,7 @@
 
 defmodule OpenapiPetstore.Model.ClassModel do
   @moduledoc """
-  Model for testing model with \&quot;_class\&quot; property
+  Model for testing model with \"_class\" property
   """
 
   @derive [Poison.Encoder]

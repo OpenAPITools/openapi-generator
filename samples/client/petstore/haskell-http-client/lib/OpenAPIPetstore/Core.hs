@@ -61,6 +61,7 @@ import qualified Text.Printf as T
 
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
+import Control.Monad.Fail (MonadFail)
 import Data.Function ((&))
 import Data.Foldable(foldlM)
 import Data.Monoid ((<>))
@@ -236,10 +237,19 @@ _mkRequest m u = OpenAPIPetstoreRequest m u _mkParams []
 _mkParams :: Params
 _mkParams = Params [] [] ParamBodyNone
 
-setHeader :: OpenAPIPetstoreRequest req contentType res accept -> [NH.Header] -> OpenAPIPetstoreRequest req contentType res accept
+setHeader ::
+     OpenAPIPetstoreRequest req contentType res accept
+  -> [NH.Header]
+  -> OpenAPIPetstoreRequest req contentType res accept
 setHeader req header =
-  req `removeHeader` P.fmap P.fst header &
-  L.over (rParamsL . paramsHeadersL) (header P.++)
+  req `removeHeader` P.fmap P.fst header
+  & (`addHeader` header)
+
+addHeader ::
+     OpenAPIPetstoreRequest req contentType res accept
+  -> [NH.Header]
+  -> OpenAPIPetstoreRequest req contentType res accept
+addHeader req header = L.over (rParamsL . paramsHeadersL) (header P.++) req
 
 removeHeader :: OpenAPIPetstoreRequest req contentType res accept -> [NH.HeaderName] -> OpenAPIPetstoreRequest req contentType res accept
 removeHeader req header =
@@ -263,14 +273,24 @@ _setAcceptHeader req =
         Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["accept"]
 
-setQuery :: OpenAPIPetstoreRequest req contentType res accept -> [NH.QueryItem] -> OpenAPIPetstoreRequest req contentType res accept
-setQuery req query = 
+setQuery ::
+     OpenAPIPetstoreRequest req contentType res accept
+  -> [NH.QueryItem]
+  -> OpenAPIPetstoreRequest req contentType res accept
+setQuery req query =
   req &
   L.over
     (rParamsL . paramsQueryL)
-    ((query P.++) . P.filter (\q -> cifst q `P.notElem` P.fmap cifst query))
+    (P.filter (\q -> cifst q `P.notElem` P.fmap cifst query)) &
+  (`addQuery` query)
   where
     cifst = CI.mk . P.fst
+
+addQuery ::
+     OpenAPIPetstoreRequest req contentType res accept
+  -> [NH.QueryItem]
+  -> OpenAPIPetstoreRequest req contentType res accept
+addQuery req query = req & L.over (rParamsL . paramsQueryL) (query P.++)
 
 addForm :: OpenAPIPetstoreRequest req contentType res accept -> WH.Form -> OpenAPIPetstoreRequest req contentType res accept
 addForm req newform = 
@@ -420,13 +440,13 @@ _memptyToNothing x = x
 -- * DateTime Formatting
 
 newtype DateTime = DateTime { unDateTime :: TI.UTCTime }
-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.ParseTime,TI.FormatTime)
+  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)
 instance A.FromJSON DateTime where
   parseJSON = A.withText "DateTime" (_readDateTime . T.unpack)
 instance A.ToJSON DateTime where
   toJSON (DateTime t) = A.toJSON (_showDateTime t)
 instance WH.FromHttpApiData DateTime where
-  parseUrlPiece = P.left T.pack . _readDateTime . T.unpack
+  parseUrlPiece = P.maybe (P.Left "parseUrlPiece @DateTime") P.Right . _readDateTime . T.unpack
 instance WH.ToHttpApiData DateTime where
   toUrlPiece (DateTime t) = T.pack (_showDateTime t)
 instance P.Show DateTime where
@@ -435,9 +455,9 @@ instance MimeRender MimeMultipartFormData DateTime where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | @_parseISO8601@
-_readDateTime :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
-_readDateTime =
-  _parseISO8601
+_readDateTime :: (MonadFail m, Alternative m) => String -> m DateTime
+_readDateTime s =
+  DateTime <$> _parseISO8601 s
 {-# INLINE _readDateTime #-}
 
 -- | @TI.formatISO8601Millis@
@@ -447,7 +467,7 @@ _showDateTime =
 {-# INLINE _showDateTime #-}
 
 -- | parse an ISO8601 date-time string
-_parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
+_parseISO8601 :: (TI.ParseTime t, MonadFail m, Alternative m) => String -> m t
 _parseISO8601 t =
   P.asum $
   P.flip (TI.parseTimeM True TI.defaultTimeLocale) t <$>
@@ -457,13 +477,13 @@ _parseISO8601 t =
 -- * Date Formatting
 
 newtype Date = Date { unDate :: TI.Day }
-  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.ParseTime,TI.FormatTime)
+  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData)
 instance A.FromJSON Date where
   parseJSON = A.withText "Date" (_readDate . T.unpack)
 instance A.ToJSON Date where
   toJSON (Date t) = A.toJSON (_showDate t)
 instance WH.FromHttpApiData Date where
-  parseUrlPiece = P.left T.pack . _readDate . T.unpack
+  parseUrlPiece = P.maybe (P.Left "parseUrlPiece @Date") P.Right . _readDate . T.unpack
 instance WH.ToHttpApiData Date where
   toUrlPiece (Date t) = T.pack (_showDate t)
 instance P.Show Date where
@@ -472,9 +492,8 @@ instance MimeRender MimeMultipartFormData Date where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | @TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"@
-_readDate :: (TI.ParseTime t, Monad m) => String -> m t
-_readDate =
-  TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
+_readDate :: MonadFail m => String -> m Date
+_readDate s = Date <$> TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d" s
 {-# INLINE _readDate #-}
 
 -- | @TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"@
@@ -495,7 +514,7 @@ instance A.FromJSON ByteArray where
 instance A.ToJSON ByteArray where
   toJSON = A.toJSON . _showByteArray
 instance WH.FromHttpApiData ByteArray where
-  parseUrlPiece = P.left T.pack . _readByteArray
+  parseUrlPiece = P.maybe (P.Left "parseUrlPiece @ByteArray") P.Right . _readByteArray
 instance WH.ToHttpApiData ByteArray where
   toUrlPiece = _showByteArray
 instance P.Show ByteArray where
@@ -504,7 +523,7 @@ instance MimeRender MimeMultipartFormData ByteArray where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | read base64 encoded characters
-_readByteArray :: Monad m => Text -> m ByteArray
+_readByteArray :: MonadFail m => Text -> m ByteArray
 _readByteArray = P.either P.fail (pure . ByteArray) . BL64.decode . BL.fromStrict . T.encodeUtf8
 {-# INLINE _readByteArray #-}
 
@@ -522,7 +541,7 @@ instance A.FromJSON Binary where
 instance A.ToJSON Binary where
   toJSON = A.toJSON . _showBinaryBase64
 instance WH.FromHttpApiData Binary where
-  parseUrlPiece = P.left T.pack . _readBinaryBase64
+  parseUrlPiece = P.maybe (P.Left "parseUrlPiece @Binary") P.Right . _readBinaryBase64
 instance WH.ToHttpApiData Binary where
   toUrlPiece = _showBinaryBase64
 instance P.Show Binary where
@@ -530,7 +549,7 @@ instance P.Show Binary where
 instance MimeRender MimeMultipartFormData Binary where
   mimeRender _ = unBinary
 
-_readBinaryBase64 :: Monad m => Text -> m Binary
+_readBinaryBase64 :: MonadFail m => Text -> m Binary
 _readBinaryBase64 = P.either P.fail (pure . Binary) . BL64.decode . BL.fromStrict . T.encodeUtf8
 {-# INLINE _readBinaryBase64 #-}
 

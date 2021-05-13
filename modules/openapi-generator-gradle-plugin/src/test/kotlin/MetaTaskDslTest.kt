@@ -29,7 +29,7 @@ class MetaTaskDslTest : TestBase() {
         // Act
         val result = GradleRunner.create()
                 .withProjectDir(temp)
-                .withArguments("openApiMeta")
+                .withArguments("openApiMeta", "--stacktrace")
                 .withPluginClasspath()
                 .build()
 

@@ -123,9 +123,9 @@ public interface CodegenConfig {
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
     List<CodegenServer> fromServers(List<Server> servers);
-  
+
     List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables);
-    
+
     Set<String> defaultIncludes();
 
     Map<String, String> typeMapping();
@@ -174,11 +174,15 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
+    Map<String,String> toModelImportMap(String name);
+
     String toApiImport(String name);
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
     Map<String, Object> updateAllModels(Map<String, Object> objs);
+
+    void postProcess();
 
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
@@ -191,6 +195,8 @@ public interface CodegenConfig {
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
+
+    String modelFilename(String templateName, String modelName);
 
     String apiFilename(String templateName, String tag);
 
@@ -207,6 +213,10 @@ public interface CodegenConfig {
     boolean isRemoveOperationIdPrefix();
 
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
+
+    boolean isSkipOperationExample();
+
+    void setSkipOperationExample(boolean skipOperationExample);
 
     public boolean isHideGenerationTimestamp();
 
@@ -246,8 +256,6 @@ public interface CodegenConfig {
     void setDocExtension(String docExtension);
 
     String getDocExtension();
-
-    String getCommonTemplateDir();
 
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 
@@ -290,4 +298,6 @@ public interface CodegenConfig {
     boolean isRemoveEnumValuePrefix();
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
+
+    Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 }

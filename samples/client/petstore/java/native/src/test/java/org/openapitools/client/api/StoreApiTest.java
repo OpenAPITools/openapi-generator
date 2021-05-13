@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * API tests for StoreApi
  */
@@ -43,8 +44,9 @@ public class StoreApiTest {
     @Test
     public void deleteOrderTest() throws ApiException {
         String orderId = null;
+        
         api.deleteOrder(orderId);
-
+        
         // TODO: test validations
     }
     
@@ -58,8 +60,9 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws ApiException {
-        Map<String, Integer> response = api.getInventory();
-
+        Map<String, Integer> response = 
+        api.getInventory();
+        
         // TODO: test validations
     }
     
@@ -74,8 +77,9 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() throws ApiException {
         Long orderId = null;
-        Order response = api.getOrderById(orderId);
-
+        Order response = 
+        api.getOrderById(orderId);
+        
         // TODO: test validations
     }
     
@@ -90,8 +94,9 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest() throws ApiException {
         Order body = null;
-        Order response = api.placeOrder(body);
-
+        Order response = 
+        api.placeOrder(body);
+        
         // TODO: test validations
     }
     

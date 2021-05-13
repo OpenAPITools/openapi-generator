@@ -3,17 +3,19 @@
 mod server;
 
 #[allow(unused_imports)]
-use futures::{Future, future, Stream, stream};
+use futures::{future, Stream, stream};
 #[allow(unused_imports)]
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
-                      ApiError,
+                      AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
                       EnumInPathPathParamGetResponse,
+                      JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      OneOfGetResponse,
                       OverrideServerGetResponse,
                       ParamgetGetResponse,
                       ReadonlyAuthSchemeGetResponse,
@@ -29,7 +31,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       XmlPostResponse,
                       XmlPutResponse,
                       CreateRepoResponse,
-                      GetRepoInfoResponse
+                      GetRepoInfoResponse,
                      };
 use clap::{App, Arg};
 
@@ -38,7 +40,9 @@ use log::info;
 
 // swagger::Has may be unused if there are no examples
 #[allow(unused_imports)]
-use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
+use swagger::{AuthData, ContextBuilder, EmptyContext, Has, Push, XSpanIdString};
+
+type ClientContext = swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString);
 
 // rt may be unused if there are no examples
 #[allow(unused_mut)]
@@ -49,12 +53,15 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+                "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
                 "MultigetGet",
                 "MultipleAuthSchemeGet",
+                "OneOfGet",
                 "OverrideServerGet",
                 "ParamgetGet",
                 "ReadonlyAuthSchemeGet",
@@ -95,21 +102,21 @@ fn main() {
                            matches.value_of("host").unwrap(),
                            matches.value_of("port").unwrap());
 
-    let client = if matches.is_present("https") {
-        // Using Simple HTTPS
-        Client::try_new_https(&base_url)
-            .expect("Failed to create HTTPS client")
-    } else {
-        // Using HTTP
-        Client::try_new_http(
-            &base_url)
-            .expect("Failed to create HTTP client")
-    };
-
-    let context: swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
+    let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
 
-    let client = client.with_context(context);
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
+        // Using Simple HTTPS
+        let client = Box::new(Client::try_new_https(&base_url)
+            .expect("Failed to create HTTPS client"));
+        Box::new(client.with_context(context))
+    } else {
+        // Using HTTP
+        let client = Box::new(Client::try_new_http(
+            &base_url)
+            .expect("Failed to create HTTP client"));
+        Box::new(client.with_context(context))
+    };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
@@ -117,6 +124,12 @@ fn main() {
     rt.spawn(server::create("127.0.0.1:8081", false));
 
     match matches.value_of("operation") {
+        Some("AnyOfGet") => {
+            let result = rt.block_on(client.any_of_get(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("CallbackWithHeaderPost") => {
             let result = rt.block_on(client.callback_with_header_post(
                   "url_example".to_string()
@@ -137,6 +150,12 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("JsonComplexQueryParamGet") => {
+            let result = rt.block_on(client.json_complex_query_param_get(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("MandatoryRequestHeaderGet") => {
             let result = rt.block_on(client.mandatory_request_header_get(
                   "x_header_example".to_string()
@@ -155,6 +174,11 @@ fn main() {
         },
         Some("MultipleAuthSchemeGet") => {
             let result = rt.block_on(client.multiple_auth_scheme_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("OneOfGet") => {
+            let result = rt.block_on(client.one_of_get(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

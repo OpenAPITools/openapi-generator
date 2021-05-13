@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -35,8 +36,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 
-
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -44,7 +44,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public FakeClassnameTags123Api() {
     this(new ApiClient());
   }
@@ -58,6 +58,14 @@ public class FakeClassnameTags123Api {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * To test class name in snake case
    * To test class name in snake case
@@ -65,10 +73,48 @@ public class FakeClassnameTags123Api {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname (Client body) throws ApiException {
+  public Client testClassname(Client body) throws ApiException {
+    ApiResponse<Client> localVarResponse = testClassnameWithHttpInfo(body);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param body client model (required)
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(body);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw createApiException(localVarResponse, "testClassname call received non-success response");
+      }
+      return new ApiResponse<Client>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+        );
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testClassnameRequestBuilder(Client body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -83,31 +129,15 @@ public class FakeClassnameTags123Api {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "testClassname call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-      }
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
     } catch (IOException e) {
       throw new ApiException(e);
     }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 }

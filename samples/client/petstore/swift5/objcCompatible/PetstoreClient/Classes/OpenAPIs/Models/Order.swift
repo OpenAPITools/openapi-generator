@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class Order: NSObject, Codable {
 
@@ -42,7 +43,7 @@ import Foundation
         }
     }
 
-    public init(_id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
+    public init(_id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = false) {
         self._id = _id
         self.petId = petId
         self.quantity = quantity
@@ -50,7 +51,6 @@ import Foundation
         self.status = status
         self.complete = complete
     }
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case petId
@@ -59,5 +59,19 @@ import Foundation
         case status
         case complete
     }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_id, forKey: ._id)
+        try container.encodeIfPresent(petId, forKey: .petId)
+        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encodeIfPresent(shipDate, forKey: .shipDate)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(complete, forKey: .complete)
+    }
+
+
 
 }

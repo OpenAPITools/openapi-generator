@@ -20,7 +20,7 @@
 {{/isEnum}}
 {{^isEnum}}
 {{#isContainer}}
-{{#isListContainer}}
+{{#isArray}}
 {{#items}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} list( {{dataType}} )
@@ -29,15 +29,15 @@
 #' \item \emph{ @param } {{paramName}} list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
 {{/items}}
-{{/isListContainer}}
-{{#isMapContainer}}
+{{/isArray}}
+{{#isMap}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} named list( {{dataType}} )
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} named list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
-{{/isMapContainer}}
+{{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
 {{#isPrimitiveType}}
@@ -51,7 +51,7 @@
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } {{#returnContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/returnContainer}} \cr
+#' \item \emph{ @returnType } {{#returnContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/returnContainer}} \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
@@ -141,7 +141,7 @@
 {{/operation}}
 #' }
 #' @importFrom R6 R6Class
-#' @importFrom caTools base64encode
+#' @importFrom base64enc base64encode
 {{#useRlangExceptionHandling}}
 #' @importFrom rlang abort
 {{/useRlangExceptionHandling}}
@@ -201,10 +201,10 @@
       body <- list(
         {{#formParams}}
         {{^isFile}}
-        "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
         {{/isFile}}
         {{#isFile}}
-        "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
         {{/isFile}}
         {{/formParams}}
       )
@@ -213,18 +213,23 @@
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
-        {{#isListContainer}}
+        {{#isArray}}
         body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
         body <- paste0('[', body.items, ']')
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
-        {{/isListContainer}}
+        {{/isArray}}
       } else {
         body <- NULL
       }
 
       {{/bodyParams}}
+      {{/hasBodyParam}}
+      {{^hasBodyParam}}
+      {{^hasFormParams}}
+      body <- NULL
+      {{/hasFormParams}}
       {{/hasBodyParam}}
       urlPath <- "{{path}}"
       {{#hasPathParams}}
@@ -239,7 +244,7 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":")), sep=" ")
+      headerParams['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$apiClient$username, self$apiClient$password, sep=":"))))
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}
@@ -271,7 +276,9 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(resp, "text", encoding = "UTF-8")
+        content <- httr::content(
+            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        )
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -342,7 +349,7 @@
         ApiResponse$new("API server error", resp)
       {{/returnExceptionOnFailure}}
       }
-    }{{#hasMore}},{{/hasMore}}
+    }{{^-last}},{{/-last}}
     {{/operation}}
   )
 )

@@ -1,0 +1,8 @@
+[flake8]
+
+# Ignoring E124,E125,E126,W503 to workaround incompatible styles for yapf and flake8.
+# I don't like what yapf is doing with make fmt but I haven't found a way to fix it yet
+ignore = F403,F405,E124,E125,E126,W503
+max-line-length = 120
+exclude = mk-include
+

@@ -42,7 +42,7 @@ openApiGenerate {
     configOptions = [
             dateLibrary: "java8"
     ]
-    systemProperties = [
+    globalProperties = [
             modelDocs: "false"
     ]
     skipValidateSpec = true
@@ -74,7 +74,7 @@ task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.Generat
             useCompareNetObjects: "true"
     ]
     outputDir = "$buildDir/csharp-netcore".toString()
-    systemProperties = [
+    globalProperties = [
             models: "",
             apis  : "",
     ]

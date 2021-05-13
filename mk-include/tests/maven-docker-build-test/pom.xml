@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.confluent.cloud</groupId>
+    <artifactId>cc-test-service</artifactId>
+    <version>0.0.1</version>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>io.confluent</groupId>
+        <artifactId>common</artifactId>
+        <version>[6.1.0-0, 6.1.1-0)</version>
+    </parent>
+
+    <distributionManagement>
+        <repository>
+        <id>confluent-artifactory-internal</id><!-- Matches server id in semaphore's ~/.m2/settings.xml -->
+        <name>confluent-releases</name>
+        <url>https://confluent.jfrog.io/confluent/maven-releases</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <docker.skip-build>false</docker.skip-build>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+        <id>ci</id>
+        <properties>
+            <docker.skip-build>true</docker.skip-build>
+        </properties>
+        </profile>
+    </profiles>
+</project>

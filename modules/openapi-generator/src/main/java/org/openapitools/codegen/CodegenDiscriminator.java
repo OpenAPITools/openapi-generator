@@ -1,8 +1,6 @@
 package org.openapitools.codegen;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -25,14 +23,14 @@ public class CodegenDiscriminator {
     private String propertyType;
     private Map<String, String> mapping;
 
-    // mappedModels is populated differently if discriminatorExplicitMappingVerbose is
+    // mappedModels is populated differently if legacyDiscriminatorBehavior is
     // True or False. When:
     //
-    // discriminatorExplicitMappingVerbose == False, this contains:
+    // legacyDiscriminatorBehavior == False, this contains:
     // - the name to schema map info in the discriminator mapping entry in your openapi spec OR
     // - child schemas that allOf inherit self schema
     //
-    // discriminatorExplicitMappingVerbose == True, this contains:
+    // legacyDiscriminatorBehavior == True, this contains:
     // - the name to schema map info in the discriminMappedModelator mapping entry in your openapi spec AND
     // - x-discriminator-value mappings in child oneOf + anyOf schemas + descendant schemas that allOf inherit self schema AND
     // - descendant schemas that allOf inherit self schema AND
@@ -40,7 +38,7 @@ public class CodegenDiscriminator {
     //
     // see the method createDiscriminator in DefaultCodegen.java
 
-    private Set<MappedModel> mappedModels = new LinkedHashSet<>();
+    private Set<MappedModel> mappedModels = new TreeSet<>();
 
     public String getPropertyName() {
         return propertyName;

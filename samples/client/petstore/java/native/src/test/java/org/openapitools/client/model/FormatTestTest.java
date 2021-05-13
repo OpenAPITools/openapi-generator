@@ -13,8 +13,10 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -144,6 +146,14 @@ public class FormatTestTest {
     @Test
     public void passwordTest() {
         // TODO: test password
+    }
+
+    /**
+     * Test the property 'bigDecimal'
+     */
+    @Test
+    public void bigDecimalTest() {
+        // TODO: test bigDecimal
     }
 
 }

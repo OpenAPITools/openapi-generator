@@ -1,6 +1,0 @@
-language: php
-php:
-    - 7.1
-    - 7.2
-before_install: "composer install"
-script: "vendor/bin/phpunit"

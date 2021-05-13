@@ -1,0 +1,4 @@
+generatorName: php-slim4
+outputDir: samples/server/petstore/php-slim4
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-slim4-server

@@ -9,16 +9,20 @@ import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
+  @Valid
+
   private BigDecimal myNumber;
 
   @JsonProperty("my_string")
+  
   private String myString;
 
   @JsonProperty("my_boolean")
+  
   private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -30,7 +34,6 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   **/
-  @Valid
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -48,7 +51,7 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   **/
-    public String getMyString() {
+  public String getMyString() {
     return myString;
   }
 
@@ -65,7 +68,7 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   **/
-    public Boolean getMyBoolean() {
+  public Boolean getMyBoolean() {
     return myBoolean;
   }
 
@@ -75,7 +78,7 @@ public class OuterComposite   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -110,7 +113,7 @@ public class OuterComposite   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

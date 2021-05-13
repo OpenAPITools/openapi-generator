@@ -32,14 +32,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptApolloClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptApolloClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptApolloClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
@@ -565,7 +565,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -679,10 +679,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
         } else if (example == null) {
@@ -814,9 +814,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @Override
     public CodegenModel fromModel(String name, Schema model) {
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
 
@@ -829,22 +826,17 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             ArraySchema am = (ArraySchema) model;
             if (codegenModel != null && am.getItems() != null) {
                 String itemType = getSchemaType(am.getItems());
-                codegenModel.vendorExtensions.put("x-isArray", true); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-is-array", true);
-                codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
-                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
-                codegenModel.vendorExtensions.put("x-isMap", true); // TODO: 5.0 Remove
+            if (codegenModel != null && getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-is-map", true);
-                codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             } else {
                 String type = model.getType();
                 if (codegenModel != null && isPrimitiveType(type)) {
-                    codegenModel.vendorExtensions.put("x-isPrimitive", true); // TODO: 5.0 Remove
                     codegenModel.vendorExtensions.put("x-is-primitive", true);
                 }
             }
@@ -886,9 +878,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
     private String getJSDocType(CodegenParameter cp) {
         String dataType = trimBrackets(cp.dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -897,9 +889,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     private String getJSDocType(CodegenOperation co) {
         String returnType = trimBrackets(co.returnType);
         if (returnType != null) {
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
             }
         }
@@ -917,9 +909,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -944,9 +933,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                 }
 
                 String joinedArgList = StringUtils.join(argList, ", ");
-                operation.vendorExtensions.put("x-codegen-argList", joinedArgList); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-codegen-arg-list", joinedArgList);
-                operation.vendorExtensions.put("x-codegen-hasOptionalParams", hasOptionalParams); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-codegen-has-optional-params", hasOptionalParams);
 
                 // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
@@ -971,9 +958,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -1025,10 +1009,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             for (CodegenProperty var : cm.vars) {
                 Optional.ofNullable(lastRequired).ifPresent(_lastRequired -> {
                     if (var == _lastRequired) {
-                        var.vendorExtensions.put("x-codegen-hasMoreRequired", false); // TODO: 5.0 Remove
                         var.vendorExtensions.put("x-codegen-has-more-required", false);
                     } else if (var.required) {
-                        var.vendorExtensions.put("x-codegen-hasMoreRequired", true); // TODO: 5.0 Remove
                         var.vendorExtensions.put("x-codegen-has-more-required", true);
                     }
                 });
@@ -1078,12 +1060,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -1159,8 +1135,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
                 LOGGER.info("Successfully executed: " + command);
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
