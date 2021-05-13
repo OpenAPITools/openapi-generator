@@ -57,7 +57,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 
     {{classname}} obj(input.dump());
 
-    TEST_ASSERT_EQUAL_INT64(1, obj.{{getter}}());
+    TEST_ASSERT_EQUAL_INT(1, obj.{{getter}}());
     {{/isLong}}
 
 
