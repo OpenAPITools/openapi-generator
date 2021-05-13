@@ -4,10 +4,6 @@ import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
@@ -69,11 +65,10 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     public TinyCppClientCodegen() {
         super();
 
-        String libFolder = "lib";
-        String sourceFolder = "src";
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
 
+        String libFolder = "lib";
         // MODELS
         modelPackage = libFolder + File.separator + "Models";
         modelTemplateFiles.put("model-header.mustache", ".h");
@@ -86,7 +81,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("unittest.mustache", "test_example", "unittest.cpp"));
 
         // SERVICES
-        apiPackage = sourceFolder + File.separator + "service";
+        apiPackage = TinyCppClientCodegen.libFolder + File.separator + "service";
         apiTemplateFiles.put("service/api-header.mustache".replace('/', File.separatorChar), ".h");
         apiTemplateFiles.put("service/api-body.mustache".replace('/', File.separatorChar), ".cpp");
 
@@ -103,7 +98,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
         // Main
         supportingFiles.add(new SupportingFile("platformio.ini.mustache", "", "platformio.ini"));
-        supportingFiles.add(new SupportingFile("main.mustache", sourceFolder, "main.cpp"));
+        supportingFiles.add(new SupportingFile("main.mustache", TinyCppClientCodegen.sourceFolder, "main.cpp"));
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -143,11 +138,16 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
 
     // FilePaths
-    private static final String sourceFolder = "lib";
-    private static final String serviceFolder = sourceFolder + File.separator + "service";
+    private static final String sourceFolder = "src";
+    private static final String libFolder = "lib";
+    private static final String serviceFolder = libFolder + File.separator + "service";
 
     // Types
     private static final String cpp_array_type = "std::list";
+    @Override
+    public String getTypeDeclaration(String str) {
+        return str;
+    }
 
     private void makeTypeMappings() {
         typeMapping = new HashMap<>();
@@ -241,6 +241,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
             return "#include <string>";
         } else if (name.equals("std::list")) {
             return "#include <list>";
+        } else if (name.equals("Map")) {
+            return "#include <map>";
         }
         return "#include \"" + name + ".h\"";
     }
