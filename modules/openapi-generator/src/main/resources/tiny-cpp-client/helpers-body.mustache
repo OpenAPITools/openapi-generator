@@ -1,4 +1,6 @@
 #include "Helpers.h"
+#include <string>
+#include <sstream>
 
 bool isprimitive(string type){
 	if(type.compare("std::string") == 0||
@@ -63,27 +65,38 @@ jsonToValue(void* target, bourne::json value, string type)
 	}
 }
 
-std::string 
+std::string
 stringify(long input){
-	return std::to_string(input);
+    std::stringstream stream;
+    stream << input;
+    return stream.str();
+
 };
 
-std::string 
+std::string
 stringify(int input){
-	return std::to_string(input);
+    std::stringstream stream;
+    stream << input;
+    return stream.str();
 };
 
-std::string 
+std::string
 stringify(double input){
-	return std::to_string(input);
+    std::stringstream stream;
+    stream << input;
+    return stream.str();
 };
 
-std::string 
+std::string
 stringify(float input){
-	return std::to_string(input);
+    std::stringstream stream;
+    stream << input;
+    return stream.str();
 };
 
-std::string 
+std::string
 stringify(std::string input){
-	return input;
+    std::stringstream stream;
+    stream << input;
+    return stream.str();
 };
