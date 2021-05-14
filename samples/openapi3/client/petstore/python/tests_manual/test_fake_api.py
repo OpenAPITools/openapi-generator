@@ -73,16 +73,16 @@ class TestFakeApi(unittest.TestCase):
             headers=headers,
             query_params=[]
         )
+        used_kwargs['post_params'] = []
         if 'post_params' in kwargs:
             used_kwargs['post_params'] = kwargs['post_params']
         if 'body' in kwargs:
             used_kwargs['body'] = kwargs['body']
-        else:
-            mock_method.assert_called_with(
-                http_method,
-                url,
-                **used_kwargs
-            )
+        mock_method.assert_called_with(
+            http_method,
+            url,
+            **used_kwargs
+        )
 
     def test_array_model(self):
         """Test case for array_model
@@ -532,8 +532,11 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
-                    body=expected_file_data, content_type='application/octet-stream'
+                    body=expected_file_data,
+                    content_type='application/octet-stream',
+                    accept='application/octet-stream'
                 )
+
                 self.assertTrue(isinstance(downloaded_file, file_type))
                 self.assertFalse(downloaded_file.closed)
                 self.assertEqual(downloaded_file.read(), expected_file_data)
