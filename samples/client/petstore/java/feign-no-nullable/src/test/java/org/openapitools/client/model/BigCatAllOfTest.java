@@ -20,22 +20,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for BigCatAllOf
  */
-public class BigCatAllOfTest {
+class BigCatAllOfTest {
     private final BigCatAllOf model = new BigCatAllOf();
 
     /**
      * Model tests for BigCatAllOf
      */
     @Test
-    public void testBigCatAllOf() {
+    void testBigCatAllOf() {
         // TODO: test BigCatAllOf
     }
 
@@ -43,7 +41,7 @@ public class BigCatAllOfTest {
      * Test the property 'kind'
      */
     @Test
-    public void kindTest() {
+    void kindTest() {
         // TODO: test kind
     }
 

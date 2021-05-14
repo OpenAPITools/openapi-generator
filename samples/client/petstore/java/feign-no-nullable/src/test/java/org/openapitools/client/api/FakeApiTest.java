@@ -10,8 +10,8 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +21,11 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-public class FakeApiTest {
+class FakeApiTest {
 
     private FakeApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient(FakeApi.class);
     }
@@ -37,7 +37,7 @@ public class FakeApiTest {
      * this route creates an XmlItem
      */
     @Test
-    public void createXmlItemTest() {
+    void createXmlItemTest() {
         XmlItem xmlItem = null;
         // api.createXmlItem(xmlItem);
 
@@ -51,7 +51,7 @@ public class FakeApiTest {
      * Test serialization of outer boolean types
      */
     @Test
-    public void fakeOuterBooleanSerializeTest() {
+    void fakeOuterBooleanSerializeTest() {
         Boolean body = null;
         // Boolean response = api.fakeOuterBooleanSerialize(body);
 
@@ -65,7 +65,7 @@ public class FakeApiTest {
      * Test serialization of object with outer number type
      */
     @Test
-    public void fakeOuterCompositeSerializeTest() {
+    void fakeOuterCompositeSerializeTest() {
         OuterComposite body = null;
         // OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
@@ -79,7 +79,7 @@ public class FakeApiTest {
      * Test serialization of outer number types
      */
     @Test
-    public void fakeOuterNumberSerializeTest() {
+    void fakeOuterNumberSerializeTest() {
         BigDecimal body = null;
         // BigDecimal response = api.fakeOuterNumberSerialize(body);
 
@@ -93,7 +93,7 @@ public class FakeApiTest {
      * Test serialization of outer string types
      */
     @Test
-    public void fakeOuterStringSerializeTest() {
+    void fakeOuterStringSerializeTest() {
         String body = null;
         // String response = api.fakeOuterStringSerialize(body);
 
@@ -107,7 +107,7 @@ public class FakeApiTest {
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      */
     @Test
-    public void testBodyWithFileSchemaTest() {
+    void testBodyWithFileSchemaTest() {
         FileSchemaTestClass body = null;
         // api.testBodyWithFileSchema(body);
 
@@ -121,7 +121,7 @@ public class FakeApiTest {
      * 
      */
     @Test
-    public void testBodyWithQueryParamsTest() {
+    void testBodyWithQueryParamsTest() {
         String query = null;
         User body = null;
         // api.testBodyWithQueryParams(query, body);
@@ -138,7 +138,7 @@ public class FakeApiTest {
      * listing them out individually.
      */
     @Test
-    public void testBodyWithQueryParamsTestQueryMap() {
+    void testBodyWithQueryParamsTestQueryMap() {
         User body = null;
         FakeApi.TestBodyWithQueryParamsQueryParams queryParams = new FakeApi.TestBodyWithQueryParamsQueryParams()
             .query(null);
@@ -153,7 +153,7 @@ public class FakeApiTest {
      * To test \&quot;client\&quot; model
      */
     @Test
-    public void testClientModelTest() {
+    void testClientModelTest() {
         Client body = null;
         // Client response = api.testClientModel(body);
 
@@ -167,7 +167,7 @@ public class FakeApiTest {
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      */
     @Test
-    public void testEndpointParametersTest() {
+    void testEndpointParametersTest() {
         BigDecimal number = null;
         Double _double = null;
         String patternWithoutDelimiter = null;
@@ -194,7 +194,7 @@ public class FakeApiTest {
      * To test enum parameters
      */
     @Test
-    public void testEnumParametersTest() {
+    void testEnumParametersTest() {
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
@@ -217,7 +217,7 @@ public class FakeApiTest {
      * listing them out individually.
      */
     @Test
-    public void testEnumParametersTestQueryMap() {
+    void testEnumParametersTestQueryMap() {
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumFormStringArray = null;
@@ -238,7 +238,7 @@ public class FakeApiTest {
      * Fake endpoint to test group parameters (optional)
      */
     @Test
-    public void testGroupParametersTest() {
+    void testGroupParametersTest() {
         Integer requiredStringGroup = null;
         Boolean requiredBooleanGroup = null;
         Long requiredInt64Group = null;
@@ -259,7 +259,7 @@ public class FakeApiTest {
      * listing them out individually.
      */
     @Test
-    public void testGroupParametersTestQueryMap() {
+    void testGroupParametersTestQueryMap() {
         Boolean requiredBooleanGroup = null;
         Boolean booleanGroup = null;
         FakeApi.TestGroupParametersQueryParams queryParams = new FakeApi.TestGroupParametersQueryParams()
@@ -278,7 +278,7 @@ public class FakeApiTest {
      * 
      */
     @Test
-    public void testInlineAdditionalPropertiesTest() {
+    void testInlineAdditionalPropertiesTest() {
         Map<String, String> param = null;
         // api.testInlineAdditionalProperties(param);
 
@@ -292,7 +292,7 @@ public class FakeApiTest {
      * 
      */
     @Test
-    public void testJsonFormDataTest() {
+    void testJsonFormDataTest() {
         String param = null;
         String param2 = null;
         // api.testJsonFormData(param, param2);
@@ -307,7 +307,7 @@ public class FakeApiTest {
      * To test the collection format in query parameters
      */
     @Test
-    public void testQueryParameterCollectionFormatTest() {
+    void testQueryParameterCollectionFormatTest() {
         List<String> pipe = null;
         List<String> ioutil = null;
         List<String> http = null;
@@ -327,7 +327,7 @@ public class FakeApiTest {
      * listing them out individually.
      */
     @Test
-    public void testQueryParameterCollectionFormatTestQueryMap() {
+    void testQueryParameterCollectionFormatTestQueryMap() {
         FakeApi.TestQueryParameterCollectionFormatQueryParams queryParams = new FakeApi.TestQueryParameterCollectionFormatQueryParams()
             .pipe(null)
             .ioutil(null)

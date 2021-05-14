@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/petstore/java/resteasy-openapi3
+library: resteasy
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+additionalProperties:
+  artifactId: petstore-resteasy-openapi3
+  hideGenerationTimestamp: "true"

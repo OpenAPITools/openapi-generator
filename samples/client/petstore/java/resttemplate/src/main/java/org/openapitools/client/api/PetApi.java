@@ -211,6 +211,7 @@ public class PetApi {
      * @param tags Tags to filter by (required)
      * @return Set&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
     @Deprecated
     public Set<Pet> findPetsByTags(Set<String> tags) throws RestClientException {
@@ -225,6 +226,7 @@ public class PetApi {
      * @param tags Tags to filter by (required)
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
     @Deprecated
     public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws RestClientException {

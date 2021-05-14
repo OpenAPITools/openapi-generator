@@ -222,7 +222,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     private ResponseSpec findPetsByTagsRequestCreation(Set<String> tags) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
