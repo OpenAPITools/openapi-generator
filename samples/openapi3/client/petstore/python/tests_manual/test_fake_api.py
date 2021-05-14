@@ -15,7 +15,6 @@ import os
 import json
 import unittest
 from unittest.mock import patch
-from urllib3.connection import HTTPHeaderDict
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
@@ -62,35 +61,28 @@ class TestFakeApi(unittest.TestCase):
         http_method='POST',
         **kwargs
     ):
-        headers = HTTPHeaderDict({
+        headers = {
             'Accept': accept,
             'User-Agent': 'OpenAPI-Generator/1.0.0/python',
-        })
+        }
         if 'content_type' in kwargs:
             headers['Content-Type'] = kwargs['content_type']
-
         used_kwargs = dict(
             _preload_content=True,
             _request_timeout=None,
             headers=headers,
             query_params=[]
         )
-
         if 'post_params' in kwargs:
             used_kwargs['post_params'] = kwargs['post_params']
-        elif http_method == 'POST':
-            used_kwargs['post_params'] = []
-            if not 'content_type' in kwargs:
-                headers['Content-Type'] = 'application/json'
-
         if 'body' in kwargs:
             used_kwargs['body'] = kwargs['body']
-
-        mock_method.assert_called_with(
-            http_method,
-            url,
-            **used_kwargs
-        )
+        else:
+            mock_method.assert_called_with(
+                http_method,
+                url,
+                **used_kwargs
+            )
 
     def test_array_model(self):
         """Test case for array_model
@@ -105,12 +97,7 @@ class TestFakeApi(unittest.TestCase):
         with patch.object(RESTClientObject, 'request') as mock_method:
             cat = animal.Animal(class_name="Cat", color="black")
             body = animal_farm.AnimalFarm([cat])
-            json_data = [{
-                "className": "Cat",
-                "color": "black",
-                # This clearly isn't right...
-                "class_name": "Cat"
-            }]
+            json_data = [{"className": "Cat", "color": "black"}]
             mock_method.return_value = self.mock_response(json_data)
 
             response = endpoint(body=body)
@@ -275,7 +262,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_model_with_ref_props',
-                    body=json_payload,
+                    body=json_payload
                 )
 
                 assert isinstance(response, expected_model.__class__)
@@ -334,10 +321,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/string',
-                body=value_simple,
-            )
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/string', body=value_simple)
 
             assert isinstance(response, str)
             assert response == value_simple
@@ -359,10 +343,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum',
-                body=value,
-            )
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', body=value)
 
             assert isinstance(response, string_enum.StringEnum)
             assert response.value == value
@@ -551,9 +532,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
-                    body=expected_file_data,
-                    accept='application/octet-stream',
-                    content_type='application/octet-stream',
+                    body=expected_file_data, content_type='application/octet-stream'
                 )
                 self.assertTrue(isinstance(downloaded_file, file_type))
                 self.assertFalse(downloaded_file.closed)
@@ -655,12 +634,7 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(expected_json_body)
 
             response = endpoint(inline_additional_properties_ref_payload=inline_additional_properties_ref_payload)
-            self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/getInlineAdditionalPropertiesRefPayload',
-                http_method='GET',
-                # This seems weird... why would a GET request have a content type?
-                content_type='application/json',
-            )
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', body=expected_json_body)
 
             assert isinstance(response, InlineAdditionalPropertiesRefPayload)
             assert response.to_dict() == expected_json_body
@@ -695,47 +669,10 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(expected_json_body)
 
             response = endpoint(inline_object6=inline_object6)
-            self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/getInlineAdditionalPropertiesPayload',
-                http_method='GET',
-                # This seems weird... why would a GET request have a content type?
-                content_type='application/json',
-            )
+            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', body=expected_json_body)
 
             assert isinstance(response, InlineObject6)
             assert response.to_dict() == expected_json_body
-
-    def test_default_headers(self):
-        """Test case for passing multiple headers through api
-        """
-        self.api.api_client.add_default_header('Impersonate-Group', 'dev')
-        self.api.api_client.add_default_header('Impersonate-Group', 'admin')
-        endpoint = self.api.string
-
-        with patch.object(RESTClientObject, 'request') as mock_method:
-            body = "blah"
-            value_simple = body
-            mock_method.return_value = self.mock_response(value_simple)
-
-            response = endpoint(body=body)
-            mock_method.assert_called_with(
-                'POST',
-                'http://petstore.swagger.io:80/v2/fake/refs/string',
-                query_params=[],
-                headers=HTTPHeaderDict([
-                    ('Accept', 'application/json'),
-                    ('Content-Type', 'application/json'),
-                    ('Impersonate-Group', 'dev'),
-                    ('Impersonate-Group', 'admin'),
-                    ('User-Agent', 'OpenAPI-Generator/1.0.0/python'),
-                ]),
-                post_params=[],
-                body=value_simple,
-                _preload_content=True,
-                _request_timeout=None,
-            )
-
-        self.api.api_client.default_headers.discard('Impersonate-Group')
 
 if __name__ == '__main__':
     unittest.main()
