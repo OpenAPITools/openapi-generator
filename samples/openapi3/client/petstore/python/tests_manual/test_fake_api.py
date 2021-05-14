@@ -219,7 +219,12 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/number', body=value)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/number',
+                body=value,
+                content_type='application/json'
+            )
 
             assert isinstance(response, number_with_validations.NumberWithValidations)
             assert response.value == value
@@ -300,7 +305,8 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',
-                    body=value_simple
+                    body=value_simple,
+                    content_type='application/json'
                 )
 
                 assert isinstance(response, body.__class__)
