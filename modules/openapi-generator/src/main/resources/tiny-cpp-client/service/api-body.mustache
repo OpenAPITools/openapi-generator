@@ -73,46 +73,63 @@ using namespace Tiny;
             // Handle Request
             String payload = http.getString();
             std::string payload_std_string(payload.c_str());
+            
+
             http.end();
 
-        {{! Declaration of obj }}
-        {{#returnType}}
+        // --------------- MINE STARTS HERE ---------------
+
+            {{#returnType}}
+
             {{#returnContainer}}
-                {{#isArray}}
-                    {{returnType}}<{{returnBaseType}}>
-                {{/isArray}}
+            {{#isArray}}
+
+            std::list<{{returnBaseType}}> obj = new std::list<{{returnBaseType}}>();
+            bourne::json jsonPayload(payload.c_str());
+
+            {{#returnBaseType}}
+            {{#isBool}}{{#isInteger}}{{#isLong}}{{#isString}}{{#isFloat}}
+            
+            for(auto& var : jsonPayload)
+            {
+                {{returnBaseType}} tmp = var;
+                obj.push_back(tmp);
+            }
+            {{/isFloat}}{{/isString}}{{/isLong}}{{/isInteger}}{{/isBool}}
+
+            {{^isBool}}{{^isInteger}}{{^isLong}}{{^isString}}{{^isFloat}}
+            for(auto& var : jsonPayload)
+            {
+                {{returnBaseType}} tmp(var.dump());
+                obj.push_back(tmp);
+            }
+            {{/isFloat}}{{/isString}}{{/isLong}}{{/isInteger}}{{/isBool}}
+
+            {{/returnBaseType}}
+
+            {{/isArray}}
+
+            {{#isMap}}
+            //TODO: Implement map logic here
+            {{/isMap}}
+
             {{/returnContainer}}
+
             {{^returnContainer}}
-                {{returnType}}
-            {{/returnContainer}}
-        {{/returnType}}
-        {{^returnType}}
-            String
-        {{/returnType}}
-        {{! Obj var name }}
-        obj
-
-        {{! Array constructor }}
-        {{#isMap}}
-        {{#isArray}}
-        {{/isArray }}
-        {{/isMap }}
-
-        {{! primitive type }}
-        {{#returnType}}
             {{#returnTypeIsPrimitive}}
-                ; jsonToValue(&obj, bourne::json(payload_std_string), "{{returnType}}") ;
+            bourne::json jsonPayload(payload.c_str());
+            {{returnType}} obj;
+            jsonToValue(&obj, jsonPayload, "{{returnType}}");
             {{/returnTypeIsPrimitive}}
-        {{/returnType}}
 
-        {{! Obj constructor }}
-        // Der gå rr noget galt her. Den fanger ikke alle klasser. fx getOrderById
-        // Kig på default response, og se om man ikke kan sætte en noget derind i. Pet(payload_str)
-        {{#returnType}}
-            {{#returnContainer}} {{! container er array eller map}}
-                {{returnType}}(payload_std_string);
+            {{^returnTypeIsPrimitive}}
+            {{returnType}} obj(payload.c_str());
+            {{/returnTypeIsPrimitive}}
             {{/returnContainer}}
-        {{/returnType}}
+
+            {{/returnType}}
+
+        // --------------- MINE ENDS HERE ---------------
 
             Response<
         {{#returnType}}
