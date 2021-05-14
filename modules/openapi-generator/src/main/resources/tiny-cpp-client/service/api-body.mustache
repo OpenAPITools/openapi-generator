@@ -20,12 +20,15 @@ using namespace Tiny;
         Response<
         {{#returnType}}
             {{#returnContainer}}
-                {{#isArray}}
-                    {{returnType}}<{{returnBaseType}}>
-                {{/isArray}}
+            {{#isArray}}
+            {{returnType}}<{{returnBaseType}}>
+            {{/isArray}}
+            {{#isMap}}
+            String
+            {{/isMap}}
             {{/returnContainer}}
             {{^returnContainer}}
-                {{returnType}}
+            {{returnType}}
             {{/returnContainer}}
         {{/returnType}}
         {{^returnType}}
@@ -49,7 +52,7 @@ using namespace Tiny;
             std::string url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
             // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
             // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
-            // Headers  | {{#formParams}}{{paramName}} {{/formParams}}
+            // Form  | {{#formParams}}{{paramName}} {{/formParams}}
             // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
 
             {{#pathParams}}
@@ -66,14 +69,53 @@ using namespace Tiny;
             HTTPClient http;
             http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
 
+            std::string payload = "";
             // Send Request
             // METHOD | {{httpMethod}}
-            int httpCode = http.{{httpMethod}}();
+            {{#bodyParam}}
+            
+            {{#isContainer}}
+            {{#isArray}}
+            {{#items}}
+            {{#isPrimitiveType}}
+            bourne::json tmp_arr = bourne::json::array();
+            for(auto& var : {{paramName}})
+            {
+                tmp_arr.append(var);
+            }
+            payload = tmp_arr.dump();
+            {{/isPrimitiveType}}
+
+            {{^isPrimitiveType}}
+            bourne::json tmp_arr = bourne::json::array();
+            for(auto& var : {{paramName}})
+            {
+                auto tmp = var.toJson();
+                tmp_arr.append(tmp);
+
+            }
+            payload = tmp_arr.dump();
+            {{/isPrimitiveType}}
+            {{/items}}
+            {{/isArray}}
+            {{/isContainer}}
+
+            {{^isContainer}}
+            {{#isPrimitiveType}}
+            payload = stringify({{paramName}});
+            {{/isPrimitiveType}}
+
+            {{^isPrimitiveType}}
+            payload = {{paramName}}.toJson().dump();
+            {{/isPrimitiveType}}
+            {{/isContainer}}
+
+            {{/bodyParam}}
+            int httpCode = http.sendRequest("{{httpMethod}}", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
-            String payload = http.getString();
-            std::string payload_std_string(payload.c_str());
-            
+            String output = http.getString();
+            std::string output_string = output.c_str();        
 
             http.end();
 
@@ -84,21 +126,54 @@ using namespace Tiny;
             {{#returnContainer}}
             {{#isArray}}
 
-            std::list<{{returnBaseType}}> obj = new std::list<{{returnBaseType}}>();
-            bourne::json jsonPayload(payload.c_str());
+            std::list<{{returnBaseType}}> obj = std::list<{{returnBaseType}}>();
+            bourne::json jsonPayload(output_string);
 
             {{#returnBaseType}}
-            {{#isBool}}{{#isInteger}}{{#isLong}}{{#isString}}{{#isFloat}}
             
-            for(auto& var : jsonPayload)
+            {{#isBool}}
+            for(auto& var : jsonPayload.array_range())
             {
-                {{returnBaseType}} tmp = var;
+                {{returnBaseType}} tmp = var.to_bool();
                 obj.push_back(tmp);
             }
-            {{/isFloat}}{{/isString}}{{/isLong}}{{/isInteger}}{{/isBool}}
+            {{/isBool}}
+
+            {{#isInteger}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = var.to_int();
+                obj.push_back(tmp);
+            }
+            {{/isInteger}}
+
+            {{#isLong}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = (long)(var.to_int());
+                obj.push_back(tmp);
+            }
+            {{/isLong}}
+
+            {{#isFloat}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = (float)(var.to_float());
+                obj.push_back(tmp);
+            }
+            {{/isFloat}}
+
+            {{#isString}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = var.to_string();
+                obj.push_back(tmp);
+            }
+            {{/isString}}
+
 
             {{^isBool}}{{^isInteger}}{{^isLong}}{{^isString}}{{^isFloat}}
-            for(auto& var : jsonPayload)
+            for(auto& var : jsonPayload.array_range())
             {
                 {{returnBaseType}} tmp(var.dump());
                 obj.push_back(tmp);
@@ -117,13 +192,13 @@ using namespace Tiny;
 
             {{^returnContainer}}
             {{#returnTypeIsPrimitive}}
-            bourne::json jsonPayload(payload.c_str());
+            bourne::json jsonPayload(output_string);
             {{returnType}} obj;
             jsonToValue(&obj, jsonPayload, "{{returnType}}");
             {{/returnTypeIsPrimitive}}
 
             {{^returnTypeIsPrimitive}}
-            {{returnType}} obj(payload.c_str());
+            {{returnType}} obj(output_string);
             {{/returnTypeIsPrimitive}}
             {{/returnContainer}}
 
@@ -131,21 +206,24 @@ using namespace Tiny;
 
         // --------------- MINE ENDS HERE ---------------
 
-            Response<
-        {{#returnType}}
+            
+            {{#returnType}}
             {{#returnContainer}}
-                {{#isArray}}
-                    {{returnType}}<{{returnBaseType}}>
-                {{/isArray}}
+            {{#isArray}}
+            Response<{{returnType}}<{{returnBaseType}}>> response(obj, httpCode);
+            {{/isArray}}
+            {{#isMap}}
+            //TODO: No support for maps.
+            Response<String> response(output, httpCode);
+            {{/isMap}}
             {{/returnContainer}}
             {{^returnContainer}}
-                {{returnType}}
+            Response<{{returnType}}> response(obj, httpCode);
             {{/returnContainer}}
-        {{/returnType}}
-        {{^returnType}}
-            String
-        {{/returnType}}
-        > response(obj, httpCode);
+            {{/returnType}}
+            {{^returnType}}
+            Response<String> response(output, httpCode);
+            {{/returnType}}
             return response;
         }
     {{/operation}}
@@ -153,4 +231,4 @@ using namespace Tiny;
 
 
 {{/operations}}
-}
+

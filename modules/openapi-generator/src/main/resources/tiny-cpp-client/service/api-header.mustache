@@ -44,6 +44,9 @@ public:
                 {{#isArray}}
                     {{returnType}}<{{returnBaseType}}>
                 {{/isArray}}
+                {{#isMap}}
+                String
+                {{/isMap}}
             {{/returnContainer}}
             {{^returnContainer}}
                 {{returnType}}
