@@ -89,8 +89,6 @@ class Quadrilateral(ModelComposed):
         """
         lazy_import()
         return {
-            'quadrilateral_type': (str,),  # noqa: E501
-            'shape_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -105,8 +103,6 @@ class Quadrilateral(ModelComposed):
         return {'quadrilateral_type': val}
 
     attribute_map = {
-        'quadrilateral_type': 'quadrilateralType',  # noqa: E501
-        'shape_type': 'shapeType',  # noqa: E501
     }
 
     read_only_vars = {
@@ -118,7 +114,6 @@ class Quadrilateral(ModelComposed):
         """Quadrilateral - a model defined in OpenAPI
 
         Keyword Args:
-            quadrilateral_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -149,7 +144,6 @@ class Quadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            shape_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -219,7 +213,6 @@ class Quadrilateral(ModelComposed):
         """Quadrilateral - a model defined in OpenAPI
 
         Keyword Args:
-            quadrilateral_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -250,7 +243,6 @@ class Quadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            shape_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

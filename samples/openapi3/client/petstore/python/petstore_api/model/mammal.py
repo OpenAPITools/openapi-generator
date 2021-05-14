@@ -63,11 +63,6 @@ class Mammal(ModelComposed):
     """
 
     allowed_values = {
-        ('type',): {
-            'PLAINS': "plains",
-            'MOUNTAIN': "mountain",
-            'GREVYS': "grevys",
-        },
     }
 
     validations = {
@@ -96,10 +91,6 @@ class Mammal(ModelComposed):
         """
         lazy_import()
         return {
-            'class_name': (str,),  # noqa: E501
-            'has_baleen': (bool,),  # noqa: E501
-            'has_teeth': (bool,),  # noqa: E501
-            'type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -115,10 +106,6 @@ class Mammal(ModelComposed):
         return {'class_name': val}
 
     attribute_map = {
-        'class_name': 'className',  # noqa: E501
-        'has_baleen': 'hasBaleen',  # noqa: E501
-        'has_teeth': 'hasTeeth',  # noqa: E501
-        'type': 'type',  # noqa: E501
     }
 
     read_only_vars = {
@@ -130,7 +117,6 @@ class Mammal(ModelComposed):
         """Mammal - a model defined in OpenAPI
 
         Keyword Args:
-            class_name (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -161,9 +147,6 @@ class Mammal(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            has_baleen (bool): [optional]  # noqa: E501
-            has_teeth (bool): [optional]  # noqa: E501
-            type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -233,7 +216,6 @@ class Mammal(ModelComposed):
         """Mammal - a model defined in OpenAPI
 
         Keyword Args:
-            class_name (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -264,9 +246,6 @@ class Mammal(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            has_baleen (bool): [optional]  # noqa: E501
-            has_teeth (bool): [optional]  # noqa: E501
-            type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

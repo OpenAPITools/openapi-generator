@@ -89,8 +89,6 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         """
         lazy_import()
         return {
-            'color': (str,),  # noqa: E501
-            'class_name': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -99,8 +97,6 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
 
 
     attribute_map = {
-        'color': 'color',  # noqa: E501
-        'class_name': 'className',  # noqa: E501
     }
 
     read_only_vars = {
@@ -142,8 +138,6 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
-            class_name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -243,8 +237,6 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
-            class_name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

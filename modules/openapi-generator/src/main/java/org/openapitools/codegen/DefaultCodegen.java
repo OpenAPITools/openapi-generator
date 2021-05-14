@@ -2264,6 +2264,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
+    protected void accumulatePropertiesAndRequiredPropertiesFromComposedSchema(Map<String, Schema> properties, List<String> required, Schema refSchema, Map<String, Schema> allProperties, List<String> allRequired) {
+        addProperties(properties, required, refSchema);
+        addProperties(allProperties, allRequired, refSchema);
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2442,8 +2447,7 @@ public class DefaultCodegen implements CodegenConfig {
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
                             // composition
-                            addProperties(properties, required, refSchema);
-                            addProperties(allProperties, allRequired, refSchema);
+                            accumulatePropertiesAndRequiredPropertiesFromComposedSchema(properties, required, refSchema, allProperties, allRequired);
                         }
                     }
 

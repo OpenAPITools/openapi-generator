@@ -89,8 +89,6 @@ class SimpleQuadrilateral(ModelComposed):
         """
         lazy_import()
         return {
-            'shape_type': (str,),  # noqa: E501
-            'quadrilateral_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -99,8 +97,6 @@ class SimpleQuadrilateral(ModelComposed):
 
 
     attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
-        'quadrilateral_type': 'quadrilateralType',  # noqa: E501
     }
 
     read_only_vars = {
@@ -112,8 +108,6 @@ class SimpleQuadrilateral(ModelComposed):
         """SimpleQuadrilateral - a model defined in OpenAPI
 
         Keyword Args:
-            shape_type (str):
-            quadrilateral_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -213,8 +207,6 @@ class SimpleQuadrilateral(ModelComposed):
         """SimpleQuadrilateral - a model defined in OpenAPI
 
         Keyword Args:
-            shape_type (str):
-            quadrilateral_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.

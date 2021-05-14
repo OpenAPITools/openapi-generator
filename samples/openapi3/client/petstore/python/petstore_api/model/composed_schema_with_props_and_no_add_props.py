@@ -81,8 +81,6 @@ class ComposedSchemaWithPropsAndNoAddProps(ModelComposed):
         lazy_import()
         return {
             'color': (str,),  # noqa: E501
-            'id': (int,),  # noqa: E501
-            'name': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -92,8 +90,6 @@ class ComposedSchemaWithPropsAndNoAddProps(ModelComposed):
 
     attribute_map = {
         'color': 'color',  # noqa: E501
-        'id': 'id',  # noqa: E501
-        'name': 'name',  # noqa: E501
     }
 
     read_only_vars = {
@@ -136,8 +132,6 @@ class ComposedSchemaWithPropsAndNoAddProps(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional]  # noqa: E501
-            id (int): [optional]  # noqa: E501
-            name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -238,8 +232,6 @@ class ComposedSchemaWithPropsAndNoAddProps(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional]  # noqa: E501
-            id (int): [optional]  # noqa: E501
-            name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

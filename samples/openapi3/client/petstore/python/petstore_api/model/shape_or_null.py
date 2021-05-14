@@ -89,9 +89,6 @@ class ShapeOrNull(ModelComposed):
         """
         lazy_import()
         return {
-            'shape_type': (str,),  # noqa: E501
-            'quadrilateral_type': (str,),  # noqa: E501
-            'triangle_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -106,9 +103,6 @@ class ShapeOrNull(ModelComposed):
         return {'shape_type': val}
 
     attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
-        'quadrilateral_type': 'quadrilateralType',  # noqa: E501
-        'triangle_type': 'triangleType',  # noqa: E501
     }
 
     read_only_vars = {
@@ -120,7 +114,6 @@ class ShapeOrNull(ModelComposed):
         """ShapeOrNull - a model defined in OpenAPI
 
         Keyword Args:
-            shape_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -151,8 +144,6 @@ class ShapeOrNull(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            quadrilateral_type (str): [optional]  # noqa: E501
-            triangle_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -222,7 +213,6 @@ class ShapeOrNull(ModelComposed):
         """ShapeOrNull - a model defined in OpenAPI
 
         Keyword Args:
-            shape_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -253,8 +243,6 @@ class ShapeOrNull(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            quadrilateral_type (str): [optional]  # noqa: E501
-            triangle_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

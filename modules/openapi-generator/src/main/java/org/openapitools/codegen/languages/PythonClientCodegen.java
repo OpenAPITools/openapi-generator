@@ -183,6 +183,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
 
+        /*
+        in this generator we turn these off because
+        each schema should be validated independently across schemas per OpenApi
+        also schemas can have variable name collisions across schemas
+        so property a can have type int in one schema and string in another
+        Turning these off allows each of the a definitions to remain separate and to not be stuffed into and collide in
+        a composed schema
+         */
+        this.supportsInheritance = false;
+        this.supportsMultipleInheritance = false;
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
@@ -667,6 +677,18 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         List<String> referencedModelNames = new ArrayList<String>();
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
+    }
+
+    @Override
+    protected void accumulatePropertiesAndRequiredPropertiesFromComposedSchema(Map<String, Schema> properties, List<String> required, Schema refSchema, Map<String, Schema> allProperties, List<String> allRequired) {
+        /*
+        in this generator we turn these off because
+        each schema should be validated independently across schemas per OpenApi
+        also schemas can have variable name collisions across schemas
+        so property a can have type int in one schema and string in another
+        Turning these off allows each of the a definitions to remain separate and to not be stuffed into and collide in
+        a composed schema
+         */
     }
 
     /**
