@@ -11,7 +11,12 @@ namespace Tiny {
 template <typename T = std::string>
     class Response {
     public:
-    Response(T obj, int s);
+
+    Response(T _obj, int _code){
+        obj = _obj;
+        code = _code;
+    }
+
     int code;
     T obj;
     };
