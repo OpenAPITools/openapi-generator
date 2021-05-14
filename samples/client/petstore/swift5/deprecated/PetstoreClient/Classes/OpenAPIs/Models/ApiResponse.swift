@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** Describes the result of uploading an image resource */
 public struct ApiResponse: Codable, Hashable {

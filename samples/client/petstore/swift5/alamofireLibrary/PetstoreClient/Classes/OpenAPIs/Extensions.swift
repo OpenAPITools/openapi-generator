@@ -5,7 +5,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
@@ -185,6 +187,7 @@ extension HTTPURLResponse {
     }
 }
 
+#if canImport(AnyCodable)
 extension AnyCodable: Hashable {
     public func hash(into hasher: inout Hasher) {
         switch value {
@@ -225,3 +228,4 @@ extension AnyCodable: Hashable {
         }
     }
 }
+#endif

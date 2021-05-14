@@ -5,7 +5,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 import PromiseKit
 
 extension Bool: JSONEncodable {
@@ -201,6 +203,7 @@ extension RequestBuilder {
     }
 }
 
+#if canImport(AnyCodable)
 extension AnyCodable: Hashable {
     public func hash(into hasher: inout Hasher) {
         switch value {
@@ -241,3 +244,4 @@ extension AnyCodable: Hashable {
         }
     }
 }
+#endif

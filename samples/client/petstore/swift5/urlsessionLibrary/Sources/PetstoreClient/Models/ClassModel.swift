@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
 public final class ClassModel: Codable, Hashable {
