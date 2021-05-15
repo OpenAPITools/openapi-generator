@@ -63,16 +63,16 @@ using namespace Tiny;
                 int pos = url.find(s_{{paramName}});
 
                 url.erase(pos, s_{{paramName}}.length());
-                url.insert(pos, stringify({{paramName}})); //stringify(&{{paramName}}, "{{dataType}}"));
+                url.insert(pos, stringify({{paramName}}));
             {{/pathParams}}
 
             HTTPClient http;
-            {{#isEsp32}}
+            {{#isESP32}}
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-            {{/isEsp32}}
-            {{^isEsp32}}
+            {{/isESP32}}
+            {{^isESP32}}
                 http.begin(String(url.c_str())); //HTTP connection
-            {{/isEsp32}}
+            {{/isESP32}}
 
 
         std::string payload = "";
@@ -124,8 +124,6 @@ using namespace Tiny;
             std::string output_string = output.c_str();        
 
             http.end();
-
-        // --------------- MINE STARTS HERE ---------------
 
             {{#returnType}}
 
@@ -210,9 +208,6 @@ using namespace Tiny;
 
             {{/returnType}}
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             {{#returnType}}
             {{#returnContainer}}
             {{#isArray}}
