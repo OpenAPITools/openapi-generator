@@ -211,7 +211,12 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(array_of_enums=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', body=value_simple)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums',
+                body=value_simple,
+                content_type='application/json'
+            )
 
             assert isinstance(response, array_of_enums.ArrayOfEnums)
             assert response.value == value
