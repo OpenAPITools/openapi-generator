@@ -12,15 +12,13 @@ namespace Tiny {
 class AbstractService {
 public:
 HTTPClient http;
-std::string basepath = "http://petstore.swagger.io/v2"; //TODO Fix
+std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
 
 // Certificate from file
 const char* test_root_ca =
 #include "../../root.cert"
 ;
 
-
-Response<String> Request(const char * type, String payload);
-    }; // end class
+}; // end class
 }// namespace Tinyclient
 #endif // _AbstractService_H_
