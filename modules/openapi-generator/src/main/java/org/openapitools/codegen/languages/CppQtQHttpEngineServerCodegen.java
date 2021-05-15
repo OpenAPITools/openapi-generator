@@ -26,7 +26,7 @@ import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
+public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implements CodegenConfig {
 
     protected final String SRC_DIR = "/src";
     protected final String MODEL_DIR = "/src/models";
@@ -36,7 +36,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     // source folder where to write the files
     protected String sourceFolder = "server";
 
-    public CppQt5QHttpEngineServerCodegen() {
+    public CppQtQHttpEngineServerCodegen() {
         super();
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
