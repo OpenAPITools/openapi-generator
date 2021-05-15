@@ -1,0 +1,60 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <nlohmann/json.hpp>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    void validate();
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{{dataType}}}{{#isContainer}}&{{/isContainer}} {{getter}}(){{^isContainer}} const{{/isContainer}};
+    void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);{{^required}}
+    bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();{{/required}}
+    {{/vars}}
+
+    friend void to_json(nlohmann::json& j, const {{classname}}& o);
+    friend void from_json(const nlohmann::json& j, {{classname}}& o);
+protected:
+    {{#vars}}
+    {{{dataType}}} m_{{name}};
+    {{^required}}
+    bool m_{{name}}IsSet;{{/required}}
+    {{/vars}}
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

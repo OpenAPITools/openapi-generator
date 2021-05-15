@@ -1,0 +1,73 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{classname}}::{{classname}}()
+{
+    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
+    {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{^required}}m_{{name}}IsSet = false;
+    {{/required}}{{/vars}}
+}
+
+{{classname}}::~{{classname}}()
+{
+}
+
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
+void to_json(nlohmann::json& j, const {{classname}}& o)
+{
+    j = nlohmann::json();
+    {{#vars}}
+    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet(){{#isContainer}} || !o.m_{{name}}.empty(){{/isContainer}})
+        j["{{baseName}}"] = o.m_{{name}};{{/required}}
+    {{/vars}}
+}
+
+void from_json(const nlohmann::json& j, {{classname}}& o)
+{
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.find("{{baseName}}") != j.end())
+    {
+        j.at("{{baseName}}").get_to(o.m_{{name}});
+        o.m_{{name}}IsSet = true;
+    } {{/required}}
+    {{/vars}}
+}
+
+{{#vars}}{{{dataType}}}{{#isContainer}}&{{/isContainer}} {{classname}}::{{getter}}(){{^isContainer}} const{{/isContainer}}
+{
+    return m_{{name}};
+}
+void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
+{
+    m_{{name}} = value;{{^required}}
+    m_{{name}}IsSet = true;{{/required}}
+}
+{{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
+{
+    return m_{{name}}IsSet;
+}
+void {{classname}}::unset{{name}}()
+{
+    m_{{name}}IsSet = false;
+}
+{{/required}}
+{{/vars}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}
