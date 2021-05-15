@@ -15,6 +15,7 @@ public final class CatAllOf: Codable, Hashable {
     public init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case declawed
     }
@@ -26,8 +27,6 @@ public final class CatAllOf: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 
-
-
     public static func == (lhs: CatAllOf, rhs: CatAllOf) -> Bool {
         lhs.declawed == rhs.declawed
         
@@ -37,5 +36,4 @@ public final class CatAllOf: Codable, Hashable {
         hasher.combine(declawed?.hashValue)
         
     }
-
 }

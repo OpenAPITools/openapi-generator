@@ -17,6 +17,7 @@ internal struct File: Codable, Hashable {
     internal init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -27,7 +28,4 @@ internal struct File: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
-
-
-
 }

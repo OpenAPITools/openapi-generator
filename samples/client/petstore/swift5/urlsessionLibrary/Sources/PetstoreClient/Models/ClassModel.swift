@@ -16,6 +16,7 @@ public final class ClassModel: Codable, Hashable {
     public init(_class: String? = nil) {
         self._class = _class
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class
     }
@@ -27,8 +28,6 @@ public final class ClassModel: Codable, Hashable {
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 
-
-
     public static func == (lhs: ClassModel, rhs: ClassModel) -> Bool {
         lhs._class == rhs._class
         
@@ -38,5 +37,4 @@ public final class ClassModel: Codable, Hashable {
         hasher.combine(_class?.hashValue)
         
     }
-
 }

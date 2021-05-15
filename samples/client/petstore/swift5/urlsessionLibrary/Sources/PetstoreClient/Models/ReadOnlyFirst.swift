@@ -17,6 +17,7 @@ public final class ReadOnlyFirst: Codable, Hashable {
         self.bar = bar
         self.baz = baz
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case baz
@@ -30,8 +31,6 @@ public final class ReadOnlyFirst: Codable, Hashable {
         try container.encodeIfPresent(baz, forKey: .baz)
     }
 
-
-
     public static func == (lhs: ReadOnlyFirst, rhs: ReadOnlyFirst) -> Bool {
         lhs.bar == rhs.bar &&
         lhs.baz == rhs.baz
@@ -43,5 +42,4 @@ public final class ReadOnlyFirst: Codable, Hashable {
         hasher.combine(baz?.hashValue)
         
     }
-
 }

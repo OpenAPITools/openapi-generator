@@ -22,6 +22,7 @@ import AnyCodable
         self._id = _id
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case name
@@ -34,7 +35,4 @@ import AnyCodable
         try container.encodeIfPresent(_id, forKey: ._id)
         try container.encode(name, forKey: .name)
     }
-
-
-
 }

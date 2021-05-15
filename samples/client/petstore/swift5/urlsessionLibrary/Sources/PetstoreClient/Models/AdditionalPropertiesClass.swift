@@ -17,6 +17,7 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         self.mapString = mapString
         self.mapMapString = mapMapString
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapMapString = "map_map_string"
@@ -30,8 +31,6 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
     }
 
-
-
     public static func == (lhs: AdditionalPropertiesClass, rhs: AdditionalPropertiesClass) -> Bool {
         lhs.mapString == rhs.mapString &&
         lhs.mapMapString == rhs.mapMapString
@@ -43,5 +42,4 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         hasher.combine(mapMapString?.hashValue)
         
     }
-
 }

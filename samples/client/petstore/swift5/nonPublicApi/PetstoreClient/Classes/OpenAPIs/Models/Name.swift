@@ -22,6 +22,7 @@ internal struct Name: Codable, Hashable {
         self.property = property
         self._123number = _123number
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
@@ -38,7 +39,4 @@ internal struct Name: Codable, Hashable {
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
-
-
-
 }

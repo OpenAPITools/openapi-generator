@@ -30,6 +30,7 @@ public struct User: Codable, Hashable {
         self.phone = phone
         self.userStatus = userStatus
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case username
@@ -54,7 +55,4 @@ public struct User: Codable, Hashable {
         try container.encodeIfPresent(phone, forKey: .phone)
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
-
-
-
 }

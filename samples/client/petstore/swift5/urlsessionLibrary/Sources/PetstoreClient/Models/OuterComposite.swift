@@ -19,6 +19,7 @@ public final class OuterComposite: Codable, Hashable {
         self.myString = myString
         self.myBoolean = myBoolean
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
@@ -34,8 +35,6 @@ public final class OuterComposite: Codable, Hashable {
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 
-
-
     public static func == (lhs: OuterComposite, rhs: OuterComposite) -> Bool {
         lhs.myNumber == rhs.myNumber &&
         lhs.myString == rhs.myString &&
@@ -49,5 +48,4 @@ public final class OuterComposite: Codable, Hashable {
         hasher.combine(myBoolean?.hashValue)
         
     }
-
 }

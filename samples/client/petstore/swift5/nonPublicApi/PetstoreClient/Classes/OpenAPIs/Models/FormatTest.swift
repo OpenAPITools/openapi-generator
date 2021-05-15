@@ -39,6 +39,7 @@ internal struct FormatTest: Codable, Hashable {
         self.uuid = uuid
         self.password = password
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32
@@ -73,7 +74,4 @@ internal struct FormatTest: Codable, Hashable {
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
     }
-
-
-
 }
