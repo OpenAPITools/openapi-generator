@@ -67,9 +67,15 @@ using namespace Tiny;
             {{/pathParams}}
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+            {{#isEsp32}}
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
+            {{/isEsp32}}
+            {{^isEsp32}}
+                http.begin(String(url.c_str())); //HTTP connection
+            {{/isEsp32}}
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | {{httpMethod}}
             {{#bodyParam}}
