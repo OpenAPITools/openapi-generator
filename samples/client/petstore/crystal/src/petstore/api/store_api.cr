@@ -42,7 +42,7 @@ module Petstore
       local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode(order_id.to_s).gsub("%2F", "/"))
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -93,7 +93,7 @@ module Petstore
       local_var_path = "/store/inventory"
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -160,7 +160,7 @@ module Petstore
       local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode(order_id.to_s).gsub("%2F", "/"))
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -217,7 +217,7 @@ module Petstore
       local_var_path = "/store/order"
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
 
       # header parameters
       header_params = Hash(String, String).new
