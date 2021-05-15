@@ -27,14 +27,15 @@ using namespace Tiny;
             std::string url = basepath + "/user"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | user
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | POST
             
@@ -73,14 +74,15 @@ using namespace Tiny;
             std::string url = basepath + "/user/createWithArray"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | user
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | POST
             
@@ -126,14 +128,15 @@ using namespace Tiny;
             std::string url = basepath + "/user/createWithList"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | user
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | POST
             
@@ -179,7 +182,7 @@ using namespace Tiny;
             std::string url = basepath + "/user/{username}"; //username 
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
                 string s_username("{");
@@ -192,12 +195,13 @@ using namespace Tiny;
                 url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
-            // METHOD | POST
-            int httpCode = http.sendRequest("POST", (uint8_t *) payload.c_str(), payload.length());
+            // METHOD | DELETE
+            int httpCode = http.sendRequest("DELETE", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
             String output = http.getString();
@@ -228,7 +232,7 @@ using namespace Tiny;
             std::string url = basepath + "/user/{username}"; //username 
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
                 string s_username("{");
@@ -241,9 +245,10 @@ using namespace Tiny;
                 url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
@@ -285,14 +290,15 @@ using namespace Tiny;
             std::string url = basepath + "/user/login"; //
             // Query    | username password 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
@@ -330,14 +336,15 @@ using namespace Tiny;
             std::string url = basepath + "/user/logout"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
@@ -374,7 +381,7 @@ using namespace Tiny;
             std::string url = basepath + "/user/{username}"; //username 
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | user
 
                 string s_username("{");
@@ -387,9 +394,10 @@ using namespace Tiny;
                 url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | PUT
             

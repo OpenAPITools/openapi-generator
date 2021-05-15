@@ -27,7 +27,7 @@ using namespace Tiny;
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
                 string s_orderId("{");
@@ -40,12 +40,13 @@ using namespace Tiny;
                 url.insert(pos, stringify(orderId)); //stringify(&orderId, "std::string"));
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
-            // METHOD | POST
-            int httpCode = http.sendRequest("POST", (uint8_t *) payload.c_str(), payload.length());
+            // METHOD | DELETE
+            int httpCode = http.sendRequest("DELETE", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
             String output = http.getString();
@@ -73,14 +74,15 @@ using namespace Tiny;
             std::string url = basepath + "/store/inventory"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
@@ -121,7 +123,7 @@ using namespace Tiny;
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | 
 
                 string s_orderId("{");
@@ -134,9 +136,10 @@ using namespace Tiny;
                 url.insert(pos, stringify(orderId)); //stringify(&orderId, "long"));
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
@@ -151,7 +154,7 @@ using namespace Tiny;
 
 
 
-
+            Serial.println(output);
             Order obj(output_string);
 
 
@@ -175,14 +178,15 @@ using namespace Tiny;
             std::string url = basepath + "/store/order"; //
             // Query    | 
             // Headers  | 
-            // Form  | 
+            // Form     | 
             // Body     | order
 
 
             HTTPClient http;
-            http.begin(String(url.c_str()), test_root_ca); //HTTPS example connection
+                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
-            std::string payload = "";
+
+        std::string payload = "";
             // Send Request
             // METHOD | POST
             
