@@ -1,0 +1,85 @@
+#ifndef _StoreApi_H_
+#define _StoreApi_H_
+
+
+// TODO Are these default imports?
+#include "Response.h"
+#include "Arduino.h"
+#include "AbstractService.h"
+#include "Helpers.h"
+#include <list> // TODO: only if list is used
+
+// TODO import used models i this service.
+#include <map>
+#include "Order.h"
+
+namespace Tiny {
+
+/**
+ *  Class 
+ * Generated with openapi::tiny-cpp-client
+ */
+
+class StoreApi : public AbstractService {
+public:
+    StoreApi();
+
+    virtual ~StoreApi();
+
+    /**
+    * Delete purchase order by ID.
+    *
+    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    * \param orderId ID of the order that needs to be deleted *Required*
+    */
+    Response<
+            String
+        >
+    deleteOrder(
+            
+            std::string orderId
+            
+    );
+    /**
+    * Returns pet inventories by status.
+    *
+    * Returns a map of status codes to quantities
+    */
+    Response<
+                String
+        >
+    getInventory(
+    );
+    /**
+    * Find purchase order by ID.
+    *
+    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    * \param orderId ID of pet that needs to be fetched *Required*
+    */
+    Response<
+                Order
+        >
+    getOrderById(
+            
+            long orderId
+            
+    );
+    /**
+    * Place an order for a pet.
+    *
+    * 
+    * \param order order placed for purchasing the pet *Required*
+    */
+    Response<
+                Order
+        >
+    placeOrder(
+            
+            Order order
+            
+    );
+}; 
+
+} 
+
+#endif /* StoreApi_H_ */
