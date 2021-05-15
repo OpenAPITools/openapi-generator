@@ -253,20 +253,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-
-        for (CodegenOperation op : operationList) {
-            if (op.httpMethod.equals("DELETE")) {
-                op.httpMethod = "POST";
-            }
-        }
-
-        return objs;
-    }
-
-    @Override
     public String toModelName(String type) {
         if (typeMapping.keySet().contains(type) ||
                 typeMapping.values().contains(type) ||
