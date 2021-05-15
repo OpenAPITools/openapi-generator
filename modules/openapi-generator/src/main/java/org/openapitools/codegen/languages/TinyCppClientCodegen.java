@@ -111,7 +111,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         testPackage = libFolder + File.separator + "TestFiles";
         modelTestTemplateFiles.put("unit-test-model.mustache", ".cpp");
         supportingFiles.add(new SupportingFile("run-tests.mustache", "test", "RunTests.cpp"));
-        supportingFiles.add(new SupportingFile("unittest.mustache", "test_example", "unittest.cpp"));
 
         // SERVICES
         apiPackage = TinyCppClientCodegen.libFolder + File.separator + "service";
@@ -131,6 +130,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
         supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini"));
         supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert"));
+        supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
+
 
 
         defaultIncludes = new HashSet<String>(
