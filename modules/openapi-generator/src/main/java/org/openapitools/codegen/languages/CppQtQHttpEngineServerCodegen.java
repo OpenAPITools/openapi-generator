@@ -42,7 +42,7 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // set the output folder here
-        outputFolder = "generated-code/cpp-qt5-qhttpengine-server";
+        outputFolder = "generated-code/cpp-qt-qhttpengine-server";
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -83,7 +83,7 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "cpp-qt5-qhttpengine-server";
+        embeddedTemplateDir = templateDir = "cpp-qt-qhttpengine-server";
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
@@ -154,7 +154,7 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
      */
     @Override
     public String getName() {
-        return "cpp-qt5-qhttpengine-server";
+        return "cpp-qt-qhttpengine-server";
     }
 
     /**
@@ -165,7 +165,7 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt C++ Server using the QHTTPEngine HTTP Library.";
     }
 
     /**
