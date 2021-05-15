@@ -101,7 +101,12 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(json_data)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/arraymodel', body=json_data)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/arraymodel',
+                body=json_data,
+                content_type='application/json'
+            )
 
             assert isinstance(response, animal_farm.AnimalFarm)
             assert response == body
@@ -158,7 +163,11 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', body=json_value)
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/enum-test',
+                body=json_value,
+                content_type='application/json'
+            )
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -174,7 +183,11 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', body=json_value)
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/enum-test',
+                body=json_value,
+                content_type='application/json'
+            )
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -267,7 +280,8 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_model_with_ref_props',
-                    body=json_payload
+                    body=json_payload,
+                    content_type='application/json'
                 )
 
                 assert isinstance(response, expected_model.__class__)
