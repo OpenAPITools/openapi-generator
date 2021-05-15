@@ -67,28 +67,32 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     public TinyCppClientCodegen() {
         super();
 
-        // TODO Supporter ikke DELETE
         modifyFeatureSet(feature -> feature
                 .excludeGlobalFeatures(
-                GlobalFeature.XMLStructureDefinitions,
-                GlobalFeature.Callbacks,
-                GlobalFeature.LinkObjects,
-                GlobalFeature.ParameterStyling,
-                GlobalFeature.MultiServer)
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer)
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
-                        ParameterFeature.Cookie
+                        ParameterFeature.Cookie,
+                        ParameterFeature.Header,
+                        ParameterFeature.FormUnencoded,
+                        ParameterFeature.FormMultipart,
+                        ParameterFeature.Query
                 )
-        .excludeDataTypeFeatures(
-                DataTypeFeature.Maps
-        )
-        .excludeWireFormatFeatures(
-                WireFormatFeature.XML,
-                WireFormatFeature.PROTOBUF,
-                WireFormatFeature.Custom
-        ));
+                .excludeDataTypeFeatures(
+                        DataTypeFeature.Maps
+                )
+                .excludeWireFormatFeatures(
+                        WireFormatFeature.XML,
+                        WireFormatFeature.PROTOBUF,
+                        WireFormatFeature.Custom
+                )
+                .excludeGlobalFeatures());
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
