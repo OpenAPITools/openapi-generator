@@ -2,14 +2,12 @@
 #define _StoreApi_H_
 
 
-// TODO Are these default imports?
 #include "Response.h"
 #include "Arduino.h"
 #include "AbstractService.h"
 #include "Helpers.h"
-#include <list> // TODO: only if list is used
+#include <list>
 
-// TODO import used models i this service.
 #include <map>
 #include "Order.h"
 
