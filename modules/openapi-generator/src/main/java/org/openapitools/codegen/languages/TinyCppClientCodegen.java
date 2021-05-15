@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -67,6 +68,27 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         super();
 
         // TODO Supporter ikke DELETE
+        modifyFeatureSet(feature -> feature
+                .excludeGlobalFeatures(
+                GlobalFeature.XMLStructureDefinitions,
+                GlobalFeature.Callbacks,
+                GlobalFeature.LinkObjects,
+                GlobalFeature.ParameterStyling,
+                GlobalFeature.MultiServer)
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        .excludeDataTypeFeatures(
+                DataTypeFeature.Maps
+        )
+        .excludeWireFormatFeatures(
+                WireFormatFeature.XML,
+                WireFormatFeature.PROTOBUF,
+                WireFormatFeature.Custom
+        ));
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
