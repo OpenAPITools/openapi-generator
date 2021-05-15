@@ -51,12 +51,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -105,12 +100,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -159,12 +149,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -192,7 +177,7 @@ using namespace Tiny;
                 int pos = url.find(s_username);
 
                 url.erase(pos, s_username.length());
-                url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
+                url.insert(pos, stringify(username));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -209,12 +194,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -242,7 +222,7 @@ using namespace Tiny;
                 int pos = url.find(s_username);
 
                 url.erase(pos, s_username.length());
-                url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
+                url.insert(pos, stringify(username));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -259,17 +239,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             User obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<User> response(obj, httpCode);
             return response;
         }
@@ -309,8 +284,6 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
             bourne::json jsonPayload(output_string);
@@ -319,9 +292,6 @@ using namespace Tiny;
 
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<std::string> response(obj, httpCode);
             return response;
         }
@@ -355,12 +325,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -391,7 +356,7 @@ using namespace Tiny;
                 int pos = url.find(s_username);
 
                 url.erase(pos, s_username.length());
-                url.insert(pos, stringify(username)); //stringify(&username, "std::string"));
+                url.insert(pos, stringify(username));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -413,12 +378,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }

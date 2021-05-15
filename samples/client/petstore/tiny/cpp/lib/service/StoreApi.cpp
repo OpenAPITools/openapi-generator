@@ -37,7 +37,7 @@ using namespace Tiny;
                 int pos = url.find(s_orderId);
 
                 url.erase(pos, s_orderId.length());
-                url.insert(pos, stringify(orderId)); //stringify(&orderId, "std::string"));
+                url.insert(pos, stringify(orderId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -54,12 +54,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -93,8 +88,6 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
             //TODO: Implement map logic here
@@ -102,9 +95,6 @@ using namespace Tiny;
 
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             //TODO: No support for maps.
             Response<String> response(output, httpCode);
             return response;
@@ -133,7 +123,7 @@ using namespace Tiny;
                 int pos = url.find(s_orderId);
 
                 url.erase(pos, s_orderId.length());
-                url.insert(pos, stringify(orderId)); //stringify(&orderId, "long"));
+                url.insert(pos, stringify(orderId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -150,17 +140,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
 
 
-            Serial.println(output);
             Order obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<Order> response(obj, httpCode);
             return response;
         }
@@ -202,17 +187,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             Order obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<Order> response(obj, httpCode);
             return response;
         }

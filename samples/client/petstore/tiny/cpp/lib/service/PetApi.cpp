@@ -51,17 +51,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             Pet obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<Pet> response(obj, httpCode);
             return response;
         }
@@ -92,7 +87,7 @@ using namespace Tiny;
                 int pos = url.find(s_petId);
 
                 url.erase(pos, s_petId.length());
-                url.insert(pos, stringify(petId)); //stringify(&petId, "long"));
+                url.insert(pos, stringify(petId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -109,12 +104,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -151,8 +141,6 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
             std::list<Pet> obj = std::list<Pet>();
@@ -179,9 +167,6 @@ using namespace Tiny;
 
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<std::list<Pet>> response(obj, httpCode);
             return response;
         }
@@ -218,8 +203,6 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
             std::list<Pet> obj = std::list<Pet>();
@@ -246,9 +229,6 @@ using namespace Tiny;
 
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<std::list<Pet>> response(obj, httpCode);
             return response;
         }
@@ -276,7 +256,7 @@ using namespace Tiny;
                 int pos = url.find(s_petId);
 
                 url.erase(pos, s_petId.length());
-                url.insert(pos, stringify(petId)); //stringify(&petId, "long"));
+                url.insert(pos, stringify(petId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -293,17 +273,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             Pet obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<Pet> response(obj, httpCode);
             return response;
         }
@@ -345,17 +320,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             Pet obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<Pet> response(obj, httpCode);
             return response;
         }
@@ -389,7 +359,7 @@ using namespace Tiny;
                 int pos = url.find(s_petId);
 
                 url.erase(pos, s_petId.length());
-                url.insert(pos, stringify(petId)); //stringify(&petId, "long"));
+                url.insert(pos, stringify(petId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -406,12 +376,7 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
 
-
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<String> response(output, httpCode);
             return response;
         }
@@ -445,7 +410,7 @@ using namespace Tiny;
                 int pos = url.find(s_petId);
 
                 url.erase(pos, s_petId.length());
-                url.insert(pos, stringify(petId)); //stringify(&petId, "long"));
+                url.insert(pos, stringify(petId));
 
             HTTPClient http;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
@@ -462,17 +427,12 @@ using namespace Tiny;
 
             http.end();
 
-        // --------------- MINE STARTS HERE ---------------
-
 
 
 
             ApiResponse obj(output_string);
 
 
-        // --------------- MINE ENDS HERE ---------------
-
-            
             Response<ApiResponse> response(obj, httpCode);
             return response;
         }
