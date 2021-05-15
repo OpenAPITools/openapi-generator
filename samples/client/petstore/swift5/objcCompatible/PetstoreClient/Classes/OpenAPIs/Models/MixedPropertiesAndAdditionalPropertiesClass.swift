@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
@@ -19,4 +20,18 @@ import Foundation
         self.map = map
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case uuid
+        case dateTime
+        case map
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(map, forKey: .map)
+    }
 }

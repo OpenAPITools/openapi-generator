@@ -6,15 +6,28 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct Category: Codable, Hashable {
 
     internal var id: Int64?
-    internal var name: String = "default-name"
+    internal var name: String? = "default-name"
 
-    internal init(id: Int64? = nil, name: String = "default-name") {
+    internal init(id: Int64? = nil, name: String? = "default-name") {
         self.id = id
         self.name = name
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case name
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+    }
 }

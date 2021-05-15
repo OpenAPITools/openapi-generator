@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct EnumTest: Codable, Hashable {
 
@@ -49,4 +50,14 @@ public struct EnumTest: Codable, Hashable {
         case outerEnum
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(enumString, forKey: .enumString)
+        try container.encode(enumStringRequired, forKey: .enumStringRequired)
+        try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
+        try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
+        try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
+    }
 }

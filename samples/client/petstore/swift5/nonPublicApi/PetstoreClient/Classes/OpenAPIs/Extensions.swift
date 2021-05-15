@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
@@ -49,6 +50,12 @@ private func encodeIfPossible<T>(_ object: T) -> Any {
 extension Array: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.map(encodeIfPossible)
+    }
+}
+
+extension Set: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return Array(self).encodeToJSON()
     }
 }
 
@@ -175,5 +182,46 @@ extension KeyedDecodingContainerProtocol {
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
         return Array(200 ..< 300).contains(statusCode)
+    }
+}
+
+extension AnyCodable: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        switch value {
+        case let value as Bool:
+            hasher.combine(value)
+        case let value as Int:
+            hasher.combine(value)
+        case let value as Int8:
+            hasher.combine(value)
+        case let value as Int16:
+            hasher.combine(value)
+        case let value as Int32:
+            hasher.combine(value)
+        case let value as Int64:
+            hasher.combine(value)
+        case let value as UInt:
+            hasher.combine(value)
+        case let value as UInt8:
+            hasher.combine(value)
+        case let value as UInt16:
+            hasher.combine(value)
+        case let value as UInt32:
+            hasher.combine(value)
+        case let value as UInt64:
+            hasher.combine(value)
+        case let value as Float:
+            hasher.combine(value)
+        case let value as Double:
+            hasher.combine(value)
+        case let value as String:
+            hasher.combine(value)
+        case let value as [String: AnyCodable]:
+            hasher.combine(value)
+        case let value as [AnyCodable]:
+            hasher.combine(value)
+        default:
+            hasher.combine(0)
+        }
     }
 }

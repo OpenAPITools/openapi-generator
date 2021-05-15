@@ -26,6 +26,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeAPI* | [**call123testSpecialTags**](docs/AnotherFakeAPI.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeAPI* | [**createXmlItem**](docs/FakeAPI.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeAPI* | [**fakeOuterBooleanSerialize**](docs/FakeAPI.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeAPI* | [**fakeOuterCompositeSerialize**](docs/FakeAPI.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeAPI* | [**fakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -38,6 +39,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**testGroupParameters**](docs/FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeAPI* | [**testInlineAdditionalProperties**](docs/FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeAPI* | [**testJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeAPI* | [**testQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123API* | [**testClassname**](docs/FakeClassnameTags123API.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetAPI* | [**addPet**](docs/PetAPI.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetAPI* | [**deletePet**](docs/PetAPI.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -64,13 +66,22 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Animal](docs/Animal.md)
  - [AnimalFarm](docs/AnimalFarm.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [BigCat](docs/BigCat.md)
+ - [BigCatAllOf](docs/BigCatAllOf.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -104,6 +115,7 @@ Class | Method | HTTP request | Description
  - [TypeHolderDefault](docs/TypeHolderDefault.md)
  - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
+ - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization

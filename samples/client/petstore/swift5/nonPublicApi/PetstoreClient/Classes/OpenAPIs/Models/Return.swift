@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing reserved words */
 internal struct Return: Codable, Hashable {
@@ -20,4 +21,10 @@ internal struct Return: Codable, Hashable {
         case _return = "return"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_return, forKey: ._return)
+    }
 }

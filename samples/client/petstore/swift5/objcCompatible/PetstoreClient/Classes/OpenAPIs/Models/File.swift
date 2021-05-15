@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Must be named &#x60;File&#x60; for test. */
 @objc public class File: NSObject, Codable {
@@ -17,4 +18,14 @@ import Foundation
         self.sourceURI = sourceURI
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case sourceURI
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
+    }
 }

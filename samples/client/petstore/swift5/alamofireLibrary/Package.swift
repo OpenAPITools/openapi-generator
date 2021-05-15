@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -19,6 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/Flight-School/AnyCodable", .exact("0.4.0")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
     ],
     targets: [
@@ -26,7 +27,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "PetstoreClient",
-            dependencies: ["Alamofire", ],
+            dependencies: ["AnyCodable", "Alamofire", ],
             path: "PetstoreClient/Classes"
         ),
     ]

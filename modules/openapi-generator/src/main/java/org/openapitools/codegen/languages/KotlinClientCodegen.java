@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -58,6 +60,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
+
+    public static final String MOSHI_CODE_GEN = "moshiCodeGen";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
@@ -202,6 +206,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
+
+        cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
     }
 
     public CodegenType getTag() {
@@ -654,6 +660,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
+                }
+
+                // sorting operation parameters to make sure path params are parsed before query params
+                if (operation.allParams != null) {
+                    sort(operation.allParams, (one, another) -> {
+                        if (one.isPathParam && another.isQueryParam) {
+                            return -1;
+                        }
+                        if (one.isQueryParam && another.isPathParam){
+                            return 1;
+                        }
+
+                        return 0;
+                    });
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds

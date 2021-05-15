@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct Pet: Codable, Hashable {
 
@@ -17,12 +18,12 @@ public struct Pet: Codable, Hashable {
     public var id: Int64?
     public var category: Category?
     public var name: String
-    public var photoUrls: [String]
+    public var photoUrls: Set<String>
     public var tags: [Tag]?
     /** pet status in the store */
     public var status: Status?
 
-    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
+    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: Set<String>, tags: [Tag]? = nil, status: Status? = nil) {
         self.id = id
         self.category = category
         self.name = name
@@ -31,4 +32,24 @@ public struct Pet: Codable, Hashable {
         self.status = status
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case category
+        case name
+        case photoUrls
+        case tags
+        case status
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encode(name, forKey: .name)
+        try container.encode(photoUrls, forKey: .photoUrls)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(status, forKey: .status)
+    }
 }

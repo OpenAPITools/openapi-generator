@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class HasOnlyReadOnly: NSObject, Codable {
 
@@ -17,4 +18,16 @@ import Foundation
         self.foo = foo
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case bar
+        case foo
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(bar, forKey: .bar)
+        try container.encodeIfPresent(foo, forKey: .foo)
+    }
 }

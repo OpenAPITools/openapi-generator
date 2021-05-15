@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct Client: Codable, Hashable {
 
@@ -15,4 +16,14 @@ internal struct Client: Codable, Hashable {
         self.client = client
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case client
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(client, forKey: .client)
+    }
 }

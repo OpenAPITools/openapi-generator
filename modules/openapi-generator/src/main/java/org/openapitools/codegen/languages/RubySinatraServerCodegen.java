@@ -87,6 +87,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("Dockerfile", "", "Dockerfile"));
     }
 
     @Override

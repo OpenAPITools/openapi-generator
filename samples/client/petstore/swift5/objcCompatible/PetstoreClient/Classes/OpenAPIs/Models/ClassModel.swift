@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model with \&quot;_class\&quot; property */
 @objc public class ClassModel: NSObject, Codable {
@@ -16,4 +17,14 @@ import Foundation
         self._class = _class
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case _class
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_class, forKey: ._class)
+    }
 }

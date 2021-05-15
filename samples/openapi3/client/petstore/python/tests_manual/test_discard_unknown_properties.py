@@ -16,7 +16,7 @@ import re
 import unittest
 
 import petstore_api
-from petstore_api.model import cat, dog, isosceles_triangle, banana_req
+from petstore_api.model import cat, dog, isosceles_triangle, banana_req, fruit_req
 from petstore_api import Configuration, signing
 
 from petstore_api.model_utils import (
@@ -54,17 +54,17 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
             'Exception message: {0}'.format(str(cm.exception)))
 
 
-    def test_deserialize_isosceles_triangle_do_not_discard_unknown_properties(self):
+    def test_deserialize_fruit_req_do_not_discard_unknown_properties(self):
         """
-        deserialize IsoscelesTriangle with unknown properties.
+        deserialize FruitReq with unknown properties.
         Strict validation is enabled.
         Composed schema scenario.
         """
         config = Configuration(discard_unknown_keys=False)
         api_client = petstore_api.ApiClient(config)
         data = {
-            'shape_type': 'Triangle',
-            'triangle_type': 'EquilateralTriangle',
+            'lengthCm': 21.3,
+            'sweet': False,
             # Below is an unknown property not explicitly declared in the OpenAPI document.
             # It should not be in the payload because additional properties (undeclared) are
             # not allowed in the schema (additionalProperties: false).
@@ -74,10 +74,29 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
 
         # Deserializing with strict validation raises an exception because the 'unknown_property'
         # is undeclared.
-        with self.assertRaises(petstore_api.ApiValueError) as cm:
-            deserialized = api_client.deserialize(response, ((isosceles_triangle.IsoscelesTriangle),), True)
-        self.assertTrue(re.match('.*Not all inputs were used.*unknown_property.*', str(cm.exception)),
-            'Exception message: {0}'.format(str(cm.exception)))
+        with self.assertRaisesRegex(petstore_api.ApiValueError, "Invalid inputs given to generate an instance of FruitReq. None of the oneOf schemas matched the input data."):
+            deserialized = api_client.deserialize(response, ((fruit_req.FruitReq),), True)
+
+
+    def test_deserialize_fruit_req_discard_unknown_properties(self):
+        """
+        deserialize FruitReq with unknown properties.
+        Strict validation is enabled.
+        Composed schema scenario.
+        """
+        config = Configuration(discard_unknown_keys=True)
+        api_client = petstore_api.ApiClient(config)
+        data = {
+            'lengthCm': 21.3,
+            'sweet': False,
+            # Below is an unknown property not explicitly declared in the OpenAPI document.
+            # It should not be in the payload because additional properties (undeclared) are
+            # not allowed in BananaReq
+            'unknown_property': 'a-value'
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = api_client.deserialize(response, ((fruit_req.FruitReq),), True)
+        self.assertNotIn("unknown_property", deserialized.to_dict().keys())
 
 
     def test_deserialize_banana_req_discard_unknown_properties(self):
@@ -145,13 +164,10 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
             # Below are additional (undeclared) properties.
             "my_additional_property": 123,
         }
-        # The 'my_additional_property' is undeclared, but 'Cat' has a 'Address' type through
-        # the allOf: [ $ref: '#/components/schemas/Address' ].
+        # The 'my_additional_property' is undeclared
         response = MockResponse(data=json.dumps(data))
         deserialized = api_client.deserialize(response, ((cat.Cat),), True)
         self.assertTrue(isinstance(deserialized, cat.Cat))
-        # Check the 'unknown_property' and 'more-unknown' properties are not present in the
-        # output.
-        self.assertIn("declawed", deserialized.to_dict().keys())
+        # Check the 'my_additional_property' is present
         self.assertIn("my_additional_property", deserialized.to_dict().keys())
 

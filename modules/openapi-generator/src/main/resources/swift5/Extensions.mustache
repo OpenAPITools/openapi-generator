@@ -4,7 +4,8 @@
 // https://openapi-generator.tech
 //
 
-import Foundation{{#usePromiseKit}}
+import Foundation
+import AnyCodable{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}
 
 extension Bool: JSONEncodable {
@@ -53,6 +54,12 @@ extension Array: JSONEncodable {
     }
 }
 
+extension Set: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return Array(self).encodeToJSON()
+    }
+}
+
 extension Dictionary: JSONEncodable {
     func encodeToJSON() -> Any {
         var dictionary = [AnyHashable: Any]()
@@ -85,7 +92,7 @@ extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString
     }
-}
+}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
@@ -171,7 +178,7 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
-}
+}{{/generateModelAdditionalProperties}}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
@@ -193,3 +200,44 @@ extension RequestBuilder {
         return deferred.promise
     }
 }{{/usePromiseKit}}
+
+extension AnyCodable: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        switch value {
+        case let value as Bool:
+            hasher.combine(value)
+        case let value as Int:
+            hasher.combine(value)
+        case let value as Int8:
+            hasher.combine(value)
+        case let value as Int16:
+            hasher.combine(value)
+        case let value as Int32:
+            hasher.combine(value)
+        case let value as Int64:
+            hasher.combine(value)
+        case let value as UInt:
+            hasher.combine(value)
+        case let value as UInt8:
+            hasher.combine(value)
+        case let value as UInt16:
+            hasher.combine(value)
+        case let value as UInt32:
+            hasher.combine(value)
+        case let value as UInt64:
+            hasher.combine(value)
+        case let value as Float:
+            hasher.combine(value)
+        case let value as Double:
+            hasher.combine(value)
+        case let value as String:
+            hasher.combine(value)
+        case let value as [String: AnyCodable]:
+            hasher.combine(value)
+        case let value as [AnyCodable]:
+            hasher.combine(value)
+        default:
+            hasher.combine(0)
+        }
+    }
+}

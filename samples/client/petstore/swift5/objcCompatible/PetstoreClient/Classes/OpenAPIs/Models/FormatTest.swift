@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class FormatTest: NSObject, Codable {
 
@@ -64,4 +65,38 @@ import Foundation
         self.password = password
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case integer
+        case int32
+        case int64
+        case number
+        case float
+        case double
+        case string
+        case byte
+        case binary
+        case date
+        case dateTime
+        case uuid
+        case password
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(integer, forKey: .integer)
+        try container.encodeIfPresent(int32, forKey: .int32)
+        try container.encodeIfPresent(int64, forKey: .int64)
+        try container.encode(number, forKey: .number)
+        try container.encodeIfPresent(float, forKey: .float)
+        try container.encodeIfPresent(double, forKey: .double)
+        try container.encodeIfPresent(string, forKey: .string)
+        try container.encode(byte, forKey: .byte)
+        try container.encodeIfPresent(binary, forKey: .binary)
+        try container.encode(date, forKey: .date)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encode(password, forKey: .password)
+    }
 }

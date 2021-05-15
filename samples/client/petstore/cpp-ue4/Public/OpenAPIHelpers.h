@@ -114,6 +114,11 @@ inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)
 	return FStringFormatArg(Value.ToIso8601());
 }
 
+inline FStringFormatArg ToStringFormatArg(const FGuid& Value)
+{
+	return FStringFormatArg(Value.ToString(EGuidFormats::DigitsWithHyphens));
+}
+
 inline FStringFormatArg ToStringFormatArg(const TArray<uint8>& Value)
 {
 	return FStringFormatArg(Base64UrlEncode(Value));
@@ -229,6 +234,11 @@ inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
 	Writer->WriteValue(Value.ToIso8601());
 }
 
+inline void WriteJsonValue(JsonWriter& Writer, const FGuid& Value)
+{
+	Writer->WriteValue(Value.ToString(EGuidFormats::DigitsWithHyphens));
+}
+
 inline void WriteJsonValue(JsonWriter& Writer, const Model& Value)
 {
 	Value.WriteJson(Writer);
@@ -285,6 +295,17 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& 
 	if (JsonValue->TryGetString(TmpValue))
 	{
 		return ParseDateTime(TmpValue, Value);
+	}
+	else
+		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FGuid& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		return FGuid::Parse(TmpValue, Value);
 	}
 	else
 		return false;

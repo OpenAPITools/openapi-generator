@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct Cat: Codable, Hashable {
 
@@ -19,4 +20,18 @@ internal struct Cat: Codable, Hashable {
         self.declawed = declawed
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case className
+        case color
+        case declawed
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(className, forKey: .className)
+        try container.encodeIfPresent(color, forKey: .color)
+        try container.encodeIfPresent(declawed, forKey: .declawed)
+    }
 }

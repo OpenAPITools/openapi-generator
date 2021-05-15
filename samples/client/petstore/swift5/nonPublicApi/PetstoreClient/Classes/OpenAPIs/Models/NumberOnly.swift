@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct NumberOnly: Codable, Hashable {
 
@@ -19,4 +20,10 @@ internal struct NumberOnly: Codable, Hashable {
         case justNumber = "JustNumber"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(justNumber, forKey: .justNumber)
+    }
 }

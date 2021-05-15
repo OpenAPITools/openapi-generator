@@ -19,7 +19,7 @@ package org.openapitools.codegen.python;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.options.PythonClientOptionsProvider;
 import org.testng.Assert;
 
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class PythonClientOptionsTest extends AbstractOptionsTest {
-    private PythonLegacyClientCodegen clientCodegen = mock(PythonLegacyClientCodegen.class, mockSettings);
+    private PythonClientCodegen clientCodegen = mock(PythonClientCodegen.class, mockSettings);
 
     public PythonClientOptionsTest() {
         super(new PythonClientOptionsProvider());

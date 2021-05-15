@@ -13,3 +13,4 @@ targets:
     scheme: {}
     dependencies:
     - carthage: RxSwift
+    - carthage: AnyCodable

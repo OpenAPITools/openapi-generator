@@ -10,7 +10,48 @@
         '_additional_properties_model_instances',
     ])
 
-{{> model_templates/method_init_shared }}
+    @convert_js_args_to_python_args
+    def __init__(self, *args, **kwargs):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+        Keyword Args:
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+{{/defaultValue}}
+{{^defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}{{/description}}
+{{/defaultValue}}
+{{/isReadOnly}}
+{{/requiredVars}}
+{{> model_templates/docstring_init_required_kwargs }}
+{{#optionalVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501
+{{/optionalVars}}
+        """
+
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+        {{name}} = kwargs.get('{{name}}', {{{defaultValue}}})
+{{/defaultValue}}
+{{/isReadOnly}}
+{{/requiredVars}}
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+{{> model_templates/invalid_pos_args }}
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._spec_property_naming = _spec_property_naming
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         constant_args = {
             '_check_type': _check_type,
@@ -19,28 +60,21 @@
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
-        required_args = {
-{{#requiredVars}}
-            '{{name}}': {{name}},
-{{/requiredVars}}
-        }
-        model_args = {}
-        model_args.update(required_args)
-        model_args.update(kwargs)
         composed_info = validate_get_composed_info(
-            constant_args, model_args, self)
+            constant_args, kwargs, self)
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
-        unused_args = composed_info[3]
+        discarded_args = composed_info[3]
 
-        for var_name, var_value in required_args.items():
-            setattr(self, var_name, var_value)
         for var_name, var_value in kwargs.items():
-            if var_name in unused_args and \
+            if var_name in discarded_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
-                        not self._additional_properties_model_instances:
+                        self._additional_properties_model_instances:
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
+            if var_name in self.read_only_vars:
+                raise ApiAttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
+                                     f"class with read only attributes.")

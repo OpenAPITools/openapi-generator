@@ -83,6 +83,7 @@ services.AddHttpClient<YourApiClass>(httpClient =>
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -96,7 +97,10 @@ namespace Example
 
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new AnotherFakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new AnotherFakeApi(httpClient, config, httpClientHandler);
             var modelClient = new ModelClient(); // ModelClient | client model
 
             try

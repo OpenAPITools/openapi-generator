@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct List: Codable, Hashable {
 
@@ -19,4 +20,10 @@ public struct List: Codable, Hashable {
         case _123list = "123-list"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_123list, forKey: ._123list)
+    }
 }

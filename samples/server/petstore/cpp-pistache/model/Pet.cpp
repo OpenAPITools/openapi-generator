@@ -12,11 +12,12 @@
 
 
 #include "Pet.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 Pet::Pet()
 {
@@ -30,13 +31,106 @@ Pet::Pet()
     
 }
 
-Pet::~Pet()
+void Pet::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void Pet::validate()
+bool Pet::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "Pet" : pathPrefix;
+
+        
+    
+    
+     
+    
+    /* PhotoUrls */ {
+        const std::vector<std::string>& value = m_PhotoUrls;
+        const std::string currentValuePath = _pathPrefix + ".photoUrls";
+                
+        
+        { // Recursive validation of array elements
+            const std::string oldValuePath = currentValuePath;
+            int i = 0;
+            for (const std::string& value : value)
+            { 
+                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                        
+        
+ 
+                i++;
+            }
+        }
+
+    }
+    
+     
+    if (tagsIsSet())
+    {
+        const std::vector<Tag>& value = m_Tags;
+        const std::string currentValuePath = _pathPrefix + ".tags";
+                
+        
+        { // Recursive validation of array elements
+            const std::string oldValuePath = currentValuePath;
+            int i = 0;
+            for (const Tag& value : value)
+            { 
+                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                        
+        success = value.validate(msg, currentValuePath + ".tags") && success;
+ 
+                i++;
+            }
+        }
+
+    }
+    
+    
+
+    return success;
+}
+
+bool Pet::operator==(const Pet& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!categoryIsSet() && !rhs.categoryIsSet()) || (categoryIsSet() && rhs.categoryIsSet() && getCategory() == rhs.getCategory())) &&
+    
+    (getName() == rhs.getName())
+     &&
+    
+    (getPhotoUrls() == rhs.getPhotoUrls())
+     &&
+    
+    
+    ((!tagsIsSet() && !rhs.tagsIsSet()) || (tagsIsSet() && rhs.tagsIsSet() && getTags() == rhs.getTags())) &&
+    
+    
+    ((!statusIsSet() && !rhs.statusIsSet()) || (statusIsSet() && rhs.statusIsSet() && getStatus() == rhs.getStatus()))
+    
+    ;
+}
+
+bool Pet::operator!=(const Pet& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const Pet& o)
@@ -124,7 +218,7 @@ void Pet::setName(std::string const& value)
 {
     m_Name = value;
 }
-std::vector<std::string>& Pet::getPhotoUrls()
+std::vector<std::string> Pet::getPhotoUrls() const
 {
     return m_PhotoUrls;
 }
@@ -132,7 +226,7 @@ void Pet::setPhotoUrls(std::vector<std::string> const& value)
 {
     m_PhotoUrls = value;
 }
-std::vector<Tag>& Pet::getTags()
+std::vector<Tag> Pet::getTags() const
 {
     return m_Tags;
 }
@@ -168,8 +262,5 @@ void Pet::unsetStatus()
 }
 
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 

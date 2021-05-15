@@ -57,6 +57,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+
+import javax.annotation.Nullable;
+
 import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
@@ -87,21 +90,20 @@ public class ApiClient extends JavaTimeFormatter {
 
     private final WebClient webClient;
     private final DateFormat dateFormat;
+    private final ObjectMapper objectMapper;
 
     private Map<String, Authentication> authentications;
 
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(dateFormat);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNullableModule jnm = new JsonNullableModule();
-        mapper.registerModule(jnm);
-
-        this.webClient = buildWebClient(mapper);
+        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
+        this.webClient = buildWebClient(this.objectMapper);
         this.init();
+    }
+
+    public ApiClient(WebClient webClient) {
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient()), createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
@@ -109,19 +111,33 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
+        this.objectMapper = createDefaultObjectMapper(format);
         this.init();
     }
 
-    public DateFormat createDefaultDateFormat() {
+    public static DateFormat createDefaultDateFormat() {
         DateFormat dateFormat = new RFC3339DateFormat();
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat;
+    }
+
+    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
+        return mapper;
     }
 
     protected void init() {
@@ -136,20 +152,45 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
-    * Build the WebClient used to make HTTP requests.
+    * Build the WebClientBuilder used to make WebClient.
+    * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
-    public static WebClient buildWebClient(ObjectMapper mapper) {
+    public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
             }).build();
-        WebClient.Builder webClient = WebClient.builder().exchangeStrategies(strategies);
-        return webClient.build();
+        WebClient.Builder webClientBuilder = WebClient.builder().exchangeStrategies(strategies);
+        return webClientBuilder;
     }
 
+    /**
+     * Build the WebClientBuilder used to make WebClient.
+     * @return WebClient
+     */
+    public static WebClient.Builder buildWebClientBuilder() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null));
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @param mapper ObjectMapper used for serialize/deserialize
+     * @return WebClient
+     */
+    public static WebClient buildWebClient(ObjectMapper mapper) {
+        return buildWebClientBuilder(mapper).build();
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @return WebClient
+     */
+    public static WebClient buildWebClient() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null)).build();
+    }
 
     /**
      * Get the current base path
@@ -335,6 +376,22 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public String formatDate(Date date) {
         return dateFormat.format(date);
+    }
+
+    /**
+     * Get the ObjectMapper used to make HTTP requests.
+     * @return ObjectMapper objectMapper
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    /**
+     * Get the WebClient used to make HTTP requests.
+     * @return WebClient webClient
+     */
+    public WebClient getWebClient() {
+        return webClient;
     }
 
     /**
@@ -640,10 +697,10 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
          // collectionFormat is assumed to be "csv" by default
-         if(collectionFormat == null) {
-             collectionFormat = CollectionFormat.CSV;
-         }
+        if(collectionFormat == null) {
+            collectionFormat = CollectionFormat.CSV;
+        }
 
-         return collectionFormat.collectionToString(values);
+        return collectionFormat.collectionToString(values);
     }
 }

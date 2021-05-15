@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal struct AdditionalPropertiesClass: Codable, Hashable {
 
@@ -22,4 +23,11 @@ internal struct AdditionalPropertiesClass: Codable, Hashable {
         case mapMapString = "map_map_string"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapString, forKey: .mapString)
+        try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
 
@@ -19,4 +20,10 @@ public struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
         case arrayArrayNumber = "ArrayArrayNumber"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayArrayNumber, forKey: .arrayArrayNumber)
+    }
 }

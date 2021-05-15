@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 
+import java.io.File;
 import java.util.Map;
 
 public class Swift5OptionsProvider implements OptionsProvider {
@@ -45,9 +46,13 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String POD_DOCUMENTATION_URL_VALUE = "podDocumentationURL";
     public static final String READONLY_PROPERTIES_VALUE = "false";
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
+    public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
+    public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String LIBRARY_VALUE = "alamofire";
+    public static final String USE_SPM_FILE_STRUCTURE_VALUE = "false";
+    public static final String SWIFT_PACKAGE_PATH_VALUE = "";
 
     @Override
     public String getLanguage() {
@@ -77,6 +82,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
                 .put(Swift5ClientCodegen.READONLY_PROPERTIES, READONLY_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
+                .put(Swift5ClientCodegen.USE_BACKTICK_ESCAPES, USE_BACKTICKS_ESCAPES_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
@@ -84,6 +90,9 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(Swift5ClientCodegen.USE_SPM_FILE_STRUCTURE, USE_SPM_FILE_STRUCTURE_VALUE)
+                .put(Swift5ClientCodegen.SWIFT_PACKAGE_PATH, SWIFT_PACKAGE_PATH_VALUE)
+                .put(Swift5ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES, GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .build();
     }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct MapTest: Codable, Hashable {
 
@@ -32,4 +33,13 @@ public struct MapTest: Codable, Hashable {
         case indirectMap = "indirect_map"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
+        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(directMap, forKey: .directMap)
+        try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
+    }
 }

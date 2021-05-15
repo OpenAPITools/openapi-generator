@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct SpecialModelName: Codable, Hashable {
 
@@ -19,4 +20,10 @@ public struct SpecialModelName: Codable, Hashable {
         case specialPropertyName = "$special[property.name]"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 /** Model for testing model name starting with number */
 @objc public class Model200Response: NSObject, Codable {
@@ -28,4 +29,11 @@ import Foundation
         case _class = "class"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(_class, forKey: ._class)
+    }
 }

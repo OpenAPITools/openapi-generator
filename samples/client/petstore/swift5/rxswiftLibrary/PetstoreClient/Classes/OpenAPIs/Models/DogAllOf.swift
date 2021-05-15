@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 public struct DogAllOf: Codable, Hashable {
 
@@ -15,4 +16,14 @@ public struct DogAllOf: Codable, Hashable {
         self.breed = breed
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case breed
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(breed, forKey: .breed)
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 @objc public class AdditionalPropertiesClass: NSObject, Codable {
 
@@ -22,4 +23,11 @@ import Foundation
         case mapMapString = "map_map_string"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapString, forKey: .mapString)
+        try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
+    }
 }
