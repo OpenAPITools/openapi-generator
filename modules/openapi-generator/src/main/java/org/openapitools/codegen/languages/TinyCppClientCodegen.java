@@ -19,6 +19,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
 
     public static final String MICROCONTROLLER = "controller";
+    public static final String rootFolder = "";
     protected String controller = "esp32";
 
 
@@ -76,6 +77,10 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
 
+        // MODELS: Helpers
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
+
         // MODELS: TESTS
         testPackage = libFolder + File.separator + "TestFiles";
         modelTestTemplateFiles.put("unit-test-model.mustache", ".cpp");
@@ -88,19 +93,19 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         apiTemplateFiles.put("service/api-body.mustache".replace('/', File.separatorChar), ".cpp");
 
         // SERVICES: Helpers
-        supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h")); // TODO find right function for folder
-        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h")); // TODO find right function for folder
-        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp")); // TODO find right function for folder
+        supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h"));
+        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h"));
+        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp"));
 
-
-
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
 
         // Main
-        supportingFiles.add(new SupportingFile("platformio.ini.mustache", "", "platformio.ini"));
         supportingFiles.add(new SupportingFile("main.mustache", TinyCppClientCodegen.sourceFolder, "main.cpp"));
+
+        // Config files
+        supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
+        supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini"));
+        supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert"));
+
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
