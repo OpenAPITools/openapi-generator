@@ -1,4 +1,5 @@
 README.md
+README.md
 lib/Models/ApiResponse.cpp
 lib/Models/ApiResponse.h
 lib/Models/Category.cpp
@@ -26,4 +27,3 @@ platformio.ini
 root.cert
 src/main.cpp
 test/RunTests.cpp
-test_example/unittest.cpp
