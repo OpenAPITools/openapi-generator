@@ -24,6 +24,7 @@ lib/service/StoreApi.h
 lib/service/UserApi.cpp
 lib/service/UserApi.h
 platformio.ini
+pre_compiling_bourne.py
 root.cert
 src/main.cpp
 test/RunTests.cpp
