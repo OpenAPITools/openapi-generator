@@ -131,6 +131,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini"));
         supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert"));
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
+        supportingFiles.add(new SupportingFile("pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
 
 
 
