@@ -41,7 +41,7 @@ using namespace Tiny;
         {{! Params }}
         {{#allParams}}
         {{! Arrays }}
-            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{#isMap}}// TODO: Implement Maps{{/isMap}}
             {{! Normal types/objects }}
             {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
             {{^-last}}, {{/-last}}
