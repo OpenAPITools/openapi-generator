@@ -43,14 +43,14 @@ using namespace Tiny;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
 
-        std::string payload = "";
+            std::string payload = "";
             // Send Request
             // METHOD | DELETE
             int httpCode = http.sendRequest("DELETE", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
             String output = http.getString();
-            std::string output_string = output.c_str();        
+            std::string output_string = output.c_str();
 
             http.end();
 
@@ -77,14 +77,14 @@ using namespace Tiny;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
 
-        std::string payload = "";
+            std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
             String output = http.getString();
-            std::string output_string = output.c_str();        
+            std::string output_string = output.c_str();
 
             http.end();
 
@@ -129,14 +129,14 @@ using namespace Tiny;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
 
-        std::string payload = "";
+            std::string payload = "";
             // Send Request
             // METHOD | GET
             int httpCode = http.sendRequest("GET", (uint8_t *) payload.c_str(), payload.length());
 
             // Handle Request
             String output = http.getString();
-            std::string output_string = output.c_str();        
+            std::string output_string = output.c_str();
 
             http.end();
 
@@ -171,10 +171,11 @@ using namespace Tiny;
                 http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 
 
-        std::string payload = "";
+            std::string payload = "";
             // Send Request
             // METHOD | POST
-            
+            http.addHeader("Content-Type", "application/json");
+
 
 
             payload = order.toJson().dump();
@@ -183,7 +184,7 @@ using namespace Tiny;
 
             // Handle Request
             String output = http.getString();
-            std::string output_string = output.c_str();        
+            std::string output_string = output.c_str();
 
             http.end();
 

@@ -75,11 +75,12 @@ using namespace Tiny;
             {{/isESP32}}
 
 
-        std::string payload = "";
+            std::string payload = "";
             // Send Request
             // METHOD | {{httpMethod}}
             {{#bodyParam}}
-            
+            http.addHeader("Content-Type", "application/json");
+
             {{#isContainer}}
             {{#isArray}}
             {{#items}}
@@ -121,7 +122,7 @@ using namespace Tiny;
 
             // Handle Request
             String output = http.getString();
-            std::string output_string = output.c_str();        
+            std::string output_string = output.c_str();
 
             http.end();
 
@@ -134,7 +135,7 @@ using namespace Tiny;
             bourne::json jsonPayload(output_string);
 
             {{#returnBaseType}}
-            
+
             {{#isBool}}
             for(auto& var : jsonPayload.array_range())
             {
