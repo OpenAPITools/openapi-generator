@@ -29,7 +29,7 @@ void setup(){
     Tiny::PetApi petapi;
     auto resp = petapi.getPetById(1);
     Serial.println(resp.code);
-    Pet pet = resp.obj;
+    Tiny::Pet pet = resp.obj;
     Serial.println(pet.toJson().dump().c_str());
 }
 
