@@ -19,6 +19,7 @@ public struct ApiResponse: Codable {
         self.type = type
         self.message = message
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type
@@ -33,7 +34,4 @@ public struct ApiResponse: Codable {
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(message, forKey: .message)
     }
-
-
-
 }
