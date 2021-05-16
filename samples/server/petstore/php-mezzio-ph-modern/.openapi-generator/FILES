@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 application/config.yml
 application/config/app.yml
