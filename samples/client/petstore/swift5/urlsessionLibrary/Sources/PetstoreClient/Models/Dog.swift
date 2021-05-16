@@ -19,6 +19,7 @@ public final class Dog: Codable, Hashable {
         self.color = color
         self.breed = breed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -34,8 +35,6 @@ public final class Dog: Codable, Hashable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 
-
-
     public static func == (lhs: Dog, rhs: Dog) -> Bool {
         lhs.className == rhs.className &&
         lhs.color == rhs.color &&
@@ -49,5 +48,4 @@ public final class Dog: Codable, Hashable {
         hasher.combine(breed?.hashValue)
         
     }
-
 }

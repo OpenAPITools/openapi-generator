@@ -64,6 +64,7 @@ import AnyCodable
         self.uuid = uuid
         self.password = password
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32
@@ -98,7 +99,4 @@ import AnyCodable
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
     }
-
-
-
 }

@@ -15,6 +15,7 @@ public struct List: Codable, Hashable {
     public init(_123list: String? = nil) {
         self._123list = _123list
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
@@ -25,7 +26,4 @@ public struct List: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
-
-
-
 }

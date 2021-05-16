@@ -26,6 +26,7 @@ internal struct Capitalization: Codable, Hashable {
         self.sCAETHFlowPoints = sCAETHFlowPoints
         self.ATT_NAME = ATT_NAME
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
@@ -46,7 +47,4 @@ internal struct Capitalization: Codable, Hashable {
         try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
-
-
-
 }

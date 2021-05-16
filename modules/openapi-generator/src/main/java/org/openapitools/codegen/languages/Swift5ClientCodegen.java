@@ -64,6 +64,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_STRUCT = "hashableStruct";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
@@ -81,6 +82,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
     protected boolean useBacktickEscapes = false;
+    protected boolean generateModelAdditionalProperties = true;
     protected boolean hashableStruct = true;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
@@ -269,6 +271,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
+                "Generate model additional properties (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
@@ -453,6 +458,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
+
+        if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
+            setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
+        }
+        additionalProperties.put(GENERATE_MODEL_ADDITIONAL_PROPERTIES, generateModelAdditionalProperties);
 
         if (additionalProperties.containsKey(HASHABLE_STRUCT)) {
             setHashableStruct(convertPropertyToBooleanAndWriteBack(HASHABLE_STRUCT));
@@ -871,6 +881,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setUseBacktickEscapes(boolean useBacktickEscapes) {
         this.useBacktickEscapes = useBacktickEscapes;
+    }
+
+    public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
+        this.generateModelAdditionalProperties = generateModelAdditionalProperties;
     }
 
     public void setHashableStruct(boolean hashableStruct) {

@@ -16,6 +16,7 @@ public final class Return: Codable, Hashable {
     public init(_return: Int? = nil) {
         self._return = _return
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }
@@ -27,8 +28,6 @@ public final class Return: Codable, Hashable {
         try container.encodeIfPresent(_return, forKey: ._return)
     }
 
-
-
     public static func == (lhs: Return, rhs: Return) -> Bool {
         lhs._return == rhs._return
         
@@ -38,5 +37,4 @@ public final class Return: Codable, Hashable {
         hasher.combine(_return?.hashValue)
         
     }
-
 }

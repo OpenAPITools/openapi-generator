@@ -17,6 +17,7 @@ public struct HasOnlyReadOnly: Codable, Hashable {
         self.bar = bar
         self.foo = foo
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case foo
@@ -29,7 +30,4 @@ public struct HasOnlyReadOnly: Codable, Hashable {
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(foo, forKey: .foo)
     }
-
-
-
 }

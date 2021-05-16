@@ -92,7 +92,7 @@ extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString
     }
-}
+}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
@@ -178,7 +178,7 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
-}
+}{{/generateModelAdditionalProperties}}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {

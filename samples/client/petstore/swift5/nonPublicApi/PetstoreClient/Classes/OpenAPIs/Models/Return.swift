@@ -16,6 +16,7 @@ internal struct Return: Codable, Hashable {
     internal init(_return: Int? = nil) {
         self._return = _return
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }
@@ -26,7 +27,4 @@ internal struct Return: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_return, forKey: ._return)
     }
-
-
-
 }

@@ -10,8 +10,10 @@ import AnyCodable
 
 public final class StringBooleanMap: Codable, Hashable {
 
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
+
     public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
@@ -44,7 +46,6 @@ public final class StringBooleanMap: Codable, Hashable {
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
-
     public static func == (lhs: StringBooleanMap, rhs: StringBooleanMap) -> Bool {
         lhs.additionalProperties == rhs.additionalProperties
     }
@@ -52,5 +53,4 @@ public final class StringBooleanMap: Codable, Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(additionalProperties.hashValue)
     }
-
 }

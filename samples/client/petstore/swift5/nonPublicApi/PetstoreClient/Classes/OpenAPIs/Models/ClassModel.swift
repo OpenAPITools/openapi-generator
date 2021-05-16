@@ -16,6 +16,7 @@ internal struct ClassModel: Codable, Hashable {
     internal init(_class: String? = nil) {
         self._class = _class
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _class
     }
@@ -26,7 +27,4 @@ internal struct ClassModel: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
     }
-
-
-
 }

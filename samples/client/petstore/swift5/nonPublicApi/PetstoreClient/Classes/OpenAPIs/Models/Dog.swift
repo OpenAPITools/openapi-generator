@@ -19,6 +19,7 @@ internal struct Dog: Codable, Hashable {
         self.color = color
         self.breed = breed
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -33,7 +34,4 @@ internal struct Dog: Codable, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(breed, forKey: .breed)
     }
-
-
-
 }

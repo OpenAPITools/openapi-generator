@@ -17,6 +17,7 @@ public final class File: Codable, Hashable {
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -28,8 +29,6 @@ public final class File: Codable, Hashable {
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
 
-
-
     public static func == (lhs: File, rhs: File) -> Bool {
         lhs.sourceURI == rhs.sourceURI
         
@@ -39,5 +38,4 @@ public final class File: Codable, Hashable {
         hasher.combine(sourceURI?.hashValue)
         
     }
-
 }
