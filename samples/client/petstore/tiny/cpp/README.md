@@ -1,4 +1,5 @@
 # Documentation for OpenAPI Petstore
+This is a client generator for microcontrollers on the Espressif32 platform and the Arduino framework
 After the client have been generated, you have to change these following variablies:
 - root.cert | Provide your service root certificate.
 - src/main.cpp | Change wifi name
@@ -15,6 +16,7 @@ samples/client/petstore/tiny/cpp/
 │   ├── service
 │   └── TestFiles
 ├── platformio.ini
+├── pre_compiling_bourne.py
 ├── README.md
 ├── root.cert
 ├── src
