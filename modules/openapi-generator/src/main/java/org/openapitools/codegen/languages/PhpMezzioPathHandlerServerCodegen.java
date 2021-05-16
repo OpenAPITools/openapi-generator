@@ -327,7 +327,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in whole specification
      *
-     * @param openAPI
+     * @param openAPI OpenAPI object
      */
     protected void generateContainerSchemas(OpenAPI openAPI) {
         Paths paths = openAPI.getPaths();
@@ -365,8 +365,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in specified schema
      *
-     * @param openAPI
-     * @param schema
+     * @param openAPI OpenAPI object
+     * @param schema OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Schema schema) {
         if (schema != null) {
