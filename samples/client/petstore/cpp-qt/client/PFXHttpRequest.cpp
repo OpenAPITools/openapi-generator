@@ -335,7 +335,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     if (PFXHttpRequestWorker::sslDefaultConfiguration != nullptr) {
         request.setSslConfiguration(*PFXHttpRequestWorker::sslDefaultConfiguration);
     }
-    request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt5");
+    request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt");
     foreach (QString key, input->headers.keys()) { request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str()); }
 
     if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
