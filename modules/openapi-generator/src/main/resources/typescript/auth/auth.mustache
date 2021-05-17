@@ -85,7 +85,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 
     public {{#isBasicBearer}}async {{/isBasicBearer}}applySecurityAuthentication(context: RequestContext) {
         {{#isApiKey}}
-        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}addCookie{{/isKeyInQuery}}{{#isKeyInCookie}}setQueryParam{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
+        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}setQueryParam{{/isKeyInQuery}}{{#isKeyInCookie}}addCookie{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
         {{/isApiKey}}
         {{#isBasicBasic}}
         let comb = this.username + ":" + this.password;
