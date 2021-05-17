@@ -1,6 +1,6 @@
 ---
-title: Config Options for cpp-qt5-client
-sidebar_label: cpp-qt5-client
+title: Config Options for cpp-qt-qhttpengine-server
+sidebar_label: cpp-qt-qhttpengine-server
 ---
 
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -14,7 +14,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |modelNamePrefix|Prefix that will be prepended to all model names.| |OAI|
-|optionalProjectFile|Generate client.pri.| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
@@ -204,9 +203,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ExternalDocumentation|✓|OAS2,OAS3
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
-|MultiServer|✓|OAS3
-|ParameterizedServer|✓|OAS3
-|ParameterStyling|✓|OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
 
@@ -232,10 +231,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✓|OAS2,OAS3
-|ApiKey|✓|OAS2,OAS3
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✓|OAS3
+|BearerToken|✗|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
