@@ -56,15 +56,19 @@ export class ApiKeyAuthentication implements SecurityAuthentication {
  */
 @injectable()
 export class PetstoreAuthAuthentication implements SecurityAuthentication {
-    // TODO: How to handle oauth2 authentication!
-    public constructor() {}
+    /**
+     * Configures OAuth2 with the necessary properties
+     *
+     * @param accessToken: The access token to be used for every request
+     */
+    public constructor(private accessToken: string) {}
 
     public getName(): string {
         return "petstore_auth";
     }
 
     public applySecurityAuthentication(context: RequestContext) {
-        // TODO
+        context.setHeaderParam("Authorization", "Bearer " + this.accessToken);
     }
 }
 
@@ -82,7 +86,7 @@ export const authMethodServices = {
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
 export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
-export type OAuth2Configuration = string;
+export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
     "api_key"?: ApiKeyConfiguration,
@@ -108,6 +112,7 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
 
     if (config["petstore_auth"]) {
         authMethods["petstore_auth"] = new PetstoreAuthAuthentication(
+            config["petstore_auth"]["accessToken"]
         );
     }
 
