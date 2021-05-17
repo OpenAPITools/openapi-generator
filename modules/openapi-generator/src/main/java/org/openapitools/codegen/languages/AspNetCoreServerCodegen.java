@@ -261,7 +261,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
         classModifier.setOptValue(classModifier.getDefault());
-        cliOptions.add(classModifier);
+        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
 
         operationModifier.addEnum("virtual", "Keep method virtual");
         operationModifier.addEnum("abstract", "Make method abstract");
@@ -292,7 +292,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.addEnum("partial", "Make model class partial");
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
-        cliOptions.add(modelClassModifier);
+        addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
 
     @Override
