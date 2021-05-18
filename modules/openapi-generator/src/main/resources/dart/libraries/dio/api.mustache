@@ -62,8 +62,8 @@ class {{classname}} {
         ...?extra,
       },
       contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
+        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}
+        '{{{mediaType}}}',{{/prioritizedContentTypes}}{{/hasConsumes}}
       ].first,
       validateStatus: validateStatus,
     );

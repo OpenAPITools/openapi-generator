@@ -64,8 +64,8 @@ class {{classname}} {
       },
       validateStatus: validateStatus,
       contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
+        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}
+        '{{{mediaType}}}',{{/prioritizedContentTypes}}{{/hasConsumes}}
       ].first,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
