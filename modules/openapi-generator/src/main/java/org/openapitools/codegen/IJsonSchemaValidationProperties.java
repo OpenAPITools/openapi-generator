@@ -77,7 +77,11 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsArray();
 
-    void setIsArray(boolean isArray);
+    void setIsArray(boolean isShortInteger);
+
+    boolean getIsShortInteger();
+
+    void setIsShortInteger(boolean isShortInteger);
 
     CodegenProperty getAdditionalProperties();
 
