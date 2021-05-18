@@ -20,14 +20,7 @@ package org.openapitools.codegen.languages;
 import static java.util.Collections.sort;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +57,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String MOSHI_CODE_GEN = "moshiCodeGen";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
+    protected static final String VENDOR_EXTENSION_DISCRIMINATOR_BASE_NAME_LITERAL = "x-base-name-discriminator-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
@@ -621,6 +615,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             for (CodegenProperty var : vars) {
                 var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+            }
+
+            CodegenDiscriminator discriminator = cm.getDiscriminator();
+            if(discriminator != null) {
+                cm.vendorExtensions.put(VENDOR_EXTENSION_DISCRIMINATOR_BASE_NAME_LITERAL, discriminator.getPropertyBaseName().replace("$", "\\$"));
             }
         }
 
