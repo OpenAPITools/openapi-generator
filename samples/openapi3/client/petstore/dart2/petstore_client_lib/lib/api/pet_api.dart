@@ -41,17 +41,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -118,17 +107,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -187,17 +165,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -265,17 +232,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -342,17 +298,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -414,17 +359,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -491,30 +425,11 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (name != null) {
-        hasFields = true;
-        mp.fields[r'name'] = parameterToString(name);
-      }
-      if (status != null) {
-        hasFields = true;
-        mp.fields[r'status'] = parameterToString(status);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (name != null) {
-        formParams[r'name'] = parameterToString(name);
-      }
-      if (status != null) {
-        formParams[r'status'] = parameterToString(status);
-      }
+    if (name != null) {
+      formParams[r'name'] = parameterToString(name);
+    }
+    if (status != null) {
+      formParams[r'status'] = parameterToString(status);
     }
 
     return await apiClient.invokeAPI(
@@ -581,28 +496,19 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (additionalMetadata != null) {
-        hasFields = true;
-        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
-      if (file != null) {
-        hasFields = true;
-        mp.fields[r'file'] = file.field;
-        mp.files.add(file);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (additionalMetadata != null) {
-        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (additionalMetadata != null) {
+      hasFields = true;
+      mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
+    }
+    if (file != null) {
+      hasFields = true;
+      mp.fields[r'file'] = file.field;
+      mp.files.add(file);
+    }
+    if (hasFields) {
+      postBody = mp;
     }
 
     return await apiClient.invokeAPI(
