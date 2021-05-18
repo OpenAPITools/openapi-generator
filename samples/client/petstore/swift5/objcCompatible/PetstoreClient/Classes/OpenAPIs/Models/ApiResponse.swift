@@ -24,6 +24,7 @@ import AnyCodable
         self.type = type
         self.message = message
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type
@@ -38,7 +39,4 @@ import AnyCodable
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(message, forKey: .message)
     }
-
-
-
 }

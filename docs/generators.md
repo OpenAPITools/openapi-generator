@@ -106,6 +106,7 @@ The following generators are available:
 * [jaxrs-resteasy-eap](generators/jaxrs-resteasy-eap.md)  
 * [jaxrs-spec](generators/jaxrs-spec.md)  
 * [kotlin-server](generators/kotlin-server.md)  
+* [kotlin-server-deprecated (deprecated)](generators/kotlin-server-deprecated.md)  
 * [kotlin-spring](generators/kotlin-spring.md)  
 * [kotlin-vertx (beta)](generators/kotlin-vertx.md)  
 * [nodejs-express-server (beta)](generators/nodejs-express-server.md)  

@@ -17,6 +17,7 @@ import AnyCodable
         self.file = file
         self.files = files
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files
@@ -29,7 +30,4 @@ import AnyCodable
         try container.encodeIfPresent(file, forKey: .file)
         try container.encodeIfPresent(files, forKey: .files)
     }
-
-
-
 }

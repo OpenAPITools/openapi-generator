@@ -15,9 +15,11 @@ public struct AdditionalPropertiesAnyType: Codable, Hashable {
     public init(name: String? = nil) {
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
     }
+
     public var additionalProperties: [String: AnyCodable] = [:]
 
     public subscript(key: String) -> AnyCodable? {
@@ -52,6 +54,4 @@ public struct AdditionalPropertiesAnyType: Codable, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         additionalProperties = try container.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }

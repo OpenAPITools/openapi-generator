@@ -30,7 +30,7 @@ module {{moduleName}}
     # @return [Hash] key: parameter name, value: parameter value (API key)
     #
     # @example parameter name is "api_key", API key is "xxx" (e.g. "api_key=xxx" in query string)
-    #   config.api_key[:"api_key"] = "xxx"
+    #   config.api_key[:api_key] = "xxx"
     property api_key : Hash(Symbol, String)
 
     # Defines API key prefixes used with API Key authentications.
@@ -38,7 +38,7 @@ module {{moduleName}}
     # @return [Hash] key: parameter name, value: API key prefix
     #
     # @example parameter name is "Authorization", API key prefix is "Token" (e.g. "Authorization: Token xxx" in headers)
-    #   config.api_key_prefix[:"api_key"] = "Token"
+    #   config.api_key_prefix[:api_key] = "Token"
     property api_key_prefix : Hash(Symbol, String)
 
     # Defines the username used with HTTP basic authentication.
@@ -183,10 +183,10 @@ module {{moduleName}}
     # Gets API key (with prefix if set).
     # @param [String] param_name the parameter name of API key auth
     def api_key_with_prefix(param_name)
-      if @api_key_prefix[param_name]
-        "#{@api_key_prefix[param_name]} #{@api_key[param_name]}"
+      if prefix = @api_key_prefix[param_name]?
+        "#{prefix} #{@api_key[param_name]}"
       else
-        @api_key[param_name]
+        @api_key[param_name]? || ""
       end
     end
 
@@ -197,44 +197,44 @@ module {{moduleName}}
 
     # Returns Auth Settings hash for api client.
     def auth_settings
-      Hash{ {{#authMethods}}{{#isApiKey}}"{{name}}" => {
-            type: "api_key",
-            in: {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
-            key: "{{keyParamName}}",
-            value: api_key_with_prefix("{{keyParamName}}")
-          },
+      Hash{
+{{#authMethods}}
+{{#isApiKey}}
+        "{{name}}" => {
+          type: "api_key",
+          in: {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
+          key: "{{keyParamName}}",
+          value: api_key_with_prefix(:{{keyParamName}})
+        },
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
-        "{{name}}" =>
-          {
-            type: "basic",
-            in: "header",
-            key: "Authorization",
-            value: basic_auth_token
-          },
+        "{{name}}" => {
+          type: "basic",
+          in: "header",
+          key: "Authorization",
+          value: basic_auth_token
+        },
 {{/isBasicBasic}}
 {{#isBasicBearer}}
-        "{{name}}" =>
-          {
-            type: "bearer",
-            in: "header",
-            {{#bearerFormat}}
-            format: "{{{.}}}",
-            {{/bearerFormat}}
-            key: "Authorization",
-            value: "Bearer #{access_token}"
-          },
+        "{{name}}" => {
+          type: "bearer",
+          in: "header",
+          {{#bearerFormat}}
+          format: "{{{.}}}",
+          {{/bearerFormat}}
+          key: "Authorization",
+          value: "Bearer #{access_token}"
+        },
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-        "{{name}}" =>
-          {
-            type: "oauth2",
-            in: "header",
-            key: "Authorization",
-            value: "Bearer #{access_token}"
-          },
+        "{{name}}" => {
+          type: "oauth2",
+          in: "header",
+          key: "Authorization",
+          value: "Bearer #{access_token}"
+        },
 {{/isOAuth}}
 {{/authMethods}}
       }

@@ -24,6 +24,21 @@ class {{classname}}(ModelNormal):
 {{/optionalVars}}
     }
 
+    read_only_vars = {
+{{#requiredVars}}
+{{#isReadOnly}}
+        '{{name}}',  # noqa: E501
+{{/isReadOnly}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#isReadOnly}}
+        '{{name}}',  # noqa: E501
+{{/isReadOnly}}
+{{/optionalVars}}
+    }
+
     _composed_schemas = {}
+
+{{> model_templates/method_from_openapi_data_normal}}
 
 {{> model_templates/method_init_normal}}

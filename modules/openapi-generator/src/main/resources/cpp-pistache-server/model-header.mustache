@@ -13,9 +13,8 @@
 {{/imports}}
 #include <nlohmann/json.hpp>
 
-{{#modelNamespaceDeclarations}}
-namespace {{this}} {
-{{/modelNamespaceDeclarations}}
+namespace {{modelNamespace}}
+{
 
 /// <summary>
 /// {{description}}
@@ -24,7 +23,7 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
-    virtual ~{{classname}}();
+    virtual ~{{classname}}() = default;
 {{#isEnum}}{{#allowableValues}}
     enum class e{{classname}} {
     // To have a valid default value.
@@ -35,7 +34,20 @@ public:
     {{{name}}}{{^-last}}, {{/-last}}
     {{/enumVars}}
     };{{/allowableValues}}{{/isEnum}}
-    void validate();
+
+    /// <summary>
+    /// Validate the current data in the model. Throws a ValidationException on failure.
+    /// </summary>
+    void validate() const;
+
+    /// <summary>
+    /// Validate the current data in the model. Returns false on error and writes an error
+    /// message into the given stringstream.
+    /// </summary>
+    bool validate(std::stringstream& msg) const;
+
+    bool operator==(const {{classname}}& rhs) const;
+    bool operator!=(const {{classname}}& rhs) const;
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -44,7 +56,7 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{{dataType}}}{{#isContainer}}&{{/isContainer}} {{getter}}(){{^isContainer}} const{{/isContainer}};
+    {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);{{^required}}
     bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();{{/required}}
@@ -65,11 +77,12 @@ protected:
     {{#isEnum}}
     {{classname}}::e{{classname}} m_value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
     {{/isEnum}}
+
+    // Helper overload for validate. Used when one model stores another model and calls it's validate.
+    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
 };
 
-{{#modelNamespaceDeclarations}}
-}
-{{/modelNamespaceDeclarations}}
+} // namespace {{modelNamespace}}
 
 #endif /* {{classname}}_H_ */
 {{/model}}

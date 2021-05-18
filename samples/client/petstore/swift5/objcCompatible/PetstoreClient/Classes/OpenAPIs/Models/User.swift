@@ -40,6 +40,7 @@ import AnyCodable
         self.phone = phone
         self.userStatus = userStatus
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case username
@@ -64,7 +65,4 @@ import AnyCodable
         try container.encodeIfPresent(phone, forKey: .phone)
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
-
-
-
 }

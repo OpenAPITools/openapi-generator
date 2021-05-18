@@ -22,6 +22,7 @@ public final class Name: Codable, Hashable {
         self.property = property
         self._123number = _123number
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
@@ -39,8 +40,6 @@ public final class Name: Codable, Hashable {
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
 
-
-
     public static func == (lhs: Name, rhs: Name) -> Bool {
         lhs.name == rhs.name &&
         lhs.snakeCase == rhs.snakeCase &&
@@ -56,5 +55,4 @@ public final class Name: Codable, Hashable {
         hasher.combine(_123number?.hashValue)
         
     }
-
 }

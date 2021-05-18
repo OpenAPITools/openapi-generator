@@ -37,20 +37,22 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "2.2.0");
+            "sttp client", "2.2.9");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
     private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.6");
+            "joda-time library", "2.10.10");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
-            "library", "3.6.8");
+            "library", "3.6.11");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
@@ -179,8 +181,17 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String encodePath(String input) {
-        String result = super.encodePath(input);
-        return result.replace("{", "${");
+        String path = super.encodePath(input);
+
+        // The parameter names in the URI must be converted to the same case as
+        // the method parameter.
+        StringBuffer buf = new StringBuffer(path.length());
+        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+        }
+        matcher.appendTail(buf);
+        return buf.toString();
     }
 
     @Override

@@ -32,6 +32,7 @@ import AnyCodable
         self.property = property
         self._123number = _123number
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
@@ -48,7 +49,4 @@ import AnyCodable
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
-
-
-
 }

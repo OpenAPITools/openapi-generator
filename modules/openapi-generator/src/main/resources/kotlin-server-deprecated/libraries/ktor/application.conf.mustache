@@ -1,0 +1,27 @@
+ktor {
+  deployment {
+    environment = development
+    port = 8080
+    autoreload = true
+    watch = [ {{packageName}} ]
+  }
+
+  application {
+    modules = [ {{packageName}}.AppMainKt.main ]
+  }
+}
+
+# Typesafe config allows multiple ways to provide configuration values without hard-coding them here.
+# Please see https://github.com/lightbend/config for details.
+auth {
+  oauth {
+{{#authMethods}}
+{{#isOAuth}}
+    {{name}} {
+        clientId = ""
+        clientSecret = ""
+    }
+{{/isOAuth}}
+{{/authMethods}}
+  }
+}

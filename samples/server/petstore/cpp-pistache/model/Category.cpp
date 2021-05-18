@@ -12,11 +12,12 @@
 
 
 #include "Category.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 Category::Category()
 {
@@ -27,13 +28,48 @@ Category::Category()
     
 }
 
-Category::~Category()
+void Category::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void Category::validate()
+bool Category::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool Category::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "Category" : pathPrefix;
+
+        
+    
+
+    return success;
+}
+
+bool Category::operator==(const Category& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!nameIsSet() && !rhs.nameIsSet()) || (nameIsSet() && rhs.nameIsSet() && getName() == rhs.getName()))
+    
+    ;
+}
+
+bool Category::operator!=(const Category& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const Category& o)
@@ -97,8 +133,5 @@ void Category::unsetName()
 }
 
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 

@@ -17,6 +17,7 @@ internal struct Category: Codable, Hashable {
         self.id = id
         self.name = name
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
@@ -29,7 +30,4 @@ internal struct Category: Codable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encode(name, forKey: .name)
     }
-
-
-
 }

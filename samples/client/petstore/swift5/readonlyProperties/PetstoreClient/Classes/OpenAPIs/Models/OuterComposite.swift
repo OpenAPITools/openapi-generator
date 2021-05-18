@@ -19,6 +19,7 @@ public struct OuterComposite: Codable, Hashable {
         self.myString = myString
         self.myBoolean = myBoolean
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
@@ -33,7 +34,4 @@ public struct OuterComposite: Codable, Hashable {
         try container.encodeIfPresent(myString, forKey: .myString)
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
-
-
-
 }

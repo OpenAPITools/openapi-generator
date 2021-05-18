@@ -17,6 +17,7 @@ public final class Tag: Codable, Hashable {
         self.id = id
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
@@ -30,8 +31,6 @@ public final class Tag: Codable, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
     }
 
-
-
     public static func == (lhs: Tag, rhs: Tag) -> Bool {
         lhs.id == rhs.id &&
         lhs.name == rhs.name
@@ -43,5 +42,4 @@ public final class Tag: Codable, Hashable {
         hasher.combine(name?.hashValue)
         
     }
-
 }

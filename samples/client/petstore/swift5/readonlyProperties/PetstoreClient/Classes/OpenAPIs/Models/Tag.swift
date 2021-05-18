@@ -17,6 +17,7 @@ public struct Tag: Codable, Hashable {
         self.id = id
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
@@ -29,7 +30,4 @@ public struct Tag: Codable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
     }
-
-
-
 }
