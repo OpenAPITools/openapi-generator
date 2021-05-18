@@ -6,12 +6,16 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class StringBooleanMap: NSObject, Codable {
 
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
+
     public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
@@ -43,6 +47,4 @@ import AnyCodable
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }

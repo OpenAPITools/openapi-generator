@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class TypeHolderDefault: Codable, Hashable {
 
@@ -23,6 +25,7 @@ public final class TypeHolderDefault: Codable, Hashable {
         self.boolItem = boolItem
         self.arrayItem = arrayItem
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
@@ -42,8 +45,6 @@ public final class TypeHolderDefault: Codable, Hashable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 
-
-
     public static func == (lhs: TypeHolderDefault, rhs: TypeHolderDefault) -> Bool {
         lhs.stringItem == rhs.stringItem &&
         lhs.numberItem == rhs.numberItem &&
@@ -61,5 +62,4 @@ public final class TypeHolderDefault: Codable, Hashable {
         hasher.combine(arrayItem.hashValue)
         
     }
-
 }

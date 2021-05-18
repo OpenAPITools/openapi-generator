@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class ApiResponse: Codable, Hashable {
 
@@ -19,6 +21,7 @@ public final class ApiResponse: Codable, Hashable {
         self.type = type
         self.message = message
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case type
@@ -34,8 +37,6 @@ public final class ApiResponse: Codable, Hashable {
         try container.encodeIfPresent(message, forKey: .message)
     }
 
-
-
     public static func == (lhs: ApiResponse, rhs: ApiResponse) -> Bool {
         lhs.code == rhs.code &&
         lhs.type == rhs.type &&
@@ -49,5 +50,4 @@ public final class ApiResponse: Codable, Hashable {
         hasher.combine(message?.hashValue)
         
     }
-
 }

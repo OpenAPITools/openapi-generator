@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class Animal: Codable, Hashable {
 
@@ -17,6 +19,7 @@ public final class Animal: Codable, Hashable {
         self.className = className
         self.color = color
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
@@ -30,8 +33,6 @@ public final class Animal: Codable, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
     }
 
-
-
     public static func == (lhs: Animal, rhs: Animal) -> Bool {
         lhs.className == rhs.className &&
         lhs.color == rhs.color
@@ -43,5 +44,4 @@ public final class Animal: Codable, Hashable {
         hasher.combine(color?.hashValue)
         
     }
-
 }

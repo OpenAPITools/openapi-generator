@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class Client: Codable, Hashable {
 
@@ -15,6 +17,7 @@ public final class Client: Codable, Hashable {
     public init(client: String? = nil) {
         self.client = client
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case client
     }
@@ -26,8 +29,6 @@ public final class Client: Codable, Hashable {
         try container.encodeIfPresent(client, forKey: .client)
     }
 
-
-
     public static func == (lhs: Client, rhs: Client) -> Bool {
         lhs.client == rhs.client
         
@@ -37,5 +38,4 @@ public final class Client: Codable, Hashable {
         hasher.combine(client?.hashValue)
         
     }
-
 }

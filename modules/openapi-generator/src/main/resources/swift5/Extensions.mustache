@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import AnyCodable{{#usePromiseKit}}
+#if canImport(AnyCodable)
+import AnyCodable
+#endif{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}
 
 extension Bool: JSONEncodable {
@@ -92,7 +94,7 @@ extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString
     }
-}
+}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
@@ -178,7 +180,7 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
-}
+}{{/generateModelAdditionalProperties}}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
@@ -201,6 +203,7 @@ extension RequestBuilder {
     }
 }{{/usePromiseKit}}
 
+#if canImport(AnyCodable)
 extension AnyCodable: Hashable {
     public func hash(into hasher: inout Hasher) {
         switch value {
@@ -241,3 +244,4 @@ extension AnyCodable: Hashable {
         }
     }
 }
+#endif

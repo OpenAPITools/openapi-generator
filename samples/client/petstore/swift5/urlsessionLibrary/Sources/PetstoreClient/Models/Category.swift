@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class Category: Codable, Hashable {
 
@@ -17,6 +19,7 @@ public final class Category: Codable, Hashable {
         self.id = id
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
@@ -30,8 +33,6 @@ public final class Category: Codable, Hashable {
         try container.encode(name, forKey: .name)
     }
 
-
-
     public static func == (lhs: Category, rhs: Category) -> Bool {
         lhs.id == rhs.id &&
         lhs.name == rhs.name
@@ -43,5 +44,4 @@ public final class Category: Codable, Hashable {
         hasher.combine(name.hashValue)
         
     }
-
 }

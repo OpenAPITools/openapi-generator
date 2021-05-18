@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public final class List: Codable, Hashable {
 
@@ -15,6 +17,7 @@ public final class List: Codable, Hashable {
     public init(_123list: String? = nil) {
         self._123list = _123list
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
@@ -26,8 +29,6 @@ public final class List: Codable, Hashable {
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
 
-
-
     public static func == (lhs: List, rhs: List) -> Bool {
         lhs._123list == rhs._123list
         
@@ -37,5 +38,4 @@ public final class List: Codable, Hashable {
         hasher.combine(_123list?.hashValue)
         
     }
-
 }

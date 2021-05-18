@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct AdditionalPropertiesString: Codable, Hashable {
 
@@ -15,9 +17,11 @@ public struct AdditionalPropertiesString: Codable, Hashable {
     public init(name: String? = nil) {
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
     }
+
     public var additionalProperties: [String: String] = [:]
 
     public subscript(key: String) -> String? {
@@ -52,6 +56,4 @@ public struct AdditionalPropertiesString: Codable, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         additionalProperties = try container.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }

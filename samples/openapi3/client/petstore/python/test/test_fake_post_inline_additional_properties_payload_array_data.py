@@ -12,11 +12,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
+from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
 
 
-class TestFakeGetInlineAdditionalPropertiesPayloadArrayData(unittest.TestCase):
-    """FakeGetInlineAdditionalPropertiesPayloadArrayData unit test stubs"""
+class TestFakePostInlineAdditionalPropertiesPayloadArrayData(unittest.TestCase):
+    """FakePostInlineAdditionalPropertiesPayloadArrayData unit test stubs"""
 
     def setUp(self):
         pass
@@ -24,10 +24,10 @@ class TestFakeGetInlineAdditionalPropertiesPayloadArrayData(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFakeGetInlineAdditionalPropertiesPayloadArrayData(self):
-        """Test FakeGetInlineAdditionalPropertiesPayloadArrayData"""
+    def testFakePostInlineAdditionalPropertiesPayloadArrayData(self):
+        """Test FakePostInlineAdditionalPropertiesPayloadArrayData"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = FakeGetInlineAdditionalPropertiesPayloadArrayData()  # noqa: E501
+        # model = FakePostInlineAdditionalPropertiesPayloadArrayData()  # noqa: E501
         pass
 
 

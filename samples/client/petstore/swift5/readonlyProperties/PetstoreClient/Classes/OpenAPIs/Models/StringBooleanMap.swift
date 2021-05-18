@@ -6,12 +6,16 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct StringBooleanMap: Codable, Hashable {
 
+
     public enum CodingKeys: CodingKey, CaseIterable {
     }
+
     public private(set) var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
@@ -43,6 +47,4 @@ public struct StringBooleanMap: Codable, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }
