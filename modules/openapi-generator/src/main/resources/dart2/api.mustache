@@ -99,39 +99,37 @@ class {{{classname}}} {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      {{#formParams}}
-      {{^isFile}}
-      if ({{{paramName}}} != null) {
-        hasFields = true;
-        mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
-      }
-      {{/isFile}}
-      {{#isFile}}
-      if ({{{paramName}}} != null) {
-        hasFields = true;
-        mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
-        mp.files.add({{{paramName}}});
-      }
-      {{/isFile}}
-      {{/formParams}}
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      {{#formParams}}
-      {{^isFile}}
-      if ({{{paramName}}} != null) {
-        formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
-      }
-      {{/isFile}}
-      {{/formParams}}
+    {{#isMultipart}}
+    bool hasFields = false;
+    final mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(path));
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
+    {{/isFile}}
+    {{#isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
+      mp.files.add({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    if (hasFields) {
+      postBody = mp;
+    }
+    {{/isMultipart}}
+    {{^isMultipart}}
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    {{/isMultipart}}
 
     return await apiClient.invokeAPI(
       path,
