@@ -1,4 +1,4 @@
-# FakeGetInlineAdditionalPropertiesPayloadArrayData
+# FakePostInlineAdditionalPropertiesPayloadArrayData
 
 
 ## Properties

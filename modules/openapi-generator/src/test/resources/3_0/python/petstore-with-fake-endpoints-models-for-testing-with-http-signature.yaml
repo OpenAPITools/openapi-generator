@@ -1288,11 +1288,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /fake/getInlineAdditionalPropertiesRefPayload:
-    get:
+  /fake/postInlineAdditionalPropertiesRefPayload:
+    post:
       tags:
         - fake
-      operationId: getInlineAdditionalPropertiesRefPayload
+      operationId: postInlineAdditionalPropertiesRefPayload
       responses:
         200:
           description: InlineAdditionalPropertiesRefPayload
@@ -1305,11 +1305,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
-  /fake/getInlineAdditionalPropertiesPayload:
-    get:
+  /fake/postInlineAdditionalPropertiesPayload:
+    post:
       tags:
         - fake
-      operationId: getInlineAdditionalPropertiesPayload
+      operationId: postInlineAdditionalPropertiesPayload
       responses:
         200:
           description: InlineAdditionalPropertiesPayload
