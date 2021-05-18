@@ -170,8 +170,9 @@ module Petstore
       @@default ||= Configuration.new
     end
 
+    # Configure object with block.
     def configure
-      yield(self) if block_given?
+      yield self
     end
 
     def scheme=(scheme)
