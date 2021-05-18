@@ -102,6 +102,8 @@ class TestFakeApi(unittest.TestCase):
             json_data = [{"className": "Cat", "color": "black"}]
             mock_method.return_value = self.mock_response(json_data)
 
+            import pdb
+            pdb.set_trace()
             response = endpoint(body=body)
             self.assert_request_called_with(
                 mock_method,
