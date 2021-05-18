@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(CppQt5AbstractCodegen.class);
+public class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(CppQtAbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
@@ -29,7 +29,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
 
-    public CppQt5AbstractCodegen() {
+    public CppQtAbstractCodegen() {
         super();
 
         modifyFeatureSet(features -> features
