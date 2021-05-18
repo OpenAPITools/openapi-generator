@@ -671,8 +671,6 @@ class TestFakeApi(unittest.TestCase):
                 'http://petstore.swagger.io:80/v2/fake/postInlineAdditionalPropertiesRefPayload',
                 body=expected_json_body
             )
-            # Expected: request('POST', 'http://petstore.swagger.io:80/v2/fake/refs/postInlineAdditionalPropertiesRefPayload', _preload_content=True, _request_timeout=None, headers={'Accept': 'application/json', 'User-Agent': 'OpenAPI-Generator/1.0.0/python', 'Content-Type': 'application/json'}, query_params=[], body={'arrayData': [{'labels': [None, 'foo']}]}, post_params=[])
-            #   Actual: request('POST', 'http://petstore.swagger.io:80/v2/fake/postInlineAdditionalPropertiesRefPayload', headers={'Accept': 'application/json', 'Content-Type': 'application/json', 'User-Agent': 'OpenAPI-Generator/1.0.0/python'}, query_params=[], post_params=[], _preload_content=True, _request_timeout=None, body={'arrayData': [{'labels': [None, 'foo']}]})
 
             assert isinstance(response, InlineAdditionalPropertiesRefPayload)
             assert model_to_dict(response) == expected_json_body
