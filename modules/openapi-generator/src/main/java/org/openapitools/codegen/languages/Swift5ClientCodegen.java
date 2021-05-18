@@ -839,7 +839,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 parentSchema = parentCodegenModel.parentSchema;
             }
         }
-
+        if (hashableModels) {
+            codegenModel.vendorExtensions.put("x-swift-hashable", true);
+        }
         return codegenModel;
     }
 
