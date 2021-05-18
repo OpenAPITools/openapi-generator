@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")

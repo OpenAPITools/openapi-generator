@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
