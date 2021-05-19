@@ -66,14 +66,7 @@ using namespace Tiny;
                 url.insert(pos, stringify({{paramName}}));
             {{/pathParams}}
 
-            HTTPClient http;
-            {{#isESP32}}
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-            {{/isESP32}}
-            {{^isESP32}}
-                http.begin(String(url.c_str())); //HTTP connection
-            {{/isESP32}}
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
