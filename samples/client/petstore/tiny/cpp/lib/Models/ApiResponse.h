@@ -69,9 +69,9 @@ public:
 
 
     private:
-	int code;
-	std::string type;
-	std::string message;
+    int code{};
+    std::string type{};
+    std::string message{};
 };
 }
 

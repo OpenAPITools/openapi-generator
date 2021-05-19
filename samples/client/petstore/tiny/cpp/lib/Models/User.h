@@ -104,14 +104,14 @@ public:
 
 
     private:
-	long id;
-	std::string username;
-	std::string firstName;
-	std::string lastName;
-	std::string email;
-	std::string password;
-	std::string phone;
-	int userStatus;
+    long id{};
+    std::string username{};
+    std::string firstName{};
+    std::string lastName{};
+    std::string email{};
+    std::string password{};
+    std::string phone{};
+    int userStatus{};
 };
 }
 

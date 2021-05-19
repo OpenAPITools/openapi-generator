@@ -90,12 +90,12 @@ public:
 
 
     private:
-	long id;
-	long petId;
-	int quantity;
-	std::string shipDate;
-	std::string status;
-	bool complete;
+    long id{};
+    long petId{};
+    int quantity{};
+    std::string shipDate{};
+    std::string status{};
+    bool complete{};
 };
 }
 

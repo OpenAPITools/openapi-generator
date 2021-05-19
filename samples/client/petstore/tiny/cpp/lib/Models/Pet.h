@@ -93,12 +93,12 @@ public:
 
 
     private:
-	long id;
-	Category category;
-	std::string name;
-	std::list <std::string>photoUrls;
-	std::list <Tag>tags;
-	std::string status;
+    long id{};
+    Category category;
+    std::string name{};
+    std::list<std::string> photoUrls;
+    std::list<Tag> tags;
+    std::string status{};
 };
 }
 

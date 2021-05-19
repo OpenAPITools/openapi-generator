@@ -62,8 +62,8 @@ public:
 
 
     private:
-	long id;
-	std::string name;
+    long id{};
+    std::string name{};
 };
 }
 
