@@ -20,9 +20,9 @@ namespace Tiny {
 
 class PetApi : public AbstractService {
 public:
-    PetApi();
+    PetApi() = default;
 
-    virtual ~PetApi();
+    virtual ~PetApi() = default;
 
     /**
     * Add a new pet to the store.

@@ -20,9 +20,9 @@ namespace Tiny {
 
 class UserApi : public AbstractService {
 public:
-    UserApi();
+    UserApi() = default;
 
-    virtual ~UserApi();
+    virtual ~UserApi() = default;
 
     /**
     * Create user.

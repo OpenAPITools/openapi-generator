@@ -3,15 +3,6 @@
 using namespace Tiny;
 
 
-    PetApi::PetApi()
-    {
-
-    }
-
-    PetApi::~PetApi()
-    {
-
-    }
 
         Response<
             Pet

@@ -23,10 +23,10 @@ namespace Tiny {
 class {{classname}} : public AbstractService {
 public:
     {{! Constructor }}
-    {{classname}}();
+    {{classname}}() = default;
 
     {{! Destructor }}
-    virtual ~{{classname}}();
+    virtual ~{{classname}}() = default;
 
     {{! Service endpoint }}
     {{#operation}}

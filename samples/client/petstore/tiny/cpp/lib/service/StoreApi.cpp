@@ -3,15 +3,6 @@
 using namespace Tiny;
 
 
-    StoreApi::StoreApi()
-    {
-
-    }
-
-    StoreApi::~StoreApi()
-    {
-
-    }
 
         Response<
             String

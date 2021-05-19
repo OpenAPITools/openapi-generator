@@ -20,9 +20,9 @@ namespace Tiny {
 
 class StoreApi : public AbstractService {
 public:
-    StoreApi();
+    StoreApi() = default;
 
-    virtual ~StoreApi();
+    virtual ~StoreApi() = default;
 
     /**
     * Delete purchase order by ID.

@@ -3,15 +3,6 @@
 using namespace Tiny;
 
 
-    UserApi::UserApi()
-    {
-
-    }
-
-    UserApi::~UserApi()
-    {
-
-    }
 
         Response<
             String
