@@ -1,5 +1,5 @@
-#ifndef _HELPERS_H_
-#define _HELPERS_H_
+#ifndef TINY_CPP_CLIENT_HELPERS_H_
+#define TINY_CPP_CLIENT_HELPERS_H_
 
 #include <string>
 #include "bourne/json.hpp"
@@ -18,5 +18,5 @@ std::string stringify(float input);
 
 std::string stringify(std::string input);
 
-#endif /* HELPERS_H_ */
+#endif /* TINY_CPP_CLIENT_HELPERS_H_ */
 

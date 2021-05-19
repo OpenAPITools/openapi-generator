@@ -5,8 +5,8 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef _ApiResponse_H_
-#define _ApiResponse_H_
+#ifndef TINY_CPP_CLIENT_ApiResponse_H_
+#define TINY_CPP_CLIENT_ApiResponse_H_
 
 
 #include <string>
@@ -75,4 +75,4 @@ public:
 };
 }
 
-#endif /* _ApiResponse_H_ */
+#endif /* TINY_CPP_CLIENT_ApiResponse_H_ */

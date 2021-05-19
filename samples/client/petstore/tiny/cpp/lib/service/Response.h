@@ -1,5 +1,5 @@
-#ifndef _Response_H_
-#define _Response_H_
+#ifndef TINY_CPP_CLIENT_RESPONSE_H_
+#define TINY_CPP_CLIENT_RESPONSE_H_
 #include <string>
 
 namespace Tiny {
@@ -21,4 +21,5 @@ template <typename T = std::string>
     T obj;
     };
     } // namespace Tinyclient
-#endif
+    
+#endif /* TINY_CPP_CLIENT_RESPONSE_H_ */

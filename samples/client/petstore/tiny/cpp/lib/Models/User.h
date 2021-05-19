@@ -5,8 +5,8 @@
  * A User who is purchasing from the pet store
  */
 
-#ifndef _User_H_
-#define _User_H_
+#ifndef TINY_CPP_CLIENT_User_H_
+#define TINY_CPP_CLIENT_User_H_
 
 
 #include <string>
@@ -115,4 +115,4 @@ public:
 };
 }
 
-#endif /* _User_H_ */
+#endif /* TINY_CPP_CLIENT_User_H_ */

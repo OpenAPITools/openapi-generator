@@ -5,8 +5,8 @@
  * An order for a pets from the pet store
  */
 
-#ifndef _Order_H_
-#define _Order_H_
+#ifndef TINY_CPP_CLIENT_Order_H_
+#define TINY_CPP_CLIENT_Order_H_
 
 
 #include <string>
@@ -99,4 +99,4 @@ public:
 };
 }
 
-#endif /* _Order_H_ */
+#endif /* TINY_CPP_CLIENT_Order_H_ */

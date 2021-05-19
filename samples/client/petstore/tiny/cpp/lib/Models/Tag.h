@@ -5,8 +5,8 @@
  * A tag for a pet
  */
 
-#ifndef _Tag_H_
-#define _Tag_H_
+#ifndef TINY_CPP_CLIENT_Tag_H_
+#define TINY_CPP_CLIENT_Tag_H_
 
 
 #include <string>
@@ -67,4 +67,4 @@ public:
 };
 }
 
-#endif /* _Tag_H_ */
+#endif /* TINY_CPP_CLIENT_Tag_H_ */

@@ -5,8 +5,8 @@
  * A category for a pet
  */
 
-#ifndef _Category_H_
-#define _Category_H_
+#ifndef TINY_CPP_CLIENT_Category_H_
+#define TINY_CPP_CLIENT_Category_H_
 
 
 #include <string>
@@ -67,4 +67,4 @@ public:
 };
 }
 
-#endif /* _Category_H_ */
+#endif /* TINY_CPP_CLIENT_Category_H_ */

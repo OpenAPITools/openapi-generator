@@ -1,5 +1,5 @@
-#ifndef _AbstractService_H_
-#define _AbstractService_H_
+#ifndef TINY_CPP_CLIENT_ABSTRACTSERVICE_H_
+#define TINY_CPP_CLIENT_ABSTRACTSERVICE_H_
 
 #include "HTTPClient.h"
 #include "Response.h"
@@ -23,4 +23,5 @@ const char* test_root_ca =
 
 }; // end class
 }// namespace Tinyclient
-#endif // _AbstractService_H_
+
+#endif /* TINY_CPP_CLIENT_ABSTRACTSERVICE_H_ */

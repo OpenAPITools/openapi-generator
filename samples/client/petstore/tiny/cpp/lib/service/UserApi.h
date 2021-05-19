@@ -1,5 +1,5 @@
-#ifndef _UserApi_H_
-#define _UserApi_H_
+#ifndef TINY_CPP_CLIENT_UserApi_H_
+#define TINY_CPP_CLIENT_UserApi_H_
 
 
 #include "Response.h"
@@ -144,4 +144,4 @@ public:
 
 } 
 
-#endif /* UserApi_H_ */
+#endif /* TINY_CPP_CLIENT_UserApi_H_ */

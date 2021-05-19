@@ -1,5 +1,5 @@
-#ifndef _PetApi_H_
-#define _PetApi_H_
+#ifndef TINY_CPP_CLIENT_PetApi_H_
+#define TINY_CPP_CLIENT_PetApi_H_
 
 
 #include "Response.h"
@@ -160,4 +160,4 @@ public:
 
 } 
 
-#endif /* PetApi_H_ */
+#endif /* TINY_CPP_CLIENT_PetApi_H_ */

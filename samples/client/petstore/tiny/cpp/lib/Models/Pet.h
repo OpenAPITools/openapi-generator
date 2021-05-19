@@ -5,8 +5,8 @@
  * A pet for sale in the pet store
  */
 
-#ifndef _Pet_H_
-#define _Pet_H_
+#ifndef TINY_CPP_CLIENT_Pet_H_
+#define TINY_CPP_CLIENT_Pet_H_
 
 
 #include <string>
@@ -102,4 +102,4 @@ public:
 };
 }
 
-#endif /* _Pet_H_ */
+#endif /* TINY_CPP_CLIENT_Pet_H_ */

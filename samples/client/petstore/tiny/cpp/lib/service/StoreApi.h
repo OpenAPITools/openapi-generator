@@ -1,5 +1,5 @@
-#ifndef _StoreApi_H_
-#define _StoreApi_H_
+#ifndef TINY_CPP_CLIENT_StoreApi_H_
+#define TINY_CPP_CLIENT_StoreApi_H_
 
 
 #include "Response.h"
@@ -80,4 +80,4 @@ public:
 
 } 
 
-#endif /* StoreApi_H_ */
+#endif /* TINY_CPP_CLIENT_StoreApi_H_ */
