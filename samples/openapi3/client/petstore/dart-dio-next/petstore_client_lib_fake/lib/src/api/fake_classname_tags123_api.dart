@@ -46,9 +46,7 @@ class FakeClassnameTags123Api {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
