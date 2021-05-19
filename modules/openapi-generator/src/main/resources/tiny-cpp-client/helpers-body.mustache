@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-bool isprimitive(string type){
+bool isprimitive(std::string type){
 	if(type.compare("std::string") == 0||
 		type.compare("int") == 0||
 		type.compare("long") == 0||
@@ -19,7 +19,7 @@ bool isprimitive(string type){
 
 
 void
-jsonToValue(void* target, bourne::json value, string type)
+jsonToValue(void* target, bourne::json value, std::string type)
 {
 	if (target == NULL || value.is_null()) {
 		return;
@@ -57,7 +57,7 @@ jsonToValue(void* target, bourne::json value, string type)
     
     else if (type.compare("std::string") == 0) 
     {
-		string* val = static_cast<string*> (target);
+		std::string* val = static_cast<std::string*> (target);
 		*val = value.to_string();
     }
 	else {

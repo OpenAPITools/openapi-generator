@@ -4,11 +4,9 @@
 #include <string>
 #include "bourne/json.hpp"
 
-using namespace std;
+bool isprimitive(std::string type);
 
-bool isprimitive(string type);
-
-void jsonToValue(void* target, bourne::json value, string type);
+void jsonToValue(void* target, bourne::json value, std::string type);
 
 std::string stringify(long input);
 

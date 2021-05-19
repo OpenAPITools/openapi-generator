@@ -118,7 +118,7 @@ Pet::fromJson(std::string jsonObj)
         bourne::json value = object[photoUrlsKey];
 
 
-        list<std::string> photoUrls_list;
+        std::list<std::string> photoUrls_list;
         std::string element;
         for(auto& var : value.array_range())
         {
@@ -140,7 +140,7 @@ Pet::fromJson(std::string jsonObj)
         bourne::json value = object[tagsKey];
 
 
-        list<Tag> tags_list;
+        std::list<Tag> tags_list;
         Tag element;
         for(auto& var : value.array_range())
         {

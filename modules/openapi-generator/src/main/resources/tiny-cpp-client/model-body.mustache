@@ -58,7 +58,7 @@ void
         {{#isContainer}}
         {{#isArray}}
 
-        list<{{#items}}{{dataType}}{{/items}}> {{name}}_list;
+        std::list<{{#items}}{{dataType}}{{/items}}> {{name}}_list;
         {{#items}}{{dataType}}{{/items}} element;
         for(auto& var : value.array_range())
         {
