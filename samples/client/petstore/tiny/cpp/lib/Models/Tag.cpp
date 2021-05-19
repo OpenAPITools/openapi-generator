@@ -17,17 +17,7 @@ Tag::Tag(std::string jsonString)
 
 Tag::~Tag()
 {
-    //if(id != NULL) {
-	//
-	//delete id;
-	//id = NULL;
-	//}
-	//if(name != NULL) {
-	//
-	//delete name;
-	//name = NULL;
-	//}
-	//
+
 }
 
 void

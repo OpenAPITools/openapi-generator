@@ -21,37 +21,7 @@ Pet::Pet(std::string jsonString)
 
 Pet::~Pet()
 {
-    //if(id != NULL) {
-	//
-	//delete id;
-	//id = NULL;
-	//}
-	//if(category != NULL) {
-	//
-	//delete category;
-	//category = NULL;
-	//}
-	//if(name != NULL) {
-	//
-	//delete name;
-	//name = NULL;
-	//}
-	//if(photoUrls != NULL) {
-	//photoUrls.RemoveAll(true);
-	//delete photoUrls;
-	//photoUrls = NULL;
-	//}
-	//if(tags != NULL) {
-	//tags.RemoveAll(true);
-	//delete tags;
-	//tags = NULL;
-	//}
-	//if(status != NULL) {
-	//
-	//delete status;
-	//status = NULL;
-	//}
-	//
+
 }
 
 void

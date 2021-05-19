@@ -18,22 +18,7 @@ ApiResponse::ApiResponse(std::string jsonString)
 
 ApiResponse::~ApiResponse()
 {
-    //if(code != NULL) {
-	//
-	//delete code;
-	//code = NULL;
-	//}
-	//if(type != NULL) {
-	//
-	//delete type;
-	//type = NULL;
-	//}
-	//if(message != NULL) {
-	//
-	//delete message;
-	//message = NULL;
-	//}
-	//
+
 }
 
 void

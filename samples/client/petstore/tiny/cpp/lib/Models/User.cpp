@@ -23,47 +23,7 @@ User::User(std::string jsonString)
 
 User::~User()
 {
-    //if(id != NULL) {
-	//
-	//delete id;
-	//id = NULL;
-	//}
-	//if(username != NULL) {
-	//
-	//delete username;
-	//username = NULL;
-	//}
-	//if(firstName != NULL) {
-	//
-	//delete firstName;
-	//firstName = NULL;
-	//}
-	//if(lastName != NULL) {
-	//
-	//delete lastName;
-	//lastName = NULL;
-	//}
-	//if(email != NULL) {
-	//
-	//delete email;
-	//email = NULL;
-	//}
-	//if(password != NULL) {
-	//
-	//delete password;
-	//password = NULL;
-	//}
-	//if(phone != NULL) {
-	//
-	//delete phone;
-	//phone = NULL;
-	//}
-	//if(userStatus != NULL) {
-	//
-	//delete userStatus;
-	//userStatus = NULL;
-	//}
-	//
+
 }
 
 void

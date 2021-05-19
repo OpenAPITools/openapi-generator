@@ -21,37 +21,7 @@ Order::Order(std::string jsonString)
 
 Order::~Order()
 {
-    //if(id != NULL) {
-	//
-	//delete id;
-	//id = NULL;
-	//}
-	//if(petId != NULL) {
-	//
-	//delete petId;
-	//petId = NULL;
-	//}
-	//if(quantity != NULL) {
-	//
-	//delete quantity;
-	//quantity = NULL;
-	//}
-	//if(shipDate != NULL) {
-	//
-	//delete shipDate;
-	//shipDate = NULL;
-	//}
-	//if(status != NULL) {
-	//
-	//delete status;
-	//status = NULL;
-	//}
-	//if(complete != NULL) {
-	//
-	//delete complete;
-	//complete = NULL;
-	//}
-	//
+
 }
 
 void

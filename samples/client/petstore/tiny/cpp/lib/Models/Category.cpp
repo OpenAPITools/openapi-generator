@@ -17,17 +17,7 @@ Category::Category(std::string jsonString)
 
 Category::~Category()
 {
-    //if(id != NULL) {
-	//
-	//delete id;
-	//id = NULL;
-	//}
-	//if(name != NULL) {
-	//
-	//delete name;
-	//name = NULL;
-	//}
-	//
+
 }
 
 void
