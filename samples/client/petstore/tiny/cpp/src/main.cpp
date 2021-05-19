@@ -1,4 +1,5 @@
 #include "PetApi.h"
+
 const char* ssid = "your wifi name"; // TODO Change wifi name
 const char* password = "Your wifi password"; //TODO Change wifi password
 
@@ -27,7 +28,7 @@ void setup(){
     Serial.println(WiFi.localIP());
 
     Tiny::PetApi petapi;
-    auto resp = petapi.getPetById(1);
+    auto resp = petapi.getPetById(10);
     Serial.println(resp.code);
     Tiny::Pet pet = resp.obj;
     Serial.println(pet.toJson().dump().c_str());

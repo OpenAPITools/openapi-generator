@@ -31,9 +31,7 @@ using namespace Tiny;
             // Body     | user
 
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -74,9 +72,7 @@ using namespace Tiny;
             // Body     | user
 
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -124,9 +120,7 @@ using namespace Tiny;
             // Body     | user
 
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -182,9 +176,7 @@ using namespace Tiny;
                 url.erase(pos, s_username.length());
                 url.insert(pos, stringify(username));
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -227,9 +219,7 @@ using namespace Tiny;
                 url.erase(pos, s_username.length());
                 url.insert(pos, stringify(username));
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -272,9 +262,7 @@ using namespace Tiny;
             // Body     | 
 
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -313,9 +301,7 @@ using namespace Tiny;
             // Body     | 
 
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -361,9 +347,7 @@ using namespace Tiny;
                 url.erase(pos, s_username.length());
                 url.insert(pos, stringify(username));
 
-            HTTPClient http;
-                http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-
+            begin(url);
 
             std::string payload = "";
             // Send Request

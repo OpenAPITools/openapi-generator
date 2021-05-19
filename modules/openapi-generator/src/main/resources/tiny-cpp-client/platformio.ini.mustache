@@ -10,8 +10,10 @@ extra_scripts = pre_compiling_bourne.py
 {{#isESP8266}}
 [env:esp8266]
 platform = espressif8266
-board = nodemcu-82866
+board = d1_mini
 framework = arduino
 lib_deps = https://github.com/steinwurf/bourne.git
+build_flags = -fexceptions
+build_unflags = -fno-exceptions
 extra_scripts = pre_compiling_bourne.py
 {{/isESP8266}}
