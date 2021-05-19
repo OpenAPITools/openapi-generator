@@ -177,14 +177,14 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     private static final String libFolder = "lib";
     private static final String serviceFolder = libFolder + File.separator + "service";
 
-    // Types
-    private static final String cpp_array_type = "std::list";
     @Override
     public String getTypeDeclaration(String str) {
         return str;
     }
 
     private void makeTypeMappings() {
+        // Types
+        String cpp_array_type = "std::list";
         typeMapping = new HashMap<>();
 
         typeMapping.put("string", "std::string");
