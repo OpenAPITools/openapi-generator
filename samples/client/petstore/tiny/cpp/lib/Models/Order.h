@@ -96,8 +96,6 @@ public:
 	std::string shipDate;
 	std::string status;
 	bool complete;
-    void __init();
-    void __cleanup();
 };
 }
 

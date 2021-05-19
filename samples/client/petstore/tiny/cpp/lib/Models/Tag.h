@@ -64,8 +64,6 @@ public:
     private:
 	long id;
 	std::string name;
-    void __init();
-    void __cleanup();
 };
 }
 

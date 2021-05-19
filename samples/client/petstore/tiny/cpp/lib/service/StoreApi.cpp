@@ -1,6 +1,5 @@
 #include "StoreApi.h"
 
-using namespace std;
 using namespace Tiny;
 
 
@@ -30,7 +29,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_orderId("{");
+                std::string s_orderId("{");
                 s_orderId.append("orderId");
                 s_orderId.append("}");
 
@@ -112,7 +111,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_orderId("{");
+                std::string s_orderId("{");
                 s_orderId.append("orderId");
                 s_orderId.append("}");
 

@@ -6,22 +6,6 @@ using namespace Tiny;
 
 Order::Order()
 {
-    __init();
-}
-
-Order::Order(std::string jsonString)
-{
-	this->fromJson(jsonString);
-}
-
-Order::~Order()
-{
-    __cleanup();
-}
-
-void
-Order::__init()
-{
 	id = long(0);
 	petId = long(0);
 	quantity = int(0);
@@ -30,8 +14,12 @@ Order::__init()
 	complete = bool(false);
 }
 
-void
-Order::__cleanup()
+Order::Order(std::string jsonString)
+{
+	this->fromJson(jsonString);
+}
+
+Order::~Order()
 {
     //if(id != NULL) {
 	//

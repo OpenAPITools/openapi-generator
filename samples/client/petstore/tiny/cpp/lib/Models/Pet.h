@@ -99,8 +99,6 @@ public:
 	std::list <std::string>photoUrls;
 	std::list <Tag>tags;
 	std::string status;
-    void __init();
-    void __cleanup();
 };
 }
 

@@ -1,6 +1,5 @@
 #include "{{classname}}.h"
 
-using namespace std;
 using namespace Tiny;
 
 {{#operations}}
@@ -56,7 +55,7 @@ using namespace Tiny;
             // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
 
             {{#pathParams}}
-                string s_{{paramName}}("{");
+                std::string s_{{paramName}}("{");
                 s_{{paramName}}.append("{{{baseName}}}");
                 s_{{paramName}}.append("}");
 

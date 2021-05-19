@@ -6,7 +6,8 @@ using namespace Tiny;
 
 Category::Category()
 {
-    __init();
+	id = long(0);
+	name = std::string();
 }
 
 Category::Category(std::string jsonString)
@@ -15,19 +16,6 @@ Category::Category(std::string jsonString)
 }
 
 Category::~Category()
-{
-    __cleanup();
-}
-
-void
-Category::__init()
-{
-	id = long(0);
-	name = std::string();
-}
-
-void
-Category::__cleanup()
 {
     //if(id != NULL) {
 	//

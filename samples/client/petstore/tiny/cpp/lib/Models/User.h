@@ -112,8 +112,6 @@ public:
 	std::string password;
 	std::string phone;
 	int userStatus;
-    void __init();
-    void __cleanup();
 };
 }
 

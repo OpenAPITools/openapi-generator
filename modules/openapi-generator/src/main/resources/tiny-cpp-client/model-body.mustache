@@ -6,22 +6,6 @@ using namespace Tiny;
 
 {{classname}}::{{classname}}()
 {
-    __init();
-}
-
-{{classname}}::{{classname}}(std::string jsonString)
-{
-	this->fromJson(jsonString);
-}
-
-{{classname}}::~{{classname}}()
-{
-    __cleanup();
-}
-
-void
-{{classname}}::__init()
-{
     {{#vars}}
 	{{#isContainer}}
 	{{name}} = {{defaultValue}}<{{#items}}{{baseType}}{{/items}}>();
@@ -32,8 +16,12 @@ void
 	{{/vars}}
 }
 
-void
-{{classname}}::__cleanup()
+{{classname}}::{{classname}}(std::string jsonString)
+{
+	this->fromJson(jsonString);
+}
+
+{{classname}}::~{{classname}}()
 {
     //{{#vars}}if({{name}} != NULL) {
 	//{{#isContainer}}{{name}}.RemoveAll(true);{{/isContainer}}

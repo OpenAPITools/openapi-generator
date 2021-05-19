@@ -1,6 +1,5 @@
 #include "PetApi.h"
 
-using namespace std;
 using namespace Tiny;
 
 
@@ -79,7 +78,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_petId("{");
+                std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
 
@@ -242,7 +241,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_petId("{");
+                std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
 
@@ -342,7 +341,7 @@ using namespace Tiny;
             // Form     | name status 
             // Body     | 
 
-                string s_petId("{");
+                std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
 
@@ -391,7 +390,7 @@ using namespace Tiny;
             // Form     | additionalMetadata file 
             // Body     | 
 
-                string s_petId("{");
+                std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
 

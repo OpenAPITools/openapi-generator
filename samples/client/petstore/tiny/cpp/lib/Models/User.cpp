@@ -6,22 +6,6 @@ using namespace Tiny;
 
 User::User()
 {
-    __init();
-}
-
-User::User(std::string jsonString)
-{
-	this->fromJson(jsonString);
-}
-
-User::~User()
-{
-    __cleanup();
-}
-
-void
-User::__init()
-{
 	id = long(0);
 	username = std::string();
 	firstName = std::string();
@@ -32,8 +16,12 @@ User::__init()
 	userStatus = int(0);
 }
 
-void
-User::__cleanup()
+User::User(std::string jsonString)
+{
+	this->fromJson(jsonString);
+}
+
+User::~User()
 {
     //if(id != NULL) {
 	//

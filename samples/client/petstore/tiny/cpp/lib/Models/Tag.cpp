@@ -6,7 +6,8 @@ using namespace Tiny;
 
 Tag::Tag()
 {
-    __init();
+	id = long(0);
+	name = std::string();
 }
 
 Tag::Tag(std::string jsonString)
@@ -15,19 +16,6 @@ Tag::Tag(std::string jsonString)
 }
 
 Tag::~Tag()
-{
-    __cleanup();
-}
-
-void
-Tag::__init()
-{
-	id = long(0);
-	name = std::string();
-}
-
-void
-Tag::__cleanup()
 {
     //if(id != NULL) {
 	//

@@ -6,22 +6,6 @@ using namespace Tiny;
 
 Pet::Pet()
 {
-    __init();
-}
-
-Pet::Pet(std::string jsonString)
-{
-	this->fromJson(jsonString);
-}
-
-Pet::~Pet()
-{
-    __cleanup();
-}
-
-void
-Pet::__init()
-{
 	id = long(0);
 	category = Category();
 	name = std::string();
@@ -30,8 +14,12 @@ Pet::__init()
 	status = std::string();
 }
 
-void
-Pet::__cleanup()
+Pet::Pet(std::string jsonString)
+{
+	this->fromJson(jsonString);
+}
+
+Pet::~Pet()
 {
     //if(id != NULL) {
 	//

@@ -1,6 +1,5 @@
 #include "UserApi.h"
 
-using namespace std;
 using namespace Tiny;
 
 
@@ -167,7 +166,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_username("{");
+                std::string s_username("{");
                 s_username.append("username");
                 s_username.append("}");
 
@@ -210,7 +209,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
-                string s_username("{");
+                std::string s_username("{");
                 s_username.append("username");
                 s_username.append("}");
 
@@ -338,7 +337,7 @@ using namespace Tiny;
             // Form     | 
             // Body     | user
 
-                string s_username("{");
+                std::string s_username("{");
                 s_username.append("username");
                 s_username.append("}");
 

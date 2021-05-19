@@ -72,8 +72,6 @@ public:
 	int code;
 	std::string type;
 	std::string message;
-    void __init();
-    void __cleanup();
 };
 }
 

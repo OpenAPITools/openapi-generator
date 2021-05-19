@@ -6,7 +6,9 @@ using namespace Tiny;
 
 ApiResponse::ApiResponse()
 {
-    __init();
+	code = int(0);
+	type = std::string();
+	message = std::string();
 }
 
 ApiResponse::ApiResponse(std::string jsonString)
@@ -15,20 +17,6 @@ ApiResponse::ApiResponse(std::string jsonString)
 }
 
 ApiResponse::~ApiResponse()
-{
-    __cleanup();
-}
-
-void
-ApiResponse::__init()
-{
-	code = int(0);
-	type = std::string();
-	message = std::string();
-}
-
-void
-ApiResponse::__cleanup()
 {
     //if(code != NULL) {
 	//
