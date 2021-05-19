@@ -257,7 +257,7 @@ extension {{projectName}} {
             {{#hasBodyParam}}
             {{#bodyParam}}{{#required}}{{#isBinary}}request.body = ByteBuffer(data: {{paramName}}){{/isBinary}}{{^isBinary}}{{#isFile}}request.body = ByteBuffer(data: {{paramName}}){{/isFile}}try request.content.encode({{paramName}}, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}{{/required}}{{^required}}if let body = {{paramName}} {
 
-                {{#isBinary}}request.body = ByteBuffer(data: body){{/isBinary}}{{^isBinary}}{{#isFile}}request.body = ByteBuffer(data: body){{/isFile}}try request.content.encode(body){{/isBinary}}
+                {{#isBinary}}request.body = ByteBuffer(data: body){{/isBinary}}{{^isBinary}}{{#isFile}}request.body = ByteBuffer(data: body){{/isFile}}try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}
             }{{/required}}{{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}struct FormParams: Content {
