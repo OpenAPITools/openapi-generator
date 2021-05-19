@@ -3,14 +3,14 @@
 #include <sstream>
 
 bool isprimitive(std::string type){
-	if(type.compare("std::string") == 0||
-		type.compare("int") == 0||
-		type.compare("long") == 0||
-		type.compare("double") == 0||
-		type.compare("float") == 0||
-		type.compare("bool") == 0||
-		type.compare("std::map") == 0||
-		type.compare("std::list") == 0) 
+	if(type == "std::string" ||
+		type == "int" ||
+		type == "float" ||
+		type == "long" ||
+		type == "double" ||
+		type == "bool" ||
+		type == "std::map" ||
+		type == "std::list")
     {
 		return true;
 	}
