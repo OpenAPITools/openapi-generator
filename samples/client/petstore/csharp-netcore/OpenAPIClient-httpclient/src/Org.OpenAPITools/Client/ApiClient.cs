@@ -214,7 +214,6 @@ namespace Org.OpenAPITools.Client
             _httpClient = new HttpClient(_httpClientHandler, true);
             _disposeClient = true;
             _baseUrl = basePath;
-            #warning
         }
         
         /// <summary>
