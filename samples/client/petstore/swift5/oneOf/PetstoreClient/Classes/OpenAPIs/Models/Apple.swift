@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-public struct Apple: Codable {
+public struct Apple: Codable, Hashable {
 
     public var kind: String?
 
@@ -15,4 +18,14 @@ public struct Apple: Codable {
         self.kind = kind
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case kind
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(kind, forKey: .kind)
+    }
 }
