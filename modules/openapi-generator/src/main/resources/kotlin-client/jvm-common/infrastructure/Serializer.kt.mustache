@@ -60,6 +60,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        .add(UriAdapter())
         {{^moshiCodeGen}}
         .add(KotlinJsonAdapterFactory())
         {{/moshiCodeGen}}
