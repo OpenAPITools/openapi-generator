@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.4.30'
+    ext.kotlin_version = '1.5.0'
     ext.retrofitVersion = '2.7.2'
 
     repositories {
@@ -32,7 +32,7 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.squareup.okhttp3:logging-interceptor:4.9.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
