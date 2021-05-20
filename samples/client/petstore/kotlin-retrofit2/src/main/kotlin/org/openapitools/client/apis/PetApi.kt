@@ -34,7 +34,7 @@ interface PetApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Call<Unit>
+    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Call<Unit>
 
     /**
      * Finds Pets by status
