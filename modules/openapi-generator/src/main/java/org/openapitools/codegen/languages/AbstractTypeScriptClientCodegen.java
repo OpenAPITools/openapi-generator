@@ -593,7 +593,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return modelPropertyNaming;
     }
 
-    private String getNameUsingModelPropertyNaming(String name) {
+    protected String getNameUsingModelPropertyNaming(String name) {
         switch (getModelPropertyNaming()) {
             case original:
                 return name;
