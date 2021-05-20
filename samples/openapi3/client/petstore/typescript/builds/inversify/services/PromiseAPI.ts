@@ -10,9 +10,9 @@ import { User } from "../models/User";
 
 
 export abstract class AbstractPromisePetApi {
-    public abstract addPet(pet: Pet, options?: Configuration): Promise<Pet>;
+    public abstract addPet(Pet: Pet, options?: Configuration): Promise<Pet>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<void>;
+    public abstract deletePet(petId: number, api_key?: string, options?: Configuration): Promise<void>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<Array<Pet>>;
 
@@ -20,7 +20,7 @@ export abstract class AbstractPromisePetApi {
 
     public abstract getPetById(petId: number, options?: Configuration): Promise<Pet>;
 
-    public abstract updatePet(pet: Pet, options?: Configuration): Promise<Pet>;
+    public abstract updatePet(Pet: Pet, options?: Configuration): Promise<Pet>;
 
     public abstract updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<void>;
 
@@ -36,17 +36,17 @@ export abstract class AbstractPromiseStoreApi {
 
     public abstract getOrderById(orderId: number, options?: Configuration): Promise<Order>;
 
-    public abstract placeOrder(order: Order, options?: Configuration): Promise<Order>;
+    public abstract placeOrder(Order: Order, options?: Configuration): Promise<Order>;
 
 }
 
 
 export abstract class AbstractPromiseUserApi {
-    public abstract createUser(user: User, options?: Configuration): Promise<void>;
+    public abstract createUser(User: User, options?: Configuration): Promise<void>;
 
-    public abstract createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<void>;
+    public abstract createUsersWithArrayInput(User: Array<User>, options?: Configuration): Promise<void>;
 
-    public abstract createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<void>;
+    public abstract createUsersWithListInput(User: Array<User>, options?: Configuration): Promise<void>;
 
     public abstract deleteUser(username: string, options?: Configuration): Promise<void>;
 
@@ -56,6 +56,6 @@ export abstract class AbstractPromiseUserApi {
 
     public abstract logoutUser(options?: Configuration): Promise<void>;
 
-    public abstract updateUser(username: string, user: User, options?: Configuration): Promise<void>;
+    public abstract updateUser(username: string, User: User, options?: Configuration): Promise<void>;
 
 }

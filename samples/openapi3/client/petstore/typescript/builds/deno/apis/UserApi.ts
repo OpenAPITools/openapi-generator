@@ -16,14 +16,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param user Created user object
+     * @param User Created user object
      */
-    public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
+    public async createUser(User: User, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+        // verify required parameter 'User' is not null or undefined
+        if (User === null || User === undefined) {
+            throw new RequiredError('Required parameter User was null or undefined when calling createUser.');
         }
 
 
@@ -47,7 +47,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(user, "User", ""),
+            ObjectSerializer.serialize(User, "User", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -64,14 +64,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param User List of user object
      */
-    public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
+    public async createUsersWithArrayInput(User: Array<User>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'User' is not null or undefined
+        if (User === null || User === undefined) {
+            throw new RequiredError('Required parameter User was null or undefined when calling createUsersWithArrayInput.');
         }
 
 
@@ -95,7 +95,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(user, "Array<User>", ""),
+            ObjectSerializer.serialize(User, "Array<User>", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -112,14 +112,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param User List of user object
      */
-    public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
+    public async createUsersWithListInput(User: Array<User>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'User' is not null or undefined
+        if (User === null || User === undefined) {
+            throw new RequiredError('Required parameter User was null or undefined when calling createUsersWithListInput.');
         }
 
 
@@ -143,7 +143,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(user, "Array<User>", ""),
+            ObjectSerializer.serialize(User, "Array<User>", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -317,9 +317,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param User Updated user object
      */
-    public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
+    public async updateUser(username: string, User: User, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
@@ -328,9 +328,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+        // verify required parameter 'User' is not null or undefined
+        if (User === null || User === undefined) {
+            throw new RequiredError('Required parameter User was null or undefined when calling updateUser.');
         }
 
 
@@ -355,7 +355,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(user, "User", ""),
+            ObjectSerializer.serialize(User, "User", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

@@ -17,14 +17,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param Pet Pet object that needs to be added to the store
      */
-    public async addPet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
+    public async addPet(Pet: Pet, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
+        // verify required parameter 'Pet' is not null or undefined
+        if (Pet === null || Pet === undefined) {
+            throw new RequiredError('Required parameter Pet was null or undefined when calling addPet.');
         }
 
 
@@ -50,7 +50,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(pet, "Pet", ""),
+            ObjectSerializer.serialize(Pet, "Pet", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -68,9 +68,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param api_key 
      */
-    public async deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<RequestContext> {
+    public async deletePet(petId: number, api_key?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
@@ -91,7 +91,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
 
         // Header Params
-        requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
+        requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(api_key, "string", ""));
 
         // Form Params
 
@@ -237,14 +237,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param Pet Pet object that needs to be added to the store
      */
-    public async updatePet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
+    public async updatePet(Pet: Pet, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
+        // verify required parameter 'Pet' is not null or undefined
+        if (Pet === null || Pet === undefined) {
+            throw new RequiredError('Required parameter Pet was null or undefined when calling updatePet.');
         }
 
 
@@ -270,7 +270,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(pet, "Pet", ""),
+            ObjectSerializer.serialize(Pet, "Pet", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

@@ -120,14 +120,14 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param Order order placed for purchasing the pet
      */
-    public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
+    public async placeOrder(Order: Order, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'order' is not null or undefined
-        if (order === null || order === undefined) {
-            throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
+        // verify required parameter 'Order' is not null or undefined
+        if (Order === null || Order === undefined) {
+            throw new RequiredError('Required parameter Order was null or undefined when calling placeOrder.');
         }
 
 
@@ -151,7 +151,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(order, "Order", ""),
+            ObjectSerializer.serialize(Order, "Order", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

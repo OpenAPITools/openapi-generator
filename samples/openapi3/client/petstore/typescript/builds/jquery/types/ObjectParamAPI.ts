@@ -18,7 +18,7 @@ export interface PetApiAddPetRequest {
      * @type Pet
      * @memberof PetApiaddPet
      */
-    pet: Pet
+    Pet: Pet
 }
 
 export interface PetApiDeletePetRequest {
@@ -33,7 +33,7 @@ export interface PetApiDeletePetRequest {
      * @type string
      * @memberof PetApideletePet
      */
-    apiKey?: string
+    api_key?: string
 }
 
 export interface PetApiFindPetsByStatusRequest {
@@ -69,7 +69,7 @@ export interface PetApiUpdatePetRequest {
      * @type Pet
      * @memberof PetApiupdatePet
      */
-    pet: Pet
+    Pet: Pet
 }
 
 export interface PetApiUpdatePetWithFormRequest {
@@ -126,7 +126,7 @@ export class ObjectPetApi {
      * @param param the request object
      */
     public addPet(param: PetApiAddPetRequest, options?: Configuration): Promise<Pet> {
-        return this.api.addPet(param.pet,  options).toPromise();
+        return this.api.addPet(param.Pet,  options).toPromise();
     }
 
     /**
@@ -134,7 +134,7 @@ export class ObjectPetApi {
      * @param param the request object
      */
     public deletePet(param: PetApiDeletePetRequest, options?: Configuration): Promise<void> {
-        return this.api.deletePet(param.petId, param.apiKey,  options).toPromise();
+        return this.api.deletePet(param.petId, param.api_key,  options).toPromise();
     }
 
     /**
@@ -169,7 +169,7 @@ export class ObjectPetApi {
      * @param param the request object
      */
     public updatePet(param: PetApiUpdatePetRequest, options?: Configuration): Promise<Pet> {
-        return this.api.updatePet(param.pet,  options).toPromise();
+        return this.api.updatePet(param.Pet,  options).toPromise();
     }
 
     /**
@@ -220,7 +220,7 @@ export interface StoreApiPlaceOrderRequest {
      * @type Order
      * @memberof StoreApiplaceOrder
      */
-    order: Order
+    Order: Order
 }
 
 export class ObjectStoreApi {
@@ -262,7 +262,7 @@ export class ObjectStoreApi {
      * @param param the request object
      */
     public placeOrder(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<Order> {
-        return this.api.placeOrder(param.order,  options).toPromise();
+        return this.api.placeOrder(param.Order,  options).toPromise();
     }
 
 }
@@ -276,7 +276,7 @@ export interface UserApiCreateUserRequest {
      * @type User
      * @memberof UserApicreateUser
      */
-    user: User
+    User: User
 }
 
 export interface UserApiCreateUsersWithArrayInputRequest {
@@ -285,7 +285,7 @@ export interface UserApiCreateUsersWithArrayInputRequest {
      * @type Array&lt;User&gt;
      * @memberof UserApicreateUsersWithArrayInput
      */
-    user: Array<User>
+    User: Array<User>
 }
 
 export interface UserApiCreateUsersWithListInputRequest {
@@ -294,7 +294,7 @@ export interface UserApiCreateUsersWithListInputRequest {
      * @type Array&lt;User&gt;
      * @memberof UserApicreateUsersWithListInput
      */
-    user: Array<User>
+    User: Array<User>
 }
 
 export interface UserApiDeleteUserRequest {
@@ -345,7 +345,7 @@ export interface UserApiUpdateUserRequest {
      * @type User
      * @memberof UserApiupdateUser
      */
-    user: User
+    User: User
 }
 
 export class ObjectUserApi {
@@ -361,7 +361,7 @@ export class ObjectUserApi {
      * @param param the request object
      */
     public createUser(param: UserApiCreateUserRequest, options?: Configuration): Promise<void> {
-        return this.api.createUser(param.user,  options).toPromise();
+        return this.api.createUser(param.User,  options).toPromise();
     }
 
     /**
@@ -369,7 +369,7 @@ export class ObjectUserApi {
      * @param param the request object
      */
     public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<void> {
-        return this.api.createUsersWithArrayInput(param.user,  options).toPromise();
+        return this.api.createUsersWithArrayInput(param.User,  options).toPromise();
     }
 
     /**
@@ -377,7 +377,7 @@ export class ObjectUserApi {
      * @param param the request object
      */
     public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<void> {
-        return this.api.createUsersWithListInput(param.user,  options).toPromise();
+        return this.api.createUsersWithListInput(param.User,  options).toPromise();
     }
 
     /**
@@ -419,7 +419,7 @@ export class ObjectUserApi {
      * @param param the request object
      */
     public updateUser(param: UserApiUpdateUserRequest, options?: Configuration): Promise<void> {
-        return this.api.updateUser(param.username, param.user,  options).toPromise();
+        return this.api.updateUser(param.username, param.User,  options).toPromise();
     }
 
 }

@@ -5,9 +5,9 @@ import { ApiResponse } from "../models/ApiResponse";
 import { Pet } from "../models/Pet";
 
 export abstract class AbstractPetApiRequestFactory {
-    public abstract addPet(pet: Pet, options?: Configuration): Promise<RequestContext>;
+    public abstract addPet(Pet: Pet, options?: Configuration): Promise<RequestContext>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<RequestContext>;
+    public abstract deletePet(petId: number, api_key?: string, options?: Configuration): Promise<RequestContext>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<RequestContext>;
 
@@ -15,7 +15,7 @@ export abstract class AbstractPetApiRequestFactory {
 
     public abstract getPetById(petId: number, options?: Configuration): Promise<RequestContext>;
 
-    public abstract updatePet(pet: Pet, options?: Configuration): Promise<RequestContext>;
+    public abstract updatePet(Pet: Pet, options?: Configuration): Promise<RequestContext>;
 
     public abstract updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<RequestContext>;
 

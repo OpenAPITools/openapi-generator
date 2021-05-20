@@ -11,9 +11,9 @@ import { User } from "../models/User";
 
 
 export abstract class AbstractObservablePetApi {
-    public abstract addPet(pet: Pet, options?: Configuration): Observable<Pet>;
+    public abstract addPet(Pet: Pet, options?: Configuration): Observable<Pet>;
 
-    public abstract deletePet(petId: number, apiKey?: string, options?: Configuration): Observable<void>;
+    public abstract deletePet(petId: number, api_key?: string, options?: Configuration): Observable<void>;
 
     public abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Observable<Array<Pet>>;
 
@@ -21,7 +21,7 @@ export abstract class AbstractObservablePetApi {
 
     public abstract getPetById(petId: number, options?: Configuration): Observable<Pet>;
 
-    public abstract updatePet(pet: Pet, options?: Configuration): Observable<Pet>;
+    public abstract updatePet(Pet: Pet, options?: Configuration): Observable<Pet>;
 
     public abstract updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Observable<void>;
 
@@ -37,17 +37,17 @@ export abstract class AbstractObservableStoreApi {
 
     public abstract getOrderById(orderId: number, options?: Configuration): Observable<Order>;
 
-    public abstract placeOrder(order: Order, options?: Configuration): Observable<Order>;
+    public abstract placeOrder(Order: Order, options?: Configuration): Observable<Order>;
 
 }
 
 
 export abstract class AbstractObservableUserApi {
-    public abstract createUser(user: User, options?: Configuration): Observable<void>;
+    public abstract createUser(User: User, options?: Configuration): Observable<void>;
 
-    public abstract createUsersWithArrayInput(user: Array<User>, options?: Configuration): Observable<void>;
+    public abstract createUsersWithArrayInput(User: Array<User>, options?: Configuration): Observable<void>;
 
-    public abstract createUsersWithListInput(user: Array<User>, options?: Configuration): Observable<void>;
+    public abstract createUsersWithListInput(User: Array<User>, options?: Configuration): Observable<void>;
 
     public abstract deleteUser(username: string, options?: Configuration): Observable<void>;
 
@@ -57,6 +57,6 @@ export abstract class AbstractObservableUserApi {
 
     public abstract logoutUser(options?: Configuration): Observable<void>;
 
-    public abstract updateUser(username: string, user: User, options?: Configuration): Observable<void>;
+    public abstract updateUser(username: string, User: User, options?: Configuration): Observable<void>;
 
 }

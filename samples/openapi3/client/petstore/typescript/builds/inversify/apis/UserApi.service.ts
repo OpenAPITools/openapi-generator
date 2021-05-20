@@ -4,11 +4,11 @@ import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 import { User } from "../models/User";
 
 export abstract class AbstractUserApiRequestFactory {
-    public abstract createUser(user: User, options?: Configuration): Promise<RequestContext>;
+    public abstract createUser(User: User, options?: Configuration): Promise<RequestContext>;
 
-    public abstract createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<RequestContext>;
+    public abstract createUsersWithArrayInput(User: Array<User>, options?: Configuration): Promise<RequestContext>;
 
-    public abstract createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<RequestContext>;
+    public abstract createUsersWithListInput(User: Array<User>, options?: Configuration): Promise<RequestContext>;
 
     public abstract deleteUser(username: string, options?: Configuration): Promise<RequestContext>;
 
@@ -18,7 +18,7 @@ export abstract class AbstractUserApiRequestFactory {
 
     public abstract logoutUser(options?: Configuration): Promise<RequestContext>;
 
-    public abstract updateUser(username: string, user: User, options?: Configuration): Promise<RequestContext>;
+    public abstract updateUser(username: string, User: User, options?: Configuration): Promise<RequestContext>;
 
 }
 

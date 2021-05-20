@@ -10,7 +10,7 @@ export abstract class AbstractStoreApiRequestFactory {
 
     public abstract getOrderById(orderId: number, options?: Configuration): Promise<RequestContext>;
 
-    public abstract placeOrder(order: Order, options?: Configuration): Promise<RequestContext>;
+    public abstract placeOrder(Order: Order, options?: Configuration): Promise<RequestContext>;
 
 }
 

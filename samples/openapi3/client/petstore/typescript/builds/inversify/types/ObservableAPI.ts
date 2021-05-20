@@ -33,10 +33,10 @@ export class ObservablePetApi {
 
     /**
      * Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param Pet Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, _options?: Configuration): Observable<Pet> {
-        const requestContextPromise = this.requestFactory.addPet(pet, _options);
+    public addPet(Pet: Pet, _options?: Configuration): Observable<Pet> {
+        const requestContextPromise = this.requestFactory.addPet(Pet, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -57,10 +57,10 @@ export class ObservablePetApi {
     /**
      * Deletes a pet
      * @param petId Pet id to delete
-     * @param apiKey 
+     * @param api_key 
      */
-    public deletePet(petId: number, apiKey?: string, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
+    public deletePet(petId: number, api_key?: string, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.deletePet(petId, api_key, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -152,10 +152,10 @@ export class ObservablePetApi {
  
     /**
      * Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param Pet Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, _options?: Configuration): Observable<Pet> {
-        const requestContextPromise = this.requestFactory.updatePet(pet, _options);
+    public updatePet(Pet: Pet, _options?: Configuration): Observable<Pet> {
+        const requestContextPromise = this.requestFactory.updatePet(Pet, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -317,10 +317,10 @@ export class ObservableStoreApi {
  
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param Order order placed for purchasing the pet
      */
-    public placeOrder(order: Order, _options?: Configuration): Observable<Order> {
-        const requestContextPromise = this.requestFactory.placeOrder(order, _options);
+    public placeOrder(Order: Order, _options?: Configuration): Observable<Order> {
+        const requestContextPromise = this.requestFactory.placeOrder(Order, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -362,10 +362,10 @@ export class ObservableUserApi {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param user Created user object
+     * @param User Created user object
      */
-    public createUser(user: User, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.createUser(user, _options);
+    public createUser(User: User, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.createUser(User, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -385,10 +385,10 @@ export class ObservableUserApi {
  
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param User List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, _options);
+    public createUsersWithArrayInput(User: Array<User>, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.createUsersWithArrayInput(User, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -408,10 +408,10 @@ export class ObservableUserApi {
  
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param User List of user object
      */
-    public createUsersWithListInput(user: Array<User>, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.createUsersWithListInput(user, _options);
+    public createUsersWithListInput(User: Array<User>, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.createUsersWithListInput(User, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -526,10 +526,10 @@ export class ObservableUserApi {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param User Updated user object
      */
-    public updateUser(username: string, user: User, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.updateUser(username, user, _options);
+    public updateUser(username: string, User: User, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.updateUser(username, User, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
