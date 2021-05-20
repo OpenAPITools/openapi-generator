@@ -1086,6 +1086,7 @@ definitions:
     xml:
       name: Order
   Category:
+    x-swift-hashable: true
     type: object
     required:
       - name

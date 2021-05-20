@@ -65,6 +65,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
+    public static final String HASHABLE_MODELS = "hashableModels";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
@@ -82,6 +83,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
+    protected boolean hashableModels = true;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -279,6 +281,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
                 + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
 
+        cliOptions.add(new CliOption(HASHABLE_MODELS,
+            "Make hashable models (default: true)")
+            .defaultValue(Boolean.TRUE.toString()));
+
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
 
@@ -457,6 +463,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
         }
         additionalProperties.put(GENERATE_MODEL_ADDITIONAL_PROPERTIES, generateModelAdditionalProperties);
+
+        if (additionalProperties.containsKey(HASHABLE_MODELS)) {
+            setHashableModels(convertPropertyToBooleanAndWriteBack(HASHABLE_MODELS));
+        }
+        additionalProperties.put(HASHABLE_MODELS, hashableModels);
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
@@ -828,7 +839,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 parentSchema = parentCodegenModel.parentSchema;
             }
         }
-
+        if (hashableModels) {
+            codegenModel.vendorExtensions.put("x-swift-hashable", true);
+        }
         return codegenModel;
     }
 
@@ -874,6 +887,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
         this.generateModelAdditionalProperties = generateModelAdditionalProperties;
+    }
+
+    public void setHashableModels(boolean hashableModels) {
+        this.hashableModels = hashableModels;
     }
 
     @Override

@@ -1,4 +1,4 @@
-{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#useClasses}}final class{{/useClasses}}{{^useClasses}}struct{{/useClasses}} {{classname}}: Codable, Hashable {
+{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#useClasses}}final class{{/useClasses}}{{^useClasses}}struct{{/useClasses}} {{classname}}: Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
 {{/objcCompatible}}{{#objcCompatible}}@objc {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable {
 {{/objcCompatible}}
 
@@ -86,7 +86,7 @@
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
         {{/allVars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#useClasses}}
+    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#useClasses}}{{#vendorExtensions.x-swift-hashable}}
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
         {{#allVars}}
@@ -100,5 +100,5 @@
         hasher.combine({{{name}}}{{^required}}?{{/required}}.hashValue)
         {{/allVars}}
         {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
-    }{{/useClasses}}{{/objcCompatible}}
+    }{{/vendorExtensions.x-swift-hashable}}{{/useClasses}}{{/objcCompatible}}
 }
