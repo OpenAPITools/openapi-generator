@@ -26,6 +26,7 @@ std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to
 void begin(std::string url);
 
 {{#isESP32}}
+// Go and comment out a certificate in root.cert, if you get an error here
 // Certificate from file
 const char* test_root_ca =
 #include "../../root.cert"
