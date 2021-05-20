@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - master
-      - release/**
+      - '[5-9]+.[0-9]+.x'
   pull_request:
     branches:
       - master
-      - release/**
+      - '[5-9]+.[0-9]+.x'
 
 jobs:
   tests-dart-2-10:
