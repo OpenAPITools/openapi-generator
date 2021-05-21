@@ -1,13 +1,13 @@
       {{#hasFormParams}}
       _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
         {{/formParams}}
       }{{#isMultipart}}){{/isMultipart}};
       {{/hasFormParams}}
       {{#bodyParam}}
       {{#isPrimitiveType}}
-      _bodyData = {{paramName}};
+      _bodyData = {{paramName}}{{#isFile}}.finalize(){{/isFile}};
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       {{#isContainer}}

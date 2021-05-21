@@ -46,6 +46,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
+    private static final String DIO_IMPORT = "package:dio/dio.dart";
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
@@ -182,8 +183,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("List", "BuiltList");
         typeMapping.put("set", "BuiltSet");
         typeMapping.put("map", "BuiltMap");
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
+        typeMapping.put("file", "MultipartFile");
+        typeMapping.put("binary", "MultipartFile");
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
 
@@ -191,7 +192,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltSet", "package:built_collection/built_collection.dart");
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
-        imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -257,7 +258,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = rewriteImports(cm.imports);
+            cm.imports = rewriteImports(cm.imports, true);
             cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
         }
         return objs;
@@ -302,7 +303,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         sb.append(")]");
     }
 
-
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
@@ -330,10 +330,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
 
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
-                    param.baseType = "MultipartFile";
-                    param.dataType = "MultipartFile";
-                }
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
                     serializer.put("isArray", param.isArray);
@@ -348,7 +344,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             op.vendorExtensions.put("x-is-form", isForm);
             op.vendorExtensions.put("x-is-multipart", isMultipart);
 
-            resultImports.addAll(rewriteImports(op.imports));
+            resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams()) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
@@ -369,11 +365,16 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         return objs;
     }
 
-    private Set<String> rewriteImports(Set<String> originalImports) {
+    private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
             if (imports.containsKey(modelImport)) {
-                resultImports.add(imports.get(modelImport));
+                String i = imports.get(modelImport);
+                if (Objects.equals(i, DIO_IMPORT) && !isModel) {
+                    // Don't add imports to operations that are already imported
+                    continue;
+                }
+                resultImports.add(i);
             } else {
                 resultImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
             }
