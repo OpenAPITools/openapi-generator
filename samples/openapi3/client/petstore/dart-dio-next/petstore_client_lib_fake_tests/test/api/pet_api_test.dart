@@ -1,8 +1,11 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
+
+import '../matcher/form_data_matcher.dart';
 
 void main() {
   const photo1 = 'https://localhost/photo1.jpg';
@@ -219,6 +222,84 @@ void main() {
         expect(response.data[1].id, 1);
         expect(response.data[1].name, 'Mickey');
         expect(response.data[1].status, PetStatusEnum.available);
+      });
+    });
+
+    group('uploadFile', () {
+      test('uploadFileWithRequiredFile', () async {
+        final file = MultipartFile.fromBytes(
+          [1, 2, 3, 4],
+          filename: 'test.png',
+          contentType: MediaType.parse('image/png'),
+        );
+
+        server.onRoute(
+          '/fake/5/uploadImageWithRequiredFile',
+          (request) => request.reply(200, {
+            'code': 200,
+            'type': 'success',
+            'message': 'File uploaded',
+          }),
+          request: Request(
+            method: RequestMethods.post,
+            headers: <String, dynamic>{
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
+              Headers.contentLengthHeader: Matchers.integer,
+            },
+            data: FormDataMatcher(
+              expected: FormData.fromMap(<String, dynamic>{
+                r'requiredFile': file,
+              }),
+            ),
+          ),
+        );
+        final response = await client.getPetApi().uploadFileWithRequiredFile(
+              petId: 5,
+              requiredFile: file,
+            );
+
+        expect(response.statusCode, 200);
+        expect(response.data.message, 'File uploaded');
+      });
+
+      test('uploadFileWithRequiredFile & additionalMetadata', () async {
+        final file = MultipartFile.fromBytes(
+          [1, 2, 3, 4],
+          filename: 'test.png',
+          contentType: MediaType.parse('image/png'),
+        );
+
+        server.onRoute(
+          '/fake/3/uploadImageWithRequiredFile',
+          (request) => request.reply(200, {
+            'code': 200,
+            'type': 'success',
+            'message': 'File uploaded',
+          }),
+          request: Request(
+            method: RequestMethods.post,
+            headers: <String, dynamic>{
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
+              Headers.contentLengthHeader: Matchers.integer,
+            },
+            data: FormDataMatcher(
+              expected: FormData.fromMap(<String, dynamic>{
+                'additionalMetadata': 'foo',
+                r'requiredFile': file,
+              }),
+            ),
+          ),
+        );
+        final response = await client.getPetApi().uploadFileWithRequiredFile(
+              petId: 3,
+              requiredFile: file,
+              additionalMetadata: 'foo',
+            );
+
+        expect(response.statusCode, 200);
+        expect(response.data.message, 'File uploaded');
       });
     });
   });

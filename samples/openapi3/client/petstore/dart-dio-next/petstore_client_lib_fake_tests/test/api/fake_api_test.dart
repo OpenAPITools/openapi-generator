@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -55,7 +53,7 @@ void main() {
               int64: 9223372036854775807,
               date: Date(2020, 8, 11),
               dateTime: DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
-              binary: Uint8List.fromList([0, 1, 2, 3, 4, 5]),
+              binary: MultipartFile.fromBytes([0, 1, 2, 3, 4, 5]),
             );
 
         expect(response.statusCode, 200);
