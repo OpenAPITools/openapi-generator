@@ -37,7 +37,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isNumeric;
     public boolean isInteger;
     public boolean isLong;
-    public boolean isShortInteger;
+    public boolean isShort;
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
@@ -90,7 +90,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars, isNull, hasValidation, isShortInteger,
+                vars, requiredVars, isNull, hasValidation, isShort,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired);
@@ -106,7 +106,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
                 isLong == that.isLong &&
-                isShortInteger == that.isShortInteger &&
+                isShort == that.isShort &&
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
@@ -319,11 +319,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsShortInteger() { return isShortInteger; }
+    public boolean getIsShort() { return isShort; }
 
     @Override
-    public void setIsShortInteger(boolean isShortInteger)  {
-        this.isShortInteger = isShortInteger;
+    public void setIsShort(boolean isShort)  {
+        this.isShort = isShort;
     }
 
     @Override
@@ -413,7 +413,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isInteger=").append(isInteger);
         sb.append(", isLong=").append(isLong);
-        sb.append(", isShortInteger=").append(isShortInteger);
+        sb.append(", isShort=").append(isShort);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);

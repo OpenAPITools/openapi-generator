@@ -119,7 +119,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNumeric;
     public boolean isInteger;
     public boolean isLong;
-    public boolean isShortInteger;
+    public boolean isShort;
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
@@ -509,11 +509,11 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public boolean getIsShortInteger() { return isShortInteger; }
+    public boolean getIsShort() { return isShort; }
 
     @Override
-    public void setIsShortInteger(boolean isShortInteger)  {
-        this.isShortInteger = isShortInteger;
+    public void setIsShort(boolean isShort)  {
+        this.isShort = isShort;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -775,7 +775,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isInteger=").append(isInteger);
         sb.append(", isLong=").append(isLong);
-        sb.append(", isShortInteger=").append(isShortInteger);
+        sb.append(", isShort=").append(isShort);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
@@ -849,7 +849,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
                 isLong == that.isLong &&
-                isShortInteger == that.isShortInteger &&
+                isShort == that.isShort &&
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
@@ -937,7 +937,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShortInteger,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
