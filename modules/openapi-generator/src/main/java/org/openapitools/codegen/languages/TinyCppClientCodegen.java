@@ -85,14 +85,23 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
                         ParameterFeature.Query
                 )
                 .excludeDataTypeFeatures(
-                        DataTypeFeature.Maps
+                        DataTypeFeature.Enum,
+                        DataTypeFeature.Maps,
+                        DataTypeFeature.MapOfCollectionOfEnum,
+                        DataTypeFeature.MapOfCollectionOfModel,
+                        DataTypeFeature.MapOfCollectionOfPrimitives,
+                        DataTypeFeature.MapOfEnum,
+                        DataTypeFeature.MapOfModel
+
                 )
                 .excludeWireFormatFeatures(
                         WireFormatFeature.XML,
                         WireFormatFeature.PROTOBUF,
                         WireFormatFeature.Custom
                 )
-                .excludeGlobalFeatures());
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Readme
+                ));
 
         outputFolder = "generated-code" + File.separator + "tiny-cpp";
         embeddedTemplateDir = templateDir = "tiny-cpp-client";
