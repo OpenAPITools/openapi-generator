@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/date.dart';
@@ -825,7 +826,7 @@ class FakeApi {
     int? int64,
     double? float,
     String? string,
-    MultipartFile? binary,
+    Uint8List? binary,
     Date? date,
     DateTime? dateTime,
     String? password,

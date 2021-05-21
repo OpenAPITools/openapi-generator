@@ -183,8 +183,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("List", "BuiltList");
         typeMapping.put("set", "BuiltSet");
         typeMapping.put("map", "BuiltMap");
-        typeMapping.put("file", "MultipartFile");
-        typeMapping.put("binary", "MultipartFile");
+        typeMapping.put("file", "Uint8List");
+        typeMapping.put("binary", "Uint8List");
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
 
@@ -192,6 +192,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltSet", "package:built_collection/built_collection.dart");
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
+        imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
     }
 
@@ -329,6 +330,14 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
+            for (CodegenParameter param : op.allParams) {
+                if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
+                    param.baseType = "MultipartFile";
+                    param.dataType = "MultipartFile";
+                    op.imports.add("MultipartFile");
+                }
+            }
+
             for (CodegenParameter param : op.bodyParams) {
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
@@ -343,6 +352,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             op.vendorExtensions.put("x-is-json", isJson);
             op.vendorExtensions.put("x-is-form", isForm);
             op.vendorExtensions.put("x-is-multipart", isMultipart);
+
+            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))) {
+                // Remove unused imports after processing
+                op.imports.remove("Uint8List");
+            }
 
             resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams()) {
