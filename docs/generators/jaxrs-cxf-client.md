@@ -48,7 +48,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |src/gen/java|
+|sourceFolder|source folder for generated code| |src\gen\java|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
