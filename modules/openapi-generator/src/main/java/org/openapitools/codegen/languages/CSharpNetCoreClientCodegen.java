@@ -681,6 +681,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
+        if(HTTPCLIENT.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
+            typeMapping.put("file", "FileParameter");
+        }
+
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
