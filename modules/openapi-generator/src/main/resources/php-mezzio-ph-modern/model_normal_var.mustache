@@ -1,0 +1,45 @@
+{{#isContainer
+}}    #[DTA\Strategy("Object", ["type" => {{internal.ze-ph.containerDataType}}::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => {{internal.ze-ph.containerDataType}}::class])]
+{{/isContainer
+}}{{^isContainer
+}}{{#isPrimitiveType
+}}    #[DTA\Validator("Scalar", ["type" => "{{dataType}}"])]
+{{/isPrimitiveType
+}}{{#isDate
+}}    #[DTA\Strategy("Date")]
+    #[DTA\Validator("Date")]
+{{/isDate
+}}{{#isDateTime
+}}    #[DTA\Strategy("DateTime")]
+    #[DTA\Validator("Date", ["format" => \DateTime::RFC3339])]
+{{/isDateTime
+}}{{^isPrimitiveType
+}}{{^isDate
+}}{{^isDateTime
+}}    #[DTA\Strategy("Object", ["type" => {{dataType}}::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => {{dataType}}::class])]
+{{/isDateTime
+}}{{/isDate
+}}{{/isPrimitiveType
+}}{{/isContainer
+}}{{#hasValidation
+}}{{#minLength}}{{#maxLength
+}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}, "max" => {{maxLength}}])]
+{{/maxLength}}{{/minLength
+}}{{^minLength}}{{#maxLength
+}}    #[DTA\Validator("StringLength", ["max" => {{maxLength}}])]
+{{/maxLength}}{{/minLength
+}}{{#minLength}}{{^maxLength
+}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}])]
+{{/maxLength}}{{/minLength
+}}{{#minimum
+}}    #[DTA\Validator("GreaterThan", ["min" => {{minimum}}{{^exclusiveMinimum}}, "inclusive" => true{{/exclusiveMinimum}}])]
+{{/minimum
+}}{{#maximum
+}}    #[DTA\Validator("LessThan", ["max" => {{maximum}}{{^exclusiveMaximum}}, "inclusive" => true{{/exclusiveMaximum}}])]
+{{/maximum
+}}{{#pattern
+}}    #[DTA\Validator("Regex", ["pattern" => "{{{pattern}}}"])]
+{{/pattern
+}}{{/hasValidation}}
