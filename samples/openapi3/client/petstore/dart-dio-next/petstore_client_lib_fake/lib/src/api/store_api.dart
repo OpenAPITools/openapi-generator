@@ -116,13 +116,13 @@ class StoreApi {
         specifiedType: _responseType,
       ) as BuiltMap<String, int>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltMap<String, int>>(
@@ -186,13 +186,13 @@ class StoreApi {
         specifiedType: _responseType,
       ) as Order;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Order>(
@@ -244,7 +244,7 @@ class StoreApi {
       const _type = FullType(Order);
       _bodyData = _serializers.serialize(order, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -253,7 +253,7 @@ class StoreApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -275,13 +275,13 @@ class StoreApi {
         specifiedType: _responseType,
       ) as Order;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Order>(
