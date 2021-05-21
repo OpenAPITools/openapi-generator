@@ -79,7 +79,7 @@ jobs:
           path: '**/surefire-reports/TEST-*.xml'
 
   documentation:
-    name: Check docs up-to-date
+    name: Docs up-to-date
     runs-on: ubuntu-latest
     needs:
       - build
@@ -117,7 +117,7 @@ jobs:
           fi
 
   samples:
-    name: Check samples up-to-date
+    name: Samples up-to-date
     needs:
       - build
     runs-on: ubuntu-latest
