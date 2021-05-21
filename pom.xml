@@ -1418,16 +1418,38 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
-                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
-                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/client/petstore/R</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.dart-2.13</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.13</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.dart-2.10</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.10</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
             </modules>
         </profile>
         <profile>
@@ -1475,15 +1497,24 @@
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
             </modules>
         </profile>
+        <profile>
+            <id>openapi-generator</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!integration-test</name>
+                </property>
+            </activation>
+            <modules>
+                <module>modules/openapi-generator-core</module>
+                <module>modules/openapi-generator</module>
+                <module>modules/openapi-generator-cli</module>
+                <module>modules/openapi-generator-maven-plugin</module>
+                <module>modules/openapi-generator-gradle-plugin</module>
+                <module>modules/openapi-generator-online</module>
+            </modules>
+        </profile>
     </profiles>
-    <modules>
-        <module>modules/openapi-generator-core</module>
-        <module>modules/openapi-generator</module>
-        <module>modules/openapi-generator-cli</module>
-        <module>modules/openapi-generator-maven-plugin</module>
-        <module>modules/openapi-generator-gradle-plugin</module>
-        <module>modules/openapi-generator-online</module>
-    </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
         <plugins>
