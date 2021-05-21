@@ -14,7 +14,11 @@ class ValidateTaskDslTest : TestBase() {
     override var temp: File = createTempDir(javaClass.simpleName)
 
     @DataProvider(name = "gradle_version_provider")
-    fun gradleVersionProvider(): Array<Array<String?>> = arrayOf(arrayOf(null), arrayOf("7.0"))
+    fun gradleVersionProvider(): Array<Array<String?>> = arrayOf(
+        arrayOf(null), // uses the version of Gradle used to build the plugin itself
+        arrayOf("5.6.4"),
+        arrayOf("6.9"),
+        arrayOf("7.0"))
 
     private fun getGradleRunner(gradleVersion: String?): GradleRunner {
         val gradleRunner = GradleRunner.create()
