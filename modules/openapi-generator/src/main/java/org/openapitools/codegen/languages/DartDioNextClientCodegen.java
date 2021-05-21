@@ -72,6 +72,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         apiPackage = "lib.src.api";
         modelPackage = "lib.src.model";
 
+        languageSpecificPrimitives.add("bar");
+
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
@@ -182,7 +184,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("List", "BuiltList");
         typeMapping.put("set", "BuiltSet");
         typeMapping.put("map", "BuiltMap");
-        typeMapping.put("file", "Uint8List");
+        typeMapping.put("file", "MultipartFile");
         typeMapping.put("binary", "Uint8List");
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
