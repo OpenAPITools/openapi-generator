@@ -127,6 +127,7 @@ module Petstore
     # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
     #property params_encoding : String?
 
+    # Create a new `Configuration`.
     def initialize
       @scheme = "http"
       @host = "petstore.swagger.io"
@@ -149,9 +150,19 @@ module Petstore
       @password = nil
       @access_token = nil
       @temp_folder_path = nil
+    end
 
-      # TODO revise below to support block
-      #yield(self) if block_given?
+    # Create a new `Configuration` with block.
+    #
+    # ```
+    # config = Petstore::Configuration.new do |config|
+    #   config.username = "xxx"
+    #   config.password = "xxx"
+    # end
+    # ```
+    def initialize
+      initialize
+      yield self
     end
 
     # The default Configuration object.
@@ -159,8 +170,9 @@ module Petstore
       @@default ||= Configuration.new
     end
 
+    # Configure object with block.
     def configure
-      yield(self) if block_given?
+      yield self
     end
 
     def scheme=(scheme)
