@@ -1,0 +1,1 @@
+{{#isPathParam}}{{baseName}}{{/isPathParam}}{{^isPathParam}}{{paramName}}{{/isPathParam}}: {{>param_type}} = {{#isPathParam}}Path{{/isPathParam}}{{#isHeaderParam}}Header{{/isHeaderParam}}{{#isFormParam}}Form{{/isFormParam}}{{#isQueryParam}}Query{{/isQueryParam}}{{#isCookieParam}}Cookie{{/isCookieParam}}{{#isBodyParam}}Body{{/isBodyParam}}(None, description="{{description}}")
