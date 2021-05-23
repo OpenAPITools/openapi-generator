@@ -138,7 +138,7 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
- @Min(20) @Max(200)  @ApiModelProperty(value = "")
+ @DecimalMin("20") @DecimalMax("200")  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

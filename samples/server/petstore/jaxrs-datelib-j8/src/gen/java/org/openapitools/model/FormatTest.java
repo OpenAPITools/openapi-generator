@@ -140,7 +140,7 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty(value = "int32")
   @ApiModelProperty(value = "")
-   @Min(20) @Max(200)
+   @DecimalMin("20") @DecimalMax("200")
   public Integer getInt32() {
     return int32;
   }

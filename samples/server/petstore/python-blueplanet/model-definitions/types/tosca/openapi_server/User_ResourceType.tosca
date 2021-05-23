@@ -51,7 +51,7 @@ resourceTypes {
           optional = false
         }
         user_status {
-          type =  integer
+          type =  
           description = "User Status"
           optional = false
         }

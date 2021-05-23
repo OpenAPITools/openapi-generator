@@ -553,7 +553,7 @@ encodePrimitivePairs model =
             , maybeEncode "float" Json.Encode.float model.float
             , maybeEncode "double" Json.Encode.float model.double
             , maybeEncode "integer" Json.Encode.int model.integer
-            , maybeEncode "short" Json.Encode.int model.short
+            , maybeEncode "short"  model.short
             , maybeEncode "long" Json.Encode.int model.long
             , maybeEncode "boolean" Json.Encode.bool model.boolean
             ]
@@ -778,7 +778,7 @@ primitiveDecoder =
         |> maybeDecode "float" Json.Decode.float Nothing
         |> maybeDecode "double" Json.Decode.float Nothing
         |> maybeDecode "integer" Json.Decode.int Nothing
-        |> maybeDecode "short" Json.Decode.int Nothing
+        |> maybeDecode "short"  Nothing
         |> maybeDecode "long" Json.Decode.int Nothing
         |> maybeDecode "boolean" Json.Decode.bool Nothing
 

@@ -305,8 +305,8 @@ Name | Type | Description  | Notes
  **double** | **f64**| None | 
  **pattern_without_delimiter** | **String**| None | 
  **byte** | **swagger::ByteArray**| None | 
- **integer** | **i32**| None | 
- **int32** | **i32**| None | 
+ **integer** | [**integer**](integer.md)| None | 
+ **int32** | [**integer**](integer.md)| None | 
  **int64** | **i64**| None | 
  **float** | **f32**| None | 
  **string** | **String**| None | 
@@ -352,7 +352,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **String**| Header parameter enum test (string) | [default to "-efg".to_string()]
  **enum_query_string_array** | [**String**](String.md)| Query parameter enum test (string array) | 
  **enum_query_string** | **String**| Query parameter enum test (string) | [default to "-efg".to_string()]
- **enum_query_integer** | **i32**| Query parameter enum test (double) | 
+ **enum_query_integer** | [****](.md)| Query parameter enum test (double) | 
  **enum_query_double** | **f64**| Query parameter enum test (double) | 
  **enum_form_string** | **String**| Form parameter enum test (string) | [default to "-efg".to_string()]
 

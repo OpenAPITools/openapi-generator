@@ -50,7 +50,6 @@ Order <- R6::R6Class(
         self$`petId` <- `petId`
       }
       if (!is.null(`quantity`)) {
-        stopifnot(is.numeric(`quantity`), length(`quantity`) == 1)
         self$`quantity` <- `quantity`
       }
       if (!is.null(`shipDate`)) {

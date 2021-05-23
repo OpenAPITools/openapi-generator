@@ -917,8 +917,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 }
 
                                 // Form parameters
-                                let param_integer = Some(56);
-                                let param_int32 = Some(56);
+                                let param_integer = None;
+                                let param_int32 = None;
                                 let param_int64 = Some(789);
                                 let param_number = 8.14;
                                 let param_float = Some(3.4);

@@ -177,14 +177,14 @@ public class FakeApiController extends Controller {
         String valueinteger = (request.body().asMultipartFormData().asFormUrlEncoded().get("integer"))[0];
         Integer integer;
         if (valueinteger != null) {
-            integer = Integer.parseInt(valueinteger);
+            integer = valueinteger;
         } else {
             integer = null;
         }
         String valueint32 = (request.body().asMultipartFormData().asFormUrlEncoded().get("int32"))[0];
         Integer int32;
         if (valueint32 != null) {
-            int32 = Integer.parseInt(valueint32);
+            int32 = valueint32;
         } else {
             int32 = null;
         }
@@ -291,7 +291,7 @@ public class FakeApiController extends Controller {
         String valueenumQueryInteger = request.getQueryString("enum_query_integer");
         Integer enumQueryInteger;
         if (valueenumQueryInteger != null) {
-            enumQueryInteger = Integer.parseInt(valueenumQueryInteger);
+            enumQueryInteger = valueenumQueryInteger;
         } else {
             enumQueryInteger = null;
         }

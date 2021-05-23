@@ -8,7 +8,7 @@
     <entity name="SWGOrderManagedObject" representedClassName="SWGOrderManagedObject" syncable="YES">
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="petId" optional="YES" attributeType="Double" syncable="YES"/>
-        <attribute name="quantity" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="" syncable="YES"/>
         <attribute name="shipDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="complete" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -33,7 +33,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userStatus" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="userStatus" optional="YES" attributeType="" syncable="YES"/>
     </entity>
     
 </model>

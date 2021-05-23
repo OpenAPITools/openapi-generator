@@ -141,10 +141,10 @@ public class EnumTest {
   @XmlType(name="EnumIntegerEnum")
   @XmlEnum(Integer.class)
   public enum EnumIntegerEnum {
-    @XmlEnumValue("1")
+    @XmlEnumValue(1)
     NUMBER_1(1),
     
-    @XmlEnumValue("-1")
+    @XmlEnumValue(-1)
     NUMBER_MINUS_1(-1);
 
     private Integer value;

@@ -505,8 +505,8 @@ export class FakeApi extends runtime.BaseAPI {
         }
 
         if (requestParameters.int32 !== undefined) {
-            formParams.append('int32', requestParameters.int32 as any);
-        }
+            formParams.append('int32', new Blob([JSON.stringify(numberToJSON(requestParameters.int32))], { type: "application/json", }));
+                    }
 
         if (requestParameters.int64 !== undefined) {
             formParams.append('int64', requestParameters.int64 as any);

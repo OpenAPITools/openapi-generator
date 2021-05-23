@@ -13,11 +13,6 @@ import AnyCodable
 @objc public class ApiResponse: NSObject, Codable {
 
     public var code: Int?
-    public var codeNum: NSNumber? {
-        get {
-            return code as NSNumber?
-        }
-    }
     public var type: String?
     public var message: String?
 

@@ -674,7 +674,7 @@ namespace Example
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
-            var int32 = 56;  // int? | None (optional) 
+            var int32 = new int?(); // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
             var _float = 3.4F;  // float? | None (optional) 
             var _string = _string_example;  // string | None (optional) 
@@ -709,7 +709,7 @@ Name | Type | Description  | Notes
  **patternWithoutDelimiter** | **string**| None | 
  **_byte** | **byte[]**| None | 
  **integer** | **int?**| None | [optional] 
- **int32** | **int?**| None | [optional] 
+ **int32** | [**int?**](int?.md)| None | [optional] 
  **int64** | **long?**| None | [optional] 
  **_float** | **float?**| None | [optional] 
  **_string** | **string**| None | [optional] 
@@ -770,7 +770,7 @@ namespace Example
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = new int?(); // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
@@ -799,7 +799,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | **List&lt;string&gt;**| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | [**int?**](int?.md)| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]

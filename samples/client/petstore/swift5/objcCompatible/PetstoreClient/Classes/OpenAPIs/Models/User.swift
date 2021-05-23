@@ -26,11 +26,6 @@ import AnyCodable
     public var phone: String?
     /** User Status */
     public var userStatus: Int?
-    public var userStatusNum: NSNumber? {
-        get {
-            return userStatus as NSNumber?
-        }
-    }
 
     public init(_id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self._id = _id

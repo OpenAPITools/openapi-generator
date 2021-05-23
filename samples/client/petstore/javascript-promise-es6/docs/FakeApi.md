@@ -495,7 +495,7 @@ let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | Non
 let _byte = null; // Blob | None
 let opts = {
   'integer': 56, // Number | None
-  'int32': 56, // Number | None
+  'int32': null, // Number | None
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
   'string': "string_example", // String | None
@@ -523,7 +523,7 @@ Name | Type | Description  | Notes
  **patternWithoutDelimiter** | **String**| None | 
  **_byte** | **Blob**| None | 
  **integer** | **Number**| None | [optional] 
- **int32** | **Number**| None | [optional] 
+ **int32** | [**Number**](Number.md)| None | [optional] 
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
  **string** | **String**| None | [optional] 
@@ -566,7 +566,7 @@ let opts = {
   'enumHeaderString': "'-efg'", // String | Header parameter enum test (string)
   'enumQueryStringArray': ["'$'"], // [String] | Query parameter enum test (string array)
   'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
-  'enumQueryInteger': 56, // Number | Query parameter enum test (double)
+  'enumQueryInteger': null, // Number | Query parameter enum test (double)
   'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
   'enumFormStringArray': "'$'", // [String] | Form parameter enum test (string array)
   'enumFormString': "'-efg'" // String | Form parameter enum test (string)
@@ -588,7 +588,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | [**Number**](.md)| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]

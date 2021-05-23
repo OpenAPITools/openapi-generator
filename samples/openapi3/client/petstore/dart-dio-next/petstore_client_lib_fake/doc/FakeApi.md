@@ -473,7 +473,7 @@ var double_ = 1.2; // double | None
 var patternWithoutDelimiter = patternWithoutDelimiter_example; // String | None
 var byte = BYTE_ARRAY_DATA_HERE; // String | None
 var integer = 56; // int | None
-var int32 = 56; // int | None
+var int32 = ; // int | None
 var int64 = 789; // int | None
 var float = 3.4; // double | None
 var string = string_example; // String | None
@@ -499,7 +499,7 @@ Name | Type | Description  | Notes
  **patternWithoutDelimiter** | **String**| None | 
  **byte** | **String**| None | 
  **integer** | **int**| None | [optional] 
- **int32** | **int**| None | [optional] 
+ **int32** | [**int**](int.md)| None | [optional] 
  **int64** | **int**| None | [optional] 
  **float** | **double**| None | [optional] 
  **string** | **String**| None | [optional] 
@@ -540,7 +540,7 @@ var enumHeaderStringArray = []; // BuiltList<String> | Header parameter enum tes
 var enumHeaderString = enumHeaderString_example; // String | Header parameter enum test (string)
 var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test (string array)
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
-var enumQueryInteger = 56; // int | Query parameter enum test (double)
+var enumQueryInteger = ; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
 var enumFormStringArray = [enumFormStringArray_example]; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
@@ -560,7 +560,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryStringArray** | [**BuiltList<String>**](String.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | [**int**](.md)| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**BuiltList<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']

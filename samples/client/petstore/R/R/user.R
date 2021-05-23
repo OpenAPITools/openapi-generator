@@ -76,7 +76,6 @@ User <- R6::R6Class(
         self$`phone` <- `phone`
       }
       if (!is.null(`userStatus`)) {
-        stopifnot(is.numeric(`userStatus`), length(`userStatus`) == 1)
         self$`userStatus` <- `userStatus`
       }
     },

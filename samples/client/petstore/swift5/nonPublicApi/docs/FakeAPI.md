@@ -376,8 +376,8 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let integer = 987 // Int | None (optional)
-let int32 = 987 // Int | None (optional)
+let integer =  // Int | None (optional)
+let int32 =  // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
 let number = 987 // Double | None
 let float = 987 // Float | None (optional)
@@ -408,8 +408,8 @@ FakeAPI.testEndpointParameters(integer: integer, int32: int32, int64: int64, num
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **integer** | **Int** | None | [optional] 
- **int32** | **Int** | None | [optional] 
+ **integer** | [**Int**](Int.md) | None | [optional] 
+ **int32** | [**Int**](Int.md) | None | [optional] 
  **int64** | **Int64** | None | [optional] 
  **number** | **Double** | None | 
  **float** | **Float** | None | [optional] 
@@ -456,7 +456,7 @@ let enumHeaderStringArray = ["enumHeaderStringArray_example"] // [String] | Head
 let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .efg)
 let enumQueryStringArray = ["enumQueryStringArray_example"] // [String] | Query parameter enum test (string array) (optional)
 let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .efg)
-let enumQueryInteger = 987 // Int | Query parameter enum test (double) (optional)
+let enumQueryInteger =  // Int | Query parameter enum test (double) (optional)
 let enumQueryDouble = 987 // Double | Query parameter enum test (double) (optional)
 let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .dollar)
 let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
@@ -482,7 +482,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .efg]
  **enumQueryStringArray** | [**[String]**](String.md) | Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .efg]
- **enumQueryInteger** | **Int** | Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | [**Int**](.md) | Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Double** | Query parameter enum test (double) | [optional] 
  **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .dollar]
  **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .efg]

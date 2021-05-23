@@ -2524,7 +2524,7 @@ namespace Org.OpenAPITools.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (integer != null) localVarFormParams.Add("integer", this.Configuration.ApiClient.ParameterToString(integer)); // form parameter
-            if (int32 != null) localVarFormParams.Add("int32", this.Configuration.ApiClient.ParameterToString(int32)); // form parameter
+            if (int32 != null) localVarFormParams.Add("int32", this.Configuration.ApiClient.Serialize(int32)); // form parameter
             if (int64 != null) localVarFormParams.Add("int64", this.Configuration.ApiClient.ParameterToString(int64)); // form parameter
             if (number != null) localVarFormParams.Add("number", this.Configuration.ApiClient.ParameterToString(number)); // form parameter
             if (_float != null) localVarFormParams.Add("float", this.Configuration.ApiClient.ParameterToString(_float)); // form parameter
@@ -2646,7 +2646,7 @@ namespace Org.OpenAPITools.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (integer != null) localVarFormParams.Add("integer", this.Configuration.ApiClient.ParameterToString(integer)); // form parameter
-            if (int32 != null) localVarFormParams.Add("int32", this.Configuration.ApiClient.ParameterToString(int32)); // form parameter
+            if (int32 != null) localVarFormParams.Add("int32", this.Configuration.ApiClient.Serialize(int32)); // form parameter
             if (int64 != null) localVarFormParams.Add("int64", this.Configuration.ApiClient.ParameterToString(int64)); // form parameter
             if (number != null) localVarFormParams.Add("number", this.Configuration.ApiClient.ParameterToString(number)); // form parameter
             if (_float != null) localVarFormParams.Add("float", this.Configuration.ApiClient.ParameterToString(_float)); // form parameter

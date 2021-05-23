@@ -15,11 +15,6 @@ import AnyCodable
 
     public var name: Int
     public var snakeCase: Int?
-    public var snakeCaseNum: NSNumber? {
-        get {
-            return snakeCase as NSNumber?
-        }
-    }
     public var property: String?
     public var _123number: Int?
     public var _123numberNum: NSNumber? {

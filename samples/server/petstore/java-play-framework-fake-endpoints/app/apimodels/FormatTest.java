@@ -23,8 +23,8 @@ public class FormatTest   {
   private Integer integer;
 
   @JsonProperty("int32")
-  @Min(20)
-@Max(200)
+  @DecimalMin("20")
+@DecimalMax("200")
 
   private Integer int32;
 
