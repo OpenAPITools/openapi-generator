@@ -696,7 +696,7 @@ pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
 byte = 'BYTE_ARRAY_DATA_HERE' # String | None
 opts = {
   integer: 56, # Integer | None
-  int32: TODO, # Integer | None
+  int32: 56, # Integer | None
   int64: 789, # Integer | None
   float: 3.4, # Float | None
   string: 'string_example', # String | None
@@ -742,7 +742,7 @@ end
 | **pattern_without_delimiter** | **String** | None |  |
 | **byte** | **String** | None |  |
 | **integer** | **Integer** | None | [optional] |
-| **int32** | [**Integer**](Integer.md) | None | [optional] |
+| **int32** | **Integer** | None | [optional] |
 | **int64** | **Integer** | None | [optional] |
 | **float** | **Float** | None | [optional] |
 | **string** | **String** | None | [optional] |
@@ -786,7 +786,7 @@ opts = {
   enum_header_string: '_abc', # String | Header parameter enum test (string)
   enum_query_string_array: ['>'], # Array<String> | Query parameter enum test (string array)
   enum_query_string: '_abc', # String | Query parameter enum test (string)
-  enum_query_integer: TODO, # Integer | Query parameter enum test (double)
+  enum_query_integer: 1, # Integer | Query parameter enum test (double)
   enum_query_double: 1.1, # Float | Query parameter enum test (double)
   enum_form_string_array: ['>'], # Array<String> | Form parameter enum test (string array)
   enum_form_string: '_abc' # String | Form parameter enum test (string)
@@ -826,7 +826,7 @@ end
 | **enum_header_string** | **String** | Header parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
 | **enum_query_string_array** | [**Array&lt;String&gt;**](String.md) | Query parameter enum test (string array) | [optional] |
 | **enum_query_string** | **String** | Query parameter enum test (string) | [optional][default to &#39;-efg&#39;] |
-| **enum_query_integer** | [**Integer**](.md) | Query parameter enum test (double) | [optional] |
+| **enum_query_integer** | **Integer** | Query parameter enum test (double) | [optional] |
 | **enum_query_double** | **Float** | Query parameter enum test (double) | [optional] |
 | **enum_form_string_array** | [**Array&lt;String&gt;**](String.md) | Form parameter enum test (string array) | [optional][default to &#39;$&#39;] |
 | **enum_form_string** | **String** | Form parameter enum test (string) | [optional][default to &#39;-efg&#39;] |

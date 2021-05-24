@@ -180,7 +180,7 @@ public class EnumTest {
 
       @Override
       public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
-        Integer value =  jsonReader.nextInteger();
+        Integer value =  jsonReader.nextInt();
         return EnumIntegerEnum.fromValue(value);
       }
     }

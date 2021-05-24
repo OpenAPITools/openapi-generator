@@ -211,9 +211,9 @@ class EnumTestEnumStringRequiredEnum extends EnumClass {
 
 class EnumTestEnumIntegerEnum extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: r1)
+  @BuiltValueEnumConst(wireNumber: 1)
   static const EnumTestEnumIntegerEnum number1 = _$enumTestEnumIntegerEnum_number1;
-  @BuiltValueEnumConst(wireName: r-1)
+  @BuiltValueEnumConst(wireNumber: -1)
   static const EnumTestEnumIntegerEnum numberNegative1 = _$enumTestEnumIntegerEnum_numberNegative1;
 
   static Serializer<EnumTestEnumIntegerEnum> get serializer => _$enumTestEnumIntegerEnumSerializer;

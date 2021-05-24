@@ -2532,10 +2532,13 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
-                } else if (ModelUtils.isShortSchema(schema)) { // int32
-                    m.isShort = Boolean.TRUE;
-                } else { // unbounded integer
-                    m.isInteger = Boolean.TRUE;
+                } else {
+                    m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                    if (ModelUtils.isShortSchema(schema)) { // int32
+                        m.setIsShort(Boolean.TRUE);
+                    } else { // unbounded integer
+                        m.setIsUnboundedInteger(Boolean.TRUE);
+                    }
                 }
             } else if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -3194,12 +3197,14 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
                 property.isLong = Boolean.TRUE;
-            } else if (ModelUtils.isShortSchema(p)) { // int32 format
-                property.isShort = Boolean.TRUE;
-            } else { // unbounded int
-                property.isInteger = Boolean.TRUE;
+            } else {
+                property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(p)) { // int32
+                    property.setIsShort(Boolean.TRUE);
+                } else { // unbounded integer
+                    property.setIsUnboundedInteger(Boolean.TRUE);
+                }
             }
-
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);

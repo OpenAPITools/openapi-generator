@@ -148,7 +148,7 @@ public class FormatTest   {
    **/
   @JsonProperty(value = "int32")
   @ApiModelProperty(value = "")
-   @DecimalMin("20") @DecimalMax("200")
+   @Min(20) @Max(200)
   public Integer getInt32() {
     return int32;
   }

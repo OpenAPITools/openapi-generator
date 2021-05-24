@@ -200,8 +200,8 @@ fn main() {
                   1.2,
                   "pattern_without_delimiter_example".to_string(),
                   swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")),
-                  None,
-                  None,
+                  Some(56),
+                  Some(56),
                   Some(789),
                   Some(3.4),
                   Some("string_example".to_string()),
@@ -219,7 +219,7 @@ fn main() {
                   Some("enum_header_string_example".to_string()),
                   Some(&Vec::new()),
                   Some("enum_query_string_example".to_string()),
-                  None,
+                  Some(56),
                   Some(1.2),
                   Some("enum_form_string_example".to_string())
             ));

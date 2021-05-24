@@ -132,7 +132,7 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
- @DecimalMin("20") @DecimalMax("200")  @ApiModelProperty(value = "")
+ @Min(20) @Max(200)  @ApiModelProperty(value = "")
 
   public Integer getInt32() {
     return int32;

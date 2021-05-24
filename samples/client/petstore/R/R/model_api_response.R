@@ -33,6 +33,7 @@ ModelApiResponse <- R6::R6Class(
     ) {
       local.optional.var <- list(...)
       if (!is.null(`code`)) {
+        stopifnot(is.numeric(`code`), length(`code`) == 1)
         self$`code` <- `code`
       }
       if (!is.null(`type`)) {

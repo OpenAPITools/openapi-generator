@@ -96,7 +96,7 @@ public enum EnumStringRequiredEnum {
 @XmlEnum(Integer.class)
 public enum EnumIntegerEnum {
 
-@XmlEnumValue(1) NUMBER_1(Integer.valueOf(1)), @XmlEnumValue(-1) NUMBER_MINUS_1(Integer.valueOf(-1));
+@XmlEnumValue("1") NUMBER_1(Integer.valueOf(1)), @XmlEnumValue("-1") NUMBER_MINUS_1(Integer.valueOf(-1));
 
 
     private Integer value;

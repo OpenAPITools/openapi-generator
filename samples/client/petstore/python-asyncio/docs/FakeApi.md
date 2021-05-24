@@ -574,8 +574,8 @@ Name | Type | Description  | Notes
  **double** | **float**| None | 
  **pattern_without_delimiter** | **str**| None | 
  **byte** | **str**| None | 
- **integer** | [**int**](int.md)| None | [optional] 
- **int32** | [**int**](int.md)| None | [optional] 
+ **integer** | **int**| None | [optional] 
+ **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
  **float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
@@ -656,7 +656,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | [**int**](.md)| Query parameter enum test (double) | [optional] 
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
  **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]

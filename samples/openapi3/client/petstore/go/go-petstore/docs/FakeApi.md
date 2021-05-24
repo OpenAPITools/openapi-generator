@@ -566,7 +566,7 @@ func main() {
     patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
     byte_ := string(BYTE_ARRAY_DATA_HERE) // string | None
     integer := int32(56) // int32 | None (optional)
-    int32_ := TODO // int32 | None (optional)
+    int32_ := int32(56) // int32 | None (optional)
     int64_ := int64(789) // int64 | None (optional)
     float := float32(3.4) // float32 | None (optional)
     string_ := "string__example" // string | None (optional)
@@ -602,7 +602,7 @@ Name | Type | Description  | Notes
  **patternWithoutDelimiter** | **string** | None | 
  **byte_** | **string** | None | 
  **integer** | **int32** | None | 
- **int32_** | [**int32**](int32.md) | None | 
+ **int32_** | **int32** | None | 
  **int64_** | **int64** | None | 
  **float** | **float32** | None | 
  **string_** | **string** | None | 
@@ -655,7 +655,7 @@ func main() {
     enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
     enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
     enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
-    enumQueryInteger := TODO // int32 | Query parameter enum test (double) (optional)
+    enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
     enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
     enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
     enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
@@ -685,7 +685,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryStringArray** | **[]string** | Query parameter enum test (string array) | 
  **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryInteger** | [**int32**](int32.md) | Query parameter enum test (double) | 
+ **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
  **enumFormStringArray** | **[]string** | Form parameter enum test (string array) | [default to &quot;$&quot;]
  **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]

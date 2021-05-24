@@ -30,6 +30,11 @@ import AnyCodable
         }
     }
     public var quantity: Int?
+    public var quantityNum: NSNumber? {
+        get {
+            return quantity as NSNumber?
+        }
+    }
     public var shipDate: Date?
     /** Order Status */
     public var status: Status?

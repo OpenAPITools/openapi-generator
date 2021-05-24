@@ -179,7 +179,7 @@ public class EnumTest implements Parcelable {
 
       @Override
       public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
-        Integer value =  jsonReader.nextInteger();
+        Integer value =  jsonReader.nextInt();
         return EnumIntegerEnum.fromValue(value);
       }
     }

@@ -16,7 +16,7 @@ resourceTypes {
     derivedFrom = Root
     properties {
         code {
-          type =  
+          type =  integer
           description = ""
           optional = false
         }

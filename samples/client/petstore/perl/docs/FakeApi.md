@@ -507,7 +507,7 @@ my $double = 3.4; # double | None
 my $pattern_without_delimiter = "pattern_without_delimiter_example"; # string | None
 my $byte = "YmFzZSA2NCBkYXRh"; # string | None
 my $integer = 56; # int | None
-my $int32 = null; # int | None
+my $int32 = 56; # int | None
 my $int64 = 789; # int | None
 my $float = 3.4; # double | None
 my $string = "string_example"; # string | None
@@ -534,7 +534,7 @@ Name | Type | Description  | Notes
  **pattern_without_delimiter** | **string**| None | 
  **byte** | **string**| None | 
  **integer** | **int**| None | [optional] 
- **int32** | [**int**](int.md)| None | [optional] 
+ **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
  **float** | **double**| None | [optional] 
  **string** | **string**| None | [optional] 
@@ -577,7 +577,7 @@ my $enum_header_string_array = [("'$'")]; # ARRAY[string] | Header parameter enu
 my $enum_header_string = '-efg'; # string | Header parameter enum test (string)
 my $enum_query_string_array = [("'$'")]; # ARRAY[string] | Query parameter enum test (string array)
 my $enum_query_string = '-efg'; # string | Query parameter enum test (string)
-my $enum_query_integer = null; # int | Query parameter enum test (double)
+my $enum_query_integer = 56; # int | Query parameter enum test (double)
 my $enum_query_double = 3.4; # double | Query parameter enum test (double)
 my $enum_form_string_array = ['$']; # ARRAY[string] | Form parameter enum test (string array)
 my $enum_form_string = '-efg'; # string | Form parameter enum test (string)
@@ -598,7 +598,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**ARRAY[string]**](string.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | [**int**](.md)| Query parameter enum test (double) | [optional] 
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
  **enum_form_string_array** | [**ARRAY[string]**](string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]

@@ -72,7 +72,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
- @DecimalMin("20") @DecimalMax("200")  public Integer getInt32() {
+ @Min(20) @Max(200)  public Integer getInt32() {
     return int32;
   }
 
