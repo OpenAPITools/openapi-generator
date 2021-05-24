@@ -118,8 +118,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isString;
     public boolean isNumeric;
     public boolean isInteger;
-    public boolean isLong;
     public boolean isShort;
+    public boolean isLong;
+    public boolean isUnboundedInteger;
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
@@ -516,6 +517,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isShort = isShort;
     }
 
+    @Override
+    public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
+
+    @Override
+    public void setIsUnboundedInteger(boolean isUnboundedInteger)  {
+        this.isUnboundedInteger = isUnboundedInteger;
+    }
+
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
     }
@@ -774,8 +783,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isString=").append(isString);
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isInteger=").append(isInteger);
-        sb.append(", isLong=").append(isLong);
         sb.append(", isShort=").append(isShort);
+        sb.append(", isLong=").append(isLong);
+        sb.append(", isUnboundedInteger=").append(isUnboundedInteger);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
@@ -848,8 +858,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
-                isLong == that.isLong &&
                 isShort == that.isShort &&
+                isLong == that.isLong &&
+                isUnboundedInteger == that.isUnboundedInteger &&
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
@@ -937,7 +948,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort, isUnboundedInteger,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
