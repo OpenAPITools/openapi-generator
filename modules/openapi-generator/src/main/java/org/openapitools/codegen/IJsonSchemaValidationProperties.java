@@ -83,6 +83,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsShort(boolean isShort);
 
+    boolean getIsUnboundedInteger();
+
+    void setIsUnboundedInteger(boolean isUnboundedInteger);
+
     CodegenProperty getAdditionalProperties();
 
     void setAdditionalProperties(CodegenProperty additionalProperties);
