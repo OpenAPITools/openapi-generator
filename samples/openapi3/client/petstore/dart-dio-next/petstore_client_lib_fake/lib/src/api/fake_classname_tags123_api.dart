@@ -59,7 +59,7 @@ class FakeClassnameTags123Api {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -68,7 +68,7 @@ class FakeClassnameTags123Api {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -90,13 +90,13 @@ class FakeClassnameTags123Api {
         specifiedType: _responseType,
       ) as ModelClient;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(

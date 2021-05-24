@@ -76,7 +76,7 @@ class {{classname}} {
 
     try {
 {{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -85,7 +85,7 @@ class {{classname}} {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
     {{/hasBodyOrFormParams}}
 
@@ -104,13 +104,13 @@ class {{classname}} {
 
     try {
 {{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<{{{returnType}}}>(

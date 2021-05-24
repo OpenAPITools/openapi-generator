@@ -61,7 +61,7 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -70,7 +70,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -185,13 +185,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltList<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltList<Pet>>(
@@ -258,13 +258,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltSet<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltSet<Pet>>(
@@ -332,13 +332,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as Pet;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Pet>(
@@ -393,7 +393,7 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -402,7 +402,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -462,7 +462,7 @@ class PetApi {
         if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -471,7 +471,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -531,7 +531,7 @@ class PetApi {
         if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -540,7 +540,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -562,13 +562,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
@@ -627,7 +627,7 @@ class PetApi {
         r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -636,7 +636,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -658,13 +658,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(

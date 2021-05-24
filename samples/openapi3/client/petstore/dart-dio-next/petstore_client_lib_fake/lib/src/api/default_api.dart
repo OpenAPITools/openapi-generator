@@ -62,13 +62,13 @@ class DefaultApi {
         specifiedType: _responseType,
       ) as InlineResponseDefault;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<InlineResponseDefault>(
