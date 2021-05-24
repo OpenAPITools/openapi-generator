@@ -60,11 +60,8 @@ class {{classname}} {
           },{{/authMethods}}
         ],{{/hasAuthMethods}}
         ...?extra,
-      },
-      contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
-      ].first,
+      },{{#hasConsumes}}
+      contentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
       validateStatus: validateStatus,
     );
 

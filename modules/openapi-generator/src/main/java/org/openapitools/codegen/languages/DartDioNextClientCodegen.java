@@ -305,7 +305,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
+        super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
@@ -313,24 +313,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
-            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-            boolean isJson = true; //default to JSON
-            boolean isForm = false;
-            boolean isMultipart = false;
-            if (op.consumes != null) {
-                for (Map<String, String> consume : op.consumes) {
-                    if (consume.containsKey("mediaType")) {
-                        String type = consume.get("mediaType");
-                        isJson = type.equalsIgnoreCase("application/json");
-                        isForm = type.equalsIgnoreCase("application/x-www-form-urlencoded");
-                        isMultipart = type.equalsIgnoreCase("multipart/form-data");
-                        break;
-                    }
-                }
-            }
-
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && op.isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
@@ -343,10 +327,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                     serializers.add(serializer);
                 }
             }
-
-            op.vendorExtensions.put("x-is-json", isJson);
-            op.vendorExtensions.put("x-is-form", isForm);
-            op.vendorExtensions.put("x-is-multipart", isMultipart);
 
             resultImports.addAll(rewriteImports(op.imports));
             if (op.getHasFormParams()) {

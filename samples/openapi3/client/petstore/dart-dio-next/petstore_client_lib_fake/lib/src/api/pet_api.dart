@@ -48,10 +48,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -118,9 +115,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -166,9 +160,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -242,9 +233,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -320,9 +308,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -395,10 +380,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -465,9 +447,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
 
@@ -536,9 +516,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
 
@@ -634,9 +612,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
 
