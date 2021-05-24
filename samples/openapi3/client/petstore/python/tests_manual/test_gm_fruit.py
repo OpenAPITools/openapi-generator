@@ -14,21 +14,15 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import apple
-except ImportError:
-    apple = sys.modules[
-        'petstore_api.model.apple']
-try:
-    from petstore_api.model import banana
-except ImportError:
-    banana = sys.modules[
-        'petstore_api.model.banana']
+from petstore_api.model import apple
+from petstore_api.model import banana
 from petstore_api.model.gm_fruit import GmFruit
 
 
 class TestGmFruit(unittest.TestCase):
     """GmFruit unit test stubs"""
+    length_cm = 20.3
+    color = 'yellow'
 
     def setUp(self):
         pass
@@ -36,36 +30,48 @@ class TestGmFruit(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testGmFruit(self):
+    def test_set_addprop_attributes(self):
+        # setting a value that doesn't exist works because additional_properties_type allows any type
+        other_fruit = GmFruit(length_cm=self.length_cm, color=self.color)
+        blah = 'blah'
+        other_fruit['a'] = blah
+        assert other_fruit.a == blah
+
+        # with setattr
+        setattr(other_fruit, 'b', blah)
+        assert other_fruit.b == blah
+
+        self.assertEqual(
+            other_fruit.to_dict(),
+            {
+                'a': 'blah',
+                'b': 'blah',
+                'length_cm': self.length_cm,
+                'color': self.color
+            }
+        )
+
+    def test_banana_fruit(self):
         """Test GmFruit"""
 
         # make an instance of GmFruit, a composed schema anyOf model
         # banana test
-        length_cm = 20.3
-        color = 'yellow'
-        fruit = GmFruit(length_cm=length_cm, color=color)
+        fruit = GmFruit(length_cm=self.length_cm, color=self.color)
         # check its properties
-        self.assertEqual(fruit.length_cm, length_cm)
-        self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
-        self.assertEqual(fruit.color, color)
-        self.assertEqual(fruit['color'], color)
-        self.assertEqual(getattr(fruit, 'color'), color)
+        self.assertEqual(fruit.length_cm, self.length_cm)
+        self.assertEqual(fruit['length_cm'], self.length_cm)
+        self.assertEqual(getattr(fruit, 'length_cm'), self.length_cm)
+        self.assertEqual(fruit.color, self.color)
+        self.assertEqual(fruit['color'], self.color)
+        self.assertEqual(getattr(fruit, 'color'), self.color)
         # check the dict representation
         self.assertEqual(
             fruit.to_dict(),
             {
-                'length_cm': length_cm,
-                'color': color
+                'length_cm': self.length_cm,
+                'color': self.color
             }
         )
-        # setting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(AttributeError):
-            fruit['invalid_variable'] = 'some value'
-        # with setattr
-        with self.assertRaises(AttributeError):
-            setattr(fruit, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
@@ -104,40 +110,22 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit],
+                'color': [fruit, banana_instance],
                 'length_cm': [fruit, banana_instance],
-                'cultivar': [fruit],
-                'origin': [fruit],
             }
         )
-        # model._additional_properties_model_instances stores a list of
-        # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [fruit]
         )
 
-        # if we modify one of the properties owned by multiple
-        # model_instances we get an exception when we try to access that
-        # property because the retrieved values are not all the same
-        banana_instance.length_cm = 4.56
-        with self.assertRaises(petstore_api.ApiValueError):
-            some_length_cm = fruit.length_cm
-
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            fruit = GmFruit(
-                color=color,
-                length_cm=length_cm,
-                unknown_property='some value'
-            )
-
+    def test_combo_fruit(self):
         # including input parameters for both anyOf instances works
         cultivar = 'banaple'
         color = 'orange'
         fruit = GmFruit(
             color=color,
             cultivar=cultivar,
-            length_cm=length_cm
+            length_cm=self.length_cm
         )
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
@@ -145,9 +133,9 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
         self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
-        self.assertEqual(fruit.length_cm, length_cm)
-        self.assertEqual(fruit['length_cm'], length_cm)
-        self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
+        self.assertEqual(fruit.length_cm, self.length_cm)
+        self.assertEqual(fruit['length_cm'], self.length_cm)
+        self.assertEqual(getattr(fruit, 'length_cm'), self.length_cm)
 
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
@@ -165,14 +153,16 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit],
-                'length_cm': [fruit, banana_instance],
-                'cultivar': [fruit, apple_instance],
-                'origin': [fruit, apple_instance],
+                'color': [fruit, apple_instance, banana_instance],
+                'length_cm': [fruit, apple_instance, banana_instance],
+                'cultivar': [fruit, apple_instance, banana_instance],
             }
         )
+        self.assertEqual(
+            fruit._additional_properties_model_instances, [fruit]
+        )
 
-        # make an instance of GmFruit, a composed schema anyOf model
+    def test_apple_fruit(self):
         # apple test
         color = 'red'
         cultivar = 'golden delicious'
@@ -214,16 +204,13 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit],
-                'length_cm': [fruit],
+                'color': [fruit, apple_instance],
                 'cultivar': [fruit, apple_instance],
                 'origin': [fruit, apple_instance],
             }
         )
-        # model._additional_properties_model_instances stores a list of
-        # models which have the property additional_properties_type != None
         self.assertEqual(
-            fruit._additional_properties_model_instances, []
+            fruit._additional_properties_model_instances, [fruit]
         )
 
 if __name__ == '__main__':

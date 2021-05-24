@@ -88,7 +88,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("api_key" to apiKey.toString())
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),

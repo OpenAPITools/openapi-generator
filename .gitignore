@@ -31,6 +31,7 @@ packages/
 .vscode/
 **/.vs
 .factorypath
+.metals/*
 
 .settings
 
@@ -176,7 +177,6 @@ samples/client/petstore/python-tornado/.venv/
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock
 samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
-samples/openapi3/server/petstore/php-mezzio-ph/composer.lock
 samples/server/petstore/php-laravel/lib/composer.lock
 samples/server/petstore/php-lumen/lib/composer.lock
 samples/server/petstore/php-slim4/composer.lock
@@ -258,3 +258,6 @@ samples/client/petstore/c/*.so
 # Ruby
 samples/openapi3/client/petstore/ruby/Gemfile.lock
 samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
+
+# Crystal
+samples/client/petstore/crystal/lib

@@ -2,6 +2,7 @@
 
 # ModelApiResponse
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,5 +11,9 @@ Name | Type | Description | Notes
 **type** | **String** |  |  [optional]
 **message** | **String** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

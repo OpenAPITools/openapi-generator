@@ -13,7 +13,10 @@ import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
 import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
 import java.net.URLConnection
+import java.nio.file.Files
 import java.util.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -114,6 +117,15 @@ open class ApiClient(val baseUrl: String) {
         if (bodyContent.isEmpty()) {
             return null
         }
+        if (T::class.java == File::class.java) {
+            // return tempfile
+            val f = Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            f.deleteOnExit()
+            val out = BufferedWriter(FileWriter(f))
+            out.write(bodyContent)
+            out.close()
+            return f as T
+        }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
@@ -121,7 +133,7 @@ open class ApiClient(val baseUrl: String) {
     }
 
 
-    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         val url = httpUrl.newBuilder()
@@ -155,12 +167,12 @@ open class ApiClient(val baseUrl: String) {
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
         val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(body, contentType))
+            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))
-            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body, contentType))
-            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body, contentType))
+            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(requestConfig.body, contentType))
+            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(requestConfig.body, contentType))
+            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }.apply {
             headers.forEach { header -> addHeader(header.key, header.value) }

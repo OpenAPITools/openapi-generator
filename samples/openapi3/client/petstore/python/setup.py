@@ -22,7 +22,6 @@ VERSION = "1.0.0"
 REQUIRES = [
   "urllib3 >= 1.25.3",
   "python-dateutil",
-  "nulltype",
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
 ]

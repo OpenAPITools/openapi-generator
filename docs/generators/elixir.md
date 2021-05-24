@@ -11,7 +11,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |invokerPackage|The main namespace to use for all classes. e.g. Yay.Pets| |null|
-|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseHeader|The license header to prepend to the top of all source files.| |null|
 |packageName|Elixir package name (convention: lowercase).| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Atom</li>
 <li>Boolean</li>
 <li>DateTime</li>
+<li>Decimal</li>
 <li>Float</li>
 <li>Integer</li>
 <li>List</li>
@@ -43,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>PID</li>
 <li>String</li>
 <li>Tuple</li>
+<li>map()</li>
 </ul>
 
 ## RESERVED WORDS

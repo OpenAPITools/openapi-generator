@@ -134,7 +134,8 @@ public class Generate extends OpenApiGeneratorCommand {
             title = "type mappings",
             description = "sets mappings between OpenAPI spec types and generated code types "
                     + "in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String."
-                    + " You can also have multiple occurrences of this option.")
+                    + " You can also have multiple occurrences of this option."
+                    + " To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.")
     private List<String> typeMappings = new ArrayList<>();
 
     @Option(
@@ -216,6 +217,10 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"--remove-operation-id-prefix"}, title = "remove prefix of the operationId",
             description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
+
+    @Option(name = {"--skip-operation-example"}, title = "skip examples defined in the operation",
+            description = CodegenConstants.SKIP_OPERATION_EXAMPLE_DESC)
+    private Boolean skipOperationExample;
 
     @Option(name = {"--skip-validate-spec"},
             title = "skip spec validation",
@@ -391,6 +396,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (skipOperationExample != null) {
+            configurator.setSkipOperationExample(skipOperationExample);
         }
 
         if (enablePostProcessFile != null) {

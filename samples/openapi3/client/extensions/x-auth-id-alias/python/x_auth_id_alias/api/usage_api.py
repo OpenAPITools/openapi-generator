@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from x_auth_id_alias.api_client import ApiClient, Endpoint
+from x_auth_id_alias.api_client import ApiClient, Endpoint as _Endpoint
 from x_auth_id_alias.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -96,7 +96,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.any_key = Endpoint(
+        self.any_key = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [
@@ -204,7 +204,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.both_keys = Endpoint(
+        self.both_keys = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [
@@ -312,7 +312,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.key_in_header = Endpoint(
+        self.key_in_header = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [
@@ -419,7 +419,7 @@ class UsageApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.key_in_query = Endpoint(
+        self.key_in_query = _Endpoint(
             settings={
                 'response_type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
                 'auth': [

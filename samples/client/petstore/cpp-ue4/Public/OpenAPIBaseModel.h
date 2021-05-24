@@ -16,11 +16,38 @@
 #include "Interfaces/IHttpResponse.h"
 #include "Serialization/JsonWriter.h"
 #include "Dom/JsonObject.h"
+#include "HttpRetrySystem.h"
+#include "Containers/Ticker.h"
 
 namespace OpenAPI 
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
+using namespace FHttpRetrySystem;
+
+struct OPENAPI_API HttpRetryManager : public FManager, public FTickerObjectBase
+{
+	using FManager::FManager;
+
+	bool Tick(float DeltaTime) final;
+};
+
+struct OPENAPI_API HttpRetryParams
+{
+	HttpRetryParams(
+		const FRetryLimitCountSetting& InRetryLimitCountOverride = FRetryLimitCountSetting(),
+		const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride = FRetryTimeoutRelativeSecondsSetting(),
+		const FRetryResponseCodes& InRetryResponseCodes = FRetryResponseCodes(),
+		const FRetryVerbs& InRetryVerbs = FRetryVerbs(),
+		const FRetryDomainsPtr& InRetryDomains = FRetryDomainsPtr()
+	);
+
+	FRetryLimitCountSetting              RetryLimitCountOverride;
+	FRetryTimeoutRelativeSecondsSetting  RetryTimeoutRelativeSecondsOverride;
+	FRetryResponseCodes					 RetryResponseCodes;
+	FRetryVerbs                          RetryVerbs;
+	FRetryDomainsPtr					 RetryDomains;
+};
 
 class OPENAPI_API Model
 { 
@@ -34,8 +61,15 @@ class OPENAPI_API Request
 {
 public:
 	virtual ~Request() {}
-	virtual void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const = 0;
+	virtual void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const = 0;
 	virtual FString ComputePath() const = 0;
+
+	/* Enables retry and optionally sets a retry policy for this request */
+	void SetShouldRetry(const HttpRetryParams& Params = HttpRetryParams()) { RetryParams = Params; }
+	const TOptional<HttpRetryParams>& GetRetryParams() const { return RetryParams; }
+
+private:
+	TOptional<HttpRetryParams> RetryParams;
 };
 
 class OPENAPI_API Response

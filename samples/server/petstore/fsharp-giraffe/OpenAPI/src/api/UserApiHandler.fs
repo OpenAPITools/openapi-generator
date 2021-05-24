@@ -29,7 +29,7 @@ module UserApiHandler =
           let result = UserApiService.CreateUser ctx serviceArgs
           return! (match result with 
                       | CreateUserDefaultStatusCode resolved ->
-                            setStatusCode 0 >=> text resolved.content 
+                            setStatusCode 0 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -48,7 +48,7 @@ module UserApiHandler =
           let result = UserApiService.CreateUsersWithArrayInput ctx serviceArgs
           return! (match result with 
                       | CreateUsersWithArrayInputDefaultStatusCode resolved ->
-                            setStatusCode 0 >=> text resolved.content 
+                            setStatusCode 0 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -67,7 +67,7 @@ module UserApiHandler =
           let result = UserApiService.CreateUsersWithListInput ctx serviceArgs
           return! (match result with 
                       | CreateUsersWithListInputDefaultStatusCode resolved ->
-                            setStatusCode 0 >=> text resolved.content 
+                            setStatusCode 0 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -84,9 +84,9 @@ module UserApiHandler =
           let result = UserApiService.DeleteUser ctx serviceArgs
           return! (match result with 
                       | DeleteUserStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | DeleteUserStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -102,12 +102,12 @@ module UserApiHandler =
           let serviceArgs = {    pathParams=pathParams;  } : GetUserByNameArgs
           let result = UserApiService.GetUserByName ctx serviceArgs
           return! (match result with 
-                      | GetUserByNameDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | GetUserByNameStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | GetUserByNameStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | GetUserByNameStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -124,10 +124,10 @@ module UserApiHandler =
           let serviceArgs = {  queryParams=queryParams;    } : LoginUserArgs
           let result = UserApiService.LoginUser ctx serviceArgs
           return! (match result with 
-                      | LoginUserDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> text resolved.content 
+                      | LoginUserStatusCode200 resolved ->
+                            setStatusCode 200 >=> text resolved.content
                       | LoginUserStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -143,7 +143,7 @@ module UserApiHandler =
           let result = UserApiService.LogoutUser ctx 
           return! (match result with 
                       | LogoutUserDefaultStatusCode resolved ->
-                            setStatusCode 0 >=> text resolved.content 
+                            setStatusCode 0 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -162,9 +162,9 @@ module UserApiHandler =
           let result = UserApiService.UpdateUser ctx serviceArgs
           return! (match result with 
                       | UpdateUserStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | UpdateUserStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion

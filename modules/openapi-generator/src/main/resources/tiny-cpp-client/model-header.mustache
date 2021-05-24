@@ -1,0 +1,81 @@
+
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef TINY_CPP_CLIENT_{{classname}}_H_
+#define TINY_CPP_CLIENT_{{classname}}_H_
+
+{{/model}}{{/models}}
+#include <string>
+#include "bourne/json.hpp"
+#include "Helpers.h"
+{{#imports}}
+{{{import}}}
+{{/imports}}
+
+namespace Tiny {
+{{#models}}{{#model}}
+
+/*! \brief {{{description}}}
+ *
+ *  \ingroup Models
+ *
+ */
+
+class {{classname}}{
+public:
+
+    /*! \brief Constructor.
+	 */
+    {{classname}}();
+    {{classname}}(std::string jsonString);
+
+
+    /*! \brief Destructor.
+	 */
+    virtual ~{{classname}}();
+
+
+    /*! \brief Retrieve a bourne JSON representation of this class.
+	 */
+    bourne::json toJson();
+
+
+    /*! \brief Fills in members of this class from bourne JSON object representing it.
+	 */
+    void fromJson(std::string jsonObj);
+
+    {{#vars}}
+	/*! \brief Get {{{description}}}
+	 */
+	{{dataType}}{{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{getter}}();
+
+	/*! \brief Set {{{description}}}
+	 */
+	void {{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}});
+	{{/vars}}
+
+
+    private:
+    {{#vars}}
+    {{^isContainer}}
+    {{#isPrimitiveType}}
+    {{dataType}} {{name}}{};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{dataType}} {{name}};
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{dataType}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}} {{name}};
+    {{/isContainer}}
+	{{/vars}}
+};
+{{/model}}
+{{/models}}
+}
+
+#endif /* TINY_CPP_CLIENT_{{classname}}_H_ */

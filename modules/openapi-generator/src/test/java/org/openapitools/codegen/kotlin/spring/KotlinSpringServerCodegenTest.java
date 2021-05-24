@@ -213,6 +213,51 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "test delegate reactive with tags")
+    public void delegateReactiveWithTags() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue7325-use-delegate-reactive-tags-kotlin.yaml"))
+                                .config(codegen)
+                )
+                .generate();
+
+        Helpers.assertContainsAllOf(files,
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
+        );
+
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "suspend fun");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "ApiUtil");
+
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                "exchange");
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "import kotlinx.coroutines.flow.Flow");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                "suspend fun", "ApiUtil");
+    }
+
     @Test
     public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

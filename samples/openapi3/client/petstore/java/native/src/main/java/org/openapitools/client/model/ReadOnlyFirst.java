@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -79,6 +78,8 @@ public class ReadOnlyFirst {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(String baz) {
     this.baz = baz;
   }

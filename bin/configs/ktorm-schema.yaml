@@ -1,0 +1,7 @@
+generatorName: ktorm-schema
+outputDir: samples/schema/petstore/ktorm
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/ktorm-schema
+additionalProperties:
+  hideGenerationTimestamp: true
+  importModelPackageName: org.openapitools.client.models

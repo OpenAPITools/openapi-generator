@@ -21,7 +21,7 @@ Our tooling supports the following types of configuration:
 
 ## Tool-specific Declarations
 
-The READMEs for the [CLI](https://openapi-generator.tech/docs/usage#generate), [Gradle Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin), [Maven Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin), and [SBT Plugin](https://github.com/OpenAPITools/sbt-openapi-generator/blob/master/README.md) may have top-level or tooling specific options which appear to duplicate 'config options' or 'global properties'. Each may also expose user-facing properties slightly differently from the other tools. This may occur due to:
+The READMEs for the [CLI](https://openapi-generator.tech/docs/usage#generate), [Gradle Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin), [Maven Plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin), and [SBT Plugin](https://github.com/OpenAPITools/sbt-openapi-generator/blob/master/README.md) may have top-level or tooling specific options which appear to duplicate 'config options' or 'global properties'. Each may also expose user-facing properties slightly differently from the other tools. This may occur due to:
 
 * Conventions used by the underlying tooling
 * Limitations in underlying frameworks which define how properties must be declared

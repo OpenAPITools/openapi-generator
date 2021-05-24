@@ -64,6 +64,8 @@ public class IsoscelesTriangle {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -87,6 +89,8 @@ public class IsoscelesTriangle {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }
@@ -112,7 +116,6 @@ public class IsoscelesTriangle {
   public int hashCode() {
     return Objects.hash(shapeType, triangleType);
   }
-
 
   @Override
   public String toString() {

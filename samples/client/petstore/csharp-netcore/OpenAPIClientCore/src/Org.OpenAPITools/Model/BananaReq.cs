@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
-        [DataMember(Name = "sweet", EmitDefaultValue = false)]
+        [DataMember(Name = "sweet", EmitDefaultValue = true)]
         public bool Sweet { get; set; }
 
         /// <summary>

@@ -8,11 +8,7 @@ import io.ktor.features.deflate
 import io.ktor.features.gzip
 import io.ktor.features.minimumSize
 import io.ktor.http.HttpMethod
-import io.ktor.util.KtorExperimentalAPI
-import java.time.Duration
-import java.util.concurrent.Executors
-
-import org.openapitools.server.settings
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -25,7 +21,7 @@ import org.openapitools.server.settings
  */
 internal fun ApplicationHstsConfiguration(): HSTS.Configuration.() -> Unit {
     return {
-        maxAge = Duration.ofDays(365)
+        maxAgeInSeconds = TimeUnit.DAYS.toSeconds(365)
         includeSubDomains = true
         preload = false
 
@@ -55,7 +51,6 @@ internal fun ApplicationCompressionConfiguration(): Compression.Configuration.()
 }
 
 // Defines authentication mechanisms used throughout the application.
-@KtorExperimentalAPI
 val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthServerSettings>(
         OAuthServerSettings.OAuth2ServerSettings(
             name = "petstore_auth",
@@ -77,6 +72,3 @@ val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthSer
 //                defaultScopes = listOf("public_profile")
 //        )
 ).associateBy { it.name }
-
-// Provides an application-level fixed thread pool on which to execute coroutines (mainly)
-internal val ApplicationExecutors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4)

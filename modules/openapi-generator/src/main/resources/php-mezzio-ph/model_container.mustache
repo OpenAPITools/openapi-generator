@@ -1,0 +1,59 @@
+/**
+{{#vars
+}}{{#isArray
+}} * @DTA\Strategy(name="{{#isPrimitiveType}}ScalarList{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectList{{/isPrimitiveType}}", options={"type":{{>list_item_type}}})
+{{#minItems}}{{^maxItems
+}} * @DTA\Validator(name="Count", options={"min":{{minItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}}{{^minItems}}{{#maxItems
+}} * @DTA\Validator(name="Count", options={"max":{{maxItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}}{{#minItems}}{{#maxItems
+}} * @DTA\Validator(name="Count", options={"min":{{minItems}},"max":{{maxItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}} * @DTA\Validator(name="Collection", options={"validators":{
+{{#isPrimitiveType
+}} *     {"name":"Scalar", "options":{"type":{{>list_item_type}}}}
+{{/isPrimitiveType
+}}{{#isDate
+}} *     {"name":"Date"}
+{{/isDate
+}}{{#isDateTime
+}} *     {"name":"Date", "options":{"format": \DateTime::RFC3339}}
+{{/isDateTime
+}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+}} *     {"name":"TypeCompliant", "options":{"type":{{>list_item_type}}}}
+{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+}} * }})
+{{/isArray
+}}{{#isMap
+}} * @DTA\Strategy(name="{{#isPrimitiveType}}ScalarMap{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectMap{{/isPrimitiveType}}", options={"type":{{>map_item_type}}})
+{{#minProperties}}{{^maxProperties
+}} * @DTA\Validator(name="Count", options={"min":{{minProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}}{{^minProperties}}{{#maxProperties
+}} * @DTA\Validator(name="Count", options={"max":{{maxProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}}{{#minProperties}}{{#maxProperties
+}} * @DTA\Validator(name="Count", options={"min":{{minProperties}},"max":{{maxProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}} * @DTA\Validator(name="Collection", options={"validators":{
+{{#isPrimitiveType
+}} *     {"name":"Scalar", "options":{"type":{{>map_item_type}}}}
+{{/isPrimitiveType
+}}{{#isDate
+}} *     {"name":"Date"}
+{{/isDate
+}}{{#isDateTime
+}} *     {"name":"Date", "options":{"format": \DateTime::RFC3339}}
+{{/isDateTime
+}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+}} *     {"name":"TypeCompliant", "options":{"type":{{>map_item_type}}}}
+{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+}} * }})
+{{/isMap
+}}{{/vars
+}} */
+class {{classname}} extends \ArrayObject
+{
+}

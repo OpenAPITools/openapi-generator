@@ -58,6 +58,8 @@ public class BasquePig {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -82,7 +84,6 @@ public class BasquePig {
   public int hashCode() {
     return Objects.hash(className);
   }
-
 
   @Override
   public String toString() {

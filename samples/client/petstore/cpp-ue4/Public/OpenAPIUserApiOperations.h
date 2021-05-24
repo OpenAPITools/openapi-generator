@@ -28,7 +28,7 @@ class OPENAPI_API OpenAPIUserApi::CreateUserRequest : public Request
 {
 public:
     virtual ~CreateUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Created user object */
@@ -52,7 +52,7 @@ class OPENAPI_API OpenAPIUserApi::CreateUsersWithArrayInputRequest : public Requ
 {
 public:
     virtual ~CreateUsersWithArrayInputRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* List of user object */
@@ -76,7 +76,7 @@ class OPENAPI_API OpenAPIUserApi::CreateUsersWithListInputRequest : public Reque
 {
 public:
     virtual ~CreateUsersWithListInputRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* List of user object */
@@ -101,7 +101,7 @@ class OPENAPI_API OpenAPIUserApi::DeleteUserRequest : public Request
 {
 public:
     virtual ~DeleteUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The name that needs to be deleted */
@@ -125,7 +125,7 @@ class OPENAPI_API OpenAPIUserApi::GetUserByNameRequest : public Request
 {
 public:
     virtual ~GetUserByNameRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The name that needs to be fetched. Use user1 for testing. */
@@ -149,7 +149,7 @@ class OPENAPI_API OpenAPIUserApi::LoginUserRequest : public Request
 {
 public:
     virtual ~LoginUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The user name for login */
@@ -175,7 +175,7 @@ class OPENAPI_API OpenAPIUserApi::LogoutUserRequest : public Request
 {
 public:
     virtual ~LogoutUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 };
@@ -198,7 +198,7 @@ class OPENAPI_API OpenAPIUserApi::UpdateUserRequest : public Request
 {
 public:
     virtual ~UpdateUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* name that need to be deleted */
