@@ -1,5 +1,6 @@
 package org.openapitools.client.infrastructure
 
+import android.os.Build
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -118,7 +119,12 @@ open class ApiClient(val baseUrl: String) {
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = createTempFile("tmp.org.openapitools.client", null).toFile()
+            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+            } else {
+                @Suppress("DEPRECATION")
+                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+            }
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)

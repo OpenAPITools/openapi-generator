@@ -118,7 +118,7 @@ internal open class ApiClient(val baseUrl: String) {
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = createTempFile("tmp.org.openapitools.client", null).toFile()
+            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)
