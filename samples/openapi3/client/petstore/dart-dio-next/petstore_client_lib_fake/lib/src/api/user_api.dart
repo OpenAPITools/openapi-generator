@@ -40,9 +40,7 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -55,7 +53,7 @@ class UserApi {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -64,7 +62,7 @@ class UserApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -102,9 +100,7 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -117,7 +113,7 @@ class UserApi {
       const _type = FullType(BuiltList, [FullType(User)]);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -126,7 +122,7 @@ class UserApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -164,9 +160,7 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -179,7 +173,7 @@ class UserApi {
       const _type = FullType(BuiltList, [FullType(User)]);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -188,7 +182,7 @@ class UserApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -226,9 +220,6 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -269,9 +260,6 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -296,13 +284,13 @@ class UserApi {
         specifiedType: _responseType,
       ) as User;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<User>(
@@ -340,9 +328,6 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -365,13 +350,13 @@ class UserApi {
     try {
       _responseData = _response.data as String;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<String>(
@@ -407,9 +392,6 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -451,9 +433,7 @@ class UserApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -466,7 +446,7 @@ class UserApi {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -475,7 +455,7 @@ class UserApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(

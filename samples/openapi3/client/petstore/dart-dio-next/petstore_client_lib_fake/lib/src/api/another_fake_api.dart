@@ -39,9 +39,7 @@ class AnotherFakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -54,7 +52,7 @@ class AnotherFakeApi {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -63,7 +61,7 @@ class AnotherFakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -85,13 +83,13 @@ class AnotherFakeApi {
         specifiedType: _responseType,
       ) as ModelClient;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(

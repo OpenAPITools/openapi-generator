@@ -43,9 +43,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -91,9 +89,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -148,9 +144,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -205,9 +199,7 @@ class StoreApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

@@ -48,9 +48,6 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -75,13 +72,13 @@ class FakeApi {
         specifiedType: _responseType,
       ) as HealthCheckResult;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<HealthCheckResult>(
@@ -126,10 +123,7 @@ class FakeApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -143,7 +137,7 @@ class FakeApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -152,7 +146,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -190,9 +184,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -204,7 +196,7 @@ class FakeApi {
     try {
       _bodyData = body;
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -213,7 +205,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -231,13 +223,13 @@ class FakeApi {
     try {
       _responseData = _response.data as bool;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<bool>(
@@ -274,9 +266,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -289,7 +279,7 @@ class FakeApi {
       const _type = FullType(OuterComposite);
       _bodyData = outerComposite == null ? null : _serializers.serialize(outerComposite, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -298,7 +288,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -320,13 +310,13 @@ class FakeApi {
         specifiedType: _responseType,
       ) as OuterComposite;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterComposite>(
@@ -363,9 +353,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -377,7 +365,7 @@ class FakeApi {
     try {
       _bodyData = body;
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -386,7 +374,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -404,13 +392,13 @@ class FakeApi {
     try {
       _responseData = _response.data as num;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<num>(
@@ -447,9 +435,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -461,7 +447,7 @@ class FakeApi {
     try {
       _bodyData = body;
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -470,7 +456,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -488,13 +474,13 @@ class FakeApi {
     try {
       _responseData = _response.data as String;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<String>(
@@ -531,9 +517,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -546,7 +530,7 @@ class FakeApi {
       const _type = FullType(OuterObjectWithEnumProperty);
       _bodyData = _serializers.serialize(outerObjectWithEnumProperty, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -555,7 +539,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -577,13 +561,13 @@ class FakeApi {
         specifiedType: _responseType,
       ) as OuterObjectWithEnumProperty;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<OuterObjectWithEnumProperty>(
@@ -620,9 +604,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -635,7 +617,7 @@ class FakeApi {
       const _type = FullType(FileSchemaTestClass);
       _bodyData = _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -644,7 +626,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -683,9 +665,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -699,7 +679,7 @@ class FakeApi {
       const _type = FullType(User);
       _bodyData = _serializers.serialize(user, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -708,7 +688,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -746,9 +726,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -761,7 +739,7 @@ class FakeApi {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -770,7 +748,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -792,13 +770,13 @@ class FakeApi {
         specifiedType: _responseType,
       ) as ModelClient;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(
@@ -853,9 +831,7 @@ class FakeApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
 
@@ -882,7 +858,7 @@ class FakeApi {
         if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -891,7 +867,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -938,9 +914,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
 
@@ -959,7 +933,7 @@ class FakeApi {
         if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -968,7 +942,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1018,9 +992,6 @@ class FakeApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -1065,9 +1036,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -1080,7 +1049,7 @@ class FakeApi {
       const _type = FullType(BuiltMap, [FullType(String), FullType(String)]);
       _bodyData = _serializers.serialize(requestBody, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -1089,7 +1058,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1128,9 +1097,7 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
 
@@ -1145,7 +1112,7 @@ class FakeApi {
         r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -1154,7 +1121,7 @@ class FakeApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -1196,9 +1163,6 @@ class FakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 

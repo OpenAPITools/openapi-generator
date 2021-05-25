@@ -47,10 +47,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -63,7 +60,7 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -72,7 +69,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -117,9 +114,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -165,9 +159,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -193,13 +184,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltList<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltList<Pet>>(
@@ -241,9 +232,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -269,13 +257,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltSet<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltSet<Pet>>(
@@ -319,9 +307,6 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
@@ -346,13 +331,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as Pet;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Pet>(
@@ -394,10 +379,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
@@ -410,7 +392,7 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -419,7 +401,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -464,9 +446,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
 
@@ -481,7 +461,7 @@ class PetApi {
         if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -490,7 +470,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -535,9 +515,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
 
@@ -552,7 +530,7 @@ class PetApi {
         if (file != null) r'file': file,
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -561,7 +539,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -583,13 +561,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
@@ -633,9 +611,7 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
 
@@ -650,7 +626,7 @@ class PetApi {
         r'requiredFile': requiredFile,
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
@@ -659,7 +635,7 @@ class PetApi {
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
@@ -681,13 +657,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
