@@ -4076,6 +4076,11 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isInteger)) {
                 r.isInteger = true;
                 r.isNumeric = true;
+                if (Boolean.TRUE.equals(cp.isShort)) {
+                    r.isShort = true;
+                } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
+                    r.isUnboundedInteger = true;
+                }
             } else if (Boolean.TRUE.equals(cp.isNumber)) {
                 r.isNumber = true;
                 r.isNumeric = true;
@@ -5392,6 +5397,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isInteger)) {
             parameter.isInteger = true;
             parameter.isPrimitiveType = true;
+            if (Boolean.TRUE.equals(property.isShort)) {
+                parameter.isShort = true;
+            } else if (Boolean.TRUE.equals(property.isUnboundedInteger)) {
+                parameter.isUnboundedInteger = true;
+            }
         } else if (Boolean.TRUE.equals(property.isDouble)) {
             parameter.isDouble = true;
             parameter.isPrimitiveType = true;

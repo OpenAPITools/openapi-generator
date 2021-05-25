@@ -3507,19 +3507,19 @@ public class DefaultCodegenTest {
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
         cpa = co.pathParams.get(0);
-        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isUnboundedInteger, true);
         assertEquals(cpa.isInteger, true);
-        assertEquals(cpa.isShort, true);
+        assertEquals(cpa.isShort, false);
         assertEquals(cpa.isLong, false);
         cpa = co.bodyParam;
-        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isUnboundedInteger, true);
         assertEquals(cpa.isInteger, true);
-        assertEquals(cpa.isShort, true);
+        assertEquals(cpa.isShort, false);
         assertEquals(cpa.isLong, false);
         cr = co.responses.get(0);
-        assertEquals(cr.isUnboundedInteger, false);
+        assertEquals(cr.isUnboundedInteger, true);
         assertEquals(cr.isInteger, true);
-        assertEquals(cr.isShort, true);
+        assertEquals(cr.isShort, false);
         assertEquals(cr.isLong, false);
 
         path = "/Int32";
