@@ -28,8 +28,18 @@ class FakeApi {
   const FakeApi(this._dio, this._serializers);
 
   /// Health check endpoint
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [HealthCheckResult] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<HealthCheckResult>> fakeHealthGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -94,8 +104,21 @@ class FakeApi {
   }
 
   /// test http signature authentication
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [query1] - query parameter
+  /// * [header1] - header parameter
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> fakeHttpSignatureTest({ 
     required Pet pet,
     String? query1,
@@ -162,9 +185,20 @@ class FakeApi {
     return _response;
   }
 
-  /// 
-  ///
+  /// fakeOuterBooleanSerialize
   /// Test serialization of outer boolean types
+  ///
+  /// Parameters:
+  /// * [body] - Input boolean as post body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [bool] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<bool>> fakeOuterBooleanSerialize({ 
     bool? body,
     CancelToken? cancelToken,
@@ -244,9 +278,20 @@ class FakeApi {
     );
   }
 
-  /// 
-  ///
+  /// fakeOuterCompositeSerialize
   /// Test serialization of object with outer number type
+  ///
+  /// Parameters:
+  /// * [outerComposite] - Input composite as post body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [OuterComposite] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
     OuterComposite? outerComposite,
     CancelToken? cancelToken,
@@ -331,9 +376,20 @@ class FakeApi {
     );
   }
 
-  /// 
-  ///
+  /// fakeOuterNumberSerialize
   /// Test serialization of outer number types
+  ///
+  /// Parameters:
+  /// * [body] - Input number as post body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [num] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<num>> fakeOuterNumberSerialize({ 
     num? body,
     CancelToken? cancelToken,
@@ -413,9 +469,20 @@ class FakeApi {
     );
   }
 
-  /// 
-  ///
+  /// fakeOuterStringSerialize
   /// Test serialization of outer string types
+  ///
+  /// Parameters:
+  /// * [body] - Input string as post body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [String] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<String>> fakeOuterStringSerialize({ 
     String? body,
     CancelToken? cancelToken,
@@ -495,9 +562,20 @@ class FakeApi {
     );
   }
 
-  /// 
-  ///
+  /// fakePropertyEnumIntegerSerialize
   /// Test serialization of enum (int) properties with examples
+  ///
+  /// Parameters:
+  /// * [outerObjectWithEnumProperty] - Input enum (int) as post body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [OuterObjectWithEnumProperty] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize({ 
     required OuterObjectWithEnumProperty outerObjectWithEnumProperty,
     CancelToken? cancelToken,
@@ -582,9 +660,20 @@ class FakeApi {
     );
   }
 
-  /// 
+  /// testBodyWithFileSchema
+  /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
   ///
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// Parameters:
+  /// * [fileSchemaTestClass] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testBodyWithFileSchema({ 
     required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
@@ -642,9 +731,21 @@ class FakeApi {
     return _response;
   }
 
+  /// testBodyWithQueryParams
   /// 
   ///
-  /// 
+  /// Parameters:
+  /// * [query] 
+  /// * [user] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testBodyWithQueryParams({ 
     required String query,
     required User user,
@@ -704,9 +805,20 @@ class FakeApi {
     return _response;
   }
 
-  /// To test \"client\" model
+  /// To test \&quot;client\&quot; model
+  /// To test \&quot;client\&quot; model
   ///
-  /// To test \"client\" model
+  /// Parameters:
+  /// * [modelClient] - client model
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<ModelClient>> testClientModel({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
@@ -792,8 +904,32 @@ class FakeApi {
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  ///
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  ///
+  /// Parameters:
+  /// * [number] - None
+  /// * [double_] - None
+  /// * [patternWithoutDelimiter] - None
+  /// * [byte] - None
+  /// * [integer] - None
+  /// * [int32] - None
+  /// * [int64] - None
+  /// * [float] - None
+  /// * [string] - None
+  /// * [binary] - None
+  /// * [date] - None
+  /// * [dateTime] - None
+  /// * [password] - None
+  /// * [callback] - None
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEndpointParameters({ 
     required num number,
     required double double_,
@@ -884,8 +1020,26 @@ class FakeApi {
   }
 
   /// To test enum parameters
-  ///
   /// To test enum parameters
+  ///
+  /// Parameters:
+  /// * [enumHeaderStringArray] - Header parameter enum test (string array)
+  /// * [enumHeaderString] - Header parameter enum test (string)
+  /// * [enumQueryStringArray] - Query parameter enum test (string array)
+  /// * [enumQueryString] - Query parameter enum test (string)
+  /// * [enumQueryInteger] - Query parameter enum test (double)
+  /// * [enumQueryDouble] - Query parameter enum test (double)
+  /// * [enumFormStringArray] - Form parameter enum test (string array)
+  /// * [enumFormString] - Form parameter enum test (string)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
     String? enumHeaderString,
@@ -959,8 +1113,24 @@ class FakeApi {
   }
 
   /// Fake endpoint to test group parameters (optional)
-  ///
   /// Fake endpoint to test group parameters (optional)
+  ///
+  /// Parameters:
+  /// * [requiredStringGroup] - Required String in group parameters
+  /// * [requiredBooleanGroup] - Required Boolean in group parameters
+  /// * [requiredInt64Group] - Required Integer in group parameters
+  /// * [stringGroup] - String in group parameters
+  /// * [booleanGroup] - Boolean in group parameters
+  /// * [int64Group] - Integer in group parameters
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testGroupParameters({ 
     required int requiredStringGroup,
     required bool requiredBooleanGroup,
@@ -1015,8 +1185,19 @@ class FakeApi {
   }
 
   /// test inline additionalProperties
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [requestBody] - request body
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testInlineAdditionalProperties({ 
     required BuiltMap<String, String> requestBody,
     CancelToken? cancelToken,
@@ -1075,8 +1256,20 @@ class FakeApi {
   }
 
   /// test json serialization of form data
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [param] - field1
+  /// * [param2] - field2
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testJsonFormData({ 
     required String param,
     required String param2,
@@ -1137,9 +1330,24 @@ class FakeApi {
     return _response;
   }
 
-  /// 
-  ///
+  /// testQueryParameterCollectionFormat
   /// To test the collection format in query parameters
+  ///
+  /// Parameters:
+  /// * [pipe] 
+  /// * [ioutil] 
+  /// * [http] 
+  /// * [url] 
+  /// * [context] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testQueryParameterCollectionFormat({ 
     required BuiltList<String> pipe,
     required BuiltList<String> ioutil,

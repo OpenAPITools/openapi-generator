@@ -18,8 +18,19 @@ class FakeClassnameTags123Api {
   const FakeClassnameTags123Api(this._dio, this._serializers);
 
   /// To test class name in snake case
-  ///
   /// To test class name in snake case
+  ///
+  /// Parameters:
+  /// * [modelClient] - client model
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<ModelClient>> testClassname({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
