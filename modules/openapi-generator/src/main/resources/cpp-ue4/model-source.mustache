@@ -28,7 +28,7 @@ inline FString ToString(const {{classname}}::Values& Value)
 	return TEXT("");
 }
 
-inline FString {{classname}}::EnumToString(const {{classname}}::Values& EnumValue)
+FString {{classname}}::EnumToString(const {{classname}}::Values& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -45,7 +45,7 @@ inline bool FromString(const FString& EnumAsString, {{classname}}::Values& Value
 	return Found != nullptr;
 }
 
-inline bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::Values& EnumValue)
+bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::Values& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }
@@ -93,7 +93,7 @@ inline FString ToString(const {{classname}}::{{{enumName}}}& Value)
 	return TEXT("");
 }
 
-inline FString {{classname}}::EnumToString(const {{classname}}::{{{enumName}}}& EnumValue)
+FString {{classname}}::EnumToString(const {{classname}}::{{{enumName}}}& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -110,7 +110,7 @@ inline bool FromString(const FString& EnumAsString, {{classname}}::{{{enumName}}
 	return Found != nullptr;
 }
 
-inline bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::{{{enumName}}}& EnumValue)
+bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::{{{enumName}}}& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }
