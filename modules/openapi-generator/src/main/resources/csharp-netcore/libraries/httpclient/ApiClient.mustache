@@ -80,9 +80,9 @@ namespace {{packageName}}.Client
             }
         }
 
-        public T Deserialize<T>(HttpResponseMessage response)
+        public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T)Deserialize(response, typeof(T));
+            var result = (T) await Deserialize(response, typeof(T));
             return result;
         }
 
@@ -92,19 +92,19 @@ namespace {{packageName}}.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(HttpResponseMessage response, Type type)
+        internal async Task<object> Deserialize(HttpResponseMessage response, Type type)
         {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
             {
-                return response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                return await response.Content.ReadAsByteArrayAsync();
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -128,18 +128,18 @@ namespace {{packageName}}.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type, _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -510,7 +510,7 @@ namespace {{packageName}}.Client
                 return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
 			
-            object responseData = deserializer.Deserialize<T>(response);
+            object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))

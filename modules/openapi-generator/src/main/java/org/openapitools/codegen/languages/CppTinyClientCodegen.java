@@ -1,9 +1,28 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.media.Schema;
+
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -14,10 +33,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenConfig {
+public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "TinyClient";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TinyCppClientCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(CppTinyClientCodegen.class);
 
     public static final String MICROCONTROLLER = "controller";
     public static final String rootFolder = "";
@@ -35,7 +54,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "tiny-cpp";
+        return "cpp-tiny";
     }
 
     /**
@@ -45,18 +64,17 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
      * @return A string value for the help message
      */
     public String getHelp() {
-        return "Generates a Arduino rest client.";
+        return "Generates a C++ Arduino REST API client.";
     }
 
-    public void addControllerToAdditionalProperties(){
-        Map<String, String> supportedControllers = new HashMap<String, String>(){{
+    public void addControllerToAdditionalProperties() {
+        Map<String, String> supportedControllers = new HashMap<String, String>() {{
             put("esp32", "isESP32");
             put("esp8266", "isESP8266");
         }};
         if (supportedControllers.containsKey(controller)) {
             additionalProperties.put(supportedControllers.get(controller), true);
-        }
-        else {
+        } else {
             //String msg = String.format("The specified controller: %s is not supported.\nSupported controllers are: %s",
             //        controller,
             //        supportedControllers.keySet());
@@ -64,7 +82,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         }
     }
 
-    public TinyCppClientCodegen() {
+    public CppTinyClientCodegen() {
         super();
 
         modifyFeatureSet(feature -> feature
@@ -103,8 +121,12 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
                         DocumentationFeature.Readme
                 ));
 
-        outputFolder = "generated-code" + File.separator + "tiny-cpp";
-        embeddedTemplateDir = templateDir = "tiny-cpp-client";
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
+        outputFolder = "generated-code" + File.separator + "cpp-tiny";
+        embeddedTemplateDir = templateDir = "cpp-tiny";
 
         String libFolder = "lib";
         // MODELS
@@ -122,7 +144,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("run-tests.mustache", "test", "RunTests.cpp"));
 
         // SERVICES
-        apiPackage = TinyCppClientCodegen.libFolder + File.separator + "service";
+        apiPackage = CppTinyClientCodegen.libFolder + File.separator + "service";
         apiTemplateFiles.put("service/api-header.mustache".replace('/', File.separatorChar), ".h");
         apiTemplateFiles.put("service/api-body.mustache".replace('/', File.separatorChar), ".cpp");
 
@@ -131,9 +153,8 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h"));
         supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp"));
 
-
         // Main
-        supportingFiles.add(new SupportingFile("main.mustache", TinyCppClientCodegen.sourceFolder, "main.cpp"));
+        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp"));
 
         // Config files
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
@@ -141,8 +162,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert"));
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
         supportingFiles.add(new SupportingFile("pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
-
-
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -162,10 +181,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
                         "std::string")
         );
 
-    
-
-
-
         super.typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "std::string");
         typeMapping.put("integer", "int");
@@ -179,7 +194,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         makeTypeMappings();
 
     }
-
 
     // FilePaths
     private static final String sourceFolder = "src";
@@ -213,8 +227,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("URI", "std::string");
     }
 
-
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -222,7 +234,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
 
         // -- --additional-properties=controller=<controllername>
         if (additionalProperties.containsKey(MICROCONTROLLER)) {
-             controller = additionalProperties.get(MICROCONTROLLER).toString();
+            controller = additionalProperties.get(MICROCONTROLLER).toString();
         }
 
         addControllerToAdditionalProperties();
@@ -230,16 +242,14 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         LOGGER.info("Generator targeting the following microcontroller: {}", controller);
     }
 
-
     @Override
     public String toInstantiationType(Schema p) {
-         if (ModelUtils.isArraySchema(p)) {
+        if (ModelUtils.isArraySchema(p)) {
             return instantiationTypes.get("array");
         } else {
             return null;
         }
     }
-
 
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -250,7 +260,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
             return openAPIType + "";
         }
     }
-
 
     @Override
     public String getSchemaType(Schema p) {
@@ -291,8 +300,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         return "#include \"" + name + ".h\"";
     }
 
-
-
     @Override
     public String toApiImport(String name) {
         return super.toApiImport(name);
@@ -301,7 +308,7 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        if (name.length() > 0 ) {
+        if (name.length() > 0) {
             paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
         }
         if (isReservedWord(paramName)) {
@@ -331,8 +338,6 @@ public class TinyCppClientCodegen extends AbstractCppCodegen implements CodegenC
         }
         return "null";
     }
-
-
 
 
 }
