@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
@@ -493,7 +492,7 @@ class PetApi {
   Future<Response<ApiResponse>> uploadFile({ 
     required int petId,
     String? additionalMetadata,
-    Uint8List? file,
+    MultipartFile? file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -528,7 +527,7 @@ class PetApi {
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
         if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+        if (file != null) r'file': file,
       });
 
     } catch(error, stackTrace) {
@@ -588,7 +587,7 @@ class PetApi {
   /// 
   Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
     required int petId,
-    required Uint8List requiredFile,
+    required MultipartFile requiredFile,
     String? additionalMetadata,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -624,7 +623,7 @@ class PetApi {
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
         if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
+        r'requiredFile': requiredFile,
       });
 
     } catch(error, stackTrace) {
