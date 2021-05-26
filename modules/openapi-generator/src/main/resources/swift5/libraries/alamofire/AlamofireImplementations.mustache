@@ -198,7 +198,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                     if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
                         requestPath = requestPath.appending("/\(headerFileName)")
                     } else {
-                        requestPath = requestPath.appending("/tmp.packageName.\(UUID().uuidString)")
+                        requestPath = requestPath.appending("/tmp.{{projectName}}.\(UUID().uuidString)")
                     }
 
                     let filePath = cachesDirectory.appendingPathComponent(requestPath)
@@ -370,7 +370,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                     if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
                         requestPath = requestPath.appending("/\(headerFileName)")
                     } else {
-                        requestPath = requestPath.appending("/tmp.packageName.\(UUID().uuidString)")
+                        requestPath = requestPath.appending("/tmp.{{projectName}}.\(UUID().uuidString)")
                     }
 
                     let filePath = cachesDirectory.appendingPathComponent(requestPath)

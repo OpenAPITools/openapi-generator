@@ -213,7 +213,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                 if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
                 } else {
-                    requestPath = requestPath.appending("/tmp.packageName.\(UUID().uuidString)")
+                    requestPath = requestPath.appending("/tmp.{{projectName}}.\(UUID().uuidString)")
                 }
 
                 let filePath = cachesDirectory.appendingPathComponent(requestPath)
@@ -354,7 +354,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                 if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
                 } else {
-                    requestPath = requestPath.appending("/tmp.packageName.\(UUID().uuidString)")
+                    requestPath = requestPath.appending("/tmp.{{projectName}}.\(UUID().uuidString)")
                 }
 
                 let filePath = cachesDirectory.appendingPathComponent(requestPath)
