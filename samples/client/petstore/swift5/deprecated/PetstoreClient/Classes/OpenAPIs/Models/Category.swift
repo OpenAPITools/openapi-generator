@@ -34,3 +34,4 @@ public struct Category: Codable, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
     }
 }
+

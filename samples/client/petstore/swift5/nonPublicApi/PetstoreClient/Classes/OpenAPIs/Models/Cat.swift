@@ -37,3 +37,4 @@ internal struct Cat: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

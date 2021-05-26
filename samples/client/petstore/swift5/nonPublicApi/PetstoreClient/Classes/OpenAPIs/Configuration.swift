@@ -6,7 +6,9 @@
 
 import Foundation
 
+
 internal class Configuration {
+    
     // This value is used to configure the date formatter that is used to serialize dates into JSON format.
     // You must set it prior to encoding any dates, and it will only be read once.
     @available(*, unavailable, message: "To set a different date format, use CodableHelper.dateFormatter instead.")

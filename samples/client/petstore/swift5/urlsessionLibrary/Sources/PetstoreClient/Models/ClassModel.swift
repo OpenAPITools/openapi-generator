@@ -40,3 +40,4 @@ public final class ClassModel: Codable, Hashable {
         
     }
 }
+

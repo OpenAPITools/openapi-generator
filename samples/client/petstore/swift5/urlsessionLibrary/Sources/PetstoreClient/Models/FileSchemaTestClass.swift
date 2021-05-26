@@ -45,3 +45,4 @@ public final class FileSchemaTestClass: Codable, Hashable {
         
     }
 }
+

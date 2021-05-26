@@ -29,3 +29,4 @@ public struct CatAllOf: Codable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

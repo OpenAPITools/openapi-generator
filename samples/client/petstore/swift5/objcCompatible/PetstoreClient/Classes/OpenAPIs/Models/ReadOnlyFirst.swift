@@ -33,3 +33,4 @@ import AnyCodable
         try container.encodeIfPresent(baz, forKey: .baz)
     }
 }
+

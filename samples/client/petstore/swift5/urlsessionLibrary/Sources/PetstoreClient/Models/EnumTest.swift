@@ -81,3 +81,4 @@ public final class EnumTest: Codable, Hashable {
         
     }
 }
+

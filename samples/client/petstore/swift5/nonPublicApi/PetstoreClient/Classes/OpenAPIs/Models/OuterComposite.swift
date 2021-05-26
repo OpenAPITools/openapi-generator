@@ -37,3 +37,4 @@ internal struct OuterComposite: Codable, Hashable {
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 }
+

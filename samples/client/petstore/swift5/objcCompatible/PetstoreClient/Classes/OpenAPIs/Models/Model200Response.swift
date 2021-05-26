@@ -39,3 +39,4 @@ import AnyCodable
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 }
+

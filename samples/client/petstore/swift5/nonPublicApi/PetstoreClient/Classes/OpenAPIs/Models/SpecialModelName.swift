@@ -29,3 +29,4 @@ internal struct SpecialModelName: Codable, Hashable {
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
 }
+

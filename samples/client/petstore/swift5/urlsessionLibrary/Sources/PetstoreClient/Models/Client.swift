@@ -39,3 +39,4 @@ public final class Client: Codable, Hashable {
         
     }
 }
+

@@ -53,3 +53,4 @@ public final class EnumArrays: Codable, Hashable {
         
     }
 }
+

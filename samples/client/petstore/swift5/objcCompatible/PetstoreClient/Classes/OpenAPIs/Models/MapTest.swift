@@ -45,3 +45,4 @@ import AnyCodable
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
 }
+
