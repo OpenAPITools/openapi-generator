@@ -1,5 +1,8 @@
 package {{packageName}}.infrastructure
 
+{{#supportAndroidApiLevel25AndBelow}}
+import android.os.Build
+{{/supportAndroidApiLevel25AndBelow}}
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -28,7 +31,6 @@ import java.io.File
 import java.io.BufferedWriter
 import java.io.FileWriter
 import java.net.URLConnection
-import java.nio.file.Files
 import java.util.Date
 {{^threetenbp}}
 import java.time.LocalDate
@@ -176,7 +178,17 @@ import org.threeten.bp.OffsetTime
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = Files.createTempFile("tmp.{{packageName}}", null).toFile()
+            {{^supportAndroidApiLevel25AndBelow}}
+            val f = java.nio.file.Files.createTempFile("tmp.{{packageName}}", null).toFile()
+            {{/supportAndroidApiLevel25AndBelow}}
+            {{#supportAndroidApiLevel25AndBelow}}
+            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+            } else {
+                @Suppress("DEPRECATION")
+                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+            }
+            {{/supportAndroidApiLevel25AndBelow}}
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)
