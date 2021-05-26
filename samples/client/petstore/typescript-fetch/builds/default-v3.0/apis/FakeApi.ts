@@ -871,7 +871,7 @@ export class FakeApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.pipe) {
-            queryParameters['pipe'] = requestParameters.pipe;
+            queryParameters['pipe'] = requestParameters.pipe.join(runtime.COLLECTION_FORMATS["pipes"]);
         }
 
         if (requestParameters.ioutil) {
