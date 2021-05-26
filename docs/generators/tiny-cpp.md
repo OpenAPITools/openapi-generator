@@ -165,7 +165,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Maps|✗|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
-|Enum|✓|OAS2,OAS3
+|Enum|✗|OAS2,OAS3
 |ArrayOfEnum|✓|ToolingExtension
 |ArrayOfModel|✓|ToolingExtension
 |ArrayOfCollectionOfPrimitives|✓|ToolingExtension

@@ -95,6 +95,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.SWIFT_PACKAGE_PATH, SWIFT_PACKAGE_PATH_VALUE)
                 .put(Swift5ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES, GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
+                .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .build();
     }
 
