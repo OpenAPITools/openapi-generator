@@ -18,13 +18,13 @@
 // Functions for enum {{enumName}} for {{{classname}}}_{{{operationId}}}
 
 static char* {{{operationId}}}_{{enumName}}_ToString({{projectName}}_{{operationId}}_{{baseName}}_e {{enumName}}){
-    char *{{enumName}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{enumName}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     return {{enumName}}Array[{{enumName}}];
 }
 
 static {{projectName}}_{{operationId}}_{{baseName}}_e {{{operationId}}}_{{enumName}}_FromString(char* {{enumName}}){
     int stringToReturn = 0;
-    char *{{enumName}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{enumName}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{enumName}}Array) / sizeof({{enumName}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{enumName}}, {{enumName}}Array[stringToReturn]) == 0) {
