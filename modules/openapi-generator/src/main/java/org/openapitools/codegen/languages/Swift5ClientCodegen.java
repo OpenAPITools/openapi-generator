@@ -288,7 +288,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
-            "Map File and Binary to Data (default: false)")
+            "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
             .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
