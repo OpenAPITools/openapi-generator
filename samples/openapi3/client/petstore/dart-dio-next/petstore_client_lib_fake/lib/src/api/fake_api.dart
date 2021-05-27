@@ -660,8 +660,78 @@ class FakeApi {
     );
   }
 
+  /// testBodyWithBinary
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Parameters:
+  /// * [body] - image to upload
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> testBodyWithBinary({ 
+    required MultipartFile body,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/fake/body-with-binary';
+    final _options = Options(
+      method: r'PUT',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      contentType: 'image/png',
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+    };
+
+    dynamic _bodyData;
+
+    try {
+      _bodyData = body.finalize();
+
+    } catch(error, stackTrace) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+          queryParameters: _queryParameters,
+        ),
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
+
   /// testBodyWithFileSchema
-  /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+  /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
   ///
   /// Parameters:
   /// * [fileSchemaTestClass] 

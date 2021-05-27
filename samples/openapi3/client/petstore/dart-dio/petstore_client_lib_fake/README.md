@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](doc/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](doc/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](doc/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](doc/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](doc/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](doc/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model

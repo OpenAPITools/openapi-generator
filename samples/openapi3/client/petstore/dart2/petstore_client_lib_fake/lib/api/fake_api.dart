@@ -414,7 +414,59 @@ class FakeApi {
     return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body) async {
+    // Verify required params are set.
+    if (body == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
+    }
+
+    final path = r'/fake/body-with-binary';
+
+    Object postBody = body;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['image/png'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<void> testBodyWithBinary(MultipartFile body) async {
+    final response = await testBodyWithBinaryWithHttpInfo(body);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -452,7 +504,7 @@ class FakeApi {
     );
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Parameters:
   ///
