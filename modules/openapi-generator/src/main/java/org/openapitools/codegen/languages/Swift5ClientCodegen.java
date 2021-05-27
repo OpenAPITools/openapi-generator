@@ -1137,6 +1137,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             } else if ("URL".equals(codegenParameter.dataType)) { // URL
                 return "URL(string: \"https://example.com\")!";
+            } else if ("Data".equals(codegenParameter.dataType)) { // URL
+                return "Data([9, 8, 7])";
             } else if ("Date".equals(codegenParameter.dataType)) { // date
                 return "Date()";
             } else { // numeric
