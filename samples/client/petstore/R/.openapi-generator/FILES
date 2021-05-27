@@ -3,7 +3,6 @@
 .travis.yml
 DESCRIPTION
 NAMESPACE
-README.md
 R/api_client.R
 R/api_response.R
 R/category.R
@@ -15,6 +14,7 @@ R/store_api.R
 R/tag.R
 R/user.R
 R/user_api.R
+README.md
 docs/Category.md
 docs/ModelApiResponse.md
 docs/Order.md
