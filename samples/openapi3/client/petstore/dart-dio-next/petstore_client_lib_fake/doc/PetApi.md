@@ -31,12 +31,12 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+final api = Openapi().getPetApi();
+final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.addPet(pet);
-} catch (e) {
+    api.addPet(pet);
+} catch on DioError (e) {
     print('Exception when calling PetApi->addPet: $e\n');
 }
 ```
@@ -73,13 +73,13 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var petId = 789; // int | Pet id to delete
-var apiKey = apiKey_example; // String | 
+final api = Openapi().getPetApi();
+final int petId = 789; // int | Pet id to delete
+final String apiKey = apiKey_example; // String | 
 
 try { 
-    api_instance.deletePet(petId, apiKey);
-} catch (e) {
+    api.deletePet(petId, apiKey);
+} catch on DioError (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
 ```
@@ -119,13 +119,13 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var status = []; // BuiltList<String> | Status values that need to be considered for filter
+final api = Openapi().getPetApi();
+final BuiltList<String> status = ; // BuiltList<String> | Status values that need to be considered for filter
 
 try { 
-    var result = api_instance.findPetsByStatus(status);
-    print(result);
-} catch (e) {
+    final response = api.findPetsByStatus(status);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling PetApi->findPetsByStatus: $e\n');
 }
 ```
@@ -134,11 +134,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**BuiltList<String>**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**BuiltList&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**BuiltList<Pet>**](Pet.md)
+[**BuiltList&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -164,13 +164,13 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var tags = []; // BuiltSet<String> | Tags to filter by
+final api = Openapi().getPetApi();
+final BuiltSet<String> tags = ; // BuiltSet<String> | Tags to filter by
 
 try { 
-    var result = api_instance.findPetsByTags(tags);
-    print(result);
-} catch (e) {
+    final response = api.findPetsByTags(tags);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling PetApi->findPetsByTags: $e\n');
 }
 ```
@@ -179,11 +179,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltSet<String>**](String.md)| Tags to filter by | 
+ **tags** | [**BuiltSet&lt;String&gt;**](String.md)| Tags to filter by | 
 
 ### Return type
 
-[**BuiltSet<Pet>**](Pet.md)
+[**BuiltSet&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -211,13 +211,13 @@ import 'package:openapi/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
-var api_instance = new PetApi();
-var petId = 789; // int | ID of pet to return
+final api = Openapi().getPetApi();
+final int petId = 789; // int | ID of pet to return
 
 try { 
-    var result = api_instance.getPetById(petId);
-    print(result);
-} catch (e) {
+    final response = api.getPetById(petId);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling PetApi->getPetById: $e\n');
 }
 ```
@@ -254,12 +254,12 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+final api = Openapi().getPetApi();
+final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.updatePet(pet);
-} catch (e) {
+    api.updatePet(pet);
+} catch on DioError (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
 }
 ```
@@ -296,14 +296,14 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var petId = 789; // int | ID of pet that needs to be updated
-var name = name_example; // String | Updated name of the pet
-var status = status_example; // String | Updated status of the pet
+final api = Openapi().getPetApi();
+final int petId = 789; // int | ID of pet that needs to be updated
+final String name = name_example; // String | Updated name of the pet
+final String status = status_example; // String | Updated status of the pet
 
 try { 
-    api_instance.updatePetWithForm(petId, name, status);
-} catch (e) {
+    api.updatePetWithForm(petId, name, status);
+} catch on DioError (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
 ```
@@ -342,15 +342,15 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var petId = 789; // int | ID of pet to update
-var additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-var file = BINARY_DATA_HERE; // MultipartFile | file to upload
+final api = Openapi().getPetApi();
+final int petId = 789; // int | ID of pet to update
+final String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
+final MultipartFile file = BINARY_DATA_HERE; // MultipartFile | file to upload
 
 try { 
-    var result = api_instance.uploadFile(petId, additionalMetadata, file);
-    print(result);
-} catch (e) {
+    final response = api.uploadFile(petId, additionalMetadata, file);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling PetApi->uploadFile: $e\n');
 }
 ```
@@ -389,15 +389,15 @@ import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
-var api_instance = new PetApi();
-var petId = 789; // int | ID of pet to update
-var requiredFile = BINARY_DATA_HERE; // MultipartFile | file to upload
-var additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
+final api = Openapi().getPetApi();
+final int petId = 789; // int | ID of pet to update
+final MultipartFile requiredFile = BINARY_DATA_HERE; // MultipartFile | file to upload
+final String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 
 try { 
-    var result = api_instance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-    print(result);
-} catch (e) {
+    final response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling PetApi->uploadFileWithRequiredFile: $e\n');
 }
 ```

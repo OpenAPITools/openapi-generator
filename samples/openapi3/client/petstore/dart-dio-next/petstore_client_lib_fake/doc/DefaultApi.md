@@ -21,12 +21,12 @@ Method | HTTP request | Description
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new DefaultApi();
+final api = Openapi().getDefaultApi();
 
 try { 
-    var result = api_instance.fooGet();
-    print(result);
-} catch (e) {
+    final response = api.fooGet();
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling DefaultApi->fooGet: $e\n');
 }
 ```
