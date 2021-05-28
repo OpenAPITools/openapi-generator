@@ -142,6 +142,7 @@ The following generators are available:
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
 * [plantuml (beta)](generators/plantuml.md)  
+* [wsdl](generators/wsdl.md)  
 
 
 ## SCHEMA generators
