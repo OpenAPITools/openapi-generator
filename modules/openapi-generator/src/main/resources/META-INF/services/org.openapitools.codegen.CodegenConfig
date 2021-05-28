@@ -38,6 +38,7 @@ org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
 org.openapitools.codegen.languages.GoDeprecatedClientCodegen
+org.openapitools.codegen.languages.GoEchoServerCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
@@ -133,5 +134,4 @@ org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
-org.openapitools.codegen.languages.GoEchoServerCodegen
-org.openapitools.codegen.languages.WsdlGeneratorCodegen
+org.openapitools.codegen.languages.WsdlSchemaCodegen

@@ -142,7 +142,6 @@ The following generators are available:
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
 * [plantuml (beta)](generators/plantuml.md)  
-* [wsdl](generators/wsdl.md)  
 
 
 ## SCHEMA generators
@@ -151,6 +150,7 @@ The following generators are available:
 * [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
+* [wsdl-schema (beta)](generators/wsdl-schema.md)  
 
 
 ## CONFIG generators

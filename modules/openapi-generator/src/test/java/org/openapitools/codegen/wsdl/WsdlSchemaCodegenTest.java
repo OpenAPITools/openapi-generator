@@ -15,7 +15,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.WsdlGeneratorCodegen;
+import org.openapitools.codegen.languages.WsdlSchemaCodegen;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.ensureContainsFile;
 
-public class WsdlGeneratorTest {
+public class WsdlSchemaCodegenTest {
   private OpenAPI openAPI;
   private File outputDirectory;
   private String outputPath;
@@ -37,7 +37,7 @@ public class WsdlGeneratorTest {
     this.outputDirectory = Files.createTempDirectory("test").toFile().getCanonicalFile();
     this.outputPath = this.outputDirectory.getAbsolutePath().replace('\\', '/');
 
-    WsdlGeneratorCodegen codegen = new WsdlGeneratorCodegen();
+    WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
     codegen.setOutputDir(this.outputDirectory.getAbsolutePath());
 
     ClientOptInput input = new ClientOptInput()
@@ -51,7 +51,7 @@ public class WsdlGeneratorTest {
   @Test(description = "ensure that the operationid has been generated correctly")
   public void testOperationIdGeneration() {
     final OpenAPI openAPI = this.openAPI;
-    WsdlGeneratorCodegen codegen = new WsdlGeneratorCodegen();
+    WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
     codegen.setOpenAPI(openAPI);
 
     String requestPathWithId = "/store/order/{orderId}";
@@ -70,7 +70,7 @@ public class WsdlGeneratorTest {
 
   @Test(description = "Ensure that passed strings are processed correcly by this method")
   public void testLowerCaseStringExceptFirstLetter() {
-    WsdlGeneratorCodegen codegen = new WsdlGeneratorCodegen();
+    WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
     String value = codegen.lowerCaseStringExceptFirstLetter("uploadPetByPathId");
 
     Assert.assertEquals(value, "Uploadpetbypathid");
@@ -246,7 +246,7 @@ public class WsdlGeneratorTest {
     File outputDirectory = Files.createTempDirectory("test").toFile().getCanonicalFile();
     String outputPath = this.outputDirectory.getAbsolutePath().replace('\\', '/');
 
-    WsdlGeneratorCodegen codegen = new WsdlGeneratorCodegen();
+    WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
     codegen.setOutputDir(this.outputDirectory.getAbsolutePath());
 
     ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
