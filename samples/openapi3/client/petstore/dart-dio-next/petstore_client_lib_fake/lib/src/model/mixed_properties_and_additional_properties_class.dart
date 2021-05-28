@@ -9,8 +9,12 @@ import 'package:built_value/serializer.dart';
 
 part 'mixed_properties_and_additional_properties_class.g.dart';
 
-
-
+/// MixedPropertiesAndAdditionalPropertiesClass
+///
+/// Properties:
+/// * [uuid] 
+/// * [dateTime] 
+/// * [map] 
 abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
     @BuiltValueField(wireName: r'uuid')
     String? get uuid;

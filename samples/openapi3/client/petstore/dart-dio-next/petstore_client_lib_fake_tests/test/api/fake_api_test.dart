@@ -36,7 +36,7 @@ void main() {
             'int64': '9223372036854775807',
             'date': '2020-08-11',
             'dateTime': '2020-08-11T12:30:55.123Z',
-            'binary': "Instance of 'MultipartFile'",
+            'binary': '[0, 1, 2, 3, 4, 5]',
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',

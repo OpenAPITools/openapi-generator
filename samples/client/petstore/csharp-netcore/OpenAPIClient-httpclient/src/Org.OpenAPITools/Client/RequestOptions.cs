@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// File parameters to be sent along with the request.
         /// </summary>
-        public Dictionary<String, Stream> FileParameters { get; set; }
+        public Dictionary<String, FileParameter> FileParameters { get; set; }
 
         /// <summary>
         /// Cookies to be sent along with the request.
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Client
             QueryParameters = new Multimap<string, string>();
             HeaderParameters = new Multimap<string, string>();
             FormParameters = new Dictionary<string, string>();
-            FileParameters = new Dictionary<String, Stream>();
+            FileParameters = new Dictionary<String, FileParameter>();
             Cookies = new List<Cookie>();
         }
     }

@@ -28,7 +28,7 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   final params = <QueryParam>[];
 
   // preconditions
-  if (name != null && !name.isEmpty && value != null) {
+  if (name != null && name.isNotEmpty && value != null) {
     if (value is List) {
       // get the collection format, default: csv
       collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)

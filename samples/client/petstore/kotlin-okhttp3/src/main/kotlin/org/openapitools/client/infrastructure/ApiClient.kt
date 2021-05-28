@@ -14,7 +14,6 @@ import java.io.File
 import java.io.BufferedWriter
 import java.io.FileWriter
 import java.net.URLConnection
-import java.nio.file.Files
 import java.util.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -117,7 +116,7 @@ open class ApiClient(val baseUrl: String) {
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)

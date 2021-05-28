@@ -16,18 +16,21 @@ class Order
      * @var int|null
      */
     public $id;
+
     /**
      * @DTA\Data(field="petId", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
      * @var int|null
      */
     public $pet_id;
+
     /**
      * @DTA\Data(field="quantity", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
      * @var int|null
      */
     public $quantity;
+
     /**
      * @DTA\Data(field="shipDate", nullable=true)
      * @DTA\Strategy(name="DateTime")
@@ -35,6 +38,7 @@ class Order
      * @var \DateTime|null
      */
     public $ship_date;
+
     /**
      * Order Status
      * @DTA\Data(field="status", nullable=true)
@@ -42,10 +46,12 @@ class Order
      * @var string|null
      */
     public $status;
+
     /**
      * @DTA\Data(field="complete", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"bool"})
      * @var bool|null
      */
     public $complete;
+
 }
