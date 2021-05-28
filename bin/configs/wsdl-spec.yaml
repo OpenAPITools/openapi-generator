@@ -1,6 +1,0 @@
-generatorName: wsdl
-outputDir: samples/documentation/wsdl
-inputSpec: modules/openapi-generator/src/test/resources/3_0/wsdl/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/wsdl
-additionalProperties:
-  hideGenerationTimestamp: "true"

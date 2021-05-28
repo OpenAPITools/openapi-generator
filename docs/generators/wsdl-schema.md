@@ -1,6 +1,6 @@
 ---
-title: Config Options for wsdl
-sidebar_label: wsdl
+title: Config Options for wsdl-schema
+sidebar_label: wsdl-schema
 ---
 
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
