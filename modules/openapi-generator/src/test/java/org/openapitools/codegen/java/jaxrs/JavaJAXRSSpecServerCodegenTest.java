@@ -419,4 +419,34 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         assertFileContains(path, "\nimport java.util.Set;\n");
     }
+
+    @Test
+    public void givenTwoOperationAndApiPerOperationTrueWhenAddOperationThenAdd2OperationsWithExpectedName() {
+        String resourcePath = "/primaryresource";
+
+        CodegenOperation getOperation = buildOperation(resourcePath, "GET");
+        CodegenOperation putOperation = buildOperation(resourcePath, "PUT");
+
+        codegen.setApiPerOperation(true);
+
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+
+        codegen.addOperationToGroup("Primaryresource", resourcePath, operation, getOperation, operationList);
+        codegen.addOperationToGroup("Primaryresource", resourcePath, operation, putOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 2);
+        Assert.assertTrue(operationList.containsKey("PrimaryresourceGet"));
+        Assert.assertTrue(operationList.containsKey("PrimaryresourcePut"));
+        Assert.assertEquals(getOperation.baseName, "PrimaryresourceGet");
+        Assert.assertEquals(putOperation.baseName, "PrimaryresourcePut");
+    }
+
+    private CodegenOperation buildOperation(String resourcePath, String put) {
+        CodegenOperation putOperation = new CodegenOperation();
+        putOperation.httpMethod = put;
+        putOperation.path = resourcePath;
+        return putOperation;
+    }
+
 }

@@ -1,8 +1,14 @@
 package org.openapitools.codegen.utils;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 
@@ -251,6 +257,21 @@ public class ProcessUtils {
         } else {
             return openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         }
+    }
+
+    public static void operationPerApi(String resourcePath, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        String base = buildApiName(resourcePath, co.httpMethod);
+        List<CodegenOperation> opList = operations.computeIfAbsent(base, k -> new ArrayList<>());
+        opList.add(co);
+        co.baseName = base;
+    }
+
+    static String buildApiName(String resourcePath, String httpMethod) {
+        String base = Arrays.stream(resourcePath.split("/"))
+                .map(s -> s.replaceAll("([{}/])", ""))
+                .map(org.openapitools.codegen.utils.StringUtils::camelize)
+                .collect(Collectors.joining());
+        return base + camelize(httpMethod.toLowerCase(Locale.ROOT));
     }
 }
 

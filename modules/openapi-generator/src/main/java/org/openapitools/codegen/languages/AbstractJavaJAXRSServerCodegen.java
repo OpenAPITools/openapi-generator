@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.PathItem;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import java.util.*;
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
     public static final String USE_TAGS = "useTags";
+    public static final String API_PER_OPERATION = "apiPerOperation";
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
@@ -48,6 +50,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     protected boolean useBeanValidation = true;
     protected boolean useTags = false;
+    protected boolean apiPerOperation = false;
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
@@ -77,6 +80,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
+        cliOptions.add(CliOption.newBoolean(API_PER_OPERATION, "Create interface and controller per operation"));
     }
 
 
@@ -105,6 +109,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             setUseTags(convertPropertyToBoolean(USE_TAGS));
         }
 
+        if (additionalProperties.containsKey(API_PER_OPERATION)) {
+            setApiPerOperation(convertPropertyToBoolean(API_PER_OPERATION));
+        }
+
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
     }
 
@@ -116,6 +124,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
         if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        } else if (apiPerOperation) {
+            ProcessUtils.operationPerApi(resourcePath, co, operations);
         } else {
             co.baseName = basePath;
             if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
@@ -312,5 +322,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     @VisibleForTesting
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
+    }
+
+    @VisibleForTesting
+    public void setApiPerOperation(boolean apiPerOperation) {
+        this.apiPerOperation = apiPerOperation;
     }
 }

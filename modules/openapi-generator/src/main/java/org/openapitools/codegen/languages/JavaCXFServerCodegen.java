@@ -78,6 +78,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         // clioOptions default redifinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(USE_TAGS, String.valueOf(true));
+        updateOption(API_PER_OPERATION, String.valueOf(false));
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
