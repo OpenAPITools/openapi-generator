@@ -14,24 +14,21 @@
 #include <pistache/http_headers.h>
 #include <pistache/optional.h>
 {{^hasModelImport}}#include <nlohmann/json.hpp>{{/hasModelImport}}
+#include <utility>
 
 {{#imports}}{{{import}}}
 {{/imports}}
 
-{{#apiNamespaceDeclarations}}
-namespace {{this}} {
-{{/apiNamespaceDeclarations}}
-
-{{#hasModelImport}}
-using namespace {{modelNamespace}};{{/hasModelImport}}
+namespace {{apiNamespace}}
+{
 
 class {{declspec}} {{classname}} {
 public:
-    {{classname}}(std::shared_ptr<Pistache::Rest::Router>);
-    virtual ~{{classname}}() {}
+    explicit {{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr);
+    virtual ~{{classname}}() = default;
     void init();
 
-    const std::string base = "{{basePathWithoutHost}}";
+    static const std::string base;
 
 private:
     void setupRoutes();
@@ -41,9 +38,21 @@ private:
     {{/operation}}
     void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Rest::Router> router;
-    {{#operation}}
+    const std::shared_ptr<Pistache::Rest::Router> router;
 
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overriden to return custom error formats.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overriden to return custom error formats.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;
+
+    {{#operation}}
     /// <summary>
     /// {{summary}}
     /// </summary>
@@ -54,7 +63,7 @@ private:
     {{#allParams}}
     /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
-    virtual void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) = 0;
+    virtual void {{operationIdSnakeCase}}({{#allParams}}const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) = 0;
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     virtual void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) = 0;
@@ -63,9 +72,7 @@ private:
 
 };
 
-{{#apiNamespaceDeclarations}}
-}
-{{/apiNamespaceDeclarations}}
+} // namespace {{apiNamespace}}
 
 #endif /* {{classname}}_H_ */
 

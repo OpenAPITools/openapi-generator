@@ -199,14 +199,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.setDefault("3.1");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
-        addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
+        cliOptions.add(aspnetCoreVersion);
 
         swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.setDefault("3.0.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
-        addOption(swashbuckleVersion.getOpt(), swashbuckleVersion.getDescription(), swashbuckleVersion.getOptValue());
+        cliOptions.add(swashbuckleVersion);
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -267,13 +267,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         operationModifier.addEnum("abstract", "Make method abstract");
         operationModifier.setDefault("virtual");
         operationModifier.setOptValue(operationModifier.getDefault());
-        addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
+        cliOptions.add(operationModifier);
 
         buildTarget.addEnum("program", "Generate code for a standalone server");
         buildTarget.addEnum("library", "Generate code for a server abstract class library");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
-        addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
+        cliOptions.add(buildTarget);
 
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
@@ -592,6 +592,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setBuildTarget() {
         setCliOption(buildTarget);
         if ("library".equals(buildTarget.getOptValue())) {
+            LOGGER.warn("buildTarget is {} so changing default isLibrary to true",  buildTarget.getOptValue());
             isLibrary = true;
             projectSdk = SDK_LIB;
             additionalProperties.put(CLASS_MODIFIER, "abstract");
@@ -636,7 +637,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseSwashbuckle() {
         if (isLibrary) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default isLibrary to false ");
+            LOGGER.warn("isLibrary is true so changing default useSwashbuckle to false");
             useSwashbuckle = false;
         } else {
             useSwashbuckle = true;

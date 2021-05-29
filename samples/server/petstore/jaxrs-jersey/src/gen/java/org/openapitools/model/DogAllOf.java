@@ -43,7 +43,7 @@ public class DogAllOf   {
    * Get breed
    * @return breed
    **/
-  @JsonProperty("breed")
+  @JsonProperty(value = "breed")
   @ApiModelProperty(value = "")
   
   public String getBreed() {

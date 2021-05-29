@@ -3437,4 +3437,127 @@ public class DefaultCodegenTest {
             }
         }
     }
+
+    @Test
+    public void testBooleansSetForIntSchemas() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_9447.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "UnboundedInteger";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isUnboundedInteger, true);
+        assertEquals(cm.isInteger, true);
+        assertEquals(cm.isShort, false);
+        assertEquals(cm.isLong, false);
+
+        modelName = "Int32";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isUnboundedInteger, false);
+        assertEquals(cm.isInteger, true);
+        assertEquals(cm.isShort, true);
+        assertEquals(cm.isLong, false);
+
+        modelName = "Int64";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isUnboundedInteger, false);
+        assertEquals(cm.isInteger, false);
+        assertEquals(cm.isShort, false);
+        assertEquals(cm.isLong, true);
+
+        modelName = "ObjectModelWithIntegerProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.isUnboundedInteger, false);
+        assertEquals(cm.isInteger, false);
+        assertEquals(cm.isShort, false);
+        assertEquals(cm.isLong, false);
+        CodegenProperty cp;
+        cp = cm.vars.get(0);
+        assertEquals(cp.isUnboundedInteger, true);
+        assertEquals(cp.isInteger, true);
+        assertEquals(cp.isShort, false);
+        assertEquals(cp.isLong, false);
+        cp = cm.vars.get(1);
+        assertEquals(cp.isUnboundedInteger, false);
+        assertEquals(cp.isInteger, true);
+        assertEquals(cp.isShort, true);
+        assertEquals(cp.isLong, false);
+        cp = cm.vars.get(2);
+        assertEquals(cp.isUnboundedInteger, false);
+        assertEquals(cp.isInteger, false);
+        assertEquals(cp.isShort, false);
+        assertEquals(cp.isLong, true);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+        CodegenParameter cpa;
+        CodegenResponse cr;
+
+        path = "/UnboundedInteger";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        cpa = co.pathParams.get(0);
+        assertEquals(cpa.isUnboundedInteger, true);
+        assertEquals(cpa.isInteger, true);
+        assertEquals(cpa.isShort, false);
+        assertEquals(cpa.isLong, false);
+        cpa = co.bodyParam;
+        assertEquals(cpa.isUnboundedInteger, true);
+        assertEquals(cpa.isInteger, true);
+        assertEquals(cpa.isShort, false);
+        assertEquals(cpa.isLong, false);
+        cr = co.responses.get(0);
+        assertEquals(cr.isUnboundedInteger, true);
+        assertEquals(cr.isInteger, true);
+        assertEquals(cr.isShort, false);
+        assertEquals(cr.isLong, false);
+
+        path = "/Int32";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        cpa = co.pathParams.get(0);
+        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isInteger, true);
+        assertEquals(cpa.isShort, true);
+        assertEquals(cpa.isLong, false);
+        cpa = co.bodyParam;
+        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isInteger, true);
+        assertEquals(cpa.isShort, true);
+        assertEquals(cpa.isLong, false);
+        cr = co.responses.get(0);
+        assertEquals(cr.isUnboundedInteger, false);
+        assertEquals(cr.isInteger, true);
+        assertEquals(cr.isShort, true);
+        assertEquals(cr.isLong, false);
+
+        path = "/Int64";
+        operation = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "POST", operation, null);
+        cpa = co.pathParams.get(0);
+        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isInteger, false);
+        assertEquals(cpa.isShort, false);
+        assertEquals(cpa.isLong, true);
+        cpa = co.bodyParam;
+        assertEquals(cpa.isUnboundedInteger, false);
+        assertEquals(cpa.isInteger, false);
+        assertEquals(cpa.isShort, false);
+        assertEquals(cpa.isLong, true);
+        cr = co.responses.get(0);
+        assertEquals(cr.isUnboundedInteger, false);
+        assertEquals(cr.isInteger, false);
+        assertEquals(cr.isShort, false);
+        assertEquals(cr.isLong, true);
+    }
 }

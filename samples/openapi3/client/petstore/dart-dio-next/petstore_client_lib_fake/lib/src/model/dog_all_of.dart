@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'dog_all_of.g.dart';
 
-
-
+/// DogAllOf
+///
+/// Properties:
+/// * [breed] 
 abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
     @BuiltValueField(wireName: r'breed')
     String? get breed;

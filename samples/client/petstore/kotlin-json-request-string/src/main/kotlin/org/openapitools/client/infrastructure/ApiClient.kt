@@ -1,5 +1,6 @@
 package org.openapitools.client.infrastructure
 
+import android.os.Build
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -13,6 +14,8 @@ import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
 import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
 import java.net.URLConnection
 import java.util.Date
 import java.time.LocalDate
@@ -113,6 +116,20 @@ open class ApiClient(val baseUrl: String) {
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
             return null
+        }
+        if (T::class.java == File::class.java) {
+            // return tempfile
+            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+            } else {
+                @Suppress("DEPRECATION")
+                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+            }
+            f.deleteOnExit()
+            val out = BufferedWriter(FileWriter(f))
+            out.write(bodyContent)
+            out.close()
+            return f as T
         }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)

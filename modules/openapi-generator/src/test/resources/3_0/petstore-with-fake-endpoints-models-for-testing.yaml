@@ -1008,7 +1008,7 @@ paths:
       tags:
         - fake
       description: >-
-        For this test, the body for this request much reference a schema named
+        For this test, the body for this request must reference a schema named
         `File`.
       operationId: testBodyWithFileSchema
       responses:
@@ -1019,6 +1019,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
+        required: true
+  /fake/body-with-binary:
+    put:
+      tags:
+        - fake
+      description: >-
+        For this test, the body has to be a binary file.
+      operationId: testBodyWithBinary
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              nullable: true
+              format: binary
+        description: image to upload
         required: true
   /fake/test-query-paramters:
     put:

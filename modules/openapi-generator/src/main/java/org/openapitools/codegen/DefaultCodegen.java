@@ -2043,6 +2043,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
+        } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
+            // allows custom type_format mapping.
+            // use {type}+{format}
+            return typeMapping.get(schema.getType() + "+" + schema.getFormat());
         } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -2528,8 +2532,13 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
-                } else { // int32 format
-                    m.isInteger = Boolean.TRUE;
+                } else {
+                    m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                    if (ModelUtils.isShortSchema(schema)) { // int32
+                        m.setIsShort(Boolean.TRUE);
+                    } else { // unbounded integer
+                        m.setIsUnboundedInteger(Boolean.TRUE);
+                    }
                 }
             } else if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -3188,10 +3197,14 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
                 property.isLong = Boolean.TRUE;
-            } else { // int32 format
-                property.isInteger = Boolean.TRUE;
+            } else {
+                property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(p)) { // int32
+                    property.setIsShort(Boolean.TRUE);
+                } else { // unbounded integer
+                    property.setIsUnboundedInteger(Boolean.TRUE);
+                }
             }
-
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
@@ -4063,6 +4076,11 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isInteger)) {
                 r.isInteger = true;
                 r.isNumeric = true;
+                if (Boolean.TRUE.equals(cp.isShort)) {
+                    r.isShort = true;
+                } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
+                    r.isUnboundedInteger = true;
+                }
             } else if (Boolean.TRUE.equals(cp.isNumber)) {
                 r.isNumber = true;
                 r.isNumeric = true;
@@ -5379,6 +5397,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isInteger)) {
             parameter.isInteger = true;
             parameter.isPrimitiveType = true;
+            if (Boolean.TRUE.equals(property.isShort)) {
+                parameter.isShort = true;
+            } else if (Boolean.TRUE.equals(property.isUnboundedInteger)) {
+                parameter.isUnboundedInteger = true;
+            }
         } else if (Boolean.TRUE.equals(property.isDouble)) {
             parameter.isDouble = true;
             parameter.isPrimitiveType = true;
@@ -5599,6 +5622,7 @@ public class DefaultCodegen implements CodegenConfig {
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
         codegenSecurity.authorizationUrl = flow.getAuthorizationUrl();
         codegenSecurity.tokenUrl = flow.getTokenUrl();
+        codegenSecurity.refreshUrl = flow.getRefreshUrl();
 
         if (flow.getScopes() != null && !flow.getScopes().isEmpty()) {
             List<Map<String, Object>> scopes = new ArrayList<>();

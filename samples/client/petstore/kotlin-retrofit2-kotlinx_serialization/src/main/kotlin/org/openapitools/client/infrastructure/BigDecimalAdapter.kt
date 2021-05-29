@@ -12,8 +12,6 @@ import java.math.BigDecimal
 @Serializer(forClass = BigDecimal::class)
 object BigDecimalAdapter : KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
-
     override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal(decoder.decodeString())
-
     override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeString(value.toPlainString())
 }
