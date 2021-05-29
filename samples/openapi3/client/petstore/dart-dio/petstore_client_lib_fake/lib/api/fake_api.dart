@@ -413,7 +413,49 @@ class FakeApi {
 
   /// 
   ///
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body has to be a binary file.
+  Future<Response<void>> testBodyWithBinary(
+    Uint8List body, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/fake/body-with-binary',
+      method: 'PUT',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: 'image/png',
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    _bodyData = body;
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    return _response;
+  }
+
+  /// 
+  ///
+  /// For this test, the body for this request must reference a schema named `File`.
   Future<Response<void>> testBodyWithFileSchema(
     FileSchemaTestClass fileSchemaTestClass, { 
     CancelToken cancelToken,

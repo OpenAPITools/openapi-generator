@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [**FakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[**TestBodyWithBinary**](FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -546,13 +547,87 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## TestBodyWithBinary
+
+> void TestBodyWithBinary (System.IO.Stream body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestBodyWithBinaryExample
+    {
+        public static void Main()
+        {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(Configuration.Default);
+            var body = BINARY_DATA_HERE;  // System.IO.Stream | image to upload
+
+            try
+            {
+                apiInstance.TestBodyWithBinary(body);
+            }
+            catch (ApiException e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestBodyWithBinary: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **System.IO.Stream**| image to upload | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: image/png
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success |  -  |
+
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## TestBodyWithFileSchema
 
 > void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 

@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel()**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -412,6 +413,61 @@ No authorization required
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testBodyWithBinary()`
+
+```php
+testBodyWithBinary($body)
+```
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$body = "/path/to/file.txt"; // \SplFileObject | image to upload
+
+try {
+    $apiInstance->testBodyWithBinary($body);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testBodyWithBinary: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **\SplFileObject****\SplFileObject**| image to upload |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `image/png`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `testBodyWithFileSchema()`
 
 ```php
@@ -420,7 +476,7 @@ testBodyWithFileSchema($file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 
