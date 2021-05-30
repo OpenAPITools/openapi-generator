@@ -834,10 +834,7 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-      x-tokenInfoFunc: .security_controller_.info_from_petstore_auth
-      x-scopeValidateFunc: .security_controller_.validate_scope_petstore_auth
     api_key:
       in: header
       name: api_key
       type: apiKey
-      x-apikeyInfoFunc: .security_controller_.info_from_api_key
