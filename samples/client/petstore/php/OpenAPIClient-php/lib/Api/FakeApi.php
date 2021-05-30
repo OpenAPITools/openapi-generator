@@ -4426,15 +4426,11 @@ class FakeApi
         $multipart = false;
 
         // query params
+        if (is_array($pipe)) {
+            $pipe = ObjectSerializer::serializeCollection($pipe, 'pipeDelimited', true);
+        }
         if ($pipe !== null) {
-            if('form' === 'form' && is_array($pipe)) {
-                foreach($pipe as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['pipe'] = $pipe;
-            }
+            $queryParams['pipe'] = $pipe;
         }
         // query params
         if (is_array($ioutil)) {

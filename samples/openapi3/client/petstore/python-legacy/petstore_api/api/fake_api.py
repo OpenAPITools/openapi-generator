@@ -2551,7 +2551,7 @@ class FakeApi(object):
         query_params = []
         if 'pipe' in local_var_params and local_var_params['pipe'] is not None:  # noqa: E501
             query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
-            collection_formats['pipe'] = 'multi'  # noqa: E501
+            collection_formats['pipe'] = 'pipes'  # noqa: E501
         if 'ioutil' in local_var_params and local_var_params['ioutil'] is not None:  # noqa: E501
             query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
             collection_formats['ioutil'] = 'csv'  # noqa: E501

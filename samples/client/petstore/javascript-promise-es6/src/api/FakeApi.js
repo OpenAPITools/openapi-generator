@@ -919,7 +919,7 @@ export default class FakeApi {
       let pathParams = {
       };
       let queryParams = {
-        'pipe': this.apiClient.buildCollectionParam(pipe, 'multi'),
+        'pipe': this.apiClient.buildCollectionParam(pipe, 'pipes'),
         'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
         'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),
