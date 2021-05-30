@@ -93,7 +93,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         return modifiedRequest
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -250,7 +250,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         for (key, value) in headers {
             httpHeaders[key] = value
         }
-        for (key, value) in {{projectName}}API.customHeaders {
+        for (key, value) in {{projectName}}.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
