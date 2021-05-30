@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class Category: NSObject, Codable {
 
     public var _id: Int64?

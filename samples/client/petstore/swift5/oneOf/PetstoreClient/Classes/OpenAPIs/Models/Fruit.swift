@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public enum Fruit: Codable {
     case typeApple(Apple)
     case typeBanana(Banana)

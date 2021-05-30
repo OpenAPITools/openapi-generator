@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** A tag for a pet */
 public struct Tag: Codable, Hashable {
 

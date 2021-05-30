@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.AdditionalPropertiesClass")
+public typealias AdditionalPropertiesClass = PetstoreClient.AdditionalPropertiesClass
+
+extension PetstoreClient {
+
+
 public final class AdditionalPropertiesClass: Codable, Hashable {
 
     public var mapString: [String: String]?
@@ -44,4 +50,5 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         hasher.combine(mapMapString?.hashValue)
         
     }
+}
 }

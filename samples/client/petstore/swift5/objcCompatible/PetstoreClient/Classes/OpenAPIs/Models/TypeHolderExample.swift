@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class TypeHolderExample: NSObject, Codable {
 
     public var stringItem: String

@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct Client: Codable, Hashable {
 
     public private(set) var client: String?

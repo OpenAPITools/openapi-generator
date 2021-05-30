@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.ApiResponse")
+public typealias ApiResponse = PetstoreClient.ApiResponse
+
+extension PetstoreClient {
+
+
 public final class ApiResponse: Codable, Hashable {
 
     public var code: Int?
@@ -50,4 +56,5 @@ public final class ApiResponse: Codable, Hashable {
         hasher.combine(message?.hashValue)
         
     }
+}
 }

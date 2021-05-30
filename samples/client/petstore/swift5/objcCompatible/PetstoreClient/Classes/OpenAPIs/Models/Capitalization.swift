@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class Capitalization: NSObject, Codable {
 
     public var smallCamel: String?

@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class OuterComposite: NSObject, Codable {
 
     public var myNumber: Double?

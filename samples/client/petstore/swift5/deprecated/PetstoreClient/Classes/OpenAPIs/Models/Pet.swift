@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** A pet for sale in the pet store */
 public struct Pet: Codable, Hashable {
 

@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class ApiResponse: NSObject, Codable {
 
     public var code: Int?

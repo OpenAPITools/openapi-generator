@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct FileSchemaTestClass: Codable {
 
     public var file: File?

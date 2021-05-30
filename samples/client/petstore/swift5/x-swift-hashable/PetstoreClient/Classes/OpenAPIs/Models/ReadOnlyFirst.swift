@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct ReadOnlyFirst: Codable {
 
     public var bar: String?

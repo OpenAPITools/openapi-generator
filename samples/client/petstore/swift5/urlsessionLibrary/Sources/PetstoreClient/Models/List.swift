@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.List")
+public typealias List = PetstoreClient.List
+
+extension PetstoreClient {
+
+
 public final class List: Codable, Hashable {
 
     public var _123list: String?
@@ -38,4 +44,5 @@ public final class List: Codable, Hashable {
         hasher.combine(_123list?.hashValue)
         
     }
+}
 }

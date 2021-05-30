@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 internal struct NumberOnly: Codable, Hashable {
 
     internal var justNumber: Double?

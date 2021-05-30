@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class ArrayTest: NSObject, Codable {
 
     public var arrayOfString: [String]?

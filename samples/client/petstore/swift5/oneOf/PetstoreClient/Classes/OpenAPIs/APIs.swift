@@ -6,7 +6,10 @@
 
 import Foundation
 
-open class PetstoreClientAPI {
+@available(*, deprecated, renamed: "PetstoreClient")
+public typealias PetstoreClientAPI = PetstoreClient
+
+open class PetstoreClient {
     public static var basePath = "http://localhost"
     public static var credential: URLCredential?
     public static var customHeaders: [String: String] = [:]
@@ -32,7 +35,7 @@ open class RequestBuilder<T> {
         self.parameters = parameters
         self.headers = headers
 
-        addHeaders(PetstoreClientAPI.customHeaders)
+        addHeaders(PetstoreClient.customHeaders)
     }
 
     open func addHeaders(_ aHeaders: [String: String]) {
@@ -41,7 +44,7 @@ open class RequestBuilder<T> {
         }
     }
 
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -51,7 +54,7 @@ open class RequestBuilder<T> {
     }
 
     open func addCredential() -> Self {
-        credential = PetstoreClientAPI.credential
+        credential = PetstoreClient.credential
         return self
     }
 }

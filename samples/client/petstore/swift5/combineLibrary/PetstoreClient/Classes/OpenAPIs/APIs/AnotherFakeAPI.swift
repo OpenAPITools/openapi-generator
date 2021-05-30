@@ -20,7 +20,7 @@ open class AnotherFakeAPI {
      */
     #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
+    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Client, Error> {
         return Future<Client, Error>.init { promise in
             call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
@@ -43,7 +43,7 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
-        let URLString = PetstoreClientAPI.basePath + path
+        let URLString = PetstoreClient.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let urlComponents = URLComponents(string: URLString)
@@ -54,7 +54,7 @@ open class AnotherFakeAPI {
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }

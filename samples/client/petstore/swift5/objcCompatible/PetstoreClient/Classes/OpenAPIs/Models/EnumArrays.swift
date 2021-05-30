@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class EnumArrays: NSObject, Codable {
 
     public enum JustSymbol: String, Codable, CaseIterable {

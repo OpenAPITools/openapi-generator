@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.ArrayTest")
+public typealias ArrayTest = PetstoreClient.ArrayTest
+
+extension PetstoreClient {
+
+
 public final class ArrayTest: Codable, Hashable {
 
     public var arrayOfString: [String]?
@@ -50,4 +56,5 @@ public final class ArrayTest: Codable, Hashable {
         hasher.combine(arrayArrayOfModel?.hashValue)
         
     }
+}
 }

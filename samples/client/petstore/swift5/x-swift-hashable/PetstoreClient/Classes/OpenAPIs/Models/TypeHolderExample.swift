@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct TypeHolderExample: Codable {
 
     public var stringItem: String

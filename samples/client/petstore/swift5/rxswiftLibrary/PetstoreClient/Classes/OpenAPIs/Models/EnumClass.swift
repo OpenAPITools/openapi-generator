@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public enum EnumClass: String, Codable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"

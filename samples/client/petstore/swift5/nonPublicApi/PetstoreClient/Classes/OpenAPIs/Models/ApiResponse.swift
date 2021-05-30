@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 internal struct ApiResponse: Codable, Hashable {
 
     internal var code: Int?

@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.TypeHolderDefault")
+public typealias TypeHolderDefault = PetstoreClient.TypeHolderDefault
+
+extension PetstoreClient {
+
+
 public final class TypeHolderDefault: Codable, Hashable {
 
     public var stringItem: String = "what"
@@ -62,4 +68,5 @@ public final class TypeHolderDefault: Codable, Hashable {
         hasher.combine(arrayItem.hashValue)
         
     }
+}
 }

@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class CatAllOf: NSObject, Codable {
 
     public var declawed: Bool?

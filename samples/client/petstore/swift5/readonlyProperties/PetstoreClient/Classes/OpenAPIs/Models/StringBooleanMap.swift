@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct StringBooleanMap: Codable, Hashable {
 
 
@@ -42,9 +44,10 @@ public struct StringBooleanMap: Codable, Hashable {
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
         var nonAdditionalPropertyKeys = Set<String>()
-        additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }

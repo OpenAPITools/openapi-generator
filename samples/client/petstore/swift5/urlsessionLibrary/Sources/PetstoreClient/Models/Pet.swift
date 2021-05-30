@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.Pet")
+public typealias Pet = PetstoreClient.Pet
+
+extension PetstoreClient {
+
+
 public final class Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
@@ -74,4 +80,5 @@ public final class Pet: Codable, Hashable {
         hasher.combine(status?.hashValue)
         
     }
+}
 }

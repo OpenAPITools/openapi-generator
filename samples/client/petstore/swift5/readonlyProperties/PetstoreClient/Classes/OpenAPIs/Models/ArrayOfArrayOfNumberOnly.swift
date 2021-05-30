@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct ArrayOfArrayOfNumberOnly: Codable, Hashable {
 
     public private(set) var arrayArrayNumber: [[Double]]?

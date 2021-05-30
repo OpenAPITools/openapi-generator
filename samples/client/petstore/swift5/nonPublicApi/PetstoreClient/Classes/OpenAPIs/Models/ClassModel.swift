@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing model with \&quot;_class\&quot; property */
 internal struct ClassModel: Codable, Hashable {
 

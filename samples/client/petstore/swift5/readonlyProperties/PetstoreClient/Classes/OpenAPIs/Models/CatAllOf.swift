@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct CatAllOf: Codable, Hashable {
 
     public private(set) var declawed: Bool?

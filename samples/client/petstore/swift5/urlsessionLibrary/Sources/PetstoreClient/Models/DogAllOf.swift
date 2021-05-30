@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.DogAllOf")
+public typealias DogAllOf = PetstoreClient.DogAllOf
+
+extension PetstoreClient {
+
+
 public final class DogAllOf: Codable, Hashable {
 
     public var breed: String?
@@ -38,4 +44,5 @@ public final class DogAllOf: Codable, Hashable {
         hasher.combine(breed?.hashValue)
         
     }
+}
 }

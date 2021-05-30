@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class Dog: NSObject, Codable {
 
     public var _className: String

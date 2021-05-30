@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.CatAllOf")
+public typealias CatAllOf = PetstoreClient.CatAllOf
+
+extension PetstoreClient {
+
+
 public final class CatAllOf: Codable, Hashable {
 
     public var declawed: Bool?
@@ -38,4 +44,5 @@ public final class CatAllOf: Codable, Hashable {
         hasher.combine(declawed?.hashValue)
         
     }
+}
 }

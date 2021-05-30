@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 @objc public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
     public var uuid: UUID?

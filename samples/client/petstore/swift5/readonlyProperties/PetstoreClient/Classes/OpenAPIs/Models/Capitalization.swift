@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct Capitalization: Codable, Hashable {
 
     public private(set) var smallCamel: String?

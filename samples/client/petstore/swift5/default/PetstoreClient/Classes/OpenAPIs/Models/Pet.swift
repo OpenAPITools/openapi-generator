@@ -10,6 +10,8 @@ import Foundation
 import AnyCodable
 #endif
 
+
+
 public struct Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
