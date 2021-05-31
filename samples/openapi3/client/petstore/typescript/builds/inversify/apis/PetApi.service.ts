@@ -2,7 +2,6 @@ import type { Configuration } from "../configuration";
 import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
 
 import { ApiResponse } from "../models/ApiResponse";
-import { ModelFile } from "../models/ModelFile";
 import { Pet } from "../models/Pet";
 
 export abstract class AbstractPetApiRequestFactory {

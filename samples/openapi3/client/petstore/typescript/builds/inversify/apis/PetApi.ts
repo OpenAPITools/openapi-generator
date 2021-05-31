@@ -9,7 +9,6 @@ import {isCodeInRange} from '../util';
 import { injectable } from "inversify";
 
 import { ApiResponse } from '../models/ApiResponse';
-import { ModelFile } from '../models/ModelFile';
 import { Pet } from '../models/Pet';
 
 /**

@@ -8,7 +8,6 @@ import {ApiException} from './exception';
 import {isCodeInRange} from '../util';
 
 import { ApiResponse } from '../models/ApiResponse';
-import { ModelFile } from '../models/ModelFile';
 import { Pet } from '../models/Pet';
 
 /**

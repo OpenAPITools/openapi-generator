@@ -7,7 +7,6 @@ import {ApiException} from './exception.ts';
 import {isCodeInRange} from '../util.ts';
 
 import { ApiResponse } from '../models/ApiResponse.ts';
-import { ModelFile } from '../models/ModelFile.ts';
 import { Pet } from '../models/Pet.ts';
 
 /**
