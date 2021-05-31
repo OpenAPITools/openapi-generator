@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", .exact("0.4.0")),
+        .package(url: "https://github.com/Flight-School/AnyCodable", .exact("0.6.0")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
     ],
     targets: [
