@@ -4636,7 +4636,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             operationId = sanitizeName(builder.toString());
-            LOGGER.warn("Empty operationId found for path: {} {}. Renamed to auto-generated operationId: {}", httpMethod, path, operationId);
         }
         return operationId;
     }
