@@ -54,9 +54,6 @@ class AnotherFakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -68,7 +65,6 @@ class AnotherFakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -79,7 +75,6 @@ class AnotherFakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

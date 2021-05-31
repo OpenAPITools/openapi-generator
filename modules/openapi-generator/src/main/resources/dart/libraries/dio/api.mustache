@@ -83,14 +83,13 @@ class {{classname}} {
       },{{#hasConsumes}}
       contentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
       validateStatus: validateStatus,
-    );
+    );{{#hasQueryParams}}
 
     final _queryParameters = <String, dynamic>{
       {{#queryParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#useBuiltValue}}{{>serialization/built_value/query_param}}{{/useBuiltValue}},
       {{/queryParams}}
-    };
-    {{#hasBodyOrFormParams}}
+    };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
 
@@ -100,20 +99,19 @@ class {{classname}} {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
-          _path,
-          queryParameters: _queryParameters,
+          _path,{{#hasQueryParams}}
+          queryParameters: _queryParameters,{{/hasQueryParams}}
         ),
         type: DioErrorType.other,
         error: error,
       )..stackTrace = stackTrace;
-    }
-    {{/hasBodyOrFormParams}}
+    }{{/hasBodyOrFormParams}}
 
     final _response = await _dio.request<Object>(
       _path,{{#hasBodyOrFormParams}}
       data: _bodyData,{{/hasBodyOrFormParams}}
-      options: _options,
-      queryParameters: _queryParameters,
+      options: _options,{{#hasQueryParams}}
+      queryParameters: _queryParameters,{{/hasQueryParams}}
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

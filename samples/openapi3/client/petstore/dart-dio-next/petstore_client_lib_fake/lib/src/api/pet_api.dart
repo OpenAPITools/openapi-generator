@@ -62,9 +62,6 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -76,7 +73,6 @@ class PetApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -87,7 +83,6 @@ class PetApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -140,13 +135,9 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -197,7 +188,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': status,
+      r'status': encodeCollectionQueryParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(
@@ -282,7 +273,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'tags': tags,
+      r'tags': encodeCollectionQueryParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv),
     };
 
     final _response = await _dio.request<Object>(
@@ -367,13 +358,9 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -451,9 +438,6 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -465,7 +449,6 @@ class PetApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -476,7 +459,6 @@ class PetApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -531,15 +513,12 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
+        if (name != null) r'name': encodeQueryParameter(_serializers, name, const FullType(String)),
+        if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -547,7 +526,6 @@ class PetApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -558,7 +536,6 @@ class PetApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -613,9 +590,6 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -629,7 +603,6 @@ class PetApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -640,7 +613,6 @@ class PetApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -722,9 +694,6 @@ class PetApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -738,7 +707,6 @@ class PetApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -749,7 +717,6 @@ class PetApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
