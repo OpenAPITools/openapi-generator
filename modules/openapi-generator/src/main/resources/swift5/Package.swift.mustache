@@ -19,15 +19,15 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", .exact("0.4.0")),
+        .package(url: "https://github.com/Flight-School/AnyCodable", .exact("0.6.0")),
         {{#useAlamofire}}
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
         {{/useAlamofire}}
         {{#usePromiseKit}}
-        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.12.0"),
+        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.15.3"),
         {{/usePromiseKit}}
         {{#useRxSwift}}
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.2.0"),
         {{/useRxSwift}}
     ],
     targets: [
