@@ -9,6 +9,8 @@ on:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+    paths:
+      - 'samples/openapi3/client/petstore/dart*/**'
 
 jobs:
   tests-dart-2-10:
