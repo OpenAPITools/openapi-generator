@@ -15,7 +15,6 @@ public typealias Category = PetstoreClient.Category
 
 extension PetstoreClient {
 
-
 public final class Category: Codable, Hashable {
 
     public var id: Int64?

@@ -15,7 +15,6 @@ public typealias FileSchemaTestClass = PetstoreClient.FileSchemaTestClass
 
 extension PetstoreClient {
 
-
 public final class FileSchemaTestClass: Codable, Hashable {
 
     public var file: File?

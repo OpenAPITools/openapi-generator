@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct Apple: Codable, Hashable {
 
     public var kind: String?

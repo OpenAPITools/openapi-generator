@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 /** Must be named &#x60;File&#x60; for test. */
 @objc public class File: NSObject, Codable {
 

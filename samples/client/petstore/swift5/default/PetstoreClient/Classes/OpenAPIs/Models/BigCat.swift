@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct BigCat: Codable, Hashable {
 
     public enum Kind: String, Codable, CaseIterable {

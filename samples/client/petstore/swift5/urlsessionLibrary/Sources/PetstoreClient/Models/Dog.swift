@@ -15,7 +15,6 @@ public typealias Dog = PetstoreClient.Dog
 
 extension PetstoreClient {
 
-
 public final class Dog: Codable, Hashable {
 
     public var className: String

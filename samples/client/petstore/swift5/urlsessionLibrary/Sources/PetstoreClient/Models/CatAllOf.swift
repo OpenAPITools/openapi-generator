@@ -15,7 +15,6 @@ public typealias CatAllOf = PetstoreClient.CatAllOf
 
 extension PetstoreClient {
 
-
 public final class CatAllOf: Codable, Hashable {
 
     public var declawed: Bool?

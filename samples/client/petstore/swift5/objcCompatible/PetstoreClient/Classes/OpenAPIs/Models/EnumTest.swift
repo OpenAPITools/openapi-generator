@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 @objc public class EnumTest: NSObject, Codable {
 
     public enum EnumString: String, Codable, CaseIterable {

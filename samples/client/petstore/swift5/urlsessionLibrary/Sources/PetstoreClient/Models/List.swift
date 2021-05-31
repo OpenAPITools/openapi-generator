@@ -15,7 +15,6 @@ public typealias List = PetstoreClient.List
 
 extension PetstoreClient {
 
-
 public final class List: Codable, Hashable {
 
     public var _123list: String?

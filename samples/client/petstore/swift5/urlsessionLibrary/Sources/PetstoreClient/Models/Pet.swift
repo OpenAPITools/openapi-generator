@@ -15,7 +15,6 @@ public typealias Pet = PetstoreClient.Pet
 
 extension PetstoreClient {
 
-
 public final class Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {

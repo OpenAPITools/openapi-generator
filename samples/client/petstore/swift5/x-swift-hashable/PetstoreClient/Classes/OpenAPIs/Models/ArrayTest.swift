@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct ArrayTest: Codable {
 
     public var arrayOfString: [String]?

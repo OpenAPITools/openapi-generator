@@ -15,7 +15,6 @@ public typealias AdditionalPropertiesClass = PetstoreClient.AdditionalProperties
 
 extension PetstoreClient {
 
-
 public final class AdditionalPropertiesClass: Codable, Hashable {
 
     public var mapString: [String: String]?

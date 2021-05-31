@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 /** Model for testing model name starting with number */
 public struct Model200Response: Codable {
 

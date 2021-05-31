@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct EnumTest: Codable, Hashable {
 
     public enum EnumString: String, Codable, CaseIterable {

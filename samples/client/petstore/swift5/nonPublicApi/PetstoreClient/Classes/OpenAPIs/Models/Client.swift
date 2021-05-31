@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 internal struct Client: Codable, Hashable {
 
     internal var client: String?

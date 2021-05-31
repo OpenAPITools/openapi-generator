@@ -15,7 +15,6 @@ public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClient.Mi
 
 extension PetstoreClient {
 
-
 public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     public var uuid: UUID?

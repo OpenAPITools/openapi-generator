@@ -15,7 +15,6 @@ public typealias TypeHolderDefault = PetstoreClient.TypeHolderDefault
 
 extension PetstoreClient {
 
-
 public final class TypeHolderDefault: Codable, Hashable {
 
     public var stringItem: String = "what"

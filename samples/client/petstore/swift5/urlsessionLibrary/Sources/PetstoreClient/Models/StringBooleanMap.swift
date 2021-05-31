@@ -15,7 +15,6 @@ public typealias StringBooleanMap = PetstoreClient.StringBooleanMap
 
 extension PetstoreClient {
 
-
 public final class StringBooleanMap: Codable, Hashable {
 
 
