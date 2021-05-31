@@ -14,6 +14,7 @@ class ListParamMatcher<T> extends Matcher {
         ListEquality<T>().equals(
           actual.value,
           expected.value,
-        ) && actual.format == expected.format;
+        ) &&
+        actual.format == expected.format;
   }
 }

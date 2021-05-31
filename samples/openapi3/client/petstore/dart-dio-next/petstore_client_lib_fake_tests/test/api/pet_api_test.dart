@@ -247,7 +247,8 @@ void main() {
           request: Request(
             method: RequestMethods.post,
             headers: <String, dynamic>{
-              Headers.contentTypeHeader: Matchers.pattern('multipart/form-data'),
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
             data: FormDataMatcher(
@@ -283,7 +284,8 @@ void main() {
           request: Request(
             method: RequestMethods.post,
             headers: <String, dynamic>{
-              Headers.contentTypeHeader: Matchers.pattern('multipart/form-data'),
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
             data: FormDataMatcher(
