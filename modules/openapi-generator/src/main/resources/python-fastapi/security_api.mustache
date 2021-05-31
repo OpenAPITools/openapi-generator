@@ -34,7 +34,7 @@ oauth2_password = OAuth2PasswordBearer(
 oauth2_code = OAuth2AuthorizationCodeBearer(
     authorizationUrl="{{authorizationUrl}}",
     tokenUrl="{{tokenUrl}}",
-    refreshUrlUrl="{{refreshUrl}}",
+    refreshUrl="{{refreshUrl}}",
     scopes={
 {{#scopes}}
         "{{scope}}": "{{description}}",
