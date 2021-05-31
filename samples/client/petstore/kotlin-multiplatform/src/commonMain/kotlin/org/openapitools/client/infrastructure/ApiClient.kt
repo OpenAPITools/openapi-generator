@@ -155,7 +155,7 @@ open class ApiClient(
         else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend inline fun <reified T: Any?> request(requestConfig: RequestConfig<T>, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
         requestConfig.updateForAuth(authNames)
         val headers = requestConfig.headers
 
