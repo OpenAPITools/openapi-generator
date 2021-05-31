@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 internal struct FormatTest: Codable, Hashable {
 
     internal var integer: Int?

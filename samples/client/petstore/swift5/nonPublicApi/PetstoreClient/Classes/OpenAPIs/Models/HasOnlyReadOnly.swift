@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 internal struct HasOnlyReadOnly: Codable, Hashable {
 
     internal var bar: String?

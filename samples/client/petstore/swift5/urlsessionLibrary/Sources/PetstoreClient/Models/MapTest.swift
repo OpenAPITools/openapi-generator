@@ -15,7 +15,6 @@ public typealias MapTest = PetstoreClient.MapTest
 
 extension PetstoreClient {
 
-
 public final class MapTest: Codable, Hashable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {

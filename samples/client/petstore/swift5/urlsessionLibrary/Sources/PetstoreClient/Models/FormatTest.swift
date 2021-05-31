@@ -15,7 +15,6 @@ public typealias FormatTest = PetstoreClient.FormatTest
 
 extension PetstoreClient {
 
-
 public final class FormatTest: Codable, Hashable {
 
     public var integer: Int?

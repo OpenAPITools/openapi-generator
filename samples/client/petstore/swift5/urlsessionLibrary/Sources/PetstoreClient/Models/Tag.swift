@@ -15,7 +15,6 @@ public typealias Tag = PetstoreClient.Tag
 
 extension PetstoreClient {
 
-
 public final class Tag: Codable, Hashable {
 
     public var id: Int64?

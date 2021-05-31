@@ -15,7 +15,6 @@ public typealias Capitalization = PetstoreClient.Capitalization
 
 extension PetstoreClient {
 
-
 public final class Capitalization: Codable, Hashable {
 
     public var smallCamel: String?

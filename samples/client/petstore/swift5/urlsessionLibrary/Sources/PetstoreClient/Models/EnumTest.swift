@@ -15,7 +15,6 @@ public typealias EnumTest = PetstoreClient.EnumTest
 
 extension PetstoreClient {
 
-
 public final class EnumTest: Codable, Hashable {
 
     public enum EnumString: String, Codable, CaseIterable {

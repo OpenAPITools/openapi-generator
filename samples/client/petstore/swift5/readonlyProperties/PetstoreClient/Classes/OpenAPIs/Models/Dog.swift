@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct Dog: Codable, Hashable {
 
     public private(set) var className: String

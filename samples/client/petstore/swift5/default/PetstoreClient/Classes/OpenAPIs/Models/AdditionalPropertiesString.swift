@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct AdditionalPropertiesString: Codable, Hashable {
 
     public var name: String?

@@ -15,6 +15,5 @@ public typealias AnimalFarm = PetstoreClient.AnimalFarm
 
 extension PetstoreClient {
 
-
 public typealias AnimalFarm = [Animal]
 }

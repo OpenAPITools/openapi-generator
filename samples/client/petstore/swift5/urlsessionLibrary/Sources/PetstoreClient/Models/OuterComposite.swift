@@ -15,7 +15,6 @@ public typealias OuterComposite = PetstoreClient.OuterComposite
 
 extension PetstoreClient {
 
-
 public final class OuterComposite: Codable, Hashable {
 
     public var myNumber: Double?

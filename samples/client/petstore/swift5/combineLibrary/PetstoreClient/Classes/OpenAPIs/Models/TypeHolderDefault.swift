@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct TypeHolderDefault: Codable, Hashable {
 
     public var stringItem: String = "what"

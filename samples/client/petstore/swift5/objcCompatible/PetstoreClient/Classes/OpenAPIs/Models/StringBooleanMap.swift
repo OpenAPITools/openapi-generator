@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 @objc public class StringBooleanMap: NSObject, Codable {
 
 

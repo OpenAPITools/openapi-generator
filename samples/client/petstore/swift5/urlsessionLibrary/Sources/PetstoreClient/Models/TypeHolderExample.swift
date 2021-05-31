@@ -15,7 +15,6 @@ public typealias TypeHolderExample = PetstoreClient.TypeHolderExample
 
 extension PetstoreClient {
 
-
 public final class TypeHolderExample: Codable, Hashable {
 
     public var stringItem: String

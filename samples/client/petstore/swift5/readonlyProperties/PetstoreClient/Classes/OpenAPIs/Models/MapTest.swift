@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct MapTest: Codable, Hashable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {

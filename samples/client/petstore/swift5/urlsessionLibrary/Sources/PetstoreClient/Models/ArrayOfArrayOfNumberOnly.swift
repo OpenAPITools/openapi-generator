@@ -15,7 +15,6 @@ public typealias ArrayOfArrayOfNumberOnly = PetstoreClient.ArrayOfArrayOfNumberO
 
 extension PetstoreClient {
 
-
 public final class ArrayOfArrayOfNumberOnly: Codable, Hashable {
 
     public var arrayArrayNumber: [[Double]]?

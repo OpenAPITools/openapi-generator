@@ -15,7 +15,6 @@ public typealias ArrayTest = PetstoreClient.ArrayTest
 
 extension PetstoreClient {
 
-
 public final class ArrayTest: Codable, Hashable {
 
     public var arrayOfString: [String]?

@@ -10,8 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
-
 public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     public var uuid: UUID?
