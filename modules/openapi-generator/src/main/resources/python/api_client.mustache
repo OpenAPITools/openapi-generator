@@ -847,9 +847,10 @@ class Endpoint(object):
 
         content_type_headers_list = self.headers_map['content_type']
         if content_type_headers_list:
-            header_list = self.api_client.select_header_content_type(
-                content_type_headers_list)
-            params['header']['Content-Type'] = header_list
+            if params['body'] != "":
+                header_list = self.api_client.select_header_content_type(
+                    content_type_headers_list)
+                params['header']['Content-Type'] = header_list
 
         return self.api_client.call_api(
             self.settings['endpoint_path'], self.settings['http_method'],
