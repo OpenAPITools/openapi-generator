@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class StoreAPI {
+1
     /**
      Delete purchase order by ID
 
@@ -72,6 +73,7 @@ open class StoreAPI {
     }
 
 
+1
     /**
      Returns pet inventories by status
 
@@ -130,6 +132,7 @@ open class StoreAPI {
     }
 
 
+1
     /**
      Find purchase order by ID
 
@@ -193,6 +196,7 @@ open class StoreAPI {
     }
 
 
+1
     /**
      Place an order for a pet
 

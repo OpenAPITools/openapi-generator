@@ -14,6 +14,7 @@ extension PetstoreClient {
 
 
 open class StoreAPI {
+1
     /**
      Delete purchase order by ID
      
@@ -59,6 +60,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Returns pet inventories by status
      
@@ -102,6 +104,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Find purchase order by ID
      
@@ -147,6 +150,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Place an order for a pet
      

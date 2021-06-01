@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class FakeAPI {
+1
     /**
      creates an XmlItem
 
@@ -67,6 +68,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      POST /fake/outer/boolean
@@ -123,6 +125,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      POST /fake/outer/composite
@@ -179,6 +182,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      POST /fake/outer/number
@@ -235,6 +239,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      POST /fake/outer/string
@@ -291,6 +296,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      PUT /fake/body-with-file-schema
@@ -344,6 +350,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      PUT /fake/body-with-query-params
@@ -398,6 +405,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      To test \"client\" model
 
@@ -453,6 +461,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
@@ -559,6 +568,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      * enum for parameter enumHeaderStringArray
      */
@@ -712,6 +722,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      Fake endpoint to test group parameters (optional)
 
@@ -786,6 +797,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      test inline additionalProperties
 
@@ -837,6 +849,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
      test json serialization of form data
 
@@ -894,6 +907,7 @@ open class FakeAPI {
     }
 
 
+1
     /**
 
      PUT /fake/test-query-paramters

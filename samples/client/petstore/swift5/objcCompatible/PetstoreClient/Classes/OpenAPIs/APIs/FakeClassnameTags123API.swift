@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 @objc open class FakeClassnameTags123API : NSObject {
+1
     /**
      To test class name in snake case
      

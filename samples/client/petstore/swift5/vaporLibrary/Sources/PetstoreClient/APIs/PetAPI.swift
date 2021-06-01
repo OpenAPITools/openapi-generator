@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class PetAPI {
+1
     /**
      Add a new pet to the store
 
@@ -72,6 +73,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      Deletes a pet
 
@@ -138,6 +140,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      * enum for parameter status
      */
@@ -213,6 +216,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      Finds Pets by tags
 
@@ -281,6 +285,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      Find pet by ID
 
@@ -350,6 +355,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      Update an existing pet
 
@@ -416,6 +422,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      Updates a pet in the store with form data
 
@@ -484,6 +491,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      uploads an image
 
@@ -552,6 +560,7 @@ open class PetAPI {
     }
 
 
+1
     /**
      uploads an image (required)
 

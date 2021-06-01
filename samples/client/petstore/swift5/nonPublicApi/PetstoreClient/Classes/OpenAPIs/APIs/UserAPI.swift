@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal class UserAPI {
+1
     /**
      Create user
      
@@ -53,6 +54,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Creates list of users with given input array
      
@@ -94,6 +96,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Creates list of users with given input array
      
@@ -135,6 +138,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Delete user
      
@@ -180,6 +184,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Get user by user name
      
@@ -224,6 +229,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Logs user into the system
      
@@ -272,6 +278,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Logs out current logged in user session
      
@@ -311,6 +318,7 @@ internal class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Updated user
      

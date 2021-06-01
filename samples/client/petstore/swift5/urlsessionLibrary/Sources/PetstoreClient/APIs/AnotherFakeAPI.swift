@@ -14,6 +14,7 @@ extension PetstoreClient {
 
 
 open class AnotherFakeAPI {
+1
     /**
      To test special tags
      

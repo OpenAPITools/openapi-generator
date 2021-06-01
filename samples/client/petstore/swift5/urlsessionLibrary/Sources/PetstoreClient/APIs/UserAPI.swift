@@ -14,6 +14,7 @@ extension PetstoreClient {
 
 
 open class UserAPI {
+1
     /**
      Create user
      
@@ -56,6 +57,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Creates list of users with given input array
      
@@ -97,6 +99,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Creates list of users with given input array
      
@@ -138,6 +141,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Delete user
      
@@ -183,6 +187,7 @@ open class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Get user by user name
      
@@ -227,6 +232,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Logs user into the system
      
@@ -275,6 +281,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Logs out current logged in user session
      
@@ -314,6 +321,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Updated user
      

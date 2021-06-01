@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal class PetAPI {
+1
     /**
      Add a new pet to the store
      
@@ -55,6 +56,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Deletes a pet
      
@@ -104,6 +106,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      * enum for parameter status
      */
@@ -161,6 +164,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Finds Pets by tags
      
@@ -211,6 +215,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Find pet by ID
      
@@ -259,6 +264,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Update an existing pet
      
@@ -303,6 +309,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      Updates a pet in the store with form data
      
@@ -360,6 +367,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      uploads an image
      
@@ -417,6 +425,7 @@ internal class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+1
     /**
      uploads an image (required)
      

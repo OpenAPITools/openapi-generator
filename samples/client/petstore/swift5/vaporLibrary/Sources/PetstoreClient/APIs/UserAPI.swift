@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class UserAPI {
+1
     /**
      Create user
 
@@ -64,6 +65,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Creates list of users with given input array
 
@@ -112,6 +114,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Creates list of users with given input array
 
@@ -160,6 +163,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Delete user
 
@@ -220,6 +224,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Get user by user name
 
@@ -279,6 +284,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Logs user into the system
 
@@ -340,6 +346,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Logs out current logged in user session
 
@@ -385,6 +392,7 @@ open class UserAPI {
     }
 
 
+1
     /**
      Updated user
 
