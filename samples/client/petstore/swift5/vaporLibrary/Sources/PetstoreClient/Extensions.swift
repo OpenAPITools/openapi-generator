@@ -10,8 +10,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
-
 extension String: CodingKey {
 
     public var stringValue: String {
@@ -132,3 +130,4 @@ extension Set: Content where Element: Content { }
 extension AnyCodable: Content {}
 extension AnyEncodable: Content {}
 extension AnyDecodable: Content {}
+
