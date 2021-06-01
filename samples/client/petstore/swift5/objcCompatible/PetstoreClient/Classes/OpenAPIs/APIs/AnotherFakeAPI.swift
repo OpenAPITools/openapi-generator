@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 @objc open class AnotherFakeAPI : NSObject {
+
     /**
      To test special tags
      
@@ -53,5 +54,4 @@ import AnyCodable
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -59,5 +60,4 @@ open class FakeClassnameTags123API {
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

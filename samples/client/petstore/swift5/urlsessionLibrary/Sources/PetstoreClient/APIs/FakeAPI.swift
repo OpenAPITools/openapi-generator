@@ -14,6 +14,7 @@ extension PetstoreClient {
 
 
 open class FakeAPI {
+
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -686,6 +687,5 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }
 }

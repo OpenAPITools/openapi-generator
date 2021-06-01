@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class StoreAPI {
+
     /**
      Delete purchase order by ID
      DELETE /store/order/{order_id}
@@ -223,6 +224,5 @@ open class StoreAPI {
             }
         }
     }
-
 
 }

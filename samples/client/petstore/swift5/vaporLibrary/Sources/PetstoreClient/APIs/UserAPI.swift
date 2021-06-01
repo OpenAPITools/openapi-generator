@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class UserAPI {
+
     /**
      Create user
      POST /user
@@ -408,6 +409,5 @@ open class UserAPI {
             }
         }
     }
-
 
 }

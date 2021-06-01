@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 @objc open class StoreAPI : NSObject {
+
     /**
      Delete purchase order by ID
      
@@ -188,5 +189,4 @@ import AnyCodable
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

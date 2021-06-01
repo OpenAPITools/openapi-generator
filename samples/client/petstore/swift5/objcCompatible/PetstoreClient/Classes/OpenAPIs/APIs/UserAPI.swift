@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 @objc open class UserAPI : NSObject {
+
     /**
      Create user
      
@@ -365,5 +366,4 @@ import AnyCodable
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

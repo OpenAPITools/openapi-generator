@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class PetAPI {
+
     /**
      Add a new pet to the store
      POST /pet
@@ -576,6 +577,5 @@ open class PetAPI {
             }
         }
     }
-
 
 }

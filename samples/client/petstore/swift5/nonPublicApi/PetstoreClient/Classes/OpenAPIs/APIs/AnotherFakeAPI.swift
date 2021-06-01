@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -53,5 +54,4 @@ internal class AnotherFakeAPI {
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

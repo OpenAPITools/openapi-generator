@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 @objc open class FakeAPI : NSObject {
+
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -683,5 +684,4 @@ import AnyCodable
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

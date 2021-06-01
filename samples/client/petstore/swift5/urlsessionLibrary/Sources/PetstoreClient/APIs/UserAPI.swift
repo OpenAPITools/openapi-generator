@@ -14,6 +14,7 @@ extension PetstoreClient {
 
 
 open class UserAPI {
+
     /**
      Create user
      
@@ -368,6 +369,5 @@ open class UserAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }
 }

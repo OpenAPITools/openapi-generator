@@ -23,6 +23,7 @@ extension {{projectName}} {
 /** {{{description}}} */{{/description}}
 {{#objcCompatible}}@objc {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{#operation}}
+
     {{#allParams}}
     {{#isEnum}}
     /**
@@ -395,7 +396,6 @@ extension {{projectName}} {
         return requestBuilder.init(method: "{{httpMethod}}", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 {{/useVapor}}
-
 {{/operation}}
 }
 {{#swiftUseApiNamespace}}

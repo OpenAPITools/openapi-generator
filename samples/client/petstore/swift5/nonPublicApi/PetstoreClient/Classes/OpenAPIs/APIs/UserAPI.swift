@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal class UserAPI {
+
     /**
      Create user
      
@@ -365,5 +366,4 @@ internal class UserAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 internal class StoreAPI {
+
     /**
      Delete purchase order by ID
      
@@ -188,5 +189,4 @@ internal class StoreAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

@@ -12,6 +12,7 @@ import AnyCodable
 #endif
 
 open class FakeAPI {
+
     /**
      creates an XmlItem
      POST /fake/create_xml_item
@@ -881,6 +882,5 @@ open class FakeAPI {
             }
         }
     }
-
 
 }

@@ -11,6 +11,7 @@ import AnyCodable
 #endif
 
 open class DefaultAPI {
+
     /**
 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -48,5 +49,4 @@ open class DefaultAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }
