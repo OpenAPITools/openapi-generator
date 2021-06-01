@@ -60,6 +60,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      POST /fake/outer/boolean
      Test serialization of outer boolean types
@@ -108,6 +109,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      POST /fake/outer/composite
@@ -158,6 +160,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      POST /fake/outer/number
      Test serialization of outer number types
@@ -206,6 +209,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      POST /fake/outer/string
@@ -256,6 +260,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      PUT /fake/body-with-file-schema
      For this test, the body for this request much reference a schema named `File`.
@@ -301,6 +306,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      PUT /fake/body-with-query-params
@@ -351,6 +357,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      To test \"client\" model
      PATCH /fake
@@ -398,6 +405,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -497,6 +505,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      * enum for parameter enumHeaderStringArray
@@ -644,6 +653,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      Fake endpoint to test group parameters (optional)
      DELETE /fake
@@ -711,6 +721,7 @@ open class FakeAPI {
         }
     }
 
+
     /**
      test inline additionalProperties
      POST /fake/inline-additionalProperties
@@ -756,6 +767,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      test json serialization of form data
@@ -808,6 +820,7 @@ open class FakeAPI {
             }
         }
     }
+
 
     /**
      PUT /fake/test-query-paramters
@@ -868,5 +881,6 @@ open class FakeAPI {
             }
         }
     }
+
 
 }

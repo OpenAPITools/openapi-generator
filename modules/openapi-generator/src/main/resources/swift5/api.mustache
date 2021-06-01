@@ -395,6 +395,7 @@ extension {{projectName}} {
         return requestBuilder.init(method: "{{httpMethod}}", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 {{/useVapor}}
+
 {{/operation}}
 }
 {{#swiftUseApiNamespace}}

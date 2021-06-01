@@ -48,4 +48,5 @@ open class DefaultAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 }

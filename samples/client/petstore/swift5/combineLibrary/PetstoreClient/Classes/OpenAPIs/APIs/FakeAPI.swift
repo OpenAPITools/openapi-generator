@@ -59,6 +59,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
 
      - parameter body: (body) Input composite as post body (optional)
@@ -104,6 +105,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
 
      - parameter body: (body) Input number as post body (optional)
@@ -149,6 +151,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
 
      - parameter body: (body) Input string as post body (optional)
@@ -194,6 +197,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
 
      - parameter body: (body)  
@@ -239,6 +243,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
 
      - parameter query: (query)  
@@ -288,6 +293,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      To test \"client\" model
      
@@ -335,6 +341,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      
@@ -429,6 +436,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      * enum for parameter enumHeaderStringArray
      */
@@ -571,6 +579,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      Fake endpoint to test group parameters (optional)
      
@@ -635,6 +644,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      test inline additionalProperties
      
@@ -681,6 +691,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
     /**
      test json serialization of form data
      
@@ -735,4 +746,5 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 }

@@ -65,6 +65,7 @@ open class StoreAPI {
         }
     }
 
+
     /**
      Returns pet inventories by status
      GET /store/inventory
@@ -115,6 +116,7 @@ open class StoreAPI {
             }
         }
     }
+
 
     /**
      Find purchase order by ID
@@ -172,6 +174,7 @@ open class StoreAPI {
         }
     }
 
+
     /**
      Place an order for a pet
      POST /store/order
@@ -220,5 +223,6 @@ open class StoreAPI {
             }
         }
     }
+
 
 }
