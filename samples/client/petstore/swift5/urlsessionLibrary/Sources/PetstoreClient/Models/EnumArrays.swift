@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.EnumArrays")
+public typealias EnumArrays = PetstoreClient.EnumArrays
+
+extension PetstoreClient {
+
 public final class EnumArrays: Codable, Hashable {
 
     public enum JustSymbol: String, Codable, CaseIterable {
@@ -52,4 +57,5 @@ public final class EnumArrays: Codable, Hashable {
         hasher.combine(arrayEnum?.hashValue)
         
     }
+}
 }

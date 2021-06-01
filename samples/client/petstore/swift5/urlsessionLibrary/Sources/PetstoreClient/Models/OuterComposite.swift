@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.OuterComposite")
+public typealias OuterComposite = PetstoreClient.OuterComposite
+
+extension PetstoreClient {
+
 public final class OuterComposite: Codable, Hashable {
 
     public var myNumber: Double?
@@ -50,4 +55,5 @@ public final class OuterComposite: Codable, Hashable {
         hasher.combine(myBoolean?.hashValue)
         
     }
+}
 }

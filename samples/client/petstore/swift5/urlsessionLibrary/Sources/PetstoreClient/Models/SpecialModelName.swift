@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.SpecialModelName")
+public typealias SpecialModelName = PetstoreClient.SpecialModelName
+
+extension PetstoreClient {
+
 public final class SpecialModelName: Codable, Hashable {
 
     public var specialPropertyName: Int64?
@@ -38,4 +43,5 @@ public final class SpecialModelName: Codable, Hashable {
         hasher.combine(specialPropertyName?.hashValue)
         
     }
+}
 }

@@ -9,6 +9,13 @@ import Foundation
 #if canImport(AnyCodable)
 import AnyCodable
 #endif
+{{#swiftUseApiNamespace}}
+
+@available(*, deprecated, renamed: "{{projectName}}.{{classname}}")
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{classname}} = {{projectName}}.{{classname}}
+
+extension {{projectName}} {
+{{/swiftUseApiNamespace}}
 {{#description}}
 
 /** {{description}} */{{/description}}{{#isDeprecated}}
@@ -17,3 +24,6 @@ import AnyCodable
 {{> modelArray}}{{/isArray}}{{^isArray}}{{#isEnum}}
 {{> modelEnum}}{{/isEnum}}{{^isEnum}}
 {{> modelObject}}{{/isEnum}}{{/isArray}}{{/vendorExtensions.x-is-one-of-interface}}{{/model}}{{/models}}
+{{#swiftUseApiNamespace}}
+}
+{{/swiftUseApiNamespace}}

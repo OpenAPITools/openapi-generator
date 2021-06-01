@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass")
+public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass
+
+extension PetstoreClient {
+
 public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     public var uuid: UUID?
@@ -50,4 +55,5 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         hasher.combine(map?.hashValue)
         
     }
+}
 }

@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.Capitalization")
+public typealias Capitalization = PetstoreClient.Capitalization
+
+extension PetstoreClient {
+
 public final class Capitalization: Codable, Hashable {
 
     public var smallCamel: String?
@@ -69,4 +74,5 @@ public final class Capitalization: Codable, Hashable {
         hasher.combine(ATT_NAME?.hashValue)
         
     }
+}
 }

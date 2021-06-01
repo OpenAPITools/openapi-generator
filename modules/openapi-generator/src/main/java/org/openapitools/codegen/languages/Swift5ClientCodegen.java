@@ -446,7 +446,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
         // Setup swiftUseApiNamespace option, which makes all the API
-        // classes inner-class of {{projectName}}API
+        // classes inner-class of {{projectName}}
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }

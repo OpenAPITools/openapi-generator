@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.Animal")
+public typealias Animal = PetstoreClient.Animal
+
+extension PetstoreClient {
+
 public final class Animal: Codable, Hashable {
 
     public var className: String
@@ -44,4 +49,5 @@ public final class Animal: Codable, Hashable {
         hasher.combine(color?.hashValue)
         
     }
+}
 }
