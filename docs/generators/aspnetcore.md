@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
+|nullableReferenceTypes|Annotate Project with &lt;Nullable&gt;annotations&lt;/Nullable&gt; and use ? annotation on all nullable attributes. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
@@ -38,7 +39,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
-|useNullableAnnotation|Annotate Project with &lt;Nullable&gt;annotations&lt;/Nullable&gt; and use ? annotation on all nullable attributes. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 
 ## IMPORT MAPPING

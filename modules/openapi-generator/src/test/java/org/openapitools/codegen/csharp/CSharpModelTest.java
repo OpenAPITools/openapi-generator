@@ -266,7 +266,7 @@ public class CSharpModelTest {
     }
 
     @Test(description = "convert a model with a nullable property without nullable annotation")
-    public void nullablePropertyWithoutNullableAnnotationTest() {
+    public void nullablePropertyWithoutNullableReferenceTypesTest() {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
@@ -325,7 +325,7 @@ public class CSharpModelTest {
     }
 
     @Test(description = "convert a model with a nullable property using nullable annotation")
-    public void nullablePropertyWithNullableAnnotationTest() {
+    public void nullablePropertyWithNullableReferenceTypesTest() {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
@@ -335,7 +335,7 @@ public class CSharpModelTest {
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetCoreServerCodegen();
-        codegen.additionalProperties().put(AspNetCoreServerCodegen.USE_NULLABLE_ANNOTATION, true);
+        codegen.additionalProperties().put(AspNetCoreServerCodegen.NULLABLE_REFERENCE_TYPES, true);
         codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
