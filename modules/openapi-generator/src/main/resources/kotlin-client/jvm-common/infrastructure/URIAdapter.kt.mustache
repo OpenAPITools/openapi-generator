@@ -16,7 +16,7 @@ import com.squareup.moshi.ToJson
 import java.net.URI
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class UriAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class URIAdapter {
     @ToJson
     fun toJson(uri: URI) = uri.toString()
 
@@ -26,7 +26,7 @@ import java.net.URI
 {{/moshi}}
 {{#kotlinx_serialization}}
 @Serializer(forClass = URI::class)
-object UriAdapter : KSerializer<URI> {
+object URIAdapter : KSerializer<URI> {
     override fun serialize(encoder: Encoder, value: URI) {
         encoder.encodeString(value.toASCIIString())
     }
