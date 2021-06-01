@@ -13,7 +13,7 @@ import AnyCodable
 
 open class UserAPI {
 1
-    /**
+    /**6
      Create user
 
      POST /user
@@ -45,7 +45,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Create user
 
      POST /user
@@ -66,7 +66,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Creates list of users with given input array
 
      POST /user/createWithArray
@@ -96,7 +96,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Creates list of users with given input array
 
      POST /user/createWithArray
@@ -115,7 +115,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Creates list of users with given input array
 
      POST /user/createWithList
@@ -145,7 +145,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Creates list of users with given input array
 
      POST /user/createWithList
@@ -164,7 +164,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Delete user
 
      DELETE /user/{username}
@@ -200,7 +200,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Delete user
 
      DELETE /user/{username}
@@ -225,7 +225,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Get user by user name
 
      GET /user/{username}
@@ -260,7 +260,7 @@ open class UserAPI {
         case http0(value: User, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Get user by user name
 
      GET /user/{username}
@@ -285,7 +285,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Logs user into the system
 
      GET /user/login
@@ -322,7 +322,7 @@ open class UserAPI {
         case http0(value: String, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Logs user into the system
 
      GET /user/login
@@ -347,7 +347,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Logs out current logged in user session
 
      GET /user/logout
@@ -375,7 +375,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Logs out current logged in user session
 
      GET /user/logout
@@ -393,7 +393,7 @@ open class UserAPI {
 
 
 1
-    /**
+    /**6
      Updated user
 
      PUT /user/{username}
@@ -431,7 +431,7 @@ open class UserAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Updated user
 
      PUT /user/{username}

@@ -15,7 +15,7 @@ import AnyCodable
 
 open class UserAPI {
 1
-    /**
+    /**4
      Create user
      
      - parameter body: (body) Created user object 
@@ -37,7 +37,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Create user
      - POST /user
      - This can only be done by the logged in user.
@@ -63,7 +63,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
@@ -85,7 +85,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Creates list of users with given input array
      - POST /user/createWithArray
      - parameter body: (body) List of user object 
@@ -110,7 +110,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
@@ -132,7 +132,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Creates list of users with given input array
      - POST /user/createWithList
      - parameter body: (body) List of user object 
@@ -157,7 +157,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
@@ -179,7 +179,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Delete user
      - DELETE /user/{username}
      - This can only be done by the logged in user.
@@ -208,7 +208,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
@@ -230,7 +230,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Get user by user name
      - GET /user/{username}
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
@@ -258,7 +258,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Logs user into the system
      
      - parameter username: (query) The user name for login 
@@ -281,7 +281,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Logs user into the system
      - GET /user/login
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
@@ -312,7 +312,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Logs out current logged in user session
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -333,7 +333,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Logs out current logged in user session
      - GET /user/logout
      - returns: RequestBuilder<Void> 
@@ -357,7 +357,7 @@ open class UserAPI {
     }
 
 1
-    /**
+    /**4
      Updated user
      
      - parameter username: (path) name that need to be deleted 
@@ -380,7 +380,7 @@ open class UserAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Updated user
      - PUT /user/{username}
      - This can only be done by the logged in user.

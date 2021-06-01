@@ -12,7 +12,7 @@ import AnyCodable
 
 @objc open class AnotherFakeAPI : NSObject {
 1
-    /**
+    /**1
      To test special tags
      
      - parameter body: (body) client model 
@@ -29,7 +29,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number

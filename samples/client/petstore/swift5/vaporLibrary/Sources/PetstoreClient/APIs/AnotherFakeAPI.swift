@@ -13,7 +13,7 @@ import AnyCodable
 
 open class AnotherFakeAPI {
 1
-    /**
+    /**6
      To test special tags
 
      PATCH /another-fake/dummy
@@ -46,7 +46,7 @@ open class AnotherFakeAPI {
         case http0(value: Client, raw: ClientResponse)
     }
 
-    /**
+    /**7
      To test special tags
 
      PATCH /another-fake/dummy

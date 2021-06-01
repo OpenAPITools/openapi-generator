@@ -13,7 +13,7 @@ import AnyCodable
 
 open class FakeClassnameTags123API {
 1
-    /**
+    /**3
      To test class name in snake case
      
      - parameter body: (body) client model 
@@ -34,7 +34,7 @@ open class FakeClassnameTags123API {
             return Disposables.create()
         }
     }
-    /**
+    /**8
      To test class name in snake case
      - PATCH /fake_classname_test
      - To test class name in snake case

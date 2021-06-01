@@ -15,7 +15,7 @@ import AnyCodable
 
 open class StoreAPI {
 1
-    /**
+    /**4
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
@@ -37,7 +37,7 @@ open class StoreAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -66,7 +66,7 @@ open class StoreAPI {
     }
 
 1
-    /**
+    /**4
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -87,7 +87,7 @@ open class StoreAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Returns pet inventories by status
      - GET /store/inventory
      - Returns a map of status codes to quantities
@@ -115,7 +115,7 @@ open class StoreAPI {
     }
 
 1
-    /**
+    /**4
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
@@ -137,7 +137,7 @@ open class StoreAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Find purchase order by ID
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -166,7 +166,7 @@ open class StoreAPI {
     }
 
 1
-    /**
+    /**4
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
@@ -188,7 +188,7 @@ open class StoreAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-    /**
+    /**8
      Place an order for a pet
      - POST /store/order
      - parameter body: (body) order placed for purchasing the pet 

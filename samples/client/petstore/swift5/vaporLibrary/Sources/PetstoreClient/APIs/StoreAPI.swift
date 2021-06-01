@@ -13,7 +13,7 @@ import AnyCodable
 
 open class StoreAPI {
 1
-    /**
+    /**6
      Delete purchase order by ID
 
      DELETE /store/order/{order_id}
@@ -49,7 +49,7 @@ open class StoreAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Delete purchase order by ID
 
      DELETE /store/order/{order_id}
@@ -74,7 +74,7 @@ open class StoreAPI {
 
 
 1
-    /**
+    /**6
      Returns pet inventories by status
 
      GET /store/inventory
@@ -108,7 +108,7 @@ open class StoreAPI {
         case http0(value: [String: Int], raw: ClientResponse)
     }
 
-    /**
+    /**7
      Returns pet inventories by status
 
      GET /store/inventory
@@ -133,7 +133,7 @@ open class StoreAPI {
 
 
 1
-    /**
+    /**6
      Find purchase order by ID
 
      GET /store/order/{order_id}
@@ -170,7 +170,7 @@ open class StoreAPI {
         case http0(value: Order, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Find purchase order by ID
 
      GET /store/order/{order_id}
@@ -197,7 +197,7 @@ open class StoreAPI {
 
 
 1
-    /**
+    /**6
      Place an order for a pet
 
      POST /store/order
@@ -229,7 +229,7 @@ open class StoreAPI {
         case http0(value: Order, raw: ClientResponse)
     }
 
-    /**
+    /**7
      Place an order for a pet
 
      POST /store/order

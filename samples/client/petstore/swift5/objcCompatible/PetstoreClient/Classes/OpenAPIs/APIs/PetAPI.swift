@@ -12,7 +12,7 @@ import AnyCodable
 
 @objc open class PetAPI : NSObject {
 1
-    /**
+    /**1
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
@@ -29,7 +29,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Add a new pet to the store
      - POST /pet
      - OAuth:
@@ -57,7 +57,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
@@ -75,7 +75,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Deletes a pet
      - DELETE /pet/{petId}
      - OAuth:
@@ -107,7 +107,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**-1
      * enum for parameter status
      */
     public enum Status_findPetsByStatus: String, CaseIterable {
@@ -116,7 +116,7 @@ import AnyCodable
         case sold = "sold"
     }
 
-    /**
+    /**1
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
@@ -133,7 +133,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Finds Pets by status
      - GET /pet/findByStatus
      - Multiple status values can be provided with comma separated strings
@@ -165,7 +165,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
@@ -183,7 +183,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Finds Pets by tags
      - GET /pet/findByTags
      - Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -216,7 +216,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
@@ -233,7 +233,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Find pet by ID
      - GET /pet/{petId}
      - Returns a single pet
@@ -265,7 +265,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
@@ -282,7 +282,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Update an existing pet
      - PUT /pet
      - OAuth:
@@ -310,7 +310,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -329,7 +329,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      Updates a pet in the store with form data
      - POST /pet/{petId}
      - OAuth:
@@ -368,7 +368,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -387,7 +387,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      uploads an image
      - POST /pet/{petId}/uploadImage
      - OAuth:
@@ -426,7 +426,7 @@ import AnyCodable
     }
 
 1
-    /**
+    /**1
      uploads an image (required)
      
      - parameter petId: (path) ID of pet to update 
@@ -445,7 +445,7 @@ import AnyCodable
             }
         }
     }
-    /**
+    /**8
      uploads an image (required)
      - POST /fake/{petId}/uploadImageWithRequiredFile
      - OAuth:

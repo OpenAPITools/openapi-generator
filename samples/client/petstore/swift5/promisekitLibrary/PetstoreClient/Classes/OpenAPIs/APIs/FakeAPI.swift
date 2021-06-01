@@ -13,7 +13,7 @@ import AnyCodable
 
 open class FakeAPI {
 1
-    /**
+    /**2
 
      - parameter body: (body) Input boolean as post body (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -31,7 +31,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
      - parameter body: (body) Input boolean as post body (optional)
@@ -56,7 +56,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
 
      - parameter body: (body) Input composite as post body (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -74,7 +74,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
      - parameter body: (body) Input composite as post body (optional)
@@ -99,7 +99,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
 
      - parameter body: (body) Input number as post body (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -117,7 +117,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - POST /fake/outer/number
      - Test serialization of outer number types
      - parameter body: (body) Input number as post body (optional)
@@ -142,7 +142,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
 
      - parameter body: (body) Input string as post body (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -160,7 +160,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - POST /fake/outer/string
      - Test serialization of outer string types
      - parameter body: (body) Input string as post body (optional)
@@ -185,7 +185,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
 
      - parameter body: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -203,7 +203,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
      - parameter body: (body)  
@@ -228,7 +228,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
 
      - parameter query: (query)  
      - parameter body: (body)  
@@ -247,7 +247,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
      - parameter body: (body)  
@@ -275,7 +275,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
      To test \"client\" model
      
      - parameter body: (body) client model 
@@ -294,7 +294,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
@@ -320,7 +320,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      
      - parameter number: (form) None 
@@ -352,7 +352,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - POST /fake
      - Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -412,7 +412,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**-1
      * enum for parameter enumHeaderStringArray
      */
     public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
@@ -420,7 +420,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**
+    /**-1
      * enum for parameter enumHeaderString
      */
     public enum EnumHeaderString_testEnumParameters: String, CaseIterable {
@@ -429,7 +429,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**
+    /**-1
      * enum for parameter enumQueryStringArray
      */
     public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
@@ -437,7 +437,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**
+    /**-1
      * enum for parameter enumQueryString
      */
     public enum EnumQueryString_testEnumParameters: String, CaseIterable {
@@ -446,7 +446,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**
+    /**-1
      * enum for parameter enumQueryInteger
      */
     public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
@@ -454,7 +454,7 @@ open class FakeAPI {
         case number2 = -2
     }
 
-    /**
+    /**-1
      * enum for parameter enumQueryDouble
      */
     public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
@@ -462,7 +462,7 @@ open class FakeAPI {
         case number12 = -1.2
     }
 
-    /**
+    /**-1
      * enum for parameter enumFormStringArray
      */
     public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
@@ -470,7 +470,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**
+    /**-1
      * enum for parameter enumFormString
      */
     public enum EnumFormString_testEnumParameters: String, CaseIterable {
@@ -479,7 +479,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**
+    /**2
      To test enum parameters
      
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
@@ -505,7 +505,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      To test enum parameters
      - GET /fake
      - To test enum parameters
@@ -552,7 +552,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
      Fake endpoint to test group parameters (optional)
      
      - parameter requiredStringGroup: (query) Required String in group parameters 
@@ -576,7 +576,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      Fake endpoint to test group parameters (optional)
      - DELETE /fake
      - Fake endpoint to test group parameters (optional)
@@ -614,7 +614,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
      test inline additionalProperties
      
      - parameter param: (body) request body 
@@ -633,7 +633,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
      - parameter param: (body) request body 
@@ -658,7 +658,7 @@ open class FakeAPI {
     }
 
 1
-    /**
+    /**2
      test json serialization of form data
      
      - parameter param: (form) field1 
@@ -678,7 +678,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
-    /**
+    /**8
      test json serialization of form data
      - GET /fake/jsonFormData
      - parameter param: (form) field1 

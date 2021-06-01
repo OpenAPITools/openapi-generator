@@ -20,13 +20,13 @@ extension {{projectName}} {
 {{/swiftUseApiNamespace}}
 
 {{#description}}
-/** {{{description}}} */{{/description}}
+/**0 {{{description}}} */{{/description}}
 {{#objcCompatible}}@objc {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{#operation}}
 1
     {{#allParams}}
     {{#isEnum}}
-    /**
+    /**-1
      * enum for parameter {{paramName}}
      */
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, CaseIterable{{#useVapor}}, Content{{/useVapor}} {
@@ -44,7 +44,7 @@ extension {{projectName}} {
 {{^useRxSwift}}
 {{^useResult}}
 {{^useCombine}}
-    /**
+    /**1
      {{#summary}}
      {{{summary}}}
      {{/summary}}{{#allParams}}
@@ -77,7 +77,7 @@ extension {{projectName}} {
 {{/usePromiseKit}}
 {{/useVapor}}
 {{#usePromiseKit}}
-    /**
+    /**2
      {{#summary}}
      {{{summary}}}
      {{/summary}}{{#allParams}}
@@ -108,7 +108,7 @@ extension {{projectName}} {
     }
 {{/usePromiseKit}}
 {{#useRxSwift}}
-    /**
+    /**3
      {{#summary}}
      {{{summary}}}
      {{/summary}}{{#allParams}}
@@ -141,7 +141,7 @@ extension {{projectName}} {
     }
 {{/useRxSwift}}
 {{#useCombine}}
-    /**
+    /**4
      {{#summary}}
      {{{summary}}}
      {{/summary}}{{#allParams}}
@@ -175,7 +175,7 @@ extension {{projectName}} {
     #endif
 {{/useCombine}}
 {{#useResult}}
-    /**
+    /**5
      {{#summary}}
      {{{summary}}}
      {{/summary}}{{#allParams}}
@@ -204,7 +204,7 @@ extension {{projectName}} {
     }
 {{/useResult}}
 {{#useVapor}}
-    /**
+    /**6
      {{#summary}}
      {{{summary}}}
      {{/summary}}
@@ -282,7 +282,7 @@ extension {{projectName}} {
         {{/hasDefaultResponse}}
     }
 
-    /**
+    /**7
      {{#summary}}
      {{{summary}}}
      {{/summary}}
@@ -329,7 +329,7 @@ extension {{projectName}} {
 
 {{/useVapor}}
 {{^useVapor}}
-    /**
+    /**8
      {{#summary}}
      {{{summary}}}
      {{/summary}}
