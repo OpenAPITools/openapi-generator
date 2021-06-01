@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.HasOnlyReadOnly")
+public typealias HasOnlyReadOnly = PetstoreClient.HasOnlyReadOnly
+
+extension PetstoreClient {
+
 public final class HasOnlyReadOnly: Codable, Hashable {
 
     public var bar: String?
@@ -44,4 +49,5 @@ public final class HasOnlyReadOnly: Codable, Hashable {
         hasher.combine(foo?.hashValue)
         
     }
+}
 }

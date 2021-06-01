@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.StringBooleanMap")
+public typealias StringBooleanMap = PetstoreClient.StringBooleanMap
+
+extension PetstoreClient {
+
 public final class StringBooleanMap: Codable, Hashable {
 
 
@@ -42,10 +47,11 @@ public final class StringBooleanMap: Codable, Hashable {
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
         var nonAdditionalPropertyKeys = Set<String>()
-        additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
     public static func == (lhs: StringBooleanMap, rhs: StringBooleanMap) -> Bool {
@@ -55,4 +61,5 @@ public final class StringBooleanMap: Codable, Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(additionalProperties.hashValue)
     }
+}
 }

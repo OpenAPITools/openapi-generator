@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.ClassModel")
+public typealias ClassModel = PetstoreClient.ClassModel
+
+extension PetstoreClient {
+
 /** Model for testing model with \&quot;_class\&quot; property */
 public final class ClassModel: Codable, Hashable {
 
@@ -39,4 +44,5 @@ public final class ClassModel: Codable, Hashable {
         hasher.combine(_class?.hashValue)
         
     }
+}
 }

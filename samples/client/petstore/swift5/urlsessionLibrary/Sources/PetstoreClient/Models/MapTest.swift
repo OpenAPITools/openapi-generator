@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.MapTest")
+public typealias MapTest = PetstoreClient.MapTest
+
+extension PetstoreClient {
+
 public final class MapTest: Codable, Hashable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
@@ -60,4 +65,5 @@ public final class MapTest: Codable, Hashable {
         hasher.combine(indirectMap?.hashValue)
         
     }
+}
 }

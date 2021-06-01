@@ -49,11 +49,12 @@ public struct AdditionalPropertiesNumber: Codable, Hashable {
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decodeIfPresent(String.self, forKey: "name")
+        name = try container.decodeIfPresent(String.self, forKey: .name)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("name")
-        additionalProperties = try container.decodeMap(Double.self, excludedKeys: nonAdditionalPropertyKeys)
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(Double.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
