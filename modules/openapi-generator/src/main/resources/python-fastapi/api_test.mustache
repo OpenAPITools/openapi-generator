@@ -2,10 +2,11 @@
 
 from fastapi.testclient import TestClient
 
-import json
+{{#vendorExtensions.x-skip-test}}
 import pytest
+{{/vendorExtensions.x-skip-test}}
 
-{{#imports}}{{import}}
+{{#imports}}{{import}}  # noqa: F401
 {{/imports}}
 
 {{#operations}}
@@ -23,24 +24,23 @@ def test_{{operationId}}(client: TestClient):
     {{paramName}} = {{#isContainer}}[{{/isContainer}}{{{example}}}{{#isContainer}}]{{/isContainer}}
     {{/bodyParam}}
     {{#queryParams}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}("{{paramName}}", {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
-    {{/queryParams}}
-    headers = { {{#headerParams}}
-        '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
-        {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
+    {{#-first}}params = [{{/-first}}("{{paramName}}", {{{example}}}){{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/queryParams}}
+    headers = {{=<% %>=}}{<%#headerParams%><%={{ }}=%>
+        "{{paramName}}": {{{example}}},{{/headerParams}}{{#authMethods}}
+        {{#isOAuth}}"Authorization": "Bearer special-key",{{/isOAuth}}{{#isApiKey}}"{{name}}": "special-key",{{/isApiKey}}{{#isBasicBasic}}"Authorization": "BasicZm9vOmJhcg==",{{/isBasicBasic}}{{#isBasicBearer}}"Authorization": "Bearer special-key",{{/isBasicBearer}}{{/authMethods}}
     }
     {{#formParams}}
     {{#-first}}
     data = {
     {{/-first}}
-        '{{paramName}}': {{{example}}}{{^-last}},{{/-last}}
+        "{{paramName}}": {{{example}}}{{^-last}},{{/-last}}
     {{#-last}}
     }
     {{/-last}}
     {{/formParams}}
     response = client.request(
-        '{{httpMethod}}',
-        '{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+        "{{httpMethod}}",
+        "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
         headers=headers,{{#bodyParam}}
         json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
         data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}
