@@ -22,3 +22,4 @@ public struct StringBooleanMap: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
     }
 }
+

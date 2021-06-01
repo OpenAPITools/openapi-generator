@@ -7,8 +7,12 @@
 
 import Foundation
 import RxSwift
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class StoreAPI {
+
     /**
      Delete purchase order by ID
      
@@ -202,5 +206,4 @@ open class StoreAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

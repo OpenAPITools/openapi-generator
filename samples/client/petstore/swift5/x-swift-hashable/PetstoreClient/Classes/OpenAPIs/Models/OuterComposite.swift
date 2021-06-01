@@ -37,3 +37,4 @@ public struct OuterComposite: Codable {
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 }
+

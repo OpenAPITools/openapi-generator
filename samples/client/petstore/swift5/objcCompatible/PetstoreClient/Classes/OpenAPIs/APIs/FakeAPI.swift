@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc open class FakeAPI : NSObject {
+
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -680,5 +684,4 @@ import Foundation
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

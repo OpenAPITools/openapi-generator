@@ -208,13 +208,10 @@ extension {{projectName}} {
      {{#summary}}
      {{{summary}}}
      {{/summary}}
-
      {{httpMethod}} {{{path}}}{{#notes}}
-
      {{{notes}}}{{/notes}}{{#subresourceOperation}}
      subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
      defaultResponse: {{defaultResponse}}{{/defaultResponse}}
-
      {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
@@ -286,13 +283,10 @@ extension {{projectName}} {
      {{#summary}}
      {{{summary}}}
      {{/summary}}
-
      {{httpMethod}} {{{path}}}{{#notes}}
-
      {{{notes}}}{{/notes}}{{#subresourceOperation}}
      subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
      defaultResponse: {{defaultResponse}}{{/defaultResponse}}
-
      {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
@@ -329,6 +323,7 @@ extension {{projectName}} {
 
 {{/useVapor}}
 {{^useVapor}}
+
     /**
      {{#summary}}
      {{{summary}}}
@@ -401,7 +396,6 @@ extension {{projectName}} {
         return requestBuilder.init(method: "{{httpMethod}}", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 {{/useVapor}}
-
 {{/operation}}
 }
 {{#swiftUseApiNamespace}}

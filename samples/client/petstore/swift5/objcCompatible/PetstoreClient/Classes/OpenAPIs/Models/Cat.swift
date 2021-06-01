@@ -42,3 +42,4 @@ import AnyCodable
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

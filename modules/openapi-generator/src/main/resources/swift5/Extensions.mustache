@@ -9,9 +9,8 @@ import Foundation
 import AnyCodable
 #endif{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}{{#useVapor}}
-import Vapor{{/useVapor}}
+import Vapor{{/useVapor}}{{^useVapor}}
 
-{{^useVapor}}
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
 }
@@ -203,8 +202,7 @@ extension RequestBuilder {
         }
         return deferred.promise
     }
-}{{/usePromiseKit}}
-{{#useVapor}}
+}{{/usePromiseKit}}{{#useVapor}}
 
 extension UUID: Content { }
 
@@ -239,3 +237,4 @@ extension Set: Content where Element: Content { }
 
 extension AnyCodable: Content {}
 {{/useVapor}}
+

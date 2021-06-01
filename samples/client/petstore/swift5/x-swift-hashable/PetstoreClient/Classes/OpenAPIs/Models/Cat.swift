@@ -37,3 +37,4 @@ public struct Cat: Codable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+
