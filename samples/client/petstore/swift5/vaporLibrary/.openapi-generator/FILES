@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Package.swift
 README.md
 Sources/PetstoreClient/APIs.swift
