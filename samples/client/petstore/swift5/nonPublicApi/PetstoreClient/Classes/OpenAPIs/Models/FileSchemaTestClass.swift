@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct FileSchemaTestClass: Codable, Hashable {
 
     internal var file: File?
@@ -33,3 +34,4 @@ internal struct FileSchemaTestClass: Codable, Hashable {
         try container.encodeIfPresent(files, forKey: .files)
     }
 }
+

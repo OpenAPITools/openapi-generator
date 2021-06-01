@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing model name starting with number */
 @objc public class Model200Response: NSObject, Codable {
 
@@ -39,3 +40,4 @@ import AnyCodable
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 }
+

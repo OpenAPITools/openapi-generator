@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc open class FakeClassnameTags123API : NSObject {
+
     /**
      To test class name in snake case
      
@@ -25,7 +29,6 @@ import Foundation
             }
         }
     }
-
     /**
      To test class name in snake case
      - PATCH /fake_classname_test

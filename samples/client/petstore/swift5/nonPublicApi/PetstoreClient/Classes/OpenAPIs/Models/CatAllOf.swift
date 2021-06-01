@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct CatAllOf: Codable, Hashable {
 
     internal var declawed: Bool?
@@ -29,3 +30,4 @@ internal struct CatAllOf: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class Capitalization: NSObject, Codable {
 
     public var smallCamel: String?
@@ -50,3 +51,4 @@ import AnyCodable
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
 }
+

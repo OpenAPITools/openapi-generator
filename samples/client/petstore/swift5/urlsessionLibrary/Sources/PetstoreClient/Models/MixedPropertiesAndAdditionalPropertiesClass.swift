@@ -56,4 +56,5 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         
     }
 }
+
 }

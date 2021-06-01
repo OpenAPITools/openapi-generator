@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class Category: NSObject, Codable {
 
     public var _id: Int64?
@@ -38,3 +39,4 @@ import AnyCodable
         try container.encode(name, forKey: .name)
     }
 }
+

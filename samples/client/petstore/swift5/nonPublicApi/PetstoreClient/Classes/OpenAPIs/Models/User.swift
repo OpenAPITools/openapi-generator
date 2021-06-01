@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct User: Codable, Hashable {
 
     internal var id: Int64?
@@ -58,3 +59,4 @@ internal struct User: Codable, Hashable {
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
 }
+

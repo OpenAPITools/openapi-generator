@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct FormatTest: Codable, Hashable {
 
     public var integer: Int?
@@ -81,3 +82,4 @@ public struct FormatTest: Codable, Hashable {
         try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
     }
 }
+

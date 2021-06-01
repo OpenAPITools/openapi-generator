@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class Order: NSObject, Codable {
 
     public enum Status: String, Codable, CaseIterable {
@@ -75,3 +76,4 @@ import AnyCodable
         try container.encodeIfPresent(complete, forKey: .complete)
     }
 }
+

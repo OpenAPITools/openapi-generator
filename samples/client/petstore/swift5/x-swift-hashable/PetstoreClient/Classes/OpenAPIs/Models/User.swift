@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct User: Codable {
 
     public var id: Int64?
@@ -58,3 +59,4 @@ public struct User: Codable {
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
 }
+

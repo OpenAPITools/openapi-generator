@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing model with \&quot;_class\&quot; property */
 public struct ClassModel: Codable {
 
@@ -30,3 +31,4 @@ public struct ClassModel: Codable {
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 }
+

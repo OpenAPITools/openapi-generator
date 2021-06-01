@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing model name same as property name */
 internal struct Name: Codable, Hashable {
 
@@ -42,3 +43,4 @@ internal struct Name: Codable, Hashable {
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
 }
+

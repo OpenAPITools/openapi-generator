@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc open class FakeAPI : NSObject {
+
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -24,7 +28,6 @@ import Foundation
             }
         }
     }
-
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
@@ -49,6 +52,7 @@ import Foundation
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input composite as post body (optional)
@@ -65,7 +69,6 @@ import Foundation
             }
         }
     }
-
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
@@ -90,6 +93,7 @@ import Foundation
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input number as post body (optional)
@@ -106,7 +110,6 @@ import Foundation
             }
         }
     }
-
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
@@ -131,6 +134,7 @@ import Foundation
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input string as post body (optional)
@@ -147,7 +151,6 @@ import Foundation
             }
         }
     }
-
     /**
      - POST /fake/outer/string
      - Test serialization of outer string types
@@ -172,6 +175,7 @@ import Foundation
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body)  
@@ -188,7 +192,6 @@ import Foundation
             }
         }
     }
-
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
@@ -213,6 +216,7 @@ import Foundation
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter query: (query)  
@@ -230,7 +234,6 @@ import Foundation
             }
         }
     }
-
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
@@ -258,6 +261,7 @@ import Foundation
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      To test \"client\" model
      
@@ -275,7 +279,6 @@ import Foundation
             }
         }
     }
-
     /**
      To test \"client\" model
      - PATCH /fake
@@ -300,6 +303,7 @@ import Foundation
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -331,7 +335,6 @@ import Foundation
             }
         }
     }
-
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - POST /fake
@@ -390,6 +393,7 @@ import Foundation
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 
     /**
      * enum for parameter enumHeaderStringArray
@@ -482,7 +486,6 @@ import Foundation
             }
         }
     }
-
     /**
      To test enum parameters
      - GET /fake
@@ -529,6 +532,7 @@ import Foundation
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Fake endpoint to test group parameters (optional)
      
@@ -551,7 +555,6 @@ import Foundation
             }
         }
     }
-
     /**
      Fake endpoint to test group parameters (optional)
      - DELETE /fake
@@ -589,6 +592,7 @@ import Foundation
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      test inline additionalProperties
      
@@ -606,7 +610,6 @@ import Foundation
             }
         }
     }
-
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
@@ -631,6 +634,7 @@ import Foundation
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      test json serialization of form data
      
@@ -649,7 +653,6 @@ import Foundation
             }
         }
     }
-
     /**
      test json serialization of form data
      - GET /fake/jsonFormData

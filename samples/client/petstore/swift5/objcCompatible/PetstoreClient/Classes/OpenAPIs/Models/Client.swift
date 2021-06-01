@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class Client: NSObject, Codable {
 
     public var client: String?
@@ -29,3 +30,4 @@ import AnyCodable
         try container.encodeIfPresent(client, forKey: .client)
     }
 }
+

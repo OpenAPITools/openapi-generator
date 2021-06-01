@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct OuterComposite: Codable, Hashable {
 
     internal var myNumber: Double?
@@ -37,3 +38,4 @@ internal struct OuterComposite: Codable, Hashable {
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 }
+

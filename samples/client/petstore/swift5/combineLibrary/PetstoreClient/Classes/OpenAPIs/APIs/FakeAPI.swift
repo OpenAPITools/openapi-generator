@@ -9,8 +9,12 @@ import Foundation
 #if canImport(Combine)
 import Combine
 #endif
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class FakeAPI {
+
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -32,7 +36,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
@@ -57,6 +60,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input composite as post body (optional)
@@ -78,7 +82,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
@@ -103,6 +106,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input number as post body (optional)
@@ -124,7 +128,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
@@ -149,6 +152,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body) Input string as post body (optional)
@@ -170,7 +174,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - POST /fake/outer/string
      - Test serialization of outer string types
@@ -195,6 +198,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter body: (body)  
@@ -216,7 +220,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
@@ -241,6 +244,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
 
      - parameter query: (query)  
@@ -263,7 +267,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
@@ -291,6 +294,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      To test \"client\" model
      
@@ -313,7 +317,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      To test \"client\" model
      - PATCH /fake
@@ -338,6 +341,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -374,7 +378,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - POST /fake
@@ -433,6 +436,7 @@ open class FakeAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
+
 
     /**
      * enum for parameter enumHeaderStringArray
@@ -530,7 +534,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      To test enum parameters
      - GET /fake
@@ -577,6 +580,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Fake endpoint to test group parameters (optional)
      
@@ -604,7 +608,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      Fake endpoint to test group parameters (optional)
      - DELETE /fake
@@ -642,6 +645,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      test inline additionalProperties
      
@@ -664,7 +668,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
@@ -689,6 +692,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      test json serialization of form data
      
@@ -712,7 +716,6 @@ open class FakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      test json serialization of form data
      - GET /fake/jsonFormData

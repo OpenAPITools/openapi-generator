@@ -7,8 +7,12 @@
 
 import Foundation
 import RxSwift
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -30,7 +34,6 @@ open class AnotherFakeAPI {
             return Disposables.create()
         }
     }
-
     /**
      To test special tags
      - PATCH /another-fake/dummy

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing reserved words */
 public struct Return: Codable {
 
@@ -30,3 +31,4 @@ public struct Return: Codable {
         try container.encodeIfPresent(_return, forKey: ._return)
     }
 }
+

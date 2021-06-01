@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class FormatTest: NSObject, Codable {
 
     public var integer: Int?
@@ -102,3 +103,4 @@ import AnyCodable
         try container.encode(password, forKey: .password)
     }
 }
+

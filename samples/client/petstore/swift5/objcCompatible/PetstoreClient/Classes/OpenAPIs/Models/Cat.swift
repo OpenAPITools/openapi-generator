@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class Cat: NSObject, Codable {
 
     public var _className: String
@@ -42,3 +43,4 @@ import AnyCodable
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

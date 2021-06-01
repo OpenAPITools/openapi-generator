@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct ApiResponse: Codable {
 
     public var code: Int?
@@ -37,3 +38,4 @@ public struct ApiResponse: Codable {
         try container.encodeIfPresent(message, forKey: .message)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class List: NSObject, Codable {
 
     public var _123list: String?
@@ -29,3 +30,4 @@ import AnyCodable
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
 }
+

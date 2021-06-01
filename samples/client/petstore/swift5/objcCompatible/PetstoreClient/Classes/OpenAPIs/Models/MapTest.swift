@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class MapTest: NSObject, Codable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
@@ -45,3 +46,4 @@ import AnyCodable
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Order: Codable {
 
     public enum Status: String, Codable, CaseIterable {
@@ -55,3 +56,4 @@ public struct Order: Codable {
         try container.encodeIfPresent(complete, forKey: .complete)
     }
 }
+

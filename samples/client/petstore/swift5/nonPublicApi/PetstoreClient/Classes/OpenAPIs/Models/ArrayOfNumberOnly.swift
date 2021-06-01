@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct ArrayOfNumberOnly: Codable, Hashable {
 
     internal var arrayNumber: [Double]?
@@ -29,3 +30,4 @@ internal struct ArrayOfNumberOnly: Codable, Hashable {
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
 }
+

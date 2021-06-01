@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class AdditionalPropertiesClass: NSObject, Codable {
 
     public var mapString: [String: String]?
@@ -33,3 +34,4 @@ import AnyCodable
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct StringBooleanMap: Codable {
 
 
@@ -49,3 +50,4 @@ public struct StringBooleanMap: Codable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

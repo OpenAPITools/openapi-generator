@@ -7,8 +7,12 @@
 
 import Foundation
 import RxSwift
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -30,7 +34,6 @@ open class FakeClassnameTags123API {
             return Disposables.create()
         }
     }
-
     /**
      To test class name in snake case
      - PATCH /fake_classname_test

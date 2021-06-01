@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class DefaultAPI {
+
     /**
 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -23,7 +27,6 @@ open class DefaultAPI {
             }
         }
     }
-
     /**
      - GET /
      - returns: RequestBuilder<Fruit> 

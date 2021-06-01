@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct EnumTest: Codable, Hashable {
 
     internal enum EnumString: String, Codable, CaseIterable {
@@ -63,3 +64,4 @@ internal struct EnumTest: Codable, Hashable {
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 }
+

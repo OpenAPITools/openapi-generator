@@ -9,8 +9,12 @@ import Foundation
 #if canImport(Combine)
 import Combine
 #endif
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -33,7 +37,6 @@ open class FakeClassnameTags123API {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      To test class name in snake case
      - PATCH /fake_classname_test

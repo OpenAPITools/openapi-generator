@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct FormatTest: Codable, Hashable {
 
     internal var integer: Int?
@@ -77,3 +78,4 @@ internal struct FormatTest: Codable, Hashable {
         try container.encode(password, forKey: .password)
     }
 }
+

@@ -6,11 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 extension PetstoreClient {
 
 
 open class PetAPI {
+
     /**
      Add a new pet to the store
      
@@ -28,7 +32,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Add a new pet to the store
      - POST /pet
@@ -56,6 +59,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Deletes a pet
      
@@ -74,7 +78,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Deletes a pet
      - DELETE /pet/{petId}
@@ -106,6 +109,7 @@ open class PetAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      * enum for parameter status
      */
@@ -132,7 +136,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Finds Pets by status
      - GET /pet/findByStatus
@@ -164,6 +167,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Finds Pets by tags
      
@@ -182,7 +186,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Finds Pets by tags
      - GET /pet/findByTags
@@ -215,6 +218,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Find pet by ID
      
@@ -232,7 +236,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Find pet by ID
      - GET /pet/{petId}
@@ -264,6 +267,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Update an existing pet
      
@@ -281,7 +285,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Update an existing pet
      - PUT /pet
@@ -309,6 +312,7 @@ open class PetAPI {
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Updates a pet in the store with form data
      
@@ -328,7 +332,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      Updates a pet in the store with form data
      - POST /pet/{petId}
@@ -367,6 +370,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      uploads an image
      
@@ -386,7 +390,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      uploads an image
      - POST /pet/{petId}/uploadImage
@@ -425,6 +428,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      uploads an image (required)
      
@@ -444,7 +448,6 @@ open class PetAPI {
             }
         }
     }
-
     /**
      uploads an image (required)
      - POST /fake/{petId}/uploadImageWithRequiredFile

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct BigCat: Codable, Hashable {
 
     public enum Kind: String, Codable, CaseIterable {
@@ -35,3 +36,4 @@ public struct BigCat: Codable, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
     }
 }
+

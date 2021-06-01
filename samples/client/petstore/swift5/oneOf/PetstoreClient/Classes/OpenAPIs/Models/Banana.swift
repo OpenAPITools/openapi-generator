@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Banana: Codable, Hashable {
 
     public var count: Double?
@@ -29,3 +30,4 @@ public struct Banana: Codable, Hashable {
         try container.encodeIfPresent(count, forKey: .count)
     }
 }
+

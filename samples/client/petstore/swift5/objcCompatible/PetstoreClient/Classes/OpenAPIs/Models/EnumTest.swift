@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class EnumTest: NSObject, Codable {
 
     public enum EnumString: String, Codable, CaseIterable {
@@ -63,3 +64,4 @@ import AnyCodable
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 }
+

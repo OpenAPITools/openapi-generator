@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 internal class StoreAPI {
+
     /**
      Delete purchase order by ID
      
@@ -25,7 +29,6 @@ internal class StoreAPI {
             }
         }
     }
-
     /**
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
@@ -54,6 +57,7 @@ internal class StoreAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Returns pet inventories by status
      
@@ -70,7 +74,6 @@ internal class StoreAPI {
             }
         }
     }
-
     /**
      Returns pet inventories by status
      - GET /store/inventory
@@ -98,6 +101,7 @@ internal class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Find purchase order by ID
      
@@ -115,7 +119,6 @@ internal class StoreAPI {
             }
         }
     }
-
     /**
      Find purchase order by ID
      - GET /store/order/{order_id}
@@ -144,6 +147,7 @@ internal class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Place an order for a pet
      
@@ -161,7 +165,6 @@ internal class StoreAPI {
             }
         }
     }
-
     /**
      Place an order for a pet
      - POST /store/order

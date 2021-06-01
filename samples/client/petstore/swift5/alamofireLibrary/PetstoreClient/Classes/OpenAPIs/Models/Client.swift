@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Client: Codable, Hashable {
 
     public var client: String?
@@ -29,3 +30,4 @@ public struct Client: Codable, Hashable {
         try container.encodeIfPresent(client, forKey: .client)
     }
 }
+

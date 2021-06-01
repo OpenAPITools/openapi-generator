@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** A pet for sale in the pet store */
 public struct Pet: Codable, Hashable {
 
@@ -57,3 +58,4 @@ public struct Pet: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
     }
 }
+

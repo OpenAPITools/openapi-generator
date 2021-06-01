@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct AdditionalPropertiesBoolean: Codable, Hashable {
 
     public var name: String?
@@ -58,3 +59,4 @@ public struct AdditionalPropertiesBoolean: Codable, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

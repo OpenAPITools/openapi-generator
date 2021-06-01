@@ -6,11 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 extension PetstoreClient {
 
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -28,7 +32,6 @@ open class FakeClassnameTags123API {
             }
         }
     }
-
     /**
      To test class name in snake case
      - PATCH /fake_classname_test

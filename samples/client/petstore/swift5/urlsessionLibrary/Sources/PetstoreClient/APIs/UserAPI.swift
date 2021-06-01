@@ -6,11 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 extension PetstoreClient {
 
 
 open class UserAPI {
+
     /**
      Create user
      
@@ -28,7 +32,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Create user
      - POST /user
@@ -54,6 +57,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Creates list of users with given input array
      
@@ -71,7 +75,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
@@ -96,6 +99,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Creates list of users with given input array
      
@@ -113,7 +117,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Creates list of users with given input array
      - POST /user/createWithList
@@ -138,6 +141,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Delete user
      
@@ -155,7 +159,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Delete user
      - DELETE /user/{username}
@@ -184,6 +187,7 @@ open class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Get user by user name
      
@@ -201,7 +205,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Get user by user name
      - GET /user/{username}
@@ -229,6 +232,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Logs user into the system
      
@@ -247,7 +251,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Logs user into the system
      - GET /user/login
@@ -278,6 +281,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Logs out current logged in user session
      
@@ -294,7 +298,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Logs out current logged in user session
      - GET /user/logout
@@ -318,6 +321,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
+
     /**
      Updated user
      
@@ -336,7 +340,6 @@ open class UserAPI {
             }
         }
     }
-
     /**
      Updated user
      - PUT /user/{username}

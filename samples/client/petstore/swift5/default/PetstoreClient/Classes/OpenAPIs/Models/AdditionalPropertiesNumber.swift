@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct AdditionalPropertiesNumber: Codable, Hashable {
 
     public var name: String?
@@ -58,3 +59,4 @@ public struct AdditionalPropertiesNumber: Codable, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Double.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

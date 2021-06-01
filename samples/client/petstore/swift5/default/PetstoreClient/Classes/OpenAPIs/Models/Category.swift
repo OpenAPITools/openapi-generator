@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Category: Codable, Hashable {
 
     public var id: Int64?
@@ -33,3 +34,4 @@ public struct Category: Codable, Hashable {
         try container.encode(name, forKey: .name)
     }
 }
+

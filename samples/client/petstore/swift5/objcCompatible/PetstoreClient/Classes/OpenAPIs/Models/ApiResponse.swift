@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class ApiResponse: NSObject, Codable {
 
     public var code: Int?
@@ -42,3 +43,4 @@ import AnyCodable
         try container.encodeIfPresent(message, forKey: .message)
     }
 }
+

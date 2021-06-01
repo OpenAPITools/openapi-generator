@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct SpecialModelName: Codable, Hashable {
 
     public private(set) var specialPropertyName: Int64?
@@ -29,3 +30,4 @@ public struct SpecialModelName: Codable, Hashable {
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
 }
+

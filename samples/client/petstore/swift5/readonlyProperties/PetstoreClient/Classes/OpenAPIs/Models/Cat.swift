@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Cat: Codable, Hashable {
 
     public private(set) var className: String
@@ -37,3 +38,4 @@ public struct Cat: Codable, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

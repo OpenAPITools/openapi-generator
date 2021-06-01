@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct ArrayOfArrayOfNumberOnly: Codable {
 
     public var arrayArrayNumber: [[Double]]?
@@ -29,3 +30,4 @@ public struct ArrayOfArrayOfNumberOnly: Codable {
         try container.encodeIfPresent(arrayArrayNumber, forKey: .arrayArrayNumber)
     }
 }
+

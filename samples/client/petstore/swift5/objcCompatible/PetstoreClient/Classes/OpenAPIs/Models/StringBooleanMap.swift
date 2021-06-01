@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class StringBooleanMap: NSObject, Codable {
 
 
@@ -49,3 +50,4 @@ import AnyCodable
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

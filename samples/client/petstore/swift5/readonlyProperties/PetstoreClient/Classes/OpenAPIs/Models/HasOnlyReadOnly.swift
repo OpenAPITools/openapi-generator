@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct HasOnlyReadOnly: Codable, Hashable {
 
     public private(set) var bar: String?
@@ -33,3 +34,4 @@ public struct HasOnlyReadOnly: Codable, Hashable {
         try container.encodeIfPresent(foo, forKey: .foo)
     }
 }
+

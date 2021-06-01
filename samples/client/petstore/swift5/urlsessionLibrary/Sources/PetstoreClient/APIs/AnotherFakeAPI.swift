@@ -6,11 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 extension PetstoreClient {
 
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -28,7 +32,6 @@ open class AnotherFakeAPI {
             }
         }
     }
-
     /**
      To test special tags
      - PATCH /another-fake/dummy

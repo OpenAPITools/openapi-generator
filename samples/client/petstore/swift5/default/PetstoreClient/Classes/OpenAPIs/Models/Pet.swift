@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
@@ -55,3 +56,4 @@ public struct Pet: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct List: Codable {
 
     public var _123list: String?
@@ -29,3 +30,4 @@ public struct List: Codable {
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
 }
+

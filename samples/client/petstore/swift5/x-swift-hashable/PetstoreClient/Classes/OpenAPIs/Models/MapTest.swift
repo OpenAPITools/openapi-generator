@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct MapTest: Codable {
 
     public enum MapOfEnumString: String, Codable, CaseIterable {
@@ -45,3 +46,4 @@ public struct MapTest: Codable {
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
 }
+

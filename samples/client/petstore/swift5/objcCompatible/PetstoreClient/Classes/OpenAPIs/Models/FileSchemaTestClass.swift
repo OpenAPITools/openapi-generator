@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class FileSchemaTestClass: NSObject, Codable {
 
     public var file: File?
@@ -33,3 +34,4 @@ import AnyCodable
         try container.encodeIfPresent(files, forKey: .files)
     }
 }
+

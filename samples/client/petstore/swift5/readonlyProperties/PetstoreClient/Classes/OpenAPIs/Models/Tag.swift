@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Tag: Codable, Hashable {
 
     public private(set) var id: Int64?
@@ -33,3 +34,4 @@ public struct Tag: Codable, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
     }
 }
+

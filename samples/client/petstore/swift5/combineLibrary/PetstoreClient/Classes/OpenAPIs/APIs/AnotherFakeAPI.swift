@@ -9,8 +9,12 @@ import Foundation
 #if canImport(Combine)
 import Combine
 #endif
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -33,7 +37,6 @@ open class AnotherFakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
-
     /**
      To test special tags
      - PATCH /another-fake/dummy

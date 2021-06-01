@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct XmlItem: Codable, Hashable {
 
     public var attributeString: String?
@@ -141,3 +142,4 @@ public struct XmlItem: Codable, Hashable {
         try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
     }
 }
+

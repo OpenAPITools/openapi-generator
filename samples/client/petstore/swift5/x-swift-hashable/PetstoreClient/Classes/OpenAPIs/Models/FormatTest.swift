@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct FormatTest: Codable {
 
     public var integer: Int?
@@ -77,3 +78,4 @@ public struct FormatTest: Codable {
         try container.encode(password, forKey: .password)
     }
 }
+

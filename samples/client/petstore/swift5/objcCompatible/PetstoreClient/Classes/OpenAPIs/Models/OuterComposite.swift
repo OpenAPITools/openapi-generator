@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class OuterComposite: NSObject, Codable {
 
     public var myNumber: Double?
@@ -42,3 +43,4 @@ import AnyCodable
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 }
+

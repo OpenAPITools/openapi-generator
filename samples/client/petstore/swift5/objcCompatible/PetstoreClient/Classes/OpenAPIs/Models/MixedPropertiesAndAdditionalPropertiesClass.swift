@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
     public var uuid: UUID?
@@ -37,3 +38,4 @@ import AnyCodable
         try container.encodeIfPresent(map, forKey: .map)
     }
 }
+

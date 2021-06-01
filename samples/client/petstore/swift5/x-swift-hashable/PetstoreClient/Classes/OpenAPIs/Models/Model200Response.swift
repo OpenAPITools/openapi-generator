@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** Model for testing model name starting with number */
 public struct Model200Response: Codable {
 
@@ -34,3 +35,4 @@ public struct Model200Response: Codable {
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 }
+

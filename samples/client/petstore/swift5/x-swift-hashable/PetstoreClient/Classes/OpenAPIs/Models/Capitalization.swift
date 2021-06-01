@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Capitalization: Codable {
 
     public var smallCamel: String?
@@ -50,3 +51,4 @@ public struct Capitalization: Codable {
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
 }
+

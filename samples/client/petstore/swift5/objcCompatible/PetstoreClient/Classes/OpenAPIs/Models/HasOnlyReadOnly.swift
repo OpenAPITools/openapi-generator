@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class HasOnlyReadOnly: NSObject, Codable {
 
     public var bar: String?
@@ -33,3 +34,4 @@ import AnyCodable
         try container.encodeIfPresent(foo, forKey: .foo)
     }
 }
+

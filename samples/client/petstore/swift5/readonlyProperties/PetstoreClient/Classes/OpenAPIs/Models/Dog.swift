@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Dog: Codable, Hashable {
 
     public private(set) var className: String
@@ -37,3 +38,4 @@ public struct Dog: Codable, Hashable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+

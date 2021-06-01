@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class EnumArrays: NSObject, Codable {
 
     public enum JustSymbol: String, Codable, CaseIterable {
@@ -41,3 +42,4 @@ import AnyCodable
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 }
+

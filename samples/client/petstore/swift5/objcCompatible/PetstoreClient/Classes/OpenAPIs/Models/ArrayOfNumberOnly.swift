@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class ArrayOfNumberOnly: NSObject, Codable {
 
     public var arrayNumber: [Double]?
@@ -29,3 +30,4 @@ import AnyCodable
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct Apple: Codable, Hashable {
 
     public var kind: String?
@@ -29,3 +30,4 @@ public struct Apple: Codable, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
     }
 }
+

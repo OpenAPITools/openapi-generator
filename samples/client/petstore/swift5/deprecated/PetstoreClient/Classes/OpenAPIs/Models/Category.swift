@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 /** A category for a pet */
 public struct Category: Codable, Hashable {
 
@@ -34,3 +35,4 @@ public struct Category: Codable, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct ReadOnlyFirst: Codable, Hashable {
 
     internal var bar: String?
@@ -33,3 +34,4 @@ internal struct ReadOnlyFirst: Codable, Hashable {
         try container.encodeIfPresent(baz, forKey: .baz)
     }
 }
+

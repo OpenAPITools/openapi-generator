@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct AdditionalPropertiesClass: Codable, Hashable {
 
     public var mapString: [String: String]?
@@ -69,3 +70,4 @@ public struct AdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(anytype3, forKey: .anytype3)
     }
 }
+

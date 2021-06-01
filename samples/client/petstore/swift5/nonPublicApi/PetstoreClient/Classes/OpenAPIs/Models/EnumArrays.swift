@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct EnumArrays: Codable, Hashable {
 
     internal enum JustSymbol: String, Codable, CaseIterable {
@@ -41,3 +42,4 @@ internal struct EnumArrays: Codable, Hashable {
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 }
+

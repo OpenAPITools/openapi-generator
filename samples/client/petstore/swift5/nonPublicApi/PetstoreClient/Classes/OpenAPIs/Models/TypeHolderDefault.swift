@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 internal struct TypeHolderDefault: Codable, Hashable {
 
     internal var stringItem: String = "what"
@@ -45,3 +46,4 @@ internal struct TypeHolderDefault: Codable, Hashable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 }
+

@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct NumberOnly: Codable, Hashable {
 
     public private(set) var justNumber: Double?
@@ -29,3 +30,4 @@ public struct NumberOnly: Codable, Hashable {
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
 }
+

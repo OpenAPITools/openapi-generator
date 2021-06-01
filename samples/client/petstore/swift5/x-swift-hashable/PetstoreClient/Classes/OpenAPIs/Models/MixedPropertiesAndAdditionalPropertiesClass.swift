@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
 
     public var uuid: UUID?
@@ -37,3 +38,4 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
         try container.encodeIfPresent(map, forKey: .map)
     }
 }
+

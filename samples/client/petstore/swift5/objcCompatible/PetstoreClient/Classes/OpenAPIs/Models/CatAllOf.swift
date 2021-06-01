@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 @objc public class CatAllOf: NSObject, Codable {
 
     public var declawed: Bool?
@@ -34,3 +35,4 @@ import AnyCodable
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 }
+

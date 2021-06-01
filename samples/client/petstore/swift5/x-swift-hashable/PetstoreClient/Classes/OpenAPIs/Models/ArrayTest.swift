@@ -10,6 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
+
 public struct ArrayTest: Codable {
 
     public var arrayOfString: [String]?
@@ -37,3 +38,4 @@ public struct ArrayTest: Codable {
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
 }
+

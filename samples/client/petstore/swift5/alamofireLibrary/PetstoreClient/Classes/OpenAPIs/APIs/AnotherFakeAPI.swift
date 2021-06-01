@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -25,7 +29,6 @@ open class AnotherFakeAPI {
             }
         }
     }
-
     /**
      To test special tags
      - PATCH /another-fake/dummy
