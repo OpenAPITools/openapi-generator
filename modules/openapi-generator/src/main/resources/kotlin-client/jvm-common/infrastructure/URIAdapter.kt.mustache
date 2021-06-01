@@ -21,7 +21,7 @@ import java.net.URI
     fun toJson(uri: URI) = uri.toString()
 
     @FromJson
-    fun fromJson(s: String) = URI.create(s)
+    fun fromJson(s: String): URI = URI.create(s)
 }
 {{/moshi}}
 {{#kotlinx_serialization}}
