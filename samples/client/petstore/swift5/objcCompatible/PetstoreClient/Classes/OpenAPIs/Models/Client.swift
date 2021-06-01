@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class Client: NSObject, Codable {
 
     public var client: String?

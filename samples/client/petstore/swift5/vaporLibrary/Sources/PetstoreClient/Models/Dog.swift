@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class Dog: Content, Hashable {
 
     public var className: String

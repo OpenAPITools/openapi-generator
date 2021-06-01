@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class FormatTest: Content, Hashable {
 
     public var integer: Int?

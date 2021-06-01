@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class TypeHolderExample: Content, Hashable {
 
     public var stringItem: String

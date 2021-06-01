@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 /** Model for testing reserved words */
 public final class Return: Content, Hashable {
 

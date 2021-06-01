@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 /** Model for testing model with \&quot;_class\&quot; property */
 public final class ClassModel: Content, Hashable {
 

@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class ArrayTest: Content, Hashable {
 
     public var arrayOfString: [String]?

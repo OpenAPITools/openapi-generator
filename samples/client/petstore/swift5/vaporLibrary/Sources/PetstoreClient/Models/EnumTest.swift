@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class EnumTest: Content, Hashable {
 
     public enum EnumString: String, Content, Hashable, CaseIterable {

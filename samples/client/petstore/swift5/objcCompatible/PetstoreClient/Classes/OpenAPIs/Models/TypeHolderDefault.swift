@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class TypeHolderDefault: NSObject, Codable {
 
     public var stringItem: String = "what"

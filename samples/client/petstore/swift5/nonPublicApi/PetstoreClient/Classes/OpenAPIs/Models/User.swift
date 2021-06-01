@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 internal struct User: Codable, Hashable {
 
     internal var id: Int64?

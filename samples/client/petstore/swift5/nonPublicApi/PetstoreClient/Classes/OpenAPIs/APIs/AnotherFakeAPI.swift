@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 internal class AnotherFakeAPI {
-
     /**
      To test special tags
      

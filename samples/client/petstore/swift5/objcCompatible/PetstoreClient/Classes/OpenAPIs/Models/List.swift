@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class List: NSObject, Codable {
 
     public var _123list: String?

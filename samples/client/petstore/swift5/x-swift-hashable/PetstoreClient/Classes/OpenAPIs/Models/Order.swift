@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct Order: Codable {
 
     public enum Status: String, Codable, CaseIterable {

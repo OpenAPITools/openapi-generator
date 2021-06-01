@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public enum OuterEnum: String, Content, Hashable, CaseIterable {
     case placed = "placed"
     case approved = "approved"

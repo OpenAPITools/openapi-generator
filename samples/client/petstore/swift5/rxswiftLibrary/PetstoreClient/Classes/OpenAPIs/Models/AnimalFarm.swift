@@ -10,5 +10,4 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public typealias AnimalFarm = [Animal]

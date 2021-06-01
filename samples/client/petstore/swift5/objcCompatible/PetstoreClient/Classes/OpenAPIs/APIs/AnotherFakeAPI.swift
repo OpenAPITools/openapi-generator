@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 @objc open class AnotherFakeAPI : NSObject {
-
     /**
      To test special tags
      

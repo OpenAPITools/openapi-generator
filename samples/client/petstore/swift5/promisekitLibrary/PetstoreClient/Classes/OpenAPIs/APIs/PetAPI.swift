@@ -12,7 +12,6 @@ import AnyCodable
 #endif
 
 open class PetAPI {
-
     /**
      Add a new pet to the store
      
@@ -58,7 +57,6 @@ open class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      Deletes a pet
@@ -110,7 +108,6 @@ open class PetAPI {
 
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      * enum for parameter status
@@ -171,7 +168,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Finds Pets by tags
      
@@ -224,7 +220,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Find pet by ID
      
@@ -275,7 +270,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Update an existing pet
      
@@ -321,7 +315,6 @@ open class PetAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      Updates a pet in the store with form data
@@ -382,7 +375,6 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      uploads an image
      
@@ -441,7 +433,6 @@ open class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      uploads an image (required)

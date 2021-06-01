@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class ReadOnlyFirst: NSObject, Codable {
 
     public var bar: String?

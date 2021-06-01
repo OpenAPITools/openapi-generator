@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class ApiResponse: Content, Hashable {
 
     public var code: Int?

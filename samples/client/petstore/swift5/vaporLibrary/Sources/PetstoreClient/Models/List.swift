@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class List: Content, Hashable {
 
     public var _123list: String?

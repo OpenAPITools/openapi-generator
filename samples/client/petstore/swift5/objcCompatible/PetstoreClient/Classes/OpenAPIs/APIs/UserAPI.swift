@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 @objc open class UserAPI : NSObject {
-
     /**
      Create user
      
@@ -54,7 +53,6 @@ import AnyCodable
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Creates list of users with given input array
      
@@ -96,7 +94,6 @@ import AnyCodable
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Creates list of users with given input array
      
@@ -137,7 +134,6 @@ import AnyCodable
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      Delete user
@@ -184,7 +180,6 @@ import AnyCodable
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Get user by user name
      
@@ -228,7 +223,6 @@ import AnyCodable
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      Logs user into the system
@@ -278,7 +272,6 @@ import AnyCodable
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-
     /**
      Logs out current logged in user session
      
@@ -317,7 +310,6 @@ import AnyCodable
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 
     /**
      Updated user

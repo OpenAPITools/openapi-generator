@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class FileSchemaTestClass: Content, Hashable {
 
     public var file: File?

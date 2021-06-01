@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct ArrayTest: Codable, Hashable {
 
     public private(set) var arrayOfString: [String]?

@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct OuterComposite: Codable, Hashable {
 
     public private(set) var myNumber: Double?

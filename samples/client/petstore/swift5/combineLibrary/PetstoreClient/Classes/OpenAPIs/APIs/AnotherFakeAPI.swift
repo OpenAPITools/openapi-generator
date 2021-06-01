@@ -14,7 +14,6 @@ import AnyCodable
 #endif
 
 open class AnotherFakeAPI {
-
     /**
      To test special tags
      

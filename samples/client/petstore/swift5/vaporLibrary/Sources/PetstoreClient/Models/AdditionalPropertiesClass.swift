@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class AdditionalPropertiesClass: Content, Hashable {
 
     public var mapString: [String: String]?

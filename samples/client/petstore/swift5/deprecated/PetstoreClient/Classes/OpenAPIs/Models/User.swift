@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 /** A User who is purchasing from the pet store */
 public struct User: Codable, Hashable {
 

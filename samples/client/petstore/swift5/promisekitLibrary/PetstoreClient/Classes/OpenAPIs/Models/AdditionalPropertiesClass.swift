@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct AdditionalPropertiesClass: Codable, Hashable {
 
     public var mapString: [String: String]?

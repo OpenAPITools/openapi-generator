@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class HasOnlyReadOnly: Content, Hashable {
 
     public var bar: String?

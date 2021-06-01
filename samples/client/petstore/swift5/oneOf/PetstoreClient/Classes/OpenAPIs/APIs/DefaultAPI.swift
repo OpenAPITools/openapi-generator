@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 
 open class DefaultAPI {
-
     /**
 
      - parameter apiResponseQueue: The queue on which api response is dispatched.

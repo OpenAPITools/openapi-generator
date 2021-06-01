@@ -11,5 +11,4 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public typealias AnimalFarm = [Animal]

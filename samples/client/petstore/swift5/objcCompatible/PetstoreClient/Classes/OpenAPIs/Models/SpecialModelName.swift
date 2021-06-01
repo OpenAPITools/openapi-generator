@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class SpecialModelName: NSObject, Codable {
 
     public var specialPropertyName: Int64?

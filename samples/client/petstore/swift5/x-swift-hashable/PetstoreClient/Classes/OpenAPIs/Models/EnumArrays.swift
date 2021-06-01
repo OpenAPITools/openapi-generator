@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct EnumArrays: Codable {
 
     public enum JustSymbol: String, Codable, CaseIterable {

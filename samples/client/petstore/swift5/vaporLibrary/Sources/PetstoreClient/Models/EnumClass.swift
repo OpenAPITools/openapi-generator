@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public enum EnumClass: String, Content, Hashable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"

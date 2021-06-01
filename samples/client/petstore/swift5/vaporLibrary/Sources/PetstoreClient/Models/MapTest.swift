@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class MapTest: Content, Hashable {
 
     public enum MapOfEnumString: String, Content, Hashable, CaseIterable {

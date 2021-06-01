@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct ApiResponse: Codable {
 
     public var code: Int?

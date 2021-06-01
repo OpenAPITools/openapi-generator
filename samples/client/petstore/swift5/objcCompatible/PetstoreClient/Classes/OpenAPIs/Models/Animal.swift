@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class Animal: NSObject, Codable {
 
     public var _className: String

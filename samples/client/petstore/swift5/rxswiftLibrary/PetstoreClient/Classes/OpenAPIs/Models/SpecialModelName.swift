@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct SpecialModelName: Codable, Hashable {
 
     public var specialPropertyName: Int64?

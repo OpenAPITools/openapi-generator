@@ -12,7 +12,6 @@ import AnyCodable
 #endif
 
 open class PetAPI {
-
     /**
      Add a new pet to the store
 
@@ -71,7 +70,6 @@ open class PetAPI {
             }
         }
     }
-
 
 
     /**
@@ -138,7 +136,6 @@ open class PetAPI {
             }
         }
     }
-
 
 
     /**
@@ -216,7 +213,6 @@ open class PetAPI {
     }
 
 
-
     /**
      Finds Pets by tags
 
@@ -283,7 +279,6 @@ open class PetAPI {
             }
         }
     }
-
 
 
     /**
@@ -355,7 +350,6 @@ open class PetAPI {
     }
 
 
-
     /**
      Update an existing pet
 
@@ -420,7 +414,6 @@ open class PetAPI {
             }
         }
     }
-
 
 
     /**
@@ -491,7 +484,6 @@ open class PetAPI {
     }
 
 
-
     /**
      uploads an image
 
@@ -558,7 +550,6 @@ open class PetAPI {
             }
         }
     }
-
 
 
     /**

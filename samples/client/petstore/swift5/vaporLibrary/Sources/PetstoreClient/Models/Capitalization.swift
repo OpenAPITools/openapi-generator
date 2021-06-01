@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class Capitalization: Content, Hashable {
 
     public var smallCamel: String?

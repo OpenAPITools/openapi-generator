@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 /** Model for testing model name starting with number */
 public final class Model200Response: Content, Hashable {
 

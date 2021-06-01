@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 internal enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"
     case approved = "approved"

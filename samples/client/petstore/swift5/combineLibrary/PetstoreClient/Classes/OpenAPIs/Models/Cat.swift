@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct Cat: Codable, Hashable {
 
     public var className: String

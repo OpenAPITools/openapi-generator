@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class Order: Content, Hashable {
 
     public enum Status: String, Content, Hashable, CaseIterable {

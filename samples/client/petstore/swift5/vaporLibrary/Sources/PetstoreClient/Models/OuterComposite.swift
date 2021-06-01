@@ -11,7 +11,6 @@ import AnyCodable
 #endif
 import Vapor
 
-
 public final class OuterComposite: Content, Hashable {
 
     public var myNumber: Double?

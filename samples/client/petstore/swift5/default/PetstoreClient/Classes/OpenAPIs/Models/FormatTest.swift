@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 public struct FormatTest: Codable, Hashable {
 
     public var integer: Int?

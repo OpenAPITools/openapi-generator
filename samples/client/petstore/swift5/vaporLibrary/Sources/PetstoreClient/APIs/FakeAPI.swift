@@ -12,7 +12,6 @@ import AnyCodable
 #endif
 
 open class FakeAPI {
-
     /**
      creates an XmlItem
 
@@ -66,7 +65,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -125,7 +123,6 @@ open class FakeAPI {
     }
 
 
-
     /**
 
      POST /fake/outer/composite
@@ -180,7 +177,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -239,7 +235,6 @@ open class FakeAPI {
     }
 
 
-
     /**
 
      POST /fake/outer/string
@@ -296,7 +291,6 @@ open class FakeAPI {
     }
 
 
-
     /**
 
      PUT /fake/body-with-file-schema
@@ -348,7 +342,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -405,7 +398,6 @@ open class FakeAPI {
     }
 
 
-
     /**
      To test \"client\" model
 
@@ -459,7 +451,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -566,7 +557,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -722,7 +712,6 @@ open class FakeAPI {
     }
 
 
-
     /**
      Fake endpoint to test group parameters (optional)
 
@@ -797,7 +786,6 @@ open class FakeAPI {
     }
 
 
-
     /**
      test inline additionalProperties
 
@@ -847,7 +835,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**
@@ -905,7 +892,6 @@ open class FakeAPI {
             }
         }
     }
-
 
 
     /**

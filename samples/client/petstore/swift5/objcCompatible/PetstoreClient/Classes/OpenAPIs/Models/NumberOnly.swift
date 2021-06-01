@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class NumberOnly: NSObject, Codable {
 
     public var justNumber: Double?

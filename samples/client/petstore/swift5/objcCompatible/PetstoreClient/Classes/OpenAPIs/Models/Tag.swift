@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 @objc public class Tag: NSObject, Codable {
 
     public var _id: Int64?

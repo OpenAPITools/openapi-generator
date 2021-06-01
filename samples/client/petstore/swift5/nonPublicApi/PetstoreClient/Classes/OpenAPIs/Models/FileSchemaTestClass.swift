@@ -10,7 +10,6 @@ import Foundation
 import AnyCodable
 #endif
 
-
 internal struct FileSchemaTestClass: Codable, Hashable {
 
     internal var file: File?
