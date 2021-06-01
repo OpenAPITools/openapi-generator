@@ -12,8 +12,7 @@ import AnyCodable
 #endif
 
 open class AnotherFakeAPI {
-1
-    /**3
+    /**
      To test special tags
      
      - parameter body: (body) client model 
@@ -35,7 +34,7 @@ open class AnotherFakeAPI {
         }
     }
 
-    /**8
+    /**
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number

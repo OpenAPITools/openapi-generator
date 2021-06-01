@@ -12,8 +12,7 @@ import AnyCodable
 #endif
 
 open class PetAPI {
-1
-    /**6
+    /**
      Add a new pet to the store
 
      POST /pet
@@ -48,7 +47,7 @@ open class PetAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Add a new pet to the store
 
      POST /pet
@@ -73,8 +72,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      Deletes a pet
 
      DELETE /pet/{petId}
@@ -114,7 +112,7 @@ open class PetAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Deletes a pet
 
      DELETE /pet/{petId}
@@ -140,8 +138,7 @@ open class PetAPI {
     }
 
 
-1
-    /**-1
+    /**
      * enum for parameter status
      */
     public enum Status_findPetsByStatus: String, CaseIterable, Content {
@@ -150,7 +147,7 @@ open class PetAPI {
         case sold = "sold"
     }
 
-    /**6
+    /**
      Finds Pets by status
 
      GET /pet/findByStatus
@@ -189,7 +186,7 @@ open class PetAPI {
         case http0(value: [Pet], raw: ClientResponse)
     }
 
-    /**7
+    /**
      Finds Pets by status
 
      GET /pet/findByStatus
@@ -216,8 +213,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      Finds Pets by tags
 
      GET /pet/findByTags
@@ -257,7 +253,7 @@ open class PetAPI {
         case http0(value: Set<Pet>, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Finds Pets by tags
 
      GET /pet/findByTags
@@ -285,8 +281,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      Find pet by ID
 
      GET /pet/{petId}
@@ -326,7 +321,7 @@ open class PetAPI {
         case http0(value: Pet, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Find pet by ID
 
      GET /pet/{petId}
@@ -355,8 +350,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      Update an existing pet
 
      PUT /pet
@@ -393,7 +387,7 @@ open class PetAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Update an existing pet
 
      PUT /pet
@@ -422,8 +416,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      Updates a pet in the store with form data
 
      POST /pet/{petId}
@@ -466,7 +459,7 @@ open class PetAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Updates a pet in the store with form data
 
      POST /pet/{petId}
@@ -491,8 +484,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      uploads an image
 
      POST /pet/{petId}/uploadImage
@@ -535,7 +527,7 @@ open class PetAPI {
         case http0(value: ApiResponse, raw: ClientResponse)
     }
 
-    /**7
+    /**
      uploads an image
 
      POST /pet/{petId}/uploadImage
@@ -560,8 +552,7 @@ open class PetAPI {
     }
 
 
-1
-    /**6
+    /**
      uploads an image (required)
 
      POST /fake/{petId}/uploadImageWithRequiredFile
@@ -604,7 +595,7 @@ open class PetAPI {
         case http0(value: ApiResponse, raw: ClientResponse)
     }
 
-    /**7
+    /**
      uploads an image (required)
 
      POST /fake/{petId}/uploadImageWithRequiredFile

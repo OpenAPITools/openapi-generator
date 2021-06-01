@@ -11,8 +11,7 @@ import AnyCodable
 #endif
 
 open class StoreAPI {
-1
-    /**1
+    /**
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
@@ -30,7 +29,7 @@ open class StoreAPI {
         }
     }
 
-    /**8
+    /**
      Delete purchase order by ID
      - DELETE /store/order/{orderId}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -58,8 +57,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Returns pet inventories by status
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -76,7 +74,7 @@ open class StoreAPI {
         }
     }
 
-    /**8
+    /**
      Returns pet inventories by status
      - GET /store/inventory
      - Returns a map of status codes to quantities
@@ -103,8 +101,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
@@ -122,7 +119,7 @@ open class StoreAPI {
         }
     }
 
-    /**8
+    /**
      Find purchase order by ID
      - GET /store/order/{orderId}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -150,8 +147,7 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Place an order for a pet
      
      - parameter order: (body) order placed for purchasing the pet 
@@ -169,7 +165,7 @@ open class StoreAPI {
         }
     }
 
-    /**8
+    /**
      Place an order for a pet
      - POST /store/order
      - parameter order: (body) order placed for purchasing the pet 

@@ -12,8 +12,7 @@ import AnyCodable
 #endif
 
 open class PetAPI {
-1
-    /**2
+    /**
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
@@ -33,7 +32,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Add a new pet to the store
      - POST /pet
      - OAuth:
@@ -60,8 +59,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
@@ -82,7 +80,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Deletes a pet
      - DELETE /pet/{petId}
      - OAuth:
@@ -113,8 +111,7 @@ open class PetAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**-1
+    /**
      * enum for parameter status
      */
     public enum Status_findPetsByStatus: String, CaseIterable {
@@ -123,7 +120,7 @@ open class PetAPI {
         case sold = "sold"
     }
 
-    /**2
+    /**
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
@@ -143,7 +140,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Finds Pets by status
      - GET /pet/findByStatus
      - Multiple status values can be provided with comma separated strings
@@ -174,8 +171,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
@@ -196,7 +192,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Finds Pets by tags
      - GET /pet/findByTags
      - Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -228,8 +224,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
@@ -249,7 +244,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Find pet by ID
      - GET /pet/{petId}
      - Returns a single pet
@@ -280,8 +275,7 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
@@ -301,7 +295,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Update an existing pet
      - PUT /pet
      - OAuth:
@@ -328,8 +322,7 @@ open class PetAPI {
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -351,7 +344,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      Updates a pet in the store with form data
      - POST /pet/{petId}
      - OAuth:
@@ -389,8 +382,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -412,7 +404,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      uploads an image
      - POST /pet/{petId}/uploadImage
      - OAuth:
@@ -450,8 +442,7 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**2
+    /**
      uploads an image (required)
      
      - parameter petId: (path) ID of pet to update 
@@ -473,7 +464,7 @@ open class PetAPI {
         return deferred.promise
     }
 
-    /**8
+    /**
      uploads an image (required)
      - POST /fake/{petId}/uploadImageWithRequiredFile
      - OAuth:

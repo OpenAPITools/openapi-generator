@@ -12,8 +12,7 @@ import AnyCodable
 #endif
 
 open class FakeAPI {
-1
-    /**6
+    /**
      creates an XmlItem
 
      POST /fake/create_xml_item
@@ -46,7 +45,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      creates an XmlItem
 
      POST /fake/create_xml_item
@@ -68,8 +67,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      POST /fake/outer/boolean
 
@@ -104,7 +102,7 @@ open class FakeAPI {
         case http0(value: Bool, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      POST /fake/outer/boolean
 
@@ -125,8 +123,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      POST /fake/outer/composite
 
@@ -161,7 +158,7 @@ open class FakeAPI {
         case http0(value: OuterComposite, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      POST /fake/outer/composite
 
@@ -182,8 +179,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      POST /fake/outer/number
 
@@ -218,7 +214,7 @@ open class FakeAPI {
         case http0(value: Double, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      POST /fake/outer/number
 
@@ -239,8 +235,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      POST /fake/outer/string
 
@@ -275,7 +270,7 @@ open class FakeAPI {
         case http0(value: String, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      POST /fake/outer/string
 
@@ -296,8 +291,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      PUT /fake/body-with-file-schema
 
@@ -329,7 +323,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      PUT /fake/body-with-file-schema
 
@@ -350,8 +344,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      PUT /fake/body-with-query-params
 
@@ -385,7 +378,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      PUT /fake/body-with-query-params
 
@@ -405,8 +398,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
      To test \"client\" model
 
      PATCH /fake
@@ -439,7 +431,7 @@ open class FakeAPI {
         case http0(value: Client, raw: ClientResponse)
     }
 
-    /**7
+    /**
      To test \"client\" model
 
      PATCH /fake
@@ -461,8 +453,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
      POST /fake
@@ -528,7 +519,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
      POST /fake
@@ -568,8 +559,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**-1
+    /**
      * enum for parameter enumHeaderStringArray
      */
     public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable, Content {
@@ -577,7 +567,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**-1
+    /**
      * enum for parameter enumHeaderString
      */
     public enum EnumHeaderString_testEnumParameters: String, CaseIterable, Content {
@@ -586,7 +576,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**-1
+    /**
      * enum for parameter enumQueryStringArray
      */
     public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable, Content {
@@ -594,7 +584,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**-1
+    /**
      * enum for parameter enumQueryString
      */
     public enum EnumQueryString_testEnumParameters: String, CaseIterable, Content {
@@ -603,7 +593,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**-1
+    /**
      * enum for parameter enumQueryInteger
      */
     public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable, Content {
@@ -611,7 +601,7 @@ open class FakeAPI {
         case number2 = -2
     }
 
-    /**-1
+    /**
      * enum for parameter enumQueryDouble
      */
     public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable, Content {
@@ -619,7 +609,7 @@ open class FakeAPI {
         case number12 = -1.2
     }
 
-    /**-1
+    /**
      * enum for parameter enumFormStringArray
      */
     public enum EnumFormStringArray_testEnumParameters: String, CaseIterable, Content {
@@ -627,7 +617,7 @@ open class FakeAPI {
         case dollar = "$"
     }
 
-    /**-1
+    /**
      * enum for parameter enumFormString
      */
     public enum EnumFormString_testEnumParameters: String, CaseIterable, Content {
@@ -636,7 +626,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
-    /**6
+    /**
      To test enum parameters
 
      GET /fake
@@ -691,7 +681,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      To test enum parameters
 
      GET /fake
@@ -722,8 +712,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
      Fake endpoint to test group parameters (optional)
 
      DELETE /fake
@@ -770,7 +759,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      Fake endpoint to test group parameters (optional)
 
      DELETE /fake
@@ -797,8 +786,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
      test inline additionalProperties
 
      POST /fake/inline-additionalProperties
@@ -829,7 +817,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      test inline additionalProperties
 
      POST /fake/inline-additionalProperties
@@ -849,8 +837,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
      test json serialization of form data
 
      GET /fake/jsonFormData
@@ -886,7 +873,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
      test json serialization of form data
 
      GET /fake/jsonFormData
@@ -907,8 +894,7 @@ open class FakeAPI {
     }
 
 
-1
-    /**6
+    /**
 
      PUT /fake/test-query-paramters
 
@@ -950,7 +936,7 @@ open class FakeAPI {
         case http0(value: Void, raw: ClientResponse)
     }
 
-    /**7
+    /**
 
      PUT /fake/test-query-paramters
 

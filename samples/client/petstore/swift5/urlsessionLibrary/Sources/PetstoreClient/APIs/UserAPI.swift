@@ -14,8 +14,7 @@ extension PetstoreClient {
 
 
 open class UserAPI {
-1
-    /**1
+    /**
      Create user
      
      - parameter body: (body) Created user object 
@@ -33,7 +32,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Create user
      - POST /user
      - This can only be done by the logged in user.
@@ -58,8 +57,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
@@ -77,7 +75,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Creates list of users with given input array
      - POST /user/createWithArray
      - parameter body: (body) List of user object 
@@ -101,8 +99,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
@@ -120,7 +117,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Creates list of users with given input array
      - POST /user/createWithList
      - parameter body: (body) List of user object 
@@ -144,8 +141,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
@@ -163,7 +159,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Delete user
      - DELETE /user/{username}
      - This can only be done by the logged in user.
@@ -191,8 +187,7 @@ open class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
@@ -210,7 +205,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Get user by user name
      - GET /user/{username}
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
@@ -237,8 +232,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Logs user into the system
      
      - parameter username: (query) The user name for login 
@@ -257,7 +251,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Logs user into the system
      - GET /user/login
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
@@ -287,8 +281,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Logs out current logged in user session
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -305,7 +298,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Logs out current logged in user session
      - GET /user/logout
      - returns: RequestBuilder<Void> 
@@ -328,8 +321,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
 
-1
-    /**1
+    /**
      Updated user
      
      - parameter username: (path) name that need to be deleted 
@@ -348,7 +340,7 @@ open class UserAPI {
         }
     }
 
-    /**8
+    /**
      Updated user
      - PUT /user/{username}
      - This can only be done by the logged in user.

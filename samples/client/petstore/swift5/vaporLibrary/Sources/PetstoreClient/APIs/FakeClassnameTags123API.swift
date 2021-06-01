@@ -12,8 +12,7 @@ import AnyCodable
 #endif
 
 open class FakeClassnameTags123API {
-1
-    /**6
+    /**
      To test class name in snake case
 
      PATCH /fake_classname_test
@@ -49,7 +48,7 @@ open class FakeClassnameTags123API {
         case http0(value: Client, raw: ClientResponse)
     }
 
-    /**7
+    /**
      To test class name in snake case
 
      PATCH /fake_classname_test
