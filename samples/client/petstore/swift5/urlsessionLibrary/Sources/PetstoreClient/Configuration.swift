@@ -18,3 +18,4 @@ open class Configuration {
     public static var dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 }
 }
+
