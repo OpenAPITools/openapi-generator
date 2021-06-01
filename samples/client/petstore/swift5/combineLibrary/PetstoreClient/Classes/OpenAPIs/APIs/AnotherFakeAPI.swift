@@ -37,6 +37,7 @@ open class AnotherFakeAPI {
         }.eraseToAnyPublisher()
     }
     #endif
+
     /**8
      To test special tags
      - PATCH /another-fake/dummy

@@ -32,6 +32,7 @@ open class AnotherFakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      To test special tags
      - PATCH /another-fake/dummy

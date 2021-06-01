@@ -29,6 +29,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
@@ -74,6 +75,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Returns pet inventories by status
      - GET /store/inventory
@@ -119,6 +121,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Find purchase order by ID
      - GET /store/order/{order_id}
@@ -165,6 +168,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Place an order for a pet
      - POST /store/order

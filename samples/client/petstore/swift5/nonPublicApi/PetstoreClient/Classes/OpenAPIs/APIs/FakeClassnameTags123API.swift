@@ -29,6 +29,7 @@ internal class FakeClassnameTags123API {
             }
         }
     }
+
     /**8
      To test class name in snake case
      - PATCH /fake_classname_test

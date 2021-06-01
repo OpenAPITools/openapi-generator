@@ -29,6 +29,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Create user
      - POST /user
@@ -72,6 +73,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Creates list of users with given input array
      - POST /user/createWithArray
@@ -114,6 +116,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Creates list of users with given input array
      - POST /user/createWithList
@@ -156,6 +159,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Delete user
      - DELETE /user/{username}
@@ -202,6 +206,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Get user by user name
      - GET /user/{username}
@@ -248,6 +253,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Logs user into the system
      - GET /user/login
@@ -295,6 +301,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Logs out current logged in user session
      - GET /user/logout
@@ -337,6 +344,7 @@ import AnyCodable
             }
         }
     }
+
     /**8
      Updated user
      - PUT /user/{username}

@@ -34,6 +34,7 @@ open class AnotherFakeAPI {
             return Disposables.create()
         }
     }
+
     /**8
      To test special tags
      - PATCH /another-fake/dummy

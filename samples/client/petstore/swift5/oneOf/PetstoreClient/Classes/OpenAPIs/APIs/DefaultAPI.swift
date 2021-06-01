@@ -27,6 +27,7 @@ open class DefaultAPI {
             }
         }
     }
+
     /**8
      - GET /
      - returns: RequestBuilder<Fruit> 

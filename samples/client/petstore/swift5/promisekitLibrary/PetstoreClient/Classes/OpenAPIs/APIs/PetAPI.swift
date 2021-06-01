@@ -32,6 +32,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Add a new pet to the store
      - POST /pet
@@ -80,6 +81,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Deletes a pet
      - DELETE /pet/{petId}
@@ -140,6 +142,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Finds Pets by status
      - GET /pet/findByStatus
@@ -192,6 +195,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Finds Pets by tags
      - GET /pet/findByTags
@@ -244,6 +248,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Find pet by ID
      - GET /pet/{petId}
@@ -295,6 +300,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Update an existing pet
      - PUT /pet
@@ -344,6 +350,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      Updates a pet in the store with form data
      - POST /pet/{petId}
@@ -404,6 +411,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      uploads an image
      - POST /pet/{petId}/uploadImage
@@ -464,6 +472,7 @@ open class PetAPI {
         }
         return deferred.promise
     }
+
     /**8
      uploads an image (required)
      - POST /fake/{petId}/uploadImageWithRequiredFile

@@ -32,6 +32,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Create user
      - POST /user
@@ -75,6 +76,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Creates list of users with given input array
      - POST /user/createWithArray
@@ -117,6 +119,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Creates list of users with given input array
      - POST /user/createWithList
@@ -159,6 +162,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Delete user
      - DELETE /user/{username}
@@ -205,6 +209,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Get user by user name
      - GET /user/{username}
@@ -251,6 +256,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Logs user into the system
      - GET /user/login
@@ -298,6 +304,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Logs out current logged in user session
      - GET /user/logout
@@ -340,6 +347,7 @@ open class UserAPI {
             }
         }
     }
+
     /**8
      Updated user
      - PUT /user/{username}

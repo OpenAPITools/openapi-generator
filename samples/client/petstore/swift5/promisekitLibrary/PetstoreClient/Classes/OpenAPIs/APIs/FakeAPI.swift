@@ -31,6 +31,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
@@ -74,6 +75,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
@@ -117,6 +119,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - POST /fake/outer/number
      - Test serialization of outer number types
@@ -160,6 +163,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - POST /fake/outer/string
      - Test serialization of outer string types
@@ -203,6 +207,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
@@ -247,6 +252,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
@@ -294,6 +300,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      To test \"client\" model
      - PATCH /fake
@@ -352,6 +359,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - POST /fake
@@ -505,6 +513,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      To test enum parameters
      - GET /fake
@@ -576,6 +585,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      Fake endpoint to test group parameters (optional)
      - DELETE /fake
@@ -633,6 +643,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
@@ -678,6 +689,7 @@ open class FakeAPI {
         }
         return deferred.promise
     }
+
     /**8
      test json serialization of form data
      - GET /fake/jsonFormData
