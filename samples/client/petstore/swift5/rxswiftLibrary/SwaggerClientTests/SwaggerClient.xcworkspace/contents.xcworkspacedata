@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SwaggerClient.xcodeproj">
+      location = "group:..">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:SwaggerClient.xcodeproj">
    </FileRef>
 </Workspace>

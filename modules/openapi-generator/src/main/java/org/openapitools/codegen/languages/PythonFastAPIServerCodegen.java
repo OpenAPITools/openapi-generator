@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -10,6 +26,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +72,15 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a python server (FastAPI).";
+        return "Generates a Python FastAPI server (beta).";
     }
 
     public PythonFastAPIServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addKeySerializer(String.class, new SnakeCaseKeySerializer());
@@ -115,7 +138,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         // Add __init__.py to all sub-folders under namespace pkg
         StringBuilder namespacePackagePath = new StringBuilder(SRC_DIR + File.separator + StringUtils.substringBefore(packageName, "."));
-        for (String tmp: StringUtils.split(StringUtils.substringAfter(packageName, "."), '.')) {
+        for (String tmp : StringUtils.split(StringUtils.substringAfter(packageName, "."), '.')) {
             namespacePackagePath.append(File.separator).append(tmp);
             supportingFiles.add(new SupportingFile("__init__.mustache", namespacePackagePath.toString(), "__init__.py"));
         }
@@ -181,7 +204,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 }
                 List<CodegenSecurity> securityMethods = operation.authMethods;
                 if (securityMethods != null) {
-                    for (final CodegenSecurity securityMethod: securityMethods) {
+                    for (final CodegenSecurity securityMethod : securityMethods) {
                         securityImports.add(securityMethod.name);
                     }
                 }
@@ -193,7 +216,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                             // If fails, use the original string.
                             try {
                                 Map<String, Object> result = MAPPER.readValue(example.get("example"),
-                                        new TypeReference<Map<String, Object>>(){});
+                                        new TypeReference<Map<String, Object>>() {
+                                        });
                                 operation.bodyParam.example = MAPPER.writeValueAsString(result);
                             } catch (IOException e) {
                                 operation.bodyParam.example = example.get("example");
@@ -250,5 +274,17 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + SRC_DIR + File.separator + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
+        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjaki \uD83D\uDE4F        #");
+        System.out.println("################################################################################");
     }
 }

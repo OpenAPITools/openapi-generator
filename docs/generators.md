@@ -120,6 +120,7 @@ The following generators are available:
 * [php-symfony](generators/php-symfony.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  
 * [python-blueplanet](generators/python-blueplanet.md)  
+* [python-fastapi (beta)](generators/python-fastapi.md)  
 * [python-flask](generators/python-flask.md)  
 * [ruby-on-rails](generators/ruby-on-rails.md)  
 * [ruby-sinatra](generators/ruby-sinatra.md)  
