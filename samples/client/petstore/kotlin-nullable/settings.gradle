@@ -1,2 +1,2 @@
-
+some_test_property = false
 rootProject.name = 'kotlin-petstore-nullable'
