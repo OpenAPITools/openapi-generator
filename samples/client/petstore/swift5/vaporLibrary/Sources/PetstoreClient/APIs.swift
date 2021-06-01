@@ -14,5 +14,3 @@ open class PetstoreClient {
     public static var basePath = "http://petstore.swagger.io:80/v2"
     public static var customHeaders: HTTPHeaders = [:]
 }
-
-

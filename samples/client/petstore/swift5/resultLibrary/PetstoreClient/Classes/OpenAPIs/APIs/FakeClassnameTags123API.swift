@@ -56,5 +56,4 @@ open class FakeClassnameTags123API {
 
         return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

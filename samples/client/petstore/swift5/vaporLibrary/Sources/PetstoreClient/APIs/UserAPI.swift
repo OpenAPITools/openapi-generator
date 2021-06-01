@@ -14,11 +14,8 @@ import AnyCodable
 open class UserAPI {
     /**
      Create user
-
      POST /user
-
      This can only be done by the logged in user.
-
      - parameter body: (body) Created user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -46,11 +43,8 @@ open class UserAPI {
 
     /**
      Create user
-
      POST /user
-
      This can only be done by the logged in user.
-
      - parameter body: (body) Created user object 
      - returns: `EventLoopFuture` of `CreateUser` 
      */
@@ -63,12 +57,9 @@ open class UserAPI {
         }
     }
 
-
     /**
      Creates list of users with given input array
-
      POST /user/createWithArray
-
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -96,9 +87,7 @@ open class UserAPI {
 
     /**
      Creates list of users with given input array
-
      POST /user/createWithArray
-
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `CreateUsersWithArrayInput` 
      */
@@ -111,12 +100,9 @@ open class UserAPI {
         }
     }
 
-
     /**
      Creates list of users with given input array
-
      POST /user/createWithList
-
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -144,9 +130,7 @@ open class UserAPI {
 
     /**
      Creates list of users with given input array
-
      POST /user/createWithList
-
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `CreateUsersWithListInput` 
      */
@@ -159,14 +143,10 @@ open class UserAPI {
         }
     }
 
-
     /**
      Delete user
-
      DELETE /user/{username}
-
      This can only be done by the logged in user.
-
      - parameter username: (path) The name that needs to be deleted 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -198,11 +178,8 @@ open class UserAPI {
 
     /**
      Delete user
-
      DELETE /user/{username}
-
      This can only be done by the logged in user.
-
      - parameter username: (path) The name that needs to be deleted 
      - returns: `EventLoopFuture` of `DeleteUser` 
      */
@@ -219,12 +196,9 @@ open class UserAPI {
         }
     }
 
-
     /**
      Get user by user name
-
      GET /user/{username}
-
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -257,9 +231,7 @@ open class UserAPI {
 
     /**
      Get user by user name
-
      GET /user/{username}
-
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: `EventLoopFuture` of `GetUserByName` 
      */
@@ -278,12 +250,9 @@ open class UserAPI {
         }
     }
 
-
     /**
      Logs user into the system
-
      GET /user/login
-
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
@@ -318,9 +287,7 @@ open class UserAPI {
 
     /**
      Logs user into the system
-
      GET /user/login
-
      - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
@@ -339,12 +306,9 @@ open class UserAPI {
         }
     }
 
-
     /**
      Logs out current logged in user session
-
      GET /user/logout
-
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func logoutUserRaw(headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
@@ -370,9 +334,7 @@ open class UserAPI {
 
     /**
      Logs out current logged in user session
-
      GET /user/logout
-
      - returns: `EventLoopFuture` of `LogoutUser` 
      */
     open class func logoutUser(headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser> {
@@ -384,14 +346,10 @@ open class UserAPI {
         }
     }
 
-
     /**
      Updated user
-
      PUT /user/{username}
-
      This can only be done by the logged in user.
-
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
@@ -425,11 +383,8 @@ open class UserAPI {
 
     /**
      Updated user
-
      PUT /user/{username}
-
      This can only be done by the logged in user.
-
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
      - returns: `EventLoopFuture` of `UpdateUser` 
@@ -446,6 +401,5 @@ open class UserAPI {
             }
         }
     }
-
 
 }

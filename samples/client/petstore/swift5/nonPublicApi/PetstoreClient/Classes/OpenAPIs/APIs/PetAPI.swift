@@ -55,7 +55,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      Deletes a pet
      
@@ -105,7 +104,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "DELETE", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      * enum for parameter status
      */
@@ -163,7 +161,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      Finds Pets by tags
      
@@ -214,7 +211,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      Find pet by ID
      
@@ -263,7 +259,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "GET", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      Update an existing pet
      
@@ -308,7 +303,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "PUT", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      Updates a pet in the store with form data
      
@@ -366,7 +360,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      uploads an image
      
@@ -424,7 +417,6 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
     /**
      uploads an image (required)
      
@@ -482,5 +474,4 @@ internal class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

@@ -14,11 +14,8 @@ import AnyCodable
 open class FakeAPI {
     /**
      creates an XmlItem
-
      POST /fake/create_xml_item
-
      this route creates an XmlItem
-
      - parameter xmlItem: (body) XmlItem Body 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -47,11 +44,8 @@ open class FakeAPI {
 
     /**
      creates an XmlItem
-
      POST /fake/create_xml_item
-
      this route creates an XmlItem
-
      - parameter xmlItem: (body) XmlItem Body 
      - returns: `EventLoopFuture` of `CreateXmlItem` 
      */
@@ -66,13 +60,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      POST /fake/outer/boolean
-
      Test serialization of outer boolean types
-
      - parameter body: (body) Input boolean as post body (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -103,11 +93,8 @@ open class FakeAPI {
     }
 
     /**
-
      POST /fake/outer/boolean
-
      Test serialization of outer boolean types
-
      - parameter body: (body) Input boolean as post body (optional)
      - returns: `EventLoopFuture` of `FakeOuterBooleanSerialize` 
      */
@@ -122,13 +109,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      POST /fake/outer/composite
-
      Test serialization of object with outer number type
-
      - parameter body: (body) Input composite as post body (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -159,11 +142,8 @@ open class FakeAPI {
     }
 
     /**
-
      POST /fake/outer/composite
-
      Test serialization of object with outer number type
-
      - parameter body: (body) Input composite as post body (optional)
      - returns: `EventLoopFuture` of `FakeOuterCompositeSerialize` 
      */
@@ -178,13 +158,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      POST /fake/outer/number
-
      Test serialization of outer number types
-
      - parameter body: (body) Input number as post body (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -215,11 +191,8 @@ open class FakeAPI {
     }
 
     /**
-
      POST /fake/outer/number
-
      Test serialization of outer number types
-
      - parameter body: (body) Input number as post body (optional)
      - returns: `EventLoopFuture` of `FakeOuterNumberSerialize` 
      */
@@ -234,13 +207,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      POST /fake/outer/string
-
      Test serialization of outer string types
-
      - parameter body: (body) Input string as post body (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -271,11 +240,8 @@ open class FakeAPI {
     }
 
     /**
-
      POST /fake/outer/string
-
      Test serialization of outer string types
-
      - parameter body: (body) Input string as post body (optional)
      - returns: `EventLoopFuture` of `FakeOuterStringSerialize` 
      */
@@ -290,13 +256,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      PUT /fake/body-with-file-schema
-
      For this test, the body for this request much reference a schema named `File`.
-
      - parameter body: (body)  
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -324,11 +286,8 @@ open class FakeAPI {
     }
 
     /**
-
      PUT /fake/body-with-file-schema
-
      For this test, the body for this request much reference a schema named `File`.
-
      - parameter body: (body)  
      - returns: `EventLoopFuture` of `TestBodyWithFileSchema` 
      */
@@ -343,11 +302,8 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      PUT /fake/body-with-query-params
-
      - parameter query: (query)  
      - parameter body: (body)  
      - returns: `EventLoopFuture` of `ClientResponse` 
@@ -379,9 +335,7 @@ open class FakeAPI {
     }
 
     /**
-
      PUT /fake/body-with-query-params
-
      - parameter query: (query)  
      - parameter body: (body)  
      - returns: `EventLoopFuture` of `TestBodyWithQueryParams` 
@@ -397,14 +351,10 @@ open class FakeAPI {
         }
     }
 
-
     /**
      To test \"client\" model
-
      PATCH /fake
-
      To test \"client\" model
-
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -433,11 +383,8 @@ open class FakeAPI {
 
     /**
      To test \"client\" model
-
      PATCH /fake
-
      To test \"client\" model
-
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `TestClientModel` 
      */
@@ -452,14 +399,10 @@ open class FakeAPI {
         }
     }
 
-
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-
      POST /fake
-
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-
      - BASIC:
        - type: http
        - name: http_basic_test
@@ -521,11 +464,8 @@ open class FakeAPI {
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-
      POST /fake
-
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-
      - BASIC:
        - type: http
        - name: http_basic_test
@@ -557,7 +497,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      * enum for parameter enumHeaderStringArray
@@ -628,11 +567,8 @@ open class FakeAPI {
 
     /**
      To test enum parameters
-
      GET /fake
-
      To test enum parameters
-
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
      - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
      - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
@@ -683,11 +619,8 @@ open class FakeAPI {
 
     /**
      To test enum parameters
-
      GET /fake
-
      To test enum parameters
-
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
      - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .efg)
      - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
@@ -711,14 +644,10 @@ open class FakeAPI {
         }
     }
 
-
     /**
      Fake endpoint to test group parameters (optional)
-
      DELETE /fake
-
      Fake endpoint to test group parameters (optional)
-
      - parameter requiredStringGroup: (query) Required String in group parameters 
      - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
      - parameter requiredInt64Group: (query) Required Integer in group parameters 
@@ -761,11 +690,8 @@ open class FakeAPI {
 
     /**
      Fake endpoint to test group parameters (optional)
-
      DELETE /fake
-
      Fake endpoint to test group parameters (optional)
-
      - parameter requiredStringGroup: (query) Required String in group parameters 
      - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
      - parameter requiredInt64Group: (query) Required Integer in group parameters 
@@ -785,12 +711,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
      test inline additionalProperties
-
      POST /fake/inline-additionalProperties
-
      - parameter param: (body) request body 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -819,9 +742,7 @@ open class FakeAPI {
 
     /**
      test inline additionalProperties
-
      POST /fake/inline-additionalProperties
-
      - parameter param: (body) request body 
      - returns: `EventLoopFuture` of `TestInlineAdditionalProperties` 
      */
@@ -836,12 +757,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
      test json serialization of form data
-
      GET /fake/jsonFormData
-
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
      - returns: `EventLoopFuture` of `ClientResponse` 
@@ -875,9 +793,7 @@ open class FakeAPI {
 
     /**
      test json serialization of form data
-
      GET /fake/jsonFormData
-
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
      - returns: `EventLoopFuture` of `TestJsonFormData` 
@@ -893,13 +809,9 @@ open class FakeAPI {
         }
     }
 
-
     /**
-
      PUT /fake/test-query-paramters
-
      To test the collection format in query parameters
-
      - parameter pipe: (query)  
      - parameter ioutil: (query)  
      - parameter http: (query)  
@@ -937,11 +849,8 @@ open class FakeAPI {
     }
 
     /**
-
      PUT /fake/test-query-paramters
-
      To test the collection format in query parameters
-
      - parameter pipe: (query)  
      - parameter ioutil: (query)  
      - parameter http: (query)  
@@ -959,6 +868,5 @@ open class FakeAPI {
             }
         }
     }
-
 
 }

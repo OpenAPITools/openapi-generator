@@ -14,11 +14,8 @@ import AnyCodable
 open class AnotherFakeAPI {
     /**
      To test special tags
-
      PATCH /another-fake/dummy
-
      To test special tags and operation ID starting with number
-
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -47,11 +44,8 @@ open class AnotherFakeAPI {
 
     /**
      To test special tags
-
      PATCH /another-fake/dummy
-
      To test special tags and operation ID starting with number
-
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `Call123testSpecialTags` 
      */
@@ -65,6 +59,5 @@ open class AnotherFakeAPI {
             }
         }
     }
-
 
 }

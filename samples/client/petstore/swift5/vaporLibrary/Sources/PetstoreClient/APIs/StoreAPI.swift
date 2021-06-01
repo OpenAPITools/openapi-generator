@@ -14,11 +14,8 @@ import AnyCodable
 open class StoreAPI {
     /**
      Delete purchase order by ID
-
      DELETE /store/order/{order_id}
-
      For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -50,11 +47,8 @@ open class StoreAPI {
 
     /**
      Delete purchase order by ID
-
      DELETE /store/order/{order_id}
-
      For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `DeleteOrder` 
      */
@@ -71,14 +65,10 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Returns pet inventories by status
-
      GET /store/inventory
-
      Returns a map of status codes to quantities
-
      - API Key:
        - type: apiKey api_key 
        - name: api_key
@@ -108,11 +98,8 @@ open class StoreAPI {
 
     /**
      Returns pet inventories by status
-
      GET /store/inventory
-
      Returns a map of status codes to quantities
-
      - API Key:
        - type: apiKey api_key 
        - name: api_key
@@ -129,14 +116,10 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Find purchase order by ID
-
      GET /store/order/{order_id}
-
      For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -169,11 +152,8 @@ open class StoreAPI {
 
     /**
      Find purchase order by ID
-
      GET /store/order/{order_id}
-
      For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `GetOrderById` 
      */
@@ -192,12 +172,9 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Place an order for a pet
-
      POST /store/order
-
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
@@ -227,9 +204,7 @@ open class StoreAPI {
 
     /**
      Place an order for a pet
-
      POST /store/order
-
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `PlaceOrder` 
      */
@@ -245,6 +220,5 @@ open class StoreAPI {
             }
         }
     }
-
 
 }
