@@ -30,7 +30,7 @@ class {{classname}}(baseUrl: String) {
       .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
       .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body(Map({{#formParams}}
-        {{>paramFormCreation}}{{^-last}}, {{/-last}}{{/formParams}}
+        {{>paramFormCreation}}{{^-last}},{{/-last}}{{/formParams}}
       )){{/isMultipart}}{{#isMultipart}}
       .multipartBody(Seq({{#formParams}}
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}

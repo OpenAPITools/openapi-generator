@@ -42,15 +42,17 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     private Boolean hstsFeatureEnabled = true;
     private Boolean corsFeatureEnabled = false;
     private Boolean compressionFeatureEnabled = true;
+    private Boolean locationsFeatureEnabled = true;
 
-    // This is here to potentially warn the user when an option is not supoprted by the target framework.
+    // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
             .put(Constants.KTOR, Arrays.asList(
                     Constants.AUTOMATIC_HEAD_REQUESTS,
                     Constants.CONDITIONAL_HEADERS,
                     Constants.HSTS,
                     Constants.CORS,
-                    Constants.COMPRESSION
+                    Constants.COMPRESSION,
+                    Constants.LOCATIONS
             ))
             .build();
 
@@ -85,6 +87,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";
 
+        typeMapping.put("array", "kotlin.collections.List");
+
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
@@ -110,6 +114,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
         addSwitch(Constants.CORS, Constants.CORS_DESC, getCorsFeatureEnabled());
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
+        addSwitch(Constants.LOCATIONS, Constants.LOCATIONS_DESC, getLocationsFeatureEnabled());
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -154,6 +159,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
 
     public void setHstsFeatureEnabled(Boolean hstsFeatureEnabled) {
         this.hstsFeatureEnabled = hstsFeatureEnabled;
+    }
+
+    public Boolean getLocationsFeatureEnabled() {
+        return locationsFeatureEnabled;
+    }
+
+    public void setLocationsFeatureEnabled(Boolean locationsFeatureEnabled) {
+        this.locationsFeatureEnabled = locationsFeatureEnabled;
     }
 
     public String getName() {
@@ -209,6 +222,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
+        if (additionalProperties.containsKey(Constants.LOCATIONS)) {
+            setLocationsFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.LOCATIONS));
+        } else {
+            additionalProperties.put(Constants.LOCATIONS, getLocationsFeatureEnabled());
+        }
+
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
         String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
@@ -223,7 +242,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
         supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
-        if (generateApis) {
+        if (generateApis && locationsFeatureEnabled) {
             supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
         }
 
@@ -247,6 +266,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         public final static String CORS_DESC = "Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.";
         public final static String COMPRESSION = "featureCompression";
         public final static String COMPRESSION_DESC = "Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.";
+        public final static String LOCATIONS = "featureLocations";
+        public final static String LOCATIONS_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
     }
 
     @Override

@@ -57,7 +57,7 @@ void main() {
       // TODO
     });
 
-    // DateTime date
+    // Date date
     test('to test the property `date`', () async {
       // TODO
     });

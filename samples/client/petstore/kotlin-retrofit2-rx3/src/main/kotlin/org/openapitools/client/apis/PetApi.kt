@@ -35,7 +35,7 @@ interface PetApi {
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Completable
+    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Completable
 
     /**
      * Finds Pets by status
@@ -105,7 +105,7 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Completable
+    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Completable
 
     /**
      * uploads an image
@@ -120,6 +120,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Single<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Single<ApiResponse>
 
 }

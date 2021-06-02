@@ -4,7 +4,10 @@
 // https://openapi-generator.tech
 //
 
-import Foundation{{#usePromiseKit}}
+import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}
 
 extension Bool: JSONEncodable {
@@ -53,6 +56,12 @@ extension Array: JSONEncodable {
     }
 }
 
+extension Set: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return Array(self).encodeToJSON()
+    }
+}
+
 extension Dictionary: JSONEncodable {
     func encodeToJSON() -> Any {
         var dictionary = [AnyHashable: Any]()
@@ -85,7 +94,7 @@ extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString
     }
-}
+}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
@@ -171,7 +180,7 @@ extension KeyedDecodingContainerProtocol {
         return map
     }
 
-}
+}{{/generateModelAdditionalProperties}}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {

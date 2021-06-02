@@ -19,9 +19,10 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-PetApiImpl::PetApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+PetApiImpl::PetApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : PetApi(rtr)
-    { }
+{
+}
 
 void PetApiImpl::add_pet(const Pet &body, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
@@ -18,8 +20,8 @@ ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o sampl
 
 java $JAVA_OPTS -jar $executable $ags
 
-(cd "$root"/samples/meta-codegen/ && mvn -B package -Djacoco.skip=true -DskipTests=true -f pom.xml)
+(./mvnw -B package -Djacoco.skip=true -DskipTests=true -f "$root"/samples/meta-codegen/pom.xml)
 
-ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
+ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/3_0/petstore.json -o samples/meta-codegen/usage $@"
 
 java $JAVA_OPTS -cp ${root}/samples/meta-codegen/lib/target/myClientCodegen-openapi-generator-1.0.0.jar:$executable org.openapitools.codegen.OpenAPIGenerator $ags2

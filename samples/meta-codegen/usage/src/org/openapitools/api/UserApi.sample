@@ -16,21 +16,21 @@ classname: UserApi
 operationId: createUser
 
 # and parameters:
-body: User
+user: User
 
 
 # each operation has an `operationId`:
 operationId: createUsersWithArrayInput
 
 # and parameters:
-body: List
+user: List
 
 
 # each operation has an `operationId`:
 operationId: createUsersWithListInput
 
 # and parameters:
-body: List
+user: List
 
 
 # each operation has an `operationId`:
@@ -66,7 +66,7 @@ operationId: updateUser
 
 # and parameters:
 username: String
-body: User
+user: User
 
 
 # end of operations block

@@ -9,22 +9,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakehealthget) | **get** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **get** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **post** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **post** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **post** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **post** /fake/outer/string | 
-[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **post** /fake/property/enum-int | 
-[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **put** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **put** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testclientmodel) | **patch** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testenumparameters) | **get** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testgroupparameters) | **delete** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **post** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testjsonformdata) | **get** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **put** /fake/test-query-paramters | 
+[**fakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithBinary**](FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
+[**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
+[**testClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+[**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 
 
 # **fakeHealthGet**
@@ -326,12 +327,54 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **testBodyWithBinary**
+> testBodyWithBinary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example 
+```dart
+import 'package:openapi/api.dart';
+
+var api_instance = new FakeApi();
+var body = new Uint8List(); // Uint8List | image to upload
+
+try { 
+    api_instance.testBodyWithBinary(body);
+} catch (e) {
+    print('Exception when calling FakeApi->testBodyWithBinary: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **Uint8List**| image to upload | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: image/png
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example 
 ```dart

@@ -21,25 +21,32 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 * Dart 2.12.0 or later OR Flutter 1.26.0 or later
 * Dio 4.0.0+
+{{#useDateLibTimeMachine}}
 * timemachine option currently **DOES NOT** support sound null-safety and may not work
+{{/useDateLibTimeMachine}}
 
 ## Installation & Usage
 
-### Github
-If this Dart package is published to Github, please include the following in pubspec.yaml
-```
-name: {{pubName}}
-version: {{pubVersion}}
-description: {{pubDescription}}
+### pub.dev
+To use the package from [pub.dev](https://pub.dev), please include the following in pubspec.yaml
+```yaml
 dependencies:
-  {{pubName}}:
-    git: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
-      version: 'any'
+  {{pubName}}: {{pubVersion}}
 ```
 
-### Local
-To use the package in your local drive, please include the following in pubspec.yaml
+### Github
+If this Dart package is published to Github, please include the following in pubspec.yaml
+```yaml
+dependencies:
+  {{pubName}}:
+    git:
+      url: https://github.com/{{gitUserId}}/{{gitRepoId}}.git
+      #ref: main
 ```
+
+### Local development
+To use the package from your local drive, please include the following in pubspec.yaml
+```yaml
 dependencies:
   {{pubName}}:
     path: /path/to/{{pubName}}
@@ -53,9 +60,9 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:{{pubName}}/{{pubName}}.dart';
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 
-final api = {{classname}}();
+final api = {{clientName}}().get{{classname}}();
 {{#allParams}}
-final {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
+final {{{dataType}}} {{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try {
@@ -75,7 +82,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}[*{{classname}}*]({{modelDocPath}}{{{classname}}}.md) | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation For Models

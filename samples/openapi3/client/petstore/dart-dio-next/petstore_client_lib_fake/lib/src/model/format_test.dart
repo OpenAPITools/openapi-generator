@@ -3,13 +3,31 @@
 //
 
 import 'dart:typed_data';
+import 'package:openapi/src/model/date.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'format_test.g.dart';
 
-
-
+/// FormatTest
+///
+/// Properties:
+/// * [integer] 
+/// * [int32] 
+/// * [int64] 
+/// * [number] 
+/// * [float] 
+/// * [double_] 
+/// * [decimal] 
+/// * [string] 
+/// * [byte] 
+/// * [binary] 
+/// * [date] 
+/// * [dateTime] 
+/// * [uuid] 
+/// * [password] 
+/// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
+/// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     @BuiltValueField(wireName: r'integer')
     int? get integer;
@@ -42,7 +60,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     Uint8List? get binary;
 
     @BuiltValueField(wireName: r'date')
-    DateTime get date;
+    Date get date;
 
     @BuiltValueField(wireName: r'dateTime')
     DateTime? get dateTime;
@@ -141,7 +159,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
         result
             ..add(r'date')
             ..add(serializers.serialize(object.date,
-                specifiedType: const FullType(DateTime)));
+                specifiedType: const FullType(Date)));
         if (object.dateTime != null) {
             result
                 ..add(r'dateTime')
@@ -226,7 +244,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
                     break;
                 case r'date':
                     result.date = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime)) as DateTime;
+                        specifiedType: const FullType(Date)) as Date;
                     break;
                 case r'dateTime':
                     result.dateTime = serializers.deserialize(value,

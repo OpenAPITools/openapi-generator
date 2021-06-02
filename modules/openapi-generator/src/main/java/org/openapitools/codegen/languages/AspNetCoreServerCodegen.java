@@ -60,6 +60,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
@@ -84,6 +85,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
+    private boolean nullableReferenceTypes = false;
     private String newtonsoftVersion = "3.0.0";
 
     public AspNetCoreServerCodegen() {
@@ -199,14 +201,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.setDefault("3.1");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
-        addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
+        cliOptions.add(aspnetCoreVersion);
 
         swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.setDefault("3.0.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
-        addOption(swashbuckleVersion.getOpt(), swashbuckleVersion.getDescription(), swashbuckleVersion.getOptValue());
+        cliOptions.add(swashbuckleVersion);
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -249,6 +251,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Use default routing for the ASP.NET Core version.",
                 useDefaultRouting);
 
+        addSwitch(NULLABLE_REFERENCE_TYPES,
+                "Annotate Project with <Nullable>annotations</Nullable> and use ? annotation on all nullable attributes. " +
+                          "Only supported on C# 8 / ASP.NET Core 3.0 or newer.",
+                nullableReferenceTypes);
+
         addOption(CodegenConstants.ENUM_NAME_SUFFIX,
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
@@ -267,13 +274,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         operationModifier.addEnum("abstract", "Make method abstract");
         operationModifier.setDefault("virtual");
         operationModifier.setOptValue(operationModifier.getDefault());
-        addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
+        cliOptions.add(operationModifier);
 
         buildTarget.addEnum("program", "Generate code for a standalone server");
         buildTarget.addEnum("library", "Generate code for a server abstract class library");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
-        addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
+        cliOptions.add(buildTarget);
 
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
@@ -366,6 +373,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
+        setNullableReferenceTypes();
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -520,7 +528,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullableReferenceTypes)) {
                 return type + "?";
             } else {
                 return type;
@@ -592,6 +600,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setBuildTarget() {
         setCliOption(buildTarget);
         if ("library".equals(buildTarget.getOptValue())) {
+            LOGGER.warn("buildTarget is {} so changing default isLibrary to true",  buildTarget.getOptValue());
             isLibrary = true;
             projectSdk = SDK_LIB;
             additionalProperties.put(CLASS_MODIFIER, "abstract");
@@ -636,7 +645,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseSwashbuckle() {
         if (isLibrary) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default isLibrary to false ");
+            LOGGER.warn("isLibrary is true so changing default useSwashbuckle to false");
             useSwashbuckle = false;
         } else {
             useSwashbuckle = true;
@@ -645,6 +654,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
         } else {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+    }
+
+    private void setNullableReferenceTypes() {
+        if (additionalProperties.containsKey(NULLABLE_REFERENCE_TYPES)) {
+            if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
+                LOGGER.warn("Nullable annotation are not supported in ASP.NET core version 2. Setting " + NULLABLE_REFERENCE_TYPES + " to false");
+                additionalProperties.put(NULLABLE_REFERENCE_TYPES, false);
+            } else {
+                nullableReferenceTypes = convertPropertyToBooleanAndWriteBack(NULLABLE_REFERENCE_TYPES);
+            }
+        } else {
+            additionalProperties.put(NULLABLE_REFERENCE_TYPES, nullableReferenceTypes);
         }
     }
 

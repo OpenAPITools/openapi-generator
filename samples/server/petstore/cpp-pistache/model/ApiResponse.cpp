@@ -12,11 +12,12 @@
 
 
 #include "ApiResponse.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 ApiResponse::ApiResponse()
 {
@@ -29,13 +30,52 @@ ApiResponse::ApiResponse()
     
 }
 
-ApiResponse::~ApiResponse()
+void ApiResponse::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void ApiResponse::validate()
+bool ApiResponse::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool ApiResponse::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "ApiResponse" : pathPrefix;
+
+        
+    
+    
+
+    return success;
+}
+
+bool ApiResponse::operator==(const ApiResponse& rhs) const
+{
+    return
+    
+    
+    
+    ((!codeIsSet() && !rhs.codeIsSet()) || (codeIsSet() && rhs.codeIsSet() && getCode() == rhs.getCode())) &&
+    
+    
+    ((!typeIsSet() && !rhs.typeIsSet()) || (typeIsSet() && rhs.typeIsSet() && getType() == rhs.getType())) &&
+    
+    
+    ((!messageIsSet() && !rhs.messageIsSet()) || (messageIsSet() && rhs.messageIsSet() && getMessage() == rhs.getMessage()))
+    
+    ;
+}
+
+bool ApiResponse::operator!=(const ApiResponse& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const ApiResponse& o)
@@ -123,8 +163,5 @@ void ApiResponse::unsetMessage()
 }
 
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 

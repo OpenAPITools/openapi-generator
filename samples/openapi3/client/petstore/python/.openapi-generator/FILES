@@ -28,6 +28,7 @@ docs/ClassModel.md
 docs/Client.md
 docs/ComplexQuadrilateral.md
 docs/ComposedOneOfNumberWithValidations.md
+docs/ComposedSchemaWithPropsAndNoAddProps.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/Dog.md
@@ -39,7 +40,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
-docs/FakeGetInlineAdditionalPropertiesPayloadArrayData.md
+docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -63,6 +64,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelReturn.md
+docs/Mole.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
@@ -79,6 +81,7 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Readonly.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -138,6 +141,7 @@ petstore_api/model/class_model.py
 petstore_api/model/client.py
 petstore_api/model/complex_quadrilateral.py
 petstore_api/model/composed_one_of_number_with_validations.py
+petstore_api/model/composed_schema_with_props_and_no_add_props.py
 petstore_api/model/danish_pig.py
 petstore_api/model/dog.py
 petstore_api/model/dog_all_of.py
@@ -146,7 +150,7 @@ petstore_api/model/enum_arrays.py
 petstore_api/model/enum_class.py
 petstore_api/model/enum_test.py
 petstore_api/model/equilateral_triangle.py
-petstore_api/model/fake_get_inline_additional_properties_payload_array_data.py
+petstore_api/model/fake_post_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
@@ -170,6 +174,7 @@ petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
 petstore_api/model/model200_response.py
 petstore_api/model/model_return.py
+petstore_api/model/mole.py
 petstore_api/model/name.py
 petstore_api/model/nullable_class.py
 petstore_api/model/nullable_shape.py
@@ -185,6 +190,7 @@ petstore_api/model/pig.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
+petstore_api/model/readonly.py
 petstore_api/model/scalene_triangle.py
 petstore_api/model/shape.py
 petstore_api/model/shape_interface.py
