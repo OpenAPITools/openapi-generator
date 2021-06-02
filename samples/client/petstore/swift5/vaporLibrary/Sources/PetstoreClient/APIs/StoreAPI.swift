@@ -41,9 +41,9 @@ open class StoreAPI {
     }
 
     public enum DeleteOrder {
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -57,11 +57,11 @@ open class StoreAPI {
         return deleteOrderRaw(orderId: orderId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> DeleteOrder in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -95,7 +95,7 @@ open class StoreAPI {
 
     public enum GetInventory {
         case http200(value: [String: Int], raw: ClientResponse)
-        case http0(value: [String: Int], raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -113,7 +113,7 @@ open class StoreAPI {
             case 200:
                 return .http200(value: try response.content.decode([String: Int].self, using: Configuration.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode([String: Int].self, using: Configuration.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -148,9 +148,9 @@ open class StoreAPI {
 
     public enum GetOrderById {
         case http200(value: Order, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Order, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -166,11 +166,11 @@ open class StoreAPI {
             case 200:
                 return .http200(value: try response.content.decode(Order.self, using: Configuration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: try response.content.decode(Order.self, using: Configuration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -202,8 +202,8 @@ open class StoreAPI {
 
     public enum PlaceOrder {
         case http200(value: Order, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: Order, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -218,9 +218,9 @@ open class StoreAPI {
             case 200:
                 return .http200(value: try response.content.decode(Order.self, using: Configuration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: try response.content.decode(Order.self, using: Configuration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }

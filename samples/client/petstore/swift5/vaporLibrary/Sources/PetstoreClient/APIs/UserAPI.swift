@@ -39,7 +39,7 @@ open class UserAPI {
     }
 
     public enum CreateUser {
-        case http0(value: Void, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -53,7 +53,7 @@ open class UserAPI {
         return createUserRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> CreateUser in
             switch response.status.code {
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -84,7 +84,7 @@ open class UserAPI {
     }
 
     public enum CreateUsersWithArrayInput {
-        case http0(value: Void, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -97,7 +97,7 @@ open class UserAPI {
         return createUsersWithArrayInputRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> CreateUsersWithArrayInput in
             switch response.status.code {
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -128,7 +128,7 @@ open class UserAPI {
     }
 
     public enum CreateUsersWithListInput {
-        case http0(value: Void, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -141,7 +141,7 @@ open class UserAPI {
         return createUsersWithListInputRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> CreateUsersWithListInput in
             switch response.status.code {
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -175,9 +175,9 @@ open class UserAPI {
     }
 
     public enum DeleteUser {
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -191,11 +191,11 @@ open class UserAPI {
         return deleteUserRaw(username: username, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> DeleteUser in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -229,9 +229,9 @@ open class UserAPI {
 
     public enum GetUserByName {
         case http200(value: User, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: User, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -246,11 +246,11 @@ open class UserAPI {
             case 200:
                 return .http200(value: try response.content.decode(User.self, using: Configuration.contentConfiguration.requireDecoder(for: User.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: try response.content.decode(User.self, using: Configuration.contentConfiguration.requireDecoder(for: User.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -287,8 +287,8 @@ open class UserAPI {
 
     public enum LoginUser {
         case http200(value: String, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: String, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -305,9 +305,9 @@ open class UserAPI {
             case 200:
                 return .http200(value: try response.content.decode(String.self, using: Configuration.contentConfiguration.requireDecoder(for: String.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: try response.content.decode(String.self, using: Configuration.contentConfiguration.requireDecoder(for: String.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -336,7 +336,7 @@ open class UserAPI {
     }
 
     public enum LogoutUser {
-        case http0(value: Void, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -348,7 +348,7 @@ open class UserAPI {
         return logoutUserRaw(headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> LogoutUser in
             switch response.status.code {
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -384,9 +384,9 @@ open class UserAPI {
     }
 
     public enum UpdateUser {
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -401,11 +401,11 @@ open class UserAPI {
         return updateUserRaw(username: username, body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UpdateUser in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }

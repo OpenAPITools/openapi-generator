@@ -43,7 +43,7 @@ open class FakeClassnameTags123API {
 
     public enum TestClassname {
         case http200(value: Client, raw: ClientResponse)
-        case http0(value: Client, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -62,7 +62,7 @@ open class FakeClassnameTags123API {
             case 200:
                 return .http200(value: try response.content.decode(Client.self, using: Configuration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(Client.self, using: Configuration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }

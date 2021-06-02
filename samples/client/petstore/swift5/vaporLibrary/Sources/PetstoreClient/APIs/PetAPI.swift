@@ -41,9 +41,9 @@ open class PetAPI {
     }
 
     public enum AddPet {
-        case http200(value: Void, raw: ClientResponse)
-        case http405(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http405(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -59,11 +59,11 @@ open class PetAPI {
         return addPetRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> AddPet in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             case 405:
-                return .http405(value: (), raw: response)
+                return .http405(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -102,9 +102,9 @@ open class PetAPI {
     }
 
     public enum DeletePet {
-        case http200(value: Void, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -121,11 +121,11 @@ open class PetAPI {
         return deletePetRaw(petId: petId, apiKey: apiKey, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> DeletePet in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -172,8 +172,8 @@ open class PetAPI {
 
     public enum FindPetsByStatus {
         case http200(value: [Pet], raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: [Pet], raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -192,9 +192,9 @@ open class PetAPI {
             case 200:
                 return .http200(value: try response.content.decode([Pet].self, using: Configuration.contentConfiguration.requireDecoder(for: [Pet].defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: try response.content.decode([Pet].self, using: Configuration.contentConfiguration.requireDecoder(for: [Pet].defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -233,8 +233,8 @@ open class PetAPI {
 
     public enum FindPetsByTags {
         case http200(value: Set<Pet>, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: Set<Pet>, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -254,9 +254,9 @@ open class PetAPI {
             case 200:
                 return .http200(value: try response.content.decode(Set<Pet>.self, using: Configuration.contentConfiguration.requireDecoder(for: Set<Pet>.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: try response.content.decode(Set<Pet>.self, using: Configuration.contentConfiguration.requireDecoder(for: Set<Pet>.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -294,9 +294,9 @@ open class PetAPI {
 
     public enum GetPetById {
         case http200(value: Pet, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Pet, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -315,11 +315,11 @@ open class PetAPI {
             case 200:
                 return .http200(value: try response.content.decode(Pet.self, using: Configuration.contentConfiguration.requireDecoder(for: Pet.defaultContentType)), raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: try response.content.decode(Pet.self, using: Configuration.contentConfiguration.requireDecoder(for: Pet.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -353,11 +353,11 @@ open class PetAPI {
     }
 
     public enum UpdatePet {
-        case http200(value: Void, raw: ClientResponse)
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http405(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http405(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -373,15 +373,15 @@ open class PetAPI {
         return updatePetRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePet in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             case 405:
-                return .http405(value: (), raw: response)
+                return .http405(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -424,8 +424,8 @@ open class PetAPI {
     }
 
     public enum UpdatePetWithForm {
-        case http405(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http405(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -443,9 +443,9 @@ open class PetAPI {
         return updatePetWithFormRaw(petId: petId, name: name, status: status, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePetWithForm in
             switch response.status.code {
             case 405:
-                return .http405(value: (), raw: response)
+                return .http405(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -489,7 +489,7 @@ open class PetAPI {
 
     public enum UploadFile {
         case http200(value: ApiResponse, raw: ClientResponse)
-        case http0(value: ApiResponse, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -509,7 +509,7 @@ open class PetAPI {
             case 200:
                 return .http200(value: try response.content.decode(ApiResponse.self, using: Configuration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(ApiResponse.self, using: Configuration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -553,7 +553,7 @@ open class PetAPI {
 
     public enum UploadFileWithRequiredFile {
         case http200(value: ApiResponse, raw: ClientResponse)
-        case http0(value: ApiResponse, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -573,7 +573,7 @@ open class PetAPI {
             case 200:
                 return .http200(value: try response.content.decode(ApiResponse.self, using: Configuration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(ApiResponse.self, using: Configuration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }

@@ -39,8 +39,8 @@ open class FakeAPI {
     }
 
     public enum CreateXmlItem {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -54,9 +54,9 @@ open class FakeAPI {
         return createXmlItemRaw(xmlItem: xmlItem, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> CreateXmlItem in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -91,7 +91,7 @@ open class FakeAPI {
 
     public enum FakeOuterBooleanSerialize {
         case http200(value: Bool, raw: ClientResponse)
-        case http0(value: Bool, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -106,7 +106,7 @@ open class FakeAPI {
             case 200:
                 return .http200(value: try response.content.decode(Bool.self, using: Configuration.contentConfiguration.requireDecoder(for: Bool.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(Bool.self, using: Configuration.contentConfiguration.requireDecoder(for: Bool.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -141,7 +141,7 @@ open class FakeAPI {
 
     public enum FakeOuterCompositeSerialize {
         case http200(value: OuterComposite, raw: ClientResponse)
-        case http0(value: OuterComposite, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -156,7 +156,7 @@ open class FakeAPI {
             case 200:
                 return .http200(value: try response.content.decode(OuterComposite.self, using: Configuration.contentConfiguration.requireDecoder(for: OuterComposite.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(OuterComposite.self, using: Configuration.contentConfiguration.requireDecoder(for: OuterComposite.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -191,7 +191,7 @@ open class FakeAPI {
 
     public enum FakeOuterNumberSerialize {
         case http200(value: Double, raw: ClientResponse)
-        case http0(value: Double, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -206,7 +206,7 @@ open class FakeAPI {
             case 200:
                 return .http200(value: try response.content.decode(Double.self, using: Configuration.contentConfiguration.requireDecoder(for: Double.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(Double.self, using: Configuration.contentConfiguration.requireDecoder(for: Double.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -241,7 +241,7 @@ open class FakeAPI {
 
     public enum FakeOuterStringSerialize {
         case http200(value: String, raw: ClientResponse)
-        case http0(value: String, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -256,7 +256,7 @@ open class FakeAPI {
             case 200:
                 return .http200(value: try response.content.decode(String.self, using: Configuration.contentConfiguration.requireDecoder(for: String.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(String.self, using: Configuration.contentConfiguration.requireDecoder(for: String.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -287,8 +287,8 @@ open class FakeAPI {
     }
 
     public enum TestBodyWithFileSchema {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -301,9 +301,9 @@ open class FakeAPI {
         return testBodyWithFileSchemaRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestBodyWithFileSchema in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -337,8 +337,8 @@ open class FakeAPI {
     }
 
     public enum TestBodyWithQueryParams {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -351,9 +351,9 @@ open class FakeAPI {
         return testBodyWithQueryParamsRaw(query: query, body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestBodyWithQueryParams in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -386,7 +386,7 @@ open class FakeAPI {
 
     public enum TestClientModel {
         case http200(value: Client, raw: ClientResponse)
-        case http0(value: Client, raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -402,7 +402,7 @@ open class FakeAPI {
             case 200:
                 return .http200(value: try response.content.decode(Client.self, using: Configuration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
             default:
-                return .http0(value: try response.content.decode(Client.self, using: Configuration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -466,9 +466,9 @@ open class FakeAPI {
     }
 
     public enum TestEndpointParameters {
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -498,11 +498,11 @@ open class FakeAPI {
         return testEndpointParametersRaw(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestEndpointParameters in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -622,9 +622,9 @@ open class FakeAPI {
     }
 
     public enum TestEnumParameters {
-        case http400(value: Void, raw: ClientResponse)
-        case http404(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http404(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -645,11 +645,11 @@ open class FakeAPI {
         return testEnumParametersRaw(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestEnumParameters in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             case 404:
-                return .http404(value: (), raw: response)
+                return .http404(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -695,8 +695,8 @@ open class FakeAPI {
     }
 
     public enum TestGroupParameters {
-        case http400(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http400(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -715,9 +715,9 @@ open class FakeAPI {
         return testGroupParametersRaw(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestGroupParameters in
             switch response.status.code {
             case 400:
-                return .http400(value: (), raw: response)
+                return .http400(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -748,8 +748,8 @@ open class FakeAPI {
     }
 
     public enum TestInlineAdditionalProperties {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -762,9 +762,9 @@ open class FakeAPI {
         return testInlineAdditionalPropertiesRaw(param: param, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestInlineAdditionalProperties in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -800,8 +800,8 @@ open class FakeAPI {
     }
 
     public enum TestJsonFormData {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -815,9 +815,9 @@ open class FakeAPI {
         return testJsonFormDataRaw(param: param, param2: param2, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestJsonFormData in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
@@ -858,8 +858,8 @@ open class FakeAPI {
     }
 
     public enum TestQueryParameterCollectionFormat {
-        case http200(value: Void, raw: ClientResponse)
-        case http0(value: Void, raw: ClientResponse)
+        case http200(raw: ClientResponse)
+        case http0(raw: ClientResponse)
     }
 
     /**
@@ -876,9 +876,9 @@ open class FakeAPI {
         return testQueryParameterCollectionFormatRaw(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestQueryParameterCollectionFormat in
             switch response.status.code {
             case 200:
-                return .http200(value: (), raw: response)
+                return .http200(raw: response)
             default:
-                return .http0(value: (), raw: response)
+                return .http0(raw: response)
             }
         }
     }
