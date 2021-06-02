@@ -60,6 +60,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
@@ -84,6 +85,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
+    private boolean nullableReferenceTypes = false;
     private String newtonsoftVersion = "3.0.0";
 
     public AspNetCoreServerCodegen() {
@@ -249,6 +251,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Use default routing for the ASP.NET Core version.",
                 useDefaultRouting);
 
+        addSwitch(NULLABLE_REFERENCE_TYPES,
+                "Annotate Project with <Nullable>annotations</Nullable> and use ? annotation on all nullable attributes. " +
+                          "Only supported on C# 8 / ASP.NET Core 3.0 or newer.",
+                nullableReferenceTypes);
+
         addOption(CodegenConstants.ENUM_NAME_SUFFIX,
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
@@ -366,6 +373,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
+        setNullableReferenceTypes();
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -520,7 +528,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullableReferenceTypes)) {
                 return type + "?";
             } else {
                 return type;
@@ -646,6 +654,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
         } else {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+    }
+
+    private void setNullableReferenceTypes() {
+        if (additionalProperties.containsKey(NULLABLE_REFERENCE_TYPES)) {
+            if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
+                LOGGER.warn("Nullable annotation are not supported in ASP.NET core version 2. Setting " + NULLABLE_REFERENCE_TYPES + " to false");
+                additionalProperties.put(NULLABLE_REFERENCE_TYPES, false);
+            } else {
+                nullableReferenceTypes = convertPropertyToBooleanAndWriteBack(NULLABLE_REFERENCE_TYPES);
+            }
+        } else {
+            additionalProperties.put(NULLABLE_REFERENCE_TYPES, nullableReferenceTypes);
         }
     }
 
