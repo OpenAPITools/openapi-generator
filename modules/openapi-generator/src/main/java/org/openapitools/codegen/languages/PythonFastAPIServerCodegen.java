@@ -150,6 +150,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pyproject_toml.mustache", "", "pyproject.toml"));
         supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
+        supportingFiles.add(new SupportingFile(".flake8.mustache", "", ".flake8"));
     }
 
     @Override
