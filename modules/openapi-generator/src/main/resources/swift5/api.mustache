@@ -272,10 +272,10 @@ extension {{projectName}} {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {
         {{#responses}}
-        case http{{code}}(value: {{#dataType}}{{{dataType}}}{{/dataType}}{{^dataType}}Void{{/dataType}}, raw: ClientResponse)
+        case http{{code}}({{#dataType}}value: {{{dataType}}}, {{/dataType}}raw: ClientResponse)
         {{/responses}}
         {{^hasDefaultResponse}}
-        case http0(value: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, raw: ClientResponse)
+        case http0(raw: ClientResponse)
         {{/hasDefaultResponse}}
     }
 
@@ -311,11 +311,11 @@ extension {{projectName}} {
             switch response.status.code {
             {{#responses}}
             {{#isDefault}}default{{/isDefault}}{{^isDefault}}case {{code}}{{/isDefault}}:
-                return .http{{code}}(value: {{#dataType}}{{#isBinary}}Data(buffer: response.body ?? ByteBuffer()){{/isBinary}}{{^isBinary}}{{#isFile}}Data(buffer: response.body ?? ByteBuffer()){{/isFile}}{{^isFile}}try response.content.decode({{{dataType}}}.self, using: Configuration.contentConfiguration.requireDecoder(for: {{{dataType}}}.defaultContentType)){{/isFile}}{{/isBinary}}{{/dataType}}{{^dataType}}(){{/dataType}}, raw: response)
+                return .http{{code}}({{#dataType}}value: {{#isBinary}}Data(buffer: response.body ?? ByteBuffer()){{/isBinary}}{{^isBinary}}{{#isFile}}Data(buffer: response.body ?? ByteBuffer()){{/isFile}}{{^isFile}}try response.content.decode({{{dataType}}}.self, using: Configuration.contentConfiguration.requireDecoder(for: {{{dataType}}}.defaultContentType)){{/isFile}}{{/isBinary}}, {{/dataType}}raw: response)
             {{/responses}}
             {{^hasDefaultResponse}}
             default:
-                return .http0(value: {{#returnType}}{{#isResponseBinary}}Data(buffer: response.body ?? ByteBuffer()){{/isResponseBinary}}{{^isResponseBinary}}try response.content.decode({{{returnType}}}.self, using: Configuration.contentConfiguration.requireDecoder(for: {{{returnType}}}.defaultContentType)){{/isResponseBinary}}{{/returnType}}{{^returnType}}(){{/returnType}}, raw: response)
+                return .http0(raw: response)
             {{/hasDefaultResponse}}
             }
         }
