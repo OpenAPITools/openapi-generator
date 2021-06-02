@@ -288,4 +288,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         System.out.println("# Please support his work directly via https://paypal.me/krjakbrjaki \uD83D\uDE4F        #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        String regex = super.toRegularExpression(pattern);
+        return StringUtils.substring(regex, 1, -1);
+    }
 }
