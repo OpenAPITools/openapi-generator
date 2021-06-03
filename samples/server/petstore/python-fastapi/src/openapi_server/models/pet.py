@@ -1,10 +1,10 @@
 # coding: utf-8
 
-from datetime import date, datetime
+from datetime import date, datetime  # noqa: F401
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional  # noqa: F401
 
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, validator  # noqa: F401
 from openapi_server.models.category import Category
 from openapi_server.models.tag import Tag
 

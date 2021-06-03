@@ -150,6 +150,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pyproject_toml.mustache", "", "pyproject.toml"));
         supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
+        supportingFiles.add(new SupportingFile(".flake8.mustache", "", ".flake8"));
     }
 
     @Override
@@ -286,5 +287,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
         System.out.println("# Please support his work directly via https://paypal.me/krjakbrjaki \uD83D\uDE4F        #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        String regex = super.toRegularExpression(pattern);
+        return StringUtils.substring(regex, 1, -1);
     }
 }
