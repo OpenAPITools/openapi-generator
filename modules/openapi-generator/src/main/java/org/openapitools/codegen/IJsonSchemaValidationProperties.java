@@ -118,4 +118,8 @@ public interface IJsonSchemaValidationProperties {
     boolean getHasRequired();
 
     void setHasRequired(boolean hasRequired);
+
+    boolean getHasDiscriminatorWithNonEmptyMapping();
+
+    void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping);
 }
