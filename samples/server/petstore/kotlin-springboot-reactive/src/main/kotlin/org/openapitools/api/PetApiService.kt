@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+
 import kotlinx.coroutines.flow.Flow;
 
 interface PetApiService {

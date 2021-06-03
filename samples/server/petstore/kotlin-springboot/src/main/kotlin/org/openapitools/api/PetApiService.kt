@@ -3,6 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 
+
 interface PetApiService {
 
     fun addPet(body: Pet): Unit

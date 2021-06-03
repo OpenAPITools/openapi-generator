@@ -52,6 +52,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     suspend fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
+
     }
 
     @ApiOperation(
@@ -69,6 +70,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 ,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: kotlin.String?
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+
     }
 
     @ApiOperation(
@@ -88,6 +90,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
 ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
+
     }
 
     @ApiOperation(
@@ -107,6 +110,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
 ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
+
     }
 
     @ApiOperation(
@@ -125,6 +129,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     suspend fun getPetById(@ApiParam(value = "ID of pet to return", required=true) @PathVariable("petId") petId: kotlin.Long
 ): ResponseEntity<Pet> {
         return ResponseEntity(service.getPetById(petId), HttpStatus.valueOf(200))
+
     }
 
     @ApiOperation(
@@ -142,6 +147,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     suspend fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
+
     }
 
     @ApiOperation(
@@ -161,6 +167,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 ,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false) status: kotlin.String? 
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
+
     }
 
     @ApiOperation(
@@ -182,5 +189,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 ,@ApiParam(value = "file detail") @Valid @RequestPart("file") file: org.springframework.core.io.Resource?
 ): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
+
     }
 }
