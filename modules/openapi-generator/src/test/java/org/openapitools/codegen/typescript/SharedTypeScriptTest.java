@@ -69,4 +69,64 @@ public class SharedTypeScriptTest {
 
         FileUtils.deleteDirectory(new File("src/test/resources/oldImportsStillPresentTest/"));
     }
+
+    @Test
+    public void customTypeObjectMapImportTest() throws IOException {
+        CodegenConfigurator config =
+                new CodegenConfigurator()
+                        .setInputSpec("src/test/resources/bugs/customTypeMap/object-map.yaml")
+                        .setModelPackage("model")
+                        .setApiPackage("api")
+                        .setOutputDir("src/test/resources/customTypeObjectMapTest/")
+                        .addAdditionalProperty(
+                                TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
+
+        config.setGeneratorName("typescript-angular");
+        List<File> files = getGenerator(config).generate();
+        File apiFile = files.stream().filter(file->file.getName().contains("testData.service.ts")).findFirst().get();
+        String apiFileContent = FileUtils.readFileToString(apiFile);
+        Assert.assertTrue(apiFileContent.contains("import { TestModel }"));
+
+        FileUtils.deleteDirectory(new File("src/test/resources/customTypeObjectMapTest/"));
+    }
+
+    @Test
+    public void customTypeArrayMapImportTest() throws IOException {
+        CodegenConfigurator config =
+                new CodegenConfigurator()
+                        .setInputSpec("src/test/resources/bugs/customTypeMap/array-map.yaml")
+                        .setModelPackage("model")
+                        .setApiPackage("api")
+                        .setOutputDir("src/test/resources/customTypeArrayMapTest/")
+                        .addAdditionalProperty(
+                                TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
+
+        config.setGeneratorName("typescript-angular");
+        List<File> files = getGenerator(config).generate();
+        File apiFile = files.stream().filter(file->file.getName().contains("testData.service.ts")).findFirst().get();
+        String apiFileContent = FileUtils.readFileToString(apiFile);
+        Assert.assertTrue(apiFileContent.contains("import { TestModel }"));
+
+        FileUtils.deleteDirectory(new File("src/test/resources/customTypeArrayMapTest/"));
+    }
+
+    @Test
+    public void customTypeMapOfArrayMapsImportTest() throws IOException {
+        CodegenConfigurator config =
+                new CodegenConfigurator()
+                        .setInputSpec("src/test/resources/bugs/customTypeMap/map-of-array-maps.yaml")
+                        .setModelPackage("model")
+                        .setApiPackage("api")
+                        .setOutputDir("src/test/resources/customTypeMapOfArrayMapsTest/")
+                        .addAdditionalProperty(
+                                TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
+
+        config.setGeneratorName("typescript-angular");
+        List<File> files = getGenerator(config).generate();
+        File apiFile = files.stream().filter(file->file.getName().contains("testData.service.ts")).findFirst().get();
+        String apiFileContent = FileUtils.readFileToString(apiFile);
+        Assert.assertTrue(apiFileContent.contains("import { TestModel }"));
+
+        FileUtils.deleteDirectory(new File("src/test/resources/customTypeMapOfArrayMapsTest/"));
+    }
 }
