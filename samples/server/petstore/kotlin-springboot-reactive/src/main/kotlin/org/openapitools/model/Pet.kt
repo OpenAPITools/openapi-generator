@@ -15,6 +15,8 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
+
+
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -24,7 +26,7 @@ import io.swagger.annotations.ApiModelProperty
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet(
+ data class Pet(
 
     @ApiModelProperty(example = "doggie", required = true, value = "")
     @field:JsonProperty("name", required = true) val name: kotlin.String,

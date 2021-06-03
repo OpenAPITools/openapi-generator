@@ -53,6 +53,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     "ApiResponse"
             ));
 
+    public static final String KOTLIN_BUILDER = "kotlinBuilder";
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String BASE_PACKAGE = "basePackage";
@@ -72,6 +73,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private String resourceFolder = "src/main/resources";
+    private boolean kotlinBuilder = false;
     private boolean useBeanValidation = true;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
@@ -135,6 +137,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
+        addSwitch(KOTLIN_BUILDER, "use kotlin builder", kotlinBuilder);
         addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
                 "cases this option would be used to update an existing project, so not to override implementations. " +
@@ -243,6 +246,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useTags = useTags;
     }
 
+    public boolean getKotlinBuilder() {
+        return kotlinBuilder;
+    }
+
+    public void setKotlinBuilder(final boolean kotlinBuilder) {
+        this.kotlinBuilder = kotlinBuilder;
+    }
+
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
@@ -342,6 +353,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setServiceImplementation(Boolean.parseBoolean(additionalProperties.get(SERVICE_IMPLEMENTATION).toString()));
         }
         writePropertyBack(SERVICE_IMPLEMENTATION, serviceImplementation);
+
+        if (additionalProperties.containsKey(KOTLIN_BUILDER)) {
+            this.setKotlinBuilder(Boolean.parseBoolean(additionalProperties.get(KOTLIN_BUILDER).toString()));
+        }
+        writePropertyBack(KOTLIN_BUILDER, kotlinBuilder);
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));

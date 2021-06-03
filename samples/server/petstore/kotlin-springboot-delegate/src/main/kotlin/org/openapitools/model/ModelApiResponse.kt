@@ -12,13 +12,15 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
+
+
 /**
  * Describes the result of uploading an image resource
  * @param code 
  * @param type 
  * @param message 
  */
-data class ModelApiResponse(
+ data class ModelApiResponse(
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("code") val code: kotlin.Int? = null,

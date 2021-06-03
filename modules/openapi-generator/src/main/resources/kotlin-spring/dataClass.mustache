@@ -1,3 +1,5 @@
+{{#kotlinBuilder}}import com.github.pozo.KotlinBuilder{{/kotlinBuilder}}
+
 /**
  * {{{description}}}
 {{#vars}}
@@ -5,7 +7,7 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}{{#kotlinBuilder}}@KotlinBuilder{{/kotlinBuilder}} data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

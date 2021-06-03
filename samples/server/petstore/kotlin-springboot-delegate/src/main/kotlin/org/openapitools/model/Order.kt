@@ -13,6 +13,8 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
+
+
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -22,7 +24,7 @@ import io.swagger.annotations.ApiModelProperty
  * @param status Order Status
  * @param complete 
  */
-data class Order(
+ data class Order(
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") val id: kotlin.Long? = null,

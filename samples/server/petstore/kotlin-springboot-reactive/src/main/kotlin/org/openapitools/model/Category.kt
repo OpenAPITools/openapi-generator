@@ -12,12 +12,14 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
+
+
 /**
  * A category for a pet
  * @param id 
  * @param name 
  */
-data class Category(
+ data class Category(
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") val id: kotlin.Long? = null,
