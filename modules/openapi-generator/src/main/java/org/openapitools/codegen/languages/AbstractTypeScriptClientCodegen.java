@@ -227,10 +227,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toModelImport( String name){
+    public String toModelImport(String name){
         if(isUnionType(name)){
            LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
            return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
+        }
+        if(isIntersectionType(name)){
+           LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
+           return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
         }
         return super.toModelImport(name);
     }
@@ -243,26 +247,28 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @return Map between the fully qualified model import and the initial given name.
      */
     @Override
-    public Map<String,String> toModelImportMap( String name){
-        if(isUnionType(name)){
-           String[] names = splitUnionType(name);
-           return toImportMap(names);
-        }
-        return toImportMap(name);
+    public Map<String,String> toModelImportMap(String name){
+        return toImportMap(splitComposedType(name));
+    }
+
+    private String[] splitComposedType (String name) {
+       return name.replace(" ","").split("[|&<>]");
     }
 
     private boolean isUnionType(String name){
         return name.contains("|");
     }
 
-    private String[] splitUnionType(String name){
-        return  name.replace(" ","").split("\\|");
+    private boolean isIntersectionType(String name){
+        return name.contains("&");
     }
 
     private Map<String,String> toImportMap(String... names){
         Map<String,String> result = Maps.newHashMap();
         for(String name: names){
-            result.put(toModelImport(name),name);
+            if(needToImport(name)){
+                result.put(toModelImport(name), name);
+            }
         }
         return result;
     }
@@ -707,7 +713,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
