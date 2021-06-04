@@ -285,7 +285,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
         System.out.println("#                                                                              #");
         System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
-        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjaki \uD83D\uDE4F        #");
+        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
         System.out.println("################################################################################");
     }
 
