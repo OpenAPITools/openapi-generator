@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './AnotherFakeApi';
 export * from './DefaultApi';
 export * from './FakeApi';
