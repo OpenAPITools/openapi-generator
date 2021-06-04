@@ -5965,7 +5965,11 @@ public class DefaultCodegen implements CodegenConfig {
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);
                 String codegenModelName = codegenProperty.getComplexType();
-                codegenParameter.baseName = codegenModelName;
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = codegenModelName;
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
                 codegenParameter.baseType = codegenParameter.baseName;
                 codegenParameter.dataType = getTypeDeclaration(codegenModelName);
