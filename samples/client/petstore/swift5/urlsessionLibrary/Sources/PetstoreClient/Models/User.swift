@@ -87,4 +87,5 @@ public final class User: Codable, Hashable {
         
     }
 }
+
 }

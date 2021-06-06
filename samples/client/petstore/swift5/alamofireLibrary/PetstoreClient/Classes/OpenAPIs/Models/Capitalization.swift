@@ -50,3 +50,4 @@ public struct Capitalization: Codable, Hashable {
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
 }
+

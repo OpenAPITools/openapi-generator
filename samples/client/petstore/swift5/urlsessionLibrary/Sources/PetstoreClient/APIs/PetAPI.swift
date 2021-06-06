@@ -6,11 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 extension PetstoreClient {
 
 
 open class PetAPI {
+
     /**
      Add a new pet to the store
      
@@ -482,6 +486,5 @@ open class PetAPI {
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }
 }

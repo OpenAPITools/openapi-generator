@@ -8,7 +8,8 @@
 import Foundation
 #if canImport(AnyCodable)
 import AnyCodable
-#endif
+#endif{{#useVapor}}
+import Vapor{{/useVapor}}
 {{#swiftUseApiNamespace}}
 
 @available(*, deprecated, renamed: "{{projectName}}.{{classname}}")
