@@ -63,6 +63,7 @@ The following generators are available:
 * [scalaz](generators/scalaz.md)  
 * [swift4-deprecated (deprecated)](generators/swift4-deprecated.md)  
 * [swift5 (beta)](generators/swift5.md)  
+* [tiny-cpp](generators/tiny-cpp.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-angularjs-deprecated (deprecated)](generators/typescript-angularjs-deprecated.md)  
