@@ -604,7 +604,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return importMapping.get(name);
         }
 
-        String modifiedName = name.replaceAll("\\.", "");
+        String modifiedName = sanitizeName(name);
         String sanitizedName = sanitizeKotlinSpecificNames(modifiedName);
 
         String nameWithPrefixSuffix = sanitizedName;
