@@ -170,7 +170,15 @@ func parseInt32Parameter(param string, required bool) (int32, error) {
 }
 
 // parseBoolParameter parses a string parameter to a bool
-func parseBoolParameter(param string) (bool, error) {
+func parseBoolParameter(param string, required bool) (bool, error) {
+	if param == "" {
+		if required {
+			return false, errors.New(errMsgRequiredMissing)
+		}
+
+		return false, nil
+	}
+
 	val, err := strconv.ParseBool(param)
 	if err != nil {
 		return false, err
@@ -225,4 +233,17 @@ func parseInt32ArrayParameter(param, delim string, required bool) ([]int32, erro
 	}
 
 	return ints, nil
+}
+
+// parseStringArrayParameter parses a string parameter containing array of values to []string.
+func parseStringArrayParameter(param, delim string, required bool) ([]string, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	return strings.Split(param, delim), nil
 }

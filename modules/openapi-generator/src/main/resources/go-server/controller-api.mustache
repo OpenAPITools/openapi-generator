@@ -90,16 +90,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}, err := parseBoolParameter(query.Get("{{baseName}}"))
+	{{paramName}}, err := parseBoolParameter(query.Get("{{paramName}}"), {{required}})
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	{{/isBoolean}}
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isBoolean}}
-	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}
+	{{#isArray}}
+	{{paramName}}, err := parseStringArrayParameter(query.Get("{{paramName}}"), ",", {{required}})
+	{{/isArray}}
+	{{^isArray}}
+	{{paramName}} := query.Get("{{paramName}}")
+	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
 	{{/isLong}}

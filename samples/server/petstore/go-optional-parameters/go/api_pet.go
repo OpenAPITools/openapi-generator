@@ -43,6 +43,12 @@ func (c *PetApiController) Routes() Routes {
 			c.DeletePet,
 		},
 		{
+			"FindPetsByProperties",
+			strings.ToUpper("Get"),
+			"/v2/pet/findByProperties",
+			c.FindPetsByProperties,
+		},
+		{
 			"FindPetsByStatus",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
@@ -110,6 +116,26 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 
 	apiKey := r.Header.Get("api_key")
 	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
+}
+
+// FindPetsByProperties - Finds Pets with properties
+func (c *PetApiController) FindPetsByProperties(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	isAvailable, err := parseBoolParameter(query.Get("isAvailable"), false)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	tags, err := parseStringArrayParameter(query.Get("tags"), ",", false)
+	result, err := c.service.FindPetsByProperties(r.Context(), isAvailable, tags)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
