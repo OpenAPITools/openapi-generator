@@ -107,7 +107,7 @@ namespace {{packageName}}.Client
                 var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
-                    var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
+                    var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
@@ -131,7 +131,7 @@ namespace {{packageName}}.Client
                 return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
                 return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
@@ -166,7 +166,7 @@ namespace {{packageName}}.Client
     /// </remarks>
     {{>visibility}} partial class ApiClient : IDisposable, ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
-        private readonly String _baseUrl;
+        private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
         private readonly HttpClient _httpClient;    
@@ -206,7 +206,7 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath)
+        public ApiClient(string basePath)
         {    
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
@@ -243,7 +243,7 @@ namespace {{packageName}}.Client
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ApiClient(HttpClient client, String basePath, HttpClientHandler handler = null)
+        public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
         {    
             if (client == null) throw new ArgumentNullException("client cannot be null");
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
@@ -301,7 +301,7 @@ namespace {{packageName}}.Client
         /// <exception cref="ArgumentNullException"></exception>
         private HttpRequestMessage NewRequest(
             HttpMethod method,
-            String path,
+            string path,
             RequestOptions options,
             IReadableConfiguration configuration)
         {
