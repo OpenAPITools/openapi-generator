@@ -27,6 +27,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -64,6 +65,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+    protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected Boolean supportsES6 = false;
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
@@ -175,6 +177,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
+        cliOptions.add(new CliOption(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_DESC).defaultValue(this.paramNaming.name()));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
@@ -210,6 +213,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PARAM_NAMING)) {
+            setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
@@ -330,7 +337,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             name = "_u";
         }
 
-        name = camelize(name, true);
+        name = getNameUsingParamNaming(name);
         name = toSafeIdentifier(name);
 
         return name;
@@ -597,8 +604,43 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    public void setParamNaming(String naming) {
+        try {
+            paramNaming = PARAM_NAMING_TYPE.valueOf(naming);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(PARAM_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid parameter naming '%s'. Must be one of %s.", naming, values);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
     public MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
         return modelPropertyNaming;
+    }
+
+    public PARAM_NAMING_TYPE getParamNaming() {
+        return paramNaming;
+    }
+
+    private String getNameUsingParamNaming(String name) {
+        switch (getParamNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid param naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
+
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
