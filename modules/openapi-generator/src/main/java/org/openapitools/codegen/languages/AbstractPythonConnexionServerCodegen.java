@@ -343,7 +343,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         fixedPath += "/" + token;
                     }
                     if (!fixedPath.equals(pathname)) {
-                        LOGGER.warn("Path '" + pathname + "' is not consistant with Python variable names. It will be replaced by '" + fixedPath + "'");
+                        LOGGER.warn(
+                                "Path '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                pathname, fixedPath);
                         paths.remove(pathname);
                         path.addExtension("x-python-connexion-openapi-name", pathname);
                         paths.put(fixedPath, path);
@@ -373,12 +375,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 String swaggerParameterName = parameter.getName();
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
-                                    LOGGER.warn("Parameter name '" + swaggerParameterName + "' is not consistant with Python variable names. It will be replaced by '" + pythonParameterName + "'");
+                                    LOGGER.warn(
+                                            "Parameter name '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                            swaggerParameterName, pythonParameterName);
                                     parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
                                     parameter.setName(pythonParameterName);
                                 }
                                 if (swaggerParameterName.isEmpty()) {
-                                    LOGGER.error("Missing parameter name in " + pathname + "." + parameter.getIn());
+                                    LOGGER.error("Missing parameter name in {}.{}", pathname, parameter.getIn());
                                 }
                             }
                         }
@@ -435,13 +439,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         break;
                     case OPENIDCONNECT:
-                        LOGGER.warn("Security type " + securityScheme.getType().toString() + " is not supported by connextion yet");
+                        LOGGER.warn("Security type {} is not supported by connextion yet", securityScheme.getType().toString());
                     case OAUTH2:
                         addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
                         addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
                         break;
                     default:
-                        LOGGER.warn("Unknown security type " + securityScheme.getType().toString());
+                        LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
                 }
             }
         }
@@ -498,7 +502,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     // Get and remove the (temporary) vendor extension
                     String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
                     if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
-                        LOGGER.info("Path '" + pythonPathname + "' is not consistant with the original OpenAPI definition. It will be replaced back by '" + openapiPathname + "'");
+                        LOGGER.info(
+                                "Path '{}' is not consistant with the original OpenAPI definition. It will be replaced back by '{}'",
+                                pythonPathname, openapiPathname);
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
                     }
@@ -517,13 +523,18 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                     if (swaggerParameterName != null) {
                                         String pythonParameterName = parameter.getName();
                                         if (!swaggerParameterName.equals(pythonParameterName)) {
-                                            LOGGER.info("Reverting name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' back to '" + swaggerParameterName + "'");
+                                            LOGGER.info(
+                                                    "Reverting name of parameter '{}' of operation '{}' back to '{}'",
+                                                    pythonParameterName, operation.getOperationId(), swaggerParameterName);
                                             parameter.setName(swaggerParameterName);
                                         } else {
-                                            LOGGER.debug("Name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' was unchanged.");
+                                            LOGGER.debug("Name of parameter '{}' of operation '{}' was unchanged.",
+                                                    pythonParameterName, operation.getOperationId());
                                         }
                                     } else {
-                                        LOGGER.debug("x-python-connexion-openapi-name was not set on parameter '" + parameter.getName() + "' of operation '" + operation.getOperationId() + "'");
+                                        LOGGER.debug(
+                                                "x-python-connexion-openapi-name was not set on parameter '{}' of operation '{}'",
+                                                parameter.getName(), operation.getOperationId());
                                     }
                                 }
                             }
