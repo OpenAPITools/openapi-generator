@@ -80,6 +80,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/Api/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model

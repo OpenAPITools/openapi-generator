@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -741,15 +742,19 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            LOGGER.warn(CodegenConstants.MODEL_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
+            LOGGER.warn(
+                    "{} with {} generator is ignored. Setting this value independently of {} is not currently supported.",
+                    CodegenConstants.MODEL_PACKAGE, this.getName(), CodegenConstants.PACKAGE_NAME);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            LOGGER.warn(CodegenConstants.API_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
+            LOGGER.warn(
+                    "{} with {} generator is ignored. Setting this value independently of {} is not currently supported.",
+                    CodegenConstants.API_PACKAGE, this.getName(), CodegenConstants.PACKAGE_NAME);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -886,13 +891,15 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word or special variable name) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word or special variable name) cannot be used as model name. Renamed to {}",
+                    name, camelize("model_" + name));
             name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -968,7 +975,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // for param name reserved word or word starting with number, append _
         if (paramNameReservedWords.contains(name) || name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (reserved word or special variable name) cannot be used in naming. Renamed to " + escapeReservedWord(name));
+            LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
+                    escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
 
@@ -1099,7 +1107,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (reserved word or special variable name) cannot be used in naming. Renamed to " + escapeReservedWord(name));
+            LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
+                    escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
 
@@ -1309,10 +1318,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -1327,7 +1338,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
             if (ModelUtils.isBooleanSchema(p)) {
-                if (Boolean.valueOf(p.getDefault().toString())) {
+                if (Boolean.parseBoolean(p.getDefault().toString())) {
                     return "$true";
                 } else {
                     return "$false";

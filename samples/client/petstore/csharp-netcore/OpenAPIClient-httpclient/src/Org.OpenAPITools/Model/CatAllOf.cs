@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
-        [DataMember(Name = "declawed", EmitDefaultValue = false)]
+        [DataMember(Name = "declawed", EmitDefaultValue = true)]
         public bool Declawed { get; set; }
 
         /// <summary>

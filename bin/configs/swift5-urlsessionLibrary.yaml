@@ -9,3 +9,6 @@ additionalProperties:
   podSummary: PetstoreClient
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator
+  useSPMFileStructure: true
+  useClasses: true
+  swiftUseApiNamespace: true

@@ -54,6 +54,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+    protected String enumSuffix = ""; // default to empty string for backward compatibility
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -179,6 +180,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
             .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -224,7 +226,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         Map<String, Object> mas = new HashMap<>();
                         mas.put("modelName", camelize(mappedModel.getModelName()));
                         mas.put("mappingName", mappedModel.getMappingName());
-                        
+
                         // TODO: deleting the variable from the array was
                         // problematic; I don't know what this is supposed to do
                         // so I'm just cloning it for the moment
@@ -246,6 +248,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -400,13 +406,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -448,14 +455,15 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
+                        ap.getName());
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             if (inner == null) {
-                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
@@ -496,7 +504,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, StringUtils.underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -650,9 +658,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        String name = property.name;
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(enumSuffix)) {
+            name = name + "_" + enumSuffix;
+        }
         // camelize the enum name
         // phone_number => PhoneNumber
-        String enumName = camelize(toModelName(property.name));
+        String enumName = camelize(toModelName(name));
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

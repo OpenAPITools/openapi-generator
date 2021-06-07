@@ -9,3 +9,5 @@ additionalProperties:
   podSummary: PetstoreClient
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator
+  useBacktickEscapes: true
+  generateModelAdditionalProperties: false

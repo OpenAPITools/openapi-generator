@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -518,7 +519,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isObjectSchema(schema)) {
             return null; // models are managed at moustache level
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -592,13 +593,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -718,21 +720,21 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = camelize("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -888,10 +890,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

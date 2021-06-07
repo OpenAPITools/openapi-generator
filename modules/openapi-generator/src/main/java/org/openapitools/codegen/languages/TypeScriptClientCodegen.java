@@ -19,11 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -35,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -62,9 +58,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
 
-    
+
     private final Map<String, String> frameworkToHttpLibMap;
-    
+
     // NPM Options
     private static final String SNAPSHOT = "snapshot";
     @SuppressWarnings("squid:S5164")
@@ -83,14 +79,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public TypeScriptClientCodegen() {
         super();
-            
+
         this.frameworkToHttpLibMap = new HashMap<>();
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
-        
-        
+
+
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
-        
+
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
@@ -98,7 +94,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         embeddedTemplateDir = templateDir = "typescript";
 
         supportsInheritance = true;
-        
+
         // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
@@ -155,7 +151,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
-                
+
 
         cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
@@ -186,11 +182,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
-        
+
         // Git
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        
+
         // Util
         supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
         supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
@@ -200,7 +196,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
-        
+
         supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
         supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
@@ -242,12 +238,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void setNpmVersion(String npmVersion) {
         this.npmVersion = npmVersion;
     }
-    
+
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
-    
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
 
@@ -272,9 +268,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         }
     }
-    
+
     @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {      
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         final Object propFramework = additionalProperties.get(FRAMEWORK_SWITCH);
 
         Map<String, Boolean> frameworks = new HashMap<>();
@@ -288,27 +284,27 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         return objs;
     }
-    
+
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {     
-        
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {
+
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
             im.put("filename", ((String) im.get("import")).replace(".", "/"));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
-        
+
         @SuppressWarnings("unchecked")
         Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
         for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
-            operation.returnType = this.getReturnType(responses);          
+            operation.returnType = this.getReturnType(responses);
         }
         return operations;
     }
-    
+
     /**
      * Returns the correct return type based on all 2xx HTTP responses defined for an operation.
      * @param responses all CodegenResponses defined for one operation
@@ -325,19 +321,19 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
         }
-        
+
         if (returnTypes.size() == 0) {
             return null;
-        } 
+        }
 
         return String.join(" | ", returnTypes);
     }
-    
+
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + File.separator).length());
         return camelize(name);
     }
-    
+
     @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
@@ -514,7 +510,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
     }
-    
+
     @Override
     protected boolean isReservedWord(String word) {
         // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
@@ -739,7 +735,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
-    
+
     @Override
     public String getName() {
         return "typescript";
@@ -787,15 +783,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         additionalProperties.put("platforms", platforms);
 
-        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
+        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
-        if (!propPlatform.equals("deno")) {
+        if (!"deno".equals(propPlatform)) {
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
-        if (propPlatform.equals("deno")) {
+        if ("deno".equals(propPlatform)) {
             additionalProperties.put("extensionForDeno", ".ts");
         }
 

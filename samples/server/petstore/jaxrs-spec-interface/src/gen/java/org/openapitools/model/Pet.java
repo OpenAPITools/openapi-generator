@@ -80,7 +80,9 @@ public enum StatusEnum {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -98,7 +100,9 @@ public enum StatusEnum {
 
   public void setCategory(Category category) {
     this.category = category;
-  }/**
+  }
+
+/**
    **/
   public Pet name(String name) {
     this.name = name;
@@ -117,7 +121,9 @@ public enum StatusEnum {
 
   public void setName(String name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -136,7 +142,9 @@ public enum StatusEnum {
 
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
-  }/**
+  }
+
+/**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -154,7 +162,9 @@ public enum StatusEnum {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }/**
+  }
+
+/**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
@@ -174,6 +184,7 @@ public enum StatusEnum {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
 
   @Override
   public boolean equals(Object o) {

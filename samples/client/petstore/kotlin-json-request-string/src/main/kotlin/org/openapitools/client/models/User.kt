@@ -13,6 +13,8 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /**
  * A User who is purchasing from the pet store
@@ -25,6 +27,7 @@ import com.squareup.moshi.Json
  * @param phone 
  * @param userStatus User Status
  */
+@Parcelize
 
 data class User (
     @Json(name = "id")
@@ -44,5 +47,5 @@ data class User (
     /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
-)
+) : Parcelable
 

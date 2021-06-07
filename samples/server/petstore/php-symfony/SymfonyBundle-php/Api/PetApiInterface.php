@@ -53,6 +53,15 @@ interface PetApiInterface
     public function setpetstore_auth($value);
 
     /**
+     * Sets authentication method petstore_auth
+     *
+     * @param string $value Value of the petstore_auth authentication method.
+     *
+     * @return void
+     */
+    public function setpetstore_auth($value);
+
+    /**
      * Sets authentication method api_key
      *
      * @param string $value Value of the api_key authentication method.
@@ -66,14 +75,14 @@ interface PetApiInterface
      *
      * Add a new pet to the store
      *
-     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return OpenAPI\Server\Model\Pet
      *
      */
-    public function addPet(Pet $body, &$responseCode, array &$responseHeaders);
+    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deletePet
@@ -137,14 +146,14 @@ interface PetApiInterface
      *
      * Update an existing pet
      *
-     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return OpenAPI\Server\Model\Pet
      *
      */
-    public function updatePet(Pet $body, &$responseCode, array &$responseHeaders);
+    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation updatePetWithForm

@@ -46,7 +46,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     fun getEnum() : PetEnum {
         val localVariableConfig = getEnumRequestConfig()
 
-        val localVarResponse = request<PetEnum>(
+        val localVarResponse = request<Unit, PetEnum>(
             localVariableConfig
         )
 
@@ -70,20 +70,18 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     *
     * @return RequestConfig
     */
-    fun getEnumRequestConfig() : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
+    fun getEnumRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
+
+        return RequestConfig(
             method = RequestMethod.GET,
             path = "/enum",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
-
-        return localVariableConfig
     }
 
 }

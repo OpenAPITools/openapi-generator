@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
@@ -460,14 +461,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -530,10 +532,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -550,7 +554,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 

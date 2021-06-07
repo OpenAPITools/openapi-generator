@@ -46,7 +46,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     fun deleteOrder(orderId: kotlin.String) : Unit {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
-        val localVarResponse = request<Any?>(
+        val localVarResponse = request<Unit, Unit>(
             localVariableConfig
         )
 
@@ -71,20 +71,18 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * @param orderId ID of the order that needs to be deleted 
     * @return RequestConfig
     */
-    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
+    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
+
+        return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
-
-        return localVariableConfig
     }
 
     /**
@@ -100,7 +98,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
         val localVariableConfig = getInventoryRequestConfig()
 
-        val localVarResponse = request<kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        val localVarResponse = request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
             localVariableConfig
         )
 
@@ -124,20 +122,18 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     *
     * @return RequestConfig
     */
-    fun getInventoryRequestConfig() : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
+    fun getInventoryRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
+
+        return RequestConfig(
             method = RequestMethod.GET,
             path = "/store/inventory",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
-
-        return localVariableConfig
     }
 
     /**
@@ -154,7 +150,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     fun getOrderById(orderId: kotlin.Long) : Order {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
-        val localVarResponse = request<Order>(
+        val localVarResponse = request<Unit, Order>(
             localVariableConfig
         )
 
@@ -179,20 +175,18 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * @param orderId ID of pet that needs to be fetched 
     * @return RequestConfig
     */
-    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
+    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
+
+        return RequestConfig(
             method = RequestMethod.GET,
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
-
-        return localVariableConfig
     }
 
     /**
@@ -209,7 +203,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     fun placeOrder(body: Order) : Order {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
-        val localVarResponse = request<Order>(
+        val localVarResponse = request<Order, Order>(
             localVariableConfig
         )
 
@@ -234,20 +228,18 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * @param body order placed for purchasing the pet 
     * @return RequestConfig
     */
-    fun placeOrderRequestConfig(body: Order) : RequestConfig {
-        val localVariableBody: kotlin.Any? = body
+    fun placeOrderRequestConfig(body: Order) : RequestConfig<Order> {
+        val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
+
+        return RequestConfig(
             method = RequestMethod.POST,
             path = "/store/order",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
         )
-
-        return localVariableConfig
     }
 
 }

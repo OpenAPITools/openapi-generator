@@ -68,7 +68,6 @@ lib/petstore/api/user_api.rb
 lib/petstore/api_client.rb
 lib/petstore/api_error.rb
 lib/petstore/configuration.rb
-lib/petstore/configuration.rb
 lib/petstore/models/additional_properties_class.rb
 lib/petstore/models/animal.rb
 lib/petstore/models/api_response.rb

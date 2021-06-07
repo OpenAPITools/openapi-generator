@@ -9,16 +9,16 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/file_schema_test_class.dart';
-import 'package:openapi/model/outer_composite.dart';
-import 'package:openapi/model/outer_object_with_enum_property.dart';
-import 'package:openapi/model/user.dart';
-import 'package:openapi/model/health_check_result.dart';
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/model_client.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
+import 'package:openapi/model/file_schema_test_class.dart';
+import 'package:openapi/model/health_check_result.dart';
+import 'package:openapi/model/model_client.dart';
+import 'package:openapi/model/outer_composite.dart';
+import 'package:openapi/model/outer_object_with_enum_property.dart';
+import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/user.dart';
 
 class FakeApi {
 
@@ -50,9 +50,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -118,10 +116,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -164,9 +159,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -219,9 +212,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -279,9 +270,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -334,9 +323,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -389,9 +376,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -428,7 +413,49 @@ class FakeApi {
 
   /// 
   ///
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body has to be a binary file.
+  Future<Response<void>> testBodyWithBinary(
+    Uint8List body, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/fake/body-with-binary',
+      method: 'PUT',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: 'image/png',
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    _bodyData = body;
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    return _response;
+  }
+
+  /// 
+  ///
+  /// For this test, the body for this request must reference a schema named `File`.
   Future<Response<void>> testBodyWithFileSchema(
     FileSchemaTestClass fileSchemaTestClass, { 
     CancelToken cancelToken,
@@ -449,9 +476,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -498,9 +523,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -543,9 +566,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -621,9 +642,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -695,9 +714,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -760,9 +777,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -802,9 +817,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -848,9 +861,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -906,9 +917,7 @@ class FakeApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

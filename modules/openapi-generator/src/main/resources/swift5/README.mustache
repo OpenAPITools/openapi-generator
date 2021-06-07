@@ -19,6 +19,13 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Installation
 
+{{#useVapor}}
+Add the following entry in your Package.swift:
+
+> .package(path: "./{{{projectName}}}")
+
+{{/useVapor}}
+{{^useVapor}}
 ### Carthage
 
 Run `carthage update`
@@ -27,7 +34,7 @@ Run `carthage update`
 
 Run `pod install`
 
-## Documentation for API Endpoints
+{{/useVapor}}## Documentation for API Endpoints
 
 All URIs are relative to *{{basePath}}*
 

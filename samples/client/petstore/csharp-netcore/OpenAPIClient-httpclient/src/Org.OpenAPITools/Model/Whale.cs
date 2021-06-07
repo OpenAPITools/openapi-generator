@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -58,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
-        [DataMember(Name = "hasBaleen", EmitDefaultValue = false)]
+        [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
         public bool HasBaleen { get; set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
-        [DataMember(Name = "hasTeeth", EmitDefaultValue = false)]
+        [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
         public bool HasTeeth { get; set; }
 
         /// <summary>

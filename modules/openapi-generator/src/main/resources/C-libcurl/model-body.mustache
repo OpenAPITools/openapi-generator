@@ -8,13 +8,13 @@
 
 {{#isEnum}}
 char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     return {{classname}}Array[{{classname}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
     int stringToReturn = 0;
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{classname}}Array) / sizeof({{classname}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{classname}}, {{classname}}Array[stringToReturn]) == 0) {
@@ -78,13 +78,13 @@ end:
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -102,13 +102,13 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}} - 1];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {

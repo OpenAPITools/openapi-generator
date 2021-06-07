@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -58,6 +59,7 @@ namespace Org.OpenAPITools.Model
             Sold = 3
 
         }
+
 
         /// <summary>
         /// pet status in the store

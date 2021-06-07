@@ -9,8 +9,12 @@ import Foundation
 #if canImport(Combine)
 import Combine
 #endif
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class FakeClassnameTags123API {
+
     /**
      To test class name in snake case
      
@@ -20,7 +24,7 @@ open class FakeClassnameTags123API {
      */
     #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
+    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Client, Error> {
         return Future<Client, Error>.init { promise in
             testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
@@ -46,10 +50,10 @@ open class FakeClassnameTags123API {
      */
     open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake_classname_test"
-        let URLString = PetstoreClientAPI.basePath + path
+        let URLString = PetstoreClient.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
         let nillableHeaders: [String: Any?] = [
             :
@@ -57,9 +61,8 @@ open class FakeClassnameTags123API {
 
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

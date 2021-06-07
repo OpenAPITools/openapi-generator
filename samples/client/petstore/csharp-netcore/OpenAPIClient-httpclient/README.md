@@ -50,12 +50,40 @@ webProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 c.Proxy = webProxy;
 ```
 
+### Connections
+Each ApiClass (properly the ApiClient inside it) will create an istance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
+
+To better manager the connections it's a common practice to reuse the HttpClient and HttpClientHander (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). To use your own HttpClient instance just pass it to the ApiClass constructor.
+
+```csharp
+HttpClientHandler yourHandler = new HttpClientHandler();
+HttpClient yourHttpClient = new HttpClient(yourHandler);
+var api = new YourApiClass(yourHttpClient, yourHandler);
+```
+
+If you want to use an HttpClient and don't have access to the handler, for example in a DI context in Asp.net Core when using IHttpClientFactory. 
+
+```csharp
+HttpClient yourHttpClient = new HttpClient();
+var api = new YourApiClass(yourHttpClient);
+```
+You'll loose some configuration settings, the features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings. You need to either manually handle those in your setup of the HttpClient or they won't be available.
+
+Here an example of DI setup in a sample web project:
+
+```csharp
+services.AddHttpClient<YourApiClass>(httpClient => 
+   new PetApi(httpClient));
+```
+
+
 <a name="getting-started"></a>
 ## Getting Started
 
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -69,7 +97,10 @@ namespace Example
 
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new AnotherFakeApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new AnotherFakeApi(httpClient, config, httpClientHandler);
             var modelClient = new ModelClient(); // ModelClient | client model
 
             try

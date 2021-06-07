@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -58,6 +59,7 @@ namespace Org.OpenAPITools.Model
             Delivered = 3
 
         }
+
 
         /// <summary>
         /// Order Status
@@ -112,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name = "complete", EmitDefaultValue = false)]
+        [DataMember(Name = "complete", EmitDefaultValue = true)]
         public bool Complete { get; set; }
 
         /// <summary>

@@ -6,9 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** Model for testing model name same as property name */
-internal struct Name: Codable {
+internal struct Name: Codable, Hashable {
 
     internal var name: Int
     internal var snakeCase: Int?
@@ -29,4 +32,14 @@ internal struct Name: Codable {
         case _123number = "123Number"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
+        try container.encodeIfPresent(property, forKey: .property)
+        try container.encodeIfPresent(_123number, forKey: ._123number)
+    }
 }
+

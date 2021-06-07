@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** Model for testing model name same as property name */
 @objc public class Name: NSObject, Codable {
@@ -39,4 +42,14 @@ import Foundation
         case _123number = "123Number"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
+        try container.encodeIfPresent(property, forKey: .property)
+        try container.encodeIfPresent(_123number, forKey: ._123number)
+    }
 }
+

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
@@ -335,13 +336,14 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -408,19 +410,19 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         //rename to empty_function_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = underscore("empty_function_name_" + emptyFunctionNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             return underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -619,10 +621,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -31,17 +31,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -59,13 +48,13 @@ class FakeApi {
   Future<HealthCheckResult> fakeHealthGet() async {
     final response = await fakeHealthGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
         }
     return Future<HealthCheckResult>.value(null);
   }
@@ -110,17 +99,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['http_signature_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -149,7 +127,7 @@ class FakeApi {
   Future<void> fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async {
     final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1 );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -176,17 +154,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -209,13 +176,13 @@ class FakeApi {
   Future<bool> fakeOuterBooleanSerialize({ bool body }) async {
     final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
         }
     return Future<bool>.value(null);
   }
@@ -243,17 +210,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -276,13 +232,13 @@ class FakeApi {
   Future<OuterComposite> fakeOuterCompositeSerialize({ OuterComposite outerComposite }) async {
     final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
         }
     return Future<OuterComposite>.value(null);
   }
@@ -310,17 +266,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -343,13 +288,13 @@ class FakeApi {
   Future<num> fakeOuterNumberSerialize({ num body }) async {
     final response = await fakeOuterNumberSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
         }
     return Future<num>.value(null);
   }
@@ -377,17 +322,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -410,13 +344,13 @@ class FakeApi {
   Future<String> fakeOuterStringSerialize({ String body }) async {
     final response = await fakeOuterStringSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
         }
     return Future<String>.value(null);
   }
@@ -447,17 +381,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -480,18 +403,70 @@ class FakeApi {
   Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
     final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterObjectWithEnumProperty') as OuterObjectWithEnumProperty;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
         }
     return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body) async {
+    // Verify required params are set.
+    if (body == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
+    }
+
+    final path = r'/fake/body-with-binary';
+
+    Object postBody = body;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['image/png'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<void> testBodyWithBinary(MultipartFile body) async {
+    final response = await testBodyWithBinaryWithHttpInfo(body);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -516,17 +491,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -540,7 +504,7 @@ class FakeApi {
     );
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Parameters:
   ///
@@ -548,7 +512,7 @@ class FakeApi {
   Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async {
     final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -581,17 +545,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -613,7 +566,7 @@ class FakeApi {
   Future<void> testBodyWithQueryParams(String query, User user) async {
     final response = await testBodyWithQueryParamsWithHttpInfo(query, user);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -645,17 +598,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -680,13 +622,13 @@ class FakeApi {
   Future<ModelClient> testClientModel(ModelClient modelClient) async {
     final response = await testClientModelWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
         }
     return Future<ModelClient>.value(null);
   }
@@ -767,112 +709,44 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['http_basic_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (integer != null) {
-        hasFields = true;
-        mp.fields[r'integer'] = parameterToString(integer);
-      }
-      if (int32 != null) {
-        hasFields = true;
-        mp.fields[r'int32'] = parameterToString(int32);
-      }
-      if (int64 != null) {
-        hasFields = true;
-        mp.fields[r'int64'] = parameterToString(int64);
-      }
-      if (number != null) {
-        hasFields = true;
-        mp.fields[r'number'] = parameterToString(number);
-      }
-      if (float != null) {
-        hasFields = true;
-        mp.fields[r'float'] = parameterToString(float);
-      }
-      if (double_ != null) {
-        hasFields = true;
-        mp.fields[r'double'] = parameterToString(double_);
-      }
-      if (string != null) {
-        hasFields = true;
-        mp.fields[r'string'] = parameterToString(string);
-      }
-      if (patternWithoutDelimiter != null) {
-        hasFields = true;
-        mp.fields[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
-      }
-      if (byte != null) {
-        hasFields = true;
-        mp.fields[r'byte'] = parameterToString(byte);
-      }
-      if (binary != null) {
-        hasFields = true;
-        mp.fields[r'binary'] = binary.field;
-        mp.files.add(binary);
-      }
-      if (date != null) {
-        hasFields = true;
-        mp.fields[r'date'] = parameterToString(date);
-      }
-      if (dateTime != null) {
-        hasFields = true;
-        mp.fields[r'dateTime'] = parameterToString(dateTime);
-      }
-      if (password != null) {
-        hasFields = true;
-        mp.fields[r'password'] = parameterToString(password);
-      }
-      if (callback != null) {
-        hasFields = true;
-        mp.fields[r'callback'] = parameterToString(callback);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (integer != null) {
-        formParams[r'integer'] = parameterToString(integer);
-      }
-      if (int32 != null) {
-        formParams[r'int32'] = parameterToString(int32);
-      }
-      if (int64 != null) {
-        formParams[r'int64'] = parameterToString(int64);
-      }
-      if (number != null) {
-        formParams[r'number'] = parameterToString(number);
-      }
-      if (float != null) {
-        formParams[r'float'] = parameterToString(float);
-      }
-      if (double_ != null) {
-        formParams[r'double'] = parameterToString(double_);
-      }
-      if (string != null) {
-        formParams[r'string'] = parameterToString(string);
-      }
-      if (patternWithoutDelimiter != null) {
-        formParams[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
-      }
-      if (byte != null) {
-        formParams[r'byte'] = parameterToString(byte);
-      }
-      if (date != null) {
-        formParams[r'date'] = parameterToString(date);
-      }
-      if (dateTime != null) {
-        formParams[r'dateTime'] = parameterToString(dateTime);
-      }
-      if (password != null) {
-        formParams[r'password'] = parameterToString(password);
-      }
-      if (callback != null) {
-        formParams[r'callback'] = parameterToString(callback);
-      }
+    if (integer != null) {
+      formParams[r'integer'] = parameterToString(integer);
+    }
+    if (int32 != null) {
+      formParams[r'int32'] = parameterToString(int32);
+    }
+    if (int64 != null) {
+      formParams[r'int64'] = parameterToString(int64);
+    }
+    if (number != null) {
+      formParams[r'number'] = parameterToString(number);
+    }
+    if (float != null) {
+      formParams[r'float'] = parameterToString(float);
+    }
+    if (double_ != null) {
+      formParams[r'double'] = parameterToString(double_);
+    }
+    if (string != null) {
+      formParams[r'string'] = parameterToString(string);
+    }
+    if (patternWithoutDelimiter != null) {
+      formParams[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
+    }
+    if (byte != null) {
+      formParams[r'byte'] = parameterToString(byte);
+    }
+    if (date != null) {
+      formParams[r'date'] = parameterToString(date);
+    }
+    if (dateTime != null) {
+      formParams[r'dateTime'] = parameterToString(dateTime);
+    }
+    if (password != null) {
+      formParams[r'password'] = parameterToString(password);
+    }
+    if (callback != null) {
+      formParams[r'callback'] = parameterToString(callback);
     }
 
     return await apiClient.invokeAPI(
@@ -937,7 +811,7 @@ class FakeApi {
   Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
     final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1007,30 +881,11 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (enumFormStringArray != null) {
-        hasFields = true;
-        mp.fields[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
-      }
-      if (enumFormString != null) {
-        hasFields = true;
-        mp.fields[r'enum_form_string'] = parameterToString(enumFormString);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (enumFormStringArray != null) {
-        formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
-      }
-      if (enumFormString != null) {
-        formParams[r'enum_form_string'] = parameterToString(enumFormString);
-      }
+    if (enumFormStringArray != null) {
+      formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
+    }
+    if (enumFormString != null) {
+      formParams[r'enum_form_string'] = parameterToString(enumFormString);
     }
 
     return await apiClient.invokeAPI(
@@ -1077,7 +932,7 @@ class FakeApi {
   Future<void> testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1144,17 +999,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['bearer_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1194,7 +1038,7 @@ class FakeApi {
   Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
     final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1224,17 +1068,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1257,7 +1090,7 @@ class FakeApi {
   Future<void> testInlineAdditionalProperties(Map<String, String> requestBody) async {
     final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1293,30 +1126,11 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (param != null) {
-        hasFields = true;
-        mp.fields[r'param'] = parameterToString(param);
-      }
-      if (param2 != null) {
-        hasFields = true;
-        mp.fields[r'param2'] = parameterToString(param2);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (param != null) {
-        formParams[r'param'] = parameterToString(param);
-      }
-      if (param2 != null) {
-        formParams[r'param2'] = parameterToString(param2);
-      }
+    if (param != null) {
+      formParams[r'param'] = parameterToString(param);
+    }
+    if (param2 != null) {
+      formParams[r'param2'] = parameterToString(param2);
     }
 
     return await apiClient.invokeAPI(
@@ -1343,7 +1157,7 @@ class FakeApi {
   Future<void> testJsonFormData(String param, String param2) async {
     final response = await testJsonFormDataWithHttpInfo(param, param2);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1388,7 +1202,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'pipe', pipe));
+      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
       queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
@@ -1398,17 +1212,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1438,7 +1241,7 @@ class FakeApi {
   Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
     final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 }

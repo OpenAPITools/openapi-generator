@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -226,7 +227,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -250,7 +251,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -621,7 +622,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -646,7 +647,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -810,12 +811,14 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class FakeApi : IFakeApi
+    public partial class FakeApi : IDisposable, IFakeApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
         /// <returns></returns>
         public FakeApi() : this((string)null)
@@ -824,7 +827,11 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public FakeApi(String basePath)
         {
@@ -832,16 +839,19 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client =  this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeApi"/> class
-        /// using Configuration object
+        /// Initializes a new instance of the <see cref="FakeApi"/> class using Configuration object.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
-        /// <param name="configuration">An instance of Configuration</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public FakeApi(Org.OpenAPITools.Client.Configuration configuration)
         {
@@ -851,8 +861,78 @@ namespace Org.OpenAPITools.Api
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.Client = this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public FakeApi(HttpClient client, HttpClientHandler handler = null) : this(client, (string)null, handler)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeApi"/> class.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public FakeApi(HttpClient client, String basePath, HttpClientHandler handler = null)
+        {
+            if (client == null) throw new ArgumentNullException("client");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath, handler);
+            this.Client =  this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
+            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeApi"/> class using Configuration object.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="configuration">An instance of Configuration.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns></returns>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public FakeApi(HttpClient client, Org.OpenAPITools.Client.Configuration configuration, HttpClientHandler handler = null)
+        {
+            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (client == null) throw new ArgumentNullException("client");
+
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                configuration
+            );
+            this.ApiClient = new Org.OpenAPITools.Client.ApiClient(client, this.Configuration.BasePath, handler);
+            this.Client = this.ApiClient;
+            this.AsynchronousClient = this.ApiClient;
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -863,6 +943,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public FakeApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
@@ -874,6 +955,19 @@ namespace Org.OpenAPITools.Api
             this.Configuration = configuration;
             this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
+
+        /// <summary>
+        /// Disposes resources if they were created by us
+        /// </summary>
+        public void Dispose()
+        {
+            this.ApiClient?.Dispose();
+        }
+
+        /// <summary>
+        /// Holds the ApiClient if created
+        /// </summary>
+        public Org.OpenAPITools.Client.ApiClient ApiClient { get; set; } = null;
 
         /// <summary>
         /// The client for accessing this underlying API asynchronously.
@@ -1930,7 +2024,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public void TestEndpointParameters(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
             TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
@@ -1954,7 +2048,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2064,7 +2158,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
         }
@@ -2089,7 +2183,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), FileParameter binary = default(FileParameter), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)

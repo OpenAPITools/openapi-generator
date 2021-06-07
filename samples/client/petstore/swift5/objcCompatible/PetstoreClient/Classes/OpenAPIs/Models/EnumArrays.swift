@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc public class EnumArrays: NSObject, Codable {
 
@@ -30,4 +33,12 @@ import Foundation
         case arrayEnum = "array_enum"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
+        try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
+    }
 }
+

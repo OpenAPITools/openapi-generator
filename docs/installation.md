@@ -22,7 +22,7 @@ npm install @openapitools/openapi-generator-cli -g
 To install a specific version of the tool, pass the version during installation:
 <!-- RELEASE_VERSION -->
 ```bash
-openapi-generator-cli version-manager set 5.0.1
+openapi-generator-cli version-manager set 5.1.0
 ```
 <!-- /RELEASE_VERSION -->
 To install the tool as a dev dependency in your current project:
@@ -80,18 +80,18 @@ docker run --rm \
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.1/openapi-generator-cli-5.0.1.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar`
 
 For **Mac/Linux** users:
 
 ```bash
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.1/openapi-generator-cli-5.0.1.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 
 ```powershell
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.1/openapi-generator-cli-5.0.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar
 ```
 <!-- /RELEASE_VERSION -->
 

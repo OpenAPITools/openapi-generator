@@ -21,9 +21,9 @@ class FakeClient extends Fake implements Client {
     this.expectedPutRequestBody,
     this.putResponseBody,
     this.sendResponseBody,
-    this.expectedUrl,
+    String expectedUrl,
     this.expectedHeaders = null,
-  });
+  }) : this.expectedUrl = Uri.parse(expectedUrl);
 
   Exception throwException;
   Object expectedPostRequestBody;
@@ -34,12 +34,12 @@ class FakeClient extends Fake implements Client {
   String expectedPutRequestBody;
   String putResponseBody;
   String sendResponseBody;
-  String expectedUrl;
+  Uri expectedUrl;
   Map<String, String> expectedHeaders;
 
   @override
-  Future<Response> post(url,
-      {Map<String, String> headers, body, Encoding encoding}) async {
+  Future<Response> post(Uri url,
+      {Map<String, String> headers, Object body, Encoding encoding}) async {
     // check that the request was made with expected values
     if (url != expectedUrl) {
       throw StateError(
@@ -67,7 +67,7 @@ class FakeClient extends Fake implements Client {
   }
 
   @override
-  Future<Response> get(url, {Map<String, String> headers}) async {
+  Future<Response> get(Uri url, {Map<String, String> headers}) async {
     // check that the request was made with expected values
     if (url != expectedUrl) {
       throw StateError(
@@ -85,7 +85,8 @@ class FakeClient extends Fake implements Client {
   }
 
   @override
-  Future<Response> delete(url, {Map<String, String> headers}) async {
+  Future<Response> delete(Uri url,
+      {Map<String, String> headers, Object body, Encoding encoding}) async {
     // check that the request was made with expected values
     if (url != expectedUrl) {
       throw StateError(
@@ -103,8 +104,8 @@ class FakeClient extends Fake implements Client {
   }
 
   @override
-  Future<Response> put(url,
-      {Map<String, String> headers, body, Encoding encoding}) async {
+  Future<Response> put(Uri url,
+      {Map<String, String> headers, Object body, Encoding encoding}) async {
     // check that the request was made with expected values
     if (url != expectedUrl) {
       throw StateError(

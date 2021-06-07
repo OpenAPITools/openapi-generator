@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -58,6 +60,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
+
+    public static final String MOSHI_CODE_GEN = "moshiCodeGen";
+
+    public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
@@ -202,6 +208,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
+
+        cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
+
+        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in oder to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
     }
 
     public CodegenType getTag() {
@@ -311,13 +321,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx) {
-            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+            this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
         } else if (hasRx2) {
-            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+            this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
         } else if (hasRx3) {
-            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.valueOf(additionalProperties.get(USE_COROUTINES).toString()));
+            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
         if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
@@ -463,6 +473,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
                 break;
 
             case gson:
@@ -512,7 +525,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         setLibrary(JVM_OKHTTP);
 
         // jvm specific supporting files
-        supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiInfrastructureResponse.kt.mustache", infrastructureFolder, "ApiInfrastructureResponse.kt"));
@@ -652,6 +664,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
+                }
+
+                // sorting operation parameters to make sure path params are parsed before query params
+                if (operation.allParams != null) {
+                    sort(operation.allParams, (one, another) -> {
+                        if (one.isPathParam && another.isQueryParam) {
+                            return -1;
+                        }
+                        if (one.isQueryParam && another.isPathParam){
+                            return 1;
+                        }
+
+                        return 0;
+                    });
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds

@@ -11,9 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
@@ -35,6 +36,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
+        [Consumes("application/json", "application/xml")]
         [ValidateModelState]
         [SwaggerOperation("AddPet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
@@ -179,6 +181,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Validation exception</response>
         [HttpPut]
         [Route("/v2/pet")]
+        [Consumes("application/json", "application/xml")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
@@ -213,6 +216,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet/{petId}")]
+        [Consumes("application/x-www-form-urlencoded")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePetWithForm")]
         public virtual IActionResult UpdatePetWithForm([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "name")]string name, [FromForm (Name = "status")]string status)
@@ -233,10 +237,11 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">successful operation</response>
         [HttpPost]
         [Route("/v2/pet/{petId}/uploadImage")]
+        [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadFile")]
         [SwaggerResponse(statusCode: 200, type: typeof(ApiResponse), description: "successful operation")]
-        public virtual IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, [FromForm (Name = "file")]System.IO.Stream file)
+        public virtual IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, IFormFile file)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

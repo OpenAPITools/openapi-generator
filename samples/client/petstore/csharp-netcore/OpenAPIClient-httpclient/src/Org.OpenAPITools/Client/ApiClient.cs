@@ -80,9 +80,9 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        public T Deserialize<T>(HttpResponseMessage response)
+        public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T)Deserialize(response, typeof(T));
+            var result = (T) await Deserialize(response, typeof(T));
             return result;
         }
 
@@ -92,19 +92,19 @@ namespace Org.OpenAPITools.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(HttpResponseMessage response, Type type)
+        internal async Task<object> Deserialize(HttpResponseMessage response, Type type)
         {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
             {
-                return response.Content.ReadAsByteArrayAsync().Result;
+                return await response.Content.ReadAsByteArrayAsync();
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().Result;
+                var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -128,18 +128,18 @@ namespace Org.OpenAPITools.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content.ReadAsStringAsync().Result, null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().Result, type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, type, _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -161,9 +161,16 @@ namespace Org.OpenAPITools.Client
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
     /// encapsulating general REST accessor use cases.
     /// </summary>
-    public partial class ApiClient : ISynchronousClient, IAsynchronousClient
+    /// <remarks>
+    /// The Dispose method will manage the HttpClient lifecycle when not passed by constructor.
+    /// </remarks>
+    public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
         private readonly String _baseUrl;
+
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;    
+        private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -184,23 +191,76 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
-        public ApiClient()
-        {
-            _baseUrl = Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath;
+        public ApiClient() :
+                 this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
+        {    
         }
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />
+        /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(String basePath)
-        {
-            if (string.IsNullOrEmpty(basePath))
-                throw new ArgumentException("basePath cannot be empty");
+        {    
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
+            _httpClientHandler = new HttpClientHandler();
+            _httpClient = new HttpClient(_httpClientHandler, true);
+            _disposeClient = true;
             _baseUrl = basePath;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public ApiClient(HttpClient client, HttpClientHandler handler = null) :
+                 this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, handler)
+        {    
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// </summary>
+        /// <param name="client">An instance of HttpClient.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public ApiClient(HttpClient client, String basePath, HttpClientHandler handler = null)
+        {    
+            if (client == null) throw new ArgumentNullException("client cannot be null");
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+            
+            _httpClientHandler = handler;
+            _httpClient = client;
+            _baseUrl = basePath;
+        }
+
+        /// <summary>
+        /// Disposes resources if they were created by us
+        /// </summary>
+        public void Dispose()
+        {
+            if(_disposeClient) {
+                _httpClient.Dispose();
+            }
         }
 
         /// Prepares multipart/form-data content
@@ -217,12 +277,10 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var fileStream = fileParam.Value as FileStream;
-                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
-                    var content = new StreamContent(fileParam.Value);
+                    var content = new StreamContent(fileParam.Value.Content);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     multipartContent.Add(content, fileParam.Key,
-                        fileStreamName ?? "no_file_name_provided");
+                        fileParam.Value.Name);
                 }
             }
             return multipartContent;
@@ -254,13 +312,14 @@ namespace Org.OpenAPITools.Client
 
             builder.AddPathParameters(options.PathParameters);
 
-            // In case of POST or PUT pass query parameters in request body
-            if (method != HttpMethod.Post && method != HttpMethod.Put)
-            {
-                builder.AddQueryParameters(options.QueryParameters);
-            }
+            builder.AddQueryParameters(options.QueryParameters);
 
             HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
+
+            if (configuration.UserAgent != null)
+            {
+                request.Headers.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
+            }
 
             if (configuration.DefaultHeaders != null)
             {
@@ -303,11 +362,11 @@ namespace Org.OpenAPITools.Client
             {
                 if (options.Data != null)
                 {
-                    if (options.Data is Stream s)
+                    if (options.Data is FileParameter fp)
                     {
-                        contentType ??= "application/octet-stream";
+                        contentType = contentType ?? "application/octet-stream";
 
-                        var streamContent = new StreamContent(s);
+                        var streamContent = new StreamContent(fp.Content);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         request.Content = streamContent;
                     }
@@ -331,13 +390,13 @@ namespace Org.OpenAPITools.Client
             return request;
         }
 
-        partial void InterceptRequest(HttpRequestMessage req, HttpClientHandler handler);
+        partial void InterceptRequest(HttpRequestMessage req);
         partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, HttpClientHandler handler, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
-            string rawContent = response.Content.ToString();
+            string rawContent = await response.Content.ReadAsStringAsync();
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
@@ -363,12 +422,12 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            if (response != null)
+            if (_httpClientHandler != null && response != null)
             {
                 try {
-                    foreach (Cookie cookie in handler.CookieContainer.GetCookies(uri))
+                    foreach (Cookie cookie in _httpClientHandler.CookieContainer.GetCookies(uri))
                     {
-                       transformed.Cookies.Add(cookie);
+                        transformed.Cookies.Add(cookie);
                     }
                 }
                 catch (PlatformNotSupportedException) {}
@@ -379,15 +438,13 @@ namespace Org.OpenAPITools.Client
 
         private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
         {
-            return ExecAsync<T>(req, configuration).Result;
+            return ExecAsync<T>(req, configuration).GetAwaiter().GetResult();
         }
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
             IReadableConfiguration configuration,
             System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var handler = new HttpClientHandler();
-            var client = new HttpClient();
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
             var finalToken = cancellationToken;
@@ -400,37 +457,35 @@ namespace Org.OpenAPITools.Client
 
             if (configuration.Proxy != null)
             {
-                handler.Proxy = configuration.Proxy;
-            }
-
-            if (configuration.UserAgent != null)
-            {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.Proxy = configuration.Proxy;
             }
 
             if (configuration.ClientCertificates != null)
             {
-                handler.ClientCertificates.AddRange(configuration.ClientCertificates);
+                if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
             }
 
             var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
             if (cookieContainer != null)
             {
+                if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                 foreach (var cookie in cookieContainer)
                 {
-                    handler.CookieContainer.Add(cookie);
+                    _httpClientHandler.CookieContainer.Add(cookie);
                 }
             }
 
-            InterceptRequest(req, handler);
+            InterceptRequest(req);
 
             HttpResponseMessage response;
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy
-                    .ExecuteAndCaptureAsync(() => client.SendAsync(req, cancellationToken))
+                    .ExecuteAndCaptureAsync(() => _httpClient.SendAsync(req, cancellationToken))
                     .ConfigureAwait(false);
                 response = (policyResult.Outcome == OutcomeType.Successful) ?
                     policyResult.Result : new HttpResponseMessage()
@@ -441,10 +496,15 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                response = await client.SendAsync(req, cancellationToken).ConfigureAwait(false);
+                response = await _httpClient.SendAsync(req, cancellationToken).ConfigureAwait(false);
             }
 
-            object responseData = deserializer.Deserialize<T>(response);
+            if (!response.IsSuccessStatusCode)
+            {
+                return await ToApiResponse<T>(response, default(T), req.RequestUri);
+            }
+			
+            object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
@@ -458,9 +518,7 @@ namespace Org.OpenAPITools.Client
 
             InterceptResponse(req, response);
 
-            var result = ToApiResponse<T>(response, responseData, handler, req.RequestUri);
-
-            return result;
+            return await ToApiResponse<T>(response, responseData, req.RequestUri);
         }
 
         #region IAsynchronousClient

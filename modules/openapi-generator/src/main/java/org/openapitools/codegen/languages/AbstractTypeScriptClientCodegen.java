@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -35,9 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -228,10 +227,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toModelImport( String name){
+    public String toModelImport(String name){
         if(isUnionType(name)){
            LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
            return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
+        }
+        if(isIntersectionType(name)){
+           LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
+           return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
         }
         return super.toModelImport(name);
     }
@@ -244,26 +247,28 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @return Map between the fully qualified model import and the initial given name.
      */
     @Override
-    public Map<String,String> toModelImportMap( String name){
-        if(isUnionType(name)){
-           String[] names = splitUnionType(name);
-           return toImportMap(names);
-        }
-        return toImportMap(name);
+    public Map<String,String> toModelImportMap(String name){
+        return toImportMap(splitComposedType(name));
+    }
+
+    private String[] splitComposedType (String name) {
+       return name.replace(" ","").split("[|&<>]");
     }
 
     private boolean isUnionType(String name){
         return name.contains("|");
     }
 
-    private String[] splitUnionType(String name){
-        return  name.replace(" ","").split("\\|");
+    private boolean isIntersectionType(String name){
+        return name.contains("&");
     }
 
     private Map<String,String> toImportMap(String... names){
         Map<String,String> result = Maps.newHashMap();
         for(String name: names){
-            result.put(toModelImport(name),name);
+            if(needToImport(name)){
+                result.put(toModelImport(name), name);
+            }
         }
         return result;
     }
@@ -385,20 +390,22 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
-            LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName, modelName);
             return modelName;
         }
 
@@ -708,7 +715,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return;
         }
 
-        String[] parts = type.split("( [|&] )|[<>]");
+        String[] parts = splitComposedType(type);
         for (String s : parts) {
             if (needToImport(s)) {
                 m.imports.add(s);
@@ -855,10 +862,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

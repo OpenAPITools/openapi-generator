@@ -41,17 +41,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -74,7 +63,7 @@ class PetApi {
   Future<void> addPet(Pet pet) async {
     final response = await addPetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -111,17 +100,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -146,7 +124,7 @@ class PetApi {
   Future<void> deletePet(int petId, { String apiKey }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -180,17 +158,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -215,7 +182,7 @@ class PetApi {
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
     final response = await findPetsByStatusWithHttpInfo(status);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
@@ -259,17 +226,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -294,7 +250,7 @@ class PetApi {
   Future<Set<Pet>> findPetsByTags(Set<String> tags) async {
     final response = await findPetsByTagsWithHttpInfo(tags);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
@@ -337,17 +293,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -372,7 +317,7 @@ class PetApi {
   Future<Pet> getPetById(int petId) async {
     final response = await getPetByIdWithHttpInfo(petId);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
@@ -410,17 +355,6 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -443,7 +377,7 @@ class PetApi {
   Future<void> updatePet(Pet pet) async {
     final response = await updatePetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -480,30 +414,11 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (name != null) {
-        hasFields = true;
-        mp.fields[r'name'] = parameterToString(name);
-      }
-      if (status != null) {
-        hasFields = true;
-        mp.fields[r'status'] = parameterToString(status);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (name != null) {
-        formParams[r'name'] = parameterToString(name);
-      }
-      if (status != null) {
-        formParams[r'status'] = parameterToString(status);
-      }
+    if (name != null) {
+      formParams[r'name'] = parameterToString(name);
+    }
+    if (status != null) {
+      formParams[r'status'] = parameterToString(status);
     }
 
     return await apiClient.invokeAPI(
@@ -533,7 +448,7 @@ class PetApi {
   Future<void> updatePetWithForm(int petId, { String name, String status }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -570,28 +485,19 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (additionalMetadata != null) {
-        hasFields = true;
-        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
-      if (file != null) {
-        hasFields = true;
-        mp.fields[r'file'] = file.field;
-        mp.files.add(file);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (additionalMetadata != null) {
-        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (additionalMetadata != null) {
+      hasFields = true;
+      mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
+    }
+    if (file != null) {
+      hasFields = true;
+      mp.fields[r'file'] = file.field;
+      mp.files.add(file);
+    }
+    if (hasFields) {
+      postBody = mp;
     }
 
     return await apiClient.invokeAPI(
@@ -621,7 +527,7 @@ class PetApi {
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
     final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
@@ -669,28 +575,19 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (additionalMetadata != null) {
-        hasFields = true;
-        mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
-      if (requiredFile != null) {
-        hasFields = true;
-        mp.fields[r'requiredFile'] = requiredFile.field;
-        mp.files.add(requiredFile);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (additionalMetadata != null) {
-        formParams[r'additionalMetadata'] = parameterToString(additionalMetadata);
-      }
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (additionalMetadata != null) {
+      hasFields = true;
+      mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
+    }
+    if (requiredFile != null) {
+      hasFields = true;
+      mp.fields[r'requiredFile'] = requiredFile.field;
+      mp.files.add(requiredFile);
+    }
+    if (hasFields) {
+      postBody = mp;
     }
 
     return await apiClient.invokeAPI(
@@ -720,7 +617,7 @@ class PetApi {
   Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata }) async {
     final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"

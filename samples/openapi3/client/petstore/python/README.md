@@ -94,6 +94,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**post_inline_additional_properties_payload**](docs/FakeApi.md#post_inline_additional_properties_payload) | **POST** /fake/postInlineAdditionalPropertiesPayload | 
+*FakeApi* | [**post_inline_additional_properties_ref_payload**](docs/FakeApi.md#post_inline_additional_properties_ref_payload) | **POST** /fake/postInlineAdditionalPropertiesRefPayload | 
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -157,6 +159,7 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [ComposedOneOfNumberWithValidations](docs/ComposedOneOfNumberWithValidations.md)
+ - [ComposedSchemaWithPropsAndNoAddProps](docs/ComposedSchemaWithPropsAndNoAddProps.md)
  - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
@@ -165,6 +168,7 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakePostInlineAdditionalPropertiesPayloadArrayData](docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
@@ -175,6 +179,8 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InlineAdditionalPropertiesRefPayload](docs/InlineAdditionalPropertiesRefPayload.md)
+ - [InlineObject6](docs/InlineObject6.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IntegerEnum](docs/IntegerEnum.md)
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
@@ -186,6 +192,7 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [Mole](docs/Mole.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)
  - [NullableShape](docs/NullableShape.md)
@@ -201,12 +208,14 @@ Class | Method | HTTP request | Description
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Readonly](docs/Readonly.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SomeObject](docs/SomeObject.md)
+ - [SomeObjectWithSelfAttr](docs/SomeObjectWithSelfAttr.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [StringBooleanMap](docs/StringBooleanMap.md)
  - [StringEnum](docs/StringEnum.md)

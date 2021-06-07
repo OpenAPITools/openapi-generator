@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc public class ArrayOfArrayOfNumberOnly: NSObject, Codable {
 
@@ -19,4 +22,11 @@ import Foundation
         case arrayArrayNumber = "ArrayArrayNumber"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayArrayNumber, forKey: .arrayArrayNumber)
+    }
 }
+

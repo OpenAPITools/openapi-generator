@@ -4,10 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
-{{/modelImports}}
-{{#fullImports}}import '{{.}}';
-{{/fullImports}}
+{{#imports}}import '{{.}}';
+{{/imports}}
 
 class {{classname}} {
 
@@ -65,10 +63,7 @@ class {{classname}} {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
-      ].first,
+      contentType: '{{^hasConsumes}}application/json{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}{{/hasConsumes}}',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

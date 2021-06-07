@@ -40,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.declawed = declawed;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

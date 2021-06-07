@@ -23,20 +23,13 @@ class Factory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): Application
     {
-        $errorMiddleware = $container->get(Middleware\InternalServerError::class);
-        if (!($errorMiddleware instanceof Middleware\InternalServerError)) {
-            throw new \LogicException(\sprintf(
-                'Invalid error middleware: expecting %s, not %s.',
-                Middleware\InternalServerError::class,
-                \is_object($errorMiddleware) ? \get_class($errorMiddleware) : \gettype($errorMiddleware)
-            ));
-        }
+        $errorMiddleware = self::getErrorMiddleware($container);
         $pipeline = new MiddlewarePipe();
         $runner = new RequestHandlerRunner(
             $pipeline,
             $container->get(EmitterInterface::class),
             $container->get(ServerRequestInterface::class),
-            function(\Throwable $error) use ($errorMiddleware) : ResponseInterface
+            static function(\Throwable $error) use ($errorMiddleware) : ResponseInterface
             {
                 return $errorMiddleware->handleError($error);
             }
@@ -54,5 +47,10 @@ class Factory implements FactoryInterface
         $application->pipe(NotFoundHandler::class);
 
         return $application;
+    }
+
+    protected static function getErrorMiddleware(ContainerInterface $container): Middleware\InternalServerError
+    {
+        return $container->get(Middleware\InternalServerError::class);
     }
 }

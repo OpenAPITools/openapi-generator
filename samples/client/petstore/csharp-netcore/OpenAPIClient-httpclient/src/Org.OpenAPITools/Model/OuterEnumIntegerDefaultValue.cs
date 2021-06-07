@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
@@ -29,28 +30,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Defines OuterEnumIntegerDefaultValue
     /// </summary>
-    
-    [JsonConverter(typeof(StringEnumConverter))]
-    
     public enum OuterEnumIntegerDefaultValue
     {
         /// <summary>
         /// Enum NUMBER_0 for value: 0
         /// </summary>
-        [EnumMember(Value = "0")]
-        NUMBER_0 = 1,
+        NUMBER_0 = 0,
 
         /// <summary>
         /// Enum NUMBER_1 for value: 1
         /// </summary>
-        [EnumMember(Value = "1")]
-        NUMBER_1 = 2,
+        NUMBER_1 = 1,
 
         /// <summary>
         /// Enum NUMBER_2 for value: 2
         /// </summary>
-        [EnumMember(Value = "2")]
-        NUMBER_2 = 3
+        NUMBER_2 = 2
 
     }
 

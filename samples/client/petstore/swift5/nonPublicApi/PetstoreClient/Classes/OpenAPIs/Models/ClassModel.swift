@@ -6,9 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** Model for testing model with \&quot;_class\&quot; property */
-internal struct ClassModel: Codable {
+internal struct ClassModel: Codable, Hashable {
 
     internal var _class: String?
 
@@ -16,4 +19,15 @@ internal struct ClassModel: Codable {
         self._class = _class
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case _class
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_class, forKey: ._class)
+    }
 }
+
