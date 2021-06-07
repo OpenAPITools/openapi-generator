@@ -25,7 +25,7 @@ pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
 PYTHONPATH=src pytest tests
 
 ### static analysis of code
-flake8 --show-source src/
+#flake8 --show-source src/
 
 ### deactivate virtualenv
 if [ $DEACTIVE == true ]; then
