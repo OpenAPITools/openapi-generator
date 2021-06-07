@@ -33,7 +33,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>test_python3.sh</executable>
+                            <executable>./test_python3.sh</executable>
                         </configuration>
                     </execution>
                 </executions>
