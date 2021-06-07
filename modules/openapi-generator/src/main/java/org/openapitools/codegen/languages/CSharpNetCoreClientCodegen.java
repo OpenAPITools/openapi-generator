@@ -639,7 +639,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
+            LOGGER.warn("{} is not supported in the .NET Standard generator.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
             additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
         }
 
@@ -789,7 +789,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         } else {
             this.targetFramework = dotnetFramework;
         }
-        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
     }
 
     public void setTargetFramework(List<FrameworkStrategy> strategies) {
@@ -804,7 +804,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
         this.targetFramework = strategies.stream().map(p -> p.name)
                 .collect(Collectors.joining(";"));
-        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
     }
 
     public void setTestTargetFramework(String testTargetFramework) {
@@ -1026,7 +1026,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
             properties.put(NET_STANDARD, this.isNetStandard);
             if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET " + this.name + " generator does not support the UWP option. Use the csharp generator instead.");
+                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
+                        this.name);
                 properties.remove(SUPPORTS_UWP);
             }
         }

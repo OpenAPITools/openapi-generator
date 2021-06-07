@@ -468,7 +468,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         } else if (REST_ASSURED.equals(getLibrary())) {
             if (getSerializationLibrary() == null) {
-                LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
             if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
@@ -496,7 +496,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
         } else {
-            LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
         if (usePlayWS) {
@@ -553,7 +553,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
         switch (getSerializationLibrary()) {
@@ -997,7 +997,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void forceSerializationLibrary(String serializationLibrary) {
         if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
-            LOGGER.warn("The configured serializationLibrary '" + this.serializationLibrary + "', is not supported by the library: '" + getLibrary() + "', switching back to: " + serializationLibrary);
+            LOGGER.warn(
+                    "The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
+                    this.serializationLibrary, getLibrary(), serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
     }
