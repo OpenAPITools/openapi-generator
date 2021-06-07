@@ -212,6 +212,7 @@ Class | Method | HTTP request | Description
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
+ - [ShapeName](docs/ShapeName.md)
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SomeObject](docs/SomeObject.md)

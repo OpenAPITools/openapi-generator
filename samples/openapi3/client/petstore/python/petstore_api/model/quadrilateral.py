@@ -31,8 +31,10 @@ from petstore_api.exceptions import ApiAttributeError
 
 def lazy_import():
     from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
+    from petstore_api.model.shape_name import ShapeName
     from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
     globals()['ComplexQuadrilateral'] = ComplexQuadrilateral
+    globals()['ShapeName'] = ShapeName
     globals()['SimpleQuadrilateral'] = SimpleQuadrilateral
 
 
@@ -90,6 +92,7 @@ class Quadrilateral(ModelComposed):
         lazy_import()
         return {
             'quadrilateral_type': (str,),  # noqa: E501
+            'name': (ShapeName,),  # noqa: E501
             'shape_type': (str,),  # noqa: E501
         }
 
@@ -106,6 +109,7 @@ class Quadrilateral(ModelComposed):
 
     attribute_map = {
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
+        'name': 'name',  # noqa: E501
         'shape_type': 'shapeType',  # noqa: E501
     }
 
@@ -149,6 +153,7 @@ class Quadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
             shape_type (str): [optional]  # noqa: E501
         """
 
@@ -250,6 +255,7 @@ class Quadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
             shape_type (str): [optional]  # noqa: E501
         """
 

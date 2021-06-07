@@ -32,8 +32,10 @@ from petstore_api.exceptions import ApiAttributeError
 def lazy_import():
     from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
     from petstore_api.model.shape_interface import ShapeInterface
+    from petstore_api.model.shape_name import ShapeName
     globals()['QuadrilateralInterface'] = QuadrilateralInterface
     globals()['ShapeInterface'] = ShapeInterface
+    globals()['ShapeName'] = ShapeName
 
 
 class SimpleQuadrilateral(ModelComposed):
@@ -91,6 +93,7 @@ class SimpleQuadrilateral(ModelComposed):
         return {
             'shape_type': (str,),  # noqa: E501
             'quadrilateral_type': (str,),  # noqa: E501
+            'name': (ShapeName,),  # noqa: E501
         }
 
     @cached_property
@@ -101,6 +104,7 @@ class SimpleQuadrilateral(ModelComposed):
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
+        'name': 'name',  # noqa: E501
     }
 
     read_only_vars = {
@@ -144,6 +148,7 @@ class SimpleQuadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -245,6 +250,7 @@ class SimpleQuadrilateral(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

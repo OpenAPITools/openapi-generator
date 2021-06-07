@@ -31,8 +31,10 @@ from petstore_api.exceptions import ApiAttributeError
 
 def lazy_import():
     from petstore_api.model.shape_interface import ShapeInterface
+    from petstore_api.model.shape_name import ShapeName
     from petstore_api.model.triangle_interface import TriangleInterface
     globals()['ShapeInterface'] = ShapeInterface
+    globals()['ShapeName'] = ShapeName
     globals()['TriangleInterface'] = TriangleInterface
 
 
@@ -91,6 +93,7 @@ class IsoscelesTriangle(ModelComposed):
         return {
             'shape_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
+            'name': (ShapeName,),  # noqa: E501
         }
 
     @cached_property
@@ -101,6 +104,7 @@ class IsoscelesTriangle(ModelComposed):
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501
+        'name': 'name',  # noqa: E501
     }
 
     read_only_vars = {
@@ -144,6 +148,7 @@ class IsoscelesTriangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -245,6 +250,7 @@ class IsoscelesTriangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            name (ShapeName): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

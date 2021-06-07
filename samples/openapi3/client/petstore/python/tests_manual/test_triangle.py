@@ -14,6 +14,7 @@ import sys
 import unittest
 
 import petstore_api
+from petstore_api.configuration import Configuration
 try:
     from petstore_api.model import equilateral_triangle
 except ImportError:
@@ -30,6 +31,7 @@ except ImportError:
     scalene_triangle = sys.modules[
         'petstore_api.model.scalene_triangle']
 from petstore_api.model.triangle import Triangle
+from petstore_api.model.shape_name import ShapeName
 
 
 class TestTriangle(unittest.TestCase):
@@ -49,6 +51,25 @@ class TestTriangle(unittest.TestCase):
         assert isinstance(tri, isosceles_triangle.IsoscelesTriangle)
         tri = Triangle(shape_type="Triangle", triangle_type="ScaleneTriangle")
         assert isinstance(tri, scalene_triangle.ScaleneTriangle)
+
+    def testShapeNameInsideAllOf(self):
+        """Test construction of a composed object where a constructor
+           argument is selectively passed down to the associated
+           allOf object"""
+
+        shape_name = ShapeName("mytriangle")
+
+        # Apply discard_unknown_keys so that setting property
+        # ShapeName inside allOf instances that do not accept that
+        # will discard it rather than throw and exception.
+        configuration = Configuration(discard_unknown_keys=True)
+        tri = equilateral_triangle.EquilateralTriangle(
+            triangle_type="EquilateralTriangle",
+            shape_type="Triangle",
+            name=shape_name,
+            _configuration = configuration,
+        )
+        assert tri.name == shape_name
 
 
 if __name__ == '__main__':

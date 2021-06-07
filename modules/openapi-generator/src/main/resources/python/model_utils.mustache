@@ -93,7 +93,7 @@ def composed_model_input_classes(cls):
         if cls.discriminator is None:
             return [cls]
         else:
-            return get_discriminated_classes(cls)
+            return get_discriminated_classes(cls, [], [])
     elif issubclass(cls, ModelComposed):
         if not cls._composed_schemas['oneOf']:
             return []
@@ -103,7 +103,7 @@ def composed_model_input_classes(cls):
                 input_classes.extend(composed_model_input_classes(c))
             return input_classes
         else:
-            return get_discriminated_classes(cls)
+            return get_discriminated_classes(cls, [], [])
     return []
 
 
@@ -799,18 +799,19 @@ def remove_uncoercible(required_types_classes, current_item, spec_property_namin
             results_classes.append(required_type_class)
     return results_classes
 
-def get_discriminated_classes(cls):
+def get_discriminated_classes(cls, seen_discriminator, possible_classes):
     """
     Returns all the classes that a discriminator converts to
     TODO: lru_cache this
     """
-    possible_classes = []
     key = list(cls.discriminator.keys())[0]
     if is_type_nullable(cls):
         possible_classes.append(cls)
     for discr_cls in cls.discriminator[key].values():
         if hasattr(discr_cls, 'discriminator') and discr_cls.discriminator is not None:
-            possible_classes.extend(get_discriminated_classes(discr_cls))
+            if not discr_cls in seen_discriminator:
+                seen_discriminator.append(discr_cls)
+                get_discriminated_classes(discr_cls, seen_discriminator, possible_classes)
         else:
             possible_classes.append(discr_cls)
     return possible_classes
@@ -823,7 +824,8 @@ def get_possible_classes(cls, from_server_context):
         return possible_classes
     if hasattr(cls, 'discriminator') and cls.discriminator is not None:
         possible_classes = []
-        possible_classes.extend(get_discriminated_classes(cls))
+        seen_discriminator = []
+        get_discriminated_classes(cls, seen_discriminator, possible_classes)
     elif issubclass(cls, ModelComposed):
         possible_classes.extend(composed_model_input_classes(cls))
     return possible_classes

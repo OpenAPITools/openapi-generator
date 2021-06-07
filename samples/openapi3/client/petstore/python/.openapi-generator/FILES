@@ -85,6 +85,7 @@ docs/Readonly.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
+docs/ShapeName.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SomeObject.md
@@ -194,6 +195,7 @@ petstore_api/model/readonly.py
 petstore_api/model/scalene_triangle.py
 petstore_api/model/shape.py
 petstore_api/model/shape_interface.py
+petstore_api/model/shape_name.py
 petstore_api/model/shape_or_null.py
 petstore_api/model/simple_quadrilateral.py
 petstore_api/model/some_object.py

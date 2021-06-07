@@ -87,6 +87,7 @@ from petstore_api.model.readonly import Readonly
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 from petstore_api.model.shape import Shape
 from petstore_api.model.shape_interface import ShapeInterface
+from petstore_api.model.shape_name import ShapeName
 from petstore_api.model.shape_or_null import ShapeOrNull
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.model.some_object import SomeObject

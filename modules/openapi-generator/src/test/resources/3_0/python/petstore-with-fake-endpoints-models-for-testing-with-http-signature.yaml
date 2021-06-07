@@ -2306,10 +2306,16 @@ components:
       discriminator:
         propertyName: shapeType
       nullable: true
+    ShapeName:
+      type: string
+      minLength: 1
+      maxLength: 100
     ShapeInterface:
       properties:
         shapeType:
           type: string
+        name:
+          $ref: '#/components/schemas/ShapeName'
       required:
         - shapeType
     TriangleInterface:
