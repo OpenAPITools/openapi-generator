@@ -293,7 +293,7 @@ function Remove-PSUser {
         if (!$Username) {
             throw "Error! The required parameter `Username` missing when calling deleteUser."
         }
-        $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
+        $LocalVarUri = $LocalVarUri.replace('{username}', [System.Web.HTTPUtility]::UrlEncode($Username))
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -383,7 +383,7 @@ function Get-PSUserByName {
         if (!$Username) {
             throw "Error! The required parameter `Username` missing when calling getUserByName."
         }
-        $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
+        $LocalVarUri = $LocalVarUri.replace('{username}', [System.Web.HTTPUtility]::UrlEncode($Username))
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -624,7 +624,7 @@ function Update-PSUser {
         if (!$Username) {
             throw "Error! The required parameter `Username` missing when calling updateUser."
         }
-        $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
+        $LocalVarUri = $LocalVarUri.replace('{username}', [System.Web.HTTPUtility]::UrlEncode($Username))
 
         if (!$User) {
             throw "Error! The required parameter `User` missing when calling updateUser."

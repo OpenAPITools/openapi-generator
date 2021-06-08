@@ -90,7 +90,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         if (!$<paramName>) {
             throw "Error! The required parameter `<paramName>` missing when calling <operationId>."
         }
-        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
+        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', [System.Web.HTTPUtility]::UrlEncode($<paramName>))
         </pathParams>
         <={{ }}=>
 
