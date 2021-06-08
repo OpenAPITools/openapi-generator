@@ -177,6 +177,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    protected String removeOperationIdPrefixDelimiter = "_";
+    protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
@@ -321,6 +323,16 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
             this.setRemoveOperationIdPrefix(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER)) {
+            this.setRemoveOperationIdPrefixDelimiter(additionalProperties
+                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT)) {
+            this.setRemoveOperationIdPrefixCount(Integer.parseInt(additionalProperties
+                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SKIP_OPERATION_EXAMPLE)) {
@@ -3725,9 +3737,14 @@ public class DefaultCodegen implements CodegenConfig {
         String operationId = getOrGenerateOperationId(operation, path, httpMethod);
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
-            int offset = operationId.indexOf('_');
-            if (offset > -1) {
-                operationId = operationId.substring(offset + 1);
+            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
+            String[] componenets = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (componenets.length > 1) {
+                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
+                int componenet_number = removeOperationIdPrefixCount == -1 ? componenets.length - 1 : removeOperationIdPrefixCount;
+                componenet_number = Math.min(componenet_number, componenets.length - 1);
+                // Reconstruct the operationId from its split elements and the delimiter
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(componenets, componenet_number, componenets.length));
             }
         }
         operationId = removeNonNameElementToCamelCase(operationId);
@@ -4990,7 +5007,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String removeNonNameElementToCamelCase(String name) {
-        return removeNonNameElementToCamelCase(name, "[-_:;#]");
+        return removeNonNameElementToCamelCase(name, "[-_:;#" + removeOperationIdPrefixDelimiter + "]");
     }
 
     /**
@@ -5067,6 +5084,22 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
+    }
+
+    public String getRemoveOperationIdPrefixDelimiter() {
+        return removeOperationIdPrefixDelimiter;
+    }
+
+    public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
+        this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
+    }
+
+    public int getRemoveOperationIdPrefixCount() {
+        return removeOperationIdPrefixCount;
+    }
+
+    public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
+        this.removeOperationIdPrefixCount = removeOperationIdPrefixCount;
     }
 
     public void setSkipOperationExample(boolean skipOperationExample) {
