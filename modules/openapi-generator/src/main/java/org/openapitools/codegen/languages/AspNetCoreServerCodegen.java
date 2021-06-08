@@ -649,20 +649,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    private void setNullableReferenceTypes() {
-        if (additionalProperties.containsKey(NULLABLE_REFERENCE_TYPES)) {
-            if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
-                LOGGER.warn("Nullable annotation are not supported in ASP.NET core version 2. Setting {} to false",
-                        NULLABLE_REFERENCE_TYPES);
-                additionalProperties.put(NULLABLE_REFERENCE_TYPES, false);
-            } else {
-                nullableReferenceTypes = convertPropertyToBooleanAndWriteBack(NULLABLE_REFERENCE_TYPES);
-            }
-        } else {
-            additionalProperties.put(NULLABLE_REFERENCE_TYPES, nullableReferenceTypes);
-        }
-    }
-
     private void setOperationIsAsync() {
         if (isLibrary) {
             operationIsAsync = false;
