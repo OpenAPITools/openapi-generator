@@ -238,7 +238,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -252,7 +252,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String filename = underscore("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, filename);
             return filename;
         }
 

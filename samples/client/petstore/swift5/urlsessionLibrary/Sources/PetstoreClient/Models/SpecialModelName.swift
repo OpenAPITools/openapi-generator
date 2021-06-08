@@ -44,4 +44,5 @@ public final class SpecialModelName: Codable, Hashable {
         
     }
 }
+
 }

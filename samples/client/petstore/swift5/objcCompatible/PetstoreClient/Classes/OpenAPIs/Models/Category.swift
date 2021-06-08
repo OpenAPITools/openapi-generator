@@ -38,3 +38,4 @@ import AnyCodable
         try container.encode(name, forKey: .name)
     }
 }
+

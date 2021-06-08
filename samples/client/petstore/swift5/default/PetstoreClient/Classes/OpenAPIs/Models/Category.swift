@@ -33,3 +33,4 @@ public struct Category: Codable, Hashable {
         try container.encode(name, forKey: .name)
     }
 }
+

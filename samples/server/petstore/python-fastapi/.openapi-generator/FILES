@@ -1,3 +1,4 @@
+.flake8
 .gitignore
 Dockerfile
 README.md

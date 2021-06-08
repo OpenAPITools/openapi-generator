@@ -300,6 +300,7 @@
             {{/parent}}
             {{#vars}}
             {{#hasValidation}}
+            {{^isEnum}}
             {{#maxLength}}
             // {{{name}}} ({{{dataType}}}) maxLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
@@ -343,6 +344,7 @@
 
             {{/isByteArray}}
             {{/pattern}}
+            {{/isEnum}}
             {{/hasValidation}}
             {{/vars}}
             yield break;

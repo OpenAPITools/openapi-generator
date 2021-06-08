@@ -37,3 +37,4 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(map, forKey: .map)
     }
 }
+

@@ -497,7 +497,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                 } else if ("pipes".equals(p.collectionFormat)) {
                     p.vendorExtensions.put("x-codegen-collection-pipes", true);
                 } else {
-                    LOGGER.warn("Unsupported collection format in Bash generator: " + p.collectionFormat);
+                    LOGGER.warn("Unsupported collection format in Bash generator: {}", p.collectionFormat);
                 }
             }
         }
@@ -778,7 +778,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if ("array".equalsIgnoreCase(type) || "map".equalsIgnoreCase(type)) {
             // skip map/array as it will be handled below
         } else {
-            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Type {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
@@ -802,20 +802,20 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = camelize("empty_method_name_" + emptyMethodNameCounter++, true);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call" + camelize(operationId));
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

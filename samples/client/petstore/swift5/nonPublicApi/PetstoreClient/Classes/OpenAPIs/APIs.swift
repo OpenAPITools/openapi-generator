@@ -11,8 +11,8 @@ internal typealias PetstoreClientAPI = PetstoreClient
 
 internal class PetstoreClient {
     internal static var basePath = "http://petstore.swagger.io:80/v2"
-    internal static var credential: URLCredential?
     internal static var customHeaders: [String: String] = [:]
+    internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     internal static var apiResponseQueue: DispatchQueue = .main
 }

@@ -35,3 +35,4 @@ public struct BigCat: Codable, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
     }
 }
+

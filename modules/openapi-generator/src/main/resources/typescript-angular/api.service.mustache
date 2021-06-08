@@ -93,11 +93,16 @@ export class {{classname}} {
 {{/hasSomeFormParams}}
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        {{#isQueryParamObjectFormatJson}}
+        httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        {{/isQueryParamObjectFormatJson}}
+        {{^isQueryParamObjectFormatJson}}
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
         }
+        {{/isQueryParamObjectFormatJson}}
         return httpParams;
     }
 

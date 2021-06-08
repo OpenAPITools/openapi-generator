@@ -33,3 +33,4 @@ internal struct Animal: Codable, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
     }
 }
+

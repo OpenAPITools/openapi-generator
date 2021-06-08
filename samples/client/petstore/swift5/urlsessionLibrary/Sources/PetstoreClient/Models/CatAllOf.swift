@@ -44,4 +44,5 @@ public final class CatAllOf: Codable, Hashable {
         
     }
 }
+
 }
