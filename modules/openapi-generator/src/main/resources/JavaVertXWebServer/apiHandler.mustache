@@ -56,11 +56,8 @@ public class {{classname}}Handler {
         api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
