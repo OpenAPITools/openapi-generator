@@ -209,6 +209,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         cliOptions.add(swashbuckleVersion);
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                this.nullReferenceTypesFlag);
+
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 sortParamsByRequiredFlag);
