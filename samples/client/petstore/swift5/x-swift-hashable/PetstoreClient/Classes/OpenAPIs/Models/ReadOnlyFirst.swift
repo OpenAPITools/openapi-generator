@@ -33,3 +33,4 @@ public struct ReadOnlyFirst: Codable {
         try container.encodeIfPresent(baz, forKey: .baz)
     }
 }
+

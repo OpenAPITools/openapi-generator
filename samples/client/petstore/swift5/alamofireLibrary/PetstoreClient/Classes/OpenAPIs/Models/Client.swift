@@ -29,3 +29,4 @@ public struct Client: Codable, Hashable {
         try container.encodeIfPresent(client, forKey: .client)
     }
 }
+

@@ -5,18 +5,26 @@
 //
 
 import Foundation
+{{#useVapor}}
+import Vapor
+{{/useVapor}}
 
 @available(*, deprecated, renamed: "{{projectName}}")
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{projectName}}API = {{projectName}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{projectName}} {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var basePath = "{{{basePath}}}"
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var credential: URLCredential?
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var customHeaders: [String: String] = [:]{{#useAlamofire}}
+    {{#useVapor}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var customHeaders: HTTPHeaders = [:]
+    {{/useVapor}}
+    {{^useVapor}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var customHeaders: [String: String] = [:]
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var credential: URLCredential?{{#useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory(){{/useAlamofire}}{{#useURLSession}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory(){{/useURLSession}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var apiResponseQueue: DispatchQueue = .main
-}
+    {{/useVapor}}
+}{{^useVapor}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T> {
     var credential: URLCredential?
@@ -63,4 +71,4 @@ import Foundation
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
-}
+}{{/useVapor}}

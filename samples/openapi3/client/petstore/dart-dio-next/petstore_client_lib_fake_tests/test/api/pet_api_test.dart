@@ -1,11 +1,13 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/src/parameter.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 import '../matcher/form_data_matcher.dart';
+import '../matcher/list_param_matcher.dart';
 
 void main() {
   const photo1 = 'https://localhost/photo1.jpg';
@@ -195,10 +197,12 @@ void main() {
           request: Request(
             method: RequestMethods.get,
             queryParameters: <String, dynamic>{
-              'status': <String>[
-                'available',
-                'sold',
-              ],
+              'status': ListParamMatcher<dynamic>(
+                expected: ListParam<String>(
+                  ['available', 'sold'],
+                  ListFormat.csv,
+                ),
+              ),
             },
             headers: <String, dynamic>{
               Headers.contentTypeHeader: Matchers.pattern('application/json'),

@@ -30,3 +30,4 @@ public struct ClassModel: Codable, Hashable {
         try container.encodeIfPresent(`class`, forKey: .`class`)
     }
 }
+

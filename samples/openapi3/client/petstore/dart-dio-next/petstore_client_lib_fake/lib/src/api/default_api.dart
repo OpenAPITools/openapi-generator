@@ -51,13 +51,9 @@ class DefaultApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

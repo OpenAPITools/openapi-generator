@@ -77,3 +77,4 @@ internal struct FormatTest: Codable, Hashable {
         try container.encode(password, forKey: .password)
     }
 }
+

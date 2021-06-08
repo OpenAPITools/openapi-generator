@@ -33,3 +33,4 @@ public struct AdditionalPropertiesClass: Codable {
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
     }
 }
+

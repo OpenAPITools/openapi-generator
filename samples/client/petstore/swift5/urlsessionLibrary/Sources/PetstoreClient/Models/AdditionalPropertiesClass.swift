@@ -50,4 +50,5 @@ public final class AdditionalPropertiesClass: Codable, Hashable {
         
     }
 }
+
 }

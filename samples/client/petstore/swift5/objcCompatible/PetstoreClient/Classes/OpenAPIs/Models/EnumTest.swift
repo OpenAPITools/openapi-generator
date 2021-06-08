@@ -63,3 +63,4 @@ import AnyCodable
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 }
+

@@ -11,8 +11,8 @@ public typealias PetstoreClientAPI = PetstoreClient
 
 open class PetstoreClient {
     public static var basePath = "http://localhost"
-    public static var credential: URLCredential?
     public static var customHeaders: [String: String] = [:]
+    public static var credential: URLCredential?
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
 }

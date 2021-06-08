@@ -29,3 +29,4 @@ public struct ArrayOfNumberOnly: Codable, Hashable {
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
 }
+

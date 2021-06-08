@@ -62,4 +62,5 @@ public final class StringBooleanMap: Codable, Hashable {
         hasher.combine(additionalProperties.hashValue)
     }
 }
+
 }

@@ -153,7 +153,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
         final String srcFolder = libFolder + File.separator + "src";
         supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
-        supportingFiles.add(new SupportingFile("api_util.mustache", srcFolder, "api_util.dart"));
 
         final String authFolder = srcFolder + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
@@ -177,6 +176,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -339,7 +339,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
 
             resultImports.addAll(rewriteImports(op.imports, false));
-            if (op.getHasFormParams()) {
+            if (op.getHasFormParams() || op.getHasQueryParams()) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
 

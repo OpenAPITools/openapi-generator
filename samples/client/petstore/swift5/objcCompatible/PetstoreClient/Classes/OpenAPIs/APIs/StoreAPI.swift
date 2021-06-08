@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc open class StoreAPI : NSObject {
+
     /**
      Delete purchase order by ID
      
@@ -185,5 +189,4 @@ import Foundation
 
         return requestBuilder.init(method: "POST", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }
