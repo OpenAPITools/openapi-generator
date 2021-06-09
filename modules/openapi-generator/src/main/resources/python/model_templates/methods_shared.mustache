@@ -13,3 +13,20 @@
     def __getattr__(self, attr):
         """get the value of an attribute using dot notation: `instance.attr`"""
         return self.{{#attrNoneIfUnset}}get{{/attrNoneIfUnset}}{{^attrNoneIfUnset}}__getitem__{{/attrNoneIfUnset}}(attr)
+
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        kwargs = {}
+        if self.discriminator and self.discriminator.keys():
+            key = list(cls.discriminator.keys())[0]
+            kwargs[key] = self.get(key)
+        result = cls.__new__(cls, **kwargs)
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result

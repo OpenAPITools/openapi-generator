@@ -179,7 +179,7 @@ class Parent(ModelComposed):
             '_visited_composed_classes': self._visited_composed_classes,
         }
         composed_info = validate_get_composed_info(
-            constant_args, kwargs, self)
+            constant_args, kwargs, self, from_openapi_data=True)
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
@@ -195,6 +195,7 @@ class Parent(ModelComposed):
             setattr(self, var_name, var_value)
 
         return self
+
 
     required_properties = set([
         '_data_store',
