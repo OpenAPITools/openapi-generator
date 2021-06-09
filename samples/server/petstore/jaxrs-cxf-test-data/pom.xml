@@ -233,7 +233,7 @@
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>openapi-generator</artifactId>
-      <version>5.0.0-SNAPSHOT</version>
+      <version>5.2.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <repositories>
