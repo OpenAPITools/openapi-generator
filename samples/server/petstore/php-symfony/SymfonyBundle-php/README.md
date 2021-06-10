@@ -150,6 +150,8 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](Resources/docs/Model/ApiResponse.md)
  - [Category](Resources/docs/Model/Category.md)
+ - [InlineObject](Resources/docs/Model/InlineObject.md)
+ - [InlineObject1](Resources/docs/Model/InlineObject1.md)
  - [Order](Resources/docs/Model/Order.md)
  - [Pet](Resources/docs/Model/Pet.md)
  - [Tag](Resources/docs/Model/Tag.md)

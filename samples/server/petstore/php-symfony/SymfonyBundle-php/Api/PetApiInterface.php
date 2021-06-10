@@ -79,7 +79,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
@@ -94,7 +94,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return \void
      *
      */
     public function deletePet($petId, $apiKey = null, &$responseCode, array &$responseHeaders);
@@ -108,7 +108,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
+     * @return \OpenAPI\Server\Model\Pet[]
      *
      */
     public function findPetsByStatus(array $status, &$responseCode, array &$responseHeaders);
@@ -122,7 +122,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
+     * @return \OpenAPI\Server\Model\Pet[]
      *
      */
     public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
@@ -136,7 +136,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function getPetById($petId, &$responseCode, array &$responseHeaders);
@@ -150,7 +150,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
@@ -166,7 +166,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return \void
      *
      */
     public function updatePetWithForm($petId, $name = null, $status = null, &$responseCode, array &$responseHeaders);
@@ -182,7 +182,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\ApiResponse
+     * @return \OpenAPI\Server\Model\ApiResponse
      *
      */
     public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);
