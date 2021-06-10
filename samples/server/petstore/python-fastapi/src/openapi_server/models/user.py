@@ -34,3 +34,5 @@ class User(BaseModel):
     password: Optional[str] = None
     phone: Optional[str] = None
     user_status: Optional[int] = None
+
+User.update_forward_refs()

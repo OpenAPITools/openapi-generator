@@ -32,3 +32,5 @@ class Pet(BaseModel):
     photo_urls: List[str]
     tags: Optional[List[Tag]] = None
     status: Optional[str] = None
+
+Pet.update_forward_refs()

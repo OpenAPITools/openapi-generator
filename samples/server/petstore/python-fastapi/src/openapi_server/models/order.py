@@ -30,3 +30,5 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = None
     status: Optional[str] = None
     complete: Optional[bool] = None
+
+Order.update_forward_refs()

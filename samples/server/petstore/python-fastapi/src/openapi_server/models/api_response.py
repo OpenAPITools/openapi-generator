@@ -24,3 +24,5 @@ class ApiResponse(BaseModel):
     code: Optional[int] = None
     type: Optional[str] = None
     message: Optional[str] = None
+
+ApiResponse.update_forward_refs()
