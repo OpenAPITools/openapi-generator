@@ -48,8 +48,6 @@ public class TypeScriptClientModelTest {
 
         String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
 
-        System.out.println(s);
-
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an any of with array oneof model");
