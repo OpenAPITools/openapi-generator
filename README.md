@@ -950,6 +950,7 @@ Here is a list of template creators:
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
+   * PHP Slim4: @ybelenko
    * PHP Symfony: @ksm2
    * PHP Zend Expressive (with Path Handler): @Articus
    * Python FastAPI: @krjakbrjak
