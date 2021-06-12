@@ -211,6 +211,9 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK = "targetFramework";
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`";
 
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
+    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.";
+
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
@@ -313,6 +316,12 @@ public class CodegenConstants {
 
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
+
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER = "removeOperationIdPrefixDelimiter";
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER_DESC = "Character to use as a delimiter for the prefix. Default: '_'";
+
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT = "removeOperationIdPrefixCount";
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT_DESC = "Count of delimiter for the prefix. Use -1 for last Default: 1";
 
     public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
     public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";

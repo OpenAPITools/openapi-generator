@@ -5,12 +5,7 @@ import com.fasterxml.jackson.databind.*;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
-{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.*;
-{{/java8}}
-{{^java8}}
-import com.fasterxml.jackson.datatype.joda.*;
-{{/java8}}
 
 import java.text.DateFormat;
 
@@ -33,12 +28,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
     {{/openApiNullable}}
-    {{#java8}}
     mapper.registerModule(new JavaTimeModule());
-    {{/java8}}
-    {{^java8}}
-    mapper.registerModule(new JodaModule());
-    {{/java8}}
   }
 
   /**

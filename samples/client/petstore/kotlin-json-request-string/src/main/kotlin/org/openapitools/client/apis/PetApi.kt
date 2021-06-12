@@ -154,6 +154,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
+        @Suppress("DEPRECATION")
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
 
         val localVarResponse = request<Unit, kotlin.collections.List<Pet>>(
