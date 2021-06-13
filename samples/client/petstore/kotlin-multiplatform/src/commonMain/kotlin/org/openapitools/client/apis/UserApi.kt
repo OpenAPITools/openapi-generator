@@ -45,7 +45,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/user",
             query = localVariableQuery,
@@ -77,7 +77,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/user/createWithArray",
             query = localVariableQuery,
@@ -118,7 +118,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/user/createWithList",
             query = localVariableQuery,
@@ -160,7 +160,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.DELETE,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
@@ -193,7 +193,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
@@ -229,7 +229,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/user/login",
             query = localVariableQuery,
@@ -260,7 +260,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/user/logout",
             query = localVariableQuery,
@@ -292,7 +292,7 @@ class UserApi(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.PUT,
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
