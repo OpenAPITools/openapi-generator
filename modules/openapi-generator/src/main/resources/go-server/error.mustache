@@ -1,0 +1,28 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"net/http"
+)
+
+type ParsingError struct {
+	Err error
+}
+
+func (e *ParsingError) Unwrap() error {
+	return e.Err
+}
+
+func (e *ParsingError) Error() string {
+	return e.Err.Error()
+}
+
+type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error, result ...*ImplResponse)
+
+func DefaultErrorHandler(w http.ResponseWriter, r *http.Request, err error, result ...*ImplResponse) {
+	if _, ok := err.(*ParsingError); ok {
+		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest),{{#addResponseHeaders}} map[string][]string{},{{/addResponseHeaders}} w)
+	} else {
+        EncodeJSONResponse(err.Error(), &result[0].Code,{{#addResponseHeaders}} result[0].Headers,{{/addResponseHeaders}} w)
+	}
+}
