@@ -412,17 +412,17 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
-                param.vendorExtensions.put("x-comment-type", param.dataType);
+                param.vendorExtensions.put("x-comment-type", "\\" + param.dataType);
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
+                    param.vendorExtensions.put("x-comment-type", "\\" + param.dataType + "[]");
                 }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
-                op.vendorExtensions.put("x-comment-type", op.returnType);
+                op.vendorExtensions.put("x-comment-type", "\\" + op.returnType);
                 if ("array".equals(op.returnContainer)) {
-                    op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
+                    op.vendorExtensions.put("x-comment-type", "\\" + op.returnType + "[]");
                 }
             } else {
                 op.vendorExtensions.put("x-comment-type", "void");
