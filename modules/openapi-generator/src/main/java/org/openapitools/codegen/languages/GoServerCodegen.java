@@ -27,8 +27,19 @@ import java.util.*;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
+    /**
+     *  Name of additional property for switching routers
+     */
     private static final String ROUTER_SWITCH = "router";
+
+    /**
+     * Description of additional property for switching routers
+     */
     private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
+
+    /**
+     * List of available routers
+     */
     private static final String[] ROUTERS = { "mux", "chi" };
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
