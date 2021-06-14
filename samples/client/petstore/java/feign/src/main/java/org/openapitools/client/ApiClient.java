@@ -126,6 +126,7 @@ public class ApiClient {
     return objectMapper;
   }
 
+
   public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
@@ -209,7 +210,7 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure the client credentials for Oauth
+   * Helper method to configure the client credentials for Oauth 
    * @param username Username
    * @param password Password
    */
