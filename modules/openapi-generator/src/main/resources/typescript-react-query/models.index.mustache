@@ -1,0 +1,12 @@
+{{#models}}
+{{#model}}
+{{#isEnum}}
+
+export { {{classname}} } from './{{{ classFilename }}}';
+{{/isEnum}}
+{{^isEnum}}
+import type { {{classname}} } from  './{{{ classFilename }}}';
+export { {{classname}} };
+{{/isEnum}}
+{{/model}}
+{{/models}}

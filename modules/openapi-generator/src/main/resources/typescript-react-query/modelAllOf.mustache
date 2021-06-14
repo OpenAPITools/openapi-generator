@@ -1,0 +1,15 @@
+{{#hasImports}}
+import {
+  {{#imports}}
+  {{{.}}},
+  {{/imports}}
+} from './';
+
+{{/hasImports}}
+/**
+ * @type {{classname}}{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export interface {{classname}} extends {{#allOf}}{{{.}}}{{^-last}}, {{/-last}}{{/allOf}} {
+}

@@ -1,0 +1,208 @@
+// tslint:disable
+{{>licenseInfo}}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from 'react-query';
+import Axios from '../runtime';
+{{#imports.0}}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import type {
+  {{#imports}}
+  {{className}},
+  {{/imports}}
+} from '../models';
+{{/imports.0}}
+
+type SecondParameter<T extends (...args: any) => any> = T extends (
+  config: any,
+  args: infer P,
+) => any
+  ? P extends unknown
+  ? Record<string, any>
+  : P
+  : never;
+
+{{#operations}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{operationIdCamelCase}}ForQuery {
+  {{#allParams}}
+  {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+  {{/allParams}}
+}
+{{/allParams.0}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+
+{{#operation}}
+/**
+ {{#notes}}
+ * {{&notes}}
+ {{/notes}}
+ {{#summary}}
+ * {{&summary}}
+ {{/summary}}
+ */
+
+{{^vendorExtensions.x-is-mutation}}
+export const {{nickname}}AxiosRequest = (
+  {{#allParams.0}}
+  requestParameters: {{operationIdCamelCase}}ForQuery,
+  {{/allParams.0}}
+  options?: SecondParameter<typeof Axios>
+) => {
+  return Axios<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}>(
+    {
+      url: '{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+      method: '{{httpMethod}}',
+      {{#allParams.0}}
+      requestParameters
+      {{/allParams.0}}
+    },
+    // eslint-disable-next-line
+    // @ts-ignore
+    options
+  );
+};
+
+export const {{nickname}}QueryKey = (
+  {{#allParams.0}}
+  requestParametersQuery: {{operationIdCamelCase}}ForQuery,
+  {{/allParams.0}}
+  pageParam = -1,
+  version = 1,
+) => [
+  `/v${version}{{path}}`,
+  pageParam,
+  {{#allParams.0}}
+  ...(requestParametersQuery ? [requestParametersQuery] : [])
+  {{/allParams.0}}
+];
+
+
+export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error = ApiError>(
+  {{#allParams.0}}
+  params: {{operationIdCamelCase}}ForQuery,
+  {{/allParams.0}}
+  pageParam = -1,
+  version = 1,
+  options?: {
+    query?: UseInfiniteQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>;
+    request?: SecondParameter<typeof Axios>;
+  },
+) => {
+  const queryKey = {{nickname}}QueryKey({{#allParams.0}}params, {{/allParams.0}}pageParam, version);
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const query = useInfiniteQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>(
+    queryKey,
+    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}requestOptions),
+    { enabled: !!version, ...queryOptions }
+  );
+
+  return {
+    queryKey,
+    ...query
+  };
+};
+
+export const use{{vendorExtensions.nickname-capitalized}}Query = <Error = ApiError>(
+  {{#allParams.0}}
+  params: {{operationIdCamelCase}}ForQuery,
+  {{/allParams.0}}
+  version = 1,
+  options?: {
+  query?: UseQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>;
+  request?: SecondParameter<typeof Axios>;
+}) => {
+  const queryKey = {{nickname}}QueryKey({{#allParams.0}}params,  {{/allParams.0}}version);
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const query = useQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>(
+    queryKey,
+    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}requestOptions),
+    { enabled: !!version, ...queryOptions }
+  );
+
+  return {
+    queryKey,
+    ...query
+  };
+};
+
+{{/vendorExtensions.x-is-mutation}}
+
+{{#vendorExtensions.x-is-mutation}}
+export const {{nickname}}Mutate = (
+  body: {{operationIdCamelCase}}ForQuery,
+  options?: SecondParameter<typeof Axios>
+) => {
+  const url = '{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, encodeURIComponent(String(body.{{paramName}}))){{/pathParams}};
+  {{#pathParams}}
+  delete body.{{paramName}};
+  {{/pathParams}}
+  return Axios<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}>(
+    {
+      url,
+      method: '{{httpMethod}}',
+      {{#hasBodyParam}}
+      data: {
+        {{#bodyParams}}
+        {{#bodyParam}}
+        ...body.{{paramName}}
+        {{/bodyParam}}
+        {{/bodyParams}}
+      }
+      {{/hasBodyParam}}
+    },
+    // eslint-disable-next-line
+    // @ts-ignore
+    options
+  );
+};
+
+export const use{{vendorExtensions.nickname-capitalized}}Mutation = <Error = ApiError>(
+  options?: {
+    mutation?:UseMutationOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}, Error>,
+    request?: SecondParameter<typeof Axios>
+  }
+) => {
+  const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+  // eslint-disable-next-line
+  // @ts-ignore
+  return useMutation<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}, Error, {{operationIdCamelCase}}ForQuery, unknown>((props) => {
+    return  {{nickname}}Mutate(props,requestOptions);
+  }, mutationOptions);
+};
+
+{{/vendorExtensions.x-is-mutation}}
+
+{{/operation}}
+{{/operations}}
+
+
+
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+  {{#enumVars}}
+  {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+  {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
