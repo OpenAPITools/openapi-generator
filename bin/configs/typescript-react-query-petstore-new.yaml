@@ -1,0 +1,6 @@
+generatorName: typescript-react-query
+outputDir: samples/client/petstore/typescript/react/query
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-react-query
+additionalProperties:
+  hideGenerationTimestamp: "true"
