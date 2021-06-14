@@ -126,17 +126,6 @@ public class ApiClient {
     return objectMapper;
   }
 
-  private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
-    switch (flow) {
-      case password:
-        return new OauthPasswordGrant(tokenUrl, scopes);
-      case application:
-        return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
-      default:
-        throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
-    }
-  }
-
   public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
@@ -220,7 +209,7 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure the client credentials for Oauth 
+   * Helper method to configure the client credentials for Oauth
    * @param username Username
    * @param password Password
    */
