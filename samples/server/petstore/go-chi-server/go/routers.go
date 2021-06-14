@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
@@ -42,12 +43,11 @@ const errMsgRequiredMissing = "required parameter is missing"
 // NewRouter creates a new router for any number of api routers
 func NewRouter(routers ...Router) chi.Router {
 	router := chi.NewRouter()
+	router.Use(middleware.Logger)
 	for _, api := range routers {
 		for _, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
-			handler = Logger(handler, route.Name)
-
 			router.Method(route.Method, route.Pattern, handler)
 		}
 	}
