@@ -29,6 +29,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.Locale;
+
 
 public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -215,11 +217,11 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
 
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
             // non GET/HEAD methods are mutation
-            if (!"GET".equals(op.httpMethod.toUpperCase()) && !"HEAD".equals(op.httpMethod.toUpperCase())) {
+            if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT)) && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
                 op.vendorExtensions.put("x-is-mutation", true);
             }
             if(op.nickname != null) {
-                op.vendorExtensions.put("nickname-capitalized", op.nickname.substring(0, 1).toUpperCase() + op.nickname.substring(1));
+                op.vendorExtensions.put("nickname-capitalized", op.nickname.substring(0, 1).toUpperCase(Locale.ROOT) + op.nickname.substring(1));
             }
         }
 
