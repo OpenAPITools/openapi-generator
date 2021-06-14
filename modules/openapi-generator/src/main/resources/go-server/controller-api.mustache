@@ -26,7 +26,7 @@ type {{classname}}Controller struct {
 type {{classname}}Option func(*{{classname}}Controller)
 
 // WithErrorHandler inject ErrorHandler into controller
-func WithErrorHandler(h ErrorHandler) {{classname}}Option {
+func With{{classname}}ErrorHandler(h ErrorHandler) {{classname}}Option {
 	return func(c *{{classname}}Controller) {
 		c.errorHandler = h
 	}
