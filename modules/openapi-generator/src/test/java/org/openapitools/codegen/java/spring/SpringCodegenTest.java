@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.HashMap;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -652,5 +653,35 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
+
+    @Test
+    public void givenTwoOperationAndApiPerOperationTrueWhenAddOperationThenAdd2OperationsWithExpectedName() {
+        SpringCodegen codegen = new SpringCodegen();
+        String resourcePath = "/primaryresource";
+
+        CodegenOperation getOperation = buildOperation(resourcePath, "GET");
+        CodegenOperation putOperation = buildOperation(resourcePath, "PUT");
+
+        codegen.setApiPerOperation(true);
+
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+
+        codegen.addOperationToGroup("Primaryresource", resourcePath, operation, getOperation, operationList);
+        codegen.addOperationToGroup("Primaryresource", resourcePath, operation, putOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 2);
+        Assert.assertTrue(operationList.containsKey("PrimaryresourceGet"));
+        Assert.assertTrue(operationList.containsKey("PrimaryresourcePut"));
+        Assert.assertEquals(getOperation.baseName, "PrimaryresourceGet");
+        Assert.assertEquals(putOperation.baseName, "PrimaryresourcePut");
+    }
+
+    private CodegenOperation buildOperation(String resourcePath, String put) {
+        CodegenOperation putOperation = new CodegenOperation();
+        putOperation.httpMethod = put;
+        putOperation.path = resourcePath;
+        return putOperation;
     }
 }

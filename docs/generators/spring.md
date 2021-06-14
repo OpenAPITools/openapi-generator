@@ -12,6 +12,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
+|apiPerOperation|create one interface and controller classnames per operation| |false|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-spring|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|

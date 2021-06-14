@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.utils.ProcessUtils.operationPerApi;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SpringCodegen extends AbstractJavaCodegen
@@ -62,6 +63,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String USE_TAGS = "useTags";
+    public static final String API_PER_OPERATION = "apiPerOperation";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
@@ -88,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String responseWrapper = "";
     protected boolean skipDefaultInterface = false;
     protected boolean useTags = false;
+    protected boolean apiPerOperation = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
@@ -162,6 +165,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
+        cliOptions.add(CliOption.newBoolean(API_PER_OPERATION, "create one interface and controller classnames per operation", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
@@ -295,6 +299,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
+        }
+
+        if (additionalProperties.containsKey(API_PER_OPERATION)) {
+            this.setApiPerOperation(Boolean.parseBoolean(additionalProperties.get(API_PER_OPERATION).toString()));
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
@@ -499,28 +507,37 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
         if ((SPRING_BOOT.equals(library) || SPRING_MVC_LIBRARY.equals(library)) && !useTags) {
-            String basePath = resourcePath;
-            if (basePath.startsWith("/")) {
-                basePath = basePath.substring(1);
-            }
-            int pos = basePath.indexOf("/");
-            if (pos > 0) {
-                basePath = basePath.substring(0, pos);
-            }
-
-            if ("".equals(basePath)) {
-                basePath = "default";
-            } else {
-                co.subresourceOperation = !co.path.isEmpty();
-            }
-            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
-            opList.add(co);
-            co.baseName = basePath;
+         if (apiPerOperation) {
+             operationPerApi(resourcePath, co, operations);
+         } else {
+             operationPerBasePath(resourcePath, co, operations);
+         }
         } else {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
+    }
+
+    private void operationPerBasePath(String resourcePath, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        String basePath = resourcePath;
+        if (basePath.startsWith("/")) {
+            basePath = basePath.substring(1);
+        }
+        int pos = basePath.indexOf("/");
+        if (pos > 0) {
+            basePath = basePath.substring(0, pos);
+        }
+
+        if ("".equals(basePath)) {
+            basePath = "default";
+        } else {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
+        List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
+        opList.add(co);
+        co.baseName = basePath;
     }
 
     @Override
@@ -786,6 +803,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
+    }
+
+    public void setApiPerOperation(boolean apiPerOperation) {
+        this.apiPerOperation = apiPerOperation;
     }
 
     public void setImplicitHeaders(boolean implicitHeaders) {

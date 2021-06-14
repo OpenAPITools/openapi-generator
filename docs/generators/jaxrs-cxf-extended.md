@@ -12,6 +12,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
+|apiPerOperation|Create interface and controller per operation| |false|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-cxf-server|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
