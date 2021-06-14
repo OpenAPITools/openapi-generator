@@ -269,7 +269,7 @@ To reinstall with the latest master, run `brew uninstall openapi-generator && br
 To install OpenJDK (pre-requisites), please run
 ```sh
 brew tap AdoptOpenJDK/openjdk
-brew cask install adoptopenjdk12
+brew install --cask adoptopenjdk12
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/
 ```
 
