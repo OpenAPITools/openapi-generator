@@ -27,16 +27,30 @@
 
 namespace OpenAPI\Client\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Query;
+use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Client\Common\PluginClientFactory;
+use Http\Client\HttpAsyncClient;
+use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Http\Message\RequestFactory;
+use Http\Promise\Promise;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use const PHP_URL_HOST;
+use const PHP_URL_PATH;
+use const PHP_URL_SCHEME;
 
 /**
  * PetApi Class Doc Comment
@@ -51,7 +65,17 @@ class PetApi
     /**
      * @var ClientInterface
      */
-    protected $client;
+    protected $httpClient;
+
+    /**
+     * @var HttpAsyncClient
+     */
+    protected $httpAsyncClient;
+
+    /**
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
 
     /**
      * @var Configuration
@@ -69,20 +93,56 @@ class PetApi
     protected $hostIndex;
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @var RequestFactoryInterface
      */
+    protected $requestFactory;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    protected $streamFactory;
+
     public function __construct(
-        ClientInterface $client = null,
+        ClientInterface $httpClient = null,
         Configuration $config = null,
+        HttpAsyncClient $httpAsyncClient = null,
+        UriFactoryInterface $uriFactory = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null,
         HeaderSelector $selector = null,
+        ?array $plugins = null,
         $hostIndex = 0
     ) {
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+
+        $plugins = $plugins ?? [
+            new RedirectPlugin(),
+        ];
+
+        $this->httpClient = new HttpMethodsClient(
+            (new PluginClientFactory())->createClient(
+                $httpClient ?? Psr18ClientDiscovery::find(),
+                $plugins
+            ),
+            $this->requestFactory,
+            $this->streamFactory
+        );
+
+        $this->httpAsyncClient = new HttpMethodsClient(
+            (new PluginClientFactory())->createClient(
+                $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
+                $plugins
+            ),
+            $this->requestFactory,
+            $this->streamFactory
+        );
+
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
+
+        $this->config = $config ?? (new Configuration())->setHost('http://petstore.swagger.io:80/v2');
+        $this->headerSelector = $selector ?? new HeaderSelector();
+
         $this->hostIndex = $hostIndex;
     }
 
@@ -154,15 +214,12 @@ class PetApi
         $request = $this->addPetRequest($pet);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -202,7 +259,7 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function addPetAsync($pet)
     {
@@ -226,15 +283,14 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function addPetAsyncWithHttpInfo($pet)
     {
         $returnType = '';
         $request = $this->addPetRequest($pet);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -266,7 +322,7 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function addPetRequest($pet)
     {
@@ -281,7 +337,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -302,7 +358,7 @@ class PetApi
         // for model (json/xml)
         if (isset($pet)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
                 $httpBody = $pet;
             }
@@ -322,11 +378,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -352,13 +408,17 @@ class PetApi
         }
         $operationHost = $operationHosts[$this->hostIndex];
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($operationHost, PHP_URL_HOST);
+        $scheme = parse_url($operationHost, PHP_URL_SCHEME);
+        $basePath = parse_url($operationHost, PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -395,15 +455,12 @@ class PetApi
         $request = $this->deletePetRequest($pet_id, $api_key);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -440,7 +497,7 @@ class PetApi
      * @param  string $api_key (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function deletePetAsync($pet_id, $api_key = null)
     {
@@ -461,15 +518,14 @@ class PetApi
      * @param  string $api_key (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function deletePetAsyncWithHttpInfo($pet_id, $api_key = null)
     {
         $returnType = '';
         $request = $this->deletePetRequest($pet_id, $api_key);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -498,7 +554,7 @@ class PetApi
      * @param  string $api_key (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function deletePetRequest($pet_id, $api_key = null)
     {
@@ -513,7 +569,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -560,11 +616,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -584,13 +640,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('DELETE', $uri, $headers, $httpBody);
     }
 
     /**
@@ -626,15 +686,12 @@ class PetApi
         $request = $this->findPetsByStatusRequest($status);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -704,7 +761,7 @@ class PetApi
      * @param  string[] $status Status values that need to be considered for filter (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function findPetsByStatusAsync($status)
     {
@@ -724,15 +781,14 @@ class PetApi
      * @param  string[] $status Status values that need to be considered for filter (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function findPetsByStatusAsyncWithHttpInfo($status)
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByStatusRequest($status);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -770,7 +826,7 @@ class PetApi
      * @param  string[] $status Status values that need to be considered for filter (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function findPetsByStatusRequest($status)
     {
@@ -785,7 +841,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
         // query params
@@ -827,11 +883,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -851,13 +907,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -893,15 +953,12 @@ class PetApi
         $request = $this->findPetsByTagsRequest($tags);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -971,7 +1028,7 @@ class PetApi
      * @param  string[] $tags Tags to filter by (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function findPetsByTagsAsync($tags)
     {
@@ -991,15 +1048,14 @@ class PetApi
      * @param  string[] $tags Tags to filter by (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function findPetsByTagsAsyncWithHttpInfo($tags)
     {
         $returnType = '\OpenAPI\Client\Model\Pet[]';
         $request = $this->findPetsByTagsRequest($tags);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -1037,7 +1093,7 @@ class PetApi
      * @param  string[] $tags Tags to filter by (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function findPetsByTagsRequest($tags)
     {
@@ -1053,7 +1109,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
         // query params
@@ -1095,11 +1151,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1119,13 +1175,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1161,15 +1221,12 @@ class PetApi
         $request = $this->getPetByIdRequest($pet_id);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -1239,7 +1296,7 @@ class PetApi
      * @param  int $pet_id ID of pet to return (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function getPetByIdAsync($pet_id)
     {
@@ -1259,15 +1316,14 @@ class PetApi
      * @param  int $pet_id ID of pet to return (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function getPetByIdAsyncWithHttpInfo($pet_id)
     {
         $returnType = '\OpenAPI\Client\Model\Pet';
         $request = $this->getPetByIdRequest($pet_id);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -1305,7 +1361,7 @@ class PetApi
      * @param  int $pet_id ID of pet to return (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function getPetByIdRequest($pet_id)
     {
@@ -1320,7 +1376,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1363,11 +1419,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1388,13 +1444,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1437,15 +1497,12 @@ class PetApi
         $request = $this->updatePetRequest($pet);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -1485,7 +1542,7 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updatePetAsync($pet)
     {
@@ -1509,15 +1566,14 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updatePetAsyncWithHttpInfo($pet)
     {
         $returnType = '';
         $request = $this->updatePetRequest($pet);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -1549,7 +1605,7 @@ class PetApi
      * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function updatePetRequest($pet)
     {
@@ -1564,7 +1620,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1585,7 +1641,7 @@ class PetApi
         // for model (json/xml)
         if (isset($pet)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
                 $httpBody = $pet;
             }
@@ -1605,11 +1661,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1635,13 +1691,17 @@ class PetApi
         }
         $operationHost = $operationHosts[$this->hostIndex];
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'PUT',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($operationHost, PHP_URL_HOST);
+        $scheme = parse_url($operationHost, PHP_URL_SCHEME);
+        $basePath = parse_url($operationHost, PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('PUT', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1680,15 +1740,12 @@ class PetApi
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -1726,7 +1783,7 @@ class PetApi
      * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updatePetWithFormAsync($pet_id, $name = null, $status = null)
     {
@@ -1748,15 +1805,14 @@ class PetApi
      * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updatePetWithFormAsyncWithHttpInfo($pet_id, $name = null, $status = null)
     {
         $returnType = '';
         $request = $this->updatePetWithFormRequest($pet_id, $name, $status);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
@@ -1786,7 +1842,7 @@ class PetApi
      * @param  string $status Updated status of the pet (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function updatePetWithFormRequest($pet_id, $name = null, $status = null)
     {
@@ -1801,7 +1857,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1852,11 +1908,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1876,13 +1932,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1922,15 +1982,12 @@ class PetApi
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -2002,7 +2059,7 @@ class PetApi
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function uploadFileAsync($pet_id, $additional_metadata = null, $file = null)
     {
@@ -2024,15 +2081,14 @@ class PetApi
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function uploadFileAsyncWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileRequest($pet_id, $additional_metadata, $file);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -2072,7 +2128,7 @@ class PetApi
      * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
     {
@@ -2087,7 +2143,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -2146,11 +2202,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -2170,13 +2226,17 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -2216,15 +2276,12 @@ class PetApi
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $e->getCode()
                 );
             }
 
@@ -2296,7 +2353,7 @@ class PetApi
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = null)
     {
@@ -2318,15 +2375,14 @@ class PetApi
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
         $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -2366,7 +2422,7 @@ class PetApi
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
     {
@@ -2387,7 +2443,7 @@ class PetApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -2446,11 +2502,11 @@ class PetApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -2470,31 +2526,55 @@ class PetApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+
+        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
+        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
+        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withQuery(Query::build($queryParams));
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
+
     /**
-     * Create http client option
+     * @param string $method
+     * @param string|UriInterface $uri
+     * @param array $headers
+     * @param string|StreamInterface|null $body
      *
-     * @throws \RuntimeException on file opening failure
-     * @return array of http client options
+     * @return RequestInterface
      */
-    protected function createHttpClientOption()
+    protected function createRequest(string $method, $uri, array $headers = [], $body = null): RequestInterface
     {
-        $options = [];
-        if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
-            if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
-            }
+        if ($this->requestFactory instanceof RequestFactory) {
+            return $this->requestFactory->createRequest(
+                $method,
+                $uri,
+                $headers,
+                $body
+            );
         }
 
-        return $options;
+        if (is_string($body) && '' !== $body && null === $this->streamFactory) {
+            throw new \RuntimeException('Cannot create request: A stream factory is required to create a request with a non-empty string body.');
+        }
+
+        $request = $this->requestFactory->createRequest($method, $uri);
+
+        foreach ($headers as $key => $value) {
+            $request = $request->withHeader($key, $value);
+        }
+
+        if (null !== $body && '' !== $body) {
+            $request = $request->withBody(
+                is_string($body) ? $this->streamFactory->createStream($body) : $body
+            );
+        }
+
+        return $request;
     }
 }
