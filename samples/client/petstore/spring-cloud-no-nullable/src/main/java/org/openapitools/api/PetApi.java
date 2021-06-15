@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
-
 @Api(value = "Pet", description = "the Pet API")
 public interface PetApi {
 
