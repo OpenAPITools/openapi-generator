@@ -15,7 +15,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -37,6 +36,7 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
+
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         
         @Authorization(value = "api_key_query")
@@ -48,7 +48,11 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, @ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> testClassname(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body
+, @ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testClassname(body, exchange);
     }
 

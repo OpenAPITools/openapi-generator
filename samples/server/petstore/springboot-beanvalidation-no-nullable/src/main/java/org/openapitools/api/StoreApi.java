@@ -31,6 +31,7 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
+
     @ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -38,7 +39,11 @@ public interface StoreApi {
     @DeleteMapping(
         value = "/store/order/{order_id}"
     )
-    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId);
+    ResponseEntity<Void> deleteOrder(
+@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId
+
+
+);
 
 
     /**
@@ -47,6 +52,7 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
+
     @ApiOperation(value = "Returns pet inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
         
         @Authorization(value = "api_key")
@@ -69,6 +75,7 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
+
     @ApiOperation(value = "Find purchase order by ID", nickname = "getOrderById", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
@@ -78,7 +85,11 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId);
+    ResponseEntity<Order> getOrderById(
+@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId
+
+
+);
 
 
     /**
@@ -88,6 +99,7 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
+
     @ApiOperation(value = "Place an order for a pet", nickname = "placeOrder", notes = "", response = Order.class, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
@@ -96,6 +108,10 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
+    ResponseEntity<Order> placeOrder(
+
+
+@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body
+);
 
 }

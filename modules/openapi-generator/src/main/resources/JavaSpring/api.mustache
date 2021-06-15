@@ -79,8 +79,7 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useSpringController}}
 @Controller
 {{/useSpringController}}
-{{#oas3}}@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}
-{{^oas3}}@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}
+{{#oas3}}@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}{{^oas3}}@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -141,7 +140,7 @@ public interface {{classname}} {
     {{/oas3}}
     {{#implicitHeaders}}
     {{#oas3}}
-    @Parameters(
+    @Parameters({
     {{/oas3}}
     {{^oas3}}
     @ApiImplicitParams({

@@ -41,6 +41,7 @@ public interface FakeClassnameTestApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
+
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         
         @Authorization(value = "api_key_query")
@@ -52,7 +53,11 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default ResponseEntity<Client> testClassname(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
+) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

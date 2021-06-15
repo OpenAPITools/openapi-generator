@@ -38,6 +38,7 @@ public interface AnotherFakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
+
     @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
@@ -46,7 +47,11 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default CompletableFuture<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default CompletableFuture<ResponseEntity<Client>> call123testSpecialTags(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
+) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

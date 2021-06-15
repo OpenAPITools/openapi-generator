@@ -38,6 +38,7 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
+
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         
         @Authorization(value = "api_key_query")
@@ -49,7 +50,11 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default CompletableFuture<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default CompletableFuture<ResponseEntity<Client>> testClassname(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
+) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
