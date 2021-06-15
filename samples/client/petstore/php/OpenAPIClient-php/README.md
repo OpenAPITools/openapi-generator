@@ -29,6 +29,18 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
 
 Then run `composer install`
 
+Your project is free to choose the http client of your choice
+Please require packages that will provide http client functionality:
+https://packagist.org/providers/psr/http-client-implementation
+https://packagist.org/providers/php-http/async-client-implementation
+https://packagist.org/providers/psr/http-factory-implementation
+
+As an example:
+
+```
+composer require guzzlehttp/guzzle php-http/guzzle7-adapter http-interop/http-factory-guzzle
+```
+
 ### Manual Installation
 
 Download the files and include `autoload.php`:
@@ -50,8 +62,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
 $client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
