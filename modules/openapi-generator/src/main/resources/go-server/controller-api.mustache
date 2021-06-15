@@ -90,7 +90,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}, err := parseBoolParameter(query.Get("{{paramName}}"), {{required}})
+	{{paramName}}, err := parseBoolParameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -100,10 +100,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{#isArray}}
-	{{paramName}}, err := parseStringArrayParameter(query.Get("{{paramName}}"), ",", {{required}})
+	{{paramName}}, err := parseStringArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
 	{{/isArray}}
 	{{^isArray}}
-	{{paramName}} := query.Get("{{paramName}}")
+	{{paramName}} := query.Get("{{baseName}}")
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
