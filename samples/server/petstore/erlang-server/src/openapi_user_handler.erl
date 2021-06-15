@@ -119,6 +119,120 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUsersWithArrayInput' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUsersWithListInput' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'DeleteUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'LogoutUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'UpdateUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = header,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "api_key",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 
@@ -288,7 +402,7 @@ process_response(Response, Req0, State = #state{operation_id = OperationID}) ->
             {stop, Req, State}
     end.
 
--spec handle_request_json(cowboy_req:req(), state()) -> {cowboy_req:resp_body(), cowboy_req:req(), state()}.
+-spec handle_request_json(cowboy_req:req(), state()) -> processed_response().
 
 handle_request_json(
     Req0,
@@ -312,7 +426,7 @@ handle_request_json(
                 Body,
                 ValidatorState
             ),
-            PreparedBody = jsx:encode(Body),
+            PreparedBody = prepare_body(Code, Body),
             Response = {ok, {Code, Headers, PreparedBody}},
             process_response(Response, Req1, State);
         {error, Reason, Req1} ->
@@ -320,3 +434,8 @@ handle_request_json(
     end.
 
 validate_headers(_, Req) -> {true, Req}.
+
+prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(_Code, Body) ->
+    jsx:encode(Body).

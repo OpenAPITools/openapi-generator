@@ -15,6 +15,7 @@ import org.openapitools.client.models.Animal
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param uuid 
@@ -26,7 +27,5 @@ data class MixedPropertiesAndAdditionalPropertiesClass (
     @SerialName(value = "uuid") val uuid: kotlin.String? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,
     @SerialName(value = "map") val map: kotlin.collections.Map<kotlin.String, Animal>? = null
-) 
-
-
+)
 

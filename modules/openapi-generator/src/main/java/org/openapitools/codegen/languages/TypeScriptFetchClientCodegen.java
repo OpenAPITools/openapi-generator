@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
@@ -39,6 +38,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
     public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
+    public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
@@ -46,6 +46,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
     protected boolean typescriptThreePlus = false;
+    protected boolean withoutRuntimeChecks = false;
 
 
     public TypeScriptFetchClientCodegen() {
@@ -61,7 +62,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
-        this.modelTemplateFiles.put("models.mustache", ".ts");
+
         this.addExtraReservedWords();
 
         typeMapping.put("date", "Date");
@@ -70,9 +71,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
         this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(TYPESCRIPT_THREE_PLUS, "Setting this property to true will generate TypeScript 3.6+ compatible code.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -101,6 +103,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.typescriptThreePlus = typescriptThreePlus;
     }
 
+    public Boolean getWithoutRuntimeChecks(){
+        return withoutRuntimeChecks;
+    }
+
+    public void setWithoutRuntimeChecks(Boolean withoutRuntimeChecks){
+        this.withoutRuntimeChecks = withoutRuntimeChecks;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -118,10 +128,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
-        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
-            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+        if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
         }
-        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(PREFIX_PARAMETER_INTERFACES)) {
             this.setPrefixParameterInterfaces(convertPropertyToBoolean(PREFIX_PARAMETER_INTERFACES));
@@ -134,6 +144,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(TYPESCRIPT_THREE_PLUS)) {
             this.setTypescriptThreePlus(convertPropertyToBoolean(TYPESCRIPT_THREE_PLUS));
+        }
+
+        if (additionalProperties.containsKey(WITHOUT_RUNTIME_CHECKS)) {
+            this.setWithoutRuntimeChecks(convertPropertyToBoolean(WITHOUT_RUNTIME_CHECKS));
+        }
+
+        if(!withoutRuntimeChecks){
+            this.modelTemplateFiles.put("models.mustache", ".ts");
         }
     }
 
@@ -157,7 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -198,6 +216,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         return objs;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
     }
 
     @Override
@@ -247,21 +273,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
-        this.addDeepObjectVendorExtension(operations);
         return operations;
-    }
-
-    private void addDeepObjectVendorExtension(Map<String, Object> operations) {
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
-
-        for (CodegenOperation op : operationList) {
-            for (CodegenParameter param : op.queryParams) {
-                if (param.style != null && param.style.equals("deepObject")) {
-                    param.vendorExtensions.put("x-codegen-isDeepObject", true);
-                }
-            }
-        }
     }
 
     private void escapeOperationIds(Map<String, Object> operations) {
@@ -315,7 +327,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
             if("object".equals(op.returnType)) {
-                op.isMapContainer = true;
+                op.isMap = true;
                 op.returnSimpleType = false;
             }
         }

@@ -65,9 +65,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val auth = project.objects.property<String>()
 
     /**
-     * Sets specified system properties.
+     * Sets specified global properties.
      */
-    val systemProperties = project.objects.mapProperty<String, String>()
+    val globalProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -119,7 +119,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Sets additional properties that can be referenced by the mustache templates.
      */
-    val additionalProperties = project.objects.mapProperty<String, String>()
+    val additionalProperties = project.objects.mapProperty<String, Any>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
@@ -182,7 +182,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val releaseNote = project.objects.property<String?>()
 
     /**
-     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     val httpUserAgent = project.objects.property<String?>()
 
@@ -200,6 +200,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Remove prefix of operationId, e.g. config_getId => getId
      */
     val removeOperationIdPrefix = project.objects.property<Boolean?>()
+
+    /**
+     * Skip examples defined in the operation
+     */
+    val skipOperationExample = project.objects.property<Boolean?>()
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -317,7 +322,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun applyDefaults(){
+    fun applyDefaults() {
         releaseNote.set("Minor update")
         modelNamePrefix.set("")
         modelNameSuffix.set("")

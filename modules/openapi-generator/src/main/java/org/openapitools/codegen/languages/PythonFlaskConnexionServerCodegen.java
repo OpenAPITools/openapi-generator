@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
+public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 
     public PythonFlaskConnexionServerCodegen() {
         super("python-flask", false);

@@ -1,0 +1,15 @@
+.gitignore
+.travis.yml
+Cargo.toml
+README.md
+docs/DefaultApi.md
+docs/TypeTesting.md
+git_push.sh
+src/apis/client.rs
+src/apis/configuration.rs
+src/apis/default_api.rs
+src/apis/mod.rs
+src/apis/request.rs
+src/lib.rs
+src/models/mod.rs
+src/models/type_testing.rs

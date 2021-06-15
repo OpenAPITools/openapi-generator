@@ -1,0 +1,8 @@
+generatorName: jaxrs-resteasy
+outputDir: samples/server/petstore/jaxrs-resteasy/joda
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy
+additionalProperties:
+  artifactId: jaxrs-resteasy-joda-server
+  hideGenerationTimestamp: "true"
+  dateLibrary: joda

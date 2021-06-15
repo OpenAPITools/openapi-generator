@@ -22,9 +22,9 @@ class PetApiTest : ShouldSpec() {
             val pet = Pet(
                     id = petId,
                     name = "kotlin client test",
-                    photoUrls = arrayOf("http://test_kotlin_unit_test.com"),
+                    photoUrls = listOf("http://test_kotlin_unit_test.com"),
                     category = Category(petId, "test kotlin category"),
-                    tags = arrayOf(Tag(petId, "test kotlin tag"))
+                    tags = listOf(Tag(petId, "test kotlin tag"))
             )
             api.addPet(pet)
 
@@ -44,7 +44,7 @@ class PetApiTest : ShouldSpec() {
         }
 
         should("find pet by status") {
-            val result = api.findPetsByStatus(arrayOf("available"))
+            val result = api.findPetsByStatus(listOf("available"))
 
             result.size.shouldBeGreaterThan(0)
 
@@ -52,7 +52,7 @@ class PetApiTest : ShouldSpec() {
                 onePet.status.shouldBe(Pet.Status.available)
             }
 
-            val result2 = api.findPetsByStatus(arrayOf("unknown_and_incorrect_status"))
+            val result2 = api.findPetsByStatus(listOf("unknown_and_incorrect_status"))
 
             result2.size.shouldBe(0)
 
@@ -63,7 +63,7 @@ class PetApiTest : ShouldSpec() {
                     id = petId,
                     name = "kotlin client updatePet",
                     status = Pet.Status.pending,
-                    photoUrls = arrayOf("http://test_kotlin_unit_test.com")
+                    photoUrls = listOf("http://test_kotlin_unit_test.com")
             )
             api.updatePet(pet)
 

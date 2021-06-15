@@ -9,7 +9,6 @@ import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.HashSet;
@@ -61,7 +60,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * <p>
      * Where the only examples of oneOf in OpenAPI Specification are used to define either/or type structures rather than validations.
      * Because of this ambiguity in the spec about what is non-standard about oneOf support, we'll warn as a recommendation that
-ne      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
+     * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
      * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
@@ -91,7 +90,7 @@ ne      * properties on the schema defining oneOf relationships may not be inten
      * 'null' type is supported in OpenAPI Specification 3.1 and above. It is not supported in OpenAPI 3.0.x.
      * Note: the validator invokes checkNullType() for every top-level schema in the OAS document. The method
      * is not called for nested schemas that are defined inline.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema.
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
@@ -122,7 +121,7 @@ ne      * properties on the schema defining oneOf relationships may not be inten
      * JSON Schema uses the 'nullable' attribute.
      * <p>
      * The 'nullable' attribute is supported in OpenAPI Specification 3.0.x, but it is deprecated in OpenAPI 3.1 and above.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
@@ -156,7 +155,7 @@ ne      * properties on the schema defining oneOf relationships may not be inten
      * Validate the OAS document uses supported values for the 'type' attribute.
      * <p>
      * The type must be one of the following values: null, boolean, object, array, number, string, integer.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */

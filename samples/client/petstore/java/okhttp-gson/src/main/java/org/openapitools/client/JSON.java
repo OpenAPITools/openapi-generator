@@ -50,16 +50,45 @@ public class JSON {
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
+    @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-                .registerTypeSelector(Animal.class, new TypeSelector() {
+                .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends Animal> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("Animal", Animal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
+                    @Override
+                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
+                    @Override
+                    public Class<? extends Cat> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
+                    @Override
+                    public Class<? extends Dog> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("Dog", Dog.class);
-                        classByDiscriminatorValue.put("Cat", Cat.class);
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
-                        classByDiscriminatorValue.put("Animal", Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }

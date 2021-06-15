@@ -2,9 +2,11 @@
 package {{packageName}}
 
 import (
+	"context"
 	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
 	"{{import}}"{{/imports}}{{/apis}}{{/apiInfo}}
 )
+
 
 {{#apiInfo}}{{#apis}}
 // {{classname}}Router defines the required methods for binding the api requests to a responses for the {{classname}}
@@ -20,5 +22,5 @@ type {{classname}}Router interface { {{#operations}}{{#operation}}
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type {{classname}}Servicer interface { {{#operations}}{{#operation}}
-	{{operationId}}({{#allParams}}{{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error){{/operation}}{{/operations}}
+	{{operationId}}(context.Context{{#allParams}}, {{dataType}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
 }{{/apis}}{{/apiInfo}}

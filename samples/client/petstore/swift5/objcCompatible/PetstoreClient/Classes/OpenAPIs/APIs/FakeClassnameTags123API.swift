@@ -6,8 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-@objc open class FakeClassnameTags123API: NSObject {
+@objc open class FakeClassnameTags123API : NSObject {
+
     /**
      To test class name in snake case
      
@@ -15,7 +19,7 @@ import Foundation
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
+    open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
         testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
@@ -38,14 +42,19 @@ import Foundation
      */
     open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake_classname_test"
-        let URLString = PetstoreClientAPI.basePath + path
+        let URLString = PetstoreClient.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

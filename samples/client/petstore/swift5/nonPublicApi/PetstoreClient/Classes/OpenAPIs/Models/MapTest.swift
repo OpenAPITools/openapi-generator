@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct MapTest: Codable {
+internal struct MapTest: Codable, Hashable {
 
     internal enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
@@ -18,7 +21,7 @@ internal struct MapTest: Codable {
     internal var directMap: [String: Bool]?
     internal var indirectMap: StringBooleanMap?
 
-    internal init(mapMapOfString: [String: [String: String]]?, mapOfEnumString: [String: String]?, directMap: [String: Bool]?, indirectMap: StringBooleanMap?) {
+    internal init(mapMapOfString: [String: [String: String]]? = nil, mapOfEnumString: [String: String]? = nil, directMap: [String: Bool]? = nil, indirectMap: StringBooleanMap? = nil) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
         self.directMap = directMap
@@ -32,4 +35,14 @@ internal struct MapTest: Codable {
         case indirectMap = "indirect_map"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
+        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(directMap, forKey: .directMap)
+        try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
+    }
 }
+

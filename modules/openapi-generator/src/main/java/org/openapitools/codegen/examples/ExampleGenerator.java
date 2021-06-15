@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ExampleGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
     // TODO: move constants to more appropriate location
     private static final String MIME_TYPE_JSON = "application/json";
@@ -204,7 +204,7 @@ public class ExampleGenerator {
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO
-                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: {}", example);
                 }
             }
         }
@@ -269,10 +269,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
@@ -296,7 +296,7 @@ public class ExampleGenerator {
                 LOGGER.debug("URI or URL format, without default or enum, generating random one.");
                 return "http://example.com/aeiou";
             }
-            LOGGER.debug("No values found, using property name " + propertyName + " as example");
+            LOGGER.debug("No values found, using property name {} as example", propertyName);
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());

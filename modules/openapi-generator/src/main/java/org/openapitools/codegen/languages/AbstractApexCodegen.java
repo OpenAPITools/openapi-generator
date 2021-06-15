@@ -32,11 +32,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
     protected Boolean serializableModel = false;
 
@@ -163,14 +162,15 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -189,16 +189,16 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined");
+                LOGGER.warn("{}(array property) does not have a proper inner type defined", ap.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
-                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
+                LOGGER.warn("{}(map property) does not have a proper inner type defined", p.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -228,11 +228,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ModelUtils.getAdditionalProperties(ap) == null) {
+            if (getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -284,11 +284,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             p.example = "Date.newInstance(1960, 2, 17)";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             if (p.items != null && p.items.example != null) {
                 p.example = "new " + p.dataType + "{" + p.items.example + "}";
             }
@@ -365,7 +365,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -409,7 +409,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (null == schemaType) {
-            LOGGER.error("No Type defined for Property " + p);
+            LOGGER.error("No Type defined for Property {}", p);
         }
         return toModelName(schemaType);
     }
@@ -426,7 +426,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -456,13 +456,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // TODO: 5.0: Remove this block and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty()); // TODO: 5.0 Remove
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);  // TODO: 5.0 Remove
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);  // TODO: 5.0 Remove
-
-
         cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
         cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);
         cm.vendorExtensions.put("x-property-mappings", propertyMappings);
@@ -475,7 +468,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        if (parameter.isBodyParam && parameter.isListContainer) {
+        if (parameter.isBodyParam && parameter.isArray) {
             // items of array bodyParams are being nested an extra level too deep for some reason
             parameter.items = parameter.items.items;
             setParameterExampleValue(parameter);
@@ -626,12 +619,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (removedChildEnum) {
-            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
-            for (CodegenProperty codegenProperty : codegenProperties) {
-                count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
-            }
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;

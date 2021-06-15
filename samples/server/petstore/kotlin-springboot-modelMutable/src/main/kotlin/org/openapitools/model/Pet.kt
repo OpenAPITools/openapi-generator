@@ -12,6 +12,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -25,25 +26,25 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Pet(
 
-    @get:NotNull 
     @ApiModelProperty(example = "doggie", required = true, value = "")
-    @JsonProperty("name") var name: kotlin.String,
+    @field:JsonProperty("name", required = true) var name: kotlin.String,
 
-    @get:NotNull 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
+    @field:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("id") var id: kotlin.Long? = null,
+    @field:JsonProperty("id") var id: kotlin.Long? = null,
 
+    @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("category") var category: Category? = null,
+    @field:JsonProperty("category") var category: Category? = null,
 
+    @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
+    @field:JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
-    @JsonProperty("status") var status: Pet.Status? = null
+    @field:JsonProperty("status") var status: Pet.Status? = null
 ) {
 
     /**

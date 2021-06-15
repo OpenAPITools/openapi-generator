@@ -110,7 +110,7 @@ Configure petstore_auth:
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.Array&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -123,9 +123,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val tags : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Tags to filter by
+val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
 try {
-    val result : kotlin.Array<Pet> = apiInstance.findPetsByTags(tags)
+    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByTags")
@@ -140,11 +140,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -159,7 +159,7 @@ Configure petstore_auth:
 
 <a name="getAllPets"></a>
 # **getAllPets**
-> kotlin.Array&lt;Pet&gt; getAllPets(lastUpdated)
+> kotlin.collections.List&lt;Pet&gt; getAllPets(lastUpdated)
 
 Get all pets
 
@@ -172,7 +172,7 @@ Get all pets
 val apiInstance = PetApi()
 val lastUpdated : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | When this endpoint was hit last to help indentify if the client already has the latest copy.
 try {
-    val result : kotlin.Array<Pet> = apiInstance.getAllPets(lastUpdated)
+    val result : kotlin.collections.List<Pet> = apiInstance.getAllPets(lastUpdated)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#getAllPets")
@@ -191,7 +191,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 

@@ -35,7 +35,7 @@ describe 'AnotherFakeApi' do
   # unit tests for call_123_test_special_tags
   # To test special tags
   # To test special tags and operation ID starting with number
-  # @param body client model
+  # @param client client model
   # @param [Hash] opts the optional parameters
   # @return [Client]
   describe 'call_123_test_special_tags test' do

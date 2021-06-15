@@ -3,6 +3,8 @@ title: Config Options for kotlin-spring
 sidebar_label: kotlin-spring
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|api package for generated code| |org.openapitools.api|
@@ -33,6 +35,7 @@ sidebar_label: kotlin-spring
 |swaggerAnnotations|generate swagger annotations to go alongside controllers and models| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useTags|Whether to use tags for creating interface and controller class names| |false|
 
 ## IMPORT MAPPING
 
@@ -54,9 +57,9 @@ sidebar_label: kotlin-spring
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.collections.ArrayList|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES
@@ -123,6 +126,7 @@ sidebar_label: kotlin-spring
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

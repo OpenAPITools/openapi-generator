@@ -10,6 +10,10 @@ connexion[swagger-ui] == 2.4.0; python_version<="2.7"
 werkzeug == 0.16.1; python_version=="3.5" or python_version=="3.4"
 swagger-ui-bundle >= 0.0.2
 python_dateutil >= 2.6.0
+{{#featureCORS}}
+# should support both Python 2 and Python 3
+flask-cors >= 3.0.10
+{{/featureCORS}}
 {{#supportPython2}}
 typing >= 3.5.2.2
 # For specs with timestamps, pyyaml 5.3 broke connexion's spec parsing in python 2.
@@ -18,3 +22,4 @@ typing >= 3.5.2.2
 pyyaml < 5.3; python_version<="2.7"
 {{/supportPython2}}
 setuptools >= 21.0.0
+Flask == 1.1.2

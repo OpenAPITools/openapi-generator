@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * Model for testing model with \"_class\" property
  * @param propertyClass 
@@ -21,7 +22,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class ClassModel (
     @SerialName(value = "_class") val propertyClass: kotlin.String? = null
-) 
-
-
+)
 

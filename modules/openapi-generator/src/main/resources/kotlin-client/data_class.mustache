@@ -15,10 +15,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
 {{/jackson}}
+{{#kotlinx_serialization}}
+import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+{{#hasEnums}}
+{{/hasEnums}}
+{{/kotlinx_serialization}}
 {{#parcelizeModels}}
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
+import kotlinx.parcelize.Parcelize
 {{/parcelizeModels}}
 {{/multiplatform}}
 {{#multiplatform}}
@@ -28,6 +34,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 {{#serializableModel}}
 import java.io.Serializable
 {{/serializableModel}}
+
 /**
  * {{{description}}}
 {{#allVars}}
@@ -37,17 +44,20 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 {{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{parent}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{parent}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{parent}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{parent}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
-	{{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+        private const val serialVersionUID: Long = 123
+    }
 {{/serializableModel}}
 {{#discriminator}}{{#vars}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}
@@ -56,11 +66,13 @@ import java.io.Serializable
 {{#vars}}
 {{#isEnum}}
     /**
-    * {{{description}}}
-    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    */
-    {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}){
+     * {{{description}}}
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    {{#kotlinx_serialization}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}
+    {{/kotlinx_serialization}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
         {{^multiplatform}}
@@ -68,21 +80,20 @@ import java.io.Serializable
         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
         {{#gson}}
-        @SerializedName(value={{{value}}})  {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
         {{#jackson}}
-        @JsonProperty(value={{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/jackson}}
+        {{#kotlinx_serialization}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/kotlinx_serialization}}
         {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{#multiplatform}}
-
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
-    {{/multiplatform}}
     }
 {{/isEnum}}
 {{/vars}}

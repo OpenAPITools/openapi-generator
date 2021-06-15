@@ -1,0 +1,6 @@
+generatorName: java-undertow-server
+outputDir: samples/server/petstore/java-undertow
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-undertow-server
+additionalProperties:
+  hideGenerationTimestamp: "true"

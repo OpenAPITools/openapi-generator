@@ -56,6 +56,7 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING)
                 .put("dateLibrary", DATE_LIBRARY)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
+                .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .build();
     }
 

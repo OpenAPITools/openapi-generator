@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -31,17 +32,21 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
+    private boolean useSingleRequestParameter = false;
+    private boolean supportAsync = true;
+    private boolean supportMultipleResponses = false;
+
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
-
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -49,6 +54,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+    protected String enumSuffix = ""; // default to empty string for backward compatibility
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -128,8 +134,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "i8", "i16", "i32", "i64",
                         "u8", "u16", "u32", "u64",
-                        "f32", "f64",
-                        "char", "bool", "String", "Vec<u8>", "File")
+                        "f32", "f64", "isize", "usize",
+                        "char", "bool", "str", "String")
         );
 
         instantiationTypes.clear();
@@ -156,6 +162,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "crate::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "serde_json::Value");
+        typeMapping.put("AnyType", "serde_json::Value");
 
         // no need for rust
         //importMapping = new HashMap<String, String>();
@@ -167,16 +174,23 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+            .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
-        // set hyper as the default
-        libraryOption.setDefault(HYPER_LIBRARY);
+        // set reqwest as the default
+        libraryOption.setDefault(REQWEST_LIBRARY);
         cliOptions.add(libraryOption);
-        setLibrary(HYPER_LIBRARY);
+        setLibrary(REQWEST_LIBRARY);
     }
 
     @Override
@@ -190,9 +204,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -202,6 +213,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 allModels.put(modelName, cm);
             }
         }
+
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -209,21 +221,23 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.discriminator != null) {
                     List<Object> discriminatorVars = new ArrayList<>();
-                    for(CodegenDiscriminator.MappedModel mappedModel: cm.discriminator.getMappedModels()) {
+                    for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
                         CodegenModel model = allModels.get(mappedModel.getModelName());
                         Map<String, Object> mas = new HashMap<>();
                         mas.put("modelName", camelize(mappedModel.getModelName()));
                         mas.put("mappingName", mappedModel.getMappingName());
-                        List<CodegenProperty> vars = model.getVars();
+
+                        // TODO: deleting the variable from the array was
+                        // problematic; I don't know what this is supposed to do
+                        // so I'm just cloning it for the moment
+                        List<CodegenProperty> vars = new ArrayList<>(model.getVars());
                         vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
                         mas.put("vars", vars);
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
                     String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
-                    cm.vendorExtensions.put("tagName", vendorExtensionTagName); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("mappedModels", discriminatorVars); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
             }
@@ -234,6 +248,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -247,13 +265,28 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             setPackageVersion("1.0.0");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+
+        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
+        }
+        writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
+
+        if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
+            this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
+        }
+        writePropertyBack(SUPPORT_MULTIPLE_RESPONSES, getSupportMultipleReturns());
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        if ( HYPER_LIBRARY.equals(getLibrary())){
+        if (HYPER_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(HYPER_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
@@ -274,13 +307,36 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
+            supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+    }
 
-        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
-        supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
-        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+    private boolean getSupportAsync() {
+        return supportAsync;
+    }
+
+    private void setSupportAsync(boolean supportAsync) {
+        this.supportAsync = supportAsync;
+    }
+
+    public boolean getSupportMultipleReturns() {
+        return supportMultipleResponses;
+    }
+
+    public void setSupportMultipleReturns(boolean supportMultipleResponses) {
+        this.supportMultipleResponses = supportMultipleResponses;
+    }
+
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     @Override
@@ -350,13 +406,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -398,14 +455,15 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
+                        ap.getName());
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
-                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
@@ -434,14 +492,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
         if (typeMapping.containsKey(schemaType)) {
-            type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = schemaType;
-        return type;
+            return typeMapping.get(schemaType);
+        }
+        return schemaType;
     }
 
     @Override
@@ -450,7 +504,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, StringUtils.underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -469,6 +523,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            }
+
+            // add support for single request parameter using x-group-parameters
+            if (!operation.vendorExtensions.containsKey("x-group-parameters") && useSingleRequestParameter) {
+                operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
             }
 
             // update return type to conform to rust standard
@@ -501,14 +560,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenParameter p : operation.allParams) {
-                if (p.isListContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                if (p.isArray && !languageSpecificPrimitives.contains(p.dataType)) {
                     // array of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");
                     if ( end > 0 ) {
                         p.dataType = "Vec<" + rt.substring("Vec<".length(), end).trim() + ">";
                     }
-                } else if (p.isMapContainer && !languageSpecificPrimitives.contains(p.dataType)) {
+                } else if (p.isMap && !languageSpecificPrimitives.contains(p.dataType)) {
                     // map of model
                     String rt = p.dataType;
                     int end = rt.lastIndexOf(">");
@@ -586,7 +645,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(camelize(name));
+        String enumName = camelize(sanitizeName(name));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -599,9 +658,13 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        String name = property.name;
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(enumSuffix)) {
+            name = name + "_" + enumSuffix;
+        }
         // camelize the enum name
         // phone_number => PhoneNumber
-        String enumName = camelize(toModelName(property.name));
+        String enumName = camelize(toModelName(name));
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

@@ -5,18 +5,28 @@ package {{packageName}}
 {{/-first}}	"{{import}}"{{#-last}}
 )
 {{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
-type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
-// List of {{{name}}}
+// List of {{{classname}}}
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
-	{{name}} {{{classname}}} = {{{value}}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
 // {{classname}} - {{{description}}}{{/description}}
 type {{classname}} struct {
+{{#parent}}
+{{^isMap}}
+{{^isArray}}
+	{{{parent}}}
+{{/isArray}}
+{{/isMap}}
+{{#isArray}}
+	Items {{{parent}}}
+{{/isArray}}
+{{/parent}}
 {{#vars}}{{#description}}
 	// {{{description}}}{{/description}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`

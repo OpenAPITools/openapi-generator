@@ -36,7 +36,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NUNIT = "nunit";
     private static final String RESTSHARP = "restsharp";
     private static final String NEWTONSOFT_JSON = "newtonsoft-json";
@@ -47,10 +47,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String NET45 = "v4.5";
     private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
-    // TODO: v5.0 is PCL, not netstandard version 1.3, and not a specific .NET Framework. This needs to be updated,
-    // especially because it will conflict with .NET Framework 5.0 when released, and PCL 5 refers to Framework 4.0.
-    // We should support either NETSTANDARD, PCL, or Both… but the concepts shouldn't be mixed.
-    private static final String NETSTANDARD = "v5.0";
+    private static final String NETSTANDARD = "netstandard1.3";
     private static final String UWP = "uwp";
 
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
@@ -129,7 +126,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
-        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("decimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
@@ -312,14 +309,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsAsync(Boolean.FALSE);
         } else if (NETSTANDARD.equals(this.targetFramework)) {
             LOGGER.warn(".NET Standard 1.3 support has been DEPRECATED in this generator. Please use `csharp-netcore` generator instead.");
-            // TODO: NETSTANDARD here is misrepresenting a PCL v5.0 which supports .NET Framework 4.6+, .NET Core 1.0, and Windows Universal 10.0
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.6-api");
             if (additionalProperties.containsKey("supportsUWP")) {
-                LOGGER.warn(".NET " + NETSTANDARD + " generator does not support UWP.");
+                LOGGER.warn(".NET {} generator does not support UWP.", NETSTANDARD);
                 additionalProperties.remove("supportsUWP");
             }
 
-            // TODO: NETSTANDARD=v5.0 and targetFrameworkNuget=netstandard1.3. These need to sync.
             setTargetFrameworkNuget("netstandard1.3");
             setSupportsAsync(Boolean.TRUE);
             setSupportsUWP(Boolean.FALSE);
@@ -337,7 +332,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         } else if (NET40.equals(this.targetFramework)) {
             additionalProperties.put(MCS_NET_VERSION_KEY, "4");
             if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
-                LOGGER.warn(".NET " + NET40 + " generator does not support async.");
+                LOGGER.warn(".NET {} generator does not support async.", NET40);
                 additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
             }
 
@@ -355,13 +350,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             if (NET35.equals(targetFramework)) {
-                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is only supported by generated code for .NET 4+.");
+                LOGGER.warn("{} is only supported by generated code for .NET 4+.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
                 additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
             } else if (NETSTANDARD.equals(targetFramework)) {
-                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Standard generated code.");
+                LOGGER.warn("{} is not supported in .NET Standard generated code.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
                 additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
             } else if (Boolean.TRUE.equals(netCoreProjectFileFlag)) {
-                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Core csproj project format.");
+                LOGGER.warn("{} is not supported in .NET Core csproj project format.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
                 additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
             } else {
                 setGeneratePropertyChanged(convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_PROPERTY_CHANGED));
@@ -609,7 +604,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
+                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -620,15 +615,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        parentVar.hasMore = true;
                         last = parentVar;
                         LOGGER.info("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
-                }
-
-                if (last != null) {
-                    last.hasMore = false;
                 }
             }
         }
@@ -661,7 +651,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
-        
+
         if (nullableType.contains(parameter.dataType)) {
             if (!parameter.required) { //optional
                 parameter.dataType = parameter.dataType + "?";
@@ -676,7 +666,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
         super.postProcessModelProperty(model, property);
-        
+
         if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }
@@ -724,7 +714,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
-            LOGGER.warn("Invalid .NET framework version, defaulting to " + this.targetFramework);
+            LOGGER.warn("Invalid .NET framework version, defaulting to {}", this.targetFramework);
         } else {
             this.targetFramework = dotnetFramework;
         }
@@ -768,7 +758,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 break;
         }
 
-        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
     }
 
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
@@ -806,12 +796,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = count < numVars;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -982,7 +966,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);

@@ -1,0 +1,13 @@
+generatorName: spring
+outputDir: samples/server/petstore/spring-mvc
+library: spring-mvc
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  java8: true
+  booleanGetterPrefix: get
+  artifactId: spring-mvc-server
+  hideGenerationTimestamp: "true"
+  serverPort: "8002"
+  additionalModelTypeAnnotations: '@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name");@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")'
+  additionalEnumTypeAnnotations: '@com.fasterxml.jackson.annotation.JsonFormat'

@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -205,7 +205,7 @@ public class TypeHolderExample {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -226,7 +226,6 @@ public class TypeHolderExample {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -245,7 +244,7 @@ public class TypeHolderExample {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

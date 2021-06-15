@@ -395,9 +395,9 @@
         "title": "Config Options for php-symfony",
         "sidebar_label": "php-symfony"
       },
-      "generators/php-ze-ph": {
-        "title": "Config Options for php-ze-ph",
-        "sidebar_label": "php-ze-ph"
+      "generators/php-mezzio-ph": {
+        "title": "Config Options for php-mezzio-ph",
+        "sidebar_label": "php-mezzio-ph"
       },
       "generators/php": {
         "title": "Config Options for php",
@@ -419,9 +419,9 @@
         "title": "Config Options for python-blueplanet",
         "sidebar_label": "python-blueplanet"
       },
-      "generators/python-experimental": {
-        "title": "Config Options for python-experimental",
-        "sidebar_label": "python-experimental"
+      "generators/python-legacy": {
+        "title": "Config Options for python-legacy",
+        "sidebar_label": "python-legacy"
       },
       "generators/python-flask": {
         "title": "Config Options for python-flask",

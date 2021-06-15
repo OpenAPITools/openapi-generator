@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the user API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public interface UserApi  {
    
     @POST

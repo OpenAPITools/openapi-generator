@@ -8,7 +8,6 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -26,7 +25,7 @@ import java.util.Optional;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -200,9 +199,9 @@ public interface FakeApiDelegate {
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-public struct TypeHolderDefault: Codable {
+public struct TypeHolderDefault: Codable, Hashable {
 
     public var stringItem: String = "what"
     public var numberItem: Double
@@ -15,7 +18,7 @@ public struct TypeHolderDefault: Codable {
     public var boolItem: Bool = true
     public var arrayItem: [Int]
 
-    public init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {
+    public init(stringItem: String = "what", numberItem: Double, integerItem: Int, boolItem: Bool = true, arrayItem: [Int]) {
         self.stringItem = stringItem
         self.numberItem = numberItem
         self.integerItem = integerItem
@@ -31,4 +34,15 @@ public struct TypeHolderDefault: Codable {
         case arrayItem = "array_item"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(stringItem, forKey: .stringItem)
+        try container.encode(numberItem, forKey: .numberItem)
+        try container.encode(integerItem, forKey: .integerItem)
+        try container.encode(boolItem, forKey: .boolItem)
+        try container.encode(arrayItem, forKey: .arrayItem)
+    }
 }
+

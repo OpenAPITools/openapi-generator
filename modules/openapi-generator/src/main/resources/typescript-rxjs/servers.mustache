@@ -1,0 +1,45 @@
+/**
+ *
+ * Represents the configuration of a server including its
+ * url template and variable configuration based on the url.
+ *
+ */
+export class ServerConfiguration<T extends { [key: string]: string }> {
+    public constructor(private url: string, private variableConfiguration: T, private description: string) {}
+
+    /**
+     * Sets the value of the variables of this server.
+     *
+     * @param variableConfiguration a partial variable configuration for the variables contained in the url
+     */
+    public setVariables(variableConfiguration: Partial<T>) {
+        Object.assign(this.variableConfiguration, variableConfiguration);
+    }
+
+    public getConfiguration(): T {
+        return this.variableConfiguration
+    }
+
+    public getDescription(): string {
+        return this.description
+    }
+
+    /**
+     * Constructions the URL this server using the url with variables
+     * replaced with their respective values
+     */
+    public getUrl(): string {
+        let replacedUrl = this.url;
+        for (const key in this.variableConfiguration) {
+            var re = new RegExp("{" + key + "}","g");
+            replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+        }
+        return replacedUrl
+    }
+}
+
+{{#servers}}
+const server{{-index}} = new ServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} }, "{{description}}")
+{{/servers}}
+
+export const servers = [{{#servers}}server{{-index}}{{^-last}}, {{/-last}}{{/servers}}];

@@ -33,7 +33,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;
@@ -87,6 +87,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("Dockerfile", "", "Dockerfile"));
     }
 
     @Override
@@ -131,7 +132,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -144,7 +145,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, underscore("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 

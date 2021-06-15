@@ -1,0 +1,9 @@
+generatorName: crystal
+outputDir: samples/client/petstore/crystal
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/crystal
+additionalProperties:
+  shardVersion: 1.0.0
+  moduleName: Petstore
+  shardName: petstore
+strictSpecBehavior: false

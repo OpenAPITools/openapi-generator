@@ -3,6 +3,7 @@
 =end
 
 require 'date'
+require 'time'
 
 module {{moduleName}}
 {{#models}}
@@ -11,7 +12,14 @@ module {{moduleName}}
 {{>partial_model_enum_class}}
 {{/isEnum}}
 {{^isEnum}}
+{{#oneOf}}
+{{#-first}}
+{{>partial_oneof_module}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{>partial_model_generic}}
+{{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

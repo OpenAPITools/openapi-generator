@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: deepobject-test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: test
+      parameters:
+        - name: options
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Options'
+          explode: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    Options:
+      type: object
+      properties:
+        a:
+          nullable: true
+          type: string
+          format: date-time
+        b:
+          type: string
+          nullable: true
+          format: date-time

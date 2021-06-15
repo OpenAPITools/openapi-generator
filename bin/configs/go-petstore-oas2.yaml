@@ -1,0 +1,7 @@
+generatorName: go
+outputDir: samples/client/petstore/go/go-petstore
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
+additionalProperties:
+  packageName: petstore
+  generateInterfaces: true

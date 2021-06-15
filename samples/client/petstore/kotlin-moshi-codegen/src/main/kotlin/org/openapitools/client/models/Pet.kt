@@ -16,6 +16,7 @@ import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -30,24 +31,23 @@ data class Pet (
     @Json(name = "name")
     val name: kotlin.String,
     @Json(name = "photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "category")
     val category: Category? = null,
     @Json(name = "tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
 ) {
 
     /**
-    * pet status in the store
-    * Values: available,pending,sold
-    */
-    
-    enum class Status(val value: kotlin.String){
+     * pet status in the store
+     * Values: available,pending,sold
+     */
+    enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");

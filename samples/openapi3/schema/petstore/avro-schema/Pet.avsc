@@ -7,12 +7,14 @@
     {
       "name": "id",
       "type": ["null", "long"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "category",
       "type": ["null", "model.Category"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "name",
@@ -33,7 +35,8 @@
         "type": "array",
         "items": "model.Tag"
       }],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "status",
@@ -46,7 +49,9 @@
           "sold"
         ]
       }],
-      "doc": "pet status in the store"
+      "doc": "pet status in the store",
+      "default": null
     }
   ]
+
 }

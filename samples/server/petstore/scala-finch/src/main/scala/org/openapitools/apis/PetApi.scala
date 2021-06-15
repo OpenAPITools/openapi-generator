@@ -17,6 +17,7 @@ import com.twitter.util.Future
 import com.twitter.io.Buf
 import io.finch._, items._
 import java.io.File
+import java.nio.file.Files
 import java.time._
 
 object PetApi {
@@ -57,11 +58,11 @@ object PetApi {
 
         /**
         * 
-        * @return An endpoint representing a Unit
+        * @return An endpoint representing a Pet
         */
-        private def addPet(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: jsonBody[Pet]) { (body: Pet) =>
-          da.Pet_addPet(body) match {
+        private def addPet(da: DataAccessor): Endpoint[Pet] =
+        post("pet" :: jsonBody[Pet]) { (pet: Pet) =>
+          da.Pet_addPet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -127,11 +128,11 @@ object PetApi {
 
         /**
         * 
-        * @return An endpoint representing a Unit
+        * @return An endpoint representing a Pet
         */
-        private def updatePet(da: DataAccessor): Endpoint[Unit] =
-        put("pet" :: jsonBody[Pet]) { (body: Pet) =>
-          da.Pet_updatePet(body) match {
+        private def updatePet(da: DataAccessor): Endpoint[Pet] =
+        put("pet" :: jsonBody[Pet]) { (pet: Pet) =>
+          da.Pet_updatePet(pet) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -179,7 +180,7 @@ object PetApi {
     }
 
     private def bytesToFile(input: Array[Byte]): java.io.File = {
-      val file = File.createTempFile("tmpPetApi", null)
+      val file = Files.createTempFile("tmpPetApi", null).toFile
       val output = new FileOutputStream(file)
       output.write(input)
       file

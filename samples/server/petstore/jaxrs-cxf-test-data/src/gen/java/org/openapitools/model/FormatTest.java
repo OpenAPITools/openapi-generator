@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class FormatTest  {
   
   @ApiModelProperty(value = "")
@@ -62,6 +63,10 @@ public class FormatTest  {
 
   @ApiModelProperty(required = true, value = "")
   private String password;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private BigDecimal bigDecimal;
  /**
   * Get integer
   * minimum: 10
@@ -247,7 +252,7 @@ public class FormatTest  {
   */
   @JsonProperty("byte")
   @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+  public byte[] getByte() {
     return _byte;
   }
 
@@ -388,6 +393,30 @@ public class FormatTest  {
     return this;
   }
 
+ /**
+  * Get bigDecimal
+  * @return bigDecimal
+  */
+  @JsonProperty("BigDecimal")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  /**
+   * Sets the <code>bigDecimal</code> property.
+   */
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
+  /**
+   * Sets the <code>bigDecimal</code> property.
+   */
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -407,6 +436,7 @@ public class FormatTest  {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -415,7 +445,7 @@ public class FormatTest  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

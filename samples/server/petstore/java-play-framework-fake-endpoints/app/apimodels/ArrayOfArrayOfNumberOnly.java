@@ -11,10 +11,12 @@ import javax.validation.constraints.*;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfArrayOfNumberOnly   {
   @JsonProperty("ArrayArrayNumber")
+  @Valid
+
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -34,7 +36,6 @@ public class ArrayOfArrayOfNumberOnly   {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
-  @Valid
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
@@ -45,7 +46,7 @@ public class ArrayOfArrayOfNumberOnly   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -76,7 +77,7 @@ public class ArrayOfArrayOfNumberOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

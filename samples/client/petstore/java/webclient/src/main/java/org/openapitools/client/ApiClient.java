@@ -58,14 +58,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
+import javax.annotation.Nullable;
+
+import java.time.OffsetDateTime;
+
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-
-public class ApiClient {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
@@ -86,21 +90,20 @@ public class ApiClient {
 
     private final WebClient webClient;
     private final DateFormat dateFormat;
+    private final ObjectMapper objectMapper;
 
     private Map<String, Authentication> authentications;
 
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(dateFormat);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNullableModule jnm = new JsonNullableModule();
-        mapper.registerModule(jnm);
-
-        this.webClient = buildWebClient(mapper);
+        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
+        this.webClient = buildWebClient(this.objectMapper);
         this.init();
+    }
+
+    public ApiClient(WebClient webClient) {
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient()), createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
@@ -108,19 +111,33 @@ public class ApiClient {
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
+        this.objectMapper = createDefaultObjectMapper(format);
         this.init();
     }
 
-    public DateFormat createDefaultDateFormat() {
+    public static DateFormat createDefaultDateFormat() {
         DateFormat dateFormat = new RFC3339DateFormat();
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat;
+    }
+
+    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
+        return mapper;
     }
 
     protected void init() {
@@ -135,20 +152,45 @@ public class ApiClient {
     }
 
     /**
-    * Build the RestTemplate used to make HTTP requests.
-    * @return RestTemplate
+    * Build the WebClientBuilder used to make WebClient.
+    * @param mapper ObjectMapper used for serialize/deserialize
+    * @return WebClient
     */
-    public static WebClient buildWebClient(ObjectMapper mapper) {
+    public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
             }).build();
-        WebClient.Builder webClient = WebClient.builder().exchangeStrategies(strategies);
-        return webClient.build();
+        WebClient.Builder webClientBuilder = WebClient.builder().exchangeStrategies(strategies);
+        return webClientBuilder;
     }
 
+    /**
+     * Build the WebClientBuilder used to make WebClient.
+     * @return WebClient
+     */
+    public static WebClient.Builder buildWebClientBuilder() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null));
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @param mapper ObjectMapper used for serialize/deserialize
+     * @return WebClient
+     */
+    public static WebClient buildWebClient(ObjectMapper mapper) {
+        return buildWebClientBuilder(mapper).build();
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @return WebClient
+     */
+    public static WebClient buildWebClient() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null)).build();
+    }
 
     /**
      * Get the current base path
@@ -337,6 +379,22 @@ public class ApiClient {
     }
 
     /**
+     * Get the ObjectMapper used to make HTTP requests.
+     * @return ObjectMapper objectMapper
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    /**
+     * Get the WebClient used to make HTTP requests.
+     * @return WebClient webClient
+     */
+    public WebClient getWebClient() {
+        return webClient;
+    }
+
+    /**
      * Format the given parameter object into string.
      * @param param the object to convert
      * @return String the parameter represented as a String
@@ -346,6 +404,8 @@ public class ApiClient {
             return "";
         } else if (param instanceof Date) {
             return formatDate( (Date) param);
+        } else if (param instanceof OffsetDateTime) {
+            return formatOffsetDateTime((OffsetDateTime) param);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for(Object o : (Collection<?>) param) {
@@ -438,6 +498,15 @@ public class ApiClient {
     }
 
     /**
+    * Check if the given {@code String} is a Problem JSON MIME (RFC-7807).
+    * @param mediaType the input MediaType
+    * @return boolean true if the MediaType represents Problem JSON, false otherwise
+    */
+    public boolean isProblemJsonMime(String mediaType) {
+        return "application/problem+json".equalsIgnoreCase(mediaType);
+    }
+
+    /**
      * Select the Accept header's value from the given accepts array:
      *     if JSON exists in the given array, use it;
      *     otherwise use all of them (joining into a string)
@@ -451,7 +520,7 @@ public class ApiClient {
         }
         for (String accept : accepts) {
             MediaType mediaType = MediaType.parseMediaType(accept);
-            if (isJsonMime(mediaType)) {
+            if (isJsonMime(mediaType) && !isProblemJsonMime(accept)) {
                 return Collections.singletonList(mediaType);
             }
         }
@@ -464,11 +533,11 @@ public class ApiClient {
      *     otherwise use the first one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, JSON will be used.
+     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
-            return MediaType.APPLICATION_JSON;
+            return null;
         }
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);
@@ -488,7 +557,7 @@ public class ApiClient {
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
         if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
-            MultiValueMap<String, String> map = new LinkedMultiValueMap();
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
             formParams
                     .toSingleValueMap()
@@ -499,7 +568,7 @@ public class ApiClient {
         } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
             return BodyInserters.fromMultipartData(formParams);
         } else {
-            return obj != null ? BodyInserters.fromObject(obj) : null;
+            return obj != null ? BodyInserters.fromValue(obj) : null;
         }
     }
 
@@ -637,62 +706,10 @@ public class ApiClient {
         }
 
          // collectionFormat is assumed to be "csv" by default
-         if(collectionFormat == null) {
-             collectionFormat = CollectionFormat.CSV;
-         }
-
-         return collectionFormat.collectionToString(values);
-    }
-
-    private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
-        private final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
-
-        @Override
-        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-            logRequest(request, body);
-            ClientHttpResponse response = execution.execute(request, body);
-            logResponse(response);
-            return response;
+        if(collectionFormat == null) {
+            collectionFormat = CollectionFormat.CSV;
         }
 
-        private void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
-            log.info("URI: " + request.getURI());
-            log.info("HTTP Method: " + request.getMethod());
-            log.info("HTTP Headers: " + headersToString(request.getHeaders()));
-            log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
-        }
-
-        private void logResponse(ClientHttpResponse response) throws IOException {
-            log.info("HTTP Status Code: " + response.getRawStatusCode());
-            log.info("Status Text: " + response.getStatusText());
-            log.info("HTTP Headers: " + headersToString(response.getHeaders()));
-            log.info("Response Body: " + bodyToString(response.getBody()));
-        }
-
-        private String headersToString(HttpHeaders headers) {
-            StringBuilder builder = new StringBuilder();
-            for(Entry<String, List<String>> entry : headers.entrySet()) {
-                builder.append(entry.getKey()).append("=[");
-                for(String value : entry.getValue()) {
-                    builder.append(value).append(",");
-                }
-                builder.setLength(builder.length() - 1); // Get rid of trailing comma
-                builder.append("],");
-            }
-            builder.setLength(builder.length() - 1); // Get rid of trailing comma
-            return builder.toString();
-        }
-
-        private String bodyToString(InputStream body) throws IOException {
-            StringBuilder builder = new StringBuilder();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(body, StandardCharsets.UTF_8));
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                builder.append(line).append(System.lineSeparator());
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-            return builder.toString();
-        }
+        return collectionFormat.collectionToString(values);
     }
 }

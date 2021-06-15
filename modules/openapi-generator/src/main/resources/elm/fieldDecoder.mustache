@@ -12,6 +12,6 @@
 {{#isBoolean}}Json.Decode.bool{{/isBoolean}}
 {{#isUuid}}Uuid.decoder{{/isUuid}}
 {{^isDateTime}}{{^isDate}}{{^isByteArray}}{{^isBinary}}{{^isString}}{{^isNumeric}}{{^isBoolean}}{{^isUuid}}
-{{#isDefault}}Api.Data.{{/isDefault}}{{#lambda.camelcase}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{/lambda.camelcase}}Decoder
+{{#is2xx}}Api.Data.{{/is2xx}}{{#is3xx}}Api.Data.{{/is3xx}}{{#lambda.camelcase}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{/lambda.camelcase}}Decoder
 {{/isUuid}}{{/isBoolean}}{{/isNumeric}}{{/isString}}{{/isBinary}}{{/isByteArray}}{{/isDate}}{{/isDateTime}}
 {{/lambda.removeWhitespace}}

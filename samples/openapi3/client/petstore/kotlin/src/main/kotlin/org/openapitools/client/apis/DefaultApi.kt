@@ -25,14 +25,24 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : ApiClient(basePath) {
+class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+    companion object {
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io:80/v2")
+        }
+    }
 
     /**
     * 
     * 
     * @return InlineResponseDefault
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun fooGet() : InlineResponseDefault {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -43,17 +53,23 @@ class DefaultApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") :
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<InlineResponseDefault>(
+        val localVarResponse = request<InlineResponseDefault>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as InlineResponseDefault
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as InlineResponseDefault
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
         }
     }
 

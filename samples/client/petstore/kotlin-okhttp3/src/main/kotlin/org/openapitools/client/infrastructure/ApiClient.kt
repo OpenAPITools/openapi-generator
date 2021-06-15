@@ -1,6 +1,5 @@
 package org.openapitools.client.infrastructure
 
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.MediaType
@@ -10,14 +9,17 @@ import okhttp3.ResponseBody
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 import java.net.URLConnection
-import java.util.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import java.util.Date
+import java.util.Locale
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -57,9 +59,7 @@ open class ApiClient(val baseUrl: String) {
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
-            content is File -> RequestBody.create(
-                MediaType.parse(mediaType), content
-            )
+            content is File -> RequestBody.create(MediaType.parse(mediaType), content)
             mediaType == FormDataMediaType -> {
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -112,13 +112,22 @@ open class ApiClient(val baseUrl: String) {
         if (bodyContent.isEmpty()) {
             return null
         }
+        if (T::class.java == File::class.java) {
+            // return tempfile
+            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            f.deleteOnExit()
+            val out = BufferedWriter(FileWriter(f))
+            out.write(bodyContent)
+            out.close()
+            return f as T
+        }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
-    protected fun updateAuthParams(requestConfig: RequestConfig) {
+    protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
             if (apiKey["api_key"] != null) {
                 if (apiKeyPrefix["api_key"] != null) {
@@ -135,7 +144,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -169,72 +178,61 @@ open class ApiClient(val baseUrl: String) {
         }
 
         // TODO: support multiple contentType options here.
-        val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
+        val contentType = (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
 
         val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(body, contentType))
+            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))
-            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body, contentType))
-            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body, contentType))
+            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(requestConfig.body, contentType))
+            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(requestConfig.body, contentType))
+            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }.apply {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
         val response = client.newCall(request).execute()
-        val accept = response.header(ContentType)?.substringBefore(";")?.toLowerCase()
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        when {
-            response.isRedirect -> return Redirection(
-                    response.code(),
-                    response.headers().toMultimap()
+        return when {
+            response.isRedirect -> Redirection(
+                response.code(),
+                response.headers().toMultimap()
             )
-            response.isInformational -> return Informational(
-                    response.message(),
-                    response.code(),
-                    response.headers().toMultimap()
+            response.isInformational -> Informational(
+                response.message(),
+                response.code(),
+                response.headers().toMultimap()
             )
-            response.isSuccessful -> return Success(
-                    responseBody(response.body(), accept),
-                    response.code(),
-                    response.headers().toMultimap()
+            response.isSuccessful -> Success(
+                responseBody(response.body(), accept),
+                response.code(),
+                response.headers().toMultimap()
             )
-            response.isClientError -> return ClientError(
-                    response.message(),
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+            response.isClientError -> ClientError(
+                response.message(),
+                response.body()?.string(),
+                response.code(),
+                response.headers().toMultimap()
             )
-            else -> return ServerError(
-                    response.message(),
-                    response.body()?.string(),
-                    response.code(),
-                    response.headers().toMultimap()
+            else -> ServerError(
+                response.message(),
+                response.body()?.string(),
+                response.code(),
+                response.headers().toMultimap()
             )
         }
     }
 
-    protected fun parameterToString(value: Any?): String {
-        when (value) {
-            null -> {
-                return ""
-            }
-            is Array<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is Iterable<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date -> {
-                return parseDateToQueryString<Any>(value)
-            }
-            else -> {
-                return value.toString()
-            }
-        }
+    protected fun parameterToString(value: Any?): String = when (value) {
+        null -> ""
+        is Array<*> -> toMultiValue(value, "csv").toString()
+        is Iterable<*> -> toMultiValue(value, "csv").toString()
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+            parseDateToQueryString(value)
+        else -> value.toString()
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {

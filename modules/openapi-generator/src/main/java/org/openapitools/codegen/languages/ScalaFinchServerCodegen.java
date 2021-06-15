@@ -28,10 +28,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
@@ -113,10 +111,11 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int");
-        typeMapping.put("float", "Float");
         typeMapping.put("long", "Long");
+        typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "ZonedDateTime");
         typeMapping.put("date", "LocalDateTime");
         typeMapping.put("file", "File");
@@ -177,7 +176,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("map", "HashMap");
 
         importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
@@ -240,9 +238,9 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             // Converts GET /foo/bar => get("foo" :: "bar")
             generateScalaPath(op);
 
-            // Generates e.g. uuid :: header("boo") :: params("baa") under key "x-codegen-pathParams"
-            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key "x-codegen-typedInputParams"
-            // Generates e.g. (id, headerBoo, paramBaa) under key "x-codegen-inputParams"
+            // Generates e.g. uuid :: header("boo") :: params("baa") under key "x-codegen-path-params"
+            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key "x-codegen-typed-input-params"
+            // Generates e.g. (id, headerBoo, paramBaa) under key "x-codegen-input-params"
             generateInputParameters(op);
 
             //Generate Auth parameters using security: definition
@@ -265,7 +263,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -318,7 +316,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     //All path parameters are String initially, for primitives these need to be converted
     private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
-        Boolean isNotAString = !p.dataType.equals("String");
+        Boolean isNotAString = !"String".equals(p.dataType);
 
         return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }
@@ -346,9 +344,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         String authInputParams = "";
         String typedAuthInputParams = "";
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         //Append apikey security to path params and create input parameters for functions
         if (op.authMethods != null) {
 
@@ -364,10 +359,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
         }
-
-        op.vendorExtensions.put("x-codegen-authParams", authParams); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-codegen-authInputParams", authInputParams); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-codegen-typedAuthInputParams", typedAuthInputParams); // TODO: 5.0 Remove
 
         op.vendorExtensions.put("x-codegen-auth-params", authParams);
         op.vendorExtensions.put("x-codegen-auth-input-params", authInputParams);
@@ -414,27 +405,19 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
 
     private void concatParameters(CodegenOperation op) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-pathParams").toString()), op.vendorExtensions.get("x-codegen-authParams").toString());
-        String parameters = csvConcat(op.vendorExtensions.get("x-codegen-inputParams").toString(), op.vendorExtensions.get("x-codegen-authInputParams").toString());
-        String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typedInputParams").toString(), op.vendorExtensions.get("x-codegen-typedAuthInputParams").toString());
+        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-path-params").toString()), op.vendorExtensions.get("x-codegen-auth-params").toString());
+        String parameters = csvConcat(op.vendorExtensions.get("x-codegen-input-params").toString(), op.vendorExtensions.get("x-codegen-auth-input-params").toString());
+        String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typed-input-params").toString(), op.vendorExtensions.get("x-codegen-typed-auth-input-params").toString());
 
         // The input parameters for functions
         op.vendorExtensions.put("x-codegen-paths", path);
         op.vendorExtensions.put("x-codegen-params", parameters);
-        op.vendorExtensions.put("x-codegen-typedParams", typedParameters); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-codegen-typed-params", typedParameters);
 
     }
 
 
     private void generateInputParameters(CodegenOperation op) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         String inputParams = "";
         String typedInputParams = "";
@@ -447,7 +430,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             if (p.isBodyParam) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody[" + p.dataType + "]");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
-            } else if (p.isContainer || p.isListContainer) {
+            } else if (p.isContainer || p.isArray) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "params", false));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
             } else if (p.isQueryParam) {
@@ -482,15 +465,23 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // All body, path, query and header parameters
-        op.vendorExtensions.put("x-codegen-pathParams", pathParams); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-codegen-path-params", pathParams);
 
         // The input parameters for functions
-        op.vendorExtensions.put("x-codegen-inputParams", inputParams); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-codegen-input-params", inputParams);
-        op.vendorExtensions.put("x-codegen-typedInputParams", typedInputParams); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-codegen-typed-input-params", typedInputParams);
+    }
 
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
     }
 
 }

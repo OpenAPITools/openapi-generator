@@ -28,6 +28,12 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +43,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
@@ -49,6 +55,26 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     public AbstractAdaCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
 
         /*
          * Reserved words.  Override this with reserved words specific to your language
@@ -168,7 +194,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         embeddedTemplateDir = templateDir = "Ada";
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("integer", "boolean", "Integer", "Character", "Boolean", "long", "float", "double"));
+                Arrays.asList("integer", "boolean", "number", "long", "float",
+                        "double", "object", "string", "date", "DateTime", "binary"));
     }
 
     public String toFilename(String name) {
@@ -193,25 +220,33 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected String toAdaIdentifier(String name, String prefix) {
         // We cannot use reserved keywords for identifiers
         if (isReservedWord(name)) {
-            LOGGER.warn("Identifier '" + name + "' is a reserved word, renamed to " + prefix + name);
+            LOGGER.warn("Identifier '{}' is a reserved word, renamed to {}{}", name, prefix, name);
             name = prefix + name;
         }
         StringBuilder result = new StringBuilder();
         boolean needUpperCase = true;
+        boolean prevUpperCase = false;
+        if (name.isEmpty() || Character.isDigit(name.charAt(0)) || name.charAt(0) == '_') {
+            result.append(prefix);
+        }
         for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
+            boolean isUpperOrDigit = Character.isUpperCase(c) || Character.isDigit(c);
             if (needUpperCase) {
                 needUpperCase = false;
+                prevUpperCase = isUpperOrDigit;
                 result.append(Character.toUpperCase(c));
 
-            } else if (Character.isUpperCase((c))) {
-                if (!needUpperCase) {
+            } else if (isUpperOrDigit) {
+                if (!prevUpperCase) {
                     result.append('_');
                 }
                 result.append(c);
                 needUpperCase = false;
+                prevUpperCase = true;
             } else {
                 result.append(c);
+                prevUpperCase = isUpperOrDigit;
                 if (c == '_') {
                     needUpperCase = true;
                 }
@@ -252,20 +287,22 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (result.matches("^\\d.*")) {
             String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(result)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    name, modelName);
             return modelName;
         }
 
@@ -274,6 +311,40 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         return result;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        String var = null;
+        if (value.isEmpty()) {
+            var = "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        else if (getSymbolName(value) != null) {
+            var = getSymbolName(value).toUpperCase(Locale.ROOT);
+        }
+
+        // number
+        else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
+                "Float".equals(datatype) || "Double".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            var = varName;
+        }
+
+        // string
+        else {
+            var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+            if (var.matches("\\d.*")) {
+                var = "_" + var;
+            } else {
+                var = sanitizeName(var);
+            }
+        }
+        return var;
     }
 
     @Override
@@ -347,7 +418,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
                 return name;
@@ -371,6 +442,44 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return modelPackage + ".Models." + modelType;
     }
 
+    private boolean isStreamType(CodegenProperty parameter) {
+        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
+                || parameter.isDateTime || parameter.isInteger || parameter.isLong
+                || (parameter.isFreeFormObject && !parameter.isMap);
+
+        return isStreamType;
+    }
+
+    private boolean isModelType(CodegenProperty parameter) {
+        boolean isModel = parameter.dataType.startsWith(modelPackage);
+        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+                && !parameter.isFreeFormObject
+                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.dataType.startsWith("Swagger")) {
+            isModel = true;
+        }
+        return isModel;
+    }
+
+    private boolean isStreamType(CodegenParameter parameter) {
+        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
+                || parameter.isDateTime || parameter.isInteger || parameter.isLong
+                || (parameter.isFreeFormObject && !parameter.isMap);
+
+        return isStreamType;
+    }
+
+    private boolean isModelType(CodegenParameter parameter) {
+        boolean isModel = parameter.dataType.startsWith(modelPackage);
+        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+                && !parameter.isFreeFormObject
+                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.dataType.startsWith("Swagger")) {
+            isModel = true;
+        }
+        return isModel;
+    }
+
     /**
      * Overrides postProcessParameter to add a vendor extension "x-is-model-type".
      * This boolean indicates that the parameter comes from the model package.
@@ -385,12 +494,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (parameter.dataType == null) {
             return;
         }
-        boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile) {
-            isModel = true;
-        }
-        parameter.vendorExtensions.put("x-is-model-type", isModel);
+        parameter.vendorExtensions.put("x-is-model-type", isModelType(parameter));
+        parameter.vendorExtensions.put("x-is-stream-type", isStreamType(parameter));
     }
 
     /**
@@ -426,6 +531,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
                 CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
                 op.vendorExtensions.put("x-codegen-response", cm);
+                op.vendorExtensions.put("x-is-model-type", isModelType(cm));
+                op.vendorExtensions.put("x-is-stream-type", isStreamType(cm));
                 if ("HttpContent".equals(cm.dataType)) {
                     op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                 }
@@ -524,7 +631,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     if (last < 0) {
                         break;
                     }
-                    if (path.substring(pos, last - 1).equals(p.baseName)) {
+                    if (path.substring(pos, last).equals(p.baseName)) {
                         break;
                     }
                     pos = last + 1;
@@ -558,6 +665,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         isModel = true;
                     }
                     p.vendorExtensions.put("x-is-model-type", isModel);
+                    p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
                     Boolean required = p.getRequired();
 
                     // Convert optional members to use the Nullable_<T> type.
@@ -687,7 +795,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     CodegenSecurity opSecurity = new CodegenSecurity();
                     opSecurity.name = authMethod.name;
                     opSecurity.type = authMethod.type;
-                    opSecurity.hasMore = false;
                     opSecurity.isBasic = authMethod.isBasic;
                     opSecurity.isApiKey = authMethod.isApiKey;
                     opSecurity.isKeyInCookie = authMethod.isKeyInCookie;

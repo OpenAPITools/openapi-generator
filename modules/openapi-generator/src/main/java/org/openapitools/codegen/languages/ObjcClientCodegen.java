@@ -29,11 +29,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
 
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";
@@ -389,7 +388,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -436,7 +435,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {} before further processing",
+                    type, "model_" + type);
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -615,7 +615,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
@@ -654,15 +654,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 if (!operation.allParams.isEmpty()) {
                     String firstParamName = operation.allParams.get(0).paramName;
-                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName)); // TODO: 5.0 Remove
                     operation.vendorExtensions.put("x-first-param-alt-name", camelize(firstParamName));
                 }
             }
@@ -673,11 +669,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
         super.postProcessModelProperty(model, schema);
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name)); // TODO: 5.0 Remove
         schema.vendorExtensions.put("x-uppercase-name", camelize(schema.name));
     }
 
@@ -775,14 +766,14 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // e.g. [[SWGPet alloc] init
             example = "[[" + type + " alloc] init]";
         } else {
-            LOGGER.warn("Example value for " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Example value for {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
             example = "NULL";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+        } else if (Boolean.TRUE.equals(p.isArray)) {
             example = "@[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "@{@\"key\" : " + example + "}";
         }
 

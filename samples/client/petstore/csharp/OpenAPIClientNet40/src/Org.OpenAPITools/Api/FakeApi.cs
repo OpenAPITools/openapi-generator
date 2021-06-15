@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using RestSharp;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -1567,7 +1568,7 @@ namespace Org.OpenAPITools.Api
 
             if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "pipe", pipe)); // query parameter
             if (ioutil != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "ioutil", ioutil)); // query parameter
-            if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("space", "http", http)); // query parameter
+            if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
 

@@ -23,7 +23,7 @@
 {{/allVars}}
 
 {{#hasVars}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{^-last}}, {{/-last}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}

@@ -35,11 +35,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
 
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
     protected String phpInvokerPackage = "OpenAPITools\\Client"; // default for PHP
@@ -135,7 +134,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -202,10 +201,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }
@@ -214,7 +209,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         op.path = sanitizePath(op.path);
 
         String methodUpperCase = httpMethod.toUpperCase(Locale.ROOT);
-        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", methodUpperCase); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-codegen-http-method-upper-case", methodUpperCase);
 
         return op;
@@ -248,9 +242,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenParameter parameter : parameterList) {
             if (parameter.isEnum) {
                 for (int i = 0; i < parameter._enum.size(); i++) {
@@ -262,7 +253,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
                 Markdown markInstance = new Markdown();
                 if (!enumFormatted.isEmpty()) {
                     String formattedExtension = markInstance.toHtml(enumFormatted);
-                    parameter.vendorExtensions.put("x-eumFormatted", formattedExtension); // TODO: 5.0 Remove
                     parameter.vendorExtensions.put("x-eum-formatted", formattedExtension);
                 }
             }

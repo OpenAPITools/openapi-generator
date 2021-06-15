@@ -1,0 +1,32 @@
+openapi: 3.0.0
+paths:
+  /examples:
+    get:
+      tags:
+        - Examples
+      summary: Get a list of transactions
+      operationId: getFilteredTransactions
+      parameters:
+        - $ref: '#/components/parameters/operationsQueryParam'
+      responses:
+        200:
+          description: A list of deleted consumers
+          content:
+            application/json:
+              schema:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+
+components:
+  parameters:
+    operationsQueryParam:
+      name: operations
+      description: Operations list
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          type: string

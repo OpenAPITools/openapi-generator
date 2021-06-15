@@ -16,7 +16,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 public interface UserApiService {
       public Response createUser(User body, SecurityContext securityContext);
       public Response createUsersWithArrayInput(List<User> body, SecurityContext securityContext);

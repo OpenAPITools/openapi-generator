@@ -1,12 +1,14 @@
-pub struct MakeService<T, RC> {
+pub struct MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
     api_impl: T,
-    marker: PhantomData<RC>,
+    marker: PhantomData<C>,
 }
 
-impl<T, RC> MakeService<T, RC>
-where
-    T: Api<RC> + Clone + Send + 'static,
-    RC: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+impl<T, C> MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     pub fn new(api_impl: T) -> Self {
         MakeService {
@@ -16,21 +18,21 @@ where
     }
 }
 
-impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
-where
-    T: Api<RC> + Clone + Send + 'static,
-    RC: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static + Send
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
-    type ReqBody = ContextualPayload<Body, RC>;
-    type ResBody = Body;
-    type Error = Error;
-    type Service = Service<T, RC>;
-    type Future = future::FutureResult<Self::Service, Self::MakeError>;
-    type MakeError = Error;
+    type Response = Service<T, C>;
+    type Error = crate::ServiceError;
+    type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
-        future::FutureResult::from(Ok(Service::new(
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        Poll::Ready(Ok(()))
+    }
+
+    fn call(&mut self, target: Target) -> Self::Future {
+        futures::future::ok(Service::new(
             self.api_impl.clone(),
-        )))
+        ))
     }
 }

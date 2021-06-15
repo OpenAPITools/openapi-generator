@@ -26,17 +26,15 @@ class EnumTestTest extends TestCase
         $this->assertFalse($enum->valid());
 
         $expected = [
-            "invalid value for 'enum_string', must be one of 'UPPER', 'lower', ''",
+            "invalid value '0' for 'enum_string', must be one of 'UPPER', 'lower', ''",
             "'enum_string_required' can't be null",
         ];
         $this->assertSame($expected, $enum->listInvalidProperties());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowExceptionWhenInvalidAmbiguousValueHasPassed()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $enum = new EnumTest();
         $enum->setEnumString(0);
     }

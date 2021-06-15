@@ -53,10 +53,41 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
-                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
                 classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                 classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(BigCat.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(Cat.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, "className"));
+            }
+          })
+          .registerTypeSelector(Dog.class, new TypeSelector() {
+            @Override
+            public Class getClassForElement(JsonElement readElement) {
+                Map classByDiscriminatorValue = new HashMap();
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));

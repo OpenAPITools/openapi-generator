@@ -6,12 +6,15 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct NumberOnly: Codable {
+internal struct NumberOnly: Codable, Hashable {
 
     internal var justNumber: Double?
 
-    internal init(justNumber: Double?) {
+    internal init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 
@@ -19,4 +22,11 @@ internal struct NumberOnly: Codable {
         case justNumber = "JustNumber"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(justNumber, forKey: .justNumber)
+    }
 }
+

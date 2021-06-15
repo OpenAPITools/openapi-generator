@@ -7,8 +7,12 @@
 
 import Foundation
 import PromiseKit
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
@@ -16,7 +20,7 @@ open class AnotherFakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Client>
      */
-    open class func call123testSpecialTags( body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Client> {
+    open class func call123testSpecialTags( body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
@@ -38,14 +42,19 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
-        let URLString = PetstoreClientAPI.basePath + path
+        let URLString = PetstoreClient.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let urlComponents = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let nillableHeaders: [String: Any?] = [
+            :
+        ]
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PATCH", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
     }
-
 }

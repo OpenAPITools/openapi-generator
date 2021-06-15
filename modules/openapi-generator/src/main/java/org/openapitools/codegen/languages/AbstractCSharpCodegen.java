@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
@@ -47,6 +47,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
+    protected boolean nullReferenceTypesFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -83,7 +84,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> valueTypes = new HashSet<String>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
         super();
@@ -160,6 +161,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTimeOffset",
                         "Boolean",
                         "Double",
+                        "Decimal",
                         "Int32",
                         "Int64",
                         "Float",
@@ -195,6 +197,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid?");
         typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
 
         // nullable type
         nullableType = new HashSet<String>(
@@ -354,6 +357,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
+            setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+        } else {
+            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -397,7 +406,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // check to see if model name is same as the property name
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.name)) {
+                if (var.name.equalsIgnoreCase(cm.classname)) {
                     var.name = "_" + var.name;
                 }
             }
@@ -498,6 +507,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
 
+                /* Comment out the following as model.dataType is always the model name, eg. OuterIntegerEnum,
+                 * and this will fix the integer enum via #9035.
+                 * Only x-enum-byte is used in the template but it won't work due to the bug mentioned above.
+                 * A better solution is to introduce isLong, isInteger, etc in the DefaultCodegen
+                 * so that there is no need for each generator to post-process model enums.
+                 *
                 // We're looping all models here.
                 if (model.isEnum) {
                     // We now need to make allowableValues.enumVars look like the context of CodegenProperty
@@ -541,7 +556,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     if (!newEnumVars.isEmpty()) {
                         model.allowableValues.put("enumVars", newEnumVars);
                     }
-                }
+                } */
             } else {
                 LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
@@ -568,7 +583,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isString = false;
                 var.isLong = false;
                 var.isInteger = false;
-            } else if ("int32".equals(var.dataFormat)) {
+            } else if ("int".equals(var.dataType) || "int32".equals(var.dataFormat)) {
                 var.isInteger = true;
                 var.isString = false;
                 var.isLong = false;
@@ -590,14 +605,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * @param models list of all models
      */
     protected void updateValueTypeProperty(Map<String, Object> models) {
-        // TODO: 5.0: Remove the camelCased vendorExtension within the below loop and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String openAPIName = entry.getKey();
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
-                    var.vendorExtensions.put("isValueType", isValueType(var));  // TODO: 5.0 Remove
                     var.vendorExtensions.put("x-is-value-type", isValueType(var));
                 }
             }
@@ -643,7 +655,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
 
                         if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isListContainer = true;
+                            operation.isArray = true;
                             operation.returnContainer = operation.returnType;
                             if (this.returnICollection && (
                                     typeMapping.startsWith("List") ||
@@ -656,7 +668,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMapContainer = this.mapTypes.contains(typeMapping);
+                            operation.isMap = this.mapTypes.contains(typeMapping);
+                        }
+                    }
+
+
+                    // check if the payload is json and set x-is-json accordingly
+                    if (operation.consumes != null) {
+                        for (Map<String, String> consume : operation.consumes) {
+                            if (consume.containsKey("mediaType")) {
+                                if (isJsonMimeType(consume.get("mediaType"))) {
+                                    operation.vendorExtensions.put("x-is-json", true);
+                                    break;
+                                }
+                            }
                         }
                     }
 
@@ -771,13 +796,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -989,7 +1014,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -1014,13 +1039,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -1091,6 +1117,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public String getInterfacePrefix() {
         return interfacePrefix;
+    }
+
+    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
+        this.nullReferenceTypesFlag = nullReferenceTypesFlag;
+        if (nullReferenceTypesFlag == true){
+            this.nullableType.add("string");
+        }
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {
@@ -1249,10 +1282,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

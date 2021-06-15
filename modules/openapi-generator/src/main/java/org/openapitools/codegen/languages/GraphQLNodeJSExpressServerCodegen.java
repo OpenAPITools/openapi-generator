@@ -30,7 +30,7 @@ import java.util.EnumSet;
 
 public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -114,7 +114,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
         supportingFiles.add(new SupportingFile("schema.graphql.mustache", supportFolder, "schema.graphql"));
 
         // General stuff
-        supportingFiles.add(new SupportingFile(".gitignore", supportFolder, ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", supportFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", supportFolder, "README.md"));
         supportingFiles.add(new SupportingFile("package.json.mustache", supportFolder, "package.json"));
         supportingFiles.add(new SupportingFile("server.js", supportFolder, "server.js"));

@@ -19,17 +19,22 @@ import com.squareup.moshi.Json
 * Values: MY_FIRST_VALUE,MY_SECOND_VALUE
 */
 
-enum class PetEnum(val value: kotlin.String){
+enum class PetEnum(val value: kotlin.String) {
 
 
     @Json(name = "myFirstValue")
     MY_FIRST_VALUE("myFirstValue"),
 
-
     @Json(name = "MY_SECOND_VALUE")
     MY_SECOND_VALUE("MY_SECOND_VALUE");
 
 
-
+    /**
+    This override toString avoids using the enum var name and uses the actual api value instead.
+    In cases the var name and value are different, the client would send incorrect enums to the server.
+    **/
+    override fun toString(): String {
+        return value
+    }
 }
 

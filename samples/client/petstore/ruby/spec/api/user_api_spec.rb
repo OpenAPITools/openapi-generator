@@ -35,7 +35,7 @@ describe 'UserApi' do
   # unit tests for create_user
   # Create user
   # This can only be done by the logged in user.
-  # @param body Created user object
+  # @param user Created user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'create_user test' do
@@ -46,7 +46,7 @@ describe 'UserApi' do
 
   # unit tests for create_users_with_array_input
   # Creates list of users with given input array
-  # @param body List of user object
+  # @param user List of user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'create_users_with_array_input test' do
@@ -57,7 +57,7 @@ describe 'UserApi' do
 
   # unit tests for create_users_with_list_input
   # Creates list of users with given input array
-  # @param body List of user object
+  # @param user List of user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'create_users_with_list_input test' do
@@ -115,7 +115,7 @@ describe 'UserApi' do
   # Updated user
   # This can only be done by the logged in user.
   # @param username name that need to be deleted
-  # @param body Updated user object
+  # @param user Updated user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'update_user test' do

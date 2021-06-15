@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * API tests for PetApi
@@ -93,8 +94,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws IOException {
-        List<String> tags = null;
-        List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }

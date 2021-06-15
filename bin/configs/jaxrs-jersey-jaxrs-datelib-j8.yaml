@@ -1,0 +1,12 @@
+generatorName: jaxrs-jersey
+outputDir: samples/server/petstore/jaxrs-datelib-j8
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS
+additionalProperties:
+  serializableModel: true
+  withXml: true
+  java8: true
+  useBeanValidation: true
+  hideGenerationTimestamp: "true"
+  serverPort: "8082"
+  dateLibrary: java8

@@ -10,9 +10,12 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
 
 from petstore_api.configuration import Configuration
@@ -99,7 +102,7 @@ class XmlItem(object):
     def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None, local_vars_configuration=None):  # noqa: E501
         """XmlItem - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._attribute_string = None
@@ -208,7 +211,7 @@ class XmlItem(object):
 
 
         :param attribute_string: The attribute_string of this XmlItem.  # noqa: E501
-        :type: str
+        :type attribute_string: str
         """
 
         self._attribute_string = attribute_string
@@ -229,7 +232,7 @@ class XmlItem(object):
 
 
         :param attribute_number: The attribute_number of this XmlItem.  # noqa: E501
-        :type: float
+        :type attribute_number: float
         """
 
         self._attribute_number = attribute_number
@@ -250,7 +253,7 @@ class XmlItem(object):
 
 
         :param attribute_integer: The attribute_integer of this XmlItem.  # noqa: E501
-        :type: int
+        :type attribute_integer: int
         """
 
         self._attribute_integer = attribute_integer
@@ -271,7 +274,7 @@ class XmlItem(object):
 
 
         :param attribute_boolean: The attribute_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        :type attribute_boolean: bool
         """
 
         self._attribute_boolean = attribute_boolean
@@ -292,7 +295,7 @@ class XmlItem(object):
 
 
         :param wrapped_array: The wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type wrapped_array: list[int]
         """
 
         self._wrapped_array = wrapped_array
@@ -313,7 +316,7 @@ class XmlItem(object):
 
 
         :param name_string: The name_string of this XmlItem.  # noqa: E501
-        :type: str
+        :type name_string: str
         """
 
         self._name_string = name_string
@@ -334,7 +337,7 @@ class XmlItem(object):
 
 
         :param name_number: The name_number of this XmlItem.  # noqa: E501
-        :type: float
+        :type name_number: float
         """
 
         self._name_number = name_number
@@ -355,7 +358,7 @@ class XmlItem(object):
 
 
         :param name_integer: The name_integer of this XmlItem.  # noqa: E501
-        :type: int
+        :type name_integer: int
         """
 
         self._name_integer = name_integer
@@ -376,7 +379,7 @@ class XmlItem(object):
 
 
         :param name_boolean: The name_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        :type name_boolean: bool
         """
 
         self._name_boolean = name_boolean
@@ -397,7 +400,7 @@ class XmlItem(object):
 
 
         :param name_array: The name_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type name_array: list[int]
         """
 
         self._name_array = name_array
@@ -418,7 +421,7 @@ class XmlItem(object):
 
 
         :param name_wrapped_array: The name_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type name_wrapped_array: list[int]
         """
 
         self._name_wrapped_array = name_wrapped_array
@@ -439,7 +442,7 @@ class XmlItem(object):
 
 
         :param prefix_string: The prefix_string of this XmlItem.  # noqa: E501
-        :type: str
+        :type prefix_string: str
         """
 
         self._prefix_string = prefix_string
@@ -460,7 +463,7 @@ class XmlItem(object):
 
 
         :param prefix_number: The prefix_number of this XmlItem.  # noqa: E501
-        :type: float
+        :type prefix_number: float
         """
 
         self._prefix_number = prefix_number
@@ -481,7 +484,7 @@ class XmlItem(object):
 
 
         :param prefix_integer: The prefix_integer of this XmlItem.  # noqa: E501
-        :type: int
+        :type prefix_integer: int
         """
 
         self._prefix_integer = prefix_integer
@@ -502,7 +505,7 @@ class XmlItem(object):
 
 
         :param prefix_boolean: The prefix_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        :type prefix_boolean: bool
         """
 
         self._prefix_boolean = prefix_boolean
@@ -523,7 +526,7 @@ class XmlItem(object):
 
 
         :param prefix_array: The prefix_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type prefix_array: list[int]
         """
 
         self._prefix_array = prefix_array
@@ -544,7 +547,7 @@ class XmlItem(object):
 
 
         :param prefix_wrapped_array: The prefix_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type prefix_wrapped_array: list[int]
         """
 
         self._prefix_wrapped_array = prefix_wrapped_array
@@ -565,7 +568,7 @@ class XmlItem(object):
 
 
         :param namespace_string: The namespace_string of this XmlItem.  # noqa: E501
-        :type: str
+        :type namespace_string: str
         """
 
         self._namespace_string = namespace_string
@@ -586,7 +589,7 @@ class XmlItem(object):
 
 
         :param namespace_number: The namespace_number of this XmlItem.  # noqa: E501
-        :type: float
+        :type namespace_number: float
         """
 
         self._namespace_number = namespace_number
@@ -607,7 +610,7 @@ class XmlItem(object):
 
 
         :param namespace_integer: The namespace_integer of this XmlItem.  # noqa: E501
-        :type: int
+        :type namespace_integer: int
         """
 
         self._namespace_integer = namespace_integer
@@ -628,7 +631,7 @@ class XmlItem(object):
 
 
         :param namespace_boolean: The namespace_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        :type namespace_boolean: bool
         """
 
         self._namespace_boolean = namespace_boolean
@@ -649,7 +652,7 @@ class XmlItem(object):
 
 
         :param namespace_array: The namespace_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type namespace_array: list[int]
         """
 
         self._namespace_array = namespace_array
@@ -670,7 +673,7 @@ class XmlItem(object):
 
 
         :param namespace_wrapped_array: The namespace_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type namespace_wrapped_array: list[int]
         """
 
         self._namespace_wrapped_array = namespace_wrapped_array
@@ -691,7 +694,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_string: The prefix_ns_string of this XmlItem.  # noqa: E501
-        :type: str
+        :type prefix_ns_string: str
         """
 
         self._prefix_ns_string = prefix_ns_string
@@ -712,7 +715,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_number: The prefix_ns_number of this XmlItem.  # noqa: E501
-        :type: float
+        :type prefix_ns_number: float
         """
 
         self._prefix_ns_number = prefix_ns_number
@@ -733,7 +736,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_integer: The prefix_ns_integer of this XmlItem.  # noqa: E501
-        :type: int
+        :type prefix_ns_integer: int
         """
 
         self._prefix_ns_integer = prefix_ns_integer
@@ -754,7 +757,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_boolean: The prefix_ns_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        :type prefix_ns_boolean: bool
         """
 
         self._prefix_ns_boolean = prefix_ns_boolean
@@ -775,7 +778,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_array: The prefix_ns_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type prefix_ns_array: list[int]
         """
 
         self._prefix_ns_array = prefix_ns_array
@@ -796,32 +799,40 @@ class XmlItem(object):
 
 
         :param prefix_ns_wrapped_array: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        :type prefix_ns_wrapped_array: list[int]
         """
 
         self._prefix_ns_wrapped_array = prefix_ns_wrapped_array
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 

@@ -1,0 +1,6 @@
+generatorName: python
+outputDir: samples/openapi3/client/features/dynamic-servers/python/
+inputSpec: modules/openapi-generator/src/test/resources/3_0/features/dynamic-servers.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: dynamic_servers

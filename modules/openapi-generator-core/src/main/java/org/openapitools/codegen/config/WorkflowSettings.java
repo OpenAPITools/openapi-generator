@@ -26,43 +26,49 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents those settings applied to a generation workflow.
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-    private static final AtomicLong lastWarning = new AtomicLong(0);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
     public static final boolean DEFAULT_SKIP_OVERWRITE = false;
     public static final boolean DEFAULT_REMOVE_OPERATION_ID_PREFIX = false;
+    public static final boolean DEFAULT_SKIP_OPERATION_EXAMPLE = false;
     public static final boolean DEFAULT_LOG_TO_STDERR = false;
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
+    public static final boolean DEFAULT_GENERATE_ALIAS_AS_MODEL = false;
     public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
-    public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.of();
+    public static final ImmutableMap<String, String> DEFAULT_GLOBAL_PROPERTIES = ImmutableMap.of();
 
     private String inputSpec;
     private String outputDir = DEFAULT_OUTPUT_DIR;
     private boolean verbose = DEFAULT_VERBOSE;
     private boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
     private boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+    private boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
     private boolean logToStderr = DEFAULT_LOG_TO_STDERR;
     private boolean validateSpec = DEFAULT_VALIDATE_SPEC;
     private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
     private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
     private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
+    private boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
     private String templateDir;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
-    private ImmutableMap<String, String> systemProperties = DEFAULT_SYSTEM_PROPERTIES;
+    private ImmutableMap<String, ?> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
 
     private WorkflowSettings(Builder builder) {
         this.inputSpec = builder.inputSpec;
@@ -78,15 +84,8 @@ public class WorkflowSettings {
         this.templateDir = builder.templateDir;
         this.templatingEngineName = builder.templatingEngineName;
         this.ignoreFileOverride = builder.ignoreFileOverride;
-        // TODO: rename to globalProperties for 5.0
-        this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
-        if (this.systemProperties.size() > 0) {
-            // write no more than every 5s. This is temporary until version 5.0 as once(Logger) is not accessible here.
-            // thread contention may cause this to write more than once, but this is just an attempt to reduce noise
-            if (System.currentTimeMillis() - lastWarning.getAndUpdate(x -> System.currentTimeMillis()) > 5000) {
-                LOGGER.warn("systemProperties will be renamed to globalProperties in version 5.0");
-            }
-        }
+        this.globalProperties = ImmutableMap.copyOf(builder.globalProperties);
+        this.generateAliasAsModel = builder.generateAliasAsModel;
     }
 
     /**
@@ -108,16 +107,18 @@ public class WorkflowSettings {
         builder.verbose = copy.isVerbose();
         builder.skipOverwrite = copy.isSkipOverwrite();
         builder.removeOperationIdPrefix = copy.isRemoveOperationIdPrefix();
+        builder.skipOperationExample = copy.isSkipOperationExample();
         builder.logToStderr = copy.isLogToStderr();
         builder.validateSpec = copy.isValidateSpec();
         builder.enablePostProcessFile = copy.isEnablePostProcessFile();
         builder.enableMinimalUpdate = copy.isEnableMinimalUpdate();
+        builder.generateAliasAsModel = copy.isGenerateAliasAsModel();
         builder.strictSpecBehavior = copy.isStrictSpecBehavior();
         builder.templatingEngineName = copy.getTemplatingEngineName();
         builder.ignoreFileOverride = copy.getIgnoreFileOverride();
 
         // this, and any other collections, must be mutable in the builder.
-        builder.systemProperties = new HashMap<>(copy.getSystemProperties());
+        builder.globalProperties = new HashMap<>(copy.getGlobalProperties());
 
         // force builder "with" methods to invoke side effects
         builder.withTemplateDir(copy.getTemplateDir());
@@ -173,6 +174,15 @@ public class WorkflowSettings {
     }
 
     /**
+     * Indicates whether or not to skip examples defined in the operation.
+     *
+     * @return <code>true</code> if the examples defined in the operation should be skipped.
+     */
+    public boolean isSkipOperationExample() {
+        return skipOperationExample;
+    }
+
+    /**
      * Indicates whether or not the generator's executor will write all log messages (not just errors) to STDOUT. Useful for
      * piping the JSON output of debug options (e.g. <code>-DdebugOperations</code>) to an external parser directly while testing a generator.
      *
@@ -221,6 +231,15 @@ public class WorkflowSettings {
     }
 
     /**
+     * Indicates whether or not the generation should convert aliases (primitives defined as schema for use within documents) as models.
+     *
+     * @return <code>true</code> if generate-alias-as-model is enabled, otherwise <code>false</code>.
+     */
+    public boolean isGenerateAliasAsModel() {
+        return generateAliasAsModel;
+    }
+
+    /**
      * Indicates whether or not 'MUST' and 'SHALL' wording in the api specification is strictly adhered to.
      * For example, when <code>false</code>, no automatic 'fixes' will be applied to documents which pass validation but don't follow the spec.
      *
@@ -264,8 +283,16 @@ public class WorkflowSettings {
      *
      * @return the system properties
      */
-    public Map<String, String> getSystemProperties() {
-        return systemProperties;
+    public Map<String, String> getGlobalProperties() {
+        return globalProperties.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
+                    if (e.getValue() instanceof List) {
+                        return ((List<?>) e.getValue()).stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(","));
+                    }
+                    return String.valueOf(e.getValue());
+                }));
     }
 
     /**
@@ -278,17 +305,19 @@ public class WorkflowSettings {
         private Boolean verbose = DEFAULT_VERBOSE;
         private Boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
         private Boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+        private Boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
         private Boolean logToStderr = DEFAULT_LOG_TO_STDERR;
         private Boolean validateSpec = DEFAULT_VALIDATE_SPEC;
         private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
         private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
         private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
+        private Boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
         private String templateDir;
         private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
 
         // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
-        private Map<String, String> systemProperties = new HashMap<>();;
+        private Map<String, String> globalProperties = new HashMap<>();
 
         private Builder() {
         }
@@ -356,6 +385,17 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code skipOperationExample} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param skipOperationExample the {@code skipOperationExample} to set
+         * @return a reference to this Builder
+         */
+        public Builder withSkipOperationExample(Boolean skipOperationExample) {
+            this.skipOperationExample = skipOperationExample != null ? skipOperationExample : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
+            return this;
+        }
+
+        /**
          * Sets the {@code logToStderr} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param logToStderr the {@code logToStderr} to set
@@ -411,6 +451,18 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code generateAliasAsModel} and returns a reference to this Builder so that the methods can be chained together.
+         * An 'alias' is a primitive type defined as a schema, and this option will attempt to construct a model for that primitive.
+         *
+         * @param generateAliasAsModel the {@code generateAliasAsModel} to set
+         * @return a reference to this Builder
+         */
+        public Builder withGenerateAliasAsModel(Boolean generateAliasAsModel) {
+            this.generateAliasAsModel = generateAliasAsModel != null ? generateAliasAsModel : Boolean.valueOf(DEFAULT_GENERATE_ALIAS_AS_MODEL);
+            return this;
+        }
+
+        /**
          * Sets the {@code templateDir} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param templateDir the {@code templateDir} to set
@@ -424,12 +476,22 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().toString();
+                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
-                    URL url = this.getClass().getClassLoader().getResource(templateDir);
+                    String cpDir;
+                    // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should probably move that function to core.
+                    if (!"/".equals(File.separator)) {
+                        // Windows users may pass path specific to OS, but classpath must be "/" separators
+                        cpDir = templateDir.replaceAll(Pattern.quote(File.separator), "/");
+                    } else {
+                        cpDir = templateDir;
+                    }
+
+                    URL url = this.getClass().getClassLoader().getResource(cpDir);
                     if (url != null) {
                         try {
                             uri = url.toURI();
+                            // we can freely set to templateDir here and allow templating to manage template lookups
                             this.templateDir = templateDir;
                         } catch (URISyntaxException e) {
                             LOGGER.warn("The requested template was found on the classpath, but resulted in a syntax error.");
@@ -469,30 +531,30 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param systemProperties the {@code systemProperties} to set
+         * @param globalProperties the {@code globalProperties} to set
          * @return a reference to this Builder
          */
-        public Builder withSystemProperties(Map<String, String> systemProperties) {
-            if (systemProperties != null) {
-                this.systemProperties = systemProperties;
+        public Builder withGlobalProperties(Map<String, String> globalProperties) {
+            if (globalProperties != null) {
+                this.globalProperties = globalProperties;
             }
             return this;
         }
 
         /**
-         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param key The key of a system (global) property to set
          * @param value The value of a system (global) property to set
          * @return a reference to this Builder
          */
-        public Builder withSystemProperty(String key, String value) {
-            if (this.systemProperties == null) {
-                this.systemProperties = new HashMap<>();
+        public Builder withGlobalProperty(String key, String value) {
+            if (this.globalProperties == null) {
+                this.globalProperties = new HashMap<>();
             }
-            this.systemProperties.put(key, value);
+            this.globalProperties.put(key, value);
             return this;
         }
 
@@ -526,7 +588,8 @@ public class WorkflowSettings {
                 ", templateDir='" + templateDir + '\'' +
                 ", templatingEngineName='" + templatingEngineName + '\'' +
                 ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
-                ", systemProperties=" + systemProperties +
+                ", globalProperties=" + globalProperties +
+                ", generateAliasAsModel=" + generateAliasAsModel +
                 '}';
     }
 
@@ -538,17 +601,19 @@ public class WorkflowSettings {
         return isVerbose() == that.isVerbose() &&
                 isSkipOverwrite() == that.isSkipOverwrite() &&
                 isRemoveOperationIdPrefix() == that.isRemoveOperationIdPrefix() &&
+                isSkipOperationExample() == that.isSkipOperationExample() &&
                 isLogToStderr() == that.isLogToStderr() &&
                 isValidateSpec() == that.isValidateSpec() &&
                 isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
                 isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
                 isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
+                isGenerateAliasAsModel() == that.isGenerateAliasAsModel() &&
                 Objects.equals(getInputSpec(), that.getInputSpec()) &&
                 Objects.equals(getOutputDir(), that.getOutputDir()) &&
                 Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
                 Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName()) &&
                 Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride()) &&
-                Objects.equals(getSystemProperties(), that.getSystemProperties());
+                Objects.equals(getGlobalProperties(), that.getGlobalProperties());
     }
 
     @Override
@@ -559,15 +624,17 @@ public class WorkflowSettings {
                 isVerbose(),
                 isSkipOverwrite(),
                 isRemoveOperationIdPrefix(),
+                isSkipOperationExample(),
                 isLogToStderr(),
                 isValidateSpec(),
+                isGenerateAliasAsModel(),
                 isEnablePostProcessFile(),
                 isEnableMinimalUpdate(),
                 isStrictSpecBehavior(),
                 getTemplateDir(),
                 getTemplatingEngineName(),
                 getIgnoreFileOverride(),
-                getSystemProperties()
+                getGlobalProperties()
         );
     }
 }

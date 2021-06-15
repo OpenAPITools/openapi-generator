@@ -73,7 +73,7 @@ export class DefaultApi {
     /**
      * 
      */
-    public getObjectWithEnums (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<ObjectWithEnums>;  }> {
+    public getObjectWithEnums (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<ObjectWithEnums>;  }> {
         const localVarPath = this.basePath + '/getobjectwithenums';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -101,7 +101,7 @@ export class DefaultApi {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body: Array<ObjectWithEnums>;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body: Array<ObjectWithEnums>;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -120,7 +120,7 @@ export class DefaultApi {
      * 
      * @param objectWithEnums 
      */
-    public postObjectWithEnums (objectWithEnums: ObjectWithEnums, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public postObjectWithEnums (objectWithEnums: ObjectWithEnums, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/postobjectwithenums';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -154,7 +154,7 @@ export class DefaultApi {
                 localVarRequestOptions.form = localVarFormParams;
             }
         }
-        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
             localVarRequest(localVarRequestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);

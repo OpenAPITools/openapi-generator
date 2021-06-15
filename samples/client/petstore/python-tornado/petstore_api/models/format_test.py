@@ -10,9 +10,12 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
 
 from petstore_api.configuration import Configuration
@@ -46,7 +49,7 @@ class FormatTest(object):
         'date_time': 'datetime',
         'uuid': 'str',
         'password': 'str',
-        'big_decimal': 'BigDecimal'
+        'big_decimal': 'Decimal'
     }
 
     attribute_map = {
@@ -69,7 +72,7 @@ class FormatTest(object):
     def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, big_decimal=None, local_vars_configuration=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._integer = None
@@ -129,7 +132,7 @@ class FormatTest(object):
 
 
         :param integer: The integer of this FormatTest.  # noqa: E501
-        :type: int
+        :type integer: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 integer is not None and integer > 100):  # noqa: E501
@@ -156,7 +159,7 @@ class FormatTest(object):
 
 
         :param int32: The int32 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int32: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 int32 is not None and int32 > 200):  # noqa: E501
@@ -183,7 +186,7 @@ class FormatTest(object):
 
 
         :param int64: The int64 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int64: int
         """
 
         self._int64 = int64
@@ -204,7 +207,7 @@ class FormatTest(object):
 
 
         :param number: The number of this FormatTest.  # noqa: E501
-        :type: float
+        :type number: float
         """
         if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
@@ -233,7 +236,7 @@ class FormatTest(object):
 
 
         :param float: The float of this FormatTest.  # noqa: E501
-        :type: float
+        :type float: float
         """
         if (self.local_vars_configuration.client_side_validation and
                 float is not None and float > 987.6):  # noqa: E501
@@ -260,7 +263,7 @@ class FormatTest(object):
 
 
         :param double: The double of this FormatTest.  # noqa: E501
-        :type: float
+        :type double: float
         """
         if (self.local_vars_configuration.client_side_validation and
                 double is not None and double > 123.4):  # noqa: E501
@@ -287,7 +290,7 @@ class FormatTest(object):
 
 
         :param string: The string of this FormatTest.  # noqa: E501
-        :type: str
+        :type string: str
         """
         if (self.local_vars_configuration.client_side_validation and
                 string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
@@ -311,7 +314,7 @@ class FormatTest(object):
 
 
         :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: str
+        :type byte: str
         """
         if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
@@ -337,7 +340,7 @@ class FormatTest(object):
 
 
         :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: file
+        :type binary: file
         """
 
         self._binary = binary
@@ -358,7 +361,7 @@ class FormatTest(object):
 
 
         :param date: The date of this FormatTest.  # noqa: E501
-        :type: date
+        :type date: date
         """
         if self.local_vars_configuration.client_side_validation and date is None:  # noqa: E501
             raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
@@ -381,7 +384,7 @@ class FormatTest(object):
 
 
         :param date_time: The date_time of this FormatTest.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -402,7 +405,7 @@ class FormatTest(object):
 
 
         :param uuid: The uuid of this FormatTest.  # noqa: E501
-        :type: str
+        :type uuid: str
         """
 
         self._uuid = uuid
@@ -423,7 +426,7 @@ class FormatTest(object):
 
 
         :param password: The password of this FormatTest.  # noqa: E501
-        :type: str
+        :type password: str
         """
         if self.local_vars_configuration.client_side_validation and password is None:  # noqa: E501
             raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
@@ -442,7 +445,7 @@ class FormatTest(object):
 
 
         :return: The big_decimal of this FormatTest.  # noqa: E501
-        :rtype: BigDecimal
+        :rtype: Decimal
         """
         return self._big_decimal
 
@@ -452,32 +455,40 @@ class FormatTest(object):
 
 
         :param big_decimal: The big_decimal of this FormatTest.  # noqa: E501
-        :type: BigDecimal
+        :type big_decimal: Decimal
         """
 
         self._big_decimal = big_decimal
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 

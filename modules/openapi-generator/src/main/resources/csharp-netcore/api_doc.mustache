@@ -12,7 +12,7 @@ Method | HTTP request | Description
 {{#operation}}
 <a name="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
-> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
@@ -22,6 +22,9 @@ Method | HTTP request | Description
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+{{#useHttpClient}}
+using System.Net.Http;
+{{/useHttpClient}}
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
 using {{packageName}}.{{modelPackage}};
@@ -58,7 +61,15 @@ namespace Example
             {{/authMethods}}
 
             {{/hasAuthMethods}}
+            {{#useHttpClient}}
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new {{classname}}(httpClient, config, httpClientHandler);
+            {{/useHttpClient}}
+            {{^useHttpClient}}
             var apiInstance = new {{classname}}(config);
+            {{/useHttpClient}}
             {{#allParams}}
             {{#isPrimitiveType}}
             var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -73,7 +84,7 @@ namespace Example
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
-                {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+                {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
             catch (ApiException  e)
@@ -104,10 +115,11 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{#responses.0}}
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|

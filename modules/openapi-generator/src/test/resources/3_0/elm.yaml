@@ -64,14 +64,17 @@ paths:
       parameters:
         - name: string
           in: path
+          required: true
           schema:
             type: string
         - name: integer
           in: path
+          required: true
           schema:
             type: integer
         - name: enumeration
           in: path
+          required: true
           schema:
             type: string
             enum: [a, b, c]

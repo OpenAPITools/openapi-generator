@@ -77,11 +77,11 @@ class StoreApi(baseUrl: String) {
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
    * 
-   * @param body order placed for purchasing the pet
+   * @param order order placed for purchasing the pet
    */
-  def placeOrder(body: Order): ApiRequest[Order] =
+  def placeOrder(order: Order): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.POST, baseUrl, "/store/order", "application/json")
-      .withBody(body)
+      .withBody(order)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       

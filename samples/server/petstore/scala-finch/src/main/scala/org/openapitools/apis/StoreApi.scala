@@ -15,6 +15,7 @@ import com.twitter.util.Future
 import com.twitter.io.Buf
 import io.finch._, items._
 import java.io.File
+import java.nio.file.Files
 import java.time._
 
 object StoreApi {
@@ -96,8 +97,8 @@ object StoreApi {
         * @return An endpoint representing a Order
         */
         private def placeOrder(da: DataAccessor): Endpoint[Order] =
-        post("store" :: "order" :: jsonBody[Order]) { (body: Order) =>
-          da.Store_placeOrder(body) match {
+        post("store" :: "order" :: jsonBody[Order]) { (order: Order) =>
+          da.Store_placeOrder(order) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -117,7 +118,7 @@ object StoreApi {
     }
 
     private def bytesToFile(input: Array[Byte]): java.io.File = {
-      val file = File.createTempFile("tmpStoreApi", null)
+      val file = Files.createTempFile("tmpStoreApi", null).toFile
       val output = new FileOutputStream(file)
       output.write(input)
       file

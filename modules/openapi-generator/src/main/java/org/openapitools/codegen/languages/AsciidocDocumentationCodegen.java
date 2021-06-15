@@ -44,11 +44,15 @@ import io.swagger.v3.oas.models.OpenAPI;
  */
 public class AsciidocDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
 
     public static final String SPEC_DIR = "specDir";
     public static final String SNIPPET_DIR = "snippetDir";
     public static final String HEADER_ATTRIBUTES_FLAG = "headerAttributes";
+    public static final String USE_INTRODUCTION_FLAG = "useIntroduction";
+    public static final String SKIP_EXAMPLES_FLAG = "skipExamples";
+    public static final String USE_METHOD_AND_PATH_FLAG = "useMethodAndPath";
+    public static final String USE_TABLE_TITLES_FLAG = "useTableTitles";
 
     /**
      * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
@@ -85,10 +89,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
             String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug("including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
+                LOGGER.debug("including {}. file into markup from: {}", ++includeCount, filePathToInclude.toString());
                 out.write("\n" + includeStatement + "\n");
             } else {
-                LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
+                LOGGER.debug("{}. file not found, skip include for: {}", ++notFoundCount, filePathToInclude.toString());
                 out.write("\n// markup not found, no " + includeStatement + "\n");
             }
         }
@@ -136,10 +140,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
             if (Files.isRegularFile(filePathToLinkTo)) {
-                LOGGER.debug("linking " + ++linkedCount + ". file into markup from: " + filePathToLinkTo.toString());
+                LOGGER.debug("linking {}. file into markup from: {}", ++linkedCount, filePathToLinkTo.toString());
                 out.write("\n" + linkName + " link:" + relativeFileName + "[]\n");
             } else {
-                LOGGER.debug(++notFoundLinkCount + ". file not found, skip link for: " + filePathToLinkTo.toString());
+                LOGGER.debug("{}. file not found, skip link for: {}", ++notFoundLinkCount, filePathToLinkTo.toString());
                 out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");
             }
         }
@@ -150,6 +154,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected boolean headerAttributes = true;
+    protected boolean useIntroduction = false;
+    protected boolean skipExamples = false;
+    protected boolean useMethodAndPath = false;
+    protected boolean useTableTitles = false;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
@@ -228,6 +236,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(HEADER_ATTRIBUTES_FLAG,
                 "generation of asciidoc header meta data attributes (set to false to suppress, default: true)",
                 true));
+        cliOptions.add(CliOption.newBoolean(USE_INTRODUCTION_FLAG,
+                "use introduction section, rather than an initial abstract (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(SKIP_EXAMPLES_FLAG,
+                "skip examples sections (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(USE_METHOD_AND_PATH_FLAG,
+                "Use HTTP method and path as operation heading, instead of operation id (default: false)",
+                false));
+        cliOptions.add(CliOption.newBoolean(USE_TABLE_TITLES_FLAG,
+                "Use titles for tables, rather than wrapping tables instead their own section (default: false)",
+                false));
 
         additionalProperties.put("appName", "OpenAPI Sample description");
         additionalProperties.put("appDescription", "A sample OpenAPI documentation");
@@ -266,14 +286,45 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.headerAttributes = headerAttributes;
     }
 
+    public boolean isUseIntroduction() {
+        return useIntroduction;
+    }
+
+    public void setUseIntroduction(boolean useIntroduction) {
+        this.useIntroduction = useIntroduction;
+    }
+
+    public boolean isSkipExamples() {
+        return skipExamples;
+    }
+
+    public void setSkipExamples(boolean skipExamples) {
+        this.skipExamples = skipExamples;
+    }
+
+    public boolean isUseMethodAndPath() {
+        return useMethodAndPath;
+    }
+
+    public void setUseMethodAndPath(boolean useMethodAndPath) {
+        this.useMethodAndPath = useMethodAndPath;
+    }
+
+    public boolean isUseTableTitles() {
+        return useTableTitles;
+    }
+
+    public void setUseTableTitles(boolean useTableTitles) {
+        this.useTableTitles = useTableTitles;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
 
         String specDir = this.additionalProperties.get(SPEC_DIR) + "";
         if (!Files.isDirectory(Paths.get(specDir))) {
-            LOGGER.warn("base part for include markup lambda not found: " + specDir + " as "
-                    + Paths.get(specDir).toAbsolutePath());
+            LOGGER.warn("base part for include markup lambda not found: {} as {}", specDir, Paths.get(specDir).toAbsolutePath());
         }
 
         this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
@@ -281,8 +332,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
         if (!Files.isDirectory(Paths.get(snippetDir))) {
-            LOGGER.warn("base part for include markup lambda not found: " + snippetDir + " as "
-                    + Paths.get(snippetDir).toAbsolutePath());
+            LOGGER.warn("base part for include markup lambda not found: {} as {}", snippetDir, Paths.get(snippetDir).toAbsolutePath());
         }
 
         this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
@@ -291,11 +341,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
         additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda);
 
+        processBooleanFlag(HEADER_ATTRIBUTES_FLAG, headerAttributes);
+        processBooleanFlag(USE_INTRODUCTION_FLAG, useIntroduction);
+        processBooleanFlag(SKIP_EXAMPLES_FLAG, skipExamples);
+        processBooleanFlag(USE_METHOD_AND_PATH_FLAG, useMethodAndPath);
+        processBooleanFlag(USE_TABLE_TITLES_FLAG, useTableTitles);
+    }
 
-        if (additionalProperties.containsKey(HEADER_ATTRIBUTES_FLAG)) {
-            this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(HEADER_ATTRIBUTES_FLAG));
+    private void processBooleanFlag(String flag, boolean value) {
+        if (additionalProperties.containsKey(flag)) {
+            this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(flag));
         } else {
-            additionalProperties.put(HEADER_ATTRIBUTES_FLAG, headerAttributes);
+            additionalProperties.put(flag, value);
         }
     }
 

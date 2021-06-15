@@ -10,9 +10,12 @@
 """
 
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-
 import six
 
 from petstore_api.configuration import Configuration
@@ -49,7 +52,7 @@ class Name(object):
     def __init__(self, name=None, snake_case=None, _property=None, _123_number=None, local_vars_configuration=None):  # noqa: E501
         """Name - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._name = None
@@ -82,7 +85,7 @@ class Name(object):
 
 
         :param name: The name of this Name.  # noqa: E501
-        :type: int
+        :type name: int
         """
         if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
@@ -105,7 +108,7 @@ class Name(object):
 
 
         :param snake_case: The snake_case of this Name.  # noqa: E501
-        :type: int
+        :type snake_case: int
         """
 
         self._snake_case = snake_case
@@ -126,7 +129,7 @@ class Name(object):
 
 
         :param _property: The _property of this Name.  # noqa: E501
-        :type: str
+        :type _property: str
         """
 
         self.__property = _property
@@ -147,32 +150,40 @@ class Name(object):
 
 
         :param _123_number: The _123_number of this Name.  # noqa: E501
-        :type: int
+        :type _123_number: int
         """
 
         self.__123_number = _123_number
 
-    def to_dict(self):
+    def to_dict(self, serialize=False):
         """Returns the model properties as a dict"""
         result = {}
 
+        def convert(x):
+            if hasattr(x, "to_dict"):
+                args = getfullargspec(x.to_dict).args
+                if len(args) == 1:
+                    return x.to_dict()
+                else:
+                    return x.to_dict(serialize)
+            else:
+                return x
+
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):
                 result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    lambda x: convert(x),
                     value
                 ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
+                    lambda item: (item[0], convert(item[1])),
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[attr] = convert(value)
 
         return result
 

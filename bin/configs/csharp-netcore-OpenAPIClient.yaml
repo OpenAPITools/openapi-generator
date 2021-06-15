@@ -1,0 +1,10 @@
+# for .net standard
+generatorName: csharp-netcore
+outputDir: samples/client/petstore/csharp-netcore/OpenAPIClient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-netcore
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  useCompareNetObjects: true 
+  disallowAdditionalPropertiesIfNotPresent: false
+  useOneOfDiscriminatorLookup: true

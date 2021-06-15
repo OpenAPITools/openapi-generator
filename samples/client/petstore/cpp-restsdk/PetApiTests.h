@@ -14,7 +14,7 @@ using namespace org::openapitools::client::api;
 class OAIPetApiTests
 {
 public:
-    explicit OAIPetApiTests(std::string host = U("http://petstore.swagger.io"), std::string basePath = U("/v2"));
+    explicit OAIPetApiTests(utility::string_t host = utility::conversions::to_string_t("http://petstore.swagger.io"), utility::string_t basePath = utility::conversions::to_string_t("/v2"));
 
     virtual ~OAIPetApiTests();
 public:

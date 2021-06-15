@@ -18,12 +18,13 @@ feature -- Test routines
             -- 
             --  
         local
-            l_body: PET
+            l_response: PET
+            l_pet: PET
         do
             -- TODO: Initialize required params.
-            -- l_body
+            -- l_pet
                       
-            -- api.add_pet(l_body)
+            -- l_response := api.add_pet(l_pet)
             assert ("not_implemented", False)
         end
     
@@ -32,13 +33,13 @@ feature -- Test routines
             -- 
             --  
         local
-            l_petid: INTEGER_64
+            l_pet_id: INTEGER_64
             l_api_key: STRING_32
         do
             -- TODO: Initialize required params.
-            -- l_petid
+            -- l_pet_id
                       
-            -- api.delete_pet(l_petid, l_api_key)
+            -- api.delete_pet(l_pet_id, l_api_key)
             assert ("not_implemented", False)
         end
     
@@ -78,12 +79,12 @@ feature -- Test routines
             -- Returns a single pet 
         local
             l_response: PET
-            l_petid: INTEGER_64
+            l_pet_id: INTEGER_64
         do
             -- TODO: Initialize required params.
-            -- l_petid
+            -- l_pet_id
                       
-            -- l_response := api.pet_by_id(l_petid)
+            -- l_response := api.pet_by_id(l_pet_id)
             assert ("not_implemented", False)
         end
     
@@ -92,12 +93,13 @@ feature -- Test routines
             -- 
             --  
         local
-            l_body: PET
+            l_response: PET
+            l_pet: PET
         do
             -- TODO: Initialize required params.
-            -- l_body
+            -- l_pet
                       
-            -- api.update_pet(l_body)
+            -- l_response := api.update_pet(l_pet)
             assert ("not_implemented", False)
         end
     
@@ -106,14 +108,14 @@ feature -- Test routines
             -- 
             --  
         local
-            l_petid: INTEGER_64
+            l_pet_id: INTEGER_64
             l_name: STRING_32
             l_status: STRING_32
         do
             -- TODO: Initialize required params.
-            -- l_petid
+            -- l_pet_id
                       
-            -- api.update_pet_with_form(l_petid, l_name, l_status)
+            -- api.update_pet_with_form(l_pet_id, l_name, l_status)
             assert ("not_implemented", False)
         end
     
@@ -123,14 +125,14 @@ feature -- Test routines
             --  
         local
             l_response: API_RESPONSE
-            l_petid: INTEGER_64
-            l_additionalmetadata: STRING_32
+            l_pet_id: INTEGER_64
+            l_additional_metadata: STRING_32
             l_file: FILE
         do
             -- TODO: Initialize required params.
-            -- l_petid
+            -- l_pet_id
                       
-            -- l_response := api.upload_file(l_petid, l_additionalmetadata, l_file)
+            -- l_response := api.upload_file(l_pet_id, l_additional_metadata, l_file)
             assert ("not_implemented", False)
         end
 

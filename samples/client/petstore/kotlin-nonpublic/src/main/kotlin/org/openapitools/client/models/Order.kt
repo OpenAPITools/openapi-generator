@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -40,11 +41,10 @@ internal data class Order (
 ) {
 
     /**
-    * Order Status
-    * Values: placed,approved,delivered
-    */
-    
-    internal enum class Status(val value: kotlin.String){
+     * Order Status
+     * Values: placed,approved,delivered
+     */
+    internal enum class Status(val value: kotlin.String) {
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),
         @Json(name = "delivered") delivered("delivered");

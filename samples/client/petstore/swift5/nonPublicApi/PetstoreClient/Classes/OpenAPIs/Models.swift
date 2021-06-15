@@ -11,7 +11,7 @@ protocol JSONEncodable {
 }
 
 internal enum ErrorResponse: Error {
-    case error(Int, Data?, Error)
+    case error(Int, Data?, URLResponse?, Error)
 }
 
 internal enum DownloadException: Error {
@@ -45,7 +45,7 @@ internal class Response<T> {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
-            if let key = key as? String, let value = value as? String {
+            if let key = key.base as? String, let value = value as? String {
                 header[key] = value
             }
         }

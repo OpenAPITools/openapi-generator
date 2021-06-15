@@ -57,7 +57,6 @@ In your Angular project:
 import { ApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
     imports: [
         ApiModule,
@@ -76,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): Configuration => {
+export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   }
@@ -121,7 +120,7 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/typescript-angular-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
@@ -136,7 +135,6 @@ in order to avoid naming conflicts:
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   imports: [
