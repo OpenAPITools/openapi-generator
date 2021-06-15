@@ -47,6 +47,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
+    protected boolean nullReferenceTypesFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -354,6 +355,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setNetCoreProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
         } else {
             additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
+            setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+        } else {
+            additionalProperties.put(CodegenConstants.NULLABLE_REFERENCE_TYPES, nullReferenceTypesFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
@@ -1110,6 +1117,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public String getInterfacePrefix() {
         return interfacePrefix;
+    }
+
+    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
+        this.nullReferenceTypesFlag = nullReferenceTypesFlag;
+        if (nullReferenceTypesFlag == true){
+            this.nullableType.add("string");
+        }
     }
 
     public void setInterfacePrefix(final String interfacePrefix) {

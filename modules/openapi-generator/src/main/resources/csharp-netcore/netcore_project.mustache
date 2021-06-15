@@ -19,6 +19,9 @@
     <RepositoryType>git</RepositoryType>{{#releaseNote}}
     <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
     <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}
+    {{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+    {{/nullableReferenceTypes}}
   </PropertyGroup>
 
   <ItemGroup>
