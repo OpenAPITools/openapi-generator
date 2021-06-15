@@ -44,11 +44,7 @@ public interface StoreApi {
     @DeleteMapping(
         value = "/store/order/{orderId}"
     )
-    CompletableFuture<ResponseEntity<Void>> deleteOrder(
-@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId
-
-
-);
+    CompletableFuture<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -90,11 +86,7 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<Order>> getOrderById(
-@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId
-
-
-);
+    CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 
 
     /**
@@ -113,10 +105,6 @@ public interface StoreApi {
         value = "/store/order",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<Order>> placeOrder(
-
-
-@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body
-);
+    CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
 
 }

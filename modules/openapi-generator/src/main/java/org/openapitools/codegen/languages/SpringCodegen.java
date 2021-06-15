@@ -474,6 +474,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
 
         if (this.useSpringfox) {
+            // if apiFirst or reactive are enabled, then springfox cannot be used. Check if they are active
+            // before enabling.
             if (!this.apiFirst && !this.reactive) {
                 additionalProperties.put("useSpringfox", true);
             }
