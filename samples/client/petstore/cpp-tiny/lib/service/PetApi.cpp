@@ -15,10 +15,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | pet
+
 
 
             begin(url);
@@ -26,7 +30,8 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            http.addHeader("Content-Type", "application/json");
+            // Body     | pet
+            addHeader("Content-Type", "application/json");
 
 
 
@@ -64,10 +69,15 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
+
+
+            // Headers  |  apiKey 
+            addHeader("api_key",apiKey);
+
             // Query    | 
-            // Headers  | apiKey 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -83,6 +93,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | DELETE
+            // Body     | 
             int httpCode = http.sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -107,10 +118,17 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/findByStatus"; //
-            // Query    | status 
+
+
             // Headers  | 
+
+            // Query    | status 
+        //    for (auto &x : status){
+        //        addQueryParam("status", std::string(x));
+        //    }
+
             // Form     | 
-            // Body     | 
+
 
 
             begin(url);
@@ -118,6 +136,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | GET
+            // Body     | 
             int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -167,10 +186,17 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/findByTags"; //
-            // Query    | tags 
+
+
             // Headers  | 
+
+            // Query    | tags 
+        //    for (auto &x : tags){
+        //        addQueryParam("tags", std::string(x));
+        //    }
+
             // Form     | 
-            // Body     | 
+
 
 
             begin(url);
@@ -178,6 +204,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | GET
+            // Body     | 
             int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -227,10 +254,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -246,6 +277,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | GET
+            // Body     | 
             int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -275,10 +307,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | pet
+
 
 
             begin(url);
@@ -286,7 +322,8 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | PUT
-            http.addHeader("Content-Type", "application/json");
+            // Body     | pet
+            addHeader("Content-Type", "application/json");
 
 
 
@@ -327,10 +364,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | name status 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -346,6 +387,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | POST
+            // Body     | 
             int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -376,10 +418,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}/uploadImage"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | additionalMetadata file 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -395,6 +441,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | POST
+            // Body     | 
             int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request

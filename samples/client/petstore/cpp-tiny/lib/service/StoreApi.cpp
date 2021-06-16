@@ -15,10 +15,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_orderId("{");
                 s_orderId.append("orderId");
@@ -34,6 +38,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | DELETE
+            // Body     | 
             int httpCode = http.sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -55,10 +60,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/inventory"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
 
 
             begin(url);
@@ -66,6 +75,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | GET
+            // Body     | 
             int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -97,10 +107,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order/{orderId}"; //orderId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_orderId("{");
                 s_orderId.append("orderId");
@@ -116,6 +130,7 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | GET
+            // Body     | 
             int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
@@ -145,10 +160,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/store/order"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | order
+
 
 
             begin(url);
@@ -156,7 +175,8 @@ using namespace Tiny;
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            http.addHeader("Content-Type", "application/json");
+            // Body     | order
+            addHeader("Content-Type", "application/json");
 
 
 
