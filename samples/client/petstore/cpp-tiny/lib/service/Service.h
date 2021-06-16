@@ -14,10 +14,10 @@ class Service {
     public:
         HTTPClient http;
         std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
+        std::string url = "";
         std::map<std::string, std::string> queryParams;
-        void begin(std::string url);
 
-        int sendRequest(const char * type, uint8_t * payload, size_t size);
+        int sendRequest(std::string url, const char * type, uint8_t * payload, size_t size);
         String getResponseBody();
 
         void addQueryParam(std::string key, std::string value);
@@ -28,6 +28,11 @@ class Service {
         const char* test_root_ca =
         #include "../../root.cert"
         ;
+
+    private:
+        void begin(std::string url);
+        void prepareRequest();
+        void addQueryParamsToUrl();
 
 }; // end class
 }// namespace Tinyclient

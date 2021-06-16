@@ -25,7 +25,6 @@ using namespace Tiny;
 
 
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -37,7 +36,7 @@ using namespace Tiny;
 
             payload = pet.toJson().dump();
 
-            int httpCode = sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -86,13 +85,12 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | DELETE
             // Body     | 
-            int httpCode = sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -127,13 +125,12 @@ using namespace Tiny;
 
 
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
             // Body     | 
-            int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -193,13 +190,12 @@ using namespace Tiny;
 
 
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
             // Body     | 
-            int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -264,13 +260,12 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
             // Body     | 
-            int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -307,7 +302,6 @@ using namespace Tiny;
 
 
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
@@ -319,7 +313,7 @@ using namespace Tiny;
 
             payload = pet.toJson().dump();
 
-            int httpCode = sendRequest("PUT", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "PUT", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -370,13 +364,12 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
             // Body     | 
-            int httpCode = sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
@@ -422,13 +415,12 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
             // Body     | 
-            int httpCode = sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = getResponseBody();
