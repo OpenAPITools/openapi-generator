@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'model_file.g.dart';
 
-
-
+/// Must be named `File` for test.
+///
+/// Properties:
+/// * [sourceURI] - Test capitalization
 abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     /// Test capitalization
     @BuiltValueField(wireName: r'sourceURI')

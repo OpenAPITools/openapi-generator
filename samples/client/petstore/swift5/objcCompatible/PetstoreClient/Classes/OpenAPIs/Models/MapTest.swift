@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class MapTest: NSObject, Codable {
 
@@ -25,6 +27,7 @@ import AnyCodable
         self.directMap = directMap
         self.indirectMap = indirectMap
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
@@ -41,7 +44,5 @@ import AnyCodable
         try container.encodeIfPresent(directMap, forKey: .directMap)
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
-
-
-
 }
+

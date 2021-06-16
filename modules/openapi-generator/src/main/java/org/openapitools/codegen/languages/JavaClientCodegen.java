@@ -395,9 +395,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
             supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
-            supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
-            supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
-
         } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
@@ -436,13 +433,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportsAdditionalPropertiesWithComposedSchema = true;
 
         } else if (NATIVE.equals(getLibrary())) {
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
+            setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
+            setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (JERSEY1.equals(getLibrary())) {
@@ -451,14 +448,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else if (WEBCLIENT.equals(getLibrary())) {
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
+            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
+            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
             apiTemplateFiles.put("rxApiImpl.mustache", ".java");
@@ -468,7 +463,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         } else if (REST_ASSURED.equals(getLibrary())) {
             if (getSerializationLibrary() == null) {
-                LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
             if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
@@ -496,7 +491,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
         } else {
-            LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
         if (usePlayWS) {
@@ -531,7 +526,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
                         "Play25CallAdapterFactory.java"));
-                additionalProperties.put("java8", "true");
+                setJava8ModeAndAdditionalProperties(true);
             }
 
             if (PLAY_26.equals(playVersion)) {
@@ -542,7 +537,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
                         "Play26CallAdapterFactory.java"));
-                additionalProperties.put("java8", "true");
+                setJava8ModeAndAdditionalProperties(true);
             }
 
             supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -553,7 +548,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
         switch (getSerializationLibrary()) {
@@ -599,6 +594,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
                 supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+            }
+
+            // Add OauthPasswordGrant.java and OauthClientCredentialsGrant.java for feign library
+            if (FEIGN.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
             }
         }
     }
@@ -997,7 +998,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void forceSerializationLibrary(String serializationLibrary) {
         if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
-            LOGGER.warn("The configured serializationLibrary '" + this.serializationLibrary + "', is not supported by the library: '" + getLibrary() + "', switching back to: " + serializationLibrary);
+            LOGGER.warn(
+                    "The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
+                    this.serializationLibrary, getLibrary(), serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
     }

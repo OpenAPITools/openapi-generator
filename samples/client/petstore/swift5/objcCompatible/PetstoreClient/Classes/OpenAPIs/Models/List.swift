@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class List: NSObject, Codable {
 
@@ -15,6 +17,7 @@ import AnyCodable
     public init(_123list: String? = nil) {
         self._123list = _123list
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
@@ -25,7 +28,5 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
-
-
-
 }
+

@@ -177,6 +177,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    protected String removeOperationIdPrefixDelimiter = "_";
+    protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
@@ -321,6 +323,16 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
             this.setRemoveOperationIdPrefix(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER)) {
+            this.setRemoveOperationIdPrefixDelimiter(additionalProperties
+                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT)) {
+            this.setRemoveOperationIdPrefixCount(Integer.parseInt(additionalProperties
+                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SKIP_OPERATION_EXAMPLE)) {
@@ -2532,8 +2544,13 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
-                } else { // int32 format
-                    m.isInteger = Boolean.TRUE;
+                } else {
+                    m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                    if (ModelUtils.isShortSchema(schema)) { // int32
+                        m.setIsShort(Boolean.TRUE);
+                    } else { // unbounded integer
+                        m.setIsUnboundedInteger(Boolean.TRUE);
+                    }
                 }
             } else if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -2706,14 +2723,18 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(oneOf.get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName, openAPI);
                     if (thisCp == null) {
-                        LOGGER.warn("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced OneOf schema '" + modelName + "' is missing " + discPropName);
+                        LOGGER.warn(
+                                "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
+                                composedSchemaName, discPropName, modelName, discPropName);
                     }
                     if (cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
                     if (cp != thisCp) {
-                        LOGGER.warn("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the OneOf schema '" + modelName + "' has a different " + discPropName + " definition than the prior OneOf schema's. Make sure the " + discPropName + " type and required values are the same");
+                        LOGGER.warn(
+                                "'{}' defines discriminator '{}', but the OneOf schema '{}' has a different {} definition than the prior OneOf schema's. Make sure the {} type and required values are the same",
+                                composedSchemaName, discPropName, modelName, discPropName, discPropName);
                     }
                 }
                 return cp;
@@ -2725,14 +2746,18 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(anyOf.get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName, openAPI);
                     if (thisCp == null) {
-                        LOGGER.warn("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced AnyOf schema '" + modelName + "' is missing " + discPropName);
+                        LOGGER.warn(
+                                "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
+                                composedSchemaName, discPropName, modelName, discPropName);
                     }
                     if (cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
                     if (cp != thisCp) {
-                        LOGGER.warn("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the AnyOf schema '" + modelName + "' has a different " + discPropName + " definition than the prior AnyOf schema's. Make sure the " + discPropName + " type and required values are the same");
+                        LOGGER.warn(
+                                "'{}' defines discriminator '{}', but the AnyOf schema '{}' has a different {} definition than the prior AnyOf schema's. Make sure the {} type and required values are the same",
+                                composedSchemaName, discPropName, modelName, discPropName, discPropName);
                     }
                 }
                 return cp;
@@ -2870,7 +2895,9 @@ public class DefaultCodegen implements CodegenConfig {
                     // schemas also has inline composed schemas
                     // Note: if it is only inline one level, then the inline model resolver will move it into its own
                     // schema and make it a $ref schema in the oneOf/anyOf location
-                    LOGGER.warn("Invalid inline schema defined in oneOf/anyOf in '" + composedSchemaName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition");
+                    LOGGER.warn(
+                            "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition",
+                            composedSchemaName);
                 }
                 CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, openAPI);
                 String modelName = ModelUtils.getSimpleRef(ref);
@@ -2890,7 +2917,8 @@ public class DefaultCodegen implements CodegenConfig {
                             msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
                         }
                     }
-                    LOGGER.warn("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is incorrect. " + msgSuffix);
+                    LOGGER.warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
+                            composedSchemaName, discPropName, modelName, msgSuffix);
                 }
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
@@ -3192,10 +3220,14 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
                 property.isLong = Boolean.TRUE;
-            } else { // int32 format
-                property.isInteger = Boolean.TRUE;
+            } else {
+                property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(p)) { // int32
+                    property.setIsShort(Boolean.TRUE);
+                } else { // unbounded integer
+                    property.setIsUnboundedInteger(Boolean.TRUE);
+                }
             }
-
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
@@ -3705,9 +3737,14 @@ public class DefaultCodegen implements CodegenConfig {
         String operationId = getOrGenerateOperationId(operation, path, httpMethod);
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
-            int offset = operationId.indexOf('_');
-            if (offset > -1) {
-                operationId = operationId.substring(offset + 1);
+            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
+            String[] componenets = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (componenets.length > 1) {
+                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
+                int componenet_number = removeOperationIdPrefixCount == -1 ? componenets.length - 1 : removeOperationIdPrefixCount;
+                componenet_number = Math.min(componenet_number, componenets.length - 1);
+                // Reconstruct the operationId from its split elements and the delimiter
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(componenets, componenet_number, componenets.length));
             }
         }
         operationId = removeNonNameElementToCamelCase(operationId);
@@ -4067,6 +4104,11 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (Boolean.TRUE.equals(cp.isInteger)) {
                 r.isInteger = true;
                 r.isNumeric = true;
+                if (Boolean.TRUE.equals(cp.isShort)) {
+                    r.isShort = true;
+                } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
+                    r.isUnboundedInteger = true;
+                }
             } else if (Boolean.TRUE.equals(cp.isNumber)) {
                 r.isNumber = true;
                 r.isNumeric = true;
@@ -4422,7 +4464,9 @@ public class DefaultCodegen implements CodegenConfig {
                                 }).collect(Collectors.toList());
             }
             else {
-                LOGGER.warn("No object schema found for deepObject parameter" + codegenParameter + " deepObject won't have specific properties");
+                LOGGER.warn(
+                        "No object schema found for deepObject parameter{} deepObject won't have specific properties",
+                        codegenParameter);
             }
         }
 
@@ -4714,7 +4758,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         if (!co.operationId.equals(uniqueName)) {
-            LOGGER.warn("generated unique operationId `" + uniqueName + "`");
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
@@ -4869,7 +4913,7 @@ public class DefaultCodegen implements CodegenConfig {
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
             if (prop == null) {
-                LOGGER.warn("Please report the issue. There shouldn't be null property for " + key);
+                LOGGER.warn("Please report the issue. There shouldn't be null property for {}", key);
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
                 cp.required = mandatory.contains(key);
@@ -4963,7 +5007,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String removeNonNameElementToCamelCase(String name) {
-        return removeNonNameElementToCamelCase(name, "[-_:;#]");
+        return removeNonNameElementToCamelCase(name, "[-_:;#" + removeOperationIdPrefixDelimiter + "]");
     }
 
     /**
@@ -5040,6 +5084,22 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
+    }
+
+    public String getRemoveOperationIdPrefixDelimiter() {
+        return removeOperationIdPrefixDelimiter;
+    }
+
+    public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
+        this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
+    }
+
+    public int getRemoveOperationIdPrefixCount() {
+        return removeOperationIdPrefixCount;
+    }
+
+    public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
+        this.removeOperationIdPrefixCount = removeOperationIdPrefixCount;
     }
 
     public void setSkipOperationExample(boolean skipOperationExample) {
@@ -5383,6 +5443,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isInteger)) {
             parameter.isInteger = true;
             parameter.isPrimitiveType = true;
+            if (Boolean.TRUE.equals(property.isShort)) {
+                parameter.isShort = true;
+            } else if (Boolean.TRUE.equals(property.isUnboundedInteger)) {
+                parameter.isUnboundedInteger = true;
+            }
         } else if (Boolean.TRUE.equals(property.isDouble)) {
             parameter.isDouble = true;
             parameter.isPrimitiveType = true;

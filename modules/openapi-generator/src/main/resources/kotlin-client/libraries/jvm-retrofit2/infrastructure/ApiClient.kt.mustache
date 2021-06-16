@@ -21,6 +21,7 @@ import {{packageName}}.auth.HttpBearerAuth
 {{/authMethods}}
 {{/hasAuthMethods}}
 
+import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -56,7 +57,7 @@ import okhttp3.MediaType.Companion.toMediaType
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder{{/kotlinx_serialization}},
-    private val okHttpClient : OkHttpClient? = null,
+    private val callFactory : Call.Factory? = null,
     private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
@@ -303,8 +304,8 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        val usedClient = this.okHttpClient ?: clientBuilder.build()
-        return retrofitBuilder.client(usedClient).build().create(serviceClass)
+        val usedCallFactory = this.callFactory ?: clientBuilder.build()
+        return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {

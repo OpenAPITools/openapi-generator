@@ -17,18 +17,21 @@ module Petstore
 
   VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
 
+  # Return the default `Configuration` object.
+  def self.configure
+    Configuration.default
+  end
+
   # Customize default settings for the SDK using block.
-  #   Petstore.configure do |config|
-  #     config.username = "xxx"
-  #     config.password = "xxx"
-  #   end
-  # If no block given, return the default Configuration object.
-  def configure
-    if block_given?
-      yield(Configuration.default)
-    else
-      Configuration.default
-    end
+  #
+  # ```
+  # Petstore.configure do |config|
+  #   config.username = "xxx"
+  #   config.password = "xxx"
+  # end
+  # ```
+  def self.configure
+    yield Configuration.default
   end
 end
 

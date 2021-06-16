@@ -14,8 +14,8 @@
 -fno-warn-unused-binds -fno-warn-unused-imports -freduction-depth=328 #-}
 
 module OpenAPIPetstore.API
-  -- * Client and Server
-  ( Config(..)
+  ( -- * Client and Server
+    Config(..)
   , OpenAPIPetstoreBackend(..)
   , createOpenAPIPetstoreClient
   , runOpenAPIPetstoreServer

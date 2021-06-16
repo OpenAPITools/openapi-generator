@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct AdditionalPropertiesObject: Codable, Hashable {
 
@@ -15,9 +17,11 @@ public struct AdditionalPropertiesObject: Codable, Hashable {
     public init(name: String? = nil) {
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
     }
+
     public var additionalProperties: [String: [String: AnyCodable]] = [:]
 
     public subscript(key: String) -> [String: AnyCodable]? {
@@ -45,13 +49,13 @@ public struct AdditionalPropertiesObject: Codable, Hashable {
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decodeIfPresent(String.self, forKey: "name")
+        name = try container.decodeIfPresent(String.self, forKey: .name)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("name")
-        additionalProperties = try container.decodeMap([String: AnyCodable].self, excludedKeys: nonAdditionalPropertyKeys)
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap([String: AnyCodable].self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }
+

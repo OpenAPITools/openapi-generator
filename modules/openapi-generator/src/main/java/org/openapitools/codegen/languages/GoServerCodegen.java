@@ -23,12 +23,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GoServerCodegen extends AbstractGoCodegen {
+
+    /**
+     *  Name of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH = "router";
+
+    /**
+     * Description of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
+
+    /**
+     * List of available routers
+     */
+    private static final String[] ROUTERS = { "mux", "chi" };
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
@@ -68,6 +80,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
+
+        CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
+        for (String option: ROUTERS) {
+            frameworkOption.addEnum(option, option);
+        }
+        frameworkOption.defaultValue(ROUTERS[0]);
+        cliOptions.add(frameworkOption);
 
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
@@ -198,6 +217,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
                 additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
             }
         }
+
+        additionalProperties.putIfAbsent(ROUTER_SWITCH, ROUTERS[0]);
+
+        final Object propRouter = additionalProperties.get(ROUTER_SWITCH);
+        final Map<String, Boolean> routers = new HashMap<>();
+        for (String router: ROUTERS) {
+            routers.put(router, router.equals(propRouter));
+        }
+        additionalProperties.put("routers", routers);
 
         modelPackage = packageName;
         apiPackage = packageName;

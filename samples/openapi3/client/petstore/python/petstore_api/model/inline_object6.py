@@ -30,8 +30,8 @@ from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
-    from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
-    globals()['FakeGetInlineAdditionalPropertiesPayloadArrayData'] = FakeGetInlineAdditionalPropertiesPayloadArrayData
+    from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
+    globals()['FakePostInlineAdditionalPropertiesPayloadArrayData'] = FakePostInlineAdditionalPropertiesPayloadArrayData
 
 
 class InlineObject6(ModelNormal):
@@ -87,7 +87,7 @@ class InlineObject6(ModelNormal):
         """
         lazy_import()
         return {
-            'array_data': ([FakeGetInlineAdditionalPropertiesPayloadArrayData], none_type,),  # noqa: E501
+            'array_data': ([FakePostInlineAdditionalPropertiesPayloadArrayData], none_type,),  # noqa: E501
         }
 
     @cached_property
@@ -140,7 +140,7 @@ class InlineObject6(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            array_data ([FakeGetInlineAdditionalPropertiesPayloadArrayData], none_type): [optional]  # noqa: E501
+            array_data ([FakePostInlineAdditionalPropertiesPayloadArrayData], none_type): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -222,7 +222,7 @@ class InlineObject6(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            array_data ([FakeGetInlineAdditionalPropertiesPayloadArrayData], none_type): [optional]  # noqa: E501
+            array_data ([FakePostInlineAdditionalPropertiesPayloadArrayData], none_type): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

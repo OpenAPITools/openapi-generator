@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class Tag: NSObject, Codable {
 
@@ -22,6 +24,7 @@ import AnyCodable
         self._id = _id
         self.name = name
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case name
@@ -34,7 +37,5 @@ import AnyCodable
         try container.encodeIfPresent(_id, forKey: ._id)
         try container.encodeIfPresent(name, forKey: .name)
     }
-
-
-
 }
+

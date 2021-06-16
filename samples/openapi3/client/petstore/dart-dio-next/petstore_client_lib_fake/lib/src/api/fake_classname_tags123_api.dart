@@ -18,8 +18,19 @@ class FakeClassnameTags123Api {
   const FakeClassnameTags123Api(this._dio, this._serializers);
 
   /// To test class name in snake case
-  ///
   /// To test class name in snake case
+  ///
+  /// Parameters:
+  /// * [modelClient] - client model
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<ModelClient>> testClassname({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
@@ -46,14 +57,9 @@ class FakeClassnameTags123Api {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
@@ -61,23 +67,21 @@ class FakeClassnameTags123Api {
       const _type = FullType(ModelClient);
       _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -92,13 +96,13 @@ class FakeClassnameTags123Api {
         specifiedType: _responseType,
       ) as ModelClient;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ModelClient>(

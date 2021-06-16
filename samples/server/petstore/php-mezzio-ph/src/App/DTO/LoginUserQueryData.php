@@ -18,6 +18,7 @@ class LoginUserQueryData
      * @var string|null
      */
     public $password;
+
     /**
      * The user name for login
      * @DTA\Data(field="username")
@@ -27,4 +28,5 @@ class LoginUserQueryData
      * @var string|null
      */
     public $username;
+
 }

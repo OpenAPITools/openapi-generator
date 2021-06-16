@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct EnumArrays: Codable, Hashable {
 
@@ -25,6 +27,7 @@ internal struct EnumArrays: Codable, Hashable {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
@@ -37,7 +40,5 @@ internal struct EnumArrays: Codable, Hashable {
         try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
-
-
-
 }
+

@@ -8,8 +8,15 @@ import 'package:built_value/serializer.dart';
 
 part 'order.g.dart';
 
-
-
+/// Order
+///
+/// Properties:
+/// * [id] 
+/// * [petId] 
+/// * [quantity] 
+/// * [shipDate] 
+/// * [status] - Order Status
+/// * [complete] 
 abstract class Order implements Built<Order, OrderBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;

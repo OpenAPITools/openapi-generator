@@ -80,9 +80,9 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        public T Deserialize<T>(HttpResponseMessage response)
+        public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T)Deserialize(response, typeof(T));
+            var result = (T) await Deserialize(response, typeof(T));
             return result;
         }
 
@@ -92,19 +92,19 @@ namespace Org.OpenAPITools.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(HttpResponseMessage response, Type type)
+        internal async Task<object> Deserialize(HttpResponseMessage response, Type type)
         {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
             {
-                return response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                return await response.Content.ReadAsByteArrayAsync();
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
                     var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -128,18 +128,18 @@ namespace Org.OpenAPITools.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), type, _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -277,12 +277,10 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var fileStream = fileParam.Value as FileStream;
-                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
-                    var content = new StreamContent(fileParam.Value);
+                    var content = new StreamContent(fileParam.Value.Content);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     multipartContent.Add(content, fileParam.Key,
-                        fileStreamName ?? "no_file_name_provided");
+                        fileParam.Value.Name);
                 }
             }
             return multipartContent;
@@ -314,11 +312,7 @@ namespace Org.OpenAPITools.Client
 
             builder.AddPathParameters(options.PathParameters);
 
-            // In case of POST or PUT pass query parameters in request body
-            if (method != HttpMethod.Post && method != HttpMethod.Put)
-            {
-                builder.AddQueryParameters(options.QueryParameters);
-            }
+            builder.AddQueryParameters(options.QueryParameters);
 
             HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
 
@@ -368,11 +362,11 @@ namespace Org.OpenAPITools.Client
             {
                 if (options.Data != null)
                 {
-                    if (options.Data is Stream s)
+                    if (options.Data is FileParameter fp)
                     {
                         contentType = contentType ?? "application/octet-stream";
 
-                        var streamContent = new StreamContent(s);
+                        var streamContent = new StreamContent(fp.Content);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         request.Content = streamContent;
                     }
@@ -510,7 +504,7 @@ namespace Org.OpenAPITools.Client
                 return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
 			
-            object responseData = deserializer.Deserialize<T>(response);
+            object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))

@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'read_only_first.g.dart';
 
-
-
+/// ReadOnlyFirst
+///
+/// Properties:
+/// * [bar] 
+/// * [baz] 
 abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;

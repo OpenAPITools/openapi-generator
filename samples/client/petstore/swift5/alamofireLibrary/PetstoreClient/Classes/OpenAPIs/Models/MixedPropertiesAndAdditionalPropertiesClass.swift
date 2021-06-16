@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
@@ -19,6 +21,7 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         self.dateTime = dateTime
         self.map = map
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime
@@ -33,7 +36,5 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(map, forKey: .map)
     }
-
-
-
 }
+

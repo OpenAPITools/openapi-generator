@@ -1335,12 +1335,20 @@ def model_to_dict(model_instance, serialize=True):
     model_instances = [model_instance]
     if model_instance._composed_schemas:
         model_instances.extend(model_instance._composed_instances)
+    seen_json_attribute_names = set()
+    used_fallback_python_attribute_names = set()
+    py_to_json_map = {}
     for model_instance in model_instances:
         for attr, value in model_instance._data_store.items():
             if serialize:
                 # we use get here because additional property key names do not
                 # exist in attribute_map
-                attr = model_instance.attribute_map.get(attr, attr)
+                try:
+                    attr = model_instance.attribute_map[attr]
+                    py_to_json_map.update(model_instance.attribute_map)
+                    seen_json_attribute_names.add(attr)
+                except KeyError:
+                    used_fallback_python_attribute_names.add(attr)
             if isinstance(value, list):
                if not value:
                    # empty list or None
@@ -1368,6 +1376,16 @@ def model_to_dict(model_instance, serialize=True):
                 result[attr] = model_to_dict(value, serialize=serialize)
             else:
                 result[attr] = value
+    if serialize:
+        for python_key in used_fallback_python_attribute_names:
+            json_key = py_to_json_map.get(python_key)
+            if json_key is None:
+                continue
+            if python_key == json_key:
+                continue
+            json_key_assigned_no_need_for_python_key = json_key in seen_json_attribute_names
+            if json_key_assigned_no_need_for_python_key:
+                del result[python_key]
 
     return result
 

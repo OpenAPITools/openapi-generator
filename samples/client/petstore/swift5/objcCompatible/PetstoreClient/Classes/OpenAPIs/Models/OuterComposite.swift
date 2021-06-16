@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class OuterComposite: NSObject, Codable {
 
@@ -24,6 +26,7 @@ import AnyCodable
         self.myString = myString
         self.myBoolean = myBoolean
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
@@ -38,7 +41,5 @@ import AnyCodable
         try container.encodeIfPresent(myString, forKey: .myString)
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
-
-
-
 }
+

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct DogAllOf: Codable, Hashable {
 
@@ -15,6 +17,7 @@ internal struct DogAllOf: Codable, Hashable {
     internal init(breed: String? = nil) {
         self.breed = breed
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case breed
     }
@@ -25,7 +28,5 @@ internal struct DogAllOf: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(breed, forKey: .breed)
     }
-
-
-
 }
+

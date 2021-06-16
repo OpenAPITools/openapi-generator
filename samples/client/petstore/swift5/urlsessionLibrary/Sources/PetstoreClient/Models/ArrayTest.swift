@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.ArrayTest")
+public typealias ArrayTest = PetstoreClient.ArrayTest
+
+extension PetstoreClient {
 
 public final class ArrayTest: Codable, Hashable {
 
@@ -19,6 +26,7 @@ public final class ArrayTest: Codable, Hashable {
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
@@ -34,8 +42,6 @@ public final class ArrayTest: Codable, Hashable {
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
 
-
-
     public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
         lhs.arrayOfString == rhs.arrayOfString &&
         lhs.arrayArrayOfInteger == rhs.arrayArrayOfInteger &&
@@ -49,5 +55,6 @@ public final class ArrayTest: Codable, Hashable {
         hasher.combine(arrayArrayOfModel?.hashValue)
         
     }
+}
 
 }
