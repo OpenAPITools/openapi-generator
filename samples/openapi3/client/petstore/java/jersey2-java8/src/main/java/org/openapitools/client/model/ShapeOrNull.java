@@ -115,6 +115,32 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            // deserialize Null
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Null.class.equals(Integer.class) || Null.class.equals(Long.class) || Null.class.equals(Float.class) || Null.class.equals(Double.class) || Null.class.equals(Boolean.class) || Null.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Null.class.equals(Integer.class) || Null.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Null.class.equals(Float.class) || Null.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Null.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Null.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Null.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Null'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Null'", e);
+            }
+
             // deserialize Quadrilateral
             try {
                 boolean attemptParsing = true;
@@ -126,7 +152,6 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
                         attemptParsing |= ((Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Quadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Quadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -153,7 +178,6 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
                         attemptParsing |= ((Triangle.class.equals(Float.class) || Triangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Triangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Triangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -182,7 +206,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
          */
         @Override
         public ShapeOrNull getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
+            throw new JsonMappingException(ctxt.getParser(), "ShapeOrNull cannot be null");
         }
     }
 
@@ -190,7 +214,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public ShapeOrNull() {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -242,17 +266,24 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
+    public ShapeOrNull(Null o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
     public ShapeOrNull(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public ShapeOrNull(Triangle o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
+        schemas.put("Null", new GenericType<Null>() {
+        });
         schemas.put("Quadrilateral", new GenericType<Quadrilateral>() {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
@@ -274,16 +305,16 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Quadrilateral, Triangle
+     * Null, Quadrilateral, Triangle
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance == null) {
-           super.setActualInstance(instance);
-           return;
+        if (JSON.isInstanceOf(Null.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
         }
 
         if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
@@ -296,18 +327,29 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be Quadrilateral, Triangle");
+        throw new RuntimeException("Invalid instance type. Must be Null, Quadrilateral, Triangle");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * Quadrilateral, Triangle
+     * Null, Quadrilateral, Triangle
      *
-     * @return The actual instance (Quadrilateral, Triangle)
+     * @return The actual instance (Null, Quadrilateral, Triangle)
      */
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Null`. If the actual instanct is not `Null`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Null`
+     * @throws ClassCastException if the instance is not `Null`
+     */
+    public Null getNull() throws ClassCastException {
+        return (Null)super.getActualInstance();
     }
 
     /**

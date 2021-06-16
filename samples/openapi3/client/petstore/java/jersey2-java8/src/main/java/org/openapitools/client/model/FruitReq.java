@@ -105,7 +105,6 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((AppleReq.class.equals(Float.class) || AppleReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (AppleReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (AppleReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -132,7 +131,6 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((BananaReq.class.equals(Float.class) || BananaReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (BananaReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (BananaReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -148,6 +146,32 @@ public class FruitReq extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
             }
 
+            // deserialize Null
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Null.class.equals(Integer.class) || Null.class.equals(Long.class) || Null.class.equals(Float.class) || Null.class.equals(Double.class) || Null.class.equals(Boolean.class) || Null.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Null.class.equals(Integer.class) || Null.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Null.class.equals(Float.class) || Null.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Null.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Null.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Null.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Null'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Null'", e);
+            }
+
             if (match == 1) {
                 FruitReq ret = new FruitReq();
                 ret.setActualInstance(deserialized);
@@ -161,7 +185,7 @@ public class FruitReq extends AbstractOpenApiSchema {
          */
         @Override
         public FruitReq getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
+            throw new JsonMappingException(ctxt.getParser(), "FruitReq cannot be null");
         }
     }
 
@@ -169,16 +193,21 @@ public class FruitReq extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public FruitReq() {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
     }
 
     public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public FruitReq(BananaReq o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public FruitReq(Null o) {
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
@@ -186,6 +215,8 @@ public class FruitReq extends AbstractOpenApiSchema {
         schemas.put("AppleReq", new GenericType<AppleReq>() {
         });
         schemas.put("BananaReq", new GenericType<BananaReq>() {
+        });
+        schemas.put("Null", new GenericType<Null>() {
         });
         JSON.registerDescendants(FruitReq.class, Collections.unmodifiableMap(schemas));
     }
@@ -198,18 +229,13 @@ public class FruitReq extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * AppleReq, BananaReq
+     * AppleReq, BananaReq, Null
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance == null) {
-           super.setActualInstance(instance);
-           return;
-        }
-
         if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
@@ -220,14 +246,19 @@ public class FruitReq extends AbstractOpenApiSchema {
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be AppleReq, BananaReq");
+        if (JSON.isInstanceOf(Null.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be AppleReq, BananaReq, Null");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * AppleReq, BananaReq
+     * AppleReq, BananaReq, Null
      *
-     * @return The actual instance (AppleReq, BananaReq)
+     * @return The actual instance (AppleReq, BananaReq, Null)
      */
     @Override
     public Object getActualInstance() {
@@ -254,6 +285,17 @@ public class FruitReq extends AbstractOpenApiSchema {
      */
     public BananaReq getBananaReq() throws ClassCastException {
         return (BananaReq)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Null`. If the actual instanct is not `Null`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Null`
+     * @throws ClassCastException if the instance is not `Null`
+     */
+    public Null getNull() throws ClassCastException {
+        return (Null)super.getActualInstance();
     }
 
 }

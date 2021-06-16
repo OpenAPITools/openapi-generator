@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -146,8 +147,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         hideGenerationTimestamp = false;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
+        reservedWords = Sets.newHashSet(
                         // special words
                         "object",
                         // used as internal variables, can collide with parameter names
@@ -164,8 +164,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null")
-        );
+                        "native", "super", "while", "null");
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -631,6 +630,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
     }
 
     @Override
@@ -1186,6 +1190,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
         }
+        codegenModel.name = name;  // reserved words are ok here, so we override the renaming in the superclass method.
         return codegenModel;
     }
 

@@ -103,10 +103,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>ApiClient</li>
+<li>ApiException</li>
+<li>ApiResponse</li>
+<li>Configuration</li>
+<li>StringUtil</li>
 <li>abstract</li>
-<li>apiclient</li>
-<li>apiexception</li>
-<li>apiresponse</li>
 <li>assert</li>
 <li>boolean</li>
 <li>break</li>
@@ -115,7 +117,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>catch</li>
 <li>char</li>
 <li>class</li>
-<li>configuration</li>
 <li>const</li>
 <li>continue</li>
 <li>default</li>
@@ -135,19 +136,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
-<li>localreturntype</li>
-<li>localvaraccept</li>
-<li>localvaraccepts</li>
-<li>localvarauthnames</li>
-<li>localvarcollectionqueryparams</li>
-<li>localvarcontenttype</li>
-<li>localvarcontenttypes</li>
-<li>localvarcookieparams</li>
-<li>localvarformparams</li>
-<li>localvarheaderparams</li>
-<li>localvarpath</li>
-<li>localvarpostbody</li>
-<li>localvarqueryparams</li>
+<li>localReturnType</li>
+<li>localVarAccept</li>
+<li>localVarAccepts</li>
+<li>localVarAuthNames</li>
+<li>localVarCollectionQueryParams</li>
+<li>localVarContentType</li>
+<li>localVarContentTypes</li>
+<li>localVarCookieParams</li>
+<li>localVarFormParams</li>
+<li>localVarHeaderParams</li>
+<li>localVarPath</li>
+<li>localVarPostBody</li>
+<li>localVarQueryParams</li>
 <li>long</li>
 <li>native</li>
 <li>new</li>
@@ -161,7 +162,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>short</li>
 <li>static</li>
 <li>strictfp</li>
-<li>stringutil</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
