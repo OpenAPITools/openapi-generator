@@ -29,8 +29,8 @@ namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Query;
-use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Client\Common\PluginClient;
 use Http\Client\Common\PluginClientFactory;
 use Http\Client\HttpAsyncClient;
 use Http\Discovery\HttpAsyncClientDiscovery;
@@ -48,9 +48,13 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 use const PHP_URL_HOST;
+use const PHP_URL_PASS;
 use const PHP_URL_PATH;
+use const PHP_URL_PORT;
 use const PHP_URL_SCHEME;
+use const PHP_URL_USER;
 
 /**
  * AnotherFakeApi Class Doc Comment
@@ -63,12 +67,12 @@ use const PHP_URL_SCHEME;
 class AnotherFakeApi
 {
     /**
-     * @var ClientInterface
+     * @var PluginClient
      */
     protected $httpClient;
 
     /**
-     * @var HttpAsyncClient
+     * @var PluginClient
      */
     protected $httpAsyncClient;
 
@@ -120,22 +124,14 @@ class AnotherFakeApi
             new RedirectPlugin(),
         ];
 
-        $this->httpClient = new HttpMethodsClient(
-            (new PluginClientFactory())->createClient(
-                $httpClient ?? Psr18ClientDiscovery::find(),
-                $plugins
-            ),
-            $this->requestFactory,
-            $this->streamFactory
+        $this->httpClient = (new PluginClientFactory())->createClient(
+            $httpClient ?? Psr18ClientDiscovery::find(),
+            $plugins
         );
 
-        $this->httpAsyncClient = new HttpMethodsClient(
-            (new PluginClientFactory())->createClient(
-                $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
-                $plugins
-            ),
-            $this->requestFactory,
-            $this->streamFactory
+        $this->httpAsyncClient = (new PluginClientFactory())->createClient(
+            $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
+            $plugins
         );
 
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
@@ -423,15 +419,9 @@ class AnotherFakeApi
             $headers
         );
 
+        $operationHost = $this->config->getHost();
 
-        $host = parse_url($this->config->getHost(), PHP_URL_HOST);
-        $scheme = parse_url($this->config->getHost(), PHP_URL_SCHEME);
-        $basePath = parse_url($this->config->getHost(), PHP_URL_PATH);
-
-        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
-            ->withHost($host)
-            ->withScheme($scheme)
-            ->withQuery(Query::build($queryParams));
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
 
         return $this->createRequest('PATCH', $uri, $headers, $httpBody);
     }
@@ -473,5 +463,30 @@ class AnotherFakeApi
         }
 
         return $request;
+    }
+
+    private function createUri(
+        string $operationHost,
+        string $resourcePath,
+        array $queryParams
+    ): UriInterface {
+        $host = parse_url($operationHost, PHP_URL_HOST);
+        $scheme = parse_url($operationHost, PHP_URL_SCHEME);
+        $basePath = parse_url($operationHost, PHP_URL_PATH);
+        $port = parse_url($operationHost, PHP_URL_PORT);
+        $user = parse_url($operationHost, PHP_URL_USER);
+        $password = parse_url($operationHost, PHP_URL_PASS);
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withPort($port)
+            ->withQuery(Query::build($queryParams));
+
+        if ($user) {
+            $uri = $uri->withUserInfo($user, $password);
+        }
+
+        return $uri;
     }
 }
