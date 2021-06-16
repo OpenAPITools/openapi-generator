@@ -135,8 +135,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                   <source>1.8</source>
+                   <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -145,7 +145,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.7</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -175,11 +175,43 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs-services</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>org.jboss.spec.javax.annotation</groupId>
+                  <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>javax.activation</groupId>
+                  <artifactId>activation</artifactId>
+                </exclusion>
+              </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <!-- JSON processing: jackson -->
         <dependency>
@@ -203,27 +235,9 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${jodatime-version}</version>
-        </dependency>
-
-        <!-- Base64 encoding that works in both JVM and Android -->
-        <dependency>
-            <groupId>com.brsanthu</groupId>
-            <artifactId>migbase64</artifactId>
-            <version>2.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson2-provider</artifactId>
-            <version>3.1.3.Final</version>
+            <version>${resteasy-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -252,13 +266,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <resteasy-version>3.1.3.Final</resteasy-version>
+        <resteasy-version>4.5.11.Final</resteasy-version>
         <jackson-version>2.10.5</jackson-version>
         <jackson-databind-version>2.10.5.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <javax-annotation-version>1.3.2</javax-annotation-version>
         <threetenbp-version>2.9.10</threetenbp-version>
-        <jodatime-version>2.9.9</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13</junit-version>
     </properties>
