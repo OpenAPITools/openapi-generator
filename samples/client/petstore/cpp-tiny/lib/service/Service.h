@@ -10,7 +10,7 @@ namespace Tiny {
 *  Class
 * Generated with openapi::tiny-cpp-client
 */
-class AbstractService {
+class Service {
     public:
         HTTPClient http;
         std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url

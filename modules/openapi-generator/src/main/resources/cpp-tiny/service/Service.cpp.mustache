@@ -1,33 +1,33 @@
-#include "AbstractService.h"
+#include "Service.h"
 #include "Arduino.h"
 
 {{#isESP8266}}
-void Tiny::AbstractService::begin(std::string url){
+void Tiny::Service::begin(std::string url){
     http.begin(client, String(url.c_str()));
 }
 {{/isESP8266}}
 
-void Tiny::AbstractService::addHeader(std::string key, std::string value){
+void Tiny::Service::addHeader(std::string key, std::string value){
     http.addHeader(String(key.c_str()), String(value.c_str()));
 }
 
-void Tiny::AbstractService::addQueryParam(std::string key, std::string value){
+void Tiny::Service::addQueryParam(std::string key, std::string value){
     queryParams[key] = value;
 }
 
-int Tiny::AbstractService::sendRequest(const char * type, uint8_t * payload, size_t size){
+int Tiny::Service::sendRequest(const char * type, uint8_t * payload, size_t size){
     int httpCode = http.sendRequest(type, payload, size);
     return httpCode;
 }
 
-String Tiny::AbstractService::getResponseBody(){
+String Tiny::Service::getResponseBody(){
     String respBody = http.getString();
     http.end();
     return respBody;
 }
 
 {{#isESP32}}
-void Tiny::AbstractService::begin(std::string url){
+void Tiny::Service::begin(std::string url){
     http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 }
 {{/isESP32}}
