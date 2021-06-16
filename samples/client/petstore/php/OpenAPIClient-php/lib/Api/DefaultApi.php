@@ -29,9 +29,11 @@ namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Query;
+use Http\Client\Common\Plugin\ErrorPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\Common\PluginClientFactory;
+use Http\Client\Exception\HttpException;
 use Http\Client\HttpAsyncClient;
 use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -49,6 +51,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
+use function sprintf;
 use const PHP_URL_HOST;
 use const PHP_URL_PASS;
 use const PHP_URL_PATH;
@@ -122,6 +125,7 @@ class DefaultApi
 
         $plugins = $plugins ?? [
             new RedirectPlugin(),
+            new ErrorPlugin(),
         ];
 
         $this->httpClient = (new PluginClientFactory())->createClient(
@@ -199,10 +203,24 @@ class DefaultApi
         try {
             try {
                 $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
             } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode()
+                    $request,
+                    null,
+                    $e
                 );
             }
 
@@ -308,7 +326,7 @@ class DefaultApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -317,9 +335,9 @@ class DefaultApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
