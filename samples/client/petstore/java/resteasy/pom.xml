@@ -175,11 +175,43 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs-services</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>org.jboss.spec.javax.annotation</groupId>
+                  <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>javax.activation</groupId>
+                  <artifactId>activation</artifactId>
+                </exclusion>
+              </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <version>${resteasy-version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <!-- JSON processing: jackson -->
         <dependency>
