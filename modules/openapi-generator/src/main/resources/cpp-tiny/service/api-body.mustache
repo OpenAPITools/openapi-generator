@@ -119,7 +119,7 @@ using namespace Tiny;
             {{/isContainer}}
 
             {{/bodyParam}}
-            int httpCode = http.sendRequest("{{httpMethod}}", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest("{{httpMethod}}", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = http.getString();

@@ -39,7 +39,7 @@ using namespace Tiny;
             // Send Request
             // METHOD | DELETE
             // Body     | 
-            int httpCode = http.sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = http.getString();
@@ -76,7 +76,7 @@ using namespace Tiny;
             // Send Request
             // METHOD | GET
             // Body     | 
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = http.getString();
@@ -131,7 +131,7 @@ using namespace Tiny;
             // Send Request
             // METHOD | GET
             // Body     | 
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = http.getString();
@@ -182,7 +182,7 @@ using namespace Tiny;
 
             payload = order.toJson().dump();
 
-            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
             String output = http.getString();

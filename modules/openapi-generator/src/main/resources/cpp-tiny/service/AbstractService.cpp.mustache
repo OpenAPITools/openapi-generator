@@ -15,8 +15,8 @@ void Tiny::AbstractService::addQueryParam(std::string key, std::string value){
     queryParams[key] = value;
 }
 
-int Tiny::AbstractService::sendRequest(const char * type, Stream * stream, size_t size){
-    int httpCode = http.sendRequest(type, stream, size);
+int Tiny::AbstractService::sendRequest(const char * type, uint8_t * payload, size_t size){
+    int httpCode = http.sendRequest(type, payload, size);
     return httpCode;
 }
 {{#isESP32}}

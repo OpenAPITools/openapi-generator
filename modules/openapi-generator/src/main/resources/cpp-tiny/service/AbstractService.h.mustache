@@ -26,7 +26,7 @@ class AbstractService {
         std::map<std::string, std::string> queryParams;
         void begin(std::string url);
 
-        int sendRequest(const char * type, Stream * stream, size_t size);
+        int sendRequest(const char * type, uint8_t * payload, size_t size);
 
         void addQueryParam(std::string key, std::string value);
         void addHeader(std::string key, std::string value);
