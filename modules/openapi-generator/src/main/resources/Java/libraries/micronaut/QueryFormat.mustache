@@ -1,0 +1,31 @@
+package {{invokerPackage}}.query;
+
+public enum QueryFormat {
+    CSV,
+    SSV,
+    TSV,
+    PIPES,
+    MULTI;
+
+    public static QueryFormat parseString(String value) {
+        switch(value) {
+            case "CSV":
+            case "csv":
+                return CSV;
+            case "SSV":
+            case "ssv":
+                return SSV;
+            case "TSV":
+            case "tsv":
+                return TSV;
+            case "PIPES":
+            case "pipes":
+                return PIPES;
+            case "MULTI":
+            case "multi":
+                return MULTI;
+            default:
+                return null;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+package {{invokerPackage}};
+
+import io.micronaut.context.annotation.Factory;
+import javax.inject.Singleton;
+import com.fasterxml.jackson.datatype.threetenbp.deser.ThreeTenDateTimeDeserializerBase;
+import org.threeten.bp.Instant;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZonedDateTime;
+
+@Factory
+public class DeserializerFactory {
+    @Singleton ThreeTenDateTimeDeserializerBase<Instant> instantDeserializer() {
+        return CustomInstantDeserializer.INSTANT;
+    }
+
+    @Singleton ThreeTenDateTimeDeserializerBase<OffsetDateTime> offsetDateTimeDeserializer() {
+        return CustomInstantDeserializer.OFFSET_DATE_TIME;
+    }
+
+    @Singleton ThreeTenDateTimeDeserializerBase<ZonedDateTime> zonedDateTimeDeserializer() {
+        return CustomInstantDeserializer.ZONED_DATE_TIME;
+    }
+}

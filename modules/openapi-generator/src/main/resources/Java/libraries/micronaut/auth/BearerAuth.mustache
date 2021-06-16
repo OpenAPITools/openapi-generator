@@ -1,0 +1,47 @@
+package {{invokerPackage}}.auth;
+
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.annotation.Filter;
+import io.micronaut.http.filter.ClientFilterChain;
+import io.micronaut.http.filter.HttpClientFilter;
+import org.reactivestreams.Publisher;
+
+
+@Requires(property="bearer-auth.path")
+@Filter("${context-path}${bearer-auth.path}")
+public class HttpBearerAuth implements HttpClientFilter {
+    private final String scheme;
+    private String token;
+
+    public HttpBearerAuth(
+            @Value("${bearer-auth.scheme}") String scheme,
+            @Value("${bearer-auth.token}") String token)
+    {
+        this.scheme = scheme;
+        this.token = token;
+    }
+
+    @Override
+    public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
+        if (token != null) {
+            request.header("Authorization", (scheme != null ? upperCaseBearer(scheme) + " " : "") + token);
+        }
+
+        return chain.proceed(request);
+    }
+
+    private static String upperCaseBearer(String scheme) {
+        return ("bearer".equalsIgnoreCase(scheme)) ? "Bearer" : scheme;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+}

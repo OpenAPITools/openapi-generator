@@ -1,0 +1,114 @@
+package {{invokerPackage}};
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+public class QueryFormats {
+    private abstract static class SeparatedParams {
+        protected List<String> params;
+
+        public SeparatedParams() {
+            params = new ArrayList<>();
+        }
+
+        public SeparatedParams(List<String> params) {
+            this.params = params;
+        }
+
+        public SeparatedParams(String... params) {
+            this.params = Arrays.asList(params);
+        }
+
+        public List<String> getParams() {
+            return params;
+        }
+
+        public void setParams(List<String> params) {
+            this.params = params;
+        }
+
+        public abstract String toString();
+    }
+
+    public static class CSVParams extends SeparatedParams {
+        public CSVParams() {
+            super();
+        }
+
+        public CSVParams(List<String> params) {
+            super(params);
+        }
+
+        public CSVParams(String... params) {
+            super(params);
+        }
+
+        @Override
+        public String toString() {
+            return StringUtil.join(params.toArray(new String[0]), ",");
+        }
+
+    }
+
+    public static class SSVParams extends SeparatedParams {
+
+        public SSVParams() {
+            super();
+        }
+
+        public SSVParams(List<String> params) {
+            super(params);
+        }
+
+        public SSVParams(String... params) {
+            super(params);
+        }
+
+        @Override
+        public String toString() {
+            return StringUtil.join(params.toArray(new String[0]), " ");
+        }
+    }
+
+    public static class TSVParams extends SeparatedParams {
+
+        public TSVParams() {
+            super();
+        }
+
+        public TSVParams(List<String> params) {
+            super(params);
+        }
+
+        public TSVParams(String... params) {
+            super(params);
+        }
+
+        @Override
+        public String toString() {
+            return StringUtil.join( params.toArray(new String[0]), "\t");
+        }
+    }
+
+    public static class PIPESParams extends SeparatedParams {
+
+        public PIPESParams() {
+            super();
+        }
+
+        public PIPESParams(List<String> params) {
+            super(params);
+        }
+
+        public PIPESParams(String... params) {
+            super(params);
+        }
+
+        @Override
+        public String toString() {
+            return StringUtil.join(params.toArray(new String[0]), "|");
+        }
+    }
+}

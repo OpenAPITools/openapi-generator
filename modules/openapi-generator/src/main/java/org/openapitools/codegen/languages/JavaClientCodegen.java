@@ -36,6 +36,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
@@ -84,6 +85,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
+    public static final String MICRONAUT = "micronaut";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -167,7 +169,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x");
-
+        supportedLibraries.put(MICRONAUT, "HTTP client: Netty. JSON processing: Jackson");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -495,6 +497,32 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
+        } else if (isLibrary(MICRONAUT)) {
+            String queryFormatsFolder = invokerFolder + "/query";
+            supportingFiles.add(new SupportingFile("QueryFormat.mustache", queryFormatsFolder, "QueryFormat.java"));
+            supportingFiles.add(new SupportingFile("QueryFormattedValue.mustache", queryFormatsFolder, "QueryFormattedValue.java"));
+            supportingFiles.add(new SupportingFile("QueryFormattedValueBinder.mustache", queryFormatsFolder, "QueryFormattedValueBinder.java"));
+            supportingFiles.add(new SupportingFile("ThreeTenModuleFactory.mustache", invokerFolder, "ThreeTenModuleFactory.java"));
+            supportingFiles.add(new SupportingFile("DeserializerFactory.mustache", invokerFolder, "DeserializerFactory.java"));
+            String resourceFolder = projectFolder + "/resources";
+            supportingFiles.add(new SupportingFile("application.yml.mustache", resourceFolder, "application.yml"));
+
+            // Remove unrequired files
+            supportingFiles = supportingFiles.stream()
+                    .filter(f -> {
+                        String file = f.getTemplateFile();
+                        return !"ApiClient.mustache".equals(file) &&
+                                !"Configuration.mustache".equals(file) &&
+                                !"ServerConfiguration.mustache".equals(file) &&
+                                !"ServerVariable.mustache".equals(file) &&
+                                !"Pair.mustache".equals(file) &&
+                                !"apiException.mustache".equals(file) &&
+                                !"StringUtil.mustache".equals(file) &&
+                                !"Authentication.mustache".equals(file);
+                    }).collect(Collectors.toList());
+
+            forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+            additionalProperties.put("jackson", "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }

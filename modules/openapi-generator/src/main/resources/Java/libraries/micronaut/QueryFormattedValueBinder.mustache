@@ -1,0 +1,83 @@
+package {{invokerPackage}}.query;
+
+import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.convert.ArgumentConversionContext;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.client.bind.AnnotatedClientArgumentRequestBinder;
+import io.micronaut.http.client.bind.ClientRequestUriContext;
+
+import javax.inject.Singleton;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
+
+@Singleton
+public class QueryFormattedValueBinder implements AnnotatedClientArgumentRequestBinder<QueryFormattedValue> {
+    @NonNull
+    @Override
+    public Class<QueryFormattedValue> getAnnotationType() {
+        return QueryFormattedValue.class;
+    }
+
+    @Override
+    public void bind(@NotNull ArgumentConversionContext<Object> context,
+                     @NonNull ClientRequestUriContext uriContext,
+                     @NonNull Object value,
+                     @NonNull MutableHttpRequest<?> request
+    ) {
+        AnnotationValue<QueryFormattedValue> annotation = context.getAnnotationMetadata()
+                .getAnnotationValuesByType(QueryFormattedValue.class).get(0);
+        String key = annotation.get("key", String.class).orElse("");
+        QueryFormat format = annotation.get("format", QueryFormat.class).orElse(QueryFormat.CSV);
+
+        if (format == QueryFormat.MULTI) {
+            if (value instanceof List) {
+                // noinspection unchecked
+                List<Object> values = (List<Object>) value;
+                for (Object item: values) {
+                    uriContext.getQueryParameters().put(key, String.valueOf(item));
+                }
+            } else {
+                uriContext.getQueryParameters().put(key, String.valueOf(value));
+            }
+        } else {
+            char separator = ',';
+            switch(format) {
+                case TSV:
+                    separator = '\t';
+                    break;
+                case SSV:
+                    separator = ' ';
+                    break;
+                case PIPES:
+                    separator = '|';
+                    break;
+            }
+            String parameterValue = createSeparatedQueryValue(value, separator);
+            uriContext.getQueryParameters().put(key, parameterValue);
+        }
+    }
+
+    private static String createSeparatedQueryValue(
+            Object value,
+            char separator
+    ) {
+        if (value instanceof List) {
+            // noinspection unchecked
+            List<Object> values = (List<Object>) value;
+
+            StringBuilder builder = new StringBuilder();
+            if (values.size() > 0) {
+                builder.append(values.get(0));
+            }
+            for (int i = 1; i < values.size(); ++i) {
+                builder.append(separator);
+                builder.append(values.get(i));
+            }
+            return builder.toString();
+        } else {
+            return String.valueOf(value);
+        }
+    }
+}

@@ -1,0 +1,49 @@
+micronaut:
+    application:
+        name: {{artifactId}}
+
+base-path: {{{basePath}}}
+context-path: {{{contextPath}}}
+
+api-key-auth:
+    # relative path that needs to be authorized
+    # path: "/**"
+    location: "header"
+    param-name: "api-key"
+    api-key: "99999"
+
+basic-auth:
+    # relative path that needs to be authorized
+    # path: "/**"
+    username: "user"
+    password: ""
+
+bearer-auth:
+    # relative path that needs to be authorized
+    # path: "/**"
+    scheme: "bearer"
+    token: ""
+
+oauth:
+    # relative path that needs to be authorized
+    # path: "/**"
+    # flow can be one of access-code, implicit, password, application
+    flow: "access-code"
+    authorization-url: "global-authorization-url"
+    token-url: "global-token-url"
+    scopes: "scopes"
+    # username, password, client-id, client-server and redirect-uri are optional
+    username: "user"
+    password: ""
+    client-id: ""
+    client-secret: ""
+    redirect-uri: ""
+
+jackson:
+    serialization:
+        writeEnumsUsingToString: true
+        writeDatesAsTimestamps: false
+    deserialization:
+        readEnumsUsingToString: true
+        failOnUnknownProperties: false
+        failOnInvalidSubtype: false

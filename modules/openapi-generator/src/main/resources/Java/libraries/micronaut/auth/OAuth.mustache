@@ -1,0 +1,189 @@
+package {{invokerPackage}}.auth;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import io.micronaut.context.BeanProvider;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.http.*;
+import io.micronaut.http.annotation.Filter;
+import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.filter.ClientFilterChain;
+import io.micronaut.http.filter.HttpClientFilter;
+import io.reactivex.Flowable;
+import org.apache.oltu.oauth2.client.HttpClient;
+import org.apache.oltu.oauth2.client.OAuthClient;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+import org.apache.oltu.oauth2.client.response.OAuthClientResponse;
+import org.apache.oltu.oauth2.client.response.OAuthClientResponseFactory;
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
+import org.reactivestreams.Publisher;
+
+import io.micronaut.core.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+
+@Requires(property="oauth.path")
+@Filter("${context-path}${oauth.path}")
+public class OAuth implements HttpClientFilter {
+    static final int MILLIS_PER_SECOND = 1000;
+
+    private volatile String accessToken;
+    private Long expirationTimeMillis;
+    private final OAuthClient oauthClient;
+    private final TokenRequestBuilder tokenRequestBuilder;
+    private final AuthenticationRequestBuilder authenticationRequestBuilder;
+    private AccessTokenListener accessTokenListener = null;
+
+    public interface AccessTokenListener {
+        void notify(BasicOAuthToken token);
+    }
+
+    public OAuth(
+            BeanProvider<RxHttpClient> httpClientProvider,
+            @Value("${oauth.flow}") String flowString,
+            @Value("${oauth.scopes}") String scopes,
+            @Value("${oauth.authorization-url}") String authorizationUrl,
+            @Value("${oauth.token-url}") String tokenUrl,
+            @Nullable @Value("${oauth.service-id}") String clientId,
+            @Nullable @Value("${oauth.service-secret}") String clientSecret,
+            @Nullable @Value("${oauth.redirect-uri}") String redirectURI,
+            @Nullable @Value("${oauth.username}") String username,
+            @Nullable @Value("${oauth.password}") String password
+    ) {
+        if (scopes == null || tokenUrl == null || authorizationUrl == null) {
+            throw new ConfigurationException("All of oauth.scopes, oauth.authorization-url, oauth.token-url and " +
+                    "oauth.service-id configuration parameters need to be set, when oath.enabled is true");
+        }
+
+        oauthClient = new OAuthClient(new OAuthHttpClient(httpClientProvider));
+        tokenRequestBuilder = OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes);
+        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
+
+        OAuthFlow flow = OAuthFlow.parseString(flowString);
+        if (flow == null) {
+            throw new ConfigurationException("oauth.flow configuration parameter needs to be set to one of " +
+                    "available values: (access-code, implicit, password, application) when oauth.enabled is true");
+        }
+        switch (flow) {
+            case accessCode:
+            case implicit:
+                tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
+                break;
+            case password:
+                tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
+                break;
+            case application:
+                tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
+                break;
+        }
+
+        if (flow != OAuthFlow.implicit && clientSecret == null) {
+            throw new ConfigurationException("oauth.service-secret configuration parameter needs to be set" +
+                    "unless the oauth.flow is set to implicit");
+        }
+        if ((flow == OAuthFlow.implicit || flow == OAuthFlow.accessCode) && redirectURI == null) {
+            throw new ConfigurationException("oauth.redirect-uri configuration parameter needs to be set when" +
+                    "oath.flow is implicit or access-code");
+        }
+        if (flow == OAuthFlow.password && (username == null || password == null)) {
+            throw new ConfigurationException("Both oauth.username and oauth.password need to be set when " +
+                    "oauth.flow is password");
+        }
+
+
+        tokenRequestBuilder
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectURI(redirectURI)
+                .setUsername(username)
+                .setPassword(password);
+        authenticationRequestBuilder
+                .setClientId(clientId)
+                .setRedirectURI(redirectURI);
+    }
+
+    @Override
+    public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
+        // If the request already have an authorization (eg. Basic auth), do nothing
+        if (!request.getHeaders().contains("Authorization")) {
+            // If first time, get the token
+            if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
+                updateAccessToken();
+            }
+            if (getAccessToken() != null) {
+                request.header("Authorization", "Bearer " + getAccessToken());
+            }
+        }
+
+        return chain.proceed(request);
+    }
+
+    public synchronized void updateAccessToken() {
+        OAuthJSONAccessTokenResponse accessTokenResponse;
+        try {
+            accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+        if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
+            setAccessToken(accessTokenResponse.getAccessToken(), accessTokenResponse.getExpiresIn());
+            if (accessTokenListener != null) {
+                accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
+            }
+        }
+    }
+
+    public synchronized String getAccessToken() {
+        return accessToken;
+    }
+
+    public synchronized void setAccessToken(String accessToken, Long expiresIn) {
+        this.accessToken = accessToken;
+        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
+    }
+
+    public static class OAuthHttpClient implements HttpClient {
+        private final BeanProvider<RxHttpClient> client;
+
+        public OAuthHttpClient(BeanProvider<RxHttpClient> client) {
+            this.client = client;
+        }
+
+        public <T extends OAuthClientResponse> T execute(OAuthClientRequest request, Map<String, String> headers,
+                                                         String requestMethod, Class<T> responseClass)
+                throws OAuthSystemException, OAuthProblemException {
+            Flowable<HttpResponse<String>> call = client.get().exchange(
+                    HttpRequest.create(HttpMethod.parse(requestMethod), request.getLocationUri())
+                            .body(request.getBody())
+                            .headers(new HashMap<>(headers)),
+                    String.class
+            );
+
+            HttpResponse<String> response = call.blockingFirst();
+
+            return OAuthClientResponseFactory.createCustomResponse(
+                    response.getBody().isPresent() ? response.getBody().get() : null,
+                    response.header("Content-Type"),
+                    response.getStatus().getCode(),
+                    responseClass
+            );
+        }
+
+        public void shutdown() {
+            client.get().stop();
+        }
+    }
+
+    public synchronized void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+        this.accessTokenListener = accessTokenListener;
+    }
+}

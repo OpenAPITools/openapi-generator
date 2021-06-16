@@ -1,0 +1,27 @@
+package {{invokerPackage}}.auth;
+
+public enum OAuthFlow {
+    accessCode,
+    implicit,
+    password,
+    application;
+
+    public static OAuthFlow parseString(String flow) {
+        if (flow == null) {
+            return null;
+        }
+
+        switch(flow) {
+            case "access-code":
+                return accessCode;
+            case "implicit":
+                return implicit;
+            case "password":
+                return password;
+            case "application":
+                return application;
+            default:
+                return null;
+        }
+    }
+}

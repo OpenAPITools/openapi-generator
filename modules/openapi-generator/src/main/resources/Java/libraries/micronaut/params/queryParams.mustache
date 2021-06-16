@@ -1,0 +1,1 @@
+{{#isQueryParam}}{{#collectionFormat}}@QueryFormattedValue(key="{{{baseName}}}", format=QueryFormat.{{{collectionFormat.toUpperCase}}}) {{/collectionFormat}}{{^collectionFormat}}@QueryValue("{{baseName}}") {{/collectionFormat}}{{{dataType}}} {{paramName}}{{/isQueryParam}}

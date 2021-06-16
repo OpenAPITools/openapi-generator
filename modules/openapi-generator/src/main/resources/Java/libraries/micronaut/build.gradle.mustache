@@ -1,0 +1,48 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "1.5.0"
+}
+
+version = "0.1"
+group = "test.client"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("test.client.*")
+    }
+}
+
+ext {
+    swagger_annotations_version = "1.5.9"
+    oltu_version = "1.0.1"
+    threepane_version = "2.6.4"
+    jackson_version = "2.11.4"
+    junit_version = "4.12"
+}
+
+dependencies {
+    implementation("io.swagger:swagger-annotations:$swagger_annotations_version")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("javax.annotation:javax.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("com.github.joschi.jackson:jackson-datatype-threetenbp:$threepane_version")
+    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version")
+}
+
+
+application {
+    mainClass.set("test.client.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}

@@ -1,0 +1,21 @@
+package {{invokerPackage}}.query;
+
+import io.micronaut.core.bind.annotation.Bindable;
+
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Documented
+@Retention(RUNTIME)
+@Target(PARAMETER)
+@Bindable
+public @interface QueryFormattedValue {
+    public String key();
+    public QueryFormat format() default QueryFormat.CSV;
+}
+

@@ -1,0 +1,73 @@
+package {{invokerPackage}}.auth;
+
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.annotation.Filter;
+import io.micronaut.http.filter.ClientFilterChain;
+import io.micronaut.http.filter.HttpClientFilter;
+import org.reactivestreams.Publisher;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+
+@Requires(property="api-key-auth.path")
+@Filter("${context-path}${api-key-auth.path}")
+public class ApiKeyAuth implements HttpClientFilter {
+    private final String location;
+    private final String paramName;
+    private final String apiKey;
+
+    public static String API_KEY_LOCATION_HEADER = "header";
+    public static String API_KEY_LOCATION_QUERY = "query";
+
+    public ApiKeyAuth(
+            @Value("${api-key-auth.location}") String location,
+            @Value("${api-key-auth.param-name}") String paramName,
+            @Value("${api-key-auth.api-key}") String apiKey)
+    {
+        if (!API_KEY_LOCATION_HEADER.equals(location) && API_KEY_LOCATION_QUERY.equals(location)) {
+            throw new ConfigurationException("api-key-auth.path parameter should be one of (" + API_KEY_LOCATION_HEADER +
+                    ", " + API_KEY_LOCATION_QUERY + ") when api-key-auth.enabled is true, but is " + location);
+        }
+        if (paramName == null) {
+            throw new ConfigurationException("api-key-auth.param-name needs to be specified " +
+                    "when api-key-auth.enabled is true");
+        }
+        if (apiKey == null) {
+            throw new ConfigurationException("api-key-auth.api-key needs to be specified " +
+                    "when api-key-auth.enabled is true");
+        }
+
+        this.location = location;
+        this.paramName = paramName;
+        this.apiKey = apiKey;
+    }
+
+    @Override
+    public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
+        if (API_KEY_LOCATION_HEADER.equals(location)) {
+            request.header(this.paramName, this.apiKey);
+        } else {
+            URI uri = request.getUri();
+            String query = uri.getRawQuery();
+            if (query == null) {
+                query = "";
+            }
+            query = query + (query.isEmpty() ? "?" : "&") +
+                    URLEncoder.encode(this.paramName, StandardCharsets.UTF_8) + "=" +
+                    URLEncoder.encode(this.apiKey, StandardCharsets.UTF_8);
+            try {
+                uri = new URI(uri.getScheme(), uri.getAuthority(), query, uri.getFragment());
+            } catch (java.net.URISyntaxException ignored) {
+            }
+            request.uri(uri);
+        }
+
+        return chain.proceed(request);
+    }
+}
+
