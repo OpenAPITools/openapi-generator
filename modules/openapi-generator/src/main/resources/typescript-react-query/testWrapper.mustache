@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+// tslint:disable
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import React from 'react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+
+export const queryClient = new QueryClient();
+export const componentWrapper = ({ children }) => (
+  // eslint-disable-next-line react/react-in-jsx-scope
+  <QueryClientProvider client={queryClient}>
+    {children}
+  </QueryClientProvider>
+);
+
+export default customInstance;

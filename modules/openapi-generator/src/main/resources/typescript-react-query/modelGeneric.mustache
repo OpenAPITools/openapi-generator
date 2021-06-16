@@ -1,3 +1,6 @@
+import { Sync } from 'factory.ts';
+import * as faker from 'faker';
+
 {{#hasImports}}
 import type {
   {{#imports}}
@@ -5,7 +8,45 @@ import type {
   {{/imports}}
 } from './';
 
+// eslint-disable-next-line no-duplicate-imports
+import {
+  {{#imports}}
+  {{{.}}}Mock,
+  {{/imports}}
+} from './';
+
 {{/hasImports}}
+
+const getDataFromType = (type) => {
+  switch (type) {
+    case 'string':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return faker.random.words();
+    case 'boolean':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return faker.random.boolean();
+    case 'number':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return faker.random.number();
+    case 'string[]':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return Array.from({length: 10}).map((): string => faker.random.words());
+    case 'number[]':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return Array.from({length: 10}).map((): string => faker.random.number());
+    {{#hasImports}}
+    {{#imports}}
+    case '{{{.}}}':
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return {{{.}}}Mock.build();
+    case '{{{.}}}[]':
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+      return {{{.}}}Mock.buildList(10);
+    {{/imports}}
+    {{/hasImports}}
+  }
+};
+
 /**
  * {{{description}}}
  * @export
@@ -43,3 +84,58 @@ export enum {{classname}}{{enumName}} {
 {{/vars}}
 
 {{/hasEnums}}
+
+/****************************************** MOCKS *****************************************************************/
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+/**
+* @export
+* @mock enum {string}
+*/
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+export const {{classname}}{{enumName}}Mock = ({
+  mock: () => {
+    const enumValues = Object.keys({{classname}}{{enumName}})
+      .map(n => Number.parseInt(n))
+      .filter(n => !Number.isNaN(n));
+    const randomIndex = Math.floor(Math.random() * enumValues.length);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return enumValues[randomIndex];
+  },
+  build: () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+    return this.mock();
+  },
+  buildList: (length) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+    return Array.from({length}).map(() => this.mock());
+  }
+});
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+
+/**
+* {{{description}}} mock data factory
+* @export
+* @mock {{classname}}
+*/
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+export const {{classname}}Mock = Sync.makeFactory<{{classname}}>({
+{{#vars}}
+  /**
+  * {{{description}}}
+  * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+  * @memberof {{classname}}
+  */
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+  {{name}}: getDataFromType('{{{datatype}}}'),
+{{/vars}}
+});
+
+/****************************************** END MOCKS **************************************************************/

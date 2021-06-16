@@ -3,6 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from 'react-query';
+import * as nock from 'nock';
 import Axios from '../runtime';
 {{#imports.0}}
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -11,6 +12,14 @@ import type {
   {{#imports}}
   {{className}},
   {{/imports}}
+} from '../models';
+{{/imports.0}}
+{{#imports.0}}
+// eslint-disable-next-line no-duplicate-imports
+import {
+{{#imports}}
+    {{className}}Mock,
+{{/imports}}
 } from '../models';
 {{/imports.0}}
 
@@ -47,6 +56,14 @@ export interface {{operationIdCamelCase}}ForQuery {
  */
 
 {{^vendorExtensions.x-is-mutation}}
+/***************************************************** {{nickname}} Mock **********************************************/
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+export const {{nickname}}Expectation = nock('{{basePath}}')
+  ['{{httpMethod}}'.toLowerCase()]('{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, '${ {{paramName}} }'){{/pathParams}})
+  .reply(200, {
+    response: {{#returnType}}{{{returnType}}}{{/returnType}}Mock.buildList(10),
+  });
+/*************************************************** {{nickname}} Mock End ********************************************/
 export const {{nickname}}AxiosRequest = (
   {{#allParams.0}}
   requestParameters: {{operationIdCamelCase}}ForQuery,

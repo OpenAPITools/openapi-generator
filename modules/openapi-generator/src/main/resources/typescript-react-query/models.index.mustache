@@ -1,12 +1,14 @@
 {{#models}}
 {{#model}}
 {{#isEnum}}
-
 export { {{classname}} } from './{{{ classFilename }}}';
 {{/isEnum}}
 {{^isEnum}}
 import type { {{classname}} } from  './{{{ classFilename }}}';
 export { {{classname}} };
 {{/isEnum}}
+// eslint-disable-next-line no-duplicate-imports
+import { {{classname}}Mock } from  './{{{ classFilename }}}';
+export { {{classname}}Mock };
 {{/model}}
 {{/models}}

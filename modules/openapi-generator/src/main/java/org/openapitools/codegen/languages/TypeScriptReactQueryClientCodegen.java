@@ -97,6 +97,7 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("testWrapper.mustache", "src", "testWrapper.tsx"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
