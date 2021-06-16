@@ -19,6 +19,13 @@ int Tiny::AbstractService::sendRequest(const char * type, uint8_t * payload, siz
     int httpCode = http.sendRequest(type, payload, size);
     return httpCode;
 }
+
+String Tiny::AbstractService::getResponseBody(){
+    String respBody = http.getString();
+    http.end();
+    return respBody;
+}
+
 {{#isESP32}}
 void Tiny::AbstractService::begin(std::string url){
     http.begin(String(url.c_str()), test_root_ca); //HTTPS connection

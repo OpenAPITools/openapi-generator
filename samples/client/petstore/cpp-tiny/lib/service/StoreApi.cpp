@@ -42,10 +42,8 @@ using namespace Tiny;
             int httpCode = sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
             Response<String> response(output, httpCode);
@@ -79,10 +77,8 @@ using namespace Tiny;
             int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -134,10 +130,8 @@ using namespace Tiny;
             int httpCode = sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -185,10 +179,8 @@ using namespace Tiny;
             int httpCode = sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 

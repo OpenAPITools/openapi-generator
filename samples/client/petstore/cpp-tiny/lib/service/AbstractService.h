@@ -18,6 +18,7 @@ class AbstractService {
         void begin(std::string url);
 
         int sendRequest(const char * type, uint8_t * payload, size_t size);
+        String getResponseBody();
 
         void addQueryParam(std::string key, std::string value);
         void addHeader(std::string key, std::string value);
