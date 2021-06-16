@@ -2634,6 +2634,14 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+        if(!m.isEnum
+                && m.anyOf.size()>1
+                && m.anyOf.contains("std::string")
+                && !m.anyOf.contains("AnyType")
+                && m.interfaces.size()==1
+        ){
+            m.isStringEnumContainer=true;
+        }
         return m;
     }
 

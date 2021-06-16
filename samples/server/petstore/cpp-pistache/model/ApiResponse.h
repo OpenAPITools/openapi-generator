@@ -89,6 +89,7 @@ protected:
     bool m_TypeIsSet;
     std::string m_Message;
     bool m_MessageIsSet;
+    
 };
 
 } // namespace org::openapitools::server::model

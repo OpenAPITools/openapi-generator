@@ -80,7 +80,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation, isStringEnumContainer;
     /**
      * Indicates the OAS schema specifies "nullable: true".
      */
@@ -782,6 +782,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasMoreModels == that.hasMoreModels &&
                 hasEnums == that.hasEnums &&
                 isEnum == that.isEnum &&
+                isStringEnumContainer == that.isStringEnumContainer &&
                 isNullable == that.isNullable &&
                 hasRequired == that.hasRequired &&
                 hasOptional == that.hasOptional &&
@@ -860,7 +861,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
-                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
+                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isStringEnumContainer,isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
@@ -924,6 +925,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasMoreModels=").append(hasMoreModels);
         sb.append(", hasEnums=").append(hasEnums);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isStringEnumContainer=").append(isStringEnumContainer);
         sb.append(", isNullable=").append(isNullable);
         sb.append(", hasRequired=").append(hasRequired);
         sb.append(", hasOptional=").append(hasOptional);

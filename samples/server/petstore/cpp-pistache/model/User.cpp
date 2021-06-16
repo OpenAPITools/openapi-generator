@@ -59,15 +59,7 @@ bool User::validate(std::stringstream& msg, const std::string& pathPrefix) const
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "User" : pathPrefix;
 
-        
-    
-    
-    
-    
-    
-    
-    
-
+                                    
     return success;
 }
 
