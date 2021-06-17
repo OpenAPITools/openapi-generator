@@ -63,7 +63,7 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
     {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}
     if (!m_value.validate(msg))
     {
-        success = false;;
+        success = false;
     }{{/-first}}{{/anyOf}}{{/isStringEnumContainer}}
     return success;
 }
