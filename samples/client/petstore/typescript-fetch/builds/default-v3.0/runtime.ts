@@ -90,8 +90,8 @@ export class BaseAPI {
             if (middleware.post) {
                 response = await middleware.post({
                     fetch: this.fetchApi,
-                    url,
-                    init,
+                    url: fetchParams.url,
+                    init: fetchParams.init,
                     response: response.clone(),
                 }) || response;
             }

@@ -18,6 +18,7 @@ class Service {
         std::map<std::string, std::string> queryParams;
 
         int sendRequest(std::string url, const char * type, uint8_t * payload, size_t size);
+
         String getResponseBody();
 
         void addQueryParam(std::string key, std::string value);
