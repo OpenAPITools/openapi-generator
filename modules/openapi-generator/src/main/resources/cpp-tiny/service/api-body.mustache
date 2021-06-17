@@ -50,9 +50,9 @@ using namespace Tiny;
             // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
         {{#queryParams}}
         {{#isArray}}
-        //    for (auto &x : {{paramName}}){
-        //        addQueryParam("{{baseName}}", std::string(x));
-        //    }
+            for (auto &x : {{paramName}}){
+                addQueryParam("{{baseName}}", std::string(x));
+            }
         {{/isArray}}
         {{^isArray}}
             addQueryParam("{{baseName}}",{{paramName}});

@@ -117,9 +117,9 @@ using namespace Tiny;
             // Headers  | 
 
             // Query    | status 
-        //    for (auto &x : status){
-        //        addQueryParam("status", std::string(x));
-        //    }
+            for (auto &x : status){
+                addQueryParam("status", std::string(x));
+            }
 
             // Form     | 
 
@@ -182,9 +182,9 @@ using namespace Tiny;
             // Headers  | 
 
             // Query    | tags 
-        //    for (auto &x : tags){
-        //        addQueryParam("tags", std::string(x));
-        //    }
+            for (auto &x : tags){
+                addQueryParam("tags", std::string(x));
+            }
 
             // Form     | 
 
