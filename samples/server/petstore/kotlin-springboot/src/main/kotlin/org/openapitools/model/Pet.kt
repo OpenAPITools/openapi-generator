@@ -33,18 +33,18 @@ data class Pet(
     @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("category") val category: Category? = null,
+    @field:JsonProperty("category") val category: Category,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
-    @field:JsonProperty("status") val status: Pet.Status? = null
+    @field:JsonProperty("status") val status: Pet.Status
 ) {
 
     /**

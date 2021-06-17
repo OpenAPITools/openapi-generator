@@ -26,28 +26,28 @@ import io.swagger.annotations.ApiModelProperty
 data class User(
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("username") val username: kotlin.String? = null,
+    @field:JsonProperty("username") val username: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @field:JsonProperty("firstName") val firstName: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @field:JsonProperty("lastName") val lastName: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("email") val email: kotlin.String? = null,
+    @field:JsonProperty("email") val email: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("password") val password: kotlin.String? = null,
+    @field:JsonProperty("password") val password: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("phone") val phone: kotlin.String? = null,
+    @field:JsonProperty("phone") val phone: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "User Status")
-    @field:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @field:JsonProperty("userStatus") val userStatus: kotlin.Int
 ) {
 
 }
