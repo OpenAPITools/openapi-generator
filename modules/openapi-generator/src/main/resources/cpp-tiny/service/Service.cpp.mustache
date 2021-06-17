@@ -7,9 +7,9 @@ void Tiny::Service::begin(std::string url){
 }
 {{/isESP8266}}
 {{#isESP32}}
-    void Tiny::Service::begin(std::string url){
+void Tiny::Service::begin(std::string url){
     http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
-    }
+}
 {{/isESP32}}
 
 void Tiny::Service::addHeader(std::string key, std::string value){

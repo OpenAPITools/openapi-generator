@@ -5,7 +5,6 @@ void Tiny::Service::begin(std::string url){
     http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
 }
 
-
 void Tiny::Service::addHeader(std::string key, std::string value){
     http.addHeader(String(key.c_str()), String(value.c_str()));
 }
@@ -19,10 +18,10 @@ int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * pay
     prepareRequest();
 
     begin(this->url);
+
     int httpCode = http.sendRequest(type, payload, size);
     return httpCode;
 }
-
 
 void Tiny::Service::prepareRequest(){
     if (!queryParams.empty()){
