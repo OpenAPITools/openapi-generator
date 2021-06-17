@@ -22,6 +22,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -30,7 +32,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | pet
-            addHeader("Content-Type", "application/json");
 
 
 
@@ -74,6 +75,7 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+
 
 
                 std::string s_petId("{");
@@ -122,6 +124,7 @@ using namespace Tiny;
             }
 
             // Form     | 
+
 
 
 
@@ -191,6 +194,7 @@ using namespace Tiny;
 
 
 
+
             std::string payload = "";
             // Send Request
             // METHOD | GET
@@ -251,6 +255,7 @@ using namespace Tiny;
             // Form     | 
 
 
+
                 std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
@@ -299,6 +304,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -307,7 +314,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | PUT
             // Body     | pet
-            addHeader("Content-Type", "application/json");
 
 
 
@@ -353,6 +359,12 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | name status 
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            addFormParam("name",name);
+            name
+            addFormParam("status",status);
+            status
 
 
                 std::string s_petId("{");
@@ -404,6 +416,12 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | additionalMetadata file 
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            addFormParam("additionalMetadata",additionalMetadata);
+            additionalMetadata
+            addFormParam("file",file);
+            file
 
 
                 std::string s_petId("{");

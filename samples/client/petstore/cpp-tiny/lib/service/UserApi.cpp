@@ -22,6 +22,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -30,7 +32,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | user
-            addHeader("Content-Type", "application/json");
 
 
 
@@ -65,6 +66,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -73,7 +76,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | user
-            addHeader("Content-Type", "application/json");
 
 
             bourne::json tmp_arr = bourne::json::array();
@@ -115,6 +117,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -123,7 +127,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | user
-            addHeader("Content-Type", "application/json");
 
 
             bourne::json tmp_arr = bourne::json::array();
@@ -165,6 +168,7 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+
 
 
                 std::string s_username("{");
@@ -210,6 +214,7 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+
 
 
                 std::string s_username("{");
@@ -269,6 +274,7 @@ using namespace Tiny;
 
 
 
+
             std::string payload = "";
             // Send Request
             // METHOD | GET
@@ -310,6 +316,7 @@ using namespace Tiny;
 
 
 
+
             std::string payload = "";
             // Send Request
             // METHOD | GET
@@ -346,6 +353,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
                 std::string s_username("{");
@@ -362,7 +371,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | PUT
             // Body     | user
-            addHeader("Content-Type", "application/json");
 
 
 

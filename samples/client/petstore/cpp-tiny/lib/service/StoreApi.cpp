@@ -24,6 +24,7 @@ using namespace Tiny;
             // Form     | 
 
 
+
                 std::string s_orderId("{");
                 s_orderId.append("orderId");
                 s_orderId.append("}");
@@ -68,6 +69,7 @@ using namespace Tiny;
 
 
 
+
             std::string payload = "";
             // Send Request
             // METHOD | GET
@@ -108,6 +110,7 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+
 
 
                 std::string s_orderId("{");
@@ -158,6 +161,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -166,7 +171,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | order
-            addHeader("Content-Type", "application/json");
 
 
 
