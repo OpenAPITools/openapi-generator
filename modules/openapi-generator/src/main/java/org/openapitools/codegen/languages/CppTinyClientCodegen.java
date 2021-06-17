@@ -154,7 +154,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp"));
 
         // Main
-        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp"));
+        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp")); // TODO no overwrite
 
         // Config files
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
