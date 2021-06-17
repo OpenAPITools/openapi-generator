@@ -362,9 +362,7 @@ using namespace Tiny;
             addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             addFormParam("name",name);
-            name
             addFormParam("status",status);
-            status
 
 
                 std::string s_petId("{");
@@ -419,9 +417,7 @@ using namespace Tiny;
             addHeader("Content-Type", "application/x-www-form-urlencoded");
 
             addFormParam("additionalMetadata",additionalMetadata);
-            additionalMetadata
             addFormParam("file",file);
-            file
 
 
                 std::string s_petId("{");
