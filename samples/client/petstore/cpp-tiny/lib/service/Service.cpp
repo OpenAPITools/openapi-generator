@@ -3,6 +3,11 @@
 
 void Tiny::Service::begin(std::string url){
     http.begin(String(url.c_str()), test_root_ca); //HTTPS connection
+
+
+    // reset params
+    queryParams.begin();
+    formParams.begin();
 }
 
 void Tiny::Service::addHeader(std::string key, std::string value){
@@ -10,11 +15,11 @@ void Tiny::Service::addHeader(std::string key, std::string value){
 }
 
 void Tiny::Service::addQueryParam(std::string key, std::string value){
-    queryParams[key] = value;
+    formParams.push_back(std::make_tuple(key, value));
 }
 
 void Tiny::Service::addFormParam(std::string key, std::string value){
-    formParams[key] = value;
+    formParams.push_back(std::make_tuple(key, value));
 }
 
 int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * payload, size_t size){
@@ -29,7 +34,7 @@ int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * pay
 
 void Tiny::Service::prepareRequest(){
     if (!queryParams.empty()){
-        this->url.append("?" + encodeKeyValueTuple(this->queryParams));
+        this->url += "?" + encodeKeyValueTuple(this->queryParams);
     }
 
     if (!formParams.empty()){
@@ -37,10 +42,10 @@ void Tiny::Service::prepareRequest(){
     }
 }
 
-std::string Tiny::Service::encodeKeyValueTuple(std::map<std::string, std::string> params){
+std::string Tiny::Service::encodeKeyValueTuple(std::list<std::tuple<std::string, std::string>> params){
     std::string encoded = "";
-    for (const auto& kv : params) {
-        this->payload += kv.first + "=" + kv.second + "&";
+    for (auto const& tuple : params) {
+        encoded += std::get<0>(tuple) + "=" + std::get<1>(tuple) + "&";
     }
 
     // Remove last '&' char from url
