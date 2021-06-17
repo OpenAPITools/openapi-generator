@@ -230,7 +230,6 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-        // Throw exception if http and esp8266
 
         // -- --additional-properties=controller=<controllername>
         if (additionalProperties.containsKey(MICROCONTROLLER)) {
