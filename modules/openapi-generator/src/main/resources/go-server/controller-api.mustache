@@ -153,7 +153,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}} := r.Header.Get("{{baseName}}")
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}} := &{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{}
+	{{paramName}} := &{{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{}
 	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
