@@ -20,6 +20,10 @@ void Tiny::Service::addQueryParam(std::string key, std::string value){
     queryParams[key] = value;
 }
 
+void Tiny::Service::addFormParam(std::string key, std::string value){
+    formParams[key] = value;
+}
+
 int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * payload, size_t size){
     this->url = url;
     prepareRequest();
@@ -32,18 +36,25 @@ int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * pay
 
 void Tiny::Service::prepareRequest(){
     if (!queryParams.empty()){
-        addQueryParamsToUrl();
+        this->url.append("?" + encodeKeyValueTuple(this->queryParams));
+    }
+
+    if (!formParams.empty()){
+        this->payload = encodeKeyValueTuple(this->formParams);
     }
 }
 
-void Tiny::Service::addQueryParamsToUrl(){
-    this->url += "?";
-    for (const auto& kv : queryParams) {
-        this->url += kv.first + "=" + kv.second + "&";
+std::string Tiny::Service::encodeKeyValueTuple(std::map<std::string, std::string> params){
+    std::string encoded = "";
+    for (const auto& kv : params) {
+        this->payload += kv.first + "=" + kv.second + "&";
     }
 
     // Remove last '&' char from url
-    this->url.pop_back();
+    if (! encoded.empty())
+        encoded.pop_back();
+
+    return encoded;
 }
 
 

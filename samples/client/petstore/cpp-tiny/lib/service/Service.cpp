@@ -29,7 +29,7 @@ int Tiny::Service::sendRequest(std::string url, const char * type, uint8_t * pay
 
 void Tiny::Service::prepareRequest(){
     if (!queryParams.empty()){
-        this-> url.append(encodeKeyValueTuple(this->queryParams));
+        this->url.append("?" + encodeKeyValueTuple(this->queryParams));
     }
 
     if (!formParams.empty()){
@@ -46,7 +46,7 @@ std::string Tiny::Service::encodeKeyValueTuple(std::map<std::string, std::string
     // Remove last '&' char from url
     if (! encoded.empty())
         encoded.pop_back();
-    
+
     return encoded;
 }
 
