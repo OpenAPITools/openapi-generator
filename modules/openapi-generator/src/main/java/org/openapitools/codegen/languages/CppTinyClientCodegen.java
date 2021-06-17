@@ -150,8 +150,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
         // SERVICES: Helpers
         supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h"));
-        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h"));
-        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp"));
+        supportingFiles.add(new SupportingFile("service/Service.h.mustache", serviceFolder, "Service.h"));
+        supportingFiles.add(new SupportingFile("service/Service.cpp.mustache", serviceFolder, "Service.cpp"));
 
         // Main
         supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp")); // TODO no overwrite

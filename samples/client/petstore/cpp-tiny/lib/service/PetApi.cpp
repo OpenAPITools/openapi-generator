@@ -15,30 +15,32 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | pet
 
 
-            begin(url);
+
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            http.addHeader("Content-Type", "application/json");
+            // Body     | pet
+            addHeader("Content-Type", "application/json");
 
 
 
             payload = pet.toJson().dump();
 
-            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -64,10 +66,15 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
+
+
+            // Headers  |  apiKey 
+            addHeader("api_key",apiKey);
+
             // Query    | 
-            // Headers  | apiKey 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -78,18 +85,16 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | DELETE
-            int httpCode = http.sendRequest("DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "DELETE", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
             Response<String> response(output, httpCode);
@@ -107,24 +112,29 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/findByStatus"; //
-            // Query    | status 
+
+
             // Headers  | 
+
+            // Query    | status 
+        //    for (auto &x : status){
+        //        addQueryParam("status", std::string(x));
+        //    }
+
             // Form     | 
-            // Body     | 
 
 
-            begin(url);
+
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -167,24 +177,29 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/findByTags"; //
-            // Query    | tags 
+
+
             // Headers  | 
+
+            // Query    | tags 
+        //    for (auto &x : tags){
+        //        addQueryParam("tags", std::string(x));
+        //    }
+
             // Form     | 
-            // Body     | 
 
 
-            begin(url);
+
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -227,10 +242,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -241,18 +260,16 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | GET
-            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -275,30 +292,32 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet"; //
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | 
-            // Body     | pet
 
 
-            begin(url);
+
 
             std::string payload = "";
             // Send Request
             // METHOD | PUT
-            http.addHeader("Content-Type", "application/json");
+            // Body     | pet
+            addHeader("Content-Type", "application/json");
 
 
 
             payload = pet.toJson().dump();
 
-            int httpCode = http.sendRequest("PUT", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "PUT", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
@@ -327,10 +346,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | name status 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -341,18 +364,16 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
             Response<String> response(output, httpCode);
@@ -376,10 +397,14 @@ using namespace Tiny;
         )
         {
             std::string url = basepath + "/pet/{petId}/uploadImage"; //petId 
-            // Query    | 
+
+
             // Headers  | 
+
+            // Query    | 
+
             // Form     | additionalMetadata file 
-            // Body     | 
+
 
                 std::string s_petId("{");
                 s_petId.append("petId");
@@ -390,18 +415,16 @@ using namespace Tiny;
                 url.erase(pos, s_petId.length());
                 url.insert(pos, stringify(petId));
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | POST
-            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            // Body     | 
+            int httpCode = sendRequest(url, "POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
 
 
