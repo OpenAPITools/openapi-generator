@@ -32,14 +32,14 @@ data class Pet (
     @field:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
     @field:JsonProperty("id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @field:JsonProperty("category")
-    val category: Category? = null,
+    val category: Category,
     @field:JsonProperty("tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>,
     /* pet status in the store */
     @field:JsonProperty("status")
-    val status: Pet.Status? = null
+    val status: Pet.Status
 ) {
 
     /**

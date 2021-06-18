@@ -24,11 +24,11 @@ import java.io.Serializable
 
 data class ApiResponse (
     @SerializedName("code")
-    val code: kotlin.Int? = null,
+    val code: kotlin.Int,
     @SerializedName("type")
-    val type: kotlin.String? = null,
+    val type: kotlin.String,
     @SerializedName("message")
-    val message: kotlin.String? = null
+    val message: kotlin.String
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

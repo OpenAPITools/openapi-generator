@@ -23,10 +23,10 @@ import com.google.gson.annotations.SerializedName
 
 data class ApiResponse (
     @SerializedName("code")
-    val code: kotlin.Int? = null,
+    val code: kotlin.Int,
     @SerializedName("type")
-    val type: kotlin.String? = null,
+    val type: kotlin.String,
     @SerializedName("message")
-    val message: kotlin.String? = null
+    val message: kotlin.String
 )
 

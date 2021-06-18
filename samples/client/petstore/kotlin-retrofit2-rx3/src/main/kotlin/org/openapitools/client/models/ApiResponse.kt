@@ -23,10 +23,10 @@ import com.squareup.moshi.Json
 
 data class ApiResponse (
     @Json(name = "code")
-    val code: kotlin.Int? = null,
+    val code: kotlin.Int,
     @Json(name = "type")
-    val type: kotlin.String? = null,
+    val type: kotlin.String,
     @Json(name = "message")
-    val message: kotlin.String? = null
+    val message: kotlin.String
 )
 

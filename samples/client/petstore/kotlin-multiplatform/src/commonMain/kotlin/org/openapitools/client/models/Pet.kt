@@ -30,11 +30,11 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class Pet (
     @SerialName(value = "name") @Required val name: kotlin.String,
     @SerialName(value = "photoUrls") @Required val photoUrls: kotlin.collections.List<kotlin.String>,
-    @SerialName(value = "id") val id: kotlin.Long? = null,
-    @SerialName(value = "category") val category: Category? = null,
-    @SerialName(value = "tags") val tags: kotlin.collections.List<Tag>? = null,
+    @SerialName(value = "id") val id: kotlin.Long,
+    @SerialName(value = "category") val category: Category,
+    @SerialName(value = "tags") val tags: kotlin.collections.List<Tag>,
     /* pet status in the store */
-    @SerialName(value = "status") val status: Pet.Status? = null
+    @SerialName(value = "status") val status: Pet.Status
 ) {
 
     /**

@@ -33,14 +33,14 @@ data class Pet (
     @Json(name = "photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @Json(name = "category")
-    val category: Category? = null,
+    val category: Category,
     @Json(name = "tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>,
     /* pet status in the store */
     @Json(name = "status")
-    val status: Pet.Status? = null
+    val status: Pet.Status
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

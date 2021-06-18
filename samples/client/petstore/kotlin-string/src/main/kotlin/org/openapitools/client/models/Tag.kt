@@ -23,9 +23,9 @@ import java.io.Serializable
 
 data class Tag (
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @Json(name = "name")
-    val name: kotlin.String? = null
+    val name: kotlin.String
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123
