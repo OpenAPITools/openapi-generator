@@ -100,7 +100,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         urlSessionStore[urlSessionId] = urlSession
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding
@@ -119,7 +119,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = FormURLEncoding()
             } else {
-                fatalError("Unsuported Media Type - \(contentType)")
+                fatalError("Unsupported Media Type - \(contentType)")
             }
         }
 
