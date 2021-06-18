@@ -539,12 +539,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if (additionalProperties.containsKey(JAVA8_MODE)) {
-            setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
-            if (java8Mode) {
-                additionalProperties.put("java8", true);
-            } else {
-                additionalProperties.put("java8", false);
-            }
+            setJava8ModeAndAdditionalProperties(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
         }
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
@@ -1690,6 +1685,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setJava8Mode(boolean enabled) {
         this.java8Mode = enabled;
+    }
+
+    public void setJava8ModeAndAdditionalProperties(boolean enabled) {
+        this.java8Mode = enabled;
+        if (this.java8Mode) {
+            this.additionalProperties.put("java8", true);
+        } else {
+            this.additionalProperties.put("java8", false);
+        }
     }
 
     public void setSupportAsync(boolean enabled) {

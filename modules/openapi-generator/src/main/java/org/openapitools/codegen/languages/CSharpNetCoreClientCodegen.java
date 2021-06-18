@@ -230,6 +230,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(modelPropertyNaming.defaultValue("PascalCase"));
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                this.nullReferenceTypesFlag);
+
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);

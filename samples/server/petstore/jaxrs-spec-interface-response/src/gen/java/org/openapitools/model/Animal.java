@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 
@@ -46,7 +46,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setClassName(String className) {
     this.className = className;
-  }/**
+  }
+
+/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -65,6 +67,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setColor(String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(Object o) {
