@@ -18,16 +18,23 @@
             "homepage": "https://openapi-generator.tech"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": ">=7.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "php-http/discovery": "^1.14",
-        "psr/http-factory": "^1.0",
-        "php-http/client-common": "^2.3",
         "guzzlehttp/psr7": "^1.8",
-        "php-http/httplug": "^2.2"
+        "php-http/async-client-implementation": "^1.0",
+        "php-http/client-common": "^2.3",
+        "php-http/discovery": "^1.14",
+        "php-http/httplug": "^2.2",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-factory-implementation": "^1.0",
+        "psr/http-message": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0 || ^9.0",

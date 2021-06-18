@@ -493,12 +493,14 @@ class FakeClassnameTags123Api
         string $resourcePath,
         array $queryParams
     ): UriInterface {
-        $host = parse_url($operationHost, PHP_URL_HOST);
-        $scheme = parse_url($operationHost, PHP_URL_SCHEME);
-        $basePath = parse_url($operationHost, PHP_URL_PATH);
-        $port = parse_url($operationHost, PHP_URL_PORT);
-        $user = parse_url($operationHost, PHP_URL_USER);
-        $password = parse_url($operationHost, PHP_URL_PASS);
+        $parsedUrl = parse_url($operationHost);
+
+        $host = $parsedUrl['host'] ?? null;
+        $scheme = $parsedUrl['scheme'] ?? null;
+        $basePath = $parsedUrl['path'] ?? null;
+        $port = $parsedUrl['port'] ?? null;
+        $user = $parsedUrl['user'] ?? null;
+        $password = $parsedUrl['pass'] ?? null;
 
         $uri = $this->uriFactory->createUri($basePath . $resourcePath)
             ->withHost($host)
