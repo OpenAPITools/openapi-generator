@@ -27,18 +27,18 @@ import java.io.Serializable
 
 data class Order (
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @Json(name = "petId")
-    val petId: kotlin.Long? = null,
+    val petId: kotlin.Long,
     @Json(name = "quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: kotlin.Int,
     @Json(name = "shipDate")
-    val shipDate: java.time.OffsetDateTime? = null,
+    val shipDate: java.time.OffsetDateTime,
     /* Order Status */
     @Json(name = "status")
-    val status: Order.Status? = null,
+    val status: Order.Status,
     @Json(name = "complete")
-    val complete: kotlin.Boolean? = null
+    val complete: kotlin.Boolean = false
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

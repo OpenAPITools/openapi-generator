@@ -32,14 +32,14 @@ data class Pet (
     @SerializedName("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @SerializedName("category")
-    val category: Category? = null,
+    val category: Category,
     @SerializedName("tags")
-    val tags: kotlin.collections.List<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>,
     /* pet status in the store */
     @SerializedName("status")
-    val status: Pet.Status? = null
+    val status: Pet.Status
 ) {
 
     /**

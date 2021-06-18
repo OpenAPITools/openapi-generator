@@ -26,11 +26,11 @@ import java.io.Serializable
 @KSerializable
 data class ApiResponse (
     @SerialName(value = "code")
-    val code: kotlin.Int? = null,
+    val code: kotlin.Int,
     @SerialName(value = "type")
-    val type: kotlin.String? = null,
+    val type: kotlin.String,
     @SerialName(value = "message")
-    val message: kotlin.String? = null
+    val message: kotlin.String
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

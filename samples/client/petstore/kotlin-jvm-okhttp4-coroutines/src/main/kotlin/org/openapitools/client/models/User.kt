@@ -29,22 +29,22 @@ import java.io.Serializable
 
 data class User (
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @SerializedName("username")
-    val username: kotlin.String? = null,
+    val username: kotlin.String,
     @SerializedName("firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: kotlin.String,
     @SerializedName("lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: kotlin.String,
     @SerializedName("email")
-    val email: kotlin.String? = null,
+    val email: kotlin.String,
     @SerializedName("password")
-    val password: kotlin.String? = null,
+    val password: kotlin.String,
     @SerializedName("phone")
-    val phone: kotlin.String? = null,
+    val phone: kotlin.String,
     /* User Status */
     @SerializedName("userStatus")
-    val userStatus: kotlin.Int? = null
+    val userStatus: kotlin.Int
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

@@ -23,9 +23,9 @@ import java.io.Serializable
 
 data class Category (
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
     @SerializedName("name")
-    val name: kotlin.String? = null
+    val name: kotlin.String
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123
