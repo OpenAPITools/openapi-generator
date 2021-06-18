@@ -25,15 +25,15 @@ import java.io.Serializable
  * @param userStatus User Status
  */
 data class User(
-    val id: kotlin.Long? = null,
-    val username: kotlin.String? = null,
-    val firstName: kotlin.String? = null,
-    val lastName: kotlin.String? = null,
-    val email: kotlin.String? = null,
-    val password: kotlin.String? = null,
-    val phone: kotlin.String? = null,
+    val id: kotlin.Long,
+    val username: kotlin.String,
+    val firstName: kotlin.String,
+    val lastName: kotlin.String,
+    val email: kotlin.String,
+    val password: kotlin.String,
+    val phone: kotlin.String,
     /* User Status */
-    val userStatus: kotlin.Int? = null
+    val userStatus: kotlin.Int
 ) : Serializable 
 {
     companion object {

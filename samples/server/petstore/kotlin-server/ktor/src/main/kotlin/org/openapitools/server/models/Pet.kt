@@ -27,11 +27,11 @@ import java.io.Serializable
 data class Pet(
     val name: kotlin.String,
     val photoUrls: kotlin.collections.List<kotlin.String>,
-    val id: kotlin.Long? = null,
-    val category: Category? = null,
-    val tags: kotlin.collections.List<Tag>? = null,
+    val id: kotlin.Long,
+    val category: Category,
+    val tags: kotlin.collections.List<Tag>,
     /* pet status in the store */
-    val status: Pet.Status? = null
+    val status: Pet.Status
 ) : Serializable 
 {
     companion object {

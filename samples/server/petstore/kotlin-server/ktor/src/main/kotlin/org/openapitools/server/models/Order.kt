@@ -23,13 +23,13 @@ import java.io.Serializable
  * @param complete 
  */
 data class Order(
-    val id: kotlin.Long? = null,
-    val petId: kotlin.Long? = null,
-    val quantity: kotlin.Int? = null,
-    val shipDate: java.time.OffsetDateTime? = null,
+    val id: kotlin.Long,
+    val petId: kotlin.Long,
+    val quantity: kotlin.Int,
+    val shipDate: java.time.OffsetDateTime,
     /* Order Status */
-    val status: Order.Status? = null,
-    val complete: kotlin.Boolean? = null
+    val status: Order.Status,
+    val complete: kotlin.Boolean = false
 ) : Serializable 
 {
     companion object {
