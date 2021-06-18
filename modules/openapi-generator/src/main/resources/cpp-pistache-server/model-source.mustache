@@ -60,11 +60,11 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
         {{> model-validation-body }}
     }
-    {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}
+    {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
     if (!m_value.validate(msg))
     {
         success = false;
-    }{{/-first}}{{/anyOf}}{{/isStringEnumContainer}}
+    }{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
     return success;
 }
 
@@ -75,7 +75,7 @@ bool {{classname}}::operator==(const {{classname}}& rhs) const
     {{^isEnum}}{{#hasVars}}{{#vars}}
     {{#required}}({{getter}}() == rhs.{{getter}}()){{/required}}
     {{^required}}((!{{nameInCamelCase}}IsSet() && !rhs.{{nameInCamelCase}}IsSet()) || ({{nameInCamelCase}}IsSet() && rhs.{{nameInCamelCase}}IsSet() && {{getter}}() == rhs.{{getter}}())){{/required}}{{^-last}} &&{{/-last}}
-    {{/vars}}{{/hasVars}}{{^hasVars}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}getValue() == rhs.getValue(){{/-first}}{{/anyOf}}{{^anyOf}}true{{/anyOf}}{{/isStringEnumContainer}}{{/hasVars}}{{/isEnum}}
+    {{/vars}}{{/hasVars}}{{^hasVars}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}getValue() == rhs.getValue(){{/-first}}{{/anyOf}}{{^anyOf}}true{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}{{/hasVars}}{{/isEnum}}
     ;
 }
 
@@ -104,7 +104,7 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
             j = "{{value}}";
             break;
         {{/enumVars}}
-    }{{/allowableValues}}{{/isEnum}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}to_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/isStringEnumContainer}}
+    }{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}to_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
@@ -128,7 +128,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
         << " {{classname}}::e{{classname}}";
      throw std::invalid_argument(ss.str());
     } {{/-last}}
-{{/enumVars}}{{/allowableValues}}{{/isEnum}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}from_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/isStringEnumContainer}}
+{{/enumVars}}{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}from_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 }
 
 {{#vars}}{{{dataType}}} {{classname}}::{{getter}}() const
@@ -157,7 +157,7 @@ void {{classname}}::unset{{name}}()
 void {{classname}}::setValue({{classname}}::e{{classname}} value)
 {
     m_value = value;
-}{{/isEnum}}{{#isStringEnumContainer}}{{#anyOf}}{{#-first}}{{{this}}} {{classname}}::getValue() const
+}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}{{{this}}} {{classname}}::getValue() const
 {
     return m_value;
 }
@@ -175,7 +175,7 @@ void {{classname}}::setValue({{{this}}} value)
 void {{classname}}::setEnumValue({{{this}}}::e{{{this}}}  value)
 {
     m_value.setValue(value);
-}{{/-first}}{{/anyOf}}{{/isStringEnumContainer}}
+}{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 
 } // namespace {{modelNamespace}}
 
