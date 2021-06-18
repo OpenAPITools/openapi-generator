@@ -42,6 +42,7 @@ use Http\Message\RequestFactory;
 use Http\Promise\Promise;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
+use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -52,12 +53,6 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 use function sprintf;
-use const PHP_URL_HOST;
-use const PHP_URL_PASS;
-use const PHP_URL_PATH;
-use const PHP_URL_PORT;
-use const PHP_URL_SCHEME;
-use const PHP_URL_USER;
 
 /**
  * FakeClassnameTags123Api Class Doc Comment
@@ -120,6 +115,7 @@ class FakeClassnameTags123Api
         ?array $plugins = null,
         $hostIndex = 0
     ) {
+        $this->config = $config ?? (new Configuration())->setHost('http://petstore.swagger.io:80/v2');
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
 
@@ -127,6 +123,10 @@ class FakeClassnameTags123Api
             new RedirectPlugin(),
             new ErrorPlugin(),
         ];
+
+        if ($this->config->getDebug()) {
+            $plugins[] = new DebugPlugin(fopen($this->config->getDebugFile(), 'ab'));
+        }
 
         $this->httpClient = (new PluginClientFactory())->createClient(
             $httpClient ?? Psr18ClientDiscovery::find(),
@@ -140,7 +140,6 @@ class FakeClassnameTags123Api
 
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
 
-        $this->config = $config ?? (new Configuration())->setHost('http://petstore.swagger.io:80/v2');
         $this->headerSelector = $selector ?? new HeaderSelector();
 
         $this->hostIndex = $hostIndex;
@@ -231,19 +230,6 @@ class FakeClassnameTags123Api
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             switch($statusCode) {
                 case 200:
