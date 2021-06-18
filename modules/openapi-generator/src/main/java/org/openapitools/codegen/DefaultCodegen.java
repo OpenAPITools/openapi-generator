@@ -2415,6 +2415,13 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                         // primitive type
                         String languageType = getTypeDeclaration(interfaceSchema);
+                        if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
+                            CodegenProperty cp = fromProperty("composedSchemaImports", interfaceSchema);
+                            while (cp != null) {
+                                addImport(m, cp.complexType);
+                                cp = cp.items;
+                            }
+                        }
 
                         if (composed.getAnyOf() != null) {
                             if (m.anyOf.contains(languageType)) {
