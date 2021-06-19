@@ -64,4 +64,4 @@ get_default_opts(LogicHandler) ->
     #{env => get_default_dispatch(LogicHandler)}.
 
 store_key(Key, Value, Opts) ->
-    lists:keystore(Key, 1, Opts, {Key, Value}).
+    maps:put(Key, Value, Opts).
