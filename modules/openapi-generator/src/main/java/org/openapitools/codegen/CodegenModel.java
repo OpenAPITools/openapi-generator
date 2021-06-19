@@ -615,6 +615,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsBoolean() { return isBoolean; }
+
+    @Override
+    public void setIsBoolean(boolean isBoolean)   {
+        this.isBoolean= isBoolean;
+    }
+
+    @Override
     public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
 
     @Override
@@ -771,6 +779,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isShort == that.isShort &&
                 isLong == that.isLong &&
                 isUnboundedInteger == that.isUnboundedInteger &&
+                isBoolean == that.isBoolean &&
                 isNumber == that.isNumber &&
                 isNumeric == that.isNumeric &&
                 isFloat == that.isFloat &&
@@ -857,7 +866,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger,
+                isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
@@ -902,6 +911,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isShort=").append(isShort);
         sb.append(", isLong=").append(isLong);
         sb.append(", isUnboundedInteger=").append(isUnboundedInteger);
+        sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isFloat=").append(isFloat);
