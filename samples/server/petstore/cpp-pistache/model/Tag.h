@@ -80,6 +80,7 @@ protected:
     bool m_IdIsSet;
     std::string m_Name;
     bool m_NameIsSet;
+    
 };
 
 } // namespace org::openapitools::server::model

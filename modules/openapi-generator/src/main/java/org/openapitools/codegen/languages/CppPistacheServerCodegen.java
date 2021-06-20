@@ -218,6 +218,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
         }
 
+        if(!codegenModel.isEnum
+                && codegenModel.anyOf.size()>1
+                && codegenModel.anyOf.contains("std::string")
+                && !codegenModel.anyOf.contains("AnyType")
+                && codegenModel.interfaces.size()==1
+        ){
+            codegenModel.vendorExtensions.put("x-is-string-enum-container",true);
+        }
         return codegenModel;
     }
 
