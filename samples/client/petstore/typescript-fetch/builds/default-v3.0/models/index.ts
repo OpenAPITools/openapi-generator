@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './AdditionalPropertiesClass';
 export * from './Animal';
 export * from './ArrayOfArrayOfNumberOnly';
