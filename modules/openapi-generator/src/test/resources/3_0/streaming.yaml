@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: ping some object
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8082/'
+paths:
+  /ping:
+    post:
+      x-streaming: true
+      operationId: postPing
+      tags:
+      - ping
+      requestBody:
+        content:
+          'application/json':
+             schema:
+               $ref: "#/components/schemas/SomeObj"
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+               schema:
+                 $ref: "#/components/schemas/SomeObj"
+components:
+  schemas:
+    SomeObj:
+      type: object
+      properties:
+        $_type:
+          type: string
+          # using 'enum' & 'default' for '$_type' is a work-around until constants are supported
+          # See https://github.com/OAI/OpenAPI-Specification/issues/1313
+          enum:
+          - SomeObjIdentifier
+          default: SomeObjIdentifier
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        active:
+          type: boolean
+        type:
+          type: string
