@@ -150,6 +150,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pyproject_toml.mustache", "", "pyproject.toml"));
         supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
+        supportingFiles.add(new SupportingFile(".flake8.mustache", "", ".flake8"));
     }
 
     @Override
@@ -274,5 +275,23 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + SRC_DIR + File.separator + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");
+        System.out.println("# Please support his work directly via https://paypal.me/krjakbrjak  \uD83D\uDE4F        #");
+        System.out.println("################################################################################");
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        String regex = super.toRegularExpression(pattern);
+        return StringUtils.substring(regex, 1, -1);
     }
 }

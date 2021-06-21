@@ -93,14 +93,14 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding
@@ -119,7 +119,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = FormURLEncoding()
             } else {
-                fatalError("Unsuported Media Type - \(contentType)")
+                fatalError("Unsupported Media Type - \(contentType)")
             }
         }
 
@@ -250,7 +250,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         for (key, value) in headers {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in PetstoreClient.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders

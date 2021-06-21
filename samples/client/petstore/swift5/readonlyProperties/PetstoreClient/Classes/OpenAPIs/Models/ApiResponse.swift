@@ -37,3 +37,4 @@ public struct ApiResponse: Codable, Hashable {
         try container.encodeIfPresent(message, forKey: .message)
     }
 }
+

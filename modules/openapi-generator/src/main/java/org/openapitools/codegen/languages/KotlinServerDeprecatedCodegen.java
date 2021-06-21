@@ -183,7 +183,7 @@ public class KotlinServerDeprecatedCodegen extends AbstractKotlinCodegen {
         if (StringUtils.isEmpty(library)) {
             this.setLibrary(DEFAULT_LIBRARY);
             additionalProperties.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY);
-            LOGGER.info("`library` option is empty. Default to " + DEFAULT_LIBRARY);
+            LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {

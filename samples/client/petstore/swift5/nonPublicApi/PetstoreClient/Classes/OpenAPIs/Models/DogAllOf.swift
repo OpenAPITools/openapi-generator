@@ -29,3 +29,4 @@ internal struct DogAllOf: Codable, Hashable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+

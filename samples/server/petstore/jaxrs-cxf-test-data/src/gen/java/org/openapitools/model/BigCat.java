@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import javax.validation.constraints.*;

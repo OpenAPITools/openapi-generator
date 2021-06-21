@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from typing import Dict, List
+from typing import Dict, List  # noqa: F401
 
-from fastapi import (
+from fastapi import (  # noqa: F401
     APIRouter,
     Body,
     Cookie,
@@ -16,7 +16,7 @@ from fastapi import (
     status,
 )
 
-from openapi_server.models.extra_models import TokenModel
+from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
@@ -34,12 +34,11 @@ router = APIRouter()
     summary="Add a new pet to the store",
 )
 async def add_pet(
-    pet: Pet = Body(None, description="Pet object that needs to be added to the store")
-,
+    pet: Pet = Body(None, description="Pet object that needs to be added to the store"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
-) -> Pet:  # noqa: E501
+) -> Pet:
     ...
 
 
@@ -52,14 +51,12 @@ async def add_pet(
     summary="Deletes a pet",
 )
 async def delete_pet(
-    petId: int = Path(None, description="Pet id to delete")
-,
-    api_key: str = Header(None, description="")
-,
+    petId: int = Path(None, description="Pet id to delete"),
+    api_key: str = Header(None, description=""),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
-) -> None:  # noqa: E501
+) -> None:
     ...
 
 
@@ -73,12 +70,11 @@ async def delete_pet(
     summary="Finds Pets by status",
 )
 async def find_pets_by_status(
-    status: List[str] = Query(None, description="Status values that need to be considered for filter")
-,
+    status: List[str] = Query(None, description="Status values that need to be considered for filter"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
-) -> List[Pet]:  # noqa: E501
+) -> List[Pet]:
     """Multiple status values can be provided with comma separated strings"""
     ...
 
@@ -93,12 +89,11 @@ async def find_pets_by_status(
     summary="Finds Pets by tags",
 )
 async def find_pets_by_tags(
-    tags: List[str] = Query(None, description="Tags to filter by")
-,
+    tags: List[str] = Query(None, description="Tags to filter by"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
-) -> List[Pet]:  # noqa: E501
+) -> List[Pet]:
     """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
     ...
 
@@ -114,12 +109,11 @@ async def find_pets_by_tags(
     summary="Find pet by ID",
 )
 async def get_pet_by_id(
-    petId: int = Path(None, description="ID of pet to return")
-,
+    petId: int = Path(None, description="ID of pet to return"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
-) -> Pet:  # noqa: E501
+) -> Pet:
     """Returns a single pet"""
     ...
 
@@ -136,12 +130,11 @@ async def get_pet_by_id(
     summary="Update an existing pet",
 )
 async def update_pet(
-    pet: Pet = Body(None, description="Pet object that needs to be added to the store")
-,
+    pet: Pet = Body(None, description="Pet object that needs to be added to the store"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
-) -> Pet:  # noqa: E501
+) -> Pet:
     ...
 
 
@@ -154,16 +147,13 @@ async def update_pet(
     summary="Updates a pet in the store with form data",
 )
 async def update_pet_with_form(
-    petId: int = Path(None, description="ID of pet that needs to be updated")
-,
-    name: str = Form(None, description="Updated name of the pet")
-,
-    status: str = Form(None, description="Updated status of the pet")
-,
+    petId: int = Path(None, description="ID of pet that needs to be updated"),
+    name: str = Form(None, description="Updated name of the pet"),
+    status: str = Form(None, description="Updated status of the pet"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
-) -> None:  # noqa: E501
+) -> None:
     ...
 
 
@@ -176,14 +166,11 @@ async def update_pet_with_form(
     summary="uploads an image",
 )
 async def upload_file(
-    petId: int = Path(None, description="ID of pet to update")
-,
-    additional_metadata: str = Form(None, description="Additional data to pass to server")
-,
-    file: str = Form(None, description="file to upload")
-,
+    petId: int = Path(None, description="ID of pet to update"),
+    additional_metadata: str = Form(None, description="Additional data to pass to server"),
+    file: str = Form(None, description="file to upload"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
-) -> ApiResponse:  # noqa: E501
+) -> ApiResponse:
     ...

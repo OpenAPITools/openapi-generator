@@ -2,9 +2,9 @@
 
 from typing import List
 
-from fastapi import APIRouter, Depends, Response, Security, status
-from fastapi.openapi.models import OAuthFlowImplicit, OAuthFlows
-from fastapi.security import (
+from fastapi import Depends, Security  # noqa: F401
+from fastapi.openapi.models import OAuthFlowImplicit, OAuthFlows  # noqa: F401
+from fastapi.security import (  # noqa: F401
     HTTPAuthorizationCredentials,
     HTTPBasic,
     HTTPBasicCredentials,
@@ -14,7 +14,7 @@ from fastapi.security import (
     OAuth2PasswordBearer,
     SecurityScopes,
 )
-from fastapi.security.api_key import APIKey, APIKeyCookie, APIKeyHeader, APIKeyQuery
+from fastapi.security.api_key import APIKeyCookie, APIKeyHeader, APIKeyQuery  # noqa: F401
 
 from {{modelPackage}}.extra_models import TokenModel
 

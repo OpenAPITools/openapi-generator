@@ -10,8 +10,14 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.OuterEnum")
+public typealias OuterEnum = PetstoreClient.OuterEnum
+
+extension PetstoreClient {
+
 public enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"
+}
 }

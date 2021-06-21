@@ -203,7 +203,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -235,7 +235,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/createWithArray", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -267,7 +267,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/createWithList", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -300,7 +300,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -331,7 +331,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -363,7 +363,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/login", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
     local_var_req_builder = local_var_req_builder.query(&[("password", &password.to_string())]);
@@ -395,7 +395,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/logout", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -428,7 +428,7 @@ pub async fn update_user(configuration: &configuration::Configuration, params: U
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.put(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());

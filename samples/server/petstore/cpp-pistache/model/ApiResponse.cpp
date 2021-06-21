@@ -49,10 +49,7 @@ bool ApiResponse::validate(std::stringstream& msg, const std::string& pathPrefix
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "ApiResponse" : pathPrefix;
 
-        
-    
-    
-
+                
     return success;
 }
 

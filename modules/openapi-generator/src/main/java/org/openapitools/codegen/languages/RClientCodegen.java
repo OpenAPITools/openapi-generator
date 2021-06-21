@@ -306,13 +306,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -402,7 +403,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -716,7 +717,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
             } else {
-                LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenParameter.dataType);
                 return "TODO";
             }
         }
@@ -750,7 +751,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (modelMaps.containsKey(codegenProperty.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
             } else {
-                LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
+                LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenProperty.dataType);
                 return "TODO";
             }
         }

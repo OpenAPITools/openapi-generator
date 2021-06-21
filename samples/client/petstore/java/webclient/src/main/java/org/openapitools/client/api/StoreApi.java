@@ -15,12 +15,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
@@ -53,7 +55,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteOrder(String orderId) throws WebClientResponseException {
+    private ResponseSpec deleteOrderRequestCreation(String orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -79,6 +81,24 @@ public class StoreApi {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
+
+    /**
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of the order that needs to be deleted
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> deleteOrder(String orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return deleteOrderRequestCreation(orderId).bodyToMono(localVarReturnType);
+    }
+
+    public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(String orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return deleteOrderRequestCreation(orderId).toEntity(localVarReturnType);
+    }
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -86,7 +106,7 @@ public class StoreApi {
      * @return Map&lt;String, Integer&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Map<String, Integer>> getInventory() throws WebClientResponseException {
+    private ResponseSpec getInventoryRequestCreation() throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -108,6 +128,23 @@ public class StoreApi {
         ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
         return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
+
+    /**
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * <p><b>200</b> - successful operation
+     * @return Map&lt;String, Integer&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Map<String, Integer>> getInventory() throws WebClientResponseException {
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        return getInventoryRequestCreation().bodyToMono(localVarReturnType);
+    }
+
+    public Mono<ResponseEntity<Map<String, Integer>>> getInventoryWithHttpInfo() throws WebClientResponseException {
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        return getInventoryRequestCreation().toEntity(localVarReturnType);
+    }
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -118,7 +155,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> getOrderById(Long orderId) throws WebClientResponseException {
+    private ResponseSpec getOrderByIdRequestCreation(Long orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -146,6 +183,26 @@ public class StoreApi {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
+
+    /**
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of pet that needs to be fetched
+     * @return Order
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Order> getOrderById(Long orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return getOrderByIdRequestCreation(orderId).bodyToMono(localVarReturnType);
+    }
+
+    public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(Long orderId) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return getOrderByIdRequestCreation(orderId).toEntity(localVarReturnType);
+    }
     /**
      * Place an order for a pet
      * 
@@ -155,7 +212,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> placeOrder(Order body) throws WebClientResponseException {
+    private ResponseSpec placeOrderRequestCreation(Order body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -180,5 +237,24 @@ public class StoreApi {
 
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * Place an order for a pet
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid Order
+     * @param body order placed for purchasing the pet
+     * @return Order
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Order> placeOrder(Order body) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return placeOrderRequestCreation(body).bodyToMono(localVarReturnType);
+    }
+
+    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order body) throws WebClientResponseException {
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return placeOrderRequestCreation(body).toEntity(localVarReturnType);
     }
 }
