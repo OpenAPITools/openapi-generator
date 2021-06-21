@@ -682,6 +682,67 @@ public class DefaultGenerator implements Generator {
 
     }
 
+    private void generateOperations(List<File> files, List<Object> allModels) {
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        for (String tag : paths.keySet()) {
+            Map<String, Object> operation = processOperations(config, tag, paths.get(tag), allModels);
+            for (String templateName : config.operationTemplateFiles().keySet()) {
+                Map<String, Object> api = ((Map<String, Object>)operation.get("operations"));
+                System.out.println("API: " + api.get("classname"));
+
+                for (CodegenOperation apiOperation : (List<CodegenOperation>)api.get("operation")) {
+                    // Initialize data object for template
+                    Map<String, Object> operationData = new HashMap<>();
+                    operationData.put("package", operation.get("package") + ".request");
+                    operationData.put("imports", operation.get("imports"));
+                    operationData.put("invokerPackage", operation.get("invokerPackage"));
+                    operationData.put("modelPackage", operation.get("modelPackage"));
+                    for (CodegenParameter param : apiOperation.allParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    for (CodegenParameter param : apiOperation.optionalParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    for (CodegenParameter param : apiOperation.queryParams) {
+                        if (param.isBoolean && param.isEnum) {
+                            param.isEnum = false;
+                            param.allowableValuesForEnum = null;
+                            param.allowableValues = null;
+                        }
+                    }
+                    operationData.put("operation", apiOperation);
+                    operationData.put("classname", config.toModelName(apiOperation.operationId + "Request"));
+                    operationData.putAll(config.additionalProperties());
+
+                    // Determine filename
+                    String filename = config.operationFilename(templateName, operationData.get("classname").toString());
+                    if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                        LOGGER.info("Skipped overwriting " + filename);
+                        continue;
+                    }
+
+                    // Write file
+                    try {
+                        File written = processTemplateToFile(operationData, templateName, filename, true, CodegenConstants.APIS);
+                        if(written != null) {
+                            files.add(written);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not generate operation file for '" + tag + "'", e);
+                    }
+                }
+            }
+        }
+    }
+
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
         if (!generateSupportingFiles) {
             // TODO: process these anyway and report via dryRun?
@@ -872,14 +933,31 @@ public class DefaultGenerator implements Generator {
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<Object> allModels = new ArrayList<>();
-        generateModels(files, allModels, filteredSchemas);
+        Thread generateModelsThread = new Thread(() -> generateModels(files, allModels, filteredSchemas));
+        generateModelsThread.start();
+
         // apis
         List<Object> allOperations = new ArrayList<>();
-        generateApis(files, allOperations, allModels);
+        Thread generateApisThread = new Thread(() -> generateApis(files, allOperations, allModels));
+        generateApisThread.start();
+
+        // operations
+        Thread generateOperationsThread = new Thread(() -> generateOperations(files, allModels));
+        generateOperationsThread.start();
 
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
-        generateSupportingFiles(files, bundle);
+        Thread generateSupportingFilesThread = new Thread(() -> generateSupportingFiles(files, bundle));
+        generateSupportingFilesThread.start();
+
+        try {
+            generateModelsThread.join();
+            generateApisThread.join();
+            generateOperationsThread.join();
+            generateSupportingFilesThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while joining generate threads");
+        }
 
         if(dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));

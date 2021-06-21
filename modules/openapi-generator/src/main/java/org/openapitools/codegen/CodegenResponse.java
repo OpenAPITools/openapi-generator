@@ -60,6 +60,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isBinary = false;
     public boolean isFile = false;
     public boolean isNull;
+    public boolean hasMore;
     public Object schema;
     public String jsonSchema;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -87,7 +88,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(hasMore, headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
@@ -104,6 +105,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         CodegenResponse that = (CodegenResponse) o;
         return hasHeaders == that.hasHeaders &&
                 isString == that.isString &&
+                hasMore == that.hasMore &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
                 isShort == that.isShort &&

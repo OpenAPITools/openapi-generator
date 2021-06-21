@@ -26,6 +26,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
 
+import io.swagger.models.properties.Property;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -157,6 +158,7 @@ public class DefaultCodegen implements CodegenConfig {
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
     */
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> operationTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
@@ -1043,6 +1045,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, String> apiTemplateFiles() {
         return apiTemplateFiles;
+    }
+
+    public Map<String, String> operationTemplateFiles() {
+        return operationTemplateFiles;
     }
 
     public Map<String, String> modelTemplateFiles() {
@@ -3415,7 +3421,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-            property.isEnum = true;
+//            property.isEnum = true;
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
             updateDataTypeWithEnumForArray(property);
@@ -3450,7 +3456,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-            property.isEnum = true;
+//            property.isEnum = true;
             // update datatypeWithEnum and default value for map
             // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
             updateDataTypeWithEnumForMap(property);
@@ -3746,6 +3752,8 @@ public class DefaultCodegen implements CodegenConfig {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
+                r.hasMore = true;
+
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -3764,6 +3772,7 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
+            op.responses.get(op.responses.size() - 1).hasMore = false;
             op.responses.sort((a, b) -> {
                 int aDefault = "0".equals(a.code) ? 1 : 0;
                 int bDefault = "0".equals(b.code) ? 1 : 0;
@@ -3927,13 +3936,13 @@ public class DefaultCodegen implements CodegenConfig {
             });
         }
 
-        op.allParams = allParams;
-        op.bodyParams = bodyParams;
-        op.pathParams = pathParams;
-        op.queryParams = queryParams;
-        op.headerParams = headerParams;
+        op.allParams = addHasMore(allParams);
+        op.bodyParams = addHasMore(bodyParams);
+        op.pathParams = addHasMore(pathParams);
+        op.queryParams = addHasMore(queryParams);
+        op.headerParams = addHasMore(headerParams);
         op.cookieParams = cookieParams;
-        op.formParams = formParams;
+        op.formParams = addHasMore(formParams);
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
         op.externalDocs = operation.getExternalDocs();
@@ -3954,6 +3963,20 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    private static List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
+        if (objs != null) {
+            for (int i = 0; i < objs.size(); i++) {
+                if (i > 0) {
+                    objs.get(i).secondaryParam = new Boolean(true);
+                }
+                if (i < objs.size() - 1) {
+                    objs.get(i).hasMore = new Boolean(true);
+                }
+            }
+        }
+        return objs;
     }
 
     public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {
@@ -4878,8 +4901,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (m instanceof CodegenModel) {
             cm = (CodegenModel) m;
         }
+        int i = 0;
+        List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
         for (Map.Entry<String, Schema> entry : properties.entrySet()) {
-
+            i++;
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
             if (prop == null) {
@@ -4897,6 +4922,15 @@ public class DefaultCodegen implements CodegenConfig {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     cm.hasEnums = true;
+                }
+
+
+                if (i != properties.size()) {
+                    cp.hasMore = true;
+                    // check the next entry to see if it's read only
+                    if (!Boolean.TRUE.equals(propertyList.get(i).getValue().getReadOnly())) {
+                        cp.hasMoreNonReadOnly = true; // next entry is not ready only
+                    }
                 }
 
                 // set model's hasOnlyReadOnly to false if the property is read-only
@@ -5000,6 +5034,11 @@ public class DefaultCodegen implements CodegenConfig {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    public String operationFilename(String templateName, String tag) {
+        String suffix = operationTemplateFiles().get(templateName);
+        return apiFileFolder() + "/../api/request/" + StringUtils.capitalize(tag) + suffix;
     }
 
     public String modelFilename(String templateName, String modelName) {
@@ -5643,6 +5682,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Set<String> consumes = requestBody.getContent().keySet();
+
+        if (consumes != null && consumes.size() > 0) {
+            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+            int count = 0;
+            for (String key : consumes) {
+                Map<String, String> mediaType = new HashMap<String, String>();
+                mediaType.put("mediaType", key);
+                count += 1;
+                if (count < consumes.size()) {
+                    mediaType.put("hasMore", "true");
+                } else {
+                    mediaType.put("hasMore", null);
+                }
+                c.add(mediaType);
+            }
+        }
+
         List<Map<String, String>> mediaTypeList = new ArrayList<>();
         for (String key : consumes) {
             Map<String, String> mediaType = new HashMap<>();
@@ -5705,6 +5761,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Set<String> produces = response.getContent().keySet();
+
+        if (produces != null && produces.size() > 0) {
+            List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+            int count = 0;
+            for (String key : produces) {
+                Map<String, String> mediaType = new HashMap<String, String>();
+                mediaType.put("mediaType", key);
+                count += 1;
+                if (count < produces.size()) {
+                    mediaType.put("hasMore", "true");
+                } else {
+                    mediaType.put("hasMore", null);
+                }
+                c.add(mediaType);
+            }
+        }
+
         if (codegenOperation.produces == null) {
             codegenOperation.produces = new ArrayList<>();
         }

@@ -80,7 +80,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation, isPagedResource;
+    public String pagedResourceType;
     /**
      * Indicates the OAS schema specifies "nullable: true".
      */
@@ -792,6 +793,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
+                isPagedResource == that.isPagedResource &&
+                pagedResourceType.equals(that.pagedResourceType) &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
@@ -857,7 +860,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger,
+                isDate, isDateTime, isNull, hasValidation, isPagedResource, pagedResourceType, isShort, isUnboundedInteger,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
@@ -953,6 +956,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isModel='").append(isModel).append('\'');
         sb.append(", isNull='").append(isNull);
         sb.append(", hasValidation='").append(hasValidation);
+        sb.append(", isPagedResource='").append(isPagedResource);
+        sb.append(", pagedResourceType='").append(pagedResourceType);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append('}');
         return sb.toString();
