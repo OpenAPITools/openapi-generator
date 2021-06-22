@@ -74,7 +74,8 @@ namespace Org.OpenAPITools.Model
             return false;
         }
 
-        /// <summary>
+        
+		/// <summary>
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
@@ -95,7 +96,8 @@ namespace Org.OpenAPITools.Model
             return false;
         }
 
-        /// <summary>
+        
+		/// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]

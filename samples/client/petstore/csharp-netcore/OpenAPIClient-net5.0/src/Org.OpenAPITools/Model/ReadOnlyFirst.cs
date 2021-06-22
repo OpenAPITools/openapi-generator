@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Model
             return false;
         }
 
+
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>

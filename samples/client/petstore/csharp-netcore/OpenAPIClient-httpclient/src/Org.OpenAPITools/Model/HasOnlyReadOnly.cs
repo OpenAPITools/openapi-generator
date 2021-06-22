@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Model
             return false;
         }
 
+
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
@@ -72,7 +73,8 @@ namespace Org.OpenAPITools.Model
             return false;
         }
 
-        /// <summary>
+        
+		/// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
