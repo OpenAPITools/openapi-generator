@@ -873,7 +873,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
 
 
             // make the HTTP request
@@ -930,7 +930,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
 
 
             // make the HTTP request
@@ -987,7 +987,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
 
 
             // make the HTTP request
@@ -1047,7 +1047,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
 
 
             // make the HTTP request
@@ -1336,7 +1336,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
             localVarRequestOptions.Data = user;
 
 
@@ -1401,7 +1401,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(username)); // path parameter
+            localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
             localVarRequestOptions.Data = user;
 
 

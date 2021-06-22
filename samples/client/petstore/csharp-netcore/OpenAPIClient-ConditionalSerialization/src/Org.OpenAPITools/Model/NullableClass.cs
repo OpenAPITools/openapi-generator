@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// NullableClass
     /// </summary>
     [DataContract(Name = "NullableClass")]
-    public partial class NullableClass : Dictionary<string, Object>, IEquatable<NullableClass>, IValidatableObject
+    public partial class NullableClass : Dictionary<String, Object>, IEquatable<NullableClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.

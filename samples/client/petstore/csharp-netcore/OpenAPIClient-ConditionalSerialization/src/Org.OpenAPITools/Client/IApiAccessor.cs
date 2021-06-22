@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Client
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        string GetBasePath();
+        String GetBasePath();
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.

@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets or sets any error text defined by the calling client.
         /// </summary>
-        string ErrorText { get; set; }
+        String ErrorText { get; set; }
 
         /// <summary>
         /// Gets or sets any cookies passed along on the response.
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets or sets any error text defined by the calling client.
         /// </summary>
-        public string ErrorText { get; set; }
+        public String ErrorText { get; set; }
 
         /// <summary>
         /// Gets or sets any cookies passed along on the response.

@@ -756,10 +756,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (apiKey != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
             }
 
             // authentication (petstore_auth) required
@@ -821,10 +821,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (apiKey != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
             }
 
             // authentication (petstore_auth) required
@@ -1206,7 +1206,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
@@ -1267,7 +1267,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
             // authentication (api_key) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
@@ -1486,14 +1486,14 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (name != null)
             {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
             }
             if (status != null)
             {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
@@ -1558,14 +1558,14 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (name != null)
             {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
             }
             if (status != null)
             {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
@@ -1629,10 +1629,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
@@ -1703,10 +1703,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
@@ -1778,10 +1778,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
@@ -1853,10 +1853,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 

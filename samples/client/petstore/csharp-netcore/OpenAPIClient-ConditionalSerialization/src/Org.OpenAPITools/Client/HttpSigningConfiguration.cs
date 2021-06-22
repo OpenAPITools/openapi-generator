@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            var httpValues = HttpUtility.ParseQueryString(string.Empty);
+            var httpValues = HttpUtility.ParseQueryString(String.Empty);
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Client
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
 
             var dateTime = DateTime.Now;
-            string Digest = string.Empty;
+            String Digest = String.Empty;
 
             //get the body
             string requestBody = string.Empty;
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Client
                 }
 
             }
-            var headersKeysString = string.Join(" ", HttpSignatureHeader.Keys);
+            var headersKeysString = String.Join(" ", HttpSignatureHeader.Keys);
             var headerValuesList = new List<string>();
 
             foreach (var keyVal in HttpSignatureHeader)
@@ -411,10 +411,10 @@ namespace Org.OpenAPITools.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPharse = null)
+        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile, SecureString keyPassPharse = null)
         {
-            const string pempubheader = "-----BEGIN PUBLIC KEY-----";
-            const string pempubfooter = "-----END PUBLIC KEY-----";
+            const String pempubheader = "-----BEGIN PUBLIC KEY-----";
+            const String pempubfooter = "-----END PUBLIC KEY-----";
             bool isPrivateKeyFile = true;
             byte[] pemkey = null;
 
@@ -441,11 +441,11 @@ namespace Org.OpenAPITools.Client
             return null;
         }
 
-        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPharse = null)
+        private byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPharse = null)
         {
-            const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
-            const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
-            string pemstr = instr.Trim();
+            const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
+            const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
+            String pemstr = instr.Trim();
             byte[] binkey;
 
             if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter))
@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Client
             StringBuilder sb = new StringBuilder(pemstr);
             sb.Replace(pemprivheader, "");
             sb.Replace(pemprivfooter, "");
-            string pvkstr = sb.ToString().Trim();
+            String pvkstr = sb.ToString().Trim();
 
             try
             {   // if there are no PEM encryption info lines, this is an UNencrypted PEM private key
@@ -472,12 +472,12 @@ namespace Org.OpenAPITools.Client
                 {
                     return null;
                 }
-                string saltline = str.ReadLine();
+                String saltline = str.ReadLine();
                 if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
                 {
                     return null;
                 }
-                string saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
+                String saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
                 byte[] salt = new byte[saltstr.Length / 2];
                 for (int i = 0; i < salt.Length; i++)
                     salt[i] = Convert.ToByte(saltstr.Substring(i * 2, 2), 16);
@@ -487,7 +487,7 @@ namespace Org.OpenAPITools.Client
                 }
 
                 //------ remaining b64 data is encrypted RSA key ----
-                string encryptedstr = str.ReadToEnd();
+                String encryptedstr = str.ReadToEnd();
 
                 try
                 {   //should have b64 encrypted RSA key now
