@@ -69,7 +69,7 @@ public class PetApi {
   }
 
   private String formatExceptionMessage(String operationId, int statusCode, String body) {
-    if (body == null) {
+    if (body == null || body.isEmpty()) {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
