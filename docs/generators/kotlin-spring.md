@@ -17,8 +17,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
-|interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |interfaceImplementation|Whether to write default implementations in interface. If this is set to false, class that extends API interface will be require to implement members.| |true|
+|interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
