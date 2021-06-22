@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
  * An order for a pets from the pet store
@@ -39,10 +38,11 @@ data class Order (
      * Order Status
      * Values: placed,approved,delivered
      */
+    @Serializable
     enum class Status(val value: kotlin.String) {
-        placed("placed"),
-        approved("approved"),
-        delivered("delivered");
+        @SerialName(value = "placed") placed("placed"),
+        @SerialName(value = "approved") approved("approved"),
+        @SerialName(value = "delivered") delivered("delivered");
     }
 }
 

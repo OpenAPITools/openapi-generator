@@ -7,19 +7,16 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.JsonSerializer
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.accept
+import io.ktor.client.request.request
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
-import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 import org.openapitools.client.apis.*
 import org.openapitools.client.models.*
@@ -28,18 +25,7 @@ import org.openapitools.client.auth.*
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
-        serializer: KotlinxSerializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-            baseUrl: String,
-            httpClientEngine: HttpClientEngine?,
-            jsonConfiguration: JsonConfiguration) :
-            this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
-
-    private val serializer: JsonSerializer by lazy {
-        serializer.apply { setMappers(this) }.ignoreOutgoingContent()
-    }
+        private val serializer: KotlinxSerializer) {
 
     private val client: HttpClient by lazy {
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
@@ -54,22 +40,6 @@ open class ApiClient(
 
     companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
-
-        private fun setMappers(serializer: KotlinxSerializer) {
-            
-            PetApi.setMappers(serializer)
-            
-            StoreApi.setMappers(serializer)
-            
-            UserApi.setMappers(serializer)
-            
-            serializer.setMapper(org.openapitools.client.models.ApiResponse::class, org.openapitools.client.models.ApiResponse.serializer())
-            serializer.setMapper(org.openapitools.client.models.Category::class, org.openapitools.client.models.Category.serializer())
-            serializer.setMapper(org.openapitools.client.models.Order::class, org.openapitools.client.models.Order.serializer())
-            serializer.setMapper(org.openapitools.client.models.Pet::class, org.openapitools.client.models.Pet.serializer())
-            serializer.setMapper(org.openapitools.client.models.Tag::class, org.openapitools.client.models.Tag.serializer())
-            serializer.setMapper(org.openapitools.client.models.User::class, org.openapitools.client.models.User.serializer())
-        }
     }
 
     /**
@@ -155,11 +125,11 @@ open class ApiClient(
         else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend inline fun <reified T: Any?> request(requestConfig: RequestConfig<T>, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
         requestConfig.updateForAuth(authNames)
         val headers = requestConfig.headers
 
-        return client.call {
+        return client.request {
             this.url {
                 this.takeFrom(URLBuilder(baseUrl))
                 appendPath(requestConfig.path.trimStart('/').split('/'))
@@ -174,7 +144,7 @@ open class ApiClient(
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
                 this.body = body
 
-        }.response
+        }
     }
 
     private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
@@ -198,14 +168,4 @@ open class ApiClient(
             RequestMethod.POST -> HttpMethod.Post
             RequestMethod.OPTIONS -> HttpMethod.Options
         }
-}
-
-// https://github.com/ktorio/ktor/issues/851
-private fun JsonSerializer.ignoreOutgoingContent() = IgnoreOutgoingContentJsonSerializer(this)
-
-private class IgnoreOutgoingContentJsonSerializer(private val delegate: JsonSerializer) : JsonSerializer by delegate {
-    override fun write(data: Any): OutgoingContent {
-        if (data is OutgoingContent) return data
-        return delegate.write(data)
-    }
 }

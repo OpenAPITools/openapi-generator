@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
  * A category for a pet

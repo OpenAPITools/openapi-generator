@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 
 /**
  * Describes the result of uploading an image resource

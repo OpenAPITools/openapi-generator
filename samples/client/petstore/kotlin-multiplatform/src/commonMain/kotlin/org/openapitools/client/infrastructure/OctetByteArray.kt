@@ -1,13 +1,16 @@
 package org.openapitools.client.infrastructure
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 @Serializable
 class OctetByteArray(val value: ByteArray) {
     @Serializer(OctetByteArray::class)
     companion object : KSerializer<OctetByteArray> {
-        override val descriptor = StringDescriptor.withName("OctetByteArray")
+        override val descriptor = PrimitiveSerialDescriptor("OctetByteArray", PrimitiveKind.STRING)
         override fun serialize(encoder: Encoder, obj: OctetByteArray) = encoder.encodeString(hex(obj.value))
         override fun deserialize(decoder: Decoder) = OctetByteArray(hex(decoder.decodeString()))
     }

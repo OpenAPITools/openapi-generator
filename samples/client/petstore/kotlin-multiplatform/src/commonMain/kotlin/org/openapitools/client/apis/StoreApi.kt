@@ -15,27 +15,24 @@ import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
-import kotlinx.serialization.UnstableDefault
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.builtins.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
-class StoreApi @UseExperimental(UnstableDefault::class) constructor(
+class StoreApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
+    serializer: KotlinxSerializer = KotlinxSerializer(Json { ignoreUnknownKeys = true }),
 ) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     /**
      * Delete purchase order by ID
@@ -104,8 +101,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
         @Serializer(GetInventoryResponse::class)
         companion object : KSerializer<GetInventoryResponse> {
-            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
-                override val descriptor = StringDescriptor.withName("GetInventoryResponse")
+            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = MapSerializer(kotlin.String.serializer(), kotlin.Int.serializer())
+                override val descriptor = PrimitiveSerialDescriptor("GetInventoryResponse", PrimitiveKind.STRING)
                 override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
                 override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
         }
@@ -177,11 +174,4 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
 
 
-
-    companion object {
-        internal fun setMappers(serializer: KotlinxSerializer) {
-            serializer.setMapper(GetInventoryResponse::class, GetInventoryResponse.serializer())
-            
-        }
-    }
 }
