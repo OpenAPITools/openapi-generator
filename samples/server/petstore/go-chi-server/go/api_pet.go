@@ -105,7 +105,7 @@ func (c *PetApiController) Routes() Routes {
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.AddPet(r.Context(), *pet)
@@ -123,7 +123,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -173,7 +173,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -192,7 +192,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.UpdatePet(r.Context(), *pet)
@@ -209,12 +209,12 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 // UpdatePetWithForm - Updates a pet in the store with form data
 func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -234,12 +234,12 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 // UploadFile - uploads an image
 func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -247,7 +247,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 			result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)

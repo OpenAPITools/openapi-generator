@@ -105,7 +105,7 @@ func (c *UserApiController) Routes() Routes {
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUser(r.Context(), *user)
@@ -123,7 +123,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
@@ -141,7 +141,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
@@ -220,7 +220,7 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.UpdateUser(r.Context(), username, *user)

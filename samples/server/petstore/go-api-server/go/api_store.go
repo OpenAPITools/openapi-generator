@@ -111,7 +111,7 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	params := mux.Vars(r)
 	orderId, err := parseInt64Parameter(params["orderId"], true)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
@@ -130,7 +130,7 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 	order := &Order{}
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err})
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.PlaceOrder(r.Context(), *order)
