@@ -146,6 +146,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(INTERFACE_IMPLEMENTATION, "Whether to write default implementations in interface. " +
+                "If this is set to false, class that extends API interface will be require to implement members.", interfaceImplementation);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
@@ -369,6 +371,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
+
+        if (additionalProperties.containsKey(INTERFACE_IMPLEMENTATION)) {
+            this.setInterfaceImplementation(Boolean.parseBoolean(additionalProperties.get(INTERFACE_IMPLEMENTATION).toString()));
+        }
+        additionalProperties.put(INTERFACE_IMPLEMENTATION, this.getInterfaceImplementation());
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
