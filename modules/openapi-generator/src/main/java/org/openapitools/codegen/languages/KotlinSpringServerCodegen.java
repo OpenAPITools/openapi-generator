@@ -237,6 +237,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.interfaceOnly = interfaceOnly;
     }
 
+    public void setInterfaceImplementation(boolean interfaceImplementation) {
+        this.interfaceImplementation = interfaceImplementation;
+    }
+
+    public boolean getInterfaceImplementation() {
+        return this.interfaceImplementation;
+    }
+
     public void setDelegatePattern(boolean delegatePattern) {
         this.delegatePattern = delegatePattern;
     }
