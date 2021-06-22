@@ -471,7 +471,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public PetApi(String basePath)
+        public PetApi(string basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
@@ -534,7 +534,7 @@ namespace Org.OpenAPITools.Api
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public String GetBasePath()
+        public string GetBasePath()
         {
             return this.Configuration.BasePath;
         }
@@ -586,13 +586,13 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json",
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -621,7 +621,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -666,13 +666,13 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
 
@@ -702,7 +702,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -743,11 +743,11 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -756,15 +756,15 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (apiKey != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(apiKey)); // header parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -807,11 +807,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
 
@@ -821,15 +821,15 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (apiKey != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(apiKey)); // header parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -873,11 +873,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -908,7 +908,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -954,11 +954,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -990,7 +990,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1034,11 +1034,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -1069,7 +1069,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1115,11 +1115,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -1151,7 +1151,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1191,11 +1191,11 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -1206,10 +1206,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
 
             // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
@@ -1251,11 +1251,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/xml",
                 "application/json"
             };
@@ -1267,10 +1267,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
 
             // authentication (api_key) required
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
@@ -1313,13 +1313,13 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json",
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1348,7 +1348,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1393,13 +1393,13 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/json", 
                 "application/xml"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
 
@@ -1429,7 +1429,7 @@ namespace Org.OpenAPITools.Api
             }
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1472,12 +1472,12 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1486,19 +1486,19 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (name != null)
             {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(name)); // form parameter
             }
             if (status != null)
             {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1543,12 +1543,12 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
             };
 
 
@@ -1558,19 +1558,19 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (name != null)
             {
-                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterToString(name)); // form parameter
+                localVarRequestOptions.FormParameters.Add("name", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(name)); // form parameter
             }
             if (status != null)
             {
-                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+                localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(status)); // form parameter
             }
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1614,12 +1614,12 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
@@ -1629,10 +1629,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
@@ -1641,7 +1641,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1687,12 +1687,12 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
@@ -1703,10 +1703,10 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
             }
             if (file != null)
             {
@@ -1715,7 +1715,7 @@ namespace Org.OpenAPITools.Api
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1763,12 +1763,12 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
@@ -1778,16 +1778,16 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
@@ -1837,12 +1837,12 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] _contentTypes = new String[] {
+            string[] _contentTypes = new string[] {
                 "multipart/form-data"
             };
 
             // to determine the Accept header
-            String[] _accepts = new String[] {
+            string[] _accepts = new string[] {
                 "application/json"
             };
 
@@ -1853,16 +1853,16 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(petId)); // path parameter
             if (additionalMetadata != null)
             {
-                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterToString(additionalMetadata)); // form parameter
+                localVarRequestOptions.FormParameters.Add("additionalMetadata", Org.OpenAPITools.Client.ClientUtils.ParameterTostring(additionalMetadata)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
             // authentication (petstore_auth) required
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }

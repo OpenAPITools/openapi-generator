@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="contentTypes">The Content-Type array to select from.</param>
         /// <returns>The Content-Type header to use.</returns>
-        public static String SelectHeaderContentType(String[] contentTypes)
+        public static string SelectHeaderContentType(string[] contentTypes)
         {
             if (contentTypes.Length == 0)
                 return null;
@@ -207,7 +207,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
-        public static String SelectHeaderAccept(String[] accepts)
+        public static string SelectHeaderAccept(string[] accepts)
         {
             if (accepts.Length == 0)
                 return null;
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Client
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
 
-            return String.Join(",", accepts);
+            return string.Join(",", accepts);
         }
 
         /// <summary>
@@ -233,9 +233,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="mime">MIME</param>
         /// <returns>Returns True if MIME type is json.</returns>
-        public static bool IsJsonMime(String mime)
+        public static bool IsJsonMime(string mime)
         {
-            if (String.IsNullOrWhiteSpace(mime)) return false;
+            if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
         }

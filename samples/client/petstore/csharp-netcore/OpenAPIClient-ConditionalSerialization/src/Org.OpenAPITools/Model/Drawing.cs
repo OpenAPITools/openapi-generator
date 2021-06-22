@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Drawing
     /// </summary>
     [DataContract(Name = "Drawing")]
-    public partial class Drawing : Dictionary<String, Fruit>, IEquatable<Drawing>, IValidatableObject
+    public partial class Drawing : Dictionary<string, Fruit>, IEquatable<Drawing>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
