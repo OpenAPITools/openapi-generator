@@ -6,28 +6,25 @@ package {{apiPackage}}
 
 import {{packageName}}.infrastructure.*
 import io.ktor.client.request.forms.formData
-import kotlinx.serialization.UnstableDefault
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.builtins.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} constructor(
     baseUrl: kotlin.String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
+    serializer: KotlinxSerializer = KotlinxSerializer(Json { ignoreUnknownKeys = true }),
 ) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-        baseUrl: kotlin.String = "{{{basePath}}}",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     {{#operation}}
     /**
@@ -103,23 +100,5 @@ import kotlinx.serialization.internal.StringDescriptor
 {{/isMap}}
 
     {{/operation}}
-
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
-        internal fun setMappers(serializer: KotlinxSerializer) {
-            {{#operation}}
-            {{#hasBodyParam}}
-            {{#bodyParam}}
-            {{#isArray}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isArray}}{{#isMap}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMap}}
-            {{/bodyParam}}
-            {{/hasBodyParam}}
-            {{#isArray}}
-            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
-            {{/isArray}}
-            {{#isMap}}
-            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
-            {{/isMap}}
-            {{/operation}}
-        }
-    }
 }
 {{/operations}}

@@ -2,8 +2,8 @@
     private class {{operationIdCamelCase}}Response(val value: List<{{returnBaseType}}>) {
         @Serializer({{operationIdCamelCase}}Response::class)
         {{#nonPublicApi}}internal {{/nonPublicApi}}companion object : KSerializer<{{operationIdCamelCase}}Response> {
-            private val serializer: KSerializer<List<{{returnBaseType}}>> = {{returnBaseType}}.serializer().list
-                override val descriptor = StringDescriptor.withName("{{operationIdCamelCase}}Response")
+            private val serializer: KSerializer<List<{{returnBaseType}}>> = ListSerializer({{returnBaseType}}.serializer())
+                override val descriptor = PrimitiveSerialDescriptor("{{operationIdCamelCase}}Response", PrimitiveKind.STRING)
                 override fun serialize(encoder: Encoder, obj: {{operationIdCamelCase}}Response) = serializer.serialize(encoder, obj.value)
                 override fun deserialize(decoder: Decoder) = {{operationIdCamelCase}}Response(serializer.deserialize(decoder))
         }

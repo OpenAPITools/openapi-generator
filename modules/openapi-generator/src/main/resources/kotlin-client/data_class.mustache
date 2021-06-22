@@ -29,7 +29,6 @@ import kotlinx.parcelize.Parcelize
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 {{/multiplatform}}
 {{#serializableModel}}
 import java.io.Serializable
@@ -72,6 +71,9 @@ import java.io.Serializable
     {{#kotlinx_serialization}}
     {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}
     {{/kotlinx_serialization}}
+    {{#multiplatform}}
+    @Serializable
+    {{/multiplatform}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
@@ -90,7 +92,7 @@ import java.io.Serializable
         {{/kotlinx_serialization}}
         {{/multiplatform}}
         {{#multiplatform}}
-        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
