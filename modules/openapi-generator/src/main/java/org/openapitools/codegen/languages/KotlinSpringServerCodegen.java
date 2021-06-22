@@ -64,6 +64,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String INTERFACE_IMPLEMENTATION = "interfaceImplementation";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
 
@@ -80,6 +81,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean serviceImplementation = false;
     private boolean reactive = false;
     private boolean interfaceOnly = false;
+    private boolean interfaceImplementation = true;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
 
