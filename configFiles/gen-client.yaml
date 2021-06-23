@@ -5,9 +5,9 @@ artifactId: artifactId
 artifactVersion: 1.0.0-SNAPSHOT
 artifactDescription: Generation client with OpenAPI
 artifactUrl: ""
-parentArtifactId: AltSTU
-parentGroupId: ru.practice
-parentVersion: 1.0.0-SNAPSHOT
+#parentArtifactId: decision-integration
+#parentGroupId: ru.sbrf.cl.decision.integration
+#parentVersion: 1.0.0-SNAPSHOT
 sourceFolder: src/main/java
 scmConnection: ssh://git@github.com:Nikolai-AltSTU/openapi-generator.git
 scmDeveloperConnection: ssh://git@github.com:Nikolai-AltSTU/openapi-generator.git
