@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(string basePath)
+        public DefaultApi(String basePath)
         {
             this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
                 Org.OpenAPITools.Client.GlobalConfiguration.Instance,
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Api
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public string GetBasePath()
+        public String GetBasePath()
         {
             return this.Configuration.BasePath;
         }
@@ -212,11 +212,11 @@ namespace Org.OpenAPITools.Api
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
@@ -263,11 +263,11 @@ namespace Org.OpenAPITools.Api
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
