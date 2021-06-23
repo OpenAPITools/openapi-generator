@@ -69,7 +69,7 @@ public class FakeClassnameTags123Api {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameCall(Client body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testClassnameCall(Client body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -104,11 +104,17 @@ public class FakeClassnameTags123Api {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "api_key_query" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testClassnameValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testClassnameValidateBeforeCall(Client body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -116,7 +122,7 @@ public class FakeClassnameTags123Api {
         }
         
 
-        okhttp3.Call localVarCall = testClassnameCall(body, _callback);
+        okhttp3.Call localVarCall = testClassnameCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -142,6 +148,7 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * @param body client model (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -150,10 +157,14 @@ public class FakeClassnameTags123Api {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, null);
+    public ApiResponse<Client> testClassnameWithHttpInfo(Client body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, headers, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
+        return testClassnameWithHttpInfo(body, null);
     }
 
     /**
@@ -169,11 +180,20 @@ public class FakeClassnameTags123Api {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call testClassnameAsync(Client body, Map<String, String> headers, final ApiCallback<Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, headers, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, null, _callback);
+Type localVarReturnType = new TypeToken<Client>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
 }
