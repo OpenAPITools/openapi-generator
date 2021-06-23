@@ -162,8 +162,14 @@ public class PetApiTest {
     public void testHeaderOverrides() throws Exception {
         Pet pet = createPet();
         Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer: asdfasdf");
+
+        // Smoketest that the template creates method signature correctly
         api.addPet(pet, headers);
-        //todo finish writing this test
+
+        okhttp3.Call call = api.addPetCall(pet, headers, null);
+        Assert.assertTrue(false);
+        Assert.assertEquals("Bearer: asdfasdf", call.request().header("Authorization"));
     }
 
     @Test
