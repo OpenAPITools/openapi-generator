@@ -250,6 +250,9 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
+    // flag to indicate whether or not a new model is generated for an inline schema without discriminator
+    protected boolean allowInlineSchemas = false;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -367,6 +370,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.ALLOW_INLINE_SCHEMAS)) {
+            this.setAllowInlineSchemas(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.ALLOW_INLINE_SCHEMAS).toString()));
         }
     }
 
@@ -1229,6 +1236,10 @@ public class DefaultCodegen implements CodegenConfig {
         this.useOneOfInterfaces = useOneOfInterfaces;
     }
 
+    public Boolean getAllowInlineSchemas() { return allowInlineSchemas; }
+
+    public void setAllowInlineSchemas(Boolean allowInlineSchemas) { this.allowInlineSchemas = allowInlineSchemas; }
+
     /**
      * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
      *
@@ -1537,6 +1548,8 @@ public class DefaultCodegen implements CodegenConfig {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ALLOW_INLINE_SCHEMAS,
+                CodegenConstants.ALLOW_INLINE_SCHEMAS_DESC).defaultValue(Boolean.TRUE.toString()));
         // initialize special character mapping
         initializeSpecialCharacterMapping();
 
@@ -6505,6 +6518,21 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeEnumValuePrefix = removeEnumValuePrefix;
     }
 
+    /**
+     * Get the boolean value indicating whether to allow inline schemas
+     */
+    @Override
+    public boolean isAllowInlineSchemas() { return this.allowInlineSchemas; }
+
+    /**
+     * Set the boolean value indicating whether to allow inline schemas
+     *
+     * @param allowInlineSchemas true to allow inline schemas
+     */
+    @Override
+    public void setAllowInlineSchemas(boolean allowInlineSchemas) {
+        this.allowInlineSchemas = allowInlineSchemas;
+    }
     //// Following methods are related to the "useOneOfInterfaces" feature
 
     /**

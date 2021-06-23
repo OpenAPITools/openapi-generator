@@ -50,6 +50,7 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
                 .put(HaskellServantCodegen.PROP_SERVE_STATIC, HaskellServantCodegen.PROP_SERVE_STATIC_DEFAULT.toString())
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ALLOW_INLINE_SCHEMAS, "false")
                 .build();
     }
 

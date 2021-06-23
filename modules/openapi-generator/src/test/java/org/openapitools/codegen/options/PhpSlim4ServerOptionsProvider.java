@@ -62,6 +62,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
                 .put(PhpSlim4ServerCodegen.PSR7_IMPLEMENTATION, PSR7_IMPLEMENTATION_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ALLOW_INLINE_SCHEMAS, "false")
                 .build();
     }
 

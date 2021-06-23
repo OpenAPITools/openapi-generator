@@ -430,4 +430,10 @@ public class GenerateTest {
         verify(configurator).toContext();
         verifyNoMoreInteractions(configurator);
     }
+
+    @Test
+    public void testAllowInlineSchemasTrue() {
+        setupAndRunGenericTest("--allow-inline-schemas");
+        verify(configurator).setAllowInlineSchemas(true);
+    }
 }

@@ -53,7 +53,11 @@ public class InlineModelResolver {
 
      final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
-    void flatten(OpenAPI openapi) {
+    void flatten(OpenAPI openAPI) {
+        flatten(openAPI, null);
+    }
+
+    void flatten(OpenAPI openapi, CodegenConfig config) {
         this.openapi = openapi;
 
         if (openapi.getComponents() == null) {
@@ -65,7 +69,7 @@ public class InlineModelResolver {
         }
 
         flattenPaths(openapi);
-        flattenComponents(openapi);
+        flattenComponents(openapi, config);
     }
 
     /**
@@ -370,7 +374,7 @@ public class InlineModelResolver {
      * @param key a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      */
-    private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
+    private void flattenComposedChildren(OpenAPI openAPI, CodegenConfig config, String key, List<Schema> children) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -381,29 +385,48 @@ public class InlineModelResolver {
                 (component.get$ref() == null) &&
                 ((component.getProperties() != null && !component.getProperties().isEmpty()) ||
                  (component.getEnum() != null && !component.getEnum().isEmpty()))) {
-                // If a `title` attribute is defined in the inline schema, codegen uses it to name the
-                // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
-                // We know that this is not the best way to name the model.
-                //
-                // Such naming strategy may result in issues. If the value of the 'title' attribute
-                // happens to match a schema defined elsewhere in the specification, 'innerModelName'
-                // will be the same as that other schema.
-                //
-                // To have complete control of the model naming, one can define the model separately
-                // instead of inline.
-                String innerModelName = resolveModelName(component.getTitle(), key);
-                Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
-                String existing = matchGenerated(innerModel);
-                if (existing == null) {
-                    openAPI.getComponents().addSchemas(innerModelName, innerModel);
-                    addGenerated(innerModelName, innerModel);
-                    Schema schema = new Schema().$ref(innerModelName);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                if ((config != null && config.isAllowInlineSchemas()) && component.getDiscriminator() == null) {
+                    String schemaName = key.substring(0, key.length() - 6);
+                    Schema schema = openAPI.getComponents().getSchemas().get(schemaName);
+                    flattenProperties(openAPI, component.getProperties(), schemaName);
+                    schema.setType("object");
+                    if (schema.getProperties() != null) {
+                        schema.getProperties().putAll(component.getProperties());
+                    } else {
+                        schema.setProperties(component.getProperties());
+                    }
+                    if (schema.getRequired() != null) {
+                        schema.getRequired().addAll(component.getRequired());
+                    } else {
+                        schema.setRequired(component.getRequired());
+                    }
+
+
                 } else {
-                    Schema schema = new Schema().$ref(existing);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                    // If a `title` attribute is defined in the inline schema, codegen uses it to name the
+                    // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
+                    // We know that this is not the best way to name the model.
+                    //
+                    // Such naming strategy may result in issues. If the value of the 'title' attribute
+                    // happens to match a schema defined elsewhere in the specification, 'innerModelName'
+                    // will be the same as that other schema.
+                    //
+                    // To have complete control of the model naming, one can define the model separately
+                    // instead of inline.
+                    String innerModelName = resolveModelName(component.getTitle(), key);
+                    Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing == null) {
+                        openAPI.getComponents().addSchemas(innerModelName, innerModel);
+                        addGenerated(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    }
                 }
             }
         }
@@ -414,7 +437,7 @@ public class InlineModelResolver {
      *
      * @param openAPI target spec
      */
-    private void flattenComponents(OpenAPI openAPI) {
+    private void flattenComponents(OpenAPI openAPI, CodegenConfig config) {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         if (models == null) {
             return;
@@ -426,9 +449,9 @@ public class InlineModelResolver {
             if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
-                flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
-                flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
+                flattenComposedChildren(openAPI, config, modelName + "_allOf", m.getAllOf());
+                flattenComposedChildren(openAPI, null, modelName + "_anyOf", m.getAnyOf());
+                flattenComposedChildren(openAPI, null, modelName + "_oneOf", m.getOneOf());
             } else if (model instanceof Schema) {
                 Schema m = model;
                 Map<String, Schema> properties = m.getProperties();

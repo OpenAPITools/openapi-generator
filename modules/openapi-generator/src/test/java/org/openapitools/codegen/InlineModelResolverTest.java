@@ -997,4 +997,41 @@ public class InlineModelResolverTest {
     public void regresssion_6905() {
 
     }
+
+    @Test
+    public void allowInlineSchemas() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_3100.yaml");
+        CodegenConfig config = new DefaultCodegen();
+        config.setAllowInlineSchemas(true);
+        new InlineModelResolver().flatten(openAPI, config);
+
+        // Generate a <ModelName>_allOf for inheritance
+        ComposedSchema party = (ComposedSchema) openAPI.getComponents().getSchemas().get("Party");
+        assertEquals(party.getAllOf().get(1).get$ref(), "#/components/schemas/Party_allOf");
+        assertNotNull(openAPI.getComponents().getSchemas().get("Party_allOf"));
+        assertNotNull(openAPI.getComponents().getSchemas().get("Party_allOf").getDiscriminator());
+
+        // Do not generate a <ModelName>_allOf for composition, pass the properties and required to the composed schema
+        ComposedSchema organization = (ComposedSchema) openAPI.getComponents().getSchemas().get("Organization");
+        Schema inlineSchemaOrg = organization.getAllOf().get(1);
+        assertNull(inlineSchemaOrg.getDiscriminator());
+        assertNull(inlineSchemaOrg.get$ref());
+        assertNull(openAPI.getComponents().getSchemas().get("Organization_allOf"));
+        assertEquals(inlineSchemaOrg.getProperties(), organization.getProperties());
+        assertEquals(inlineSchemaOrg.getRequired(), organization.getRequired());
+
+        // Do not overwrite parent properties and required, add the inline schema's properties and required
+        ComposedSchema contact = (ComposedSchema) openAPI.getComponents().getSchemas().get("Contact");
+        Schema inlineSchemaCon = contact.getAllOf().get(1);
+        assertNotNull(contact.getProperties().get("should_be_kept"));
+        assertNotSame(inlineSchemaCon.getProperties(), contact.getProperties());
+        inlineSchemaCon.getProperties().forEach((key, prop) -> {
+            assertEquals(prop, contact.getProperties().get(key));
+        });
+        assert(contact.getRequired().contains("should_be_kept"));
+        assertNotSame(inlineSchemaCon.getRequired(), contact.getRequired());
+        inlineSchemaCon.getRequired().forEach(prop -> {
+            assert(contact.getRequired().contains(prop));
+        });
+    }
 }

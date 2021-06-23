@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Test Allow inline schemas
+  description: Test Allow inline schemas
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /customers:
+    get:
+      tags:
+        - Customer
+      summary: Get customers
+      operationId: queryCustomers
+      responses:
+        200:
+          description: Success
+components:
+  schemas:
+    PartyType:
+      type: string
+      description: type
+      enum:
+        - customer
+        - contact
+    CustomerType:
+      type: string
+      description: type
+      enum:
+        - person
+        - organization
+    Entity:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+    Party:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - required:
+            - party_type
+          type: object
+          properties:
+            party_type:
+              $ref: '#/components/schemas/PartyType'
+            tax_id_number:
+              type: string
+          discriminator:
+            propertyName: party_type
+    Contact:
+      type: object
+      required:
+        - should_be_kept
+      properties:
+        should_be_kept:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Party'
+        - type: object
+          required:
+            - first_name
+            - last_name
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            suffix:
+              type: string
+            dob:
+              type: string
+              format: date
+      x-discriminator-value: contact
+    Customer:
+      allOf:
+        - $ref: '#/components/schemas/Party'
+        - required:
+            - customer_type
+          type: object
+          properties:
+            customer_type:
+              $ref: '#/components/schemas/CustomerType'
+            customer_num:
+              type: string
+            external_customer_num:
+              type: string
+          discriminator:
+            propertyName: customer_type
+      x-discriminator-value: customer
+    Organization:
+      allOf:
+        - $ref: '#/components/schemas/Customer'
+        - required:
+            - organization_name
+          type: object
+          properties:
+            organization_name:
+              type: string
+      x-discriminator-value: organization

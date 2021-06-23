@@ -248,6 +248,9 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"--legacy-discriminator-behavior"}, title = "Support legacy logic for evaluating discriminators", description = CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC)
     private Boolean legacyDiscriminatorBehavior;
 
+    @Option(name = {"--allow-inline-schemas"}, title = "Allow inline schemas without generating new models", description = CodegenConstants.ALLOW_INLINE_SCHEMAS)
+    private Boolean allowInlineSchema;
+
     @Option(name = {"--minimal-update"},
         title = "Minimal update",
         description = "Only write output files that have changed.")
@@ -416,6 +419,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (strictSpecBehavior != null) {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
+        }
+
+        if (allowInlineSchema != null) {
+            configurator.setAllowInlineSchemas(allowInlineSchema);
         }
 
         if (globalProperties != null && !globalProperties.isEmpty()) {
