@@ -78,6 +78,7 @@ public class CodegenIgnoreProcessor {
         loadFromFile(targetIgnoreFile);
     }
 
+    
     private void loadFromFile(File targetIgnoreFile) {
         if (targetIgnoreFile.exists() && targetIgnoreFile.isFile()) {
             try {

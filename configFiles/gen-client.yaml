@@ -1,0 +1,21 @@
+library: resteasy
+dateLibrary: java8
+groupId: ru.practice
+artifactId: artifactId
+artifactVersion: 1.0.0-SNAPSHOT
+artifactDescription: Generation client with OpenAPI
+artifactUrl: ""
+#parentArtifactId: decision-integration
+#parentGroupId: ru.sbrf.cl.decision.integration
+#parentVersion: 1.0.0-SNAPSHOT
+sourceFolder: src/main/java
+scmConnection: ssh://git@github.com:Nikolai-AltSTU/openapi-generator.git
+scmDeveloperConnection: ssh://git@github.com:Nikolai-AltSTU/openapi-generator.git
+scmUrl: https://github.com/Nikolai-AltSTU/openapi-generator.git
+apiPackage: ru.practice.client.api
+modelPackage: ru.practice.client.model
+invokerPackage: ru.practice.client
+apiDocs: false
+modelDocs: false
+
+# mvn -f pom.genclient.xml process-sources

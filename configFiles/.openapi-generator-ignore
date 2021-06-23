@@ -1,0 +1,8 @@
+**/*gradle*
+#**/gradle.wrapper/
+**/gradle/**
+**/*docs*/**
+**/api/**
+**/api/
+#target/generated-sources/openapi/api/**
+
