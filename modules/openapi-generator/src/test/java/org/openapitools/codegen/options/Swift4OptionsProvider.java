@@ -70,7 +70,6 @@ public class Swift4OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
                 .put(Swift4Codegen.POD_AUTHORS, POD_AUTHORS_VALUE)
                 .put(Swift4Codegen.POD_SOCIAL_MEDIA_URL, POD_SOCIAL_MEDIA_URL_VALUE)
-                .put(Swift4Codegen.POD_DOCSET_URL, POD_DOCSET_URL_VALUE)
                 .put(Swift4Codegen.POD_LICENSE, POD_LICENSE_VALUE)
                 .put(Swift4Codegen.POD_HOMEPAGE, POD_HOMEPAGE_VALUE)
                 .put(Swift4Codegen.POD_SUMMARY, POD_SUMMARY_VALUE)
