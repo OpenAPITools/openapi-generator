@@ -147,7 +147,12 @@ public class FakeApi {
      </table>
      */
     public void createXmlItem(XmlItem xmlItem) throws ApiException {
-        createXmlItemWithHttpInfo(xmlItem);
+        createXmlItemWithHttpInfo(xmlItem, null);
+        
+    }
+    public void createXmlItem(XmlItem xmlItem, Map<String, String> headers) throws ApiException {
+      createXmlItemWithHttpInfo(xmlItem, headers);
+        
     }
 
     /**
@@ -277,7 +282,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
-        ApiResponse<Boolean> localVarResp = fakeOuterBooleanSerializeWithHttpInfo(body);
+        ApiResponse<Boolean> localVarResp = fakeOuterBooleanSerializeWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Boolean> localVarResp = fakeOuterBooleanSerializeWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -411,7 +420,11 @@ Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
      </table>
      */
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
-        ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body);
+        ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body, Map<String, String> headers) throws ApiException {
+      ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -545,7 +558,11 @@ Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
      </table>
      */
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
-        ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body);
+        ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, String> headers) throws ApiException {
+      ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -679,7 +696,11 @@ Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
      </table>
      */
     public String fakeOuterStringSerialize(String body) throws ApiException {
-        ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body);
+        ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public String fakeOuterStringSerialize(String body, Map<String, String> headers) throws ApiException {
+      ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -817,7 +838,12 @@ Type localVarReturnType = new TypeToken<String>(){}.getType();
      </table>
      */
     public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
-        testBodyWithFileSchemaWithHttpInfo(body);
+        testBodyWithFileSchemaWithHttpInfo(body, null);
+        
+    }
+    public void testBodyWithFileSchema(FileSchemaTestClass body, Map<String, String> headers) throws ApiException {
+      testBodyWithFileSchemaWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -959,7 +985,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void testBodyWithQueryParams(String query, User body) throws ApiException {
-        testBodyWithQueryParamsWithHttpInfo(query, body);
+        testBodyWithQueryParamsWithHttpInfo(query, body, null);
+        
+    }
+    public void testBodyWithQueryParams(String query, User body, Map<String, String> headers) throws ApiException {
+      testBodyWithQueryParamsWithHttpInfo(query, body, headers);
+        
     }
 
     /**
@@ -1096,7 +1127,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public Client testClientModel(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body);
+        ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Client testClientModel(Client body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -1333,7 +1368,12 @@ Type localVarReturnType = new TypeToken<Client>(){}.getType();
      </table>
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null);
+        
+    }
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Map<String, String> headers) throws ApiException {
+      testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, headers);
+        
     }
 
     /**
@@ -1520,7 +1560,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null);
+        
+    }
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Map<String, String> headers) throws ApiException {
+      testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, headers);
+        
     }
 
     /**
@@ -1887,7 +1932,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
-        testInlineAdditionalPropertiesWithHttpInfo(param);
+        testInlineAdditionalPropertiesWithHttpInfo(param, null);
+        
+    }
+    public void testInlineAdditionalProperties(Map<String, String> param, Map<String, String> headers) throws ApiException {
+      testInlineAdditionalPropertiesWithHttpInfo(param, headers);
+        
     }
 
     /**
@@ -2036,7 +2086,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void testJsonFormData(String param, String param2) throws ApiException {
-        testJsonFormDataWithHttpInfo(param, param2);
+        testJsonFormDataWithHttpInfo(param, param2, null);
+        
+    }
+    public void testJsonFormData(String param, String param2, Map<String, String> headers) throws ApiException {
+      testJsonFormDataWithHttpInfo(param, param2, headers);
+        
     }
 
     /**
@@ -2205,7 +2260,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
-        testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+        testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, null);
+        
+    }
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Map<String, String> headers) throws ApiException {
+      testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, headers);
+        
     }
 
     /**

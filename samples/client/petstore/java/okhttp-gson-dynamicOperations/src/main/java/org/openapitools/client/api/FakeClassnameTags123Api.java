@@ -140,7 +140,11 @@ public class FakeClassnameTags123Api {
      </table>
      */
     public Client testClassname(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = testClassnameWithHttpInfo(body);
+        ApiResponse<Client> localVarResp = testClassnameWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Client testClassname(Client body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Client> localVarResp = testClassnameWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 

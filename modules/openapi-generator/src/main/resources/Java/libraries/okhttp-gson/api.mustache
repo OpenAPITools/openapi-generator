@@ -254,8 +254,12 @@ public class {{classname}} {
     @Deprecated
     {{/isDeprecated}}
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
-        {{#returnType}}ApiResponse<{{{returnType}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
-        return localVarResp.getData();{{/returnType}}
+        {{#returnType}}ApiResponse<{{{returnType}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}null);
+        {{#returnType}}return localVarResp.getData();{{/returnType}}
+    }
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Map<String, String> headers) throws ApiException {
+      {{#returnType}}ApiResponse<{{{returnType}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}headers);
+        {{#returnType}}return localVarResp.getData();{{/returnType}}
     }
     {{/vendorExtensions.x-group-parameters}}
 

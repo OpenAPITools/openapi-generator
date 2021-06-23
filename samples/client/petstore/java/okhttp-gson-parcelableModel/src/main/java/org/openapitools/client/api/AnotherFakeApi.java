@@ -129,7 +129,11 @@ public class AnotherFakeApi {
      </table>
      */
     public Client call123testSpecialTags(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body);
+        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Client call123testSpecialTags(Client body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 

@@ -133,7 +133,12 @@ public class PetApi {
      </table>
      */
     public void addPet(Pet body) throws ApiException {
-        addPetWithHttpInfo(body);
+        addPetWithHttpInfo(body, null);
+        
+    }
+    public void addPet(Pet body, Map<String, String> headers) throws ApiException {
+      addPetWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -270,7 +275,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void deletePet(Long petId, String apiKey) throws ApiException {
-        deletePetWithHttpInfo(petId, apiKey);
+        deletePetWithHttpInfo(petId, apiKey, null);
+        
+    }
+    public void deletePet(Long petId, String apiKey, Map<String, String> headers) throws ApiException {
+      deletePetWithHttpInfo(petId, apiKey, headers);
+        
     }
 
     /**
@@ -407,7 +417,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
-        ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status);
+        ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status, null);
+        return localVarResp.getData();
+    }
+    public List<Pet> findPetsByStatus(List<String> status, Map<String, String> headers) throws ApiException {
+      ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status, headers);
         return localVarResp.getData();
     }
 
@@ -551,7 +565,11 @@ Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
      */
     @Deprecated
     public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
-        ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags);
+        ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags, null);
+        return localVarResp.getData();
+    }
+    public Set<Pet> findPetsByTags(Set<String> tags, Map<String, String> headers) throws ApiException {
+      ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags, headers);
         return localVarResp.getData();
     }
 
@@ -694,7 +712,11 @@ Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
      </table>
      */
     public Pet getPetById(Long petId) throws ApiException {
-        ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId);
+        ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId, null);
+        return localVarResp.getData();
+    }
+    public Pet getPetById(Long petId, Map<String, String> headers) throws ApiException {
+      ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId, headers);
         return localVarResp.getData();
     }
 
@@ -834,7 +856,12 @@ Type localVarReturnType = new TypeToken<Pet>(){}.getType();
      </table>
      */
     public void updatePet(Pet body) throws ApiException {
-        updatePetWithHttpInfo(body);
+        updatePetWithHttpInfo(body, null);
+        
+    }
+    public void updatePet(Pet body, Map<String, String> headers) throws ApiException {
+      updatePetWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -979,7 +1006,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-        updatePetWithFormWithHttpInfo(petId, name, status);
+        updatePetWithFormWithHttpInfo(petId, name, status, null);
+        
+    }
+    public void updatePetWithForm(Long petId, String name, String status, Map<String, String> headers) throws ApiException {
+      updatePetWithFormWithHttpInfo(petId, name, status, headers);
+        
     }
 
     /**
@@ -1123,7 +1155,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file, null);
+        return localVarResp.getData();
+    }
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file, Map<String, String> headers) throws ApiException {
+      ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file, headers);
         return localVarResp.getData();
     }
 
@@ -1276,7 +1312,11 @@ Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
      </table>
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, null);
+        return localVarResp.getData();
+    }
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers) throws ApiException {
+      ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, headers);
         return localVarResp.getData();
     }
 

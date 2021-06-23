@@ -142,7 +142,12 @@ public class StoreApi {
      </table>
      */
     public void deleteOrder(String orderId) throws ApiException {
-        deleteOrderWithHttpInfo(orderId);
+        deleteOrderWithHttpInfo(orderId, null);
+        
+    }
+    public void deleteOrder(String orderId, Map<String, String> headers) throws ApiException {
+      deleteOrderWithHttpInfo(orderId, headers);
+        
     }
 
     /**
@@ -272,7 +277,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public Map<String, Integer> getInventory() throws ApiException {
-        ApiResponse<Map<String, Integer>> localVarResp = getInventoryWithHttpInfo();
+        ApiResponse<Map<String, Integer>> localVarResp = getInventoryWithHttpInfo(null);
+        return localVarResp.getData();
+    }
+    public Map<String, Integer> getInventory(Map<String, String> headers) throws ApiException {
+      ApiResponse<Map<String, Integer>> localVarResp = getInventoryWithHttpInfo(headers);
         return localVarResp.getData();
     }
 
@@ -414,7 +423,11 @@ Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
      </table>
      */
     public Order getOrderById(Long orderId) throws ApiException {
-        ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId);
+        ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId, null);
+        return localVarResp.getData();
+    }
+    public Order getOrderById(Long orderId, Map<String, String> headers) throws ApiException {
+      ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId, headers);
         return localVarResp.getData();
     }
 
@@ -559,7 +572,11 @@ Type localVarReturnType = new TypeToken<Order>(){}.getType();
      </table>
      */
     public Order placeOrder(Order body) throws ApiException {
-        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body);
+        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Order placeOrder(Order body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 

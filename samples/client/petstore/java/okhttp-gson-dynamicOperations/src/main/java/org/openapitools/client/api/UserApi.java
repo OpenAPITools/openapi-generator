@@ -139,7 +139,12 @@ public class UserApi {
      </table>
      */
     public void createUser(User body) throws ApiException {
-        createUserWithHttpInfo(body);
+        createUserWithHttpInfo(body, null);
+        
+    }
+    public void createUser(User body, Map<String, String> headers) throws ApiException {
+      createUserWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -273,7 +278,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void createUsersWithArrayInput(List<User> body) throws ApiException {
-        createUsersWithArrayInputWithHttpInfo(body);
+        createUsersWithArrayInputWithHttpInfo(body, null);
+        
+    }
+    public void createUsersWithArrayInput(List<User> body, Map<String, String> headers) throws ApiException {
+      createUsersWithArrayInputWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -407,7 +417,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void createUsersWithListInput(List<User> body) throws ApiException {
-        createUsersWithListInputWithHttpInfo(body);
+        createUsersWithListInputWithHttpInfo(body, null);
+        
+    }
+    public void createUsersWithListInput(List<User> body, Map<String, String> headers) throws ApiException {
+      createUsersWithListInputWithHttpInfo(body, headers);
+        
     }
 
     /**
@@ -544,7 +559,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void deleteUser(String username) throws ApiException {
-        deleteUserWithHttpInfo(username);
+        deleteUserWithHttpInfo(username, null);
+        
+    }
+    public void deleteUser(String username, Map<String, String> headers) throws ApiException {
+      deleteUserWithHttpInfo(username, headers);
+        
     }
 
     /**
@@ -686,7 +706,11 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public User getUserByName(String username) throws ApiException {
-        ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username);
+        ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username, null);
+        return localVarResp.getData();
+    }
+    public User getUserByName(String username, Map<String, String> headers) throws ApiException {
+      ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username, headers);
         return localVarResp.getData();
     }
 
@@ -840,7 +864,11 @@ Type localVarReturnType = new TypeToken<User>(){}.getType();
      </table>
      */
     public String loginUser(String username, String password) throws ApiException {
-        ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password);
+        ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password, null);
+        return localVarResp.getData();
+    }
+    public String loginUser(String username, String password, Map<String, String> headers) throws ApiException {
+      ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password, headers);
         return localVarResp.getData();
     }
 
@@ -975,7 +1003,12 @@ Type localVarReturnType = new TypeToken<String>(){}.getType();
      </table>
      */
     public void logoutUser() throws ApiException {
-        logoutUserWithHttpInfo();
+        logoutUserWithHttpInfo(null);
+        
+    }
+    public void logoutUser(Map<String, String> headers) throws ApiException {
+      logoutUserWithHttpInfo(headers);
+        
     }
 
     /**
@@ -1117,7 +1150,12 @@ localVarApiClient.executeAsync(localVarCall, _callback);
      </table>
      */
     public void updateUser(String username, User body) throws ApiException {
-        updateUserWithHttpInfo(username, body);
+        updateUserWithHttpInfo(username, body, null);
+        
+    }
+    public void updateUser(String username, User body, Map<String, String> headers) throws ApiException {
+      updateUserWithHttpInfo(username, body, headers);
+        
     }
 
     /**

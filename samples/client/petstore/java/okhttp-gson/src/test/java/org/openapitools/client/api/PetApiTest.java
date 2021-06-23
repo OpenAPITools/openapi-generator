@@ -159,6 +159,14 @@ public class PetApiTest {
     }
 
     @Test
+    public void testHeaderOverrides() throws Exception {
+        Pet pet = createPet();
+        Map<String, String> headers = new HashMap<>();
+        api.addPet(pet, headers);
+        //todo finish writing this test
+    }
+
+    @Test
     public void testCreateAndGetPetAsyncInvalidID() throws Exception {
         Pet pet = createPet();
         api.addPet(pet);
