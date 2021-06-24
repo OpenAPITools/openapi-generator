@@ -29,11 +29,8 @@ jobs:
       - name: Push Image
         run: |
           BRANCH_NAME=${GITHUB_REF##*/}
-          FULL_SHA=${{ github.event.pull_request.head.sha }}
           docker login ${ACR_HOST} -u ${ACR_PUSH_USER} -p ${ACR_PUSH_PASSWORD}
 
-          docker tag pdf-tools ${ACR_HOST}/padoa-tools/open-api-generator:$BRANCH_NAME
-          docker tag pdf-tools ${ACR_HOST}/padoa-tools/open-api-generator:$FULL_SHA
+          docker tag open-api-generator ${ACR_HOST}/padoa-tools/open-api-generator:$BRANCH_NAME
 
           docker push ${ACR_HOST}/padoa-tools/open-api-generator:$BRANCH_NAME
-          docker push ${ACR_HOST}/padoa-tools/open-api-generator:$FULL_SHA
