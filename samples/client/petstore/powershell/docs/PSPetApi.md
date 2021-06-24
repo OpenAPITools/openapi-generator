@@ -28,11 +28,10 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$Category = Initialize-Category -Id 0 -Name "Name_String"
-
-$Tag = Initialize-Tag -Id 0 -Name "Name_String"
-
-$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "PhotoUrls_String" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
+$Category = Initialize-Category -Id 0 -Name "MyName"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available"
+ # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
 try {
@@ -80,7 +79,7 @@ $Configuration = Get-Configuration
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 789 # Int64 | Pet id to delete
-$ApiKey = "ApiKey_String" # String |  (optional)
+$ApiKey = "MyApiKey" # String |  (optional)
 
 # Deletes a pet
 try {
@@ -177,7 +176,7 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$Tags = "Tags_String" # String[] | Tags to filter by
+$Tags = "MyTags" # String[] | Tags to filter by
 
 # Finds Pets by tags
 try {
@@ -273,11 +272,10 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$Category = Initialize-Category -Id 0 -Name "Name_String"
-
-$Tag = Initialize-Tag -Id 0 -Name "Name_String"
-
-$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "PhotoUrls_String" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
+$Category = Initialize-Category -Id 0 -Name "MyName"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available"
+ # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
 try {
@@ -326,8 +324,8 @@ $Configuration = Get-Configuration
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 789 # Int64 | ID of pet that needs to be updated
-$Name = "Name_String" # String | Updated name of the pet (optional)
-$Status = "Status_String" # String | Updated status of the pet (optional)
+$Name = "MyName" # String | Updated name of the pet (optional)
+$Status = "MyStatus" # String | Updated status of the pet (optional)
 
 # Updates a pet in the store with form data
 try {
@@ -378,7 +376,7 @@ $Configuration = Get-Configuration
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 789 # Int64 | ID of pet to update
-$AdditionalMetadata = "AdditionalMetadata_String" # String | Additional data to pass to server (optional)
+$AdditionalMetadata = "MyAdditionalMetadata" # String | Additional data to pass to server (optional)
 $File =  # System.IO.FileInfo | file to upload (optional)
 
 # uploads an image
