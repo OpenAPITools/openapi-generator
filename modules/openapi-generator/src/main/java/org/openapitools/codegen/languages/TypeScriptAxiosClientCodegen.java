@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -41,10 +45,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
+        typeMapping.put("file", "RequestFile");
+        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile | Stream;`
+        languageSpecificPrimitives.add("Stream");
+        languageSpecificPrimitives.add("Buffer");
+        languageSpecificPrimitives.add("ReadStream");
+        languageSpecificPrimitives.add("RequestDetailedFile");
+        languageSpecificPrimitives.add("RequestFile");
+
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
 
+        typeMapping.put("DateTime", "Date");
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
 
@@ -53,6 +66,35 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isFileSchema(p)) {
+            // There are two file types:
+            // 1) RequestFile: the parameter for the request lib when uploading a file
+            // (https://github.com/request/request#multipartform-data-multipart-form-uploads)
+            // 2) Buffer: for downloading files.
+            // Use RequestFile as a default. The return type is fixed to Buffer in handleMethodResponse.
+            return "RequestFile";
+        } else if (ModelUtils.isBinarySchema(p)) {
+            return "RequestFile";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> importMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
+
+        // see comment in getTypeDeclaration
+        if (op.isResponseFile) {
+            op.returnType = "RequestFile";
+        }
     }
 
     @Override
@@ -243,6 +285,38 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         return super.toApiFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
     }
 
+    // The purpose of this override and associated methods is to allow for automatic conversion
+    // from 'file' type to the built in node 'Buffer' type
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
+            return openAPIType;
+        }
+        return applyLocalTypeMapping(openAPIType);
+    }
+
+    private String applyLocalTypeMapping(String type) {
+        if (typeMapping.containsKey(type)) {
+            return typeMapping.get(type);
+        }
+        return type;
+    }
+
+    private boolean isLanguagePrimitive(String type) {
+        return languageSpecificPrimitives.contains(type);
+    }
+
+    // Determines if the given type is a generic/templated type (ie. ArrayList<String>)
+    private boolean isLanguageGenericType(String type) {
+        for (String genericType : languageGenericTypes) {
+            if (type.startsWith(genericType + "<")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void addNpmPackageGeneration() {
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
@@ -253,6 +327,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile("yarn.mustache", "", "yarn.lock"));
     }
 
 }
