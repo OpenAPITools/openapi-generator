@@ -25,7 +25,7 @@ jobs:
           ./run-in-docker-ci.sh mvn package
           cp docker-entrypoint.sh ./modules/openapi-generator-cli;
           cd modules/openapi-generator-cli
-          docker build --progress plain --target dist -t open-api-generator .
+          docker build --progress plain -t open-api-generator .
       - name: Push Image
         run: |
           BRANCH_NAME=${GITHUB_REF##*/}
