@@ -3,9 +3,10 @@
 {{>licenseInfo}}
 
 {{^withSeparateModelsAndApi}}
+import * as fs from 'fs';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid/v4';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
