@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
