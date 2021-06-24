@@ -80,9 +80,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$User = Initialize-User -Id 0 -Username "Username_String" -FirstName "FirstName_String" -LastName "LastName_String" -Email "Email_String" -Password "Password_String" -Phone "Phone_String" -UserStatus 0
-
-$User = $User # User[] | List of user object
+$User = Initialize-User -Id 0 -Username "Username_String" -FirstName "FirstName_String" -LastName "LastName_String" -Email "Email_String" -Password "Password_String" -Phone "Phone_String" -UserStatus 0 # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -130,9 +128,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$User = Initialize-User -Id 0 -Username "Username_String" -FirstName "FirstName_String" -LastName "LastName_String" -Email "Email_String" -Password "Password_String" -Phone "Phone_String" -UserStatus 0
-
-$User = $User # User[] | List of user object
+$User = Initialize-User -Id 0 -Username "Username_String" -FirstName "FirstName_String" -LastName "LastName_String" -Email "Email_String" -Password "Password_String" -Phone "Phone_String" -UserStatus 0 # User[] | List of user object
 
 # Creates list of users with given input array
 try {

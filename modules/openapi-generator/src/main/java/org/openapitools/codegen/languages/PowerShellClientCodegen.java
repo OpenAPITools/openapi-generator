@@ -1159,7 +1159,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         } else if (codegenParameter.isDate || codegenParameter.isDateTime) {
             example.append("(Get-Date)");
         } else if (codegenParameter.isArray) {
-            if (codegenParameter.items.isModel || modelMaps.containsKey(codegenParameter.items.dataType)) {
+            if (codegenParameter.items.isModel || (modelMaps.containsKey(codegenParameter.items.dataType) && codegenParameter.items.allowableValues == null)) {
                 String modelExample;
                 if (codegenParameter.items.isModel) {
                     modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
@@ -1168,10 +1168,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 }
 
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n" + "\n");
+                    example.append(modelExample);
                 }
-
-                example.append("$" + codegenParameter.paramName + " = $" + codegenParameter.items.dataType);
             } else if (codegenParameter.items.isString) {
                 if (codegenParameter.items.isEnum || (codegenParameter.items.allowableValues != null && !codegenParameter.items.allowableValues.isEmpty())) {
                     example.append(constructEnumExample(codegenParameter.items.allowableValues));
@@ -1273,7 +1271,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.dataType);
-            } else if (codegenProperty.isArray && (codegenProperty.items.isModel || modelMaps.containsKey(codegenProperty.items.dataType))) {
+            } else if (codegenProperty.isArray && (codegenProperty.items.isModel || (modelMaps.containsKey(codegenProperty.items.dataType) && codegenProperty.items.allowableValues == null))) {
                 String modelExample;
                 if (codegenProperty.items.isModel) {
                     modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
