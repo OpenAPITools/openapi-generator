@@ -297,7 +297,7 @@ public class ApiClient {
    * resolved against.
    */
   public String getBaseUri() {
-    return scheme + "://" + host + (port == -1 ? "" : ":" + port) + basePath;
+    return scheme + "://" + host + (port == -1 ? "" : ":" + port) + basePath.replaceFirst("/+$", "");
   }
 
   /**
