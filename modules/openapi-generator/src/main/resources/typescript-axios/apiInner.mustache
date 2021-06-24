@@ -3,6 +3,7 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+import * as fs from 'fs';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import uuid from 'uuid/v4';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
@@ -156,7 +157,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element{{^isFile}}.toString(){{/isFile}}as any{{#isFile}}, { filename: uuid()}{{/isFile}});
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element{{^isFile}}.toString(){{/isFile}} as any{{#isFile}}, { filename: uuid()}{{/isFile}});
                 })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
@@ -166,7 +167,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
                 localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}
-                localVarFormParams.append('{{baseName}}', {{paramName}}{{^isFile}}.toString(){{/isFile}}as any{{#isFile}}, { filename: uuid()}{{/isFile}});{{/isPrimitiveType}}{{^isPrimitiveType}}
+                localVarFormParams.append('{{baseName}}', {{paramName}}{{^isFile}}.toString(){{/isFile}} as any{{#isFile}}, { filename: uuid()}{{/isFile}});{{/isPrimitiveType}}{{^isPrimitiveType}}
                 localVarFormParams.append('{{baseName}}', JSON.stringify({{paramName}}));{{/isPrimitiveType}}{{/multipartFormData}}
             }{{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
