@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  Build Generator:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: build docker image
+          command: |
+            FULL_SHA=${CIRCLE_SHA1}
+            BRANCH_NAME=${CIRCLE_BRANCH}
+
+            docker login ${ACR_HOST} -u ${ACR_PUSH_USER} -p ${ACR_PUSH_PASSWORD}
+
+            if ! docker image pull ${ACR_HOST}/padoa-tools/openapi-generator-cli:$FULL_TAG ; then
+
+              ./run-in-docker-ci.sh mvn package
+              cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+              cd modules/openapi-generator-cli
+              docker build --progress plain -t open-api-generator .
+
+              docker tag open-api-generator ${ACR_HOST}/padoa-tools/open-api-generator:$BRANCH_NAME
+              docker tag open-api-generator ${ACR_HOST}/padoa-tools/open-api-generator:$FULL_SHA
+              docker push ${ACR_HOST}/padoa-tools/open-api-generator:$BRANCH_NAME
+              docker push ${ACR_HOST}/padoa-tools/open-api-generator:$FULL_SHA
+            fi
+
+workflows:
+  build-and-push:
+    jobs:
+      - Build Generator:
+          context:
+            - REGISTRY
