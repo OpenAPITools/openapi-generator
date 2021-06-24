@@ -22,7 +22,7 @@ jobs:
           submodules: recursive
       - name: Build Image
         run: |
-          ./run-in-docker.sh mvn package
+          ./run-in-docker-ci.sh mvn package
           cp docker-entrypoint.sh ./modules/openapi-generator-cli;
           cd modules/openapi-generator-cli
           docker build --progress plain --target dist -t open-api-generator .
