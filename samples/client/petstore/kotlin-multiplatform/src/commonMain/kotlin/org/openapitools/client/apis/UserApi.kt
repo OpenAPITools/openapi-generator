@@ -26,7 +26,7 @@ import kotlinx.serialization.encoding.*
 class UserApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
-    jsonSerializer: Json
+    jsonSerializer: Json = ApiClient.JSON_DEFAULT
 ) : ApiClient(baseUrl, httpClientEngine, jsonSerializer) {
 
     /**

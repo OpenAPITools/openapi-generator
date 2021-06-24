@@ -52,7 +52,7 @@ import {{packageName}}.auth.*
 
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         const val BASE_URL = "{{{basePath}}}"
-
+        const val JSON_DEFAULT = Json { ignoreUnknownKeys = true }
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
     }
 

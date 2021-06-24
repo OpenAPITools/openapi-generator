@@ -45,7 +45,7 @@ open class ApiClient(
 
     companion object {
         const val BASE_URL = "http://petstore.swagger.io/v2"
-
+        const val JSON_DEFAULT = Json { ignoreUnknownKeys = true }
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
     }
 
