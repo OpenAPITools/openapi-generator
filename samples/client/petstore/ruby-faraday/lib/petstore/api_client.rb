@@ -54,8 +54,10 @@ module Petstore
         :client_cert => @config.ssl_client_cert,
         :client_key => @config.ssl_client_key
       }
-
-      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
+      request_options = {
+        :params_encoder => @config.params_encoder
+      }
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => request_options) do |conn|
         conn.basic_auth(config.username, config.password)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
           conn.request :multipart
