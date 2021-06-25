@@ -46,7 +46,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         typeMapping.put("file", "RequestFile");
-        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
+        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile | Stream;`
+        languageSpecificPrimitives.add("Stream");
         languageSpecificPrimitives.add("Buffer");
         languageSpecificPrimitives.add("ReadStream");
         languageSpecificPrimitives.add("RequestDetailedFile");
@@ -77,7 +78,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             // Use RequestFile as a default. The return type is fixed to Buffer in handleMethodResponse.
             return "RequestFile";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return "Buffer";
+            return "RequestFile";
         }
         return super.getTypeDeclaration(p);
     }
@@ -92,7 +93,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         // see comment in getTypeDeclaration
         if (op.isResponseFile) {
-            op.returnType = "Buffer";
+            op.returnType = "RequestFile";
         }
     }
 

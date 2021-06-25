@@ -4,6 +4,7 @@
 
 {{^withSeparateModelsAndApi}}
 import * as fs from 'fs';
+import { Stream } from 'stream';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { v4 as uuid } from 'uuid';
@@ -21,7 +22,7 @@ export interface RequestDetailedFile {
   }
 }
 
-export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
+export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile | Stream;
 
 {{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/model}}
