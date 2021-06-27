@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name = "code", EmitDefaultValue = false)]
-        public int Code 
+        public int Code
         { 
-            get{ return _Code;} 
+            get{ return _Code;}
             set
             {
                 _Code = value;
@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
         }
         private int _Code;
         private bool _flagCode;
-        
 
         /// <summary>
         /// Returns false as Code should not be serialized given that it's read-only.
@@ -75,9 +74,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type 
+        public string Type
         { 
-            get{ return _Type;} 
+            get{ return _Type;}
             set
             {
                 _Type = value;
@@ -86,7 +85,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Type;
         private bool _flagType;
-        
 
         /// <summary>
         /// Returns false as Type should not be serialized given that it's read-only.
@@ -100,9 +98,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message 
+        public string Message
         { 
-            get{ return _Message;} 
+            get{ return _Message;}
             set
             {
                 _Message = value;
@@ -111,7 +109,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Message;
         private bool _flagMessage;
-        
 
         /// <summary>
         /// Returns false as Message should not be serialized given that it's read-only.

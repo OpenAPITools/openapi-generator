@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid 
+        public Guid Uuid
         { 
-            get{ return _Uuid;} 
+            get{ return _Uuid;}
             set
             {
                 _Uuid = value;
@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
         }
         private Guid _Uuid;
         private bool _flagUuid;
-        
 
         /// <summary>
         /// Returns false as Uuid should not be serialized given that it's read-only.
@@ -75,9 +74,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime 
+        public DateTime DateTime
         { 
-            get{ return _DateTime;} 
+            get{ return _DateTime;}
             set
             {
                 _DateTime = value;
@@ -86,7 +85,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime _DateTime;
         private bool _flagDateTime;
-        
 
         /// <summary>
         /// Returns false as DateTime should not be serialized given that it's read-only.
@@ -100,9 +98,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Map
         /// </summary>
         [DataMember(Name = "map", EmitDefaultValue = false)]
-        public Dictionary<string, Animal> Map 
+        public Dictionary<string, Animal> Map
         { 
-            get{ return _Map;} 
+            get{ return _Map;}
             set
             {
                 _Map = value;
@@ -111,7 +109,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Animal> _Map;
         private bool _flagMap;
-        
 
         /// <summary>
         /// Returns false as Map should not be serialized given that it's read-only.

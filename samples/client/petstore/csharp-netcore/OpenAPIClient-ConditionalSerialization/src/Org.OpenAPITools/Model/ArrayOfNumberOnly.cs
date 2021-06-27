@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNumber
         /// </summary>
         [DataMember(Name = "ArrayNumber", EmitDefaultValue = false)]
-        public List<decimal> ArrayNumber 
+        public List<decimal> ArrayNumber
         { 
-            get{ return _ArrayNumber;} 
+            get{ return _ArrayNumber;}
             set
             {
                 _ArrayNumber = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<decimal> _ArrayNumber;
         private bool _flagArrayNumber;
-        
 
         /// <summary>
         /// Returns false as ArrayNumber should not be serialized given that it's read-only.

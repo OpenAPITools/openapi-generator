@@ -66,12 +66,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "enum_string", EmitDefaultValue = false)]
         public EnumStringEnum? EnumString 
         { 
-            get{ return _EnumString;} 
+            get{ return _EnumString;}
             set
             {
                 _EnumString = value;
                 _flagEnumString = true;
-            } 
+            }
         }
         private EnumStringEnum? _EnumString;
         private bool _flagEnumString;
@@ -118,12 +118,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
         public EnumStringRequiredEnum EnumStringRequired 
         { 
-            get{ return _EnumStringRequired;} 
+            get{ return _EnumStringRequired;}
             set
             {
                 _EnumStringRequired = value;
                 _flagEnumStringRequired = true;
-            } 
+            }
         }
         private EnumStringRequiredEnum _EnumStringRequired;
         private bool _flagEnumStringRequired;
@@ -161,12 +161,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
         public EnumIntegerEnum? EnumInteger 
         { 
-            get{ return _EnumInteger;} 
+            get{ return _EnumInteger;}
             set
             {
                 _EnumInteger = value;
                 _flagEnumInteger = true;
-            } 
+            }
         }
         private EnumIntegerEnum? _EnumInteger;
         private bool _flagEnumInteger;
@@ -204,12 +204,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "enum_integer_only", EmitDefaultValue = false)]
         public EnumIntegerOnlyEnum? EnumIntegerOnly 
         { 
-            get{ return _EnumIntegerOnly;} 
+            get{ return _EnumIntegerOnly;}
             set
             {
                 _EnumIntegerOnly = value;
                 _flagEnumIntegerOnly = true;
-            } 
+            }
         }
         private EnumIntegerOnlyEnum? _EnumIntegerOnly;
         private bool _flagEnumIntegerOnly;
@@ -250,12 +250,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
         public EnumNumberEnum? EnumNumber 
         { 
-            get{ return _EnumNumber;} 
+            get{ return _EnumNumber;}
             set
             {
                 _EnumNumber = value;
                 _flagEnumNumber = true;
-            } 
+            }
         }
         private EnumNumberEnum? _EnumNumber;
         private bool _flagEnumNumber;
@@ -276,12 +276,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
         public OuterEnum? OuterEnum 
         { 
-            get{ return _OuterEnum;} 
+            get{ return _OuterEnum;}
             set
             {
                 _OuterEnum = value;
                 _flagOuterEnum = true;
-            } 
+            }
         }
         private OuterEnum? _OuterEnum;
         private bool _flagOuterEnum;
@@ -302,12 +302,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
         public OuterEnumInteger? OuterEnumInteger 
         { 
-            get{ return _OuterEnumInteger;} 
+            get{ return _OuterEnumInteger;}
             set
             {
                 _OuterEnumInteger = value;
                 _flagOuterEnumInteger = true;
-            } 
+            }
         }
         private OuterEnumInteger? _OuterEnumInteger;
         private bool _flagOuterEnumInteger;
@@ -328,12 +328,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
         public OuterEnumDefaultValue? OuterEnumDefaultValue 
         { 
-            get{ return _OuterEnumDefaultValue;} 
+            get{ return _OuterEnumDefaultValue;}
             set
             {
                 _OuterEnumDefaultValue = value;
                 _flagOuterEnumDefaultValue = true;
-            } 
+            }
         }
         private OuterEnumDefaultValue? _OuterEnumDefaultValue;
         private bool _flagOuterEnumDefaultValue;
@@ -354,12 +354,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
         public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue 
         { 
-            get{ return _OuterEnumIntegerDefaultValue;} 
+            get{ return _OuterEnumIntegerDefaultValue;}
             set
             {
                 _OuterEnumIntegerDefaultValue = value;
                 _flagOuterEnumIntegerDefaultValue = true;
-            } 
+            }
         }
         private OuterEnumIntegerDefaultValue? _OuterEnumIntegerDefaultValue;
         private bool _flagOuterEnumIntegerDefaultValue;

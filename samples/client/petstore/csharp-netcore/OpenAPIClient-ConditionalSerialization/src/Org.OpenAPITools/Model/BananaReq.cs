@@ -52,9 +52,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
-        public decimal LengthCm 
+        public decimal LengthCm
         { 
-            get{ return _LengthCm;} 
+            get{ return _LengthCm;}
             set
             {
                 _LengthCm = value;
@@ -63,7 +63,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _LengthCm;
         private bool _flagLengthCm;
-        
 
         /// <summary>
         /// Returns false as LengthCm should not be serialized given that it's read-only.
@@ -77,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
-        public bool Sweet 
+        public bool Sweet
         { 
-            get{ return _Sweet;} 
+            get{ return _Sweet;}
             set
             {
                 _Sweet = value;
@@ -88,7 +87,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _Sweet;
         private bool _flagSweet;
-        
 
         /// <summary>
         /// Returns false as Sweet should not be serialized given that it's read-only.

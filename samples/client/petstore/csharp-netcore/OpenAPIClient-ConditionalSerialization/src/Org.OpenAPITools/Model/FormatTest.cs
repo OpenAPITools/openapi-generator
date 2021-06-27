@@ -86,9 +86,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer 
+        public int Integer
         { 
-            get{ return _Integer;} 
+            get{ return _Integer;}
             set
             {
                 _Integer = value;
@@ -97,7 +97,6 @@ namespace Org.OpenAPITools.Model
         }
         private int _Integer;
         private bool _flagInteger;
-        
 
         /// <summary>
         /// Returns false as Integer should not be serialized given that it's read-only.
@@ -111,9 +110,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 
+        public int Int32
         { 
-            get{ return _Int32;} 
+            get{ return _Int32;}
             set
             {
                 _Int32 = value;
@@ -122,7 +121,6 @@ namespace Org.OpenAPITools.Model
         }
         private int _Int32;
         private bool _flagInt32;
-        
 
         /// <summary>
         /// Returns false as Int32 should not be serialized given that it's read-only.
@@ -136,9 +134,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 
+        public long Int64
         { 
-            get{ return _Int64;} 
+            get{ return _Int64;}
             set
             {
                 _Int64 = value;
@@ -147,7 +145,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _Int64;
         private bool _flagInt64;
-        
 
         /// <summary>
         /// Returns false as Int64 should not be serialized given that it's read-only.
@@ -161,9 +158,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
-        public decimal Number 
+        public decimal Number
         { 
-            get{ return _Number;} 
+            get{ return _Number;}
             set
             {
                 _Number = value;
@@ -172,7 +169,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _Number;
         private bool _flagNumber;
-        
 
         /// <summary>
         /// Returns false as Number should not be serialized given that it's read-only.
@@ -186,9 +182,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float 
+        public float Float
         { 
-            get{ return _Float;} 
+            get{ return _Float;}
             set
             {
                 _Float = value;
@@ -197,7 +193,6 @@ namespace Org.OpenAPITools.Model
         }
         private float _Float;
         private bool _flagFloat;
-        
 
         /// <summary>
         /// Returns false as Float should not be serialized given that it's read-only.
@@ -211,9 +206,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double 
+        public double Double
         { 
-            get{ return _Double;} 
+            get{ return _Double;}
             set
             {
                 _Double = value;
@@ -222,7 +217,6 @@ namespace Org.OpenAPITools.Model
         }
         private double _Double;
         private bool _flagDouble;
-        
 
         /// <summary>
         /// Returns false as Double should not be serialized given that it's read-only.
@@ -236,9 +230,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal 
+        public decimal Decimal
         { 
-            get{ return _Decimal;} 
+            get{ return _Decimal;}
             set
             {
                 _Decimal = value;
@@ -247,7 +241,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _Decimal;
         private bool _flagDecimal;
-        
 
         /// <summary>
         /// Returns false as Decimal should not be serialized given that it's read-only.
@@ -261,9 +254,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string String 
+        public string String
         { 
-            get{ return _String;} 
+            get{ return _String;}
             set
             {
                 _String = value;
@@ -272,7 +265,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _String;
         private bool _flagString;
-        
 
         /// <summary>
         /// Returns false as String should not be serialized given that it's read-only.
@@ -286,9 +278,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
-        public byte[] Byte 
+        public byte[] Byte
         { 
-            get{ return _Byte;} 
+            get{ return _Byte;}
             set
             {
                 _Byte = value;
@@ -297,7 +289,6 @@ namespace Org.OpenAPITools.Model
         }
         private byte[] _Byte;
         private bool _flagByte;
-        
 
         /// <summary>
         /// Returns false as Byte should not be serialized given that it's read-only.
@@ -311,9 +302,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
-        public System.IO.Stream Binary 
+        public System.IO.Stream Binary
         { 
-            get{ return _Binary;} 
+            get{ return _Binary;}
             set
             {
                 _Binary = value;
@@ -322,7 +313,6 @@ namespace Org.OpenAPITools.Model
         }
         private System.IO.Stream _Binary;
         private bool _flagBinary;
-        
 
         /// <summary>
         /// Returns false as Binary should not be serialized given that it's read-only.
@@ -337,9 +327,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
-        public DateTime Date 
+        public DateTime Date
         { 
-            get{ return _Date;} 
+            get{ return _Date;}
             set
             {
                 _Date = value;
@@ -348,7 +338,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime _Date;
         private bool _flagDate;
-        
 
         /// <summary>
         /// Returns false as Date should not be serialized given that it's read-only.
@@ -362,9 +351,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime 
+        public DateTime DateTime
         { 
-            get{ return _DateTime;} 
+            get{ return _DateTime;}
             set
             {
                 _DateTime = value;
@@ -373,7 +362,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime _DateTime;
         private bool _flagDateTime;
-        
 
         /// <summary>
         /// Returns false as DateTime should not be serialized given that it's read-only.
@@ -387,9 +375,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid 
+        public Guid Uuid
         { 
-            get{ return _Uuid;} 
+            get{ return _Uuid;}
             set
             {
                 _Uuid = value;
@@ -398,7 +386,6 @@ namespace Org.OpenAPITools.Model
         }
         private Guid _Uuid;
         private bool _flagUuid;
-        
 
         /// <summary>
         /// Returns false as Uuid should not be serialized given that it's read-only.
@@ -412,9 +399,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
-        public string Password 
+        public string Password
         { 
-            get{ return _Password;} 
+            get{ return _Password;}
             set
             {
                 _Password = value;
@@ -423,7 +410,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Password;
         private bool _flagPassword;
-        
 
         /// <summary>
         /// Returns false as Password should not be serialized given that it's read-only.
@@ -438,9 +424,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
-        public string PatternWithDigits 
+        public string PatternWithDigits
         { 
-            get{ return _PatternWithDigits;} 
+            get{ return _PatternWithDigits;}
             set
             {
                 _PatternWithDigits = value;
@@ -449,7 +435,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _PatternWithDigits;
         private bool _flagPatternWithDigits;
-        
 
         /// <summary>
         /// Returns false as PatternWithDigits should not be serialized given that it's read-only.
@@ -464,9 +449,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
-        public string PatternWithDigitsAndDelimiter 
+        public string PatternWithDigitsAndDelimiter
         { 
-            get{ return _PatternWithDigitsAndDelimiter;} 
+            get{ return _PatternWithDigitsAndDelimiter;}
             set
             {
                 _PatternWithDigitsAndDelimiter = value;
@@ -475,7 +460,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _PatternWithDigitsAndDelimiter;
         private bool _flagPatternWithDigitsAndDelimiter;
-        
 
         /// <summary>
         /// Returns false as PatternWithDigitsAndDelimiter should not be serialized given that it's read-only.

@@ -56,12 +56,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public PetTypeEnum PetType 
         { 
-            get{ return _PetType;} 
+            get{ return _PetType;}
             set
             {
                 _PetType = value;
                 _flagPetType = true;
-            } 
+            }
         }
         private PetTypeEnum _PetType;
         private bool _flagPetType;
@@ -98,9 +98,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name 
+        public string Name
         { 
-            get{ return _Name;} 
+            get{ return _Name;}
             set
             {
                 _Name = value;
@@ -109,7 +109,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Name;
         private bool _flagName;
-        
 
         /// <summary>
         /// Returns false as Name should not be serialized given that it's read-only.

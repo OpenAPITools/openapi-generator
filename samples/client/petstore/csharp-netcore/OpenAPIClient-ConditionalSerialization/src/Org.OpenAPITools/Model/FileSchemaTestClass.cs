@@ -48,9 +48,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        public File File 
+        public File File
         { 
-            get{ return _File;} 
+            get{ return _File;}
             set
             {
                 _File = value;
@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
         }
         private File _File;
         private bool _flagFile;
-        
 
         /// <summary>
         /// Returns false as File should not be serialized given that it's read-only.
@@ -73,9 +72,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Files
         /// </summary>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        public List<File> Files 
+        public List<File> Files
         { 
-            get{ return _Files;} 
+            get{ return _Files;}
             set
             {
                 _Files = value;
@@ -84,7 +83,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<File> _Files;
         private bool _flagFiles;
-        
 
         /// <summary>
         /// Returns false as Files should not be serialized given that it's read-only.

@@ -58,9 +58,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
-        public string Breed 
+        public string Breed
         { 
-            get{ return _Breed;} 
+            get{ return _Breed;}
             set
             {
                 _Breed = value;
@@ -69,7 +69,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Breed;
         private bool _flagBreed;
-        
 
         /// <summary>
         /// Returns false as Breed should not be serialized given that it's read-only.

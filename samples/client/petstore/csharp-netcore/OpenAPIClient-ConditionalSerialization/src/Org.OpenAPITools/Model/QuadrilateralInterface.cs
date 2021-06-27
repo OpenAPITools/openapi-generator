@@ -55,9 +55,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
-        public string QuadrilateralType 
+        public string QuadrilateralType
         { 
-            get{ return _QuadrilateralType;} 
+            get{ return _QuadrilateralType;}
             set
             {
                 _QuadrilateralType = value;
@@ -66,7 +66,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _QuadrilateralType;
         private bool _flagQuadrilateralType;
-        
 
         /// <summary>
         /// Returns false as QuadrilateralType should not be serialized given that it's read-only.

@@ -55,9 +55,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType 
+        public string ShapeType
         { 
-            get{ return _ShapeType;} 
+            get{ return _ShapeType;}
             set
             {
                 _ShapeType = value;
@@ -66,7 +66,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ShapeType;
         private bool _flagShapeType;
-        
 
         /// <summary>
         /// Returns false as ShapeType should not be serialized given that it's read-only.

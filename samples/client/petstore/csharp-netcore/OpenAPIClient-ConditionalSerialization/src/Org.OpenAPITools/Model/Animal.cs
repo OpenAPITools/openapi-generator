@@ -62,9 +62,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName 
+        public string ClassName
         { 
-            get{ return _ClassName;} 
+            get{ return _ClassName;}
             set
             {
                 _ClassName = value;
@@ -73,7 +73,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ClassName;
         private bool _flagClassName;
-        
 
         /// <summary>
         /// Returns false as ClassName should not be serialized given that it's read-only.
@@ -87,9 +86,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color 
+        public string Color
         { 
-            get{ return _Color;} 
+            get{ return _Color;}
             set
             {
                 _Color = value;
@@ -98,7 +97,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Color;
         private bool _flagColor;
-        
 
         /// <summary>
         /// Returns false as Color should not be serialized given that it's read-only.

@@ -56,9 +56,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
-        public int _Name 
+        public int _Name
         { 
-            get{ return __Name;} 
+            get{ return __Name;}
             set
             {
                 __Name = value;
@@ -67,7 +67,6 @@ namespace Org.OpenAPITools.Model
         }
         private int __Name;
         private bool _flag_Name;
-        
 
         /// <summary>
         /// Returns false as _Name should not be serialized given that it's read-only.
@@ -82,7 +81,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
         public int SnakeCase { get; private set; }
-
         
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
@@ -96,9 +94,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
-        public string Property 
+        public string Property
         { 
-            get{ return _Property;} 
+            get{ return _Property;}
             set
             {
                 _Property = value;
@@ -107,7 +105,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Property;
         private bool _flagProperty;
-        
 
         /// <summary>
         /// Returns false as Property should not be serialized given that it's read-only.
@@ -122,7 +119,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
         public int _123Number { get; private set; }
-
         
         /// <summary>
         /// Returns false as _123Number should not be serialized given that it's read-only.

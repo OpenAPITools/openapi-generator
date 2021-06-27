@@ -67,9 +67,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
-        public int? IntegerProp 
+        public int? IntegerProp
         { 
-            get{ return _IntegerProp;} 
+            get{ return _IntegerProp;}
             set
             {
                 _IntegerProp = value;
@@ -78,7 +78,6 @@ namespace Org.OpenAPITools.Model
         }
         private int? _IntegerProp;
         private bool _flagIntegerProp;
-        
 
         /// <summary>
         /// Returns false as IntegerProp should not be serialized given that it's read-only.
@@ -92,9 +91,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberProp
         /// </summary>
         [DataMember(Name = "number_prop", EmitDefaultValue = true)]
-        public decimal? NumberProp 
+        public decimal? NumberProp
         { 
-            get{ return _NumberProp;} 
+            get{ return _NumberProp;}
             set
             {
                 _NumberProp = value;
@@ -103,7 +102,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal? _NumberProp;
         private bool _flagNumberProp;
-        
 
         /// <summary>
         /// Returns false as NumberProp should not be serialized given that it's read-only.
@@ -117,9 +115,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BooleanProp
         /// </summary>
         [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
-        public bool? BooleanProp 
+        public bool? BooleanProp
         { 
-            get{ return _BooleanProp;} 
+            get{ return _BooleanProp;}
             set
             {
                 _BooleanProp = value;
@@ -128,7 +126,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool? _BooleanProp;
         private bool _flagBooleanProp;
-        
 
         /// <summary>
         /// Returns false as BooleanProp should not be serialized given that it's read-only.
@@ -142,9 +139,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
-        public string StringProp 
+        public string StringProp
         { 
-            get{ return _StringProp;} 
+            get{ return _StringProp;}
             set
             {
                 _StringProp = value;
@@ -153,7 +150,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _StringProp;
         private bool _flagStringProp;
-        
 
         /// <summary>
         /// Returns false as StringProp should not be serialized given that it's read-only.
@@ -168,9 +164,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        public DateTime? DateProp 
+        public DateTime? DateProp
         { 
-            get{ return _DateProp;} 
+            get{ return _DateProp;}
             set
             {
                 _DateProp = value;
@@ -179,7 +175,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime? _DateProp;
         private bool _flagDateProp;
-        
 
         /// <summary>
         /// Returns false as DateProp should not be serialized given that it's read-only.
@@ -193,9 +188,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DatetimeProp
         /// </summary>
         [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
-        public DateTime? DatetimeProp 
+        public DateTime? DatetimeProp
         { 
-            get{ return _DatetimeProp;} 
+            get{ return _DatetimeProp;}
             set
             {
                 _DatetimeProp = value;
@@ -204,7 +199,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime? _DatetimeProp;
         private bool _flagDatetimeProp;
-        
 
         /// <summary>
         /// Returns false as DatetimeProp should not be serialized given that it's read-only.
@@ -218,9 +212,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [DataMember(Name = "array_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayNullableProp 
+        public List<Object> ArrayNullableProp
         { 
-            get{ return _ArrayNullableProp;} 
+            get{ return _ArrayNullableProp;}
             set
             {
                 _ArrayNullableProp = value;
@@ -229,7 +223,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<Object> _ArrayNullableProp;
         private bool _flagArrayNullableProp;
-        
 
         /// <summary>
         /// Returns false as ArrayNullableProp should not be serialized given that it's read-only.
@@ -243,9 +236,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "array_and_items_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayAndItemsNullableProp 
+        public List<Object> ArrayAndItemsNullableProp
         { 
-            get{ return _ArrayAndItemsNullableProp;} 
+            get{ return _ArrayAndItemsNullableProp;}
             set
             {
                 _ArrayAndItemsNullableProp = value;
@@ -254,7 +247,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<Object> _ArrayAndItemsNullableProp;
         private bool _flagArrayAndItemsNullableProp;
-        
 
         /// <summary>
         /// Returns false as ArrayAndItemsNullableProp should not be serialized given that it's read-only.
@@ -268,9 +260,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [DataMember(Name = "array_items_nullable", EmitDefaultValue = false)]
-        public List<Object> ArrayItemsNullable 
+        public List<Object> ArrayItemsNullable
         { 
-            get{ return _ArrayItemsNullable;} 
+            get{ return _ArrayItemsNullable;}
             set
             {
                 _ArrayItemsNullable = value;
@@ -279,7 +271,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<Object> _ArrayItemsNullable;
         private bool _flagArrayItemsNullable;
-        
 
         /// <summary>
         /// Returns false as ArrayItemsNullable should not be serialized given that it's read-only.
@@ -293,9 +284,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [DataMember(Name = "object_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectNullableProp 
+        public Dictionary<string, Object> ObjectNullableProp
         { 
-            get{ return _ObjectNullableProp;} 
+            get{ return _ObjectNullableProp;}
             set
             {
                 _ObjectNullableProp = value;
@@ -304,7 +295,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Object> _ObjectNullableProp;
         private bool _flagObjectNullableProp;
-        
 
         /// <summary>
         /// Returns false as ObjectNullableProp should not be serialized given that it's read-only.
@@ -318,9 +308,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "object_and_items_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp 
+        public Dictionary<string, Object> ObjectAndItemsNullableProp
         { 
-            get{ return _ObjectAndItemsNullableProp;} 
+            get{ return _ObjectAndItemsNullableProp;}
             set
             {
                 _ObjectAndItemsNullableProp = value;
@@ -329,7 +319,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Object> _ObjectAndItemsNullableProp;
         private bool _flagObjectAndItemsNullableProp;
-        
 
         /// <summary>
         /// Returns false as ObjectAndItemsNullableProp should not be serialized given that it's read-only.
@@ -343,9 +332,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [DataMember(Name = "object_items_nullable", EmitDefaultValue = false)]
-        public Dictionary<string, Object> ObjectItemsNullable 
+        public Dictionary<string, Object> ObjectItemsNullable
         { 
-            get{ return _ObjectItemsNullable;} 
+            get{ return _ObjectItemsNullable;}
             set
             {
                 _ObjectItemsNullable = value;
@@ -354,7 +343,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Object> _ObjectItemsNullable;
         private bool _flagObjectItemsNullable;
-        
 
         /// <summary>
         /// Returns false as ObjectItemsNullable should not be serialized given that it's read-only.

@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo String 
+        public Foo String
         { 
-            get{ return _String;} 
+            get{ return _String;}
             set
             {
                 _String = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private Foo _String;
         private bool _flagString;
-        
 
         /// <summary>
         /// Returns false as String should not be serialized given that it's read-only.

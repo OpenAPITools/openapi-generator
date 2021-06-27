@@ -54,9 +54,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType 
+        public string ShapeType
         { 
-            get{ return _ShapeType;} 
+            get{ return _ShapeType;}
             set
             {
                 _ShapeType = value;
@@ -65,7 +65,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ShapeType;
         private bool _flagShapeType;
-        
 
         /// <summary>
         /// Returns false as ShapeType should not be serialized given that it's read-only.
@@ -79,9 +78,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
-        public string TriangleType 
+        public string TriangleType
         { 
-            get{ return _TriangleType;} 
+            get{ return _TriangleType;}
             set
             {
                 _TriangleType = value;
@@ -90,7 +89,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _TriangleType;
         private bool _flagTriangleType;
-        
 
         /// <summary>
         /// Returns false as TriangleType should not be serialized given that it's read-only.

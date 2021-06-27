@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Client
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client 
+        public string _Client
         { 
-            get{ return __Client;} 
+            get{ return __Client;}
             set
             {
                 __Client = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private string __Client;
         private bool _flag_Client;
-        
 
         /// <summary>
         /// Returns false as _Client should not be serialized given that it's read-only.

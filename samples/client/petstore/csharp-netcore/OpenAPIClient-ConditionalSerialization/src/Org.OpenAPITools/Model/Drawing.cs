@@ -51,9 +51,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [DataMember(Name = "mainShape", EmitDefaultValue = false)]
-        public Shape MainShape 
+        public Shape MainShape
         { 
-            get{ return _MainShape;} 
+            get{ return _MainShape;}
             set
             {
                 _MainShape = value;
@@ -62,7 +62,6 @@ namespace Org.OpenAPITools.Model
         }
         private Shape _MainShape;
         private bool _flagMainShape;
-        
 
         /// <summary>
         /// Returns false as MainShape should not be serialized given that it's read-only.
@@ -76,9 +75,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [DataMember(Name = "shapeOrNull", EmitDefaultValue = false)]
-        public ShapeOrNull ShapeOrNull 
+        public ShapeOrNull ShapeOrNull
         { 
-            get{ return _ShapeOrNull;} 
+            get{ return _ShapeOrNull;}
             set
             {
                 _ShapeOrNull = value;
@@ -87,7 +86,6 @@ namespace Org.OpenAPITools.Model
         }
         private ShapeOrNull _ShapeOrNull;
         private bool _flagShapeOrNull;
-        
 
         /// <summary>
         /// Returns false as ShapeOrNull should not be serialized given that it's read-only.
@@ -101,9 +99,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableShape
         /// </summary>
         [DataMember(Name = "nullableShape", EmitDefaultValue = true)]
-        public NullableShape NullableShape 
+        public NullableShape NullableShape
         { 
-            get{ return _NullableShape;} 
+            get{ return _NullableShape;}
             set
             {
                 _NullableShape = value;
@@ -112,7 +110,6 @@ namespace Org.OpenAPITools.Model
         }
         private NullableShape _NullableShape;
         private bool _flagNullableShape;
-        
 
         /// <summary>
         /// Returns false as NullableShape should not be serialized given that it's read-only.
@@ -126,9 +123,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Shapes
         /// </summary>
         [DataMember(Name = "shapes", EmitDefaultValue = false)]
-        public List<Shape> Shapes 
+        public List<Shape> Shapes
         { 
-            get{ return _Shapes;} 
+            get{ return _Shapes;}
             set
             {
                 _Shapes = value;
@@ -137,7 +134,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<Shape> _Shapes;
         private bool _flagShapes;
-        
 
         /// <summary>
         /// Returns false as Shapes should not be serialized given that it's read-only.

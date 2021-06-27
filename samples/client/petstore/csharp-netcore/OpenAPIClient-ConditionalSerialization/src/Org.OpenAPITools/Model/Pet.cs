@@ -68,12 +68,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status 
         { 
-            get{ return _Status;} 
+            get{ return _Status;}
             set
             {
                 _Status = value;
                 _flagStatus = true;
-            } 
+            }
         }
         private StatusEnum? _Status;
         private bool _flagStatus;
@@ -120,9 +120,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id 
+        public long Id
         { 
-            get{ return _Id;} 
+            get{ return _Id;}
             set
             {
                 _Id = value;
@@ -131,7 +131,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _Id;
         private bool _flagId;
-        
 
         /// <summary>
         /// Returns false as Id should not be serialized given that it's read-only.
@@ -145,9 +144,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name = "category", EmitDefaultValue = false)]
-        public Category Category 
+        public Category Category
         { 
-            get{ return _Category;} 
+            get{ return _Category;}
             set
             {
                 _Category = value;
@@ -156,7 +155,6 @@ namespace Org.OpenAPITools.Model
         }
         private Category _Category;
         private bool _flagCategory;
-        
 
         /// <summary>
         /// Returns false as Category should not be serialized given that it's read-only.
@@ -170,9 +168,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
-        public string Name 
+        public string Name
         { 
-            get{ return _Name;} 
+            get{ return _Name;}
             set
             {
                 _Name = value;
@@ -181,7 +179,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Name;
         private bool _flagName;
-        
 
         /// <summary>
         /// Returns false as Name should not be serialized given that it's read-only.
@@ -195,9 +192,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PhotoUrls
         /// </summary>
         [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
-        public List<string> PhotoUrls 
+        public List<string> PhotoUrls
         { 
-            get{ return _PhotoUrls;} 
+            get{ return _PhotoUrls;}
             set
             {
                 _PhotoUrls = value;
@@ -206,7 +203,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<string> _PhotoUrls;
         private bool _flagPhotoUrls;
-        
 
         /// <summary>
         /// Returns false as PhotoUrls should not be serialized given that it's read-only.
@@ -220,9 +216,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name = "tags", EmitDefaultValue = false)]
-        public List<Tag> Tags 
+        public List<Tag> Tags
         { 
-            get{ return _Tags;} 
+            get{ return _Tags;}
             set
             {
                 _Tags = value;
@@ -231,7 +227,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<Tag> _Tags;
         private bool _flagTags;
-        
 
         /// <summary>
         /// Returns false as Tags should not be serialized given that it's read-only.

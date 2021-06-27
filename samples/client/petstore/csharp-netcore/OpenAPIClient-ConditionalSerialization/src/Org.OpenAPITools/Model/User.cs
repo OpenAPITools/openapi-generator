@@ -68,9 +68,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id 
+        public long Id
         { 
-            get{ return _Id;} 
+            get{ return _Id;}
             set
             {
                 _Id = value;
@@ -79,7 +79,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _Id;
         private bool _flagId;
-        
 
         /// <summary>
         /// Returns false as Id should not be serialized given that it's read-only.
@@ -93,9 +92,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name = "username", EmitDefaultValue = false)]
-        public string Username 
+        public string Username
         { 
-            get{ return _Username;} 
+            get{ return _Username;}
             set
             {
                 _Username = value;
@@ -104,7 +103,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Username;
         private bool _flagUsername;
-        
 
         /// <summary>
         /// Returns false as Username should not be serialized given that it's read-only.
@@ -118,9 +116,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name = "firstName", EmitDefaultValue = false)]
-        public string FirstName 
+        public string FirstName
         { 
-            get{ return _FirstName;} 
+            get{ return _FirstName;}
             set
             {
                 _FirstName = value;
@@ -129,7 +127,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _FirstName;
         private bool _flagFirstName;
-        
 
         /// <summary>
         /// Returns false as FirstName should not be serialized given that it's read-only.
@@ -143,9 +140,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name = "lastName", EmitDefaultValue = false)]
-        public string LastName 
+        public string LastName
         { 
-            get{ return _LastName;} 
+            get{ return _LastName;}
             set
             {
                 _LastName = value;
@@ -154,7 +151,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _LastName;
         private bool _flagLastName;
-        
 
         /// <summary>
         /// Returns false as LastName should not be serialized given that it's read-only.
@@ -168,9 +164,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name = "email", EmitDefaultValue = false)]
-        public string Email 
+        public string Email
         { 
-            get{ return _Email;} 
+            get{ return _Email;}
             set
             {
                 _Email = value;
@@ -179,7 +175,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Email;
         private bool _flagEmail;
-        
 
         /// <summary>
         /// Returns false as Email should not be serialized given that it's read-only.
@@ -193,9 +188,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", EmitDefaultValue = false)]
-        public string Password 
+        public string Password
         { 
-            get{ return _Password;} 
+            get{ return _Password;}
             set
             {
                 _Password = value;
@@ -204,7 +199,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Password;
         private bool _flagPassword;
-        
 
         /// <summary>
         /// Returns false as Password should not be serialized given that it's read-only.
@@ -218,9 +212,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
-        public string Phone 
+        public string Phone
         { 
-            get{ return _Phone;} 
+            get{ return _Phone;}
             set
             {
                 _Phone = value;
@@ -229,7 +223,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Phone;
         private bool _flagPhone;
-        
 
         /// <summary>
         /// Returns false as Phone should not be serialized given that it's read-only.
@@ -244,9 +237,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
-        public int UserStatus 
+        public int UserStatus
         { 
-            get{ return _UserStatus;} 
+            get{ return _UserStatus;}
             set
             {
                 _UserStatus = value;
@@ -255,7 +248,6 @@ namespace Org.OpenAPITools.Model
         }
         private int _UserStatus;
         private bool _flagUserStatus;
-        
 
         /// <summary>
         /// Returns false as UserStatus should not be serialized given that it's read-only.
@@ -270,9 +262,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredProps", EmitDefaultValue = false)]
-        public Object ObjectWithNoDeclaredProps 
+        public Object ObjectWithNoDeclaredProps
         { 
-            get{ return _ObjectWithNoDeclaredProps;} 
+            get{ return _ObjectWithNoDeclaredProps;}
             set
             {
                 _ObjectWithNoDeclaredProps = value;
@@ -281,7 +273,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _ObjectWithNoDeclaredProps;
         private bool _flagObjectWithNoDeclaredProps;
-        
 
         /// <summary>
         /// Returns false as ObjectWithNoDeclaredProps should not be serialized given that it's read-only.
@@ -296,9 +287,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredPropsNullable", EmitDefaultValue = true)]
-        public Object ObjectWithNoDeclaredPropsNullable 
+        public Object ObjectWithNoDeclaredPropsNullable
         { 
-            get{ return _ObjectWithNoDeclaredPropsNullable;} 
+            get{ return _ObjectWithNoDeclaredPropsNullable;}
             set
             {
                 _ObjectWithNoDeclaredPropsNullable = value;
@@ -307,7 +298,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _ObjectWithNoDeclaredPropsNullable;
         private bool _flagObjectWithNoDeclaredPropsNullable;
-        
 
         /// <summary>
         /// Returns false as ObjectWithNoDeclaredPropsNullable should not be serialized given that it's read-only.
@@ -322,9 +312,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [DataMember(Name = "anyTypeProp", EmitDefaultValue = true)]
-        public Object AnyTypeProp 
+        public Object AnyTypeProp
         { 
-            get{ return _AnyTypeProp;} 
+            get{ return _AnyTypeProp;}
             set
             {
                 _AnyTypeProp = value;
@@ -333,7 +323,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _AnyTypeProp;
         private bool _flagAnyTypeProp;
-        
 
         /// <summary>
         /// Returns false as AnyTypeProp should not be serialized given that it's read-only.
@@ -348,9 +337,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [DataMember(Name = "anyTypePropNullable", EmitDefaultValue = true)]
-        public Object AnyTypePropNullable 
+        public Object AnyTypePropNullable
         { 
-            get{ return _AnyTypePropNullable;} 
+            get{ return _AnyTypePropNullable;}
             set
             {
                 _AnyTypePropNullable = value;
@@ -359,7 +348,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _AnyTypePropNullable;
         private bool _flagAnyTypePropNullable;
-        
 
         /// <summary>
         /// Returns false as AnyTypePropNullable should not be serialized given that it's read-only.

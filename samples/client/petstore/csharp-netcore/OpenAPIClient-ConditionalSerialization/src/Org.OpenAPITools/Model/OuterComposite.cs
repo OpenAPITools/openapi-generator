@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
-        public decimal MyNumber 
+        public decimal MyNumber
         { 
-            get{ return _MyNumber;} 
+            get{ return _MyNumber;}
             set
             {
                 _MyNumber = value;
@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _MyNumber;
         private bool _flagMyNumber;
-        
 
         /// <summary>
         /// Returns false as MyNumber should not be serialized given that it's read-only.
@@ -75,9 +74,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name = "my_string", EmitDefaultValue = false)]
-        public string MyString 
+        public string MyString
         { 
-            get{ return _MyString;} 
+            get{ return _MyString;}
             set
             {
                 _MyString = value;
@@ -86,7 +85,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _MyString;
         private bool _flagMyString;
-        
 
         /// <summary>
         /// Returns false as MyString should not be serialized given that it's read-only.
@@ -100,9 +98,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
-        public bool MyBoolean 
+        public bool MyBoolean
         { 
-            get{ return _MyBoolean;} 
+            get{ return _MyBoolean;}
             set
             {
                 _MyBoolean = value;
@@ -111,7 +109,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _MyBoolean;
         private bool _flagMyBoolean;
-        
 
         /// <summary>
         /// Returns false as MyBoolean should not be serialized given that it's read-only.

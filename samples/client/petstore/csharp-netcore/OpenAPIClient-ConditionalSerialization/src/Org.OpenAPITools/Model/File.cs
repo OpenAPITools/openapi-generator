@@ -47,9 +47,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
-        public string SourceURI 
+        public string SourceURI
         { 
-            get{ return _SourceURI;} 
+            get{ return _SourceURI;}
             set
             {
                 _SourceURI = value;
@@ -58,7 +58,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _SourceURI;
         private bool _flagSourceURI;
-        
 
         /// <summary>
         /// Returns false as SourceURI should not be serialized given that it's read-only.

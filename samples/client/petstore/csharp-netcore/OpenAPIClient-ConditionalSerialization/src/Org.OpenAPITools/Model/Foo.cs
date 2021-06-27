@@ -47,9 +47,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar 
+        public string Bar
         { 
-            get{ return _Bar;} 
+            get{ return _Bar;}
             set
             {
                 _Bar = value;
@@ -58,7 +58,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Bar;
         private bool _flagBar;
-        
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.

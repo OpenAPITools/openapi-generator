@@ -59,9 +59,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
-        public string PetType 
+        public string PetType
         { 
-            get{ return _PetType;} 
+            get{ return _PetType;}
             set
             {
                 _PetType = value;
@@ -70,7 +70,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _PetType;
         private bool _flagPetType;
-        
 
         /// <summary>
         /// Returns false as PetType should not be serialized given that it's read-only.

@@ -60,9 +60,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapProperty
         /// </summary>
         [DataMember(Name = "map_property", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapProperty 
+        public Dictionary<string, string> MapProperty
         { 
-            get{ return _MapProperty;} 
+            get{ return _MapProperty;}
             set
             {
                 _MapProperty = value;
@@ -71,7 +71,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, string> _MapProperty;
         private bool _flagMapProperty;
-        
 
         /// <summary>
         /// Returns false as MapProperty should not be serialized given that it's read-only.
@@ -85,9 +84,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
-        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty 
+        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty
         { 
-            get{ return _MapOfMapProperty;} 
+            get{ return _MapOfMapProperty;}
             set
             {
                 _MapOfMapProperty = value;
@@ -96,7 +95,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Dictionary<string, string>> _MapOfMapProperty;
         private bool _flagMapOfMapProperty;
-        
 
         /// <summary>
         /// Returns false as MapOfMapProperty should not be serialized given that it's read-only.
@@ -110,9 +108,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
-        public Object Anytype1 
+        public Object Anytype1
         { 
-            get{ return _Anytype1;} 
+            get{ return _Anytype1;}
             set
             {
                 _Anytype1 = value;
@@ -121,7 +119,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _Anytype1;
         private bool _flagAnytype1;
-        
 
         /// <summary>
         /// Returns false as Anytype1 should not be serialized given that it's read-only.
@@ -135,9 +132,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype1 
+        public Object MapWithUndeclaredPropertiesAnytype1
         { 
-            get{ return _MapWithUndeclaredPropertiesAnytype1;} 
+            get{ return _MapWithUndeclaredPropertiesAnytype1;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype1 = value;
@@ -146,7 +143,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _MapWithUndeclaredPropertiesAnytype1;
         private bool _flagMapWithUndeclaredPropertiesAnytype1;
-        
 
         /// <summary>
         /// Returns false as MapWithUndeclaredPropertiesAnytype1 should not be serialized given that it's read-only.
@@ -160,9 +156,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype2 
+        public Object MapWithUndeclaredPropertiesAnytype2
         { 
-            get{ return _MapWithUndeclaredPropertiesAnytype2;} 
+            get{ return _MapWithUndeclaredPropertiesAnytype2;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype2 = value;
@@ -171,7 +167,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _MapWithUndeclaredPropertiesAnytype2;
         private bool _flagMapWithUndeclaredPropertiesAnytype2;
-        
 
         /// <summary>
         /// Returns false as MapWithUndeclaredPropertiesAnytype2 should not be serialized given that it's read-only.
@@ -185,9 +180,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
-        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 
+        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3
         { 
-            get{ return _MapWithUndeclaredPropertiesAnytype3;} 
+            get{ return _MapWithUndeclaredPropertiesAnytype3;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype3 = value;
@@ -196,7 +191,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Object> _MapWithUndeclaredPropertiesAnytype3;
         private bool _flagMapWithUndeclaredPropertiesAnytype3;
-        
 
         /// <summary>
         /// Returns false as MapWithUndeclaredPropertiesAnytype3 should not be serialized given that it's read-only.
@@ -211,9 +205,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
-        public Object EmptyMap 
+        public Object EmptyMap
         { 
-            get{ return _EmptyMap;} 
+            get{ return _EmptyMap;}
             set
             {
                 _EmptyMap = value;
@@ -222,7 +216,6 @@ namespace Org.OpenAPITools.Model
         }
         private Object _EmptyMap;
         private bool _flagEmptyMap;
-        
 
         /// <summary>
         /// Returns false as EmptyMap should not be serialized given that it's read-only.
@@ -236,9 +229,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapWithUndeclaredPropertiesString 
+        public Dictionary<string, string> MapWithUndeclaredPropertiesString
         { 
-            get{ return _MapWithUndeclaredPropertiesString;} 
+            get{ return _MapWithUndeclaredPropertiesString;}
             set
             {
                 _MapWithUndeclaredPropertiesString = value;
@@ -247,7 +240,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, string> _MapWithUndeclaredPropertiesString;
         private bool _flagMapWithUndeclaredPropertiesString;
-        
 
         /// <summary>
         /// Returns false as MapWithUndeclaredPropertiesString should not be serialized given that it's read-only.

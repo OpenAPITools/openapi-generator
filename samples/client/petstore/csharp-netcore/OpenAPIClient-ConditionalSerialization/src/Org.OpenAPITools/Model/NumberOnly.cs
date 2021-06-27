@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
-        public decimal JustNumber 
+        public decimal JustNumber
         { 
-            get{ return _JustNumber;} 
+            get{ return _JustNumber;}
             set
             {
                 _JustNumber = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _JustNumber;
         private bool _flagJustNumber;
-        
 
         /// <summary>
         /// Returns false as JustNumber should not be serialized given that it's read-only.

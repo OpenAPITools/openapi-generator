@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Return
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int _Return 
+        public int _Return
         { 
-            get{ return __Return;} 
+            get{ return __Return;}
             set
             {
                 __Return = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private int __Return;
         private bool _flag_Return;
-        
 
         /// <summary>
         /// Returns false as _Return should not be serialized given that it's read-only.

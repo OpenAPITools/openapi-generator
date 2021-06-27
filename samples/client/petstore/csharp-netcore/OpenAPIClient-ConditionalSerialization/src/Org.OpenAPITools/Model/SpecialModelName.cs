@@ -48,9 +48,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName 
+        public long SpecialPropertyName
         { 
-            get{ return _SpecialPropertyName;} 
+            get{ return _SpecialPropertyName;}
             set
             {
                 _SpecialPropertyName = value;
@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _SpecialPropertyName;
         private bool _flagSpecialPropertyName;
-        
 
         /// <summary>
         /// Returns false as SpecialPropertyName should not be serialized given that it's read-only.
@@ -73,9 +72,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _SpecialModelName
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string _SpecialModelName 
+        public string _SpecialModelName
         { 
-            get{ return __SpecialModelName;} 
+            get{ return __SpecialModelName;}
             set
             {
                 __SpecialModelName = value;
@@ -84,7 +83,6 @@ namespace Org.OpenAPITools.Model
         }
         private string __SpecialModelName;
         private bool _flag_SpecialModelName;
-        
 
         /// <summary>
         /// Returns false as _SpecialModelName should not be serialized given that it's read-only.

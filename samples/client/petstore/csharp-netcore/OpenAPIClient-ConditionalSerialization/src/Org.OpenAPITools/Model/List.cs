@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string _123List 
+        public string _123List
         { 
-            get{ return __123List;} 
+            get{ return __123List;}
             set
             {
                 __123List = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private string __123List;
         private bool _flag_123List;
-        
 
         /// <summary>
         /// Returns false as _123List should not be serialized given that it's read-only.

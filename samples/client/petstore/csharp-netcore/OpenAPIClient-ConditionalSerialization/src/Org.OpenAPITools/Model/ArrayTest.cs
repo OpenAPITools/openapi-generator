@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayOfString
         /// </summary>
         [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
-        public List<string> ArrayOfString 
+        public List<string> ArrayOfString
         { 
-            get{ return _ArrayOfString;} 
+            get{ return _ArrayOfString;}
             set
             {
                 _ArrayOfString = value;
@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<string> _ArrayOfString;
         private bool _flagArrayOfString;
-        
 
         /// <summary>
         /// Returns false as ArrayOfString should not be serialized given that it's read-only.
@@ -75,9 +74,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
-        public List<List<long>> ArrayArrayOfInteger 
+        public List<List<long>> ArrayArrayOfInteger
         { 
-            get{ return _ArrayArrayOfInteger;} 
+            get{ return _ArrayArrayOfInteger;}
             set
             {
                 _ArrayArrayOfInteger = value;
@@ -86,7 +85,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<List<long>> _ArrayArrayOfInteger;
         private bool _flagArrayArrayOfInteger;
-        
 
         /// <summary>
         /// Returns false as ArrayArrayOfInteger should not be serialized given that it's read-only.
@@ -100,9 +98,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel 
+        public List<List<ReadOnlyFirst>> ArrayArrayOfModel
         { 
-            get{ return _ArrayArrayOfModel;} 
+            get{ return _ArrayArrayOfModel;}
             set
             {
                 _ArrayArrayOfModel = value;
@@ -111,7 +109,6 @@ namespace Org.OpenAPITools.Model
         }
         private List<List<ReadOnlyFirst>> _ArrayArrayOfModel;
         private bool _flagArrayArrayOfModel;
-        
 
         /// <summary>
         /// Returns false as ArrayArrayOfModel should not be serialized given that it's read-only.

@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm 
+        public decimal LengthCm
         { 
-            get{ return _LengthCm;} 
+            get{ return _LengthCm;}
             set
             {
                 _LengthCm = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private decimal _LengthCm;
         private bool _flagLengthCm;
-        
 
         /// <summary>
         /// Returns false as LengthCm should not be serialized given that it's read-only.

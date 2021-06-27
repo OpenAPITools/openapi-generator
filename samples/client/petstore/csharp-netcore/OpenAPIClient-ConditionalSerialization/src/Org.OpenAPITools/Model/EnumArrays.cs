@@ -60,12 +60,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
         public JustSymbolEnum? JustSymbol 
         { 
-            get{ return _JustSymbol;} 
+            get{ return _JustSymbol;}
             set
             {
                 _JustSymbol = value;
                 _flagJustSymbol = true;
-            } 
+            }
         }
         private JustSymbolEnum? _JustSymbol;
         private bool _flagJustSymbol;
@@ -107,12 +107,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
         public List<ArrayEnumEnum> ArrayEnum 
         { 
-            get{ return _ArrayEnum;} 
+            get{ return _ArrayEnum;}
             set
             {
                 _ArrayEnum = value;
                 _flagArrayEnum = true;
-            } 
+            }
         }
         private List<ArrayEnumEnum> _ArrayEnum;
         private bool _flagArrayEnum;

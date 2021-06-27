@@ -48,9 +48,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar 
+        public string Cultivar
         { 
-            get{ return _Cultivar;} 
+            get{ return _Cultivar;}
             set
             {
                 _Cultivar = value;
@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Cultivar;
         private bool _flagCultivar;
-        
 
         /// <summary>
         /// Returns false as Cultivar should not be serialized given that it's read-only.
@@ -73,9 +72,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin 
+        public string Origin
         { 
-            get{ return _Origin;} 
+            get{ return _Origin;}
             set
             {
                 _Origin = value;
@@ -84,7 +83,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Origin;
         private bool _flagOrigin;
-        
 
         /// <summary>
         /// Returns false as Origin should not be serialized given that it's read-only.

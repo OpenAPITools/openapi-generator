@@ -68,12 +68,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status 
         { 
-            get{ return _Status;} 
+            get{ return _Status;}
             set
             {
                 _Status = value;
                 _flagStatus = true;
-            } 
+            }
         }
         private StatusEnum? _Status;
         private bool _flagStatus;
@@ -110,9 +110,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id 
+        public long Id
         { 
-            get{ return _Id;} 
+            get{ return _Id;}
             set
             {
                 _Id = value;
@@ -121,7 +121,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _Id;
         private bool _flagId;
-        
 
         /// <summary>
         /// Returns false as Id should not be serialized given that it's read-only.
@@ -135,9 +134,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId 
+        public long PetId
         { 
-            get{ return _PetId;} 
+            get{ return _PetId;}
             set
             {
                 _PetId = value;
@@ -146,7 +145,6 @@ namespace Org.OpenAPITools.Model
         }
         private long _PetId;
         private bool _flagPetId;
-        
 
         /// <summary>
         /// Returns false as PetId should not be serialized given that it's read-only.
@@ -160,9 +158,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity 
+        public int Quantity
         { 
-            get{ return _Quantity;} 
+            get{ return _Quantity;}
             set
             {
                 _Quantity = value;
@@ -171,7 +169,6 @@ namespace Org.OpenAPITools.Model
         }
         private int _Quantity;
         private bool _flagQuantity;
-        
 
         /// <summary>
         /// Returns false as Quantity should not be serialized given that it's read-only.
@@ -185,9 +182,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
-        public DateTime ShipDate 
+        public DateTime ShipDate
         { 
-            get{ return _ShipDate;} 
+            get{ return _ShipDate;}
             set
             {
                 _ShipDate = value;
@@ -196,7 +193,6 @@ namespace Org.OpenAPITools.Model
         }
         private DateTime _ShipDate;
         private bool _flagShipDate;
-        
 
         /// <summary>
         /// Returns false as ShipDate should not be serialized given that it's read-only.
@@ -210,9 +206,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
-        public bool Complete 
+        public bool Complete
         { 
-            get{ return _Complete;} 
+            get{ return _Complete;}
             set
             {
                 _Complete = value;
@@ -221,7 +217,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _Complete;
         private bool _flagComplete;
-        
 
         /// <summary>
         /// Returns false as Complete should not be serialized given that it's read-only.

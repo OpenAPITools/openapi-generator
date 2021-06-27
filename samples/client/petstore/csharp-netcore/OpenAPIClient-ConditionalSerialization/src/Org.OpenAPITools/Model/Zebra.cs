@@ -66,12 +66,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public TypeEnum? Type 
         { 
-            get{ return _Type;} 
+            get{ return _Type;}
             set
             {
                 _Type = value;
                 _flagType = true;
-            } 
+            }
         }
         private TypeEnum? _Type;
         private bool _flagType;
@@ -109,9 +109,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName 
+        public string ClassName
         { 
-            get{ return _ClassName;} 
+            get{ return _ClassName;}
             set
             {
                 _ClassName = value;
@@ -120,7 +120,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ClassName;
         private bool _flagClassName;
-        
 
         /// <summary>
         /// Returns false as ClassName should not be serialized given that it's read-only.

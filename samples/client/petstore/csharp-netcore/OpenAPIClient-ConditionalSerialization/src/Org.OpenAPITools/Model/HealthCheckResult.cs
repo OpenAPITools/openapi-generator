@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
-        public string NullableMessage 
+        public string NullableMessage
         { 
-            get{ return _NullableMessage;} 
+            get{ return _NullableMessage;}
             set
             {
                 _NullableMessage = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _NullableMessage;
         private bool _flagNullableMessage;
-        
 
         /// <summary>
         /// Returns false as NullableMessage should not be serialized given that it's read-only.

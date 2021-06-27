@@ -46,9 +46,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string Class 
+        public string Class
         { 
-            get{ return _Class;} 
+            get{ return _Class;}
             set
             {
                 _Class = value;
@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _Class;
         private bool _flagClass;
-        
 
         /// <summary>
         /// Returns false as Class should not be serialized given that it's read-only.

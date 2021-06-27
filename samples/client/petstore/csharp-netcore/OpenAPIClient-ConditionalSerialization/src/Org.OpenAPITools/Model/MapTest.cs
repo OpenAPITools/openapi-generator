@@ -61,12 +61,12 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
         public Dictionary<string, InnerEnum> MapOfEnumString 
         { 
-            get{ return _MapOfEnumString;} 
+            get{ return _MapOfEnumString;}
             set
             {
                 _MapOfEnumString = value;
                 _flagMapOfEnumString = true;
-            } 
+            }
         }
         private Dictionary<string, InnerEnum> _MapOfEnumString;
         private bool _flagMapOfEnumString;
@@ -99,9 +99,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString 
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString
         { 
-            get{ return _MapMapOfString;} 
+            get{ return _MapMapOfString;}
             set
             {
                 _MapMapOfString = value;
@@ -110,7 +110,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, Dictionary<string, string>> _MapMapOfString;
         private bool _flagMapMapOfString;
-        
 
         /// <summary>
         /// Returns false as MapMapOfString should not be serialized given that it's read-only.
@@ -124,9 +123,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name = "direct_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> DirectMap 
+        public Dictionary<string, bool> DirectMap
         { 
-            get{ return _DirectMap;} 
+            get{ return _DirectMap;}
             set
             {
                 _DirectMap = value;
@@ -135,7 +134,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, bool> _DirectMap;
         private bool _flagDirectMap;
-        
 
         /// <summary>
         /// Returns false as DirectMap should not be serialized given that it's read-only.
@@ -149,9 +147,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name = "indirect_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> IndirectMap 
+        public Dictionary<string, bool> IndirectMap
         { 
-            get{ return _IndirectMap;} 
+            get{ return _IndirectMap;}
             set
             {
                 _IndirectMap = value;
@@ -160,7 +158,6 @@ namespace Org.OpenAPITools.Model
         }
         private Dictionary<string, bool> _IndirectMap;
         private bool _flagIndirectMap;
-        
 
         /// <summary>
         /// Returns false as IndirectMap should not be serialized given that it's read-only.

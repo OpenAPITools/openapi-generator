@@ -56,9 +56,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
-        public string SmallCamel 
+        public string SmallCamel
         { 
-            get{ return _SmallCamel;} 
+            get{ return _SmallCamel;}
             set
             {
                 _SmallCamel = value;
@@ -67,7 +67,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _SmallCamel;
         private bool _flagSmallCamel;
-        
 
         /// <summary>
         /// Returns false as SmallCamel should not be serialized given that it's read-only.
@@ -81,9 +80,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalCamel
         /// </summary>
         [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
-        public string CapitalCamel 
+        public string CapitalCamel
         { 
-            get{ return _CapitalCamel;} 
+            get{ return _CapitalCamel;}
             set
             {
                 _CapitalCamel = value;
@@ -92,7 +91,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _CapitalCamel;
         private bool _flagCapitalCamel;
-        
 
         /// <summary>
         /// Returns false as CapitalCamel should not be serialized given that it's read-only.
@@ -106,9 +104,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallSnake
         /// </summary>
         [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
-        public string SmallSnake 
+        public string SmallSnake
         { 
-            get{ return _SmallSnake;} 
+            get{ return _SmallSnake;}
             set
             {
                 _SmallSnake = value;
@@ -117,7 +115,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _SmallSnake;
         private bool _flagSmallSnake;
-        
 
         /// <summary>
         /// Returns false as SmallSnake should not be serialized given that it's read-only.
@@ -131,9 +128,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalSnake
         /// </summary>
         [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
-        public string CapitalSnake 
+        public string CapitalSnake
         { 
-            get{ return _CapitalSnake;} 
+            get{ return _CapitalSnake;}
             set
             {
                 _CapitalSnake = value;
@@ -142,7 +139,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _CapitalSnake;
         private bool _flagCapitalSnake;
-        
 
         /// <summary>
         /// Returns false as CapitalSnake should not be serialized given that it's read-only.
@@ -156,9 +152,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
-        public string SCAETHFlowPoints 
+        public string SCAETHFlowPoints
         { 
-            get{ return _SCAETHFlowPoints;} 
+            get{ return _SCAETHFlowPoints;}
             set
             {
                 _SCAETHFlowPoints = value;
@@ -167,7 +163,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _SCAETHFlowPoints;
         private bool _flagSCAETHFlowPoints;
-        
 
         /// <summary>
         /// Returns false as SCAETHFlowPoints should not be serialized given that it's read-only.
@@ -182,9 +177,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Name of the pet </value>
         [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
-        public string ATT_NAME 
+        public string ATT_NAME
         { 
-            get{ return _ATT_NAME;} 
+            get{ return _ATT_NAME;}
             set
             {
                 _ATT_NAME = value;
@@ -193,7 +188,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ATT_NAME;
         private bool _flagATT_NAME;
-        
 
         /// <summary>
         /// Returns false as ATT_NAME should not be serialized given that it's read-only.

@@ -58,9 +58,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
-        public bool Declawed 
+        public bool Declawed
         { 
-            get{ return _Declawed;} 
+            get{ return _Declawed;}
             set
             {
                 _Declawed = value;
@@ -69,7 +69,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _Declawed;
         private bool _flagDeclawed;
-        
 
         /// <summary>
         /// Returns false as Declawed should not be serialized given that it's read-only.

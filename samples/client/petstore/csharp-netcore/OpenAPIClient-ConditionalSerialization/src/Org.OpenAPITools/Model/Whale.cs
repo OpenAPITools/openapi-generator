@@ -59,9 +59,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasBaleen
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
-        public bool HasBaleen 
+        public bool HasBaleen
         { 
-            get{ return _HasBaleen;} 
+            get{ return _HasBaleen;}
             set
             {
                 _HasBaleen = value;
@@ -70,7 +70,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _HasBaleen;
         private bool _flagHasBaleen;
-        
 
         /// <summary>
         /// Returns false as HasBaleen should not be serialized given that it's read-only.
@@ -84,9 +83,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasTeeth
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
-        public bool HasTeeth 
+        public bool HasTeeth
         { 
-            get{ return _HasTeeth;} 
+            get{ return _HasTeeth;}
             set
             {
                 _HasTeeth = value;
@@ -95,7 +94,6 @@ namespace Org.OpenAPITools.Model
         }
         private bool _HasTeeth;
         private bool _flagHasTeeth;
-        
 
         /// <summary>
         /// Returns false as HasTeeth should not be serialized given that it's read-only.
@@ -109,9 +107,9 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName 
+        public string ClassName
         { 
-            get{ return _ClassName;} 
+            get{ return _ClassName;}
             set
             {
                 _ClassName = value;
@@ -120,7 +118,6 @@ namespace Org.OpenAPITools.Model
         }
         private string _ClassName;
         private bool _flagClassName;
-        
 
         /// <summary>
         /// Returns false as ClassName should not be serialized given that it's read-only.
