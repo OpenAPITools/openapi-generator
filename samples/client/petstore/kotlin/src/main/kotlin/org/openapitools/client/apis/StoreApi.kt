@@ -15,7 +15,8 @@
     "RemoveRedundantBackticks",
     "RemoveRedundantQualifierName",
     "ArrayInDataClass",
-    "EnumEntryName"
+    "EnumEntryName",
+    "UnusedImport"
 )
 
 package org.openapitools.client.apis
