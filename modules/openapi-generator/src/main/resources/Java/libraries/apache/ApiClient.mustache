@@ -21,6 +21,7 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -31,6 +32,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ContentType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -642,15 +645,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return Object
    * @throws ApiException API exception
    */
-  public String serialize(Object obj, String contentType, Map<String, Object> formParams) throws ApiException {
+  public String serializeJson(Object obj) throws ApiException {
     // TODO: implement this
-    return obj.toString();
+    try {
+      return objectMapper.writeValueAsString(obj);
+    } catch (JsonProcessingException e) {
+      throw new ApiException(e);
+    }
   }
 
   /**
    * Deserialize content into json object
    */
   public <T> T deserializeJson(InputStream content, TypeReference<T> valueType) throws ApiException {
+    if (content == null || valueType == null) {
+      return null;
+    }
     try {
       return objectMapper.<T>readValue(content, valueType);
     } catch (IOException e) {
@@ -741,7 +751,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     BasicCookieStore store = new BasicCookieStore();
-    // TODO: use cookie store, add to request via HttpContext
     for (Entry<String, String> keyValue : cookieParams.entrySet()) {
       store.addCookie(new BasicClientCookie(keyValue.getKey(), keyValue.getValue()));
     }
@@ -754,7 +763,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
 
-    // TODO: set entity for POST, PUT, DELETE and PATCH + set contentType + handle formParams
+    // TODO: Handle formParams
+    if (method.equals("POST") || method.equals("PUT") || method.equals("DELETE") || method.equals("PATCH")) {
+      // TODO: handle non json content types
+      // TODO: handle contentType having charset
+      builder.setEntity(new StringEntity(serializeJson(body), ContentType.create(contentType)));
+    }
+
     try {
       return httpClient.execute(builder.build(), context);
     } catch (IOException e) {
@@ -787,17 +802,17 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     statusCode = response.getStatusLine().getStatusCode();
     // TODO: set responseHeaders instance var
 
-    // TODO: handle null returnType
     // TODO: handle empty entity?
     try {
-      if(statusCode == HttpStatus.SC_NO_CONTENT) {
+      if (statusCode == HttpStatus.SC_NO_CONTENT) {
         return null;
       } else if (statusCode >= 200 && statusCode < 300) {
-          try {
-            return this.<T>deserializeJson(response.getEntity().getContent(), returnType);
-          } finally {
-            response.close();
-          }
+        // TODO: handle other response content types
+        try {
+          return this.<T>deserializeJson(response.getEntity().getContent(), returnType);
+        } finally {
+          response.close();
+        }
       } else {
         String message = "error";
         try {
