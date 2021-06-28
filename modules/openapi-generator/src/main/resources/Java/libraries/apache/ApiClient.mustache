@@ -731,16 +731,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
   private CloseableHttpResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     if (body != null && !formParams.isEmpty()) {
-      throw new ApiException(500, "Cannot have body and form params");
+      throw new ApiException("Cannot have body and form params");
     }
 
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
     final String url = buildUrl(path, queryParams, collectionQueryParams);
 
-    // TODO: handle accept
     RequestBuilder builder = RequestBuilder.create(method);
     builder.setUri(url);
 
+    if (accept != null) {
+      builder = builder.addHeader("Accept", accept);
+    }
     for (Entry<String, String> keyValue : headerParams.entrySet()) {
       builder = builder.addHeader(keyValue.getKey(), keyValue.getValue());
     }
