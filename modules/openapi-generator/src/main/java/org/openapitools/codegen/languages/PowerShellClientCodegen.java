@@ -1207,7 +1207,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             example.append(constructNumericExample(codegenParameter.example));
         }
 
-        return example.toString();
+        // Replace multiple new lines with a single new line and trim leading and trailing spaces.
+        return example.toString().replaceAll("[\n]{2,}", "\n\n").trim();
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap, boolean requiredOnly) {
@@ -1267,6 +1268,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 (codegenProperty.isArray && (codegenProperty.items.isModel || (modelMaps.containsKey(codegenProperty.items.dataType) && codegenProperty.items.allowableValues == null))) ||
                 (codegenProperty.isMap && codegenProperty.items.isModel))
             ) {
+                example.append("\n");
                 hasModelProperty = true;
             }
 

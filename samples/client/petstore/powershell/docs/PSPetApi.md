@@ -30,8 +30,7 @@ $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Category = Initialize-Category -Id 0 -Name "MyName"
 $Tag = Initialize-Tag -Id 0 -Name "MyName"
-$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available"
- # Pet | Pet object that needs to be added to the store
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
 try {
@@ -274,8 +273,7 @@ $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Category = Initialize-Category -Id 0 -Name "MyName"
 $Tag = Initialize-Tag -Id 0 -Name "MyName"
-$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available"
- # Pet | Pet object that needs to be added to the store
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
 try {
