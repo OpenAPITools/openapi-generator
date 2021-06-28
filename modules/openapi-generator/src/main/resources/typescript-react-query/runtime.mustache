@@ -1,21 +1,32 @@
 // tslint:disable
 {{>licenseInfo}}
 
-import Axios, { AxiosRequestConfig } from 'axios';
 
-export const AXIOS_INSTANCE = Axios.create({ baseURL: '{{basePath}}' });
+import Axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
-export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
+export const baseURL = '{{basePath}}';
+export const AXIOS_INSTANCE = Axios.create({ baseURL, withCredentials: true });
+
+export const customInstance = <T>(config: AxiosRequestConfig, customAxiosInstance?: AxiosInstance): Promise<T> => {
+  const AXIOS_CUSTOM_INSTANCE = customAxiosInstance || AXIOS_INSTANCE;
   const source = Axios.CancelToken.source();
-  const promise = AXIOS_INSTANCE({ ...config, cancelToken: source.token }).then(
-    ({ data }) => data,
-  );
+  let promise;
+  try{
+    promise = AXIOS_CUSTOM_INSTANCE({ ...config, cancelToken: source.token }).then(
+      ({ data }) => data,
+    ).catch((error) => {
+      return Promise.reject(error.response.data);
+    });
 
-  // @ts-ignore
-  promise.cancel = () => {
-    source.cancel('Query was cancelled by React Query');
-  };
+    // @ts-ignore
+    promise.cancel = () => {
+      source.cancel('Query was cancelled by React Query');
+    };
+  } catch (error) {
+    throw Error(error);
+  }
 
-  return promise;
+  return promise || Promise.reject(new Error('Something went wrong'));
 };
+
 export default customInstance;

@@ -4,6 +4,7 @@
 // @ts-ignore
 import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from 'react-query';
 import Axios from '../runtime';
+import type { AxiosInstance } from 'axios';
 {{#imports.0}}
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -13,15 +14,6 @@ import type {
   {{/imports}}
 } from '../models';
 {{/imports.0}}
-
-type SecondParameter<T extends (...args: any) => any> = T extends (
-  config: any,
-  args: infer P,
-) => any
-  ? P extends unknown
-  ? Record<string, any>
-  : P
-  : never;
 
 {{#operations}}
 {{#operation}}
@@ -51,19 +43,17 @@ export const {{nickname}}AxiosRequest = (
   {{#allParams.0}}
   requestParameters: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
-  options?: SecondParameter<typeof Axios>
+  customAxiosInstance?: AxiosInstance
 ) => {
   return Axios<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}>(
     {
       url: '{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
       method: '{{httpMethod}}',
       {{#allParams.0}}
-      requestParameters
+      params: requestParameters
       {{/allParams.0}}
     },
-    // eslint-disable-next-line
-    // @ts-ignore
-    options
+    customAxiosInstance
   );
 };
 
@@ -86,20 +76,20 @@ export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error 
   {{#allParams.0}}
   params: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
-  pageParam = -1,
-  version = 1,
   options?: {
     query?: UseInfiniteQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>;
-    request?: SecondParameter<typeof Axios>;
+    customAxiosInstance?: AxiosInstance;
   },
+  pageParam = -1,
+  version = 1,
 ) => {
   const queryKey = {{nickname}}QueryKey({{#allParams.0}}params, {{/allParams.0}}pageParam, version);
-  const { query: queryOptions, request: requestOptions } = options ?? {};
+  const { query: queryOptions, customAxiosInstance } = options ?? {};
 
   const query = useInfiniteQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>(
     queryKey,
-    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}requestOptions),
-    { enabled: !!version, ...queryOptions }
+    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}customAxiosInstance),
+    queryOptions
   );
 
   return {
@@ -112,17 +102,18 @@ export const use{{vendorExtensions.nickname-capitalized}}Query = <Error = ApiErr
   {{#allParams.0}}
   params: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
-  version = 1,
   options?: {
-  query?: UseQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>;
-  request?: SecondParameter<typeof Axios>;
-}) => {
+    query?: UseQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>;
+    customAxiosInstance?: AxiosInstance;
+  },
+  version = 1,
+) => {
   const queryKey = {{nickname}}QueryKey({{#allParams.0}}params,  {{/allParams.0}}version);
-  const { query: queryOptions, request: requestOptions } = options ?? {};
+  const { query: queryOptions, customAxiosInstance } = options ?? {};
 
   const query = useQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>(
     queryKey,
-    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}requestOptions),
+    () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}customAxiosInstance),
     { enabled: !!version, ...queryOptions }
   );
 
@@ -136,11 +127,15 @@ export const use{{vendorExtensions.nickname-capitalized}}Query = <Error = ApiErr
 
 {{#vendorExtensions.x-is-mutation}}
 export const {{nickname}}Mutate = (
+  {{#vendorExtensions.x-has-path-or-body-param}}
   body: {{operationIdCamelCase}}ForQuery,
-  options?: SecondParameter<typeof Axios>
+  {{/vendorExtensions.x-has-path-or-body-param}}
+  customAxiosInstance?: AxiosInstance
 ) => {
   const url = '{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, encodeURIComponent(String(body.{{paramName}}))){{/pathParams}};
   {{#pathParams}}
+  // eslint-disable-next-line
+  // @ts-ignore
   delete body.{{paramName}};
   {{/pathParams}}
   return Axios<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}>(
@@ -157,23 +152,21 @@ export const {{nickname}}Mutate = (
       }
       {{/hasBodyParam}}
     },
-    // eslint-disable-next-line
-    // @ts-ignore
-    options
+    customAxiosInstance
   );
 };
 
 export const use{{vendorExtensions.nickname-capitalized}}Mutation = <Error = ApiError>(
   options?: {
     mutation?:UseMutationOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}, Error>,
-    request?: SecondParameter<typeof Axios>
+    customAxiosInstance?: AxiosInstance;
   }
 ) => {
-  const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+  const {mutation: mutationOptions, customAxiosInstance} = options ?? {};
   // eslint-disable-next-line
   // @ts-ignore
-  return useMutation<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}, Error, {{operationIdCamelCase}}ForQuery, unknown>((props) => {
-    return  {{nickname}}Mutate(props,requestOptions);
+  return useMutation<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unknown{{/returnType}}, Error, {{#vendorExtensions.x-has-path-or-body-param}}{{operationIdCamelCase}}ForQuery, {{/vendorExtensions.x-has-path-or-body-param}}{{^vendorExtensions.x-has-path-or-body-param}}void, {{/vendorExtensions.x-has-path-or-body-param}}unknown>(({{#vendorExtensions.x-has-path-or-body-param}}props{{/vendorExtensions.x-has-path-or-body-param}}) => {
+    return  {{nickname}}Mutate({{#vendorExtensions.x-has-path-or-body-param}}props, {{/vendorExtensions.x-has-path-or-body-param}}customAxiosInstance);
   }, mutationOptions);
 };
 

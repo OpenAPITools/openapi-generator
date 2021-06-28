@@ -10,3 +10,30 @@ export enum {{classname}} {
 {{/enumVars}}
 {{/allowableValues}}
 }
+
+/**
+* @export
+* @mock enum {string}
+*/
+export const {{classname}}Mock = ({
+  mock() {
+    const enumValues = Object.keys({{classname}}{{enumName}})
+      .map(n => Number.parseInt(n))
+      .filter(n => !Number.isNaN(n));
+    const randomIndex = Math.floor(Math.random() * enumValues.length);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return enumValues[randomIndex];
+  },
+  build() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
+    return this.mock();
+  },
+  buildList(length: number) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+    return Array.from({length}).map(() => this.mock());
+  }
+});
