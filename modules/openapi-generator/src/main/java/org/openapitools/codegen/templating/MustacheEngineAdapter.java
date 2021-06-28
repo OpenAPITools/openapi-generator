@@ -68,7 +68,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                         LOGGER.warn("The library {} is not exist", key.replaceFirst("-version", ""));
                     }
                     else {
-                        content = content.replaceFirst( String.format("<%s>(.*)</%s>", key, key), String.format("<%s>%s</%s>", key, bundle.get(key), key) );
+                        content = content.replaceFirst( String.format("<%s>(.*)</%s>", key, key), String.format("<%s>{{%s}}</%s>", key, key, key) );
                     }
 
                 }
