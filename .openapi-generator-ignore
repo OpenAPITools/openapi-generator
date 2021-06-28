@@ -1,7 +1,7 @@
 **/*gradle*
-!**/gradlew.bat
+#!**/gradlew.bat
 
 **/docs
 **/java/api
 
-src/main/java/README.md
+!src/main/java/README.md

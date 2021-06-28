@@ -1,4 +1,7 @@
 library: resteasy
+#resteasy-version: 4.5.11.Final
+resteasy-version: MyVersion
+No-libr-version: no
 dateLibrary: java8
 groupId: ru.practice
 artifactId: artifactId

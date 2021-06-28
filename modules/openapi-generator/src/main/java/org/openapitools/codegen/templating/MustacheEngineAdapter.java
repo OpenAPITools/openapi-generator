@@ -23,6 +23,7 @@ import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -57,10 +58,24 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
+
+        String content = executor.getFullTemplateContents(templateFile);
+        if(templateFile.contains("pom"))
+        {
+            for (String key: bundle.keySet()) {
+                if(key.contains("-version")){
+                    String val = (String) bundle.get(key);
+                    String regex = String.format("<%s>(.*)</%s>", key, key);
+                    String repl = String.format("<%s>%s</%s>", key, bundle.get(key), key);
+                    content = content.replaceFirst( regex, repl );
+                }
+            }
+        }
+
         Template tmpl = compiler
                 .withLoader(name -> findTemplate(executor, name))
                 .defaultValue("")
-                .compile(executor.getFullTemplateContents(templateFile));
+                .compile(content);
 
         return tmpl.execute(bundle);
     }
