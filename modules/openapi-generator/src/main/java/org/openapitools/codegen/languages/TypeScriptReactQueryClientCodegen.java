@@ -17,9 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.Operation;
@@ -30,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.Locale;
+
+import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 
 public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -60,13 +65,14 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         this.apiPackage = "src" + File.separator +"apis";
         this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.apiTemplateFiles.put("apisMock.mustache", ".mock.ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "Date");
 
-        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
@@ -106,9 +112,7 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration();
-        }
+        addNpmPackageGeneration();
     }
 
     @Override
@@ -197,6 +201,36 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
     }
 
     @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
+            if (StringUtils.isBlank(npmName) && info.getTitle() != null) {
+                // when projectName is not specified, generate it from info.title
+                npmName = sanitizeName(dashize(info.getTitle()));
+            }
+            if (StringUtils.isBlank(npmVersion)) {
+                // when projectVersion is not specified, use info.version
+                npmVersion = escapeUnsafeCharacters(escapeQuotationMark(info.getVersion()));
+            }
+        }
+
+        // default values
+        if (StringUtils.isBlank(npmName)) {
+            npmName = "typescript-react-query-client";
+        }
+        if (StringUtils.isBlank(npmVersion)) {
+            npmVersion = "0.0.1";
+        }
+
+        additionalProperties.put(NPM_NAME, npmName);
+        additionalProperties.put(NPM_VERSION, npmVersion);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+    }
+
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (operations.size() > 0 && !addedApiIndex) {
@@ -223,6 +257,9 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
             }
             if(op.nickname != null) {
                 op.vendorExtensions.put("nickname-capitalized", op.nickname.substring(0, 1).toUpperCase(Locale.ROOT) + op.nickname.substring(1));
+            }
+            if(op.getHasPathParams() || op.getHasBodyParam()) {
+                op.vendorExtensions.put("x-has-path-or-body-param", true);
             }
         }
 

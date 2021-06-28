@@ -4,11 +4,11 @@
 export { {{classname}} } from './{{{ classFilename }}}';
 {{/isEnum}}
 {{^isEnum}}
-import type { {{classname}} } from  './{{{ classFilename }}}';
-export { {{classname}} };
+export type { {{classname}} } from  './{{{ classFilename }}}';
 {{/isEnum}}
 // eslint-disable-next-line no-duplicate-imports
 import { {{classname}}Mock } from  './{{{ classFilename }}}';
-export { {{classname}}Mock };
 {{/model}}
 {{/models}}
+
+export { {{#models}}{{#model}}{{classname}}Mock, {{/model}}{{/models}} }

@@ -2,22 +2,18 @@ import { Sync } from 'factory.ts';
 import * as faker from 'faker';
 
 {{#hasImports}}
-import type {
-  {{#imports}}
-  {{{.}}},
-  {{/imports}}
-} from './';
-
+{{#imports}}
 // eslint-disable-next-line no-duplicate-imports
-import {
-  {{#imports}}
-  {{{.}}}Mock,
-  {{/imports}}
-} from './';
+import type { {{{.}}} } from './{{{.}}}';
+{{/imports}}
 
+{{#imports}}
+// eslint-disable-next-line no-duplicate-imports
+import { {{{.}}}Mock } from './{{{.}}}';
+{{/imports}}
 {{/hasImports}}
 
-const getDataFromType = (type) => {
+const getDataFromType = (type: string) => {
   switch (type) {
     case 'string':
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
@@ -33,7 +29,7 @@ const getDataFromType = (type) => {
       return Array.from({length: 10}).map((): string => faker.random.words());
     case 'number[]':
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-      return Array.from({length: 10}).map((): string => faker.random.number());
+      return Array.from({length: 10}).map((): number => faker.random.number());
     {{#hasImports}}
     {{#imports}}
     case '{{{.}}}':
@@ -44,6 +40,8 @@ const getDataFromType = (type) => {
       return {{{.}}}Mock.buildList(10);
     {{/imports}}
     {{/hasImports}}
+    default:
+      return '';
   }
 };
 
@@ -95,7 +93,7 @@ export enum {{classname}}{{enumName}} {
 */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
 export const {{classname}}{{enumName}}Mock = ({
-  mock: () => {
+  mock() {
     const enumValues = Object.keys({{classname}}{{enumName}})
       .map(n => Number.parseInt(n))
       .filter(n => !Number.isNaN(n));
@@ -103,13 +101,13 @@ export const {{classname}}{{enumName}}Mock = ({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return enumValues[randomIndex];
   },
-  build: () => {
+  build() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
     return this.mock();
   },
-  buildList: (length) => {
+  buildList(length: number) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
@@ -133,6 +131,8 @@ export const {{classname}}Mock = Sync.makeFactory<{{classname}}>({
   * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
   * @memberof {{classname}}
   */
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
   {{name}}: getDataFromType('{{{datatype}}}'),
 {{/vars}}

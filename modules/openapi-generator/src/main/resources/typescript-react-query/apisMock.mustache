@@ -1,0 +1,49 @@
+// tslint:disable
+{{>licenseInfo}}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import * as nock from 'nock';
+{{#imports.0}}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line no-duplicate-imports
+import { {{#imports}} {{className}}Mock, {{/imports}} } from '../models';
+{{/imports.0}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{operationIdCamelCase}}ForQuery {
+  {{#allParams}}
+  {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+  {{/allParams}}
+}
+{{/allParams.0}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+
+{{#operation}}
+/**
+ {{#notes}}
+ * {{&notes}}
+ {{/notes}}
+ {{#summary}}
+ * {{&summary}}
+ {{/summary}}
+ */
+
+{{^vendorExtensions.x-is-mutation}}
+/***************************************************** {{nickname}} Mock **********************************************/
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+export const {{nickname}}Expectation = nock('{{basePath}}')['{{httpMethod}}'.toLowerCase()]('{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, '${ {{paramName}} }'){{/pathParams}})
+  .reply(200, {
+    response: {{#returnType}}{{{returnType}}}{{/returnType}}Mock.buildList(10),
+  });
+/*************************************************** {{nickname}} Mock End ********************************************/
+
+{{/vendorExtensions.x-is-mutation}}
+{{/operation}}
+{{/operations}}
