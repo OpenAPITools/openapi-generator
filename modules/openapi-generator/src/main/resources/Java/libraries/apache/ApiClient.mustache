@@ -20,19 +20,7 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-
-/*
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.client.WebResource.Builder;
-
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.file.FileDataBodyPart;
-*/
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -43,12 +31,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
-
-/*
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
-*/
 
 import java.util.Collection;
 import java.util.Collections;
@@ -668,8 +650,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Deserialize content into json object
    */
-  public <T> T deserializeJson(InputStream content, Class<T> valueType) throws IOException {
-    return objectMapper.<T>readValue(content, valueType);
+  public <T> T deserializeJson(InputStream content, TypeReference<T> valueType) throws ApiException {
+    try {
+      return objectMapper.<T>readValue(content, valueType);
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
   }
 
   /**
@@ -769,7 +755,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     context.setCookieStore(store);
 
     // TODO: set entity for POST, PUT, DELETE and PATCH + set contentType + handle formParams
-    return httpClient.execute(builder.build(), context);
+    try {
+      return httpClient.execute(builder.build(), context);
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
   }
 
   /**
@@ -790,32 +780,37 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, Class<T> returnType) throws ApiException {
+   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeReference<T> returnType) throws ApiException {
 
     CloseableHttpResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
 
     statusCode = response.getStatusLine().getStatusCode();
     // TODO: set responseHeaders instance var
 
+    // TODO: handle null returnType
     // TODO: handle empty entity?
-    if(statusCode == HttpStatus.SC_NO_CONTENT) {
-      return null;
-    } else if (statusCode >= 200 && statusCode < 300) {
+    try {
+      if(statusCode == HttpStatus.SC_NO_CONTENT) {
+        return null;
+      } else if (statusCode >= 200 && statusCode < 300) {
+          try {
+            return this.<T>deserializeJson(response.getEntity().getContent(), returnType);
+          } finally {
+            response.close();
+          }
+      } else {
+        String message = "error";
         try {
-          return this.<T>deserializeJson(response.getEntity().getContent(), returnType);
+          // TODO: this will use the platforms default charset
+          message = EntityUtils.toString(response.getEntity());
         } finally {
           response.close();
         }
-    } else {
-      String message = "error";
-      try {
-        // TODO: this will use the platforms default charset
-        message = EntityUtils.toString(response.getEntity());
-      } finally {
-        response.close();
+        // TODO: throw more descriptive version of ApiException
+        throw new ApiException(statusCode, message);
       }
-      // TODO: throw more descriptive version of ApiException
-      throw new ApiException(statusCode, message);
+    } catch (IOException e) {
+      throw new ApiException(e);
     }
   }
 
