@@ -55,6 +55,8 @@ build_script:
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
   # build C# API client (.net 5.0)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
+  # build C# API client (.net 5.0 with ConditionalSerialization)
+  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
   # build C# API client
   - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
