@@ -245,7 +245,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 }
 
             } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
+                LOGGER.warn("Unable to parse {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
                 is10_1_10AndAbove = true;
             }
@@ -318,10 +318,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                     if (pathParam.baseName.equals(parameterName)) {
                         String matcher = pathTypeToMatcher.get(pathParam.dataType);
                         if (matcher == null) {
-                            LOGGER.warn("The path parameter " + pathParam.baseName +
-                                    " with the datatype " + pathParam.dataType +
-                                    " could not be translated to a corresponding path matcher of akka http" +
-                                    " and therefore has been translated to string.");
+                            LOGGER.warn(
+                                    "The path parameter {} with the datatype {} could not be translated to a corresponding path matcher of akka http and therefore has been translated to string.",
+                                    pathParam.baseName, pathParam.dataType);
                             matcher = pathTypeToMatcher.get("String");
                         }
                         if (pathParam.pattern != null && !pathParam.pattern.isEmpty()) {
