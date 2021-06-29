@@ -1507,7 +1507,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         p.setName(cp.paramName);
         setParameterExampleValue(cp, p);
         return cp;
-      
+    }
+
     @Override
     public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
