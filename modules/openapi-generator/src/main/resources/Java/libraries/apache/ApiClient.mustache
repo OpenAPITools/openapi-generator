@@ -23,17 +23,19 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.ContentType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -637,6 +639,24 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
+   * Transform response headers into map
+   */
+  protected Map<String, List<String>> transformResponseHeaders(Header[] headers) {
+    Map<String, List<String>> headersMap = new HashMap<>();
+    for (Header header : headers) {
+      List<String> valuesList = headersMap.get(header.getName());
+      if (valuesList != null) {
+        valuesList.add(header.getValue());
+      } else {
+        valuesList = new ArrayList<>();
+        valuesList.add(header.getValue());
+        headersMap.put(header.getName(), valuesList);
+      }
+    }
+    return headersMap;
+  }
+
+  /**
    * Serialize the given Java object into string according the given
    * Content-Type (only JSON is supported for now).
    * @param obj Object
@@ -662,7 +682,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       return null;
     }
     try {
-      return objectMapper.<T>readValue(content, valueType);
+      return objectMapper.readValue(content, valueType);
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -801,30 +821,28 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     CloseableHttpResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
 
-    statusCode = response.getStatusLine().getStatusCode();
-    // TODO: set responseHeaders instance var
-
     // TODO: handle empty entity?
     try {
-      if (statusCode == HttpStatus.SC_NO_CONTENT) {
-        return null;
-      } else if (statusCode >= 200 && statusCode < 300) {
-        // TODO: handle other response content types
-        try {
-          return this.<T>deserializeJson(response.getEntity().getContent(), returnType);
-        } finally {
-          response.close();
+      try {
+        statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode == HttpStatus.SC_NO_CONTENT) {
+          return null;
         }
-      } else {
-        String message = "error";
-        try {
+
+        responseHeaders = transformResponseHeaders(response.getAllHeaders());
+        HttpEntity entity = response.getEntity();
+        if (statusCode >= 200 && statusCode < 300) {
+          // TODO: handle other response content types
+          return this.deserializeJson(entity.getContent(), returnType);
+        } else {
+          String message = "error";
           // TODO: this will use the platforms default charset
-          message = EntityUtils.toString(response.getEntity());
-        } finally {
-          response.close();
+          message = EntityUtils.toString(entity);
+          // TODO: throw more descriptive version of ApiException
+          throw new ApiException(statusCode, message);
         }
-        // TODO: throw more descriptive version of ApiException
-        throw new ApiException(statusCode, message);
+      } finally {
+        response.close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
