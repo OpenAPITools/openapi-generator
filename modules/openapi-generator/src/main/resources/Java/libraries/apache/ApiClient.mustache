@@ -741,14 +741,14 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     builder.setUri(url);
 
     if (accept != null) {
-      builder = builder.addHeader("Accept", accept);
+      builder.addHeader("Accept", accept);
     }
     for (Entry<String, String> keyValue : headerParams.entrySet()) {
-      builder = builder.addHeader(keyValue.getKey(), keyValue.getValue());
+      builder.addHeader(keyValue.getKey(), keyValue.getValue());
     }
     for (Map.Entry<String,String> keyValue : defaultHeaderMap.entrySet()) {
       if (!headerParams.containsKey(keyValue.getKey())) {
-        builder = builder.addHeader(keyValue.getKey(), keyValue.getValue());
+        builder.addHeader(keyValue.getKey(), keyValue.getValue());
       }
     }
 
@@ -756,7 +756,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     for (Entry<String, String> keyValue : cookieParams.entrySet()) {
       store.addCookie(new BasicClientCookie(keyValue.getKey(), keyValue.getValue()));
     }
-    for (Map.Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
+    for (Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
       if (!cookieParams.containsKey(keyValue.getKey())) {
         store.addCookie(new BasicClientCookie(keyValue.getKey(), keyValue.getValue()));
       }
