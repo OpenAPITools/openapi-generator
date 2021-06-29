@@ -1227,7 +1227,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else if (ModelUtils.isComposedSchema(schema)) {
             ComposedSchema cm = (ComposedSchema) schema;
             List<Schema> ls = cm.getOneOf();
-            if (!ls.isEmpty()) {
+            if (ls != null && !ls.isEmpty()) {
                 return fullPrefix + toExampleValue(ls.get(0)) + closeChars;
             }
             return fullPrefix + closeChars;
