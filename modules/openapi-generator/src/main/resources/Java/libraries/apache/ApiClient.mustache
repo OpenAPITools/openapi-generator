@@ -884,8 +884,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     // TODO handle parse exceptions
     ContentType contentTypeObj = ContentType.parse(contentType);
 
-    // TODO: handle empty body / formParams
-    if (canRequestHaveBody(method)) {
+    if (canRequestHaveBody(method) && (body != null || !formParams.isEmpty())) {
+      // Add entity if we have content and a valid method
       builder.setEntity(serialize(body, formParams, contentTypeObj));
     }
 
