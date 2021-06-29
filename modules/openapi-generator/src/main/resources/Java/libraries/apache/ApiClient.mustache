@@ -657,6 +657,17 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
+   * Get content type of a response or null if one was not provided
+   */
+  private String getResponseContentType(CloseableHttpResponse response) {
+    Header contentTypeHeader = response.getFirstHeader("Content-Type");
+    if (contentTypeHeader != null) {
+      return contentTypeHeader.getValue();
+    }
+    return null;
+  }
+
+  /**
    * Serialize the given Java object into string according the given
    * Content-Type (only JSON is supported for now).
    * @param obj Object
@@ -665,26 +676,36 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return Object
    * @throws ApiException API exception
    */
-  public String serializeJson(Object obj) throws ApiException {
-    // TODO: implement this
-    try {
-      return objectMapper.writeValueAsString(obj);
-    } catch (JsonProcessingException e) {
-      throw new ApiException(e);
+  public String serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+    if (isJsonMime(contentType)) {
+      try {
+        return objectMapper.writeValueAsString(obj);
+      } catch (JsonProcessingException e) {
+        throw new ApiException(e);
+      }
+    } else {
+      throw new ApiException("Serialization for content type '" + contentType + "' not supported");
     }
   }
 
   /**
-   * Deserialize content into json object
+   * Deserialize response content
    */
-  public <T> T deserializeJson(InputStream content, TypeReference<T> valueType) throws ApiException {
-    if (content == null || valueType == null) {
+  public <T> T deserialize(CloseableHttpResponse response, TypeReference<T> valueType) throws ApiException, IOException {
+    if (valueType == null) {
       return null;
     }
-    try {
-      return objectMapper.readValue(content, valueType);
-    } catch (IOException e) {
-      throw new ApiException(e);
+    String contentType = getResponseContentType(response);
+    HttpEntity entity = response.getEntity();
+    if (contentType == null || isJsonMime(contentType)) {
+      return objectMapper.readValue(entity.getContent(), valueType);
+    } else {
+      throw new ApiException(
+          "Deserialization for content type \"" + contentType + "\" not supported for type \"" + valueType + "\"",
+          response.getStatusLine().getStatusCode(),
+          responseHeaders,
+          EntityUtils.toString(entity)
+      );
     }
   }
 
@@ -749,7 +770,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return url.toString();
   }
 
-  private CloseableHttpResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  private CloseableHttpResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException, IOException {
     if (body != null && !formParams.isEmpty()) {
       throw new ApiException("Cannot have body and form params");
     }
@@ -785,18 +806,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
 
-    // TODO: Handle formParams
     if (method.equals("POST") || method.equals("PUT") || method.equals("DELETE") || method.equals("PATCH")) {
-      // TODO: handle non json content types
       // TODO: handle contentType having charset
-      builder.setEntity(new StringEntity(serializeJson(body), ContentType.create(contentType)));
+      builder.setEntity(new StringEntity(serialize(body, formParams, contentType), ContentType.create(contentType)));
     }
 
-    try {
-      return httpClient.execute(builder.build(), context);
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
+    return httpClient.execute(builder.build(), context);
   }
 
   /**
@@ -819,10 +834,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    */
    public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeReference<T> returnType) throws ApiException {
 
-    CloseableHttpResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
-
-    // TODO: handle empty entity?
     try {
+      CloseableHttpResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+
       try {
         statusCode = response.getStatusLine().getStatusCode();
         if (statusCode == HttpStatus.SC_NO_CONTENT) {
@@ -830,16 +844,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
 
         responseHeaders = transformResponseHeaders(response.getAllHeaders());
-        HttpEntity entity = response.getEntity();
         if (statusCode >= 200 && statusCode < 300) {
-          // TODO: handle other response content types
-          return this.deserializeJson(entity.getContent(), returnType);
+          return this.deserialize(response, returnType);
         } else {
-          String message = "error";
           // TODO: this will use the platforms default charset
-          message = EntityUtils.toString(entity);
-          // TODO: throw more descriptive version of ApiException
-          throw new ApiException(statusCode, message);
+          String message = EntityUtils.toString(response.getEntity());
+          throw new ApiException(message, statusCode, responseHeaders, message);
         }
       } finally {
         response.close();
