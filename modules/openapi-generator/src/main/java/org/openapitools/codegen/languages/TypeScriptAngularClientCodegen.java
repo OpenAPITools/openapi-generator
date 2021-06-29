@@ -517,6 +517,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     if (cm.discriminator != null && cm.children != null) {
                         for (CodegenModel child : cm.children) {
                             cm.imports.add(child.classname);
+                            setChildDiscriminatorValue(cm, child);
                         }
                     }
                     if (cm.parent != null) {
@@ -529,6 +530,25 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             }
         }
         return result;
+    }
+
+    private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
+        if (
+            child.vendorExtensions.isEmpty() ||
+            !child.vendorExtensions.containsKey("x-discriminator-value")
+            ) {
+
+            for (CodegenProperty prop : child.allVars) {
+                if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
+
+                    for (CodegenDiscriminator.MappedModel mappedModel : parent.discriminator.getMappedModels()) {
+                        if (mappedModel.getModelName().equals(child.classname)) {
+                            prop.discriminatorValue = mappedModel.getMappingName();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
