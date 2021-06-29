@@ -28,6 +28,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
@@ -430,7 +431,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return API client
    */
    public ApiClient setConnectTimeout(int connectionTimeout) {
-     // TODO: Use RequestConfig for this
      this.connectionTimeout = connectionTimeout;
      return this;
    }
@@ -856,6 +856,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     RequestBuilder builder = RequestBuilder.create(method);
     builder.setUri(url);
+
+    RequestConfig config = RequestConfig.custom()
+      .setConnectionRequestTimeout(connectionTimeout)
+      .build();
+    builder.setConfig(config);
 
     if (accept != null) {
       builder.addHeader("Accept", accept);
