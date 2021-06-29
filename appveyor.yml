@@ -55,6 +55,8 @@ build_script:
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
   # build C# API client (.net 5.0)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
+  # build C# API client (.net 5.0 with ConditionalSerialization)
+  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
   # build C# API client
   - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
@@ -80,6 +82,8 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net 5.0)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test C# API Client using conditional-serialization
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
   - nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
   # test c# API client (with PropertyChanged)
