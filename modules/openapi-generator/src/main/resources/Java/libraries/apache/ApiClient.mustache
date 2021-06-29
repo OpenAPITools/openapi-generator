@@ -36,6 +36,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -676,11 +679,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return Object
    * @throws ApiException API exception
    */
-  public String serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
-    if (isJsonMime(contentType)) {
+  public HttpEntity serialize(Object obj, Map<String, Object> formParams, ContentType contentType) throws ApiException {
+    String mimeType = contentType.getMimeType();
+    if (isJsonMime(mimeType)) {
       try {
-        return objectMapper.writeValueAsString(obj);
+        return new StringEntity(objectMapper.writeValueAsString(obj), contentType);
       } catch (JsonProcessingException e) {
+        throw new ApiException(e);
+      }
+    } else if (mimeType.equals(ContentType.APPLICATION_FORM_URLENCODED.getMimeType())) {
+      List<NameValuePair> formValues = new ArrayList<>();
+      for (Entry<String, Object> paramEntry : formParams.entrySet()) {
+        formValues.add(new BasicNameValuePair(paramEntry.getKey(), parameterToString(paramEntry.getValue())));
+      }
+      try {
+        return new UrlEncodedFormEntity(formValues);
+      } catch (UnsupportedEncodingException e) {
         throw new ApiException(e);
       }
     } else {
@@ -698,6 +712,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     String contentType = getResponseContentType(response);
     HttpEntity entity = response.getEntity();
     if (contentType == null || isJsonMime(contentType)) {
+      // Assume json if no content type
       return objectMapper.readValue(entity.getContent(), valueType);
     } else {
       throw new ApiException(
@@ -806,9 +821,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
 
+    // TODO handle parse exceptions
+    ContentType contentTypeObj = ContentType.parse(contentType);
+
     if (method.equals("POST") || method.equals("PUT") || method.equals("DELETE") || method.equals("PATCH")) {
       // TODO: handle contentType having charset
-      builder.setEntity(new StringEntity(serialize(body, formParams, contentType), ContentType.create(contentType)));
+      builder.setEntity(serialize(body, formParams, contentTypeObj));
     }
 
     return httpClient.execute(builder.build(), context);
