@@ -31,10 +31,9 @@ class PetFindByStatus
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
-     * TODO check if generated return container type is valid
-     * @return \App\DTO\Pet[]
+     * @return \App\DTO\Collection19
      */
-    public function findPetsByStatus(ServerRequestInterface $request): array
+    public function findPetsByStatus(ServerRequestInterface $request): \App\DTO\Collection19
     {
         //TODO implement method
         /** @var \App\DTO\FindPetsByStatusQueryData $queryData */

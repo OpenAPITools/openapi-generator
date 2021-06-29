@@ -64,7 +64,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime;
+    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isShort, isUnboundedInteger, isBoolean;
     private boolean additionalPropertiesIsAnyType;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
@@ -607,6 +607,30 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsShort() { return isShort; }
+
+    @Override
+    public void setIsShort(boolean isShort)   {
+        this.isShort = isShort;
+    }
+
+    @Override
+    public boolean getIsBoolean() { return isBoolean; }
+
+    @Override
+    public void setIsBoolean(boolean isBoolean)   {
+        this.isBoolean= isBoolean;
+    }
+
+    @Override
+    public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
+
+    @Override
+    public void setIsUnboundedInteger(boolean isUnboundedInteger)   {
+        this.isUnboundedInteger = isUnboundedInteger;
+    }
+
+    @Override
     public CodegenProperty getAdditionalProperties() { return additionalProperties; }
 
     @Override
@@ -752,7 +776,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return isAlias == that.isAlias &&
                 isString == that.isString &&
                 isInteger == that.isInteger &&
+                isShort == that.isShort &&
                 isLong == that.isLong &&
+                isUnboundedInteger == that.isUnboundedInteger &&
+                isBoolean == that.isBoolean &&
                 isNumber == that.isNumber &&
                 isNumeric == that.isNumeric &&
                 isFloat == that.isFloat &&
@@ -839,7 +866,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime, isNull, hasValidation,
+                isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
@@ -881,7 +908,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isAlias=").append(isAlias);
         sb.append(", isString=").append(isString);
         sb.append(", isInteger=").append(isInteger);
+        sb.append(", isShort=").append(isShort);
         sb.append(", isLong=").append(isLong);
+        sb.append(", isUnboundedInteger=").append(isUnboundedInteger);
+        sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isFloat=").append(isFloat);

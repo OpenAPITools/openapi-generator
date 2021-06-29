@@ -55,3 +55,4 @@ internal struct Pet: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
     }
 }
+

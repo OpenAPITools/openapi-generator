@@ -33,3 +33,4 @@ internal struct HasOnlyReadOnly: Codable, Hashable {
         try container.encodeIfPresent(foo, forKey: .foo)
     }
 }
+

@@ -237,7 +237,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toOperationId(String operationId) {
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + escapeReservedWord(operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, escapeReservedWord(operationId));
             return escapeReservedWord(operationId);
         }
         return sanitizeName(super.toOperationId(operationId));
@@ -329,7 +329,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

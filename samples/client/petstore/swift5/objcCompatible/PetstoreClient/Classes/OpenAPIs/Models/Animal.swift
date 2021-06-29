@@ -33,3 +33,4 @@ import AnyCodable
         try container.encodeIfPresent(color, forKey: .color)
     }
 }
+

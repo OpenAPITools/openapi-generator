@@ -81,3 +81,4 @@ public struct FormatTest: Codable, Hashable {
         try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
     }
 }
+

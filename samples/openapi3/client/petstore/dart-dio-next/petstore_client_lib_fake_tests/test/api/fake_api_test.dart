@@ -2,9 +2,12 @@ import 'dart:typed_data';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/src/parameter.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
+
+import '../matcher/list_param_matcher.dart';
 
 void main() {
   Openapi client;
@@ -36,7 +39,7 @@ void main() {
             'int64': '9223372036854775807',
             'date': '2020-08-11',
             'dateTime': '2020-08-11T12:30:55.123Z',
-            'binary': "Instance of 'MultipartFile'",
+            'binary': '[0, 1, 2, 3, 4, 5]',
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
@@ -97,7 +100,20 @@ void main() {
           (request) => request.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': '[foo, bar]',
+            'enum_form_string_array': ListParamMatcher(
+              expected: ListParam(
+                ['foo', 'bar'],
+                ListFormat.csv,
+              ),
+            ),
+          },
+          queryParameters: <String, dynamic>{
+            'enum_query_string_array': ListParamMatcher(
+              expected: ListParam(
+                ['a', 'b', 'c'],
+                ListFormat.multi,
+              ),
+            ),
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
@@ -105,6 +121,9 @@ void main() {
         );
 
         final response = await client.getFakeApi().testEnumParameters(
+              enumQueryStringArray: ListBuilder<String>(
+                <String>['a', 'b', 'c'],
+              ).build(),
               enumFormString: 'formString',
               enumFormStringArray: ListBuilder<String>(
                 <String>['foo', 'bar'],

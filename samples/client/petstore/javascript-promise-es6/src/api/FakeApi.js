@@ -356,7 +356,52 @@ export default class FakeApi {
 
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body has to be a binary file.
+     * @param {File} body image to upload
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testBodyWithBinaryWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithBinary");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['image/png'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/body-with-binary', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * For this test, the body has to be a binary file.
+     * @param {File} body image to upload
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testBodyWithBinary(body) {
+      return this.testBodyWithBinaryWithHttpInfo(body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * For this test, the body for this request must reference a schema named `File`.
      * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -388,7 +433,7 @@ export default class FakeApi {
     }
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body for this request must reference a schema named `File`.
      * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -874,7 +919,7 @@ export default class FakeApi {
       let pathParams = {
       };
       let queryParams = {
-        'pipe': this.apiClient.buildCollectionParam(pipe, 'multi'),
+        'pipe': this.apiClient.buildCollectionParam(pipe, 'pipes'),
         'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
         'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),

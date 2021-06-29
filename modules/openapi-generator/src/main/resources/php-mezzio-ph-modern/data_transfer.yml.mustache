@@ -1,0 +1,34 @@
+dependencies:
+  factories:
+    Articus\DataTransfer\Service: Articus\DataTransfer\Factory
+    Articus\DataTransfer\MetadataProvider\PhpAttribute: Articus\DataTransfer\MetadataProvider\Factory\PhpAttribute
+    Articus\DataTransfer\Strategy\PluginManager: Articus\DataTransfer\Strategy\Factory\PluginManager
+    Articus\DataTransfer\Validator\PluginManager: Articus\DataTransfer\Validator\Factory\PluginManager
+    Laminas\Validator\ValidatorPluginManager: Laminas\Validator\ValidatorPluginManagerFactory
+  aliases:
+    Articus\DataTransfer\ClassMetadataProviderInterface: Articus\DataTransfer\MetadataProvider\PhpAttribute
+    Articus\DataTransfer\FieldMetadataProviderInterface: Articus\DataTransfer\MetadataProvider\PhpAttribute
+
+Articus\DataTransfer\Strategy\PluginManager:
+  invokables:
+    QueryStringScalar: OpenAPIGenerator\Common\Strategy\QueryStringScalar
+    QueryStringScalarArray: OpenAPIGenerator\Common\Strategy\QueryStringScalarArray
+  factories:
+    Date: OpenAPIGenerator\Common\Strategy\Factory\MutableDate
+    DateTime: OpenAPIGenerator\Common\Strategy\Factory\MutableDateTime
+    ObjectList: OpenAPIGenerator\Common\Strategy\Factory\NoArgObjectList
+    ObjectMap: OpenAPIGenerator\Common\Strategy\Factory\NoArgObjectMap
+    ScalarList: OpenAPIGenerator\Common\Strategy\Factory\ScalarList
+    ScalarMap: OpenAPIGenerator\Common\Strategy\Factory\ScalarMap
+
+Articus\DataTransfer\Validator\PluginManager:
+  invokables:
+    Scalar: OpenAPIGenerator\Common\Validator\Scalar
+    QueryStringScalar: OpenAPIGenerator\Common\Validator\QueryStringScalar
+    QueryStringScalarArray: OpenAPIGenerator\Common\Validator\QueryStringScalarArray
+  abstract_factories:
+  - Articus\DataTransfer\Validator\Factory\Laminas
+
+validators:
+  invokables:
+    Count: Laminas\Validator\IsCountable

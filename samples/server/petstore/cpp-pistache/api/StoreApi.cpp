@@ -45,11 +45,13 @@ void StoreApi::setupRoutes() {
 std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(const std::exception& ex) const noexcept
 {
     try {
-        throw ex;
+        throw;
     } catch (nlohmann::detail::exception &e) {
         return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
     } catch (org::openapitools::server::helpers::ValidationException &e) {
         return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    } catch (std::exception &e) {
+        return std::make_pair(Pistache::Http::Code::Internal_Server_Error, e.what())
     }
 }
 

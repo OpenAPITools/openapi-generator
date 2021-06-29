@@ -8,8 +8,10 @@ import 'package:built_value/serializer.dart';
 
 part 'inline_response_default.g.dart';
 
-
-
+/// InlineResponseDefault
+///
+/// Properties:
+/// * [string] 
 abstract class InlineResponseDefault implements Built<InlineResponseDefault, InlineResponseDefaultBuilder> {
     @BuiltValueField(wireName: r'string')
     Foo? get string;

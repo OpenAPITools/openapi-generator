@@ -268,7 +268,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void postProcessParentModels(final Map<String, Object> models) {
-        LOGGER.debug("Processing parents:  " + parentModels);
+        LOGGER.debug("Processing parents:  {}", parentModels);
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
             if (parentModel != null) {

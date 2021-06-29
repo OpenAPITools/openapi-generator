@@ -61,7 +61,15 @@ func NewRouter(routers ...Router) *mux.Router {
 
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
 func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	wHeader := w.Header()
+	if headers != nil {
+		for key, values := range headers {
+			for _, value := range values {
+				wHeader.Add(key, value)
+			}
+		}
+	}
+	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
 	if status != nil {
 		w.WriteHeader(*status)
 	} else {

@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'has_only_read_only.g.dart';
 
-
-
+/// HasOnlyReadOnly
+///
+/// Properties:
+/// * [bar] 
+/// * [foo] 
 abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
     @BuiltValueField(wireName: r'bar')
     String? get bar;

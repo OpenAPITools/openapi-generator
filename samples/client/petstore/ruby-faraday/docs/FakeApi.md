@@ -11,6 +11,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
 | [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
 | [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int |  |
+| [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary |  |
 | [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
 | [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
 | [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model |
@@ -479,13 +480,76 @@ No authorization required
 - **Accept**: */*
 
 
+## test_body_with_binary
+
+> test_body_with_binary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+body = File.new('/path/to/some/file') # File | image to upload
+
+begin
+  
+  api_instance.test_body_with_binary(body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary: #{e}"
+end
+```
+
+#### Using the test_body_with_binary_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_body_with_binary_with_http_info(body)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_body_with_binary_with_http_info(body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **File** | image to upload |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: image/png
+- **Accept**: Not defined
+
+
 ## test_body_with_file_schema
 
 > test_body_with_file_schema(file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Examples
 
