@@ -81,20 +81,20 @@ import java.io.Serializable
     {{#enumVars}}
         {{^multiplatform}}
         {{#moshi}}
-        @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
         {{#gson}}
-        @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
         {{#jackson}}
-        @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/jackson}}
         {{#kotlinx_serialization}}
-        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/kotlinx_serialization}}
         {{/multiplatform}}
         {{#multiplatform}}
-        `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}

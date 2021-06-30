@@ -42,14 +42,14 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}
-    `{{&name}}`(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
-    `{{&name}}`(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{/isArray}}
     {{^isArray}}
-    `{{&name}}`({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**
