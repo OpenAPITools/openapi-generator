@@ -389,7 +389,7 @@ paths:
                 $ref: '#/components/schemas/StringObject'
           description: OK
       tags:
-      - Repo
+      - repo
       - Info
   /repos:
     post:
