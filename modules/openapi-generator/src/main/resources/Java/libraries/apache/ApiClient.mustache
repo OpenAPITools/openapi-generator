@@ -33,8 +33,11 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -683,13 +686,25 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    */
   public HttpEntity serialize(Object obj, Map<String, Object> formParams, ContentType contentType) throws ApiException {
     String mimeType = contentType.getMimeType();
-    // TODO: handle multipart/form-data
     if (isJsonMime(mimeType)) {
       try {
         return new StringEntity(objectMapper.writeValueAsString(obj), contentType);
       } catch (JsonProcessingException e) {
         throw new ApiException(e);
       }
+    } else if (mimeType.equals(ContentType.MULTIPART_FORM_DATA.getMimeType())) {
+      MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
+      for (Entry<String, Object> paramEntry : formParams.entrySet()) {
+        Object value = paramEntry.getValue();
+        if (value instanceof File) {
+          multiPartBuilder.addBinaryBody(paramEntry.getKey(), (File) value);
+        } else if (value instanceof byte[]) {
+          multiPartBuilder.addBinaryBody(paramEntry.getKey(), (byte[]) value);
+        } else {
+          multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+        }
+      }
+      return multiPartBuilder.build();
     } else if (mimeType.equals(ContentType.APPLICATION_FORM_URLENCODED.getMimeType())) {
       List<NameValuePair> formValues = new ArrayList<>();
       for (Entry<String, Object> paramEntry : formParams.entrySet()) {
@@ -701,6 +716,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         throw new ApiException(e);
       }
     } else {
+      // Handle files with unknown content type
+      if (obj instanceof File) {
+        return new FileEntity((File) obj);
+      } else if (obj instanceof byte[]) {
+        return new ByteArrayEntity((byte[]) obj);
+      }
       throw new ApiException("Serialization for content type '" + contentType + "' not supported");
     }
   }
