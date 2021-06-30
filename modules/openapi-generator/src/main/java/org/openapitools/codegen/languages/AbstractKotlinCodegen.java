@@ -927,13 +927,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
-                String arrInstantiationType = ModelUtils.isSet(p)
-                        ? instantiationTypes().getOrDefault("set", "Set")
-                        : instantiationTypes().getOrDefault("list", "ArrayList");
+                String arrInstantiationType = ModelUtils.isSet(p) ? "set" : "arrayList";
 
                 ArrayNode _default = (ArrayNode) p.getDefault();
                 if (_default.isEmpty()) {
-                    return arrInstantiationType + ".of()";
+                    return arrInstantiationType + "Of()";
                 }
 
                 StringBuilder defaultContent = new StringBuilder();
@@ -943,7 +941,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                     defaultContent.append(toDefaultValue(itemsSchema)).append(",");
                 });
                 defaultContent.deleteCharAt(defaultContent.length()-1); // remove trailing comma
-                return arrInstantiationType + ".of(" + defaultContent + ")";
+                return arrInstantiationType + "Of(" + defaultContent + ")";
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
