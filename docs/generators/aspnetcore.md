@@ -7,8 +7,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |3.1|
-|buildTarget|Target to build an application or library| |program|
+|aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd></dl>|3.1|
+|buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
@@ -19,11 +19,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
+|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
 |operationIsAsync|Set methods to async or sync (default).| |false|
-|operationModifier|Operation Modifier can be virtual or abstract| |virtual|
+|operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
 |packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
+|packageDescription|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |A library generated from a OpenAPI doc|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
@@ -31,7 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0| |3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd></dl>|3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|

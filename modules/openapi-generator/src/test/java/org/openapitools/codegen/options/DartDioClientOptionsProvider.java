@@ -31,7 +31,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String PUB_LIBRARY_VALUE = "openapi.api";
     public static final String PUB_NAME_VALUE = "openapi";
     public static final String PUB_VERSION_VALUE = "1.0.0-SNAPSHOT";
-    public static final String PUB_DESCRIPTION_VALUE = "OpenAPI API client dart";
+    public static final String PUB_DESCRIPTION_VALUE = "OpenAPI API client dart-dio";
     public static final String SOURCE_FOLDER_VALUE = "src";
     public static final String USE_ENUM_EXTENSION = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";

@@ -1,0 +1,80 @@
+name: Samples Dart
+
+on:
+  push:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+    paths:
+      - 'samples/openapi3/client/petstore/dart*/**'
+
+jobs:
+  tests-dart-2-10:
+    name: Tests Dart 2.10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 8
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.6
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Cache test dependencies
+        uses: actions/cache@v2.1.6
+        env:
+          cache-name: pub-cache
+        with:
+          path: $PUB_CACHE
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.yaml') }}
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.10.5
+      - name: Run tests
+        uses: ./.github/actions/run-samples
+        with:
+          name: samples.dart-2.10
+
+  tests-dart-2-13:
+    name: Tests Dart 2.13
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 8
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.6
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Cache test dependencies
+        uses: actions/cache@v2.1.6
+        env:
+          cache-name: pub-cache
+        with:
+          path: $PUB_CACHE
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.yaml') }}
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.13.0
+      - name: Run tests
+        uses: ./.github/actions/run-samples
+        with:
+          name: samples.dart-2.13

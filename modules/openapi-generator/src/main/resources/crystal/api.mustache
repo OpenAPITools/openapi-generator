@@ -55,7 +55,7 @@ module {{moduleName}}
       {{^isContainer}}
       # verify enum value
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !allowable_values.include?({{{paramName}}})
+      if @api_client.config.client_side_validation && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/isContainer}}
@@ -66,13 +66,13 @@ module {{moduleName}}
       {{#isEnum}}
       {{#collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && {{{paramName}}}.all? { |item| allowable_values.include?(item) }
+      if @api_client.config.client_side_validation && {{{paramName}}} && {{{paramName}}}.all? { |item| allowable_values.includes?(item) }
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{^collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}} && !allowable_values.include?({{{paramName}}}])
+      if @api_client.config.client_side_validation && {{{paramName}}} && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/collectionFormat}}
@@ -128,9 +128,9 @@ module {{moduleName}}
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
       {{#queryParams}}
-      query_params[:"{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
       {{/queryParams}}
 
       # header parameters

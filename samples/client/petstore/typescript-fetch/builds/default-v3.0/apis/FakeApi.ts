@@ -27,6 +27,9 @@ import {
     OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
+    OuterObjectWithEnumProperty,
+    OuterObjectWithEnumPropertyFromJSON,
+    OuterObjectWithEnumPropertyToJSON,
     Pet,
     PetFromJSON,
     PetToJSON,
@@ -55,6 +58,14 @@ export interface FakeOuterNumberSerializeRequest {
 
 export interface FakeOuterStringSerializeRequest {
     body?: string;
+}
+
+export interface FakePropertyEnumIntegerSerializeRequest {
+    outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
+}
+
+export interface TestBodyWithBinaryRequest {
+    body: Blob | null;
 }
 
 export interface TestBodyWithFileSchemaRequest {
@@ -312,7 +323,72 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * Test serialization of enum (int) properties with examples
+     */
+    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
+        if (requestParameters.outerObjectWithEnumProperty === null || requestParameters.outerObjectWithEnumProperty === undefined) {
+            throw new runtime.RequiredError('outerObjectWithEnumProperty','Required parameter requestParameters.outerObjectWithEnumProperty was null or undefined when calling fakePropertyEnumIntegerSerialize.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/property/enum-int`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: OuterObjectWithEnumPropertyToJSON(requestParameters.outerObjectWithEnumProperty),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OuterObjectWithEnumPropertyFromJSON(jsonValue));
+    }
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     */
+    async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest): Promise<OuterObjectWithEnumProperty> {
+        const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * For this test, the body has to be a binary file.
+     */
+    async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling testBodyWithBinary.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'image/png';
+
+        const response = await this.request({
+            path: `/fake/body-with-binary`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.body as any,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * For this test, the body has to be a binary file.
+     */
+    async testBodyWithBinary(requestParameters: TestBodyWithBinaryRequest): Promise<void> {
+        await this.testBodyWithBinaryRaw(requestParameters);
+    }
+
+    /**
+     * For this test, the body for this request must reference a schema named `File`.
      */
     async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.fileSchemaTestClass === null || requestParameters.fileSchemaTestClass === undefined) {
@@ -337,7 +413,7 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body for this request must reference a schema named `File`.
      */
     async testBodyWithFileSchema(requestParameters: TestBodyWithFileSchemaRequest): Promise<void> {
         await this.testBodyWithFileSchemaRaw(requestParameters);
@@ -656,7 +732,7 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = typeof token === 'function' ? token("bearer_test", []) : token;
+            const tokenString = await token("bearer_test", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -795,7 +871,7 @@ export class FakeApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.pipe) {
-            queryParameters['pipe'] = requestParameters.pipe;
+            queryParameters['pipe'] = requestParameters.pipe.join(runtime.COLLECTION_FORMATS["pipes"]);
         }
 
         if (requestParameters.ioutil) {

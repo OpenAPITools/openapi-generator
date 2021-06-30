@@ -576,7 +576,7 @@
    */
 {{/emitJSDoc}}  exports.parseDate = function(str) {
     if (isNaN(str)) {
-      return new Date(str.replace(/T/i, ' '));
+      return new Date(str.replace(/(\d)(T)(\d)/i, '$1 $3'));
     }
     return new Date(+str);
   };

@@ -11,11 +11,11 @@ import MobileCoreServices
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
-        URLSessionRequestBuilder<T>.self
+        return URLSessionRequestBuilder<T>.self
     }
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
-        URLSessionDecodableRequestBuilder<T>.self
+        return URLSessionDecodableRequestBuilder<T>.self
     }
 }
 
@@ -23,9 +23,6 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
 private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
-
-    // swiftlint:disable:next weak_delegate
-    fileprivate let sessionDelegate = SessionDelegate()
 
     /**
      May be assigned if you want to control the authentication challenges.
@@ -52,6 +49,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     open func createURLSession() -> URLSession {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
+        let sessionDelegate = SessionDelegate()
         sessionDelegate.credential = credential
         sessionDelegate.taskDidReceiveChallenge = taskDidReceiveChallenge
         return URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: nil)
@@ -65,7 +63,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      the file extension).  Return the desired Content-Type otherwise.
      */
     open func contentTypeForFormPart(fileURL: URL) -> String? {
-        nil
+        return nil
     }
 
     /**
@@ -95,14 +93,14 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding
@@ -121,26 +119,23 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = FormURLEncoding()
             } else {
-                fatalError("Unsuported Media Type - \(contentType)")
+                fatalError("Unsupported Media Type - \(contentType)")
             }
         }
 
         let cleanupRequest = {
+            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
             urlSessionStore[urlSessionId] = nil
         }
 
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
-
-                guard let self = self else { return }
+            let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
                 if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
 
-                    taskCompletionShouldRetry(data, response, error) { [weak self] shouldRetry in
-
-                        guard let self = self else { return }
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
 
                         if shouldRetry {
                             cleanupRequest()
@@ -148,12 +143,14 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                         } else {
                             apiResponseQueue.async {
                                 self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                cleanupRequest()
                             }
                         }
                     }
                 } else {
                     apiResponseQueue.async {
                         self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                        cleanupRequest()
                     }
                 }
             }
@@ -208,16 +205,18 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 }
 
                 let fileManager = FileManager.default
-                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
                 let requestURL = try getURL(from: urlRequest)
 
                 var requestPath = try getPath(from: requestURL)
 
                 if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
+                } else {
+                    requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
                 }
 
-                let filePath = documentsDirectory.appendingPathComponent(requestPath)
+                let filePath = cachesDirectory.appendingPathComponent(requestPath)
                 let directoryPath = filePath.deletingLastPathComponent().path
 
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
@@ -235,6 +234,10 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             completion(.success(Response(response: httpResponse, body: nil)))
 
+        case is Data.Type:
+
+            completion(.success(Response(response: httpResponse, body: data as? T)))
+
         default:
 
             completion(.success(Response(response: httpResponse, body: data as? T)))
@@ -247,7 +250,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         for (key, value) in headers {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in PetstoreClient.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -330,6 +333,43 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
             completion(.success(Response<T>(response: httpResponse, body: body as? T)))
+
+        case is URL.Type:
+            do {
+
+                guard error == nil else {
+                    throw DownloadException.responseFailed
+                }
+
+                guard let data = data else {
+                    throw DownloadException.responseDataMissing
+                }
+
+                let fileManager = FileManager.default
+                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                let requestURL = try getURL(from: urlRequest)
+
+                var requestPath = try getPath(from: requestURL)
+
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                    requestPath = requestPath.appending("/\(headerFileName)")
+                } else {
+                    requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
+                }
+
+                let filePath = cachesDirectory.appendingPathComponent(requestPath)
+                let directoryPath = filePath.deletingLastPathComponent().path
+
+                try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
+                try data.write(to: filePath, options: .atomic)
+
+                completion(.success(Response(response: httpResponse, body: filePath as? T)))
+
+            } catch let requestParserError as DownloadException {
+                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+            } catch {
+                completion(.failure(ErrorResponse.error(400, data, response, error)))
+            }
 
         case is Void.Type:
 

@@ -25,14 +25,15 @@ Pod::Spec.new do |s|
   {{#podDocumentationURL}}
   s.documentation_url = '{{podDocumentationURL}}'
   {{/podDocumentationURL}}
-  s.source_files = '{{projectName}}/Classes/**/*.swift'
+  s.source_files = '{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
   {{#usePromiseKit}}
-  s.dependency 'PromiseKit/CorePromise', '~> 6.13.1'
+  s.dependency 'PromiseKit/CorePromise', '~> 6.15.3'
   {{/usePromiseKit}}
   {{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 5.1.1'
+  s.dependency 'RxSwift', '~> 6.2.0'
   {{/useRxSwift}}
   {{#useAlamofire}}
   s.dependency 'Alamofire', '~> 4.9.1'
   {{/useAlamofire}}
+  s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
 end

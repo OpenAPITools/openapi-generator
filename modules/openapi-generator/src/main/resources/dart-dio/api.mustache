@@ -1,173 +1,145 @@
 {{>header}}
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
-{{/modelImports}}
-{{#fullImports}}import '{{.}}';
-{{/fullImports}}
+{{#imports}}import '{{.}}';
+{{/imports}}
 
 class {{classname}} {
-    final Dio _dio;
-    Serializers _serializers;
 
-    {{classname}}(this._dio, this._serializers);
+  final Dio _dio;
 
-    {{#operation}}
-    /// {{{summary}}}
-    ///
-    /// {{{notes}}}
-    Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
-        {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
-        {{{dataType}}} {{paramName}},{{/optionalParams}}
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{baseName}}' '}', {{{paramName}}}.toString()){{/pathParams}};
+  final Serializers _serializers;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+  const {{classname}}(this._dio, this._serializers);
 
+  {{#operation}}
+  /// {{{summary}}}
+  ///
+  /// {{{notes}}}
+  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
+    {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
+    {{{dataType}}} {{paramName}},{{/optionalParams}}
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}},
+      method: '{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
+      {{#isResponseFile}}
+      responseType: ResponseType.bytes,
+      {{/isResponseFile}}
+      headers: <String, dynamic>{
+        {{#httpUserAgent}}
+        r'User-Agent': r'{{{.}}}',
+        {{/httpUserAgent}}
         {{#headerParams}}
-        headerParams[r'{{baseName}}'] = {{paramName}};
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/headerParams}}
+        ...?headers,
+      },
+      {{#hasQueryParams}}
+      queryParameters: <String, dynamic>{
         {{#queryParams}}
-        queryParams[r'{{baseName}}'] = {{paramName}};
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/queryParams}}
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+      },
+      {{/hasQueryParams}}
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+          {{#authMethods}}{
+            'type': '{{type}}',
+            'name': '{{name}}',{{#isApiKey}}
+            'keyName': '{{keyParamName}}',
+            'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}
+          },{{/authMethods}}
+        ],{{/hasAuthMethods}}
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: '{{^hasConsumes}}application/json{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}{{/hasConsumes}}',
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        final contentTypes = <String>[{{^hasConsumes}}];{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-            '{{{mediaType}}}',{{/consumes}}
-        ];{{/hasConsumes}}
-        {{#hasFormParams}}
+    dynamic _bodyData;
+    {{#hasFormParams}}
 
-        final formData = <String, dynamic>{};
-        {{#isMultipart}}
-        {{#formParams}}
-        {{^isFile}}
-        if ({{paramName}} != null) {
-            formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-        }
-        {{/isFile}}
-        {{#isFile}}
-        if ({{paramName}} != null) {
-            formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
-        }
-        {{/isFile}}
-        {{/formParams}}
-        bodyData = FormData.fromMap(formData);
-        {{/isMultipart}}
-        {{^isMultipart}}
-        {{#formParams}}
-        formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
-        {{/formParams}}
-        bodyData = formData;
-        {{/isMultipart}}
-        {{/hasFormParams}}
-        {{#bodyParam}}
+    _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
+      {{#formParams}}
+      {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
+      {{/formParams}}
+    }{{#isMultipart}}){{/isMultipart}};
+    {{/hasFormParams}}
+    {{#bodyParam}}
 
-        {{#isContainer}}
-        {{#isArray}}
-        const type = FullType(BuiltList, [FullType({{baseType}})]);
-        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
-        {{/isArray}}
-        {{#isMap}}
-        const type = FullType(BuiltMap, [FullType(String), FullType({{baseType}})]);
-        final serializedBody = _serializers.serialize({{paramName}}, specifiedType: type);
-        {{/isMap}}
-        {{/isContainer}}
-        {{^isContainer}}
-        {{#isPrimitiveType}}
-        var serializedBody = {{paramName}};
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        final bodySerializer = _serializers.serializerForType({{{baseType}}}) as Serializer<{{{baseType}}}>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, {{paramName}});
-        {{/isPrimitiveType}}
-        {{/isContainer}}
-        final json{{paramName}} = json.encode(serializedBody);
-        bodyData = json{{paramName}};
-        {{/bodyParam}}
+    {{#isPrimitiveType}}
+    _bodyData = {{paramName}};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isContainer}}
+    const _type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]);
+    _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
+    {{/isContainer}}
+    {{^isContainer}}
+    const _type = FullType({{{baseType}}});
+    _bodyData = _serializers.serialize({{paramName}}, specifiedType: _type);
+    {{/isContainer}}
+    {{/isPrimitiveType}}
+    {{/bodyParam}}
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: '{{httpMethod}}'.toUpperCase(),
-                {{#isResponseFile}}
-                responseType: ResponseType.bytes,
-                {{/isResponseFile}}
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
-                        {{#authMethods}}{
-                            'type': '{{type}}',
-                            'name': '{{name}}',{{#isApiKey}}
-                            'keyName': '{{keyParamName}}',
-                            'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}
-                        },{{/authMethods}}
-                    ],{{/hasAuthMethods}}
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ){{#returnType}}.then((response) {
-        {{#isResponseFile}}
-            final data = response.data;
-        {{/isResponseFile}}
-        {{^isResponseFile}}
-        {{#returnSimpleType}}
-        {{#returnTypeIsPrimitive}}
-            final data = response.data as {{{returnType}}};
-        {{/returnTypeIsPrimitive}}
-        {{^returnTypeIsPrimitive}}
-            final serializer = _serializers.serializerForType({{{returnType}}}) as Serializer<{{{returnType}}}>;
-            final data = _serializers.deserializeWith<{{{returnType}}}>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-        {{/returnTypeIsPrimitive}}
-        {{/returnSimpleType}}
-        {{^returnSimpleType}}
-            const collectionType = {{#isMap}}BuiltMap{{/isMap}}{{^isMap}}BuiltList{{/isMap}};
-            const type = FullType(collectionType, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as {{{returnType}}};
-        {{/returnSimpleType}}
-        {{/isResponseFile}}
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+    {{#returnType}}
 
-            return Response<{{{returnType}}}>(
-                data: data,
-                headers: response.headers,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        }){{/returnType}};
-    }
+    {{#isResponseFile}}
+    final {{{returnType}}} _responseData = _response.data as {{{returnType}}};
+    {{/isResponseFile}}
+    {{^isResponseFile}}
+    {{#returnSimpleType}}
+    {{#returnTypeIsPrimitive}}
+    final {{{returnType}}} _responseData = _response.data as {{{returnType}}};
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+    const _responseType = FullType({{{returnType}}});
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as {{{returnType}}};
+    {{/returnTypeIsPrimitive}}
+    {{/returnSimpleType}}
+    {{^returnSimpleType}}
+    const _responseType = FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
+    final {{{returnType}}} _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as {{{returnType}}};
+    {{/returnSimpleType}}
+    {{/isResponseFile}}
 
-    {{/operation}}
+    return Response<{{{returnType}}}>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );{{/returnType}}{{^returnType}}
+    return _response;{{/returnType}}
+  }
+
+  {{/operation}}
 }
 {{/operations}}

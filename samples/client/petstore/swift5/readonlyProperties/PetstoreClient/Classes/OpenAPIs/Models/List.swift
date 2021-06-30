@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-public struct List: Codable {
+public struct List: Codable, Hashable {
 
     public private(set) var _123list: String?
 
@@ -19,4 +22,11 @@ public struct List: Codable {
         case _123list = "123-list"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_123list, forKey: ._123list)
+    }
 }
+

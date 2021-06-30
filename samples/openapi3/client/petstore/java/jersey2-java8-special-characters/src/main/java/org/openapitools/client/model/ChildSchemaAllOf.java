@@ -59,6 +59,8 @@ public class ChildSchemaAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROP1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProp1(String prop1) {
     this.prop1 = prop1;
   }
@@ -83,7 +85,6 @@ public class ChildSchemaAllOf {
   public int hashCode() {
     return Objects.hash(prop1);
   }
-
 
   @Override
   public String toString() {

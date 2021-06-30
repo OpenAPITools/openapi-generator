@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 internal struct Tag: Codable, Hashable {
 
@@ -17,4 +20,17 @@ internal struct Tag: Codable, Hashable {
         self.name = name
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case name
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+    }
 }
+

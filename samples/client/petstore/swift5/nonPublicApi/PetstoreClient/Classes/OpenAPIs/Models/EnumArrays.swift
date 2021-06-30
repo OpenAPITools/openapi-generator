@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct EnumArrays: Codable {
+internal struct EnumArrays: Codable, Hashable {
 
     internal enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
@@ -30,4 +33,12 @@ internal struct EnumArrays: Codable {
         case arrayEnum = "array_enum"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
+        try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
+    }
 }
+

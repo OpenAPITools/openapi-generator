@@ -1,4 +1,9 @@
 -
+  caption: "Aalborg University"
+  image: "img/companies/aalborg_university.png"
+  infoLink: "https://www.aau.dk/"
+  pinned: false
+-
   caption: "Adaptant Solutions AG"
   image: "img/companies/adaptant.png"
   infoLink: "https://www.adaptant.io/"
@@ -199,6 +204,11 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
+  pinned: false
+-
   caption: "Here"
   image: "img/companies/here.png"
   infoLink: "https://developer.here.com/"
@@ -249,6 +259,11 @@
   infoLink: "https://www.lvm.de"
   pinned: false
 -
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
+  pinned: false
+-
   caption: M3, Inc.
   image: "img/companies/m3.png"
   infoLink: "https://jobs.m3.com/engineer/"
@@ -289,11 +304,6 @@
   infoLink: "https://www.nokia.com/"
   pinned: false
 -
-  caption: "PLAID, Inc."
-  image: "img/companies/plaidcojp.jpg"
-  infoLink: "https://plaid.co.jp/"
-  pinned: false
--
   caption: Options Clearing Corporation (OCC)
   image: "img/companies/occ.jpg"
   infoLink: "https://www.theocc.com/"
@@ -317,6 +327,16 @@
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Plaid
+  image: "img/companies/plaid.png"
+  infoLink: "https://www.plaid.com/"
   pinned: false
 -
   caption: Ponicode
@@ -364,6 +384,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
+  pinned: false
+-
   caption: "SmartHR"
   image: "img/companies/smarthr.png"
   infoLink: "https://smarthr.co.jp/"
@@ -394,6 +419,11 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: "TravelTime platform"
   image: "img/companies/traveltime.jpg"
   infoLink: "https://www.traveltimeplatform.com/"
@@ -422,6 +452,16 @@
   caption: "Veamly"
   image: "img/companies/veamly.png"
   infoLink: "https://www.veamly.com/"
+  pinned: false
+-
+  caption: "viadee"
+  image: "img/companies/viadee.jpg"
+  infoLink: "https://www.viadee.de"
+  pinned: false
+-
+  caption: "VMware"
+  image: "img/companies/vmware.png"
+  infoLink: "https://www.vmware.com/"
   pinned: false
 -
   caption: Vonage

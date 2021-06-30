@@ -12,7 +12,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |defaultController|default controller| |default_controller|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|legacyDiscriminatorBehavior|Set to true for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|featureCORS|use flask-cors for handling CORS requests| |false|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |packageName|python package name (convention: snake_case).| |openapi_server|
 |packageVersion|python package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -22,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportPython2|support python2. This option has been deprecated and will be removed in the 5.x release.| |false|
 |useNose|use the nose test framework| |false|
+|usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
 
 ## IMPORT MAPPING
 
@@ -41,13 +43,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Dict</li>
 <li>List</li>
 <li>bool</li>
-<li>byte</li>
-<li>bytearray</li>
+<li>bytes</li>
 <li>date</li>
 <li>datetime</li>
+<li>dict</li>
 <li>file</li>
 <li>float</li>
 <li>int</li>
+<li>list</li>
 <li>object</li>
 <li>str</li>
 </ul>
@@ -55,9 +58,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>
+<li>async</li>
+<li>auth_settings</li>
+<li>await</li>
+<li>body_params</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
@@ -70,21 +78,27 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>false</li>
 <li>finally</li>
 <li>for</li>
+<li>form_params</li>
 <li>from</li>
 <li>global</li>
+<li>header_params</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>
 <li>is</li>
 <li>lambda</li>
+<li>local_var_files</li>
 <li>none</li>
 <li>nonlocal</li>
 <li>not</li>
 <li>or</li>
 <li>pass</li>
+<li>path_params</li>
 <li>print</li>
 <li>property</li>
+<li>query_params</li>
 <li>raise</li>
+<li>resource_path</li>
 <li>return</li>
 <li>self</li>
 <li>true</li>

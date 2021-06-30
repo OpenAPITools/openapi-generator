@@ -30,7 +30,7 @@ import android.os.Parcel;
  * Client
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Client {
+public class Client implements Parcelable {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
@@ -77,7 +77,6 @@ public class Client {
   public int hashCode() {
     return Objects.hash(client);
   }
-
 
   @Override
   public String toString() {

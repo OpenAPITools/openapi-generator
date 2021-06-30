@@ -61,20 +61,18 @@ class MixedPropertiesAndAdditionalPropertiesClass {
         dateTime: json[r'dateTime'] == null
           ? null
           : DateTime.parse(json[r'dateTime']),
-        map: json[r'map'] == null
-          ? null
-          : Animal.mapFromJson(json[r'map']),
+            map: json[r'map']
     );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[]
-      : json.map((v) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(value));
     }
     return map;
   }
@@ -82,9 +80,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   // maps a json object with a list of MixedPropertiesAndAdditionalPropertiesClass-objects as value to a dart map
   static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

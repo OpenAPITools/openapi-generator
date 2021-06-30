@@ -51,12 +51,12 @@ class ArrayOfArrayOfNumberOnly {
   static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayOfArrayOfNumberOnly>[]
-      : json.map((v) => ArrayOfArrayOfNumberOnly.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ArrayOfArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayOfArrayOfNumberOnly>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(value));
     }
     return map;
   }
@@ -64,9 +64,9 @@ class ArrayOfArrayOfNumberOnly {
   // maps a json object with a list of ArrayOfArrayOfNumberOnly-objects as value to a dart map
   static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

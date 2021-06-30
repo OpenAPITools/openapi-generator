@@ -11,13 +11,15 @@
 
 import sys
 from collections import namedtuple
-import unittest
+import os
 import json
+import unittest
 from unittest.mock import patch
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
 from petstore_api.rest import RESTClientObject, RESTResponse
+from petstore_api.model_utils import file_type, model_to_dict
 
 HTTPResponse = namedtuple(
     'urllib3_response_HTTPResponse',
@@ -52,22 +54,37 @@ class TestFakeApi(unittest.TestCase):
         return RESTResponse(http_response)
 
     @staticmethod
-    def assert_request_called_with(mock_method, url, value):
-        mock_method.assert_called_with(
-            'POST',
-            url,
+    def assert_request_called_with(
+        mock_method,
+        url,
+        accept='application/json',
+        http_method='POST',
+        content_type='application/json',
+        **kwargs
+    ):
+        headers = {
+            'Accept': accept,
+            'User-Agent': 'OpenAPI-Generator/1.0.0/python',
+        }
+        if content_type:
+            headers['Content-Type'] = content_type
+        used_kwargs = dict(
             _preload_content=True,
             _request_timeout=None,
-            body=value,
-            headers={
-                'Accept': 'application/json',
-                'User-Agent': 'OpenAPI-Generator/1.0.0/python',
-                'Content-Type': 'application/json'
-            },
-            post_params=[],
+            headers=headers,
             query_params=[]
         )
-
+        if 'post_params' in kwargs:
+            used_kwargs['post_params'] = kwargs['post_params']
+        if 'body' in kwargs:
+            used_kwargs['body'] = kwargs['body']
+            if 'post_params' not in used_kwargs:
+                used_kwargs['post_params'] = []
+        mock_method.assert_called_with(
+            http_method,
+            url,
+            **used_kwargs
+        )
 
     def test_array_model(self):
         """Test case for array_model
@@ -86,7 +103,11 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(json_data)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/arraymodel', json_data)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/arraymodel',
+                body=json_data,
+            )
 
             assert isinstance(response, animal_farm.AnimalFarm)
             assert response == body
@@ -143,7 +164,10 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', json_value)
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/enum-test',
+                body=json_value,
+            )
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -159,7 +183,10 @@ class TestFakeApi(unittest.TestCase):
 
             response = endpoint(enum_test=body)
             self.assert_request_called_with(
-                mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum-test', json_value)
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/enum-test',
+                body=json_value,
+            )
 
             assert isinstance(response, EnumTest)
             assert response == body
@@ -183,7 +210,11 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(array_of_enums=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', value_simple)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums',
+                body=value_simple,
+            )
 
             assert isinstance(response, array_of_enums.ArrayOfEnums)
             assert response.value == value
@@ -204,7 +235,11 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/number', value)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/number',
+                body=value,
+            )
 
             assert isinstance(response, number_with_validations.NumberWithValidations)
             assert response.value == value
@@ -247,7 +282,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/object_model_with_ref_props',
-                    json_payload
+                    body=json_payload,
                 )
 
                 assert isinstance(response, expected_model.__class__)
@@ -285,7 +320,7 @@ class TestFakeApi(unittest.TestCase):
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',
-                    value_simple
+                    body=value_simple,
                 )
 
                 assert isinstance(response, body.__class__)
@@ -306,7 +341,11 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value_simple)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/string', value_simple)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/string',
+                body=value_simple,
+            )
 
             assert isinstance(response, str)
             assert response == value_simple
@@ -328,10 +367,214 @@ class TestFakeApi(unittest.TestCase):
             mock_method.return_value = self.mock_response(value)
 
             response = endpoint(body=body)
-            self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', value)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/refs/enum',
+                body=value,
+            )
 
             assert isinstance(response, string_enum.StringEnum)
             assert response.value == value
+
+    def test_upload_file(self):
+        # uploads a file
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        api_respponse = {
+            'code': 200,
+            'type': 'blah',
+            'message': 'file upload succeeded'
+        }
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(api_respponse).encode('utf-8'),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        file1 = open(file_path1, "rb")
+        try:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                res = self.api.upload_file(
+                    file=file1)
+                body = None
+                post_params=[
+                    ('file', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
+                ]
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/uploadFile',
+                    body=body, post_params=post_params, content_type='multipart/form-data'
+                )
+        except petstore_api.ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+
+        # passing in an array of files to when file only allows one
+        # raises an exceptions
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(petstore_api.ApiTypeError) as exc:
+                self.api.upload_file(file=[file])
+        finally:
+            file.close()
+
+        # passing in a closed file raises an exception
+        with self.assertRaises(petstore_api.ApiValueError) as exc:
+            file = open(file_path1, "rb")
+            file.close()
+            self.api.upload_file(file=file)
+
+    def test_upload_files(self):
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+        file_path2 = os.path.join(test_file_dir, "1px_pic2.png")
+
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        api_respponse = {
+            'code': 200,
+            'type': 'blah',
+            'message': 'file upload succeeded'
+        }
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(api_respponse).encode('utf-8'),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        file1 = open(file_path1, "rb")
+        file2 = open(file_path2, "rb")
+        try:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                res = self.api.upload_files(
+                    files=[file1, file2])
+                post_params=[
+                    ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
+                    ('files', ('1px_pic2.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png'))
+                ]
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/uploadFiles',
+                    body=None, post_params=post_params, content_type='multipart/form-data'
+                )
+        except petstore_api.ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            file2.close()
+
+        # passing in a single file when an array of file is required
+        # raises an exception
+        try:
+            file = open(file_path1, "rb")
+            with self.assertRaises(petstore_api.ApiTypeError) as exc:
+                self.api.upload_files(files=file)
+        finally:
+            file.close()
+
+    def test_download_attachment(self):
+        """Ensures that file deserialization works"""
+
+        # sample from http://www.jtricks.com/download-text
+        file_name = 'content.txt'
+        headers = {'Content-Disposition': 'attachment; filename={}'.format(file_name), 'Content-Type': 'text/plain'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        file_data = (
+            "You are reading text file that was supposed to be downloaded\r\n"
+            "to your hard disk. If your browser offered to save you the file,"
+            "\r\nthen it handled the Content-Disposition header correctly."
+        )
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        # deserialize response to a file
+        mock_response = RESTResponse(http_response)
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            mock_method.return_value = mock_response
+            try:
+                file_object = self.api.download_attachment(file_name='download-text')
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://www.jtricks.com/download-text',
+                    http_method='GET',
+                    accept='text/plain',
+                    content_type=None,
+                )
+                self.assertTrue(isinstance(file_object, file_type))
+                self.assertFalse(file_object.closed)
+                self.assertEqual(file_object.read(), file_data.encode('utf-8'))
+            finally:
+                file_object.close()
+                os.unlink(file_object.name)
+
+    def test_upload_download_file(self):
+        test_file_dir = os.path.realpath(
+            os.path.join(os.path.dirname(__file__), "..", "testfiles"))
+        file_path1 = os.path.join(test_file_dir, "1px_pic1.png")
+
+        with open(file_path1, "rb") as f:
+            expected_file_data = f.read()
+
+        headers = {'Content-Type': 'application/octet-stream'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=expected_file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        mock_response = RESTResponse(http_response)
+        file1 = open(file_path1, "rb")
+        try:
+            with patch.object(RESTClientObject, 'request') as mock_method:
+                mock_method.return_value = mock_response
+                downloaded_file = self.api.upload_download_file(body=file1)
+                self.assert_request_called_with(
+                    mock_method,
+                    'http://petstore.swagger.io:80/v2/fake/uploadDownloadFile',
+                    body=expected_file_data,
+                    content_type='application/octet-stream',
+                    accept='application/octet-stream'
+                )
+
+                self.assertTrue(isinstance(downloaded_file, file_type))
+                self.assertFalse(downloaded_file.closed)
+                self.assertEqual(downloaded_file.read(), expected_file_data)
+        except petstore_api.ApiException as e:
+            self.fail("upload_download_file() raised {0} unexpectedly".format(type(e)))
+        finally:
+            file1.close()
+            downloaded_file.close()
+            os.unlink(downloaded_file.name)
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
@@ -393,6 +636,83 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
+    def test_post_inline_additional_properties_ref_payload(self):
+        """Test case for postInlineAdditionlPropertiesRefPayload
+        """
+        from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+        from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
+        endpoint = self.api.post_inline_additional_properties_ref_payload
+        assert endpoint.openapi_types['inline_additional_properties_ref_payload'] == (InlineAdditionalPropertiesRefPayload,)
+        assert endpoint.settings['response_type'] == (InlineAdditionalPropertiesRefPayload,)
+
+        # serialization + deserialization works
+        from petstore_api.rest import RESTClientObject, RESTResponse
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            expected_json_body = {
+                'arrayData': [
+                    {
+                        'labels': [
+                            None,
+                            'foo'
+                        ]
+                    }
+                ]
+            }
+            inline_additional_properties_ref_payload = InlineAdditionalPropertiesRefPayload(
+                array_data=[
+                    FakePostInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
+                ]
+            )
+            mock_method.return_value = self.mock_response(expected_json_body)
+
+            response = endpoint(inline_additional_properties_ref_payload=inline_additional_properties_ref_payload)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/postInlineAdditionalPropertiesRefPayload',
+                body=expected_json_body
+            )
+
+            assert isinstance(response, InlineAdditionalPropertiesRefPayload)
+            assert model_to_dict(response) == expected_json_body
+
+    def test_post_inline_additional_properties_payload(self):
+        """Test case for postInlineAdditionlPropertiesPayload
+        """
+        from petstore_api.model.inline_object6 import InlineObject6
+        from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
+        endpoint = self.api.post_inline_additional_properties_payload
+        assert endpoint.openapi_types['inline_object6'] == (InlineObject6,)
+        assert endpoint.settings['response_type'] == (InlineObject6,)
+
+        # serialization + deserialization works
+        from petstore_api.rest import RESTClientObject, RESTResponse
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            expected_json_body = {
+                'arrayData': [
+                    {
+                        'labels': [
+                            None,
+                            'foo'
+                        ]
+                    }
+                ]
+            }
+            inline_object6 = InlineObject6(
+                array_data=[
+                    FakePostInlineAdditionalPropertiesPayloadArrayData(labels=[None, 'foo'])
+                ]
+            )
+            mock_method.return_value = self.mock_response(expected_json_body)
+
+            response = endpoint(inline_object6=inline_object6)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/postInlineAdditionalPropertiesPayload',
+                body=expected_json_body
+            )
+
+            assert isinstance(response, InlineObject6)
+            assert model_to_dict(response) == expected_json_body
 
 if __name__ == '__main__':
     unittest.main()

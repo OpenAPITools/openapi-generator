@@ -61,6 +61,8 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(String name) {
     this.name = name;
   }
@@ -83,7 +85,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public int hashCode() {
     return Objects.hash(name, super.hashCode());
   }
-
 
   @Override
   public String toString() {

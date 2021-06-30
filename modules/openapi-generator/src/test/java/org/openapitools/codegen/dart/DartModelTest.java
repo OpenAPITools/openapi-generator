@@ -142,6 +142,45 @@ public class DartModelTest {
         Assert.assertTrue(property2.isContainer);
     }
 
+    @Test(description = "convert a model with set property")
+    public void setPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("urls", new ArraySchema().items(new StringSchema()).uniqueItems(true))
+                .addRequiredItem("id");
+
+        final DefaultCodegen codegen = new DartClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "Set<String>");
+        Assert.assertEquals(property2.name, "urls");
+        Assert.assertEquals(property2.baseType, "Set");
+        Assert.assertEquals(property2.containerType, "set");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema model = new Schema()
@@ -298,8 +337,8 @@ public class DartModelTest {
             {"sample name", "SampleName"},
             {"List", "ModelList"},
             {"list", "ModelList"},
-            {"File", "ModelFile"},
-            {"Client", "ModelClient"},
+            {"File", "TestModelFile"},
+            {"Client", "TestModelClient"},
             {"String", "ModelString"},
         };
     }
@@ -310,6 +349,8 @@ public class DartModelTest {
         final Schema model = new Schema();
         final DefaultCodegen codegen = new DartClientCodegen();
         codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("File", "TestModelFile");
+        codegen.typeMapping().put("Client", "TestModelClient");
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);

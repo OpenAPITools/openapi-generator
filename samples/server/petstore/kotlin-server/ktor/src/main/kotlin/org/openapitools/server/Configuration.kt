@@ -1,19 +1,12 @@
 package org.openapitools.server
 
 // Use this file to hold package-level internal functions that return receiver object passed to the `install` method.
-import io.ktor.auth.OAuthServerSettings
-import io.ktor.features.Compression
-import io.ktor.features.HSTS
-import io.ktor.features.deflate
-import io.ktor.features.gzip
-import io.ktor.features.minimumSize
-import io.ktor.http.HttpMethod
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.auth.*
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.util.*
 import java.time.Duration
-import java.util.concurrent.Executors
-
-import org.openapitools.server.settings
-
+import java.util.concurrent.TimeUnit
 
 /**
  * Application block for [HSTS] configuration.
@@ -25,7 +18,7 @@ import org.openapitools.server.settings
  */
 internal fun ApplicationHstsConfiguration(): HSTS.Configuration.() -> Unit {
     return {
-        maxAge = Duration.ofDays(365)
+        maxAgeInSeconds = TimeUnit.DAYS.toSeconds(365)
         includeSubDomains = true
         preload = false
 
@@ -55,7 +48,6 @@ internal fun ApplicationCompressionConfiguration(): Compression.Configuration.()
 }
 
 // Defines authentication mechanisms used throughout the application.
-@KtorExperimentalAPI
 val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthServerSettings>(
         OAuthServerSettings.OAuth2ServerSettings(
             name = "petstore_auth",
@@ -72,11 +64,8 @@ val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthSer
 //                accessTokenUrl = "https://graph.facebook.com/oauth/access_token",
 //                requestMethod = HttpMethod.Post,
 //
-//                clientId = "settings.property("auth.oauth.facebook.clientId").getString()",
-//                clientSecret = "settings.property("auth.oauth.facebook.clientSecret").getString()",
+//                clientId = settings.property("auth.oauth.facebook.clientId").getString(),
+//                clientSecret = settings.property("auth.oauth.facebook.clientSecret").getString(),
 //                defaultScopes = listOf("public_profile")
 //        )
 ).associateBy { it.name }
-
-// Provides an application-level fixed thread pool on which to execute coroutines (mainly)
-internal val ApplicationExecutors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4)

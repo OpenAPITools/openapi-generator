@@ -1,14 +1,19 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
 let package = Package(
     name: "{{projectName}}",
     platforms: [
+        {{#useVapor}}
+        .macOS(.v10_15),
+        {{/useVapor}}
+        {{^useVapor}}
         .iOS(.v9),
         .macOS(.v10_11),
         .tvOS(.v9),
         .watchOS(.v3),
+        {{/useVapor}}
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -19,14 +24,18 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "4.9.1"),
         {{/useAlamofire}}
+        {{#useVapor}}
+        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        {{/useVapor}}
         {{#usePromiseKit}}
-        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.12.0"),
+        .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
         {{/usePromiseKit}}
         {{#useRxSwift}}
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.2.0"),
         {{/useRxSwift}}
     ],
     targets: [
@@ -34,8 +43,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "{{projectName}}",
-            dependencies: [{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
-            path: "{{projectName}}/Classes"
+            dependencies: ["AnyCodable", {{#useVapor}}"Vapor", {{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
+            path: "{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
         ),
     ]
 )

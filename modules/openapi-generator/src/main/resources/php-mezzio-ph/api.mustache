@@ -43,13 +43,7 @@ class {{classname}}
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaRange="{{{mediaType}}}")
 {{/consumes}}
 {{^isPrimitiveType}}
-{{#isContainer}}
-     * TODO check if attribute is valid and can handle your container type
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"{{dataType}}","objectAttr":"bodyData"})
-{{/isContainer}}
-{{^isContainer}}
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"bodyData"})
-{{/isContainer}}
 {{/isPrimitiveType}}
 {{/bodyParam}}
 {{#produces}}
@@ -61,13 +55,10 @@ class {{classname}}
      * @throws PHException\HttpCode 501 if the method is not implemented
 {{#returnType}}
      *
-{{#returnContainer}}
-     * TODO check if generated return container type is valid
-{{/returnContainer}}
      * @return {{returnType}}
 {{/returnType}}
      */
-    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}{{/returnType}}
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{returnType}}{{/returnType}}
     {
         //TODO implement method
 {{#vendorExtensions}}

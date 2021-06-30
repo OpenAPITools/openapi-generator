@@ -26,8 +26,8 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 @injectable()
 {{/useInversify}}
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
-	
-	{{#operation}}
+
+    {{#operation}}
     /**
      {{#notes}}
      * {{&notes}}
@@ -39,45 +39,45 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<RequestContext> {
-		let config = options || this.configuration;
-		{{#allParams}}
-		
-		{{#required}}
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+        {{#allParams}}
+
+        {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
         if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new RequiredError('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
-		{{/required}}
-		{{/allParams}}
-		
-		// Path Params
-    	const localVarPath = '{{{path}}}'{{#pathParams}}
+        {{/required}}
+        {{/allParams}}
+
+        // Path Params
+        const localVarPath = '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
-		// Make Request Context
-    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
-		{{#queryParams}}
+        {{#queryParams}}
         if ({{paramName}} !== undefined) {
-        	requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+            requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
         }
-		{{/queryParams}}
-	
-		// Header Params
-		{{#headerParams}}
-		requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
-		{{/headerParams}}
-	
-		// Form Params
-	    {{#hasFormParams}}
-		let localVarFormParams = new FormData();
-		{{/hasFormParams}}	
+        {{/queryParams}}
 
-		{{#formParams}}
+        // Header Params
+        {{#headerParams}}
+        requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+        {{/headerParams}}
+
+        // Form Params
+        {{#hasFormParams}}
+        let localVarFormParams = new FormData();
+        {{/hasFormParams}}
+
+        {{#formParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -86,14 +86,14 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        // TODO: replace .append with .set
-                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            // TODO: replace .append with .set
+            localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined) {
-        // TODO: replace .append with .set
+             // TODO: replace .append with .set
              {{^isFile}}
              localVarFormParams.append('{{baseName}}', {{paramName}} as any);
              {{/isFile}}
@@ -109,13 +109,13 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              {{/isFile}}
         }
         {{/isArray}}
-		{{/formParams}}		
-	    {{#hasFormParams}}
-		requestContext.setBody(localVarFormParams);
-		{{/hasFormParams}}	
+        {{/formParams}}
+        {{#hasFormParams}}
+        requestContext.setBody(localVarFormParams);
+        {{/hasFormParams}}
 
-		// Body Params
-	    {{#bodyParam}}
+        // Body Params
+        {{#bodyParam}}
         const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
             "{{{mediaType}}}"{{^-last}},{{/-last}}
         {{/consumes}}]);
@@ -125,14 +125,14 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-	    {{/bodyParam}}
+        {{/bodyParam}}
 
         {{#hasAuthMethods}}
         let authMethod = null;
         {{/hasAuthMethods}}
         // Apply auth methods
         {{#authMethods}}
-        authMethod = config.authMethods["{{name}}"]
+        authMethod = _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -144,8 +144,6 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
     {{/operation}}
 }
 {{/operations}}
-
-
 {{#operations}}
 
 {{#useInversify}}
@@ -213,9 +211,9 @@ export class {{classname}}ResponseProcessor {
         }
 
         let body = response.body || "";
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
-			
-	{{/operation}}
+
+    {{/operation}}
 }
 {{/operations}}

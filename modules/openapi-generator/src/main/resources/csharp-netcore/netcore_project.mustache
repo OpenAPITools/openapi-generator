@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>{{targetFramework}}</TargetFramework>
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{targetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -19,18 +19,25 @@
     <RepositoryType>git</RepositoryType>{{#releaseNote}}
     <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
     <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}
+    {{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+    {{/nullableReferenceTypes}}
   </PropertyGroup>
 
   <ItemGroup>
     {{#useCompareNetObjects}}
     <PackageReference Include="CompareNETObjects" Version="4.61.0" />
     {{/useCompareNetObjects}}
-    <PackageReference Include="JsonSubTypes" Version="1.7.0" />
+    <PackageReference Include="JsonSubTypes" Version="1.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="RestSharp" Version="106.11.4" />
-    <PackageReference Include="Polly" Version="7.2.0" />
+      {{#useRestSharp}}
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+      {{/useRestSharp}}
+      {{#supportsRetry}}
+    <PackageReference Include="Polly" Version="7.2.1" />
+      {{/supportsRetry}}
     {{#validatable}}
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     {{/validatable}}
   </ItemGroup>
 

@@ -34,15 +34,10 @@ import java.security.cert.X509Certificate;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-{{^supportJava6}}
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
-{{/supportJava6}}
-{{#supportJava6}}
-import org.apache.commons.io.FileUtils;
-import org.glassfish.jersey.filter.LoggingFilter;
-{{/supportJava6}}
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -55,9 +50,14 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-{{#java8}}
+{{#jsr310}}
+{{#threetenbp}}
+import org.threeten.bp.OffsetDateTime;
+{{/threetenbp}}
+{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/java8}}
+{{/threetenbp}}
+{{/jsr310}}
 
 import java.net.URLEncoder;
 
@@ -80,7 +80,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "{{{basePath}}}";
@@ -720,9 +720,9 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } {{#java8}}else if (param instanceof OffsetDateTime) {
+    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } {{/java8}}else if (param instanceof Collection) {
+    } {{/jsr310}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
         if(b.length() > 0) {
@@ -997,13 +997,7 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-{{^supportJava6}}
       Files.copy(response.readEntity(InputStream.class), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-{{/supportJava6}}
-{{#supportJava6}}
-      // Java6 falls back to commons.io for file copying
-      FileUtils.copyToFile(response.readEntity(InputStream.class), file);
-{{/supportJava6}}
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1034,15 +1028,15 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
         prefix = filename.substring(0, pos) + "-";
         suffix = filename.substring(pos);
       }
-      // File.createTempFile requires the prefix to be at least three characters long
+      // Files.createTempFile requires the prefix to be at least three characters long
       if (prefix.length() < 3)
         prefix = "download-";
     }
 
     if (tempFolderPath == null)
-      return File.createTempFile(prefix, suffix);
+      return Files.createTempFile(prefix, suffix).toFile();
     else
-      return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+      return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
   }
 
   /**
@@ -1235,10 +1229,8 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
    * @return Client
    */
   protected Client buildHttpClient() {
-    // use the default client config if not yet initialized
-    if (clientConfig == null) {
-        clientConfig = getDefaultClientConfig();
-    }
+    // recreate the client config to pickup changes
+    clientConfig = getDefaultClientConfig();
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
     customizeClientBuilder(clientBuilder);
@@ -1259,15 +1251,10 @@ public class ApiClient{{#java8}} extends JavaTimeFormatter{{/java8}} {
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
     if (debugging) {
-{{^supportJava6}}
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
       // Set logger to ALL
       java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME).setLevel(java.util.logging.Level.ALL);
-{{/supportJava6}}
-{{#supportJava6}}
-      clientConfig.register(new LoggingFilter(java.util.logging.Logger.getLogger(LoggingFilter.class.getName()), true));
-{{/supportJava6}}
     } else {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);

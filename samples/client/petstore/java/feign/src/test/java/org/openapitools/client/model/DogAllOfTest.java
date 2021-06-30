@@ -16,25 +16,24 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for DogAllOf
  */
-public class DogAllOfTest {
+class DogAllOfTest {
     private final DogAllOf model = new DogAllOf();
 
     /**
      * Model tests for DogAllOf
      */
     @Test
-    public void testDogAllOf() {
+    void testDogAllOf() {
         // TODO: test DogAllOf
     }
 
@@ -42,7 +41,7 @@ public class DogAllOfTest {
      * Test the property 'breed'
      */
     @Test
-    public void breedTest() {
+    void breedTest() {
         // TODO: test breed
     }
 

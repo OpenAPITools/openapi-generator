@@ -147,11 +147,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Apple).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.SerializerSettings));
+                }
+                else
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Apple>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Apple");
                 match++;
@@ -159,16 +162,19 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruit.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Banana).GetProperty("AdditionalProperties") == null)
                 {
                     newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.SerializerSettings));
+                }
+                else
+                {
+                    newFruit = new Fruit(JsonConvert.DeserializeObject<Banana>(jsonString, Fruit.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Banana");
                 match++;
@@ -176,7 +182,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -187,7 +193,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newFruit;
         }
@@ -251,7 +257,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Fruit).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Fruit).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

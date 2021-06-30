@@ -25,7 +25,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     private final TemplatingEngineAdapter engineAdapter;
     private final TemplatePathLocator[] templateLoaders;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
 
     /**
      * Constructs a new instance of a {@link TemplateManager}

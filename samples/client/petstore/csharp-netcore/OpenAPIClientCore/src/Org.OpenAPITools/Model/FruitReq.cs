@@ -156,11 +156,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(AppleReq).GetProperty("AdditionalProperties") == null)
                 {
                     newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.SerializerSettings));
+                }
+                else
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<AppleReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("AppleReq");
                 match++;
@@ -168,16 +171,19 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newFruitReq.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(BananaReq).GetProperty("AdditionalProperties") == null)
                 {
                     newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.SerializerSettings));
+                }
+                else
+                {
+                    newFruitReq = new FruitReq(JsonConvert.DeserializeObject<BananaReq>(jsonString, FruitReq.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("BananaReq");
                 match++;
@@ -185,7 +191,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -196,7 +202,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newFruitReq;
         }
@@ -260,7 +266,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

@@ -1,0 +1,10 @@
+generatorName: typescript-nestjs
+outputDir: samples/client/petstore/typescript-nestjs-v6-provided-in-root/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-nestjs
+additionalProperties:
+  nestVersion: 6.0.0
+  "npmName": "@openapitools/typescript-nestjs-petstore"
+  "npmVersion": "1.0.0"
+  "npmRepository" : "https://skimdb.npmjs.com/registry"
+  "snapshot" : false

@@ -58,6 +58,8 @@ public class TriangleInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }
@@ -82,7 +84,6 @@ public class TriangleInterface {
   public int hashCode() {
     return Objects.hash(triangleType);
   }
-
 
   @Override
   public String toString() {

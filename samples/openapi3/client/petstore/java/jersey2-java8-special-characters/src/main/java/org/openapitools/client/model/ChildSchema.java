@@ -70,6 +70,8 @@ public class ChildSchema extends Parent {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROP1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProp1(String prop1) {
     this.prop1 = prop1;
   }
@@ -133,7 +135,6 @@ public class ChildSchema extends Parent {
   public int hashCode() {
     return Objects.hash(prop1, super.hashCode(), additionalProperties);
   }
-
 
   @Override
   public String toString() {

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct ApiResponse: Codable {
+internal struct ApiResponse: Codable, Hashable {
 
     internal var code: Int?
     internal var type: String?
@@ -19,4 +22,19 @@ internal struct ApiResponse: Codable {
         self.message = message
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case code
+        case type
+        case message
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(code, forKey: .code)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(message, forKey: .message)
+    }
 }
+

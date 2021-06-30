@@ -2,6 +2,7 @@
 
 # MixedPropertiesAndAdditionalPropertiesClass
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,5 +11,9 @@ Name | Type | Description | Notes
 **dateTime** | **OffsetDateTime** |  |  [optional]
 **map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

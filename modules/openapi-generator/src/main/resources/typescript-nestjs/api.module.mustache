@@ -1,0 +1,31 @@
+import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
+import { Configuration } from './configuration';
+
+{{#apiInfo}}
+{{#apis}}
+import { {{classname}} } from './{{importPath}}';
+{{/apis}}
+{{/apiInfo}}
+
+@Global()
+@Module({
+  imports:      [ HttpModule ],
+  exports:      [
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}}
+  ],
+  providers: [
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}}
+  ]
+})
+export class ApiModule {
+    public static forRoot(configurationFactory: () => Configuration): DynamicModule {
+        return {
+            module: ApiModule,
+            providers: [ { provide: Configuration, useFactory: configurationFactory } ]
+        };
+    }
+
+    constructor( httpService: HttpService) { }
+}

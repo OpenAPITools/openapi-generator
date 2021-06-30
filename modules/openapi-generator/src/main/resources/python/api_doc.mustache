@@ -38,6 +38,7 @@ Method | HTTP request | Description
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{> api_doc_example }}
+
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
@@ -61,6 +62,7 @@ Name | Type | Description  | Notes
  - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{#responses.0}}
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|

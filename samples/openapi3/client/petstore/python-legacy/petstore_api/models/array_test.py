@@ -10,7 +10,10 @@
 """
 
 
-import inspect
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
 import six
@@ -47,7 +50,7 @@ class ArrayTest(object):
     def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None, local_vars_configuration=None):  # noqa: E501
         """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._array_of_string = None
@@ -80,6 +83,12 @@ class ArrayTest(object):
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
         :type array_of_string: list[str]
         """
+        if (self.local_vars_configuration.client_side_validation and
+                array_of_string is not None and len(array_of_string) > 3):
+            raise ValueError("Invalid value for `array_of_string`, number of items must be less than or equal to `3`")  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                array_of_string is not None and len(array_of_string) < 0):
+            raise ValueError("Invalid value for `array_of_string`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._array_of_string = array_of_string
 
@@ -131,7 +140,7 @@ class ArrayTest(object):
 
         def convert(x):
             if hasattr(x, "to_dict"):
-                args = inspect.getargspec(x.to_dict).args
+                args = getfullargspec(x.to_dict).args
                 if len(args) == 1:
                     return x.to_dict()
                 else:

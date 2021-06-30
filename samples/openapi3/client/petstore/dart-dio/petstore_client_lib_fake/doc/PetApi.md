@@ -9,15 +9,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **post** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **delete** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **get** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **get** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **get** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **put** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **post** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **post** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**addPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+[**deletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+[**findPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+[**getPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+[**updatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+[**updatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **addPet**
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findPetsByTags**
-> BuiltList<Pet> findPetsByTags(tags)
+> BuiltSet<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -165,7 +165,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var tags = []; // BuiltList<String> | Tags to filter by
+var tags = []; // BuiltSet<String> | Tags to filter by
 
 try { 
     var result = api_instance.findPetsByTags(tags);
@@ -179,11 +179,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltList<String>**](String.md)| Tags to filter by | 
+ **tags** | [**BuiltSet<String>**](String.md)| Tags to filter by | 
 
 ### Return type
 
-[**BuiltList<Pet>**](Pet.md)
+[**BuiltSet<Pet>**](Pet.md)
 
 ### Authorization
 

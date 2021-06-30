@@ -71,6 +71,8 @@ public class MySchemaNameCharacters extends Parent {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROP2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProp2(String prop2) {
     this.prop2 = prop2;
   }
@@ -134,7 +136,6 @@ public class MySchemaNameCharacters extends Parent {
   public int hashCode() {
     return Objects.hash(prop2, super.hashCode(), additionalProperties);
   }
-
 
   @Override
   public String toString() {

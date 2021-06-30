@@ -1,10 +1,14 @@
 {{>licenseInfo}}
 {{#imports}}with {{import}};
 {{/imports}}
+pragma Warnings (Off, "*is not referenced");
+pragma Warnings (Off, "*no entities of*are referenced");
 with Swagger.Servers;
 with {{package}}.Models;
 with Security.Permissions;
 package {{package}}.Skeletons is
+   pragma Style_Checks ("-mr");
+   pragma Warnings (Off, "*use clause for package*");
    use {{package}}.Models;
    type Server_Type is limited interface;
 {{#authMethods}}{{#scopes}}

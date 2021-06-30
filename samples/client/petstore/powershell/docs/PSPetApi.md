@@ -23,14 +23,12 @@ Add a new pet to the store
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-
-$Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag-Id 123 -Name "Name_example")) -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Pet = (Initialize-Pet -Id 123 -Category (Initialize-Category -Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag -Id 123 -Name "Name_example")) -Status "available") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
 try {
@@ -48,8 +46,8 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -72,12 +70,10 @@ Deletes a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
-
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 987 # Int64 | Pet id to delete
 $ApiKey = "ApiKey_example" # String |  (optional)
@@ -99,7 +95,7 @@ Name | Type | Description  | Notes
  **ApiKey** | **String**|  | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -124,14 +120,12 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-
-$Status = @("Status_example") # String[] | Status values that need to be considered for filter
+$Status = @("available") # String[] | Status values that need to be considered for filter
 
 # Finds Pets by status
 try {
@@ -149,8 +143,8 @@ Name | Type | Description  | Notes
  **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet[]**](Pet.md)
+
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -174,12 +168,10 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
-
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $Tags = @("Inner_example") # String[] | Tags to filter by
 
@@ -199,8 +191,8 @@ Name | Type | Description  | Notes
  **Tags** | [**String[]**](String.md)| Tags to filter by | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet[]**](Pet.md)
+
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -224,14 +216,12 @@ Returns a single pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: api_key
-$Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
-
+#$Configuration.ApiKeyPrefix.api_key = "Bearer"
 
 $PetId = 987 # Int64 | ID of pet to return
 
@@ -251,8 +241,8 @@ Name | Type | Description  | Notes
  **PetId** | **Int64**| ID of pet to return | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -274,14 +264,12 @@ Update an existing pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-
-$Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag-Id 123 -Name "Name_example")) -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Pet = (Initialize-Pet -Id 123 -Category (Initialize-Category -Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag -Id 123 -Name "Name_example")) -Status "available") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
 try {
@@ -299,8 +287,8 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -324,12 +312,10 @@ Updates a pet in the store with form data
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
-
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 987 # Int64 | ID of pet that needs to be updated
 $Name = "Name_example" # String | Updated name of the pet (optional)
@@ -353,7 +339,7 @@ Name | Type | Description  | Notes
  **Status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -378,12 +364,10 @@ uploads an image
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
-
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
 $PetId = 987 # Int64 | ID of pet to update
 $AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional)
@@ -407,8 +391,8 @@ Name | Type | Description  | Notes
  **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**ApiResponse**](ApiResponse.md)
+
+[**ApiResponse**](ApiResponse.md) (PSCustomObject)
 
 ### Authorization
 

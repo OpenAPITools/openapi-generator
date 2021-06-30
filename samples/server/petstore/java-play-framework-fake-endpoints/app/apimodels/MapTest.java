@@ -15,6 +15,8 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MapTest   {
   @JsonProperty("map_map_of_string")
+  @Valid
+
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -49,12 +51,15 @@ public class MapTest   {
   }
  
   @JsonProperty("map_of_enum_string")
+  
   private Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonProperty("direct_map")
+  
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
+  
   private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -74,7 +79,6 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @Valid
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -100,7 +104,7 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-    public Map<String, InnerEnum> getMapOfEnumString() {
+  public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
 
@@ -125,7 +129,7 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   **/
-    public Map<String, Boolean> getDirectMap() {
+  public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
 
@@ -150,7 +154,7 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   **/
-    public Map<String, Boolean> getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 

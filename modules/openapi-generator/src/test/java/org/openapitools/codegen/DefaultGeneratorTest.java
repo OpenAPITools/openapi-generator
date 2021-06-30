@@ -459,7 +459,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 26);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -501,7 +501,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 26);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
@@ -566,7 +566,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 26);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -620,7 +620,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 26);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
@@ -636,5 +636,88 @@ public class DefaultGeneratorTest {
             templates.toFile().delete();
         }
     }
-}
 
+    @Test
+    public void testHandlesTrailingSlashInServers() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7533.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<Object> allModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas);
+        List<Object> allOperations = new ArrayList<>();
+        generator.generateApis(files, allOperations, allModels);
+
+        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
+        LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
+        Assert.assertEquals(servers.get(0).url, "");
+        Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
+        Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
+    }
+
+    @Test
+    public void testProcessUserDefinedTemplatesWithConfig() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        Path templates = Files.createTempDirectory("templates");
+        File output = target.toFile();
+        try {
+            // Create custom template
+            File customTemplate = new File(templates.toFile(), "README.mustache");
+            new File(customTemplate.getParent()).mkdirs();
+            Files.write(customTemplate.toPath(),
+                    "# {{someKey}}".getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("python")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setPackageName("io.something")
+                    .setTemplateDir(templates.toAbsolutePath().toString())
+                    .addAdditionalProperty("files", "src/test/resources/sampleConfig.json:\n\t folder: supportingjson "+
+                    "\n\t destinationFilename: supportingconfig.json \n\t templateType: SupportingFiles")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            // remove commented code based on review - files does not seem to be supported in CodegenConfigurator
+            // supporting files sanity check
+            // TestUtils.ensureContainsFile(files, output, "sampleConfig.json");
+            // Assert.assertTrue(new File(output, "sampleConfig.json").exists());
+
+            // Generator should report api_client.py as a generated file
+            TestUtils.ensureContainsFile(files, output, "io/something/api_client.py");
+
+            // Generated file should exist on the filesystem after generation
+            File apiClient = new File(output, "io/something/api_client.py");
+            Assert.assertTrue(apiClient.exists());
+
+            // Generated file should contain our custom packageName
+            TestUtils.assertFileContains(apiClient.toPath(),
+                    "from io.something import rest"
+              );
+        } finally {
+            output.delete();
+            templates.toFile().delete();
+        }
+    }
+}

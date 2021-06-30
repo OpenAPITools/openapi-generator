@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.$specialPropertyName = $specialPropertyName;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

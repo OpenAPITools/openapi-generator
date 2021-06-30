@@ -66,7 +66,7 @@ class ApiClient(object):
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
         if configuration is None:
-            configuration = Configuration()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
@@ -129,7 +129,7 @@ class ApiClient(object):
         _return_http_data_only: typing.Optional[bool] = None,
         collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
-        _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
         _check_type: typing.Optional[bool] = None
     ):
@@ -201,8 +201,6 @@ class ApiClient(object):
             e.body = e.body.decode('utf-8')
             raise e
 
-        content_type = response_data.getheader('content-type')
-
         self.last_response = response_data
 
         return_data = response_data
@@ -211,15 +209,17 @@ class ApiClient(object):
             return (return_data)
             return return_data
 
-        if response_type not in ["file", "bytes"]:
-            match = None
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
         # deserialize response data
         if response_type:
+            if response_type != (file_type,):
+                encoding = "utf-8"
+                content_type = response_data.getheader('content-type')
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                    if match:
+                        encoding = match.group(1)
+                response_data.data = response_data.data.decode(encoding)
+
             return_data = self.deserialize(
                 response_data,
                 response_type,
@@ -256,7 +256,7 @@ class ApiClient(object):
 
     @classmethod
     def sanitize_for_serialization(cls, obj):
-        """Builds a JSON POST object.
+        """Prepares data for transmission before it is sent with the rest client
         If obj is None, return None.
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
@@ -264,6 +264,7 @@ class ApiClient(object):
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
         If obj is OpenAPI model, return the properties dict.
+        If obj is io.IOBase, return the bytes
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
@@ -271,6 +272,8 @@ class ApiClient(object):
             return {
                 key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
             }
+        elif isinstance(obj, io.IOBase):
+            return cls.get_file_data_and_close_file(obj)
         elif isinstance(obj, (str, int, float, none_type, bool)):
             return obj
         elif isinstance(obj, (datetime, date)):
@@ -344,7 +347,7 @@ class ApiClient(object):
         _return_http_data_only: typing.Optional[bool] = None,
         collection_formats: typing.Optional[typing.Dict[str, str]] = None,
         _preload_content: bool = True,
-        _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        _request_timeout: typing.Optional[typing.Union[int, float, typing.Tuple]] = None,
         _host: typing.Optional[str] = None,
         _check_type: typing.Optional[bool] = None
     ):
@@ -514,6 +517,12 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
+    @staticmethod
+    def get_file_data_and_close_file(file_instance: io.IOBase) -> bytes:
+        file_data = file_instance.read()
+        file_instance.close()
+        return file_data
+
     def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
@@ -539,12 +548,11 @@ class ApiClient(object):
                         "for %s must be open." % param_name
                     )
                 filename = os.path.basename(file_instance.name)
-                filedata = file_instance.read()
+                filedata = self.get_file_data_and_close_file(file_instance)
                 mimetype = (mimetypes.guess_type(filename)[0] or
                             'application/octet-stream')
                 params.append(
                     tuple([param_name, tuple([filename, filedata, mimetype])]))
-                file_instance.close()
 
         return params
 
@@ -666,7 +674,7 @@ class Endpoint(object):
             'async_req': (bool,),
             '_host_index': (none_type, int),
             '_preload_content': (bool,),
-            '_request_timeout': (none_type, int, (int,), [int]),
+            '_request_timeout': (none_type, float, (float,), [float], int, (int,), [int]),
             '_return_http_data_only': (bool,),
             '_check_input_type': (bool,),
             '_check_return_type': (bool,)

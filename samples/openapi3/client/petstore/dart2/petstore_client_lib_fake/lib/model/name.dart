@@ -45,9 +45,7 @@ class Name {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (name != null) {
       json[r'name'] = name;
-    }
     if (snakeCase != null) {
       json[r'snake_case'] = snakeCase;
     }
@@ -74,12 +72,12 @@ class Name {
   static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Name>[]
-      : json.map((v) => Name.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => Name.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Name> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Name>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Name.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Name.fromJson(value));
     }
     return map;
   }
@@ -87,9 +85,9 @@ class Name {
   // maps a json object with a list of Name-objects as value to a dart map
   static Map<String, List<Name>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Name>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Name.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Name.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
