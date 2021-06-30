@@ -33,10 +33,10 @@ import com.squareup.moshi.Json
 enum class PetEnum(val value: kotlin.String) {
 
     @Json(name = "myFirstValue")
-    `MY_FIRST_VALUE`("myFirstValue"),
+    MY_FIRST_VALUE("myFirstValue"),
 
     @Json(name = "MY_SECOND_VALUE")
-    `MY_SECOND_VALUE`("MY_SECOND_VALUE");
+    MY_SECOND_VALUE("MY_SECOND_VALUE");
 
     /**
      * Override toString() to avoid using the enum variable name as the value, and instead use

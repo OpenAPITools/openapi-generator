@@ -40,22 +40,22 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Pet (
 
     @field:JsonProperty("name")
-    val `name`: kotlin.String,
+    val name: kotlin.String,
 
     @field:JsonProperty("photoUrls")
-    val `photoUrls`: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @field:JsonProperty("id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @field:JsonProperty("category")
-    val `category`: Category? = null,
+    val category: Category? = null,
 
     @field:JsonProperty("tags")
-    val `tags`: kotlin.collections.List<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
 
     @field:JsonProperty("status")
-    val `status`: Pet.Status? = null
+    val status: Pet.Status? = null
 
 ) {
 
@@ -65,9 +65,9 @@ data class Pet (
      * Values: AVAILABLE,PENDING,SOLD
      */
     enum class Status(val value: kotlin.String) {
-        @JsonProperty(value = "available") `AVAILABLE`("available"),
-        @JsonProperty(value = "pending") `PENDING`("pending"),
-        @JsonProperty(value = "sold") `SOLD`("sold");
+        @JsonProperty(value = "available") AVAILABLE("available"),
+        @JsonProperty(value = "pending") PENDING("pending"),
+        @JsonProperty(value = "sold") SOLD("sold");
     }
 }
 

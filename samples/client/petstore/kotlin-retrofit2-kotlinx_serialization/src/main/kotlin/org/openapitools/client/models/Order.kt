@@ -41,22 +41,22 @@ import java.io.Serializable
 data class Order (
 
     @SerialName(value = "id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @SerialName(value = "petId")
-    val `petId`: kotlin.Long? = null,
+    val petId: kotlin.Long? = null,
 
     @SerialName(value = "quantity")
-    val `quantity`: kotlin.Int? = null,
+    val quantity: kotlin.Int? = null,
 
     @Contextual @SerialName(value = "shipDate")
-    val `shipDate`: java.time.OffsetDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
 
     @SerialName(value = "status")
-    val `status`: Order.Status? = null,
+    val status: Order.Status? = null,
 
     @SerialName(value = "complete")
-    val `complete`: kotlin.Boolean? = null
+    val complete: kotlin.Boolean? = null
 
 ) : Serializable {
     companion object {
@@ -70,9 +70,9 @@ data class Order (
      */
     @KSerializable
     enum class Status(val value: kotlin.String) {
-        @SerialName(value = "placed") `PLACED`("placed"),
-        @SerialName(value = "approved") `APPROVED`("approved"),
-        @SerialName(value = "delivered") `DELIVERED`("delivered");
+        @SerialName(value = "placed") PLACED("placed"),
+        @SerialName(value = "approved") APPROVED("approved"),
+        @SerialName(value = "delivered") DELIVERED("delivered");
     }
 }
 

@@ -38,22 +38,22 @@ import com.squareup.moshi.Json
 internal data class Order (
 
     @Json(name = "id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @Json(name = "petId")
-    val `petId`: kotlin.Long? = null,
+    val petId: kotlin.Long? = null,
 
     @Json(name = "quantity")
-    val `quantity`: kotlin.Int? = null,
+    val quantity: kotlin.Int? = null,
 
     @Json(name = "shipDate")
-    val `shipDate`: java.time.OffsetDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
 
     @Json(name = "status")
-    val `status`: Order.Status? = null,
+    val status: Order.Status? = null,
 
     @Json(name = "complete")
-    val `complete`: kotlin.Boolean? = null
+    val complete: kotlin.Boolean? = null
 
 ) {
 
@@ -63,9 +63,9 @@ internal data class Order (
      * Values: placed,approved,delivered
      */
     internal enum class Status(val value: kotlin.String) {
-        @Json(name = "placed") `placed`("placed"),
-        @Json(name = "approved") `approved`("approved"),
-        @Json(name = "delivered") `delivered`("delivered");
+        @Json(name = "placed") placed("placed"),
+        @Json(name = "approved") approved("approved"),
+        @Json(name = "delivered") delivered("delivered");
     }
 }
 

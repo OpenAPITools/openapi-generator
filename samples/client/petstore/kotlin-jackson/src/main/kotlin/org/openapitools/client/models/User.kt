@@ -40,28 +40,28 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class User (
 
     @field:JsonProperty("id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @field:JsonProperty("username")
-    val `username`: kotlin.String? = null,
+    val username: kotlin.String? = null,
 
     @field:JsonProperty("firstName")
-    val `firstName`: kotlin.String? = null,
+    val firstName: kotlin.String? = null,
 
     @field:JsonProperty("lastName")
-    val `lastName`: kotlin.String? = null,
+    val lastName: kotlin.String? = null,
 
     @field:JsonProperty("email")
-    val `email`: kotlin.String? = null,
+    val email: kotlin.String? = null,
 
     @field:JsonProperty("password")
-    val `password`: kotlin.String? = null,
+    val password: kotlin.String? = null,
 
     @field:JsonProperty("phone")
-    val `phone`: kotlin.String? = null,
+    val phone: kotlin.String? = null,
 
     @field:JsonProperty("userStatus")
-    val `userStatus`: kotlin.Int? = null
+    val userStatus: kotlin.Int? = null
 
 )
 

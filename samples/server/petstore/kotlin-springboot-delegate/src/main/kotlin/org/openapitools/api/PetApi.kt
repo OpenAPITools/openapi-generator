@@ -85,7 +85,7 @@ interface PetApi {
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")])
-    @GetMapping(
+    @`get`Mapping(
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"]
     )
@@ -103,7 +103,7 @@ interface PetApi {
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")])
-    @GetMapping(
+    @`get`Mapping(
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
@@ -120,7 +120,7 @@ interface PetApi {
         authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found")])
-    @GetMapping(
+    @`get`Mapping(
             value = ["/pet/{petId}"],
             produces = ["application/xml", "application/json"]
     )

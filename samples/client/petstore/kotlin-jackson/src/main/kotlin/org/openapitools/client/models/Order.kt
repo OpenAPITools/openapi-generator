@@ -38,22 +38,22 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Order (
 
     @field:JsonProperty("id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @field:JsonProperty("petId")
-    val `petId`: kotlin.Long? = null,
+    val petId: kotlin.Long? = null,
 
     @field:JsonProperty("quantity")
-    val `quantity`: kotlin.Int? = null,
+    val quantity: kotlin.Int? = null,
 
     @field:JsonProperty("shipDate")
-    val `shipDate`: java.time.OffsetDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
 
     @field:JsonProperty("status")
-    val `status`: Order.Status? = null,
+    val status: Order.Status? = null,
 
     @field:JsonProperty("complete")
-    val `complete`: kotlin.Boolean? = null
+    val complete: kotlin.Boolean? = null
 
 ) {
 
@@ -63,9 +63,9 @@ data class Order (
      * Values: PLACED,APPROVED,DELIVERED
      */
     enum class Status(val value: kotlin.String) {
-        @JsonProperty(value = "placed") `PLACED`("placed"),
-        @JsonProperty(value = "approved") `APPROVED`("approved"),
-        @JsonProperty(value = "delivered") `DELIVERED`("delivered");
+        @JsonProperty(value = "placed") PLACED("placed"),
+        @JsonProperty(value = "approved") APPROVED("approved"),
+        @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
 }
 

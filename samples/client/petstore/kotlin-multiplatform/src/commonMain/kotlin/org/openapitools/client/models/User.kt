@@ -40,21 +40,21 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class User (
 
-    @SerialName(value = "id") val `id`: kotlin.Long? = null,
+    @SerialName(value = "id") val id: kotlin.Long? = null,
 
-    @SerialName(value = "username") val `username`: kotlin.String? = null,
+    @SerialName(value = "username") val username: kotlin.String? = null,
 
-    @SerialName(value = "firstName") val `firstName`: kotlin.String? = null,
+    @SerialName(value = "firstName") val firstName: kotlin.String? = null,
 
-    @SerialName(value = "lastName") val `lastName`: kotlin.String? = null,
+    @SerialName(value = "lastName") val lastName: kotlin.String? = null,
 
-    @SerialName(value = "email") val `email`: kotlin.String? = null,
+    @SerialName(value = "email") val email: kotlin.String? = null,
 
-    @SerialName(value = "password") val `password`: kotlin.String? = null,
+    @SerialName(value = "password") val password: kotlin.String? = null,
 
-    @SerialName(value = "phone") val `phone`: kotlin.String? = null,
+    @SerialName(value = "phone") val phone: kotlin.String? = null,
 
-    @SerialName(value = "userStatus") val `userStatus`: kotlin.Int? = null
+    @SerialName(value = "userStatus") val userStatus: kotlin.Int? = null
 
 )
 

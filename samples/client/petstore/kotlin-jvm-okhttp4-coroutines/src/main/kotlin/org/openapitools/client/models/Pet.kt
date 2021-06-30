@@ -41,22 +41,22 @@ import java.io.Serializable
 data class Pet (
 
     @SerializedName("name")
-    val `name`: kotlin.String,
+    val name: kotlin.String,
 
     @SerializedName("photoUrls")
-    val `photoUrls`: kotlin.collections.List<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @SerializedName("id")
-    val `id`: kotlin.Long? = null,
+    val id: kotlin.Long? = null,
 
     @SerializedName("category")
-    val `category`: Category? = null,
+    val category: Category? = null,
 
     @SerializedName("tags")
-    val `tags`: kotlin.collections.List<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
 
     @SerializedName("status")
-    val `status`: Pet.Status? = null
+    val status: Pet.Status? = null
 
 ) : Serializable {
     companion object {
@@ -69,9 +69,9 @@ data class Pet (
      * Values: available,pending,sold
      */
     enum class Status(val value: kotlin.String) {
-        @SerializedName(value = "available") `available`("available"),
-        @SerializedName(value = "pending") `pending`("pending"),
-        @SerializedName(value = "sold") `sold`("sold");
+        @SerializedName(value = "available") available("available"),
+        @SerializedName(value = "pending") pending("pending"),
+        @SerializedName(value = "sold") sold("sold");
     }
 }
 

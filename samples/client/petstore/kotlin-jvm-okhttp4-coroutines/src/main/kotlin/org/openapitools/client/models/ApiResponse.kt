@@ -36,13 +36,13 @@ import java.io.Serializable
 data class ApiResponse (
 
     @SerializedName("code")
-    val `code`: kotlin.Int? = null,
+    val code: kotlin.Int? = null,
 
     @SerializedName("type")
-    val `type`: kotlin.String? = null,
+    val type: kotlin.String? = null,
 
     @SerializedName("message")
-    val `message`: kotlin.String? = null
+    val message: kotlin.String? = null
 
 ) : Serializable {
     companion object {

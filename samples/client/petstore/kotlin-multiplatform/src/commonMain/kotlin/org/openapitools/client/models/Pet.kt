@@ -40,17 +40,17 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Pet (
 
-    @SerialName(value = "name") @Required val `name`: kotlin.String,
+    @SerialName(value = "name") @Required val name: kotlin.String,
 
-    @SerialName(value = "photoUrls") @Required val `photoUrls`: kotlin.collections.List<kotlin.String>,
+    @SerialName(value = "photoUrls") @Required val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @SerialName(value = "id") val `id`: kotlin.Long? = null,
+    @SerialName(value = "id") val id: kotlin.Long? = null,
 
-    @SerialName(value = "category") val `category`: Category? = null,
+    @SerialName(value = "category") val category: Category? = null,
 
-    @SerialName(value = "tags") val `tags`: kotlin.collections.List<Tag>? = null,
+    @SerialName(value = "tags") val tags: kotlin.collections.List<Tag>? = null,
 
-    @SerialName(value = "status") val `status`: Pet.Status? = null
+    @SerialName(value = "status") val status: Pet.Status? = null
 
 ) {
 
@@ -60,9 +60,9 @@ data class Pet (
      * Values: available,pending,sold
      */
     enum class Status(val value: kotlin.String) {
-        `available`("available"),
-        `pending`("pending"),
-        `sold`("sold");
+        available("available"),
+        pending("pending"),
+        sold("sold");
     }
 }
 

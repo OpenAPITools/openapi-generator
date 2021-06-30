@@ -32,14 +32,14 @@ fun Route.StoreApi() {
     }
 
     authenticate("api_key") {
-    get<Paths.getInventory> {
+    `get`<Paths.getInventory> {
         val principal = call.authentication.principal<ApiPrincipal>()!!
         
         call.respond(HttpStatusCode.NotImplemented)
     }
     }
 
-    get<Paths.getOrderById> {
+    `get`<Paths.getOrderById> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "petId" : 6,
