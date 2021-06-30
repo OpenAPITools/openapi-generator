@@ -16,6 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -28,7 +36,9 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.openapitools.codegen.languages.asciidoc.AsciidocMarkdownRenderer;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +63,8 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public static final String SKIP_EXAMPLES_FLAG = "skipExamples";
     public static final String USE_METHOD_AND_PATH_FLAG = "useMethodAndPath";
     public static final String USE_TABLE_TITLES_FLAG = "useTableTitles";
+    public static final String USE_CLASS_TITLES_FLAG = "useClassTitles";
+    public static final String USE_ONEOF_INTERFACES = "useOneOfInterfaces";
 
     /**
      * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
@@ -158,10 +170,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected boolean skipExamples = false;
     protected boolean useMethodAndPath = false;
     protected boolean useTableTitles = false;
+    protected boolean useClassTitles = false;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
     private LinkMarkupLambda linkSnippetMarkupLambda;
+
+    private final AsciidocMarkdownRenderer renderer = new AsciidocMarkdownRenderer();
 
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
@@ -261,10 +276,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.adoc"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
 
     }
 
@@ -318,6 +333,14 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.useTableTitles = useTableTitles;
     }
 
+    public boolean isUseClassTitles() {
+        return useClassTitles;
+    }
+
+    public void setUseClassTitles(boolean useClassTitles) {
+        this.useClassTitles = useClassTitles;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -346,6 +369,8 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         processBooleanFlag(SKIP_EXAMPLES_FLAG, skipExamples);
         processBooleanFlag(USE_METHOD_AND_PATH_FLAG, useMethodAndPath);
         processBooleanFlag(USE_TABLE_TITLES_FLAG, useTableTitles);
+        processBooleanFlag(USE_CLASS_TITLES_FLAG, useClassTitles);
+        useOneOfInterfaces = convertPropertyToBooleanAndWriteBack(USE_ONEOF_INTERFACES);
     }
 
     private void processBooleanFlag(String flag, boolean value) {
@@ -367,4 +392,59 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         super.processOpenAPI(openAPI);
     }
 
+  @Override
+  public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+
+    property.unescapedDescription = toAsciiDoc(property.unescapedDescription);
+  }
+
+  @Override
+  public void postProcessParameter(CodegenParameter parameter) {
+
+    parameter.description = toAsciiDoc(parameter.description);
+    parameter.unescapedDescription = toAsciiDoc(parameter.unescapedDescription);
+  }
+
+  @Override
+  public void preprocessOpenAPI(OpenAPI openAPI) {
+    super.preprocessOpenAPI(openAPI);
+    Info info = openAPI.getInfo();
+    info.setDescription(toAsciiDoc(info.getDescription()));
+    info.setTitle(toAsciiDoc(info.getTitle()));
+    Map<String, Schema> models = ModelUtils.getSchemas(openAPI);
+    for (PathItem p : openAPI.getPaths().values()) {
+      p.setDescription(toAsciiDoc(p.getDescription()));
+    }
+    for (Schema model : models.values()) {
+      model.setDescription(toAsciiDoc(model.getDescription()));
+      model.setTitle(toAsciiDoc(model.getTitle()));
+    }
+  }
+
+  @Override
+  public Map<String, Object> postProcessOperationsWithModels(
+      Map<String, Object> objs, List<Object> allModels) {
+    // Calling behavior is suspect - doesn't use the returned value, skipping super call.
+    List<CodegenOperation> os =
+        (List<CodegenOperation>)
+            ((HashMap<String, Object>) objs.getOrDefault("operations", Collections.emptyMap()))
+                .get("operation");
+    if (os == null) {
+      return objs;
+    }
+    for (CodegenOperation op : os) {
+      // mustache template will use unescaped notes
+      op.unescapedNotes = toAsciiDoc(op.unescapedNotes);
+    }
+    return objs;
+  }
+
+  private String toAsciiDoc(String input) {
+    if (input == null) {
+      return null;
+    }
+    Parser parser = Parser.builder().build();
+    Node document = parser.parse(input);
+    return renderer.render(document);
+  }
 }

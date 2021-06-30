@@ -5,24 +5,37 @@
     {{#model}}
 
 [#{{classname}}]
-=== _{{classname}}_ {{title}}
+=== _{{classname}}_ {{^skipClassTitle}}{{title}}{{/skipClassTitle}}
 
-{{unescapedDescription}}
+{{{unescapedDescription}}}
 
+{{#vendorExtensions.x-is-one-of-interface}}
+[.fields-{{classname}}]
+{{#discriminator}}
+Discriminator Field/Type: {{propertyBaseName}}/{{propertyType}}
+{{/discriminator}}
+
+.One Of The Following Classes:
+{{#oneOf}}
+* <<{{{.}}}>>
+{{/oneOf}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 [.fields-{{classname}}]
 [cols="2,1,2,4,1"]
-|===         
+|===
 | Field Name| Required| Type| Description| Format
 
 {{#vars}}
-| {{baseName}} 
-| {{#required}}X{{/required}} 
-| {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}} 
-| {{description}}
+| {{baseName}}
+| {{#required}}X{{/required}}
+| {{#isContainer}}{{dataType}} of <<{{complexType}}>>{{/isContainer}}{{^isContainer}}<<{{dataType}}>>{{/isContainer}}
+a| {{{unescapedDescription}}}
 | {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}}
 
 {{/vars}}
 |===
+{{/vendorExtensions.x-is-one-of-interface}}
 
     {{/model}}
 {{/models}}
