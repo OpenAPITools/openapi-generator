@@ -23,7 +23,6 @@ import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -65,12 +64,18 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
             for (String key: bundle.keySet()) {
                 if(key.contains("-version")){
                     if (content.indexOf("<properties>") > content.indexOf("<" + key + ">") || content.indexOf("<" + key + ">") > content.indexOf("</properties>")){
-                        LOGGER.warn("The library {} is not exist", key.replaceFirst("-version", ""));
+                        LOGGER.warn("The library {} isn't used in template file {}", key.replaceFirst("-version", ""), templateFile);
                     }
                     else {
                         content = content.replaceFirst( String.format("<%s>(.*)</%s>", key, key), String.format("<%s>{{%s}}</%s>", key, key, key) );
                     }
 
+                }
+            }
+            String[] ignoredInPomList = new String[]{"licenses", "developers", "parent"};
+            for (String s : ignoredInPomList) {
+                if (bundle.containsKey(s) && bundle.get(s).toString().contains("false")) {
+                    content = content.replaceFirst(String.format("<%s>([^.$]*)</%s>\n", s, s), "");
                 }
             }
         }
