@@ -6,14 +6,17 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** Model for testing model name starting with number */
-internal struct Model200Response: Codable {
+internal struct Model200Response: Codable, Hashable {
 
     internal var name: Int?
     internal var _class: String?
 
-    internal init(name: Int?, _class: String?) {
+    internal init(name: Int? = nil, _class: String? = nil) {
         self.name = name
         self._class = _class
     }
@@ -23,4 +26,12 @@ internal struct Model200Response: Codable {
         case _class = "class"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(_class, forKey: ._class)
+    }
 }
+

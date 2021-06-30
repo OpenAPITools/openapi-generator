@@ -18,13 +18,13 @@ import java.io.Serializable
  * @param id 
  * @param name 
  */
-data class Tag (
+data class Tag(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 }
 

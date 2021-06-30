@@ -15,7 +15,7 @@ class ConfigurationTest extends TestCase
         $config = new Configuration();
         $servers = $config->getHostSettings();
 
-        $this->assertCount(2, $servers);
+        $this->assertCount(3, $servers);
         $this->assertSame("http://{server}.swagger.io:{port}/v2", $servers[0]["url"]);
         $this->assertSame("petstore", $servers[0]["variables"]["server"]["default_value"]);
         $this->assertSame("80", $servers[0]["variables"]["port"]["default_value"]);
@@ -47,13 +47,13 @@ class ConfigurationTest extends TestCase
     public function testInvalidIndex()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid index 2 when selecting the host. Must be less than 2');
+        $this->expectExceptionMessage('Invalid index 3 when selecting the host. Must be less than 3');
         $config = new Configuration();
-        $url = $config->getHostFromSettings(2);
+        $url = $config->getHostFromSettings(3);
     }
 
     /**
-     * Test host settings with invalid vaues
+     * Test host settings with invalid values
      */
     public function testHostUrlWithInvalidValues()
     {

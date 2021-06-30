@@ -21,11 +21,10 @@
     "experimentalDecorators": true,
   },
   "exclude": [
-  	"dist",
+    "dist",
     "node_modules"
   ],
   "filesGlob": [
     "./**/*.ts",
   ]
-  
 }

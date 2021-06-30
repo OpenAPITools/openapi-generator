@@ -6,7 +6,14 @@ import (
 	"net/http"
 	"strings"
 
+{{#routers}}
+	{{#mux}}
 	"github.com/gorilla/mux"
+	{{/mux}}
+	{{#chi}}
+	"github.com/go-chi/chi/v5"
+	{{/chi}}
+{{/routers}}
 )
 
 // A {{classname}}Controller binds http requests to an api service and writes the service results to the http response
@@ -16,7 +23,7 @@ type {{classname}}Controller struct {
 
 // New{{classname}}Controller creates a default api controller
 func New{{classname}}Controller(s {{classname}}Servicer) Router {
-	return &{{classname}}Controller{ service: s }
+	return &{{classname}}Controller{service: s}
 }
 
 // Routes returns all of the api route for the {{classname}}Controller
@@ -32,54 +39,132 @@ func (c *{{classname}}Controller) Routes() Routes {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{{summary}}}
-func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) { {{#hasFormParams}}
-	err := r.ParseForm()
+func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
+	{{#hasFormParams}}
+	{{#isMultipart}}
+	if err := r.ParseMultipartForm(32 << 20); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isMultipart}}
+	{{^isMultipart}}
+	if err := r.ParseForm(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isMultipart}}
+	{{/hasFormParams}}
+	{{#routers}}
+		{{#mux}}
+			{{#hasPathParams}}
+	params := mux.Vars(r)
+			{{/hasPathParams}}
+		{{/mux}}
+	{{/routers}}
+	{{#hasQueryParams}}
+	query := r.URL.Query()
+	{{/hasQueryParams}}
+	{{#allParams}}
+	{{#isPathParam}}
+	{{#isLong}}
+	{{paramName}}, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isLong}}
+	{{#isInteger}}
+	{{paramName}}, err := parseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isInteger}}
+	{{^isLong}}
+	{{^isInteger}}
+	{{paramName}} := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
+	{{/isInteger}}{{/isLong}}
+	{{/isPathParam}}
+	{{#isQueryParam}}
+	{{#isLong}}
+	{{paramName}}, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isLong}}
+	{{#isInteger}}
+	{{paramName}}, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	{{/isInteger}}
+	{{#isBoolean}}
+	{{paramName}}, err := parseBoolParameter(query.Get("{{baseName}}"))
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	{{/hasFormParams}}{{#hasPathParams}}
-	params := mux.Vars(r){{/hasPathParams}}{{#hasQueryParams}}
-	query := r.URL.Query(){{/hasQueryParams}}{{#allParams}}{{#isPathParam}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter(params["{{paramName}}"])
+	{{/isBoolean}}
+	{{^isLong}}
+	{{^isInteger}}
+	{{^isBoolean}}
+	{{paramName}} := {{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}
+	{{/isBoolean}}
+	{{/isInteger}}
+	{{/isLong}}
+	{{/isQueryParam}}
+	{{#isFormParam}}
+	{{#isFile}}{{#isArray}}
+	{{paramName}}, err := ReadFormFilesToTempFiles(r, "{{baseName}}"){{/isArray}}{{^isArray}}
+	{{paramName}}, err := ReadFormFileToTempFile(r, "{{baseName}}")
+	{{/isArray}}
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isLong}}{{^isLong}}
-	{{paramName}} := params["{{paramName}}"]{{/isLong}}{{/isPathParam}}{{#isQueryParam}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter(query.Get("{{paramName}}"))
+	{{/isFile}}
+	{{#isLong}}{{#isArray}}
+	{{paramName}}, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isLong}}{{^isLong}}
-	{{paramName}} := {{#isListContainer}}strings.Split({{/isListContainer}}query.Get("{{paramName}}"){{#isListContainer}}, ","){{/isListContainer}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
-	{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}")
+	{{/isLong}}
+	{{#isInteger}}{{#isArray}}
+	{{paramName}}, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
+	{{paramName}}, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isFile}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter( r.FormValue("{{paramName}}"))
-	if err != nil {
-		w.WriteHeader(500)
-		return
-	}
-	{{/isLong}}{{^isFile}}{{^isLong}}
-	{{paramName}} := r.FormValue("{{paramName}}"){{/isLong}}{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}
-	{{paramName}} := r.Header.Get("{{paramName}}"){{/isHeaderParam}}{{#isBodyParam}}
+	{{/isInteger}}
+	{{^isFile}}
+	{{^isLong}}
+	{{paramName}} := r.FormValue("{{baseName}}")
+	{{/isLong}}
+	{{/isFile}}
+	{{/isFormParam}}
+	{{#isHeaderParam}}
+	{{paramName}} := r.Header.Get("{{baseName}}")
+	{{/isHeaderParam}}
+	{{#isBodyParam}}
 	{{paramName}} := &{{dataType}}{}
 	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	{{/isBodyParam}}{{/allParams}}
-	result, err := c.service.{{nickname}}({{#allParams}}{{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+	{{/isBodyParam}}
+	{{/allParams}}
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 		return
 	}
-	
-	EncodeJSONResponse(result, nil, w)
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
+
 }{{/operation}}{{/operations}}

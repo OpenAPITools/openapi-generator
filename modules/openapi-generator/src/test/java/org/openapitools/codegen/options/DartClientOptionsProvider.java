@@ -17,17 +17,18 @@
 
 package org.openapitools.codegen.options;
 
+import java.util.Map;
+
 import com.google.common.collect.ImmutableMap;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartClientCodegen;
-
-import java.util.Map;
 
 public class DartClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
-    public static final String BROWSER_CLIENT_VALUE = "true";
+    public static final String PUB_LIBRARY_VALUE = "openapi.api";
     public static final String PUB_NAME_VALUE = "openapi";
     public static final String PUB_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String PUB_DESCRIPTION_VALUE = "OpenAPI API client dart";
@@ -50,7 +51,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
-                .put(DartClientCodegen.BROWSER_CLIENT, BROWSER_CLIENT_VALUE)
+                .put(DartClientCodegen.PUB_LIBRARY, PUB_LIBRARY_VALUE)
                 .put(DartClientCodegen.PUB_NAME, PUB_NAME_VALUE)
                 .put(DartClientCodegen.PUB_VERSION, PUB_VERSION_VALUE)
                 .put(DartClientCodegen.PUB_DESCRIPTION, PUB_DESCRIPTION_VALUE)
@@ -61,9 +62,9 @@ public class DartClientOptionsProvider implements OptionsProvider {
                 .put(DartClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
-                .put(DartClientCodegen.SUPPORT_DART2, "false")
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put("serializationLibrary", "custom")
                 .build();
     }
 

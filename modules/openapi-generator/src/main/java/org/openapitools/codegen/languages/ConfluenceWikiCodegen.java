@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -124,6 +125,11 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // just return the original string
         return input;
@@ -133,5 +139,15 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     public String escapeUnsafeCharacters(String input) {
         // just return the original string
         return input;
+    }
+
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // chomp tailing newline because it breaks the tables and keep all other sign to show documentation properly
+        return StringUtils.chomp(input);
     }
 }

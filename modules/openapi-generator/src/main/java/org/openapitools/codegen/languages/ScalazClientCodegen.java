@@ -40,7 +40,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
 
     public ScalazClientCodegen() {
         super();
@@ -121,6 +121,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 

@@ -1,6 +1,6 @@
 {{#parcelizeModels}}
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 {{/parcelizeModels}}
 {{#serializableModel}}
@@ -15,7 +15,7 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-data class {{classname}} (
+data class {{classname}}(
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
@@ -26,12 +26,12 @@ data class {{classname}} (
 {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 {{/serializableModel}}
 {{#hasEnums}}
-	{{#vars}}
+    {{#vars}}
     {{#isEnum}}
     /**
     * {{{description}}}

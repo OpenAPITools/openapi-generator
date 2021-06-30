@@ -132,4 +132,5 @@ components:
           type: array
       required:
       - field_a
+      type: object
 

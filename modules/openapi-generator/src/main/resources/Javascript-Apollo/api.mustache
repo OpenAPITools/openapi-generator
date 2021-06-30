@@ -48,21 +48,22 @@ export default class <&classname> extends ApiClient {
 </allParams>
 
       let pathParams = {<#pathParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></pathParams>
       };
       let queryParams = {<#queryParams>
-        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></queryParams>
       };
-      let headerParams = {<#headerParams>
-        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
+      let headerParams = {
+        'User-Agent': '<#httpUserAgent><.></httpUserAgent><^httpUserAgent>OpenAPI-Generator/<&projectVersion>/Javascript</httpUserAgent>',<#headerParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></headerParams>
       };
       let formParams = {<#formParams>
-        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></formParams>
       };
 
-      let authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
-      let contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
-      let accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
+      let authNames = [<#authMethods>'<name>'<^-last>, </-last></authMethods>];
+      let contentTypes = [<#consumes>'<& mediaType>'<^-last>, </-last></consumes>];
+      let accepts = [<#produces>'<& mediaType>'<^-last>, </-last></produces>];
       let returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
       <#servers.0>
       let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];

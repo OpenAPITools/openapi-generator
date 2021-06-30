@@ -73,7 +73,7 @@ function Add-PSPet {
             throw "Error! The required parameter `Pet` missing when calling addPet."
         }
 
-        $LocalVarBodyParameter = $Pet | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -85,7 +85,8 @@ function Add-PSPet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet"
+                                -ReturnType "Pet" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -149,7 +150,7 @@ function Remove-Pet {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling deletePet."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($ApiKey) {
             $LocalVarHeaderParameters['api_key'] = $ApiKey
@@ -165,7 +166,8 @@ function Remove-Pet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -252,7 +254,8 @@ function Find-PSPetsByStatus {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet[]"
+                                -ReturnType "Pet[]" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -338,7 +341,8 @@ function Find-PSPetsByTags {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet[]"
+                                -ReturnType "Pet[]" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -411,7 +415,7 @@ function Get-PSPetById {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling getPetById."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -427,7 +431,8 @@ function Get-PSPetById {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet"
+                                -ReturnType "Pet" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -505,7 +510,7 @@ function Update-PSPet {
             throw "Error! The required parameter `Pet` missing when calling updatePet."
         }
 
-        $LocalVarBodyParameter = $Pet | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `
@@ -517,7 +522,8 @@ function Update-PSPet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet"
+                                -ReturnType "Pet" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -590,7 +596,7 @@ function Update-PSPetWithForm {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling updatePetWithForm."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($Name) {
             $LocalVarFormParameters['name'] = $Name
@@ -610,7 +616,8 @@ function Update-PSPetWithForm {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -686,7 +693,7 @@ function Invoke-PSUploadFile {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling uploadFile."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($AdditionalMetadata) {
             $LocalVarFormParameters['additionalMetadata'] = $AdditionalMetadata
@@ -706,7 +713,8 @@ function Invoke-PSUploadFile {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "ApiResponse"
+                                -ReturnType "ApiResponse" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult

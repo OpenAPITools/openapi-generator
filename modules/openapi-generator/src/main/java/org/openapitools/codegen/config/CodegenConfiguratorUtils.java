@@ -38,7 +38,7 @@ import java.util.*;
  * </ul>
  * <p>
  *     The corresponding {@code add...} method on the passed configurator is called for each key-value pair (or value).
- * </p>  
+ * </p>
  */
 public final class CodegenConfiguratorUtils {
 
@@ -51,7 +51,7 @@ public final class CodegenConfiguratorUtils {
     public static void applyGlobalPropertiesKvp(String globalProperties, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(globalProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addGlobalProperty(entry.getKey(), entry.getValue());
+            configurator.addGlobalProperty(entry.getKey(), entry.getValue().replace(":",","));
         }
     }
 
@@ -60,7 +60,7 @@ public final class CodegenConfiguratorUtils {
             applyInstantiationTypesKvp(propString, configurator);
         }
     }
-    
+
     public static void applyInstantiationTypesKvp(String instantiationTypes, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(instantiationTypes);
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -143,9 +143,9 @@ public final class CodegenConfiguratorUtils {
         final Map<String, String> map = createMapFromKeyValuePairs(reservedWordMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addAdditionalReservedWordMapping(entry.getKey(), entry.getValue());
-        }        
+        }
     }
-        
+
     private static Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
         return new HashSet<String>(values);

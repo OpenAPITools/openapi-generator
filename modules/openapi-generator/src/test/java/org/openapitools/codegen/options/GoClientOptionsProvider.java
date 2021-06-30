@@ -33,6 +33,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean IS_GO_SUBMODULE_VALUE = true;
     public static final boolean STRUCT_PREFIX_VALUE = true;
     public static final boolean WITH_AWSV4_SIGNATURE = true;
+    public static final boolean GENERATE_INTERFACES_VALUE = true;
 
     @Override
     public String getLanguage() {
@@ -52,6 +53,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
                 .put(CodegenConstants.IS_GO_SUBMODULE, "true")
                 .put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, "true")
+                .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
                 .build();
     }

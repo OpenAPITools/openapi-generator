@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -40,8 +42,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
+    protected static final String SUPPORTS_RETRY = "supportsRetry";
 
     protected static final String NET_STANDARD = "netStandard";
+
+    // HTTP libraries
+    protected static final String RESTSHARP = "restsharp";
+    protected static final String HTTPCLIENT = "httpclient";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
@@ -60,7 +67,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETCOREAPP_2_0,
             FrameworkStrategy.NETCOREAPP_2_1,
             FrameworkStrategy.NETCOREAPP_3_0,
-            FrameworkStrategy.NETCOREAPP_3_1
+            FrameworkStrategy.NETCOREAPP_3_1,
+            FrameworkStrategy.NETFRAMEWORK_4_7,
+            FrameworkStrategy.NET_5_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -76,6 +85,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
 
+    protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
@@ -88,6 +98,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String releaseNote = "Minor update";
     protected String licenseId;
     protected String packageTags;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+
+    protected boolean needsCustomHttpMethod = false;
+    protected boolean needsUriBuilder = false;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -128,7 +142,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
-        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("decimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
@@ -189,6 +203,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
         );
 
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
         ImmutableMap.Builder<String, String> frameworkBuilder = new ImmutableMap.Builder<>();
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             frameworkBuilder.put(frameworkStrategy.name, frameworkStrategy.description);
@@ -204,6 +230,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(modelPropertyNaming.defaultValue("PascalCase"));
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                this.nullReferenceTypesFlag);
+
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
@@ -235,6 +265,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
+               
+        addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
+        CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+        this.conditionalSerialization);        
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -260,6 +294,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
 
+        addSwitch(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
+                CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC,
+                this.caseInsensitiveResponseHeaders);
+
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
@@ -269,6 +307,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         regexModifiers.put('m', "Multiline");
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
+
+        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                + "(Experimental. May subject to breaking changes without further notice.)");
+        supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set RESTSHARP as the default
+        libraryOption.setDefault(RESTSHARP);
+        cliOptions.add(libraryOption);
+        setLibrary(RESTSHARP);
     }
 
     @Override
@@ -299,7 +348,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
+                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -310,15 +359,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        parentVar.hasMore = true;
                         last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
-                }
-
-                if (last != null) {
-                    last.hasMore = false;
                 }
             }
         }
@@ -342,8 +386,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public String getHelp() {
         return "Generates a C# client library (.NET Standard, .NET Core).";
     }
-
-//    private void syncStringProperty(Map<String, Object> properties, String key)
 
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
@@ -476,7 +518,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
             List<String> modifiers = new ArrayList<String>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
@@ -508,6 +550,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
 
         /*
@@ -519,12 +563,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
 
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
             setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION)) {
+            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -536,35 +590,70 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (isEmpty(modelPackage)) {
             setModelPackage("Model");
         }
+
         clientPackage = "Client";
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
-        FrameworkStrategy strategy = defaultFramework;
-        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
-            if (framework.equals(frameworkStrategy.name)) {
-                strategy = frameworkStrategy;
+        if (RESTSHARP.equals(getLibrary())) {
+            additionalProperties.put("useRestSharp", true);
+            needsCustomHttpMethod = true;
+        } else if (HTTPCLIENT.equals(getLibrary())) {
+            setLibrary(HTTPCLIENT);
+            additionalProperties.put("useHttpClient", true);
+            needsUriBuilder = true;
+        } else {
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+        }
+
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String[] frameworks;
+        List<FrameworkStrategy> strategies = new ArrayList<>();
+
+        if (inputFramework.contains(";")) {
+            // multiple target framework
+            frameworks = inputFramework.split(";");
+            additionalProperties.put("multiTarget", true);
+        } else {
+            // just a single value
+            frameworks = new String [] {inputFramework};
+        }
+
+        for (String framework : frameworks) {
+            boolean strategyMatched = false;
+            for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+                if (framework.equals(frameworkStrategy.name)) {
+                    strategies.add(frameworkStrategy);
+                    strategyMatched = true;
+                }
+
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
+                   LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                }
+            }
+
+            if (!strategyMatched) {
+                // throws exception if the input targetFramework is invalid
+                throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
+                framework + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
             }
         }
 
-        strategy.configureAdditionalProperties(additionalProperties);
-
-        setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.name);
-        setTestTargetFramework(strategy.testTargetFramework);
-
-        if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
-            LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
-        }
+        configureAdditionalPropertiesForFrameworks(additionalProperties, strategies);
+        setTargetFrameworkNuget(strategies);
+        setTargetFramework(strategies);
+        setTestTargetFramework(strategies);
 
         setSupportsAsync(Boolean.TRUE);
-        setNetStandard(strategy.isNetStandard);
+        setNetStandard(strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
 
-        if (!strategy.isNetStandard) {
+        if (!netStandard) {
             setNetCoreProjectFileFlag(true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
+            LOGGER.warn("{} is not supported in the .NET Standard generator.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
             additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
         }
 
@@ -583,12 +672,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
+        syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
+        syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
         String clientPackageDir = packageFolder + File.separator + clientPackage;
+        String modelPackageDir = packageFolder + File.separator + modelPackage;
         String testPackageFolder = testFolder + File.separator + testPackageName;
 
         additionalProperties.put("testPackageName", testPackageName);
@@ -603,6 +695,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
+        if(HTTPCLIENT.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
+            typeMapping.put("file", "FileParameter");
+        }
+
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
@@ -611,11 +708,25 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
-        supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
-        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        if(needsCustomHttpMethod) {
+            supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        }
+        if(needsUriBuilder) {
+            supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
+        }
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
+        }
+        if (supportsAsync) {
+            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        }
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
+
+        if (supportsRetry) {
+            supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
+        }
 
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
@@ -639,6 +750,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
 
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
+
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
     }
@@ -651,8 +765,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.optionalAssemblyInfoFlag = flag;
     }
 
-    public void setOptionalEmitDefaultValuesFlag(boolean flag){
+    public void setOptionalEmitDefaultValuesFlag(boolean flag) {
         this.optionalEmitDefaultValuesFlag = flag;
+    }
+
+    public void setConditionalSerialization(boolean flag){
+        this.conditionalSerialization = flag;
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {
@@ -675,21 +793,54 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.supportsAsync = supportsAsync;
     }
 
+    public void setSupportsRetry(Boolean supportsRetry) {
+        this.supportsRetry = supportsRetry;
+    }
+
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
-            LOGGER.warn("Invalid .NET framework version, defaulting to " + this.targetFramework);
+            throw new IllegalArgumentException("Invalid .NET framework version: " +
+                    dotnetFramework + ". List of supported versions: " +
+                    frameworkStrategies.stream()
+                    .map(p -> p.name)
+                    .collect(Collectors.joining(", ")));
         } else {
             this.targetFramework = dotnetFramework;
         }
-        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
+    }
+
+    public void setTargetFramework(List<FrameworkStrategy> strategies) {
+        for (FrameworkStrategy strategy : strategies) {
+            if (!frameworks.containsKey(strategy.name)) {
+                throw new IllegalArgumentException("Invalid .NET framework version: " +
+                        strategy.name + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
+            }
+        }
+        this.targetFramework = strategies.stream().map(p -> p.name)
+                .collect(Collectors.joining(";"));
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
     }
 
     public void setTestTargetFramework(String testTargetFramework) {
         this.testTargetFramework = testTargetFramework;
     }
 
+    public void setTestTargetFramework(List<FrameworkStrategy> strategies) {
+        this.testTargetFramework = strategies.stream().map(p -> p.testTargetFramework)
+                .collect(Collectors.joining(";"));
+    }
+
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
         this.targetFrameworkNuget = targetFrameworkNuget;
+    }
+
+    public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
+        this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
+                .collect(Collectors.joining(";"));
     }
 
     public void setValidatable(boolean validatable) {
@@ -710,6 +861,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setPackageTags(String packageTags) {
         this.packageTags = packageTags;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     @Override
@@ -734,8 +893,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         // string
-        String var = value.replaceAll("_", " ");
-        //var = WordUtils.capitalizeFully(var);
+        String var = value.replaceAll(" ", "_");
         var = camelize(var);
         var = var.replaceAll("\\W+", "");
 
@@ -806,12 +964,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = count < numVars;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -860,6 +1012,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
+        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -888,7 +1044,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
             properties.put(NET_STANDARD, this.isNetStandard);
             if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET " + this.name + " generator does not support the UWP option. Use the csharp generator instead.");
+                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
+                        this.name);
                 properties.remove(SUPPORTS_UWP);
             }
         }
@@ -906,6 +1063,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             if (this.isNetStandard) return "v" + this.name.replace("netstandard", "");
             else return "v" + this.name.replace("netcoreapp", "");
         }
+    }
+
+    protected void configureAdditionalPropertiesForFrameworks(final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
+        properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, strategies.stream()
+                .map(p -> p.name)
+                .collect(Collectors.joining(";")));
+
+        // not intended to be user-settable
+        properties.put(TARGET_FRAMEWORK_IDENTIFIER, strategies.stream()
+                .map(p -> p.getTargetFrameworkIdentifier())
+                .collect(Collectors.joining(";")));
+        properties.put(TARGET_FRAMEWORK_VERSION, strategies.stream()
+                .map(p -> p.getTargetFrameworkVersion())
+                .collect(Collectors.joining(";")));
+        properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
+
+        properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
     }
 
     /**
@@ -930,5 +1104,44 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         } else {
             return null;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                // if oneOf contains "null" type
+                cm.isNullable = true;
+                cm.oneOf.remove("ModelNull");
+            }
+
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                // if anyOf contains "null" type
+                cm.isNullable = true;
+                cm.anyOf.remove("ModelNull");
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
     }
 }

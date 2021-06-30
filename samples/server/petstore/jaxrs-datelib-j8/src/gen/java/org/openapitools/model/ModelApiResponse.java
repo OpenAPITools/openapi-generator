@@ -54,7 +54,7 @@ public class ModelApiResponse  implements Serializable {
    * Get code
    * @return code
    **/
-  @JsonProperty("code")
+  @JsonProperty(value = "code")
   @ApiModelProperty(value = "")
   
   public Integer getCode() {
@@ -74,7 +74,7 @@ public class ModelApiResponse  implements Serializable {
    * Get type
    * @return type
    **/
-  @JsonProperty("type")
+  @JsonProperty(value = "type")
   @ApiModelProperty(value = "")
   
   public String getType() {
@@ -94,7 +94,7 @@ public class ModelApiResponse  implements Serializable {
    * Get message
    * @return message
    **/
-  @JsonProperty("message")
+  @JsonProperty(value = "message")
   @ApiModelProperty(value = "")
   
   public String getMessage() {
@@ -107,7 +107,7 @@ public class ModelApiResponse  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -142,7 +142,7 @@ public class ModelApiResponse  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

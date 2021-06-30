@@ -24,7 +24,6 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -68,7 +67,6 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property1.name, "id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Long");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertFalse(property1.isContainer);
 
@@ -80,7 +78,6 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertFalse(property2.isContainer);
 
@@ -92,7 +89,6 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -476,7 +472,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
         List<File> files = gen.generate();
 
-        Assert.assertEquals(files.size(), 15);
+        Assert.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/core/ApiSettings.scala");
@@ -513,7 +509,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
 
         List<File> files = gen.generate();
-        Assert.assertEquals(files.size(), 15);
+        Assert.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/package/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/package/invoker/ApiSettings.scala");

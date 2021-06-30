@@ -1,0 +1,379 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample spec"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags:
+  - name: items
+    description: Everything about your Pets
+paths:
+  /ref_array_with_validations_in_items/{items}:
+    post:
+      tags:
+        - items
+      operationId: refArrayWithValidationsInItems
+      parameters:
+        - name: items
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ArrayWithValidationsInItems'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayWithValidationsInItems'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayWithValidationsInItems'
+  /array_with_validations_in_items/{items}:
+    post:
+      tags:
+        - items
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: items
+          in: path
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+              maximum: 7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+                maximum: 7
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+                  maximum: 7
+  /ref_additional_properties/:
+    post:
+      tags:
+        - additional_properties
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: additionalPropertiesUnset
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        - name: additionalPropertiesTrue
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        - name: additionalPropertiesFalse
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        - name: additionalPropertiesSchema
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AdditionalPropertiesSchema'
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        "201":
+          description: "201"
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        "202":
+          description: "202"
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        "203":
+          description: "203"
+          content:
+            application/*:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesSchema'
+  /additional_properties/:
+    post:
+      tags:
+        - additional_properties
+      operationId: arrayWithValidationsInItems
+      parameters:
+        - name: additionalPropertiesUnset
+          in: query
+          required: true
+          schema:
+            type: object
+        - name: additionalPropertiesTrue
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties: true
+        - name: additionalPropertiesFalse
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties: false
+        - name: additionalPropertiesSchema
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                type: object
+        "201":
+          description: "201"
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "202":
+          description: "202"
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+        "203":
+          description: "203"
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /object_with_optional_and_required_props/{objectData}:
+    post:
+      tags:
+        - vars
+      operationId: objectWithOptionalAndRequiredProps
+      parameters:
+        - name: objectData
+          in: path
+          required: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+                minLength: 1
+              b:
+                type: string
+                minLength: 1
+              c:
+                type: string
+                minLength: 1
+            required:
+              - a
+              - b
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                a:
+                  type: string
+                  minLength: 1
+                b:
+                  type: string
+                  minLength: 1
+                c:
+                  type: string
+                  minLength: 1
+              required:
+                - a
+                - b
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  a:
+                    type: string
+                    minLength: 1
+                  b:
+                    type: string
+                    minLength: 1
+                  c:
+                    type: string
+                    minLength: 1
+                required:
+                  - a
+                  - b
+components:
+  schemas:
+    ArrayWithValidationsInItems:
+      type: array
+      items:
+        type: integer
+        format: int64
+        maximum: 7
+    ObjectWithValidationsInArrayPropItems:
+      type: object
+      properties:
+        arrayProp:
+          type: array
+          items:
+            type: integer
+            format: int64
+            maximum: 7
+    ObjectWithValidationsInAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: integer
+        format: int64
+        maximum: 7
+    ComposedOneOfInlineValidation:
+      oneOf:
+        - type: integer
+          format: int64
+          maximum: 7
+    ComposedAnyOfInlineValidation:
+      anyOf:
+        - type: integer
+          format: int64
+          maximum: 7
+    ComposedAllOfInlineValidation:
+      allOf:
+        - type: integer
+          format: int64
+          maximum: 7
+    AdditionalPropertiesUnset:
+      type: object
+    AdditionalPropertiesTrue:
+      type: object
+      additionalProperties: true
+    AdditionalPropertiesFalse:
+      type: object
+      additionalProperties: false
+    AdditionalPropertiesSchema:
+      type: object
+      additionalProperties:
+        type: string
+    ObjectModelWithRefAddPropsInProps:
+      type: object
+      properties:
+        map_with_additional_properties_unset:
+          $ref: '#/components/schemas/AdditionalPropertiesUnset'
+        map_with_additional_properties_true:
+          $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        map_with_additional_properties_false:
+          $ref: '#/components/schemas/AdditionalPropertiesFalse'
+        map_with_additional_properties_schema:
+          $ref: '#/components/schemas/AdditionalPropertiesSchema'
+    ObjectModelWithAddPropsInProps:
+      type: object
+      properties:
+        map_with_additional_properties_unset:
+          type: object
+        map_with_additional_properties_true:
+          type: object
+          additionalProperties: true
+        map_with_additional_properties_false:
+          type: object
+          additionalProperties: false
+        map_with_additional_properties_schema:
+          type: object
+          additionalProperties:
+            type: string
+    ObjectWithOptionalAndRequiredProps:
+      type: object
+      properties:
+        a:
+          type: string
+          minLength: 1
+        b:
+          type: string
+          minLength: 1
+        c:
+          type: string
+          minLength: 1
+      required:
+        - a
+        - b
+    ObjectPropContainsProps:
+      type: object
+      properties:
+        a:
+          type: object
+          properties:
+            a:
+              type: string
+              minLength: 1
+            b:
+              type: string
+              minLength: 1
+            c:
+              type: string
+              minLength: 1
+          required:
+            - a
+            - b
+    ArrayWithObjectWithPropsInItems:
+      type: array
+      items:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
+    ObjectWithObjectWithPropsInAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
+  securitySchemes: {}

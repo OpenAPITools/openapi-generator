@@ -3,8 +3,11 @@ title: Config Options for rust
 sidebar_label: rust
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
 |packageName|Rust package name (convention: lowercase).| |openapi|
@@ -17,23 +20,6 @@ sidebar_label: rust
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Array|java.util.List|
-|ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|org.joda.time.*|
-|File|java.io.File|
-|HashMap|java.util.HashMap|
-|LinkedHashSet|java.util.LinkedHashSet|
-|List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
-|Map|java.util.Map|
-|Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
-|URI|java.net.URI|
-|UUID|java.util.UUID|
 
 
 ## INSTANTIATION TYPES
@@ -45,9 +31,7 @@ sidebar_label: rust
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>File</li>
 <li>String</li>
-<li>Vec&lt;u8&gt;</li>
 <li>bool</li>
 <li>char</li>
 <li>f32</li>
@@ -56,10 +40,13 @@ sidebar_label: rust
 <li>i32</li>
 <li>i64</li>
 <li>i8</li>
+<li>isize</li>
+<li>str</li>
 <li>u16</li>
 <li>u32</li>
 <li>u64</li>
 <li>u8</li>
+<li>usize</li>
 </ul>
 
 ## RESERVED WORDS
@@ -131,6 +118,7 @@ sidebar_label: rust
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

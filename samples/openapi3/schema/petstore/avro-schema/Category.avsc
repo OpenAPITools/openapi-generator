@@ -7,12 +7,15 @@
     {
       "name": "id",
       "type": ["null", "long"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "name",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     }
   ]
+
 }

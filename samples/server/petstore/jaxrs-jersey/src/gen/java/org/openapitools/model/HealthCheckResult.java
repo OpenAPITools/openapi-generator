@@ -44,7 +44,7 @@ public class HealthCheckResult   {
    * Get nullableMessage
    * @return nullableMessage
    **/
-  @JsonProperty("NullableMessage")
+  @JsonProperty(value = "NullableMessage")
   @ApiModelProperty(value = "")
   
   public String getNullableMessage() {
@@ -57,7 +57,7 @@ public class HealthCheckResult   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -88,7 +88,7 @@ public class HealthCheckResult   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

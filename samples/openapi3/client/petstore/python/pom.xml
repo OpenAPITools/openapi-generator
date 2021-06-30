@@ -35,7 +35,7 @@
                         <configuration>
                             <executable>make</executable>
                             <arguments>
-                                <argument>test-all</argument>
+                                <argument>test</argument>
                             </arguments>
                         </configuration>
                     </execution>

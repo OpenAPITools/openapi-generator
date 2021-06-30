@@ -4,7 +4,6 @@ Cargo.toml
 README.md
 docs/DefaultApi.md
 git_push.sh
-src/apis/client.rs
 src/apis/configuration.rs
 src/apis/default_api.rs
 src/apis/mod.rs

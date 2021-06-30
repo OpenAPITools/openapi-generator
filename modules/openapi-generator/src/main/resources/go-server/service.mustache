@@ -2,6 +2,8 @@
 package {{packageName}}
 
 import (
+	"context"
+	"net/http"
 	"errors"{{#imports}}
 	"{{import}}"{{/imports}}
 )
@@ -18,8 +20,22 @@ func New{{classname}}Service() {{classname}}Servicer {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{summary}}
-func (s *{{classname}}Service) {{nickname}}({{#allParams}}{{paramName}} {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error) {
+func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method '{{nickname}}' not implemented")
+
+{{#responses}}
+{{#dataType}}
+	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	//return Response({{code}}, {{dataType}}{}), nil
+
+{{/dataType}}
+{{^dataType}}
+	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	//return Response({{code}}, nil),nil
+
+{{/dataType}}
+{{/responses}}
+	return Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
 }{{/operation}}{{/operations}}
+

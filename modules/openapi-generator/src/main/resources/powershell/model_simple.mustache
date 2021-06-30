@@ -41,7 +41,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
         <%={{ }}=%>
     {{/isReadOnly}}
 {{/allVars}}
@@ -59,7 +59,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^-last%>,<%/-last%>
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^-last%>,<%/-last%>
         <%={{ }}=%>
 {{/allVars}}
 {{/discardReadOnly}}
@@ -73,7 +73,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#vars}}
         {{^isNullable}}
         {{#required}}
-        if (!${{{name}}}) {
+        if (${{{name}}} -eq $null) {
             throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 
@@ -93,13 +93,13 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
           throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
           throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
         }
 
@@ -153,13 +153,13 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
           throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
           throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
         }
 
@@ -223,35 +223,35 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
-        {{#vendorExtensions.x-additional-properties}}
+        {{#isAdditionalPropertiesTrue}}
         ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties = @{}
-        {{/vendorExtensions.x-additional-properties}}
+        {{/isAdditionalPropertiesTrue}}
 
         # check if Json contains properties not defined in {{{apiNamePrefix}}}{{{classname}}}
         $AllProperties = ({{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}})
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
-            {{^vendorExtensions.x-additional-properties}}
+            {{^isAdditionalPropertiesTrue}}
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
-            {{/vendorExtensions.x-additional-properties}}
-            {{#vendorExtensions.x-additional-properties}}
+            {{/isAdditionalPropertiesTrue}}
+            {{#isAdditionalPropertiesTrue}}
             # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
                 ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
             }
-            {{/vendorExtensions.x-additional-properties}}
+            {{/isAdditionalPropertiesTrue}}
         }
 
         {{#requiredVars}}
         {{#-first}}
         If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
-            throw "Error! Empty JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
+            throw "Error! Empty JSON cannot be serialized due to the required property '{{{baseName}}}' missing."
         }
 
         {{/-first}}
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) {
-            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
+            throw "Error! JSON cannot be serialized due to the required property '{{{baseName}}}' missing."
         } else {
             ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
         }
@@ -271,9 +271,9 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
             "<<baseName>>" = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
-            {{#vendorExtensions.x-additional-properties}}
+            {{#isAdditionalPropertiesTrue}}
             "AdditionalProperties" = ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties
-            {{/vendorExtensions.x-additional-properties}}
+            {{/isAdditionalPropertiesTrue}}
         }
 
         return $PSO

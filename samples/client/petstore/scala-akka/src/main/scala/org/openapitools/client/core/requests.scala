@@ -13,6 +13,7 @@ package org.openapitools.client.core
 
 import java.io.File
 import java.net.URLEncoder
+import java.util.UUID
 import java.time.OffsetDateTime
 
 import scala.util.Try
@@ -191,6 +192,7 @@ object ParametersMap {
       case Some(opt) => formattedParams(name, opt)
       case s: Seq[Any] => formattedParams(name, ArrayValues(s))
       case v: String => Seq((name, urlEncode(v)))
+      case v: UUID => formattedParams(name, v.toString)
       case NumericValue(v) => Seq((name, urlEncode(v)))
       case f: File => Seq((name, f))
       case m: ApiModel => Seq((name, m))

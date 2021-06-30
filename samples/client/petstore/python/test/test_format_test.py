@@ -11,59 +11,143 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
-import datetime
 
 import petstore_api
-from petstore_api.models.format_test import FormatTest  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.model.format_test import FormatTest
+
 
 class TestFormatTest(unittest.TestCase):
     """FormatTest unit test stubs"""
 
     def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
-    def make_instance(self, include_optional):
-        """Test FormatTest
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = petstore_api.models.format_test.FormatTest()  # noqa: E501
-        if include_optional :
-            return FormatTest(
-                integer = 1E+1,
-                int32 = 2E+1,
-                int64 = 56,
-                number = 32.1,
-                float = 54.3,
-                double = 67.8,
-                string = 'a',
-                byte = 'YQ==',
-                binary = 'bytes',
-                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
-                date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                uuid = '72f98069-206d-4f12-9f12-3d1e525a8e84',
-                password = '0123456789',
-                big_decimal = 1
-            )
-        else :
-            return FormatTest(
-                number = 32.1,
-                byte = 'YQ==',
-                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
-                password = '0123456789',
+        import datetime
+        self.required_named_args = dict(
+            number=40.1,
+            byte='what',
+            date=datetime.date(2019, 3, 23),
+            password='rainbowtable'
         )
 
-    def testFormatTest(self):
-        """Test FormatTest"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+    def test_integer(self):
+        var_name = 'integer'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('inclusive_maximum', 1), ('inclusive_minimum', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = validations[key] + adder
+                FormatTest(**keyword_args)
 
+            # value inside the bounds works
+            keyword_args[var_name] = validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    validations[key])
+
+    def test_int32(self):
+        var_name = 'int32'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('inclusive_maximum', 1), ('inclusive_minimum', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = validations[key] + adder
+                FormatTest(**keyword_args)
+
+            # value inside the bounds works
+            keyword_args[var_name] = validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    validations[key])
+
+    def test_number(self):
+        var_name = 'number'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('inclusive_maximum', 1), ('inclusive_minimum', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = validations[key] + adder
+                FormatTest(**keyword_args)
+
+            # value inside the bounds works
+            keyword_args[var_name] = validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    validations[key])
+
+    def test_float(self):
+        var_name = 'float'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('inclusive_maximum', 1), ('inclusive_minimum', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = validations[key] + adder
+                FormatTest(**keyword_args)
+
+            # value inside the bounds works
+            keyword_args[var_name] = validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    validations[key])
+
+    def test_double(self):
+        var_name = 'double'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('inclusive_maximum', 1), ('inclusive_minimum', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = validations[key] + adder
+                FormatTest(**keyword_args)
+
+            # value inside the bounds works
+            keyword_args[var_name] = validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    validations[key])
+
+    def test_password(self):
+        var_name = 'password'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        key_adder_pairs = [('max_length', 1), ('min_length', -1)]
+        for key, adder in key_adder_pairs:
+            # value outside the bounds throws an error
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = 'a'*(validations[key] + adder)
+                FormatTest(**keyword_args)
+
+            # value inside the bounds works
+            keyword_args[var_name] = 'a'*validations[key]
+            assert (getattr(FormatTest(**keyword_args), var_name) ==
+                    'a'*validations[key])
+
+    def test_string(self):
+        var_name = 'string'
+        validations = FormatTest.validations[(var_name,)]
+        keyword_args = {}
+        keyword_args.update(self.required_named_args)
+        values_invalid = ['abc3', '1', '.', ' ', 'مرحبا', '']
+        for value_invalid in values_invalid:
+            # invalid values throw exceptions
+            with self.assertRaises(petstore_api.ApiValueError):
+                keyword_args[var_name] = value_invalid
+                FormatTest(**keyword_args)
+
+        # valid value works
+        value_valid = 'abcdz'
+        keyword_args[var_name] = value_valid
+        assert getattr(FormatTest(**keyword_args), var_name) == value_valid
 
 if __name__ == '__main__':
     unittest.main()

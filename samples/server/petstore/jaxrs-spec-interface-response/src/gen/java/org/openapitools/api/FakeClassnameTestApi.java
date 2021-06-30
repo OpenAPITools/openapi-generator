@@ -21,9 +21,10 @@ import javax.validation.Valid;
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", authorizations = {
+        
         @Authorization(value = "api_key_query")
-    }, tags={ "fake_classname_tags 123#$%^" })
+         }, tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Response testClassname(@Valid Client body);
+    Response testClassname(@Valid @NotNull Client body);
 }

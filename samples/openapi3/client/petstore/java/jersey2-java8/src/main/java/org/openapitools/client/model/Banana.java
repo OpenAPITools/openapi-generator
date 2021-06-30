@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -59,6 +60,8 @@ public class Banana {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
@@ -68,7 +71,7 @@ public class Banana {
    * Return true if this banana object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +87,6 @@ public class Banana {
     return Objects.hash(lengthCm);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -98,7 +100,7 @@ public class Banana {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -50,7 +50,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Map**](..//Models/integer.md)
+[**Map**](../Models/integer.md)
 
 ### Authorization
 
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Order**](..//Models/Order.md)
+[**Order**](../Models/Order.md)
 
 ### Authorization
 
@@ -90,7 +90,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(Order)
 
 Place an order for a pet
 
@@ -98,11 +98,11 @@ Place an order for a pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](..//Models/Order.md)| order placed for purchasing the pet |
+ **Order** | [**Order**](../Models/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**Order**](..//Models/Order.md)
+[**Order**](../Models/Order.md)
 
 ### Authorization
 

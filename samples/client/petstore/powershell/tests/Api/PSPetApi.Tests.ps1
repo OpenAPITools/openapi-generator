@@ -8,7 +8,7 @@
 Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
     Context 'Add-PSPet' {
         It 'Test Add-PSPet' {
-            #$TestResult = Invoke-PetApiGetPetById -Pet "TEST_VALUE"
+            #$TestResult = Add-PSPet -Pet "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -16,7 +16,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Remove-Pet' {
         It 'Test Remove-Pet' {
-            #$TestResult = Invoke-PetApiGetPetById -PetId "TEST_VALUE" -ApiKey "TEST_VALUE"
+            #$TestResult = Remove-Pet -PetId "TEST_VALUE" -ApiKey "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -24,7 +24,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Find-PSPetsByStatus' {
         It 'Test Find-PSPetsByStatus' {
-            #$TestResult = Invoke-PetApiGetPetById -Status "TEST_VALUE"
+            #$TestResult = Find-PSPetsByStatus -Status "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -32,7 +32,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Find-PSPetsByTags' {
         It 'Test Find-PSPetsByTags' {
-            #$TestResult = Invoke-PetApiGetPetById -Tags "TEST_VALUE"
+            #$TestResult = Find-PSPetsByTags -Tags "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -40,7 +40,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Get-PSPetById' {
         It 'Test Get-PSPetById' {
-            #$TestResult = Invoke-PetApiGetPetById -PetId "TEST_VALUE"
+            #$TestResult = Get-PSPetById -PetId "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -48,7 +48,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Update-PSPet' {
         It 'Test Update-PSPet' {
-            #$TestResult = Invoke-PetApiGetPetById -Pet "TEST_VALUE"
+            #$TestResult = Update-PSPet -Pet "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -56,7 +56,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Update-PSPetWithForm' {
         It 'Test Update-PSPetWithForm' {
-            #$TestResult = Invoke-PetApiGetPetById -PetId "TEST_VALUE" -Name "TEST_VALUE" -Status "TEST_VALUE"
+            #$TestResult = Update-PSPetWithForm -PetId "TEST_VALUE" -Name "TEST_VALUE" -Status "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -64,7 +64,7 @@ Describe -tag 'PSPetstore' -name 'PSPSPetApi' {
 
     Context 'Invoke-PSUploadFile' {
         It 'Test Invoke-PSUploadFile' {
-            #$TestResult = Invoke-PetApiGetPetById -PetId "TEST_VALUE" -AdditionalMetadata "TEST_VALUE" -File "TEST_VALUE"
+            #$TestResult = Invoke-PSUploadFile -PetId "TEST_VALUE" -AdditionalMetadata "TEST_VALUE" -File "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

@@ -440,7 +440,7 @@ process_response(Response, Req0, State = #state{operation_id = OperationID}) ->
             {stop, Req, State}
     end.
 
--spec handle_request_json(cowboy_req:req(), state()) -> {cowboy_req:resp_body(), cowboy_req:req(), state()}.
+-spec handle_request_json(cowboy_req:req(), state()) -> processed_response().
 
 handle_request_json(
     Req0,
@@ -464,7 +464,7 @@ handle_request_json(
                 Body,
                 ValidatorState
             ),
-            PreparedBody = jsx:encode(Body),
+            PreparedBody = prepare_body(Code, Body),
             Response = {ok, {Code, Headers, PreparedBody}},
             process_response(Response, Req1, State);
         {error, Reason, Req1} ->
@@ -472,3 +472,10 @@ handle_request_json(
     end.
 
 validate_headers(_, Req) -> {true, Req}.
+
+prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(_Code, Body) ->
+    jsx:encode(Body).

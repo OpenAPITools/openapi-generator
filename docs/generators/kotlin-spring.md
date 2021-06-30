@@ -3,6 +3,8 @@ title: Config Options for kotlin-spring
 sidebar_label: kotlin-spring
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|api package for generated code| |org.openapitools.api|
@@ -55,7 +57,7 @@ sidebar_label: kotlin-spring
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.Array|
+|array|kotlin.collections.ArrayList|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 
@@ -124,6 +126,7 @@ sidebar_label: kotlin-spring
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

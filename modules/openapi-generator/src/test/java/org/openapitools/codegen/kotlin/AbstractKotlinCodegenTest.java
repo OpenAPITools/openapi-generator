@@ -16,7 +16,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -77,7 +76,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
     }
 
-    private class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
+    private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
         @Override
         public CodegenType getTag() {
             return null;
@@ -128,9 +127,9 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toVarName("name"), "name");
         assertEquals(codegen.toVarName("$name"), "dollarName");
         assertEquals(codegen.toVarName("nam$$e"), "namDollarDollarE");
-        assertEquals(codegen.toVarName("user-name"), "userMinusName");
+        assertEquals(codegen.toVarName("user-name"), "userName");
         assertEquals(codegen.toVarName("user_name"), "userName");
-        assertEquals(codegen.toVarName("user|name"), "userPipeName");
+        assertEquals(codegen.toVarName("user|name"), "userName");
         assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
         assertEquals(codegen.toVarName("nam#e"), "namHashE");
         assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");

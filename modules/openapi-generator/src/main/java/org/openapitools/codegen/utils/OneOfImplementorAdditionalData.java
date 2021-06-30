@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  *
@@ -48,7 +46,7 @@ public class OneOfImplementorAdditionalData {
     private List<String> additionalInterfaces = new ArrayList<String>();
     private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
     private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OneOfImplementorAdditionalData.class);
 
     public OneOfImplementorAdditionalData(String implementorName) {
         this.implementorName = implementorName;
@@ -121,16 +119,8 @@ public class OneOfImplementorAdditionalData {
         }
 
         // Add oneOf-containing models properties - we need to properly set the hasMore values to make rendering correct
-        if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
-            implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
-        }
         for (int i = 0; i < additionalProps.size(); i++) {
             CodegenProperty var = additionalProps.get(i);
-            if (i == additionalProps.size() - 1) {
-                var.hasMore = false;
-            } else {
-                var.hasMore = true;
-            }
             implcm.vars.add(var);
         }
 

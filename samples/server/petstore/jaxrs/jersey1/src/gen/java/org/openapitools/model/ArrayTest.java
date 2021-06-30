@@ -64,7 +64,7 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
    **/
-  @JsonProperty("array_of_string")
+  @JsonProperty(value = "array_of_string")
   @ApiModelProperty(value = "")
   
   public List<String> getArrayOfString() {
@@ -92,7 +92,7 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    **/
-  @JsonProperty("array_array_of_integer")
+  @JsonProperty(value = "array_array_of_integer")
   @ApiModelProperty(value = "")
   @Valid 
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -120,7 +120,7 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    **/
-  @JsonProperty("array_array_of_model")
+  @JsonProperty(value = "array_array_of_model")
   @ApiModelProperty(value = "")
   @Valid 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
@@ -133,7 +133,7 @@ public class ArrayTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -168,7 +168,7 @@ public class ArrayTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

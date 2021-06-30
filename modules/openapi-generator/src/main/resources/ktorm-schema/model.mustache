@@ -1,0 +1,13 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+import org.ktorm.dsl.*
+import org.ktorm.schema.*
+import org.ktorm.database.Database
+import {{{importModelPackageName}}}.*
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
+{{/model}}
+{{/models}}

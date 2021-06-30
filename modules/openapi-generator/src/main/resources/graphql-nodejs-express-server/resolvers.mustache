@@ -8,10 +8,10 @@ export default {
 {{#operations}}
 {{#operation}}{{^vendorExtensions.x-is-mutation}}
         // @return {{returnType}}
-        {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
+        {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
             return {
-                {{#allParams}}"{{paramName}}": "{{example}}"{{#hasMore}},
-                {{/hasMore}}{{/allParams}}
+                {{#allParams}}"{{paramName}}": "{{example}}"{{^-last}},
+                {{/-last}}{{/allParams}}
             };
         },
 {{/vendorExtensions.x-is-mutation}}{{/operation}}
@@ -22,10 +22,10 @@ export default {
 {{#operations}}
 {{#operation}}{{#vendorExtensions.x-is-mutation}}
         // @return {{returnType}}
-        {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
+        {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
             return {
-                {{#allParams}}"{{paramName}}": "{{example}}"{{#hasMore}},
-                {{/hasMore}}{{/allParams}}
+                {{#allParams}}"{{paramName}}": "{{example}}"{{^-last}},
+                {{/-last}}{{/allParams}}
             };
         },
 {{/vendorExtensions.x-is-mutation}}{{/operation}}

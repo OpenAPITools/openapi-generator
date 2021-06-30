@@ -66,6 +66,14 @@ public class FakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * creates an XmlItem
    * this route creates an XmlItem
@@ -93,10 +101,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "createXmlItem call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "createXmlItem call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -170,10 +175,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterBooleanSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "fakeOuterBooleanSerialize call received non-success response");
       }
       return new ApiResponse<Boolean>(
           localVarResponse.statusCode(),
@@ -243,10 +245,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterCompositeSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "fakeOuterCompositeSerialize call received non-success response");
       }
       return new ApiResponse<OuterComposite>(
           localVarResponse.statusCode(),
@@ -316,10 +315,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterNumberSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "fakeOuterNumberSerialize call received non-success response");
       }
       return new ApiResponse<BigDecimal>(
           localVarResponse.statusCode(),
@@ -389,10 +385,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterStringSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "fakeOuterStringSerialize call received non-success response");
       }
       return new ApiResponse<String>(
           localVarResponse.statusCode(),
@@ -460,10 +453,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testBodyWithFileSchema call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testBodyWithFileSchema call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -537,10 +527,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testBodyWithQueryParams call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testBodyWithQueryParams call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -627,10 +614,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testClientModel call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testClientModel call received non-success response");
       }
       return new ApiResponse<Client>(
           localVarResponse.statusCode(),
@@ -728,10 +712,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testEndpointParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testEndpointParameters call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -823,10 +804,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testEnumParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testEnumParameters call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -882,33 +860,33 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APItestGroupParametersRequest}
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
-    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
-    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
-    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
-    Integer stringGroup = testGroupParametersRequest.stringGroup();
-    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
-    Long int64Group = testGroupParametersRequest.int64Group();
+  public void testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
+    Integer requiredStringGroup = apiRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
+    Long requiredInt64Group = apiRequest.requiredInt64Group();
+    Integer stringGroup = apiRequest.stringGroup();
+    Boolean booleanGroup = apiRequest.booleanGroup();
+    Long int64Group = apiRequest.int64Group();
     testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
   }
 
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APItestGroupParametersRequest}
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> testGroupParametersWithHttpInfo(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
-    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
-    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
-    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
-    Integer stringGroup = testGroupParametersRequest.stringGroup();
-    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
-    Long int64Group = testGroupParametersRequest.int64Group();
+  public ApiResponse<Void> testGroupParametersWithHttpInfo(APItestGroupParametersRequest apiRequest) throws ApiException {
+    Integer requiredStringGroup = apiRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
+    Long requiredInt64Group = apiRequest.requiredInt64Group();
+    Integer stringGroup = apiRequest.stringGroup();
+    Boolean booleanGroup = apiRequest.booleanGroup();
+    Long int64Group = apiRequest.int64Group();
     return testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
   }
 
@@ -949,10 +927,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testGroupParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testGroupParameters call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -1121,10 +1096,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testInlineAdditionalProperties call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testInlineAdditionalProperties call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -1198,10 +1170,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testJsonFormData call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testJsonFormData call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -1279,10 +1248,7 @@ public class FakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testQueryParameterCollectionFormat call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "testQueryParameterCollectionFormat call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),

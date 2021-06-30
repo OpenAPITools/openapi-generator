@@ -40,5 +40,4 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
 
 pub mod default_api;
 
-pub mod client;
 pub mod configuration;

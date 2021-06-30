@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc public class Tag: NSObject, Codable {
 
@@ -17,7 +20,7 @@ import Foundation
     }
     public var name: String?
 
-    public init(_id: Int64?, name: String?) {
+    public init(_id: Int64? = nil, name: String? = nil) {
         self._id = _id
         self.name = name
     }
@@ -27,4 +30,12 @@ import Foundation
         case name
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_id, forKey: ._id)
+        try container.encodeIfPresent(name, forKey: .name)
+    }
 }
+

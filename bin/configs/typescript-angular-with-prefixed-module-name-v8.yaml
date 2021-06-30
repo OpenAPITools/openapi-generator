@@ -8,3 +8,4 @@ additionalProperties:
   npmRepository: https://skimdb.npmjs.com/registry
   snapshot: false
   apiModulePrefix: PetStore
+  configurationPrefix: PetStore

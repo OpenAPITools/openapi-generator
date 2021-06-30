@@ -59,7 +59,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
   public UUID getUuid() {
@@ -79,7 +79,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public Date getDateTime() {
@@ -107,7 +107,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
    **/
-  @JsonProperty("map")
+  @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Animal> getMap() {
@@ -120,7 +120,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -155,7 +155,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

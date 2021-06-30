@@ -29,8 +29,10 @@ module PetApiHandler =
           let serviceArgs = {     bodyParams=bodyParams } : AddPetArgs
           let result = PetApiService.AddPet ctx serviceArgs
           return! (match result with 
+                      | AddPetStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | AddPetStatusCode405 resolved ->
-                            setStatusCode 405 >=> text resolved.content 
+                            setStatusCode 405 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -50,7 +52,7 @@ module PetApiHandler =
           let result = PetApiService.DeletePet ctx serviceArgs
           return! (match result with 
                       | DeletePetStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -67,10 +69,10 @@ module PetApiHandler =
           let serviceArgs = {  queryParams=queryParams;    } : FindPetsByStatusArgs
           let result = PetApiService.FindPetsByStatus ctx serviceArgs
           return! (match result with 
-                      | FindPetsByStatusDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | FindPetsByStatusStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | FindPetsByStatusStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -87,10 +89,10 @@ module PetApiHandler =
           let serviceArgs = {  queryParams=queryParams;    } : FindPetsByTagsArgs
           let result = PetApiService.FindPetsByTags ctx serviceArgs
           return! (match result with 
-                      | FindPetsByTagsDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | FindPetsByTagsStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | FindPetsByTagsStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -106,12 +108,12 @@ module PetApiHandler =
           let serviceArgs = {    pathParams=pathParams;  } : GetPetByIdArgs
           let result = PetApiService.GetPetById ctx serviceArgs
           return! (match result with 
-                      | GetPetByIdDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | GetPetByIdStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | GetPetByIdStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | GetPetByIdStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -129,12 +131,14 @@ module PetApiHandler =
           let serviceArgs = {     bodyParams=bodyParams } : UpdatePetArgs
           let result = PetApiService.UpdatePet ctx serviceArgs
           return! (match result with 
+                      | UpdatePetStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | UpdatePetStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | UpdatePetStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
                       | UpdatePetStatusCode405 resolved ->
-                            setStatusCode 405 >=> text resolved.content 
+                            setStatusCode 405 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -152,7 +156,7 @@ module PetApiHandler =
           let result = PetApiService.UpdatePetWithForm ctx serviceArgs
           return! (match result with 
                       | UpdatePetWithFormStatusCode405 resolved ->
-                            setStatusCode 405 >=> text resolved.content 
+                            setStatusCode 405 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -169,8 +173,8 @@ module PetApiHandler =
           let serviceArgs = {   formParams=formParams; pathParams=pathParams;  } : UploadFileArgs
           let result = PetApiService.UploadFile ctx serviceArgs
           return! (match result with 
-                      | UploadFileDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | UploadFileStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
           ) next ctx
         }
     //#endregion

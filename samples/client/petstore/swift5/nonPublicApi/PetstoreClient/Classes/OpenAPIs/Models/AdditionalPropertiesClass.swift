@@ -6,13 +6,16 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct AdditionalPropertiesClass: Codable {
+internal struct AdditionalPropertiesClass: Codable, Hashable {
 
     internal var mapString: [String: String]?
     internal var mapMapString: [String: [String: String]]?
 
-    internal init(mapString: [String: String]?, mapMapString: [String: [String: String]]?) {
+    internal init(mapString: [String: String]? = nil, mapMapString: [String: [String: String]]? = nil) {
         self.mapString = mapString
         self.mapMapString = mapMapString
     }
@@ -22,4 +25,12 @@ internal struct AdditionalPropertiesClass: Codable {
         case mapMapString = "map_map_string"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(mapString, forKey: .mapString)
+        try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
+    }
 }
+
