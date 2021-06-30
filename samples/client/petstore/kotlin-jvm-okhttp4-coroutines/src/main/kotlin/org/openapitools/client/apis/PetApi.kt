@@ -12,10 +12,9 @@
  */
 
 @file:Suppress(
-    "RemoveRedundantBackticks",
-    "RemoveRedundantQualifierName",
     "ArrayInDataClass",
     "EnumEntryName",
+    "RemoveRedundantQualifierName",
     "UnusedImport"
 )
 
