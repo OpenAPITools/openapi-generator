@@ -1,0 +1,15 @@
+```javascript
+const ionoscloud = require('@ionos-cloud/sdk-nodejs')
+{{#hasAuthMethods}}
+# setup authorization
+const config = new ionoscloud.Configuration({
+    username: 'YOUR_USERNAME',
+    password: 'YOUR_PASSWORD'
+});
+{{/hasAuthMethods}}
+api_instance = ionoscloud.{{{classname}}}(config)
+{{#summary}}# {{{.}}}{{/summary}}
+{{#returnType}}{{/returnType}}api_instance.{{{operationId}}}{{#hasParams}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}options{{/-last}}{{/optionalParams}}){{/hasParams}}.then((response) => console.log(response));
+{{#returnType}}
+{{/returnType}}
+```

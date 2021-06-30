@@ -24,6 +24,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -36,6 +37,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     protected String npmRepository = null;
 
+    protected String apiDocPath = "docs/api/";
+    protected String modelDocPath = "docs/models/";
+
     private String tsModelPackage = "";
 
     public TypeScriptAxiosClientCodegen() {
@@ -46,6 +50,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
@@ -86,6 +95,16 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
