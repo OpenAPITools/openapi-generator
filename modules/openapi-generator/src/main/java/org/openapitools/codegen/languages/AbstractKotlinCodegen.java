@@ -123,7 +123,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "finally",
                 "for",
                 "fun",
-                "get",
                 "if",
                 "import",
                 "in",
