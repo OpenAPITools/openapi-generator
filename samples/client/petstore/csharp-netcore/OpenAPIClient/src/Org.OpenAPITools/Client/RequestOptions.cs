@@ -24,29 +24,29 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Parameters to be bound to path parts of the Request's URL
         /// </summary>
-        public Dictionary<String, String> PathParameters { get; set; }
+        public Dictionary<string, string> PathParameters { get; set; }
 
         /// <summary>
         /// Query parameters to be applied to the request.
         /// Keys may have 1 or more values associated.
         /// </summary>
-        public Multimap<String, String> QueryParameters { get; set; }
+        public Multimap<string, string> QueryParameters { get; set; }
 
         /// <summary>
         /// Header parameters to be applied to to the request.
         /// Keys may have 1 or more values associated.
         /// </summary>
-        public Multimap<String, String> HeaderParameters { get; set; }
+        public Multimap<string, string> HeaderParameters { get; set; }
 
         /// <summary>
         /// Form parameters to be sent along with the request.
         /// </summary>
-        public Dictionary<String, String> FormParameters { get; set; }
+        public Dictionary<string, string> FormParameters { get; set; }
 
         /// <summary>
         /// File parameters to be sent along with the request.
         /// </summary>
-        public Dictionary<String, Stream> FileParameters { get; set; }
+        public Dictionary<string, Stream> FileParameters { get; set; }
 
         /// <summary>
         /// Cookies to be sent along with the request.
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Client
             QueryParameters = new Multimap<string, string>();
             HeaderParameters = new Multimap<string, string>();
             FormParameters = new Dictionary<string, string>();
-            FileParameters = new Dictionary<String, Stream>();
+            FileParameters = new Dictionary<string, Stream>();
             Cookies = new List<Cookie>();
         }
     }

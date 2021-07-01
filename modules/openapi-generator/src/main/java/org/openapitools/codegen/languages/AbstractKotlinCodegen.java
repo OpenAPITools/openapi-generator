@@ -127,6 +127,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "when",
                 "while",
                 "private"
+                "open",
+                "external",
+                "internal"
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(

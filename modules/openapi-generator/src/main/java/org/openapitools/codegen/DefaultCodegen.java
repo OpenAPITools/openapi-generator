@@ -728,7 +728,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
-        if ("number".equalsIgnoreCase(datatype)) {
+        if ("number".equalsIgnoreCase(datatype) || "boolean".equalsIgnoreCase(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
@@ -2415,6 +2415,13 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                         // primitive type
                         String languageType = getTypeDeclaration(interfaceSchema);
+                        if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
+                            CodegenProperty cp = fromProperty("composedSchemaImports", interfaceSchema);
+                            while (cp != null) {
+                                addImport(m, cp.complexType);
+                                cp = cp.items;
+                            }
+                        }
 
                         if (composed.getAnyOf() != null) {
                             if (m.anyOf.contains(languageType)) {
@@ -2571,6 +2578,8 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // type is number and without format
                     m.isNumber = Boolean.TRUE;
                 }
+            } else if (ModelUtils.isBooleanSchema(schema)) {
+                m.isBoolean = Boolean.TRUE;
             } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
@@ -5522,13 +5531,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
+            final String enumDefaultValue = getEnumDefaultValue(var.defaultValue, dataType);
+
             String enumName = null;
-            final String enumDefaultValue;
-            if (isDataTypeString(dataType)) {
-                enumDefaultValue = toEnumValue(var.defaultValue, dataType);
-            } else {
-                enumDefaultValue = var.defaultValue;
-            }
             for (Map<String, Object> enumVar : enumVars) {
                 if (enumDefaultValue.equals(enumVar.get("value"))) {
                     enumName = (String) enumVar.get("name");
@@ -5539,6 +5544,16 @@ public class DefaultCodegen implements CodegenConfig {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
             }
         }
+    }
+
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        final String enumDefaultValue;
+        if (isDataTypeString(dataType)) {
+            enumDefaultValue = toEnumValue(defaultValue, dataType);
+        } else {
+            enumDefaultValue = defaultValue;
+        }
+        return enumDefaultValue;
     }
 
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {

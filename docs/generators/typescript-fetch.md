@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prefixParameterInterfaces|Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sagasAndRecords|Setting this property to true will generate additional files for use with redux-saga and immutablejs.| |false|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

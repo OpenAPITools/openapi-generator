@@ -4,5 +4,3 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 additionalProperties:
   platform: deno
   npmName: ts-petstore-client
-  projectName: ts-petstore-client
-  moduleName: petstore
