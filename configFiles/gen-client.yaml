@@ -5,6 +5,8 @@ jackson-databind-version: 1.0.2
 jackson-databind-nullable-version: 1.0.3
 threetenbp-version: 1.0.4
 resteasy-jackson2-provider-version: 1.0.5
+junit-version: okk
+maven-plugin-version: ok
 dateLibrary: java8
 groupId: ru.practice
 artifactId: artifactId
