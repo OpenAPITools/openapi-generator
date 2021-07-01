@@ -475,8 +475,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
         }
 
-        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
+        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion) && (!additionalProperties.containsKey("parent") || additionalProperties.get("parent").equals(true))) {
             additionalProperties.put("parentOverridden", true);
+        }
+
+        if (!additionalProperties.containsKey("licenses") || additionalProperties.get("licenses").equals(true)) {
+            additionalProperties.put("licensesOverridden", true);
+        }
+
+        if (!additionalProperties.containsKey("developers") || additionalProperties.get("developers").equals(true)) {
+            additionalProperties.put("developersOverridden", true);
         }
 
         // make api and model doc path available in mustache template

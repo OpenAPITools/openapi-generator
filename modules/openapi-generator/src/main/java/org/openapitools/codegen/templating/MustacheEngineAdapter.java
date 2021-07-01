@@ -59,7 +59,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
 
         String content = executor.getFullTemplateContents(templateFile);
-        if(templateFile.contains("pom"))
+        /*if(templateFile.contains("pom"))
         {
             for (String key: bundle.keySet()) {
                 if(key.contains("-version")){
@@ -69,7 +69,6 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                     else {
                         content = content.replaceFirst( String.format("<%s>(.*)</%s>", key, key), String.format("<%s>{{%s}}</%s>", key, key, key) );
                     }
-
                 }
             }
             String[] ignoredInPomList = new String[]{"licenses", "developers", "parent"};
@@ -78,7 +77,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                     content = content.replaceFirst(String.format("<%s>([^.$]*)</%s>\n", s, s), "");
                 }
             }
-        }
+        }*/
 
         Template tmpl = compiler
                 .withLoader(name -> findTemplate(executor, name))
