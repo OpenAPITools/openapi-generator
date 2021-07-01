@@ -111,7 +111,7 @@ interface UserApi {
         response = User::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
-    @`get`Mapping(
+    @GetMapping(
             value = ["/user/{username}"],
             produces = ["application/xml", "application/json"]
     )
@@ -127,7 +127,7 @@ interface UserApi {
         response = kotlin.String::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
-    @`get`Mapping(
+    @GetMapping(
             value = ["/user/login"],
             produces = ["application/xml", "application/json"]
     )
@@ -144,7 +144,7 @@ interface UserApi {
         authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @`get`Mapping(
+    @GetMapping(
             value = ["/user/logout"]
     )
     fun logoutUser(): ResponseEntity<Unit> {

@@ -45,7 +45,7 @@ fun Route.PetApi() {
     }
 
     authenticate("petstore_auth") {
-    `get`<Paths.findPetsByStatus> {
+    get<Paths.findPetsByStatus> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         val exampleContentType = "application/json"
@@ -76,7 +76,7 @@ fun Route.PetApi() {
     }
 
     authenticate("petstore_auth") {
-    `get`<Paths.findPetsByTags> {
+    get<Paths.findPetsByTags> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         val exampleContentType = "application/json"
@@ -107,7 +107,7 @@ fun Route.PetApi() {
     }
 
     authenticate("api_key") {
-    `get`<Paths.getPetById> {
+    get<Paths.getPetById> {
         val principal = call.authentication.principal<ApiPrincipal>()!!
         
         val exampleContentType = "application/json"

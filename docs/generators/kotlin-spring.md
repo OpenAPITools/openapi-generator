@@ -112,7 +112,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>finally</li>
 <li>for</li>
 <li>fun</li>
-<li>get</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>

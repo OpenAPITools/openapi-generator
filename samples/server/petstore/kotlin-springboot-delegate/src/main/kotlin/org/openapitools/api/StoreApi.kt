@@ -64,7 +64,7 @@ interface StoreApi {
         authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
-    @`get`Mapping(
+    @GetMapping(
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
@@ -79,7 +79,7 @@ interface StoreApi {
         response = Order::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
-    @`get`Mapping(
+    @GetMapping(
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"]
     )

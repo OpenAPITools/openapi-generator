@@ -43,7 +43,7 @@ fun Route.UserApi() {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-    `get`<Paths.getUserByName> {
+    get<Paths.getUserByName> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "firstName" : "firstName",
@@ -63,11 +63,11 @@ fun Route.UserApi() {
         }
     }
 
-    `get`<Paths.loginUser> {
+    get<Paths.loginUser> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-    `get`<Paths.logoutUser> {
+    get<Paths.logoutUser> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
