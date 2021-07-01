@@ -784,7 +784,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   private File downloadFileFromResponse(HttpResponse response) throws IOException {
-    File file = prepareDownloadFile(response.getFirstHeader("Content-Disposition").getValue());
+    Header contentDispositionHeader = response.getFirstHeader("Content-Disposition");
+    String contentDisposition = contentDispositionHeader == null ? null : contentDispositionHeader.getValue();
+    File file = prepareDownloadFile(contentDisposition);
     Files.copy(response.getEntity().getContent(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     return file;
   }
