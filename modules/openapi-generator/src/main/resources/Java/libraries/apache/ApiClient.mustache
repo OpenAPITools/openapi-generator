@@ -898,22 +898,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException {
-    try {
-      statusCode = response.getStatusLine().getStatusCode();
-      if (statusCode == HttpStatus.SC_NO_CONTENT) {
-        return null;
-      }
+    statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode == HttpStatus.SC_NO_CONTENT) {
+      return null;
+    }
 
-      responseHeaders = transformResponseHeaders(response.getAllHeaders());
-      if (isSuccessfulStatus(statusCode)) {
-        return this.deserialize(response, returnType);
-      } else {
-        // TODO: this will use the platforms default charset
-        String message = EntityUtils.toString(response.getEntity());
-        throw new ApiException(message, statusCode, responseHeaders, message);
-      }
-    } finally {
-      response.close();
+    responseHeaders = transformResponseHeaders(response.getAllHeaders());
+    if (isSuccessfulStatus(statusCode)) {
+      return this.deserialize(response, returnType);
+    } else {
+      // TODO: this will use the platforms default charset
+      String message = EntityUtils.toString(response.getEntity());
+      throw new ApiException(message, statusCode, responseHeaders, message);
     }
   }
 
@@ -1000,8 +996,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       }
     }
 
-    try {
-      CloseableHttpResponse response = httpClient.execute(builder.build(), context);
+    try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
       return processResponse(response, returnType);
     } catch (IOException e) {
       throw new ApiException(e);
