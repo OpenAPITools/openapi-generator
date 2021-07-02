@@ -698,12 +698,23 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
+   * Parse content type object from header value
+   */
+  private ContentType getContentType(String headerValue) throws ApiException {
+    try {
+      return ContentType.parse(headerValue);
+    } catch (ParseException e) {
+      throw new ApiException("Could not parse content type " + headerValue);
+    }
+  }
+
+  /**
    * Get content type of a response or null if one was not provided
    */
-  private String getResponseContentType(HttpResponse response) {
+  private String getResponseMimeType(HttpResponse response) throws ApiException {
     Header contentTypeHeader = response.getFirstHeader("Content-Type");
     if (contentTypeHeader != null) {
-      return contentTypeHeader.getValue();
+      return getContentType(contentTypeHeader.getValue()).getMimeType();
     }
     return null;
   }
@@ -773,13 +784,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     } else if (valueRawType.equals(File.class)) {
       return (T) downloadFileFromResponse(response);
     }
-    String contentType = getResponseContentType(response);
-    if (contentType == null || isJsonMime(contentType)) {
-      // Assume json if no content type
+    String mimeType = getResponseMimeType(response);
+    if (mimeType == null || isJsonMime(mimeType)) {
+      // Assume json if no mime type
       return objectMapper.readValue(entity.getContent(), valueType);
     } else {
       throw new ApiException(
-          "Deserialization for content type \"" + contentType + "\" not supported for type \"" + valueType + "\"",
+          "Deserialization for content type \"" + mimeType + "\" not supported for type \"" + valueType + "\"",
           response.getStatusLine().getStatusCode(),
           responseHeaders,
           EntityUtils.toString(entity)
@@ -908,7 +919,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
     } else {
-      // TODO: this will use the platforms default charset
       String message = EntityUtils.toString(response.getEntity());
       throw new ApiException(message, statusCode, responseHeaders, message);
     }
@@ -985,13 +995,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
 
-    ContentType contentTypeObj;
-    try {
-      contentTypeObj = ContentType.parse(contentType);
-    } catch (ParseException e) {
-      throw new ApiException("Could not parse content type " + contentType);
-    }
-
+    ContentType contentTypeObj = getContentType(contentType);
     if (body != null || !formParams.isEmpty()) {
       if (isBodyAllowed(method)) {
         // Add entity if we have content and a valid method
