@@ -1,0 +1,21 @@
+{
+  "name": "@openapitools/typescript-fetch-petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @openapitools/typescript-fetch-petstore",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"  },
+  "devDependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "normalizr": "^3.6.1",
+    "redux-saga": "^1.1.3",
+    "redux-ts-simple": "^3.2.0",
+    "reselect": "^4.0.0",
+    "typescript": "^3.9.5"
+  },
+  "publishConfig": {
+    "registry": "https://skimdb.npmjs.com/registry"
+  }
+}

@@ -48,7 +48,10 @@ public class KotlinReservedWordsTest {
                 {"val"},
                 {"var"},
                 {"when"},
-                {"while"}
+                {"while"},
+                {"open"},
+                {"external"},
+                {"internal"}
         };
     }
 
