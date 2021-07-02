@@ -1018,32 +1018,4 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       auth.applyToParams(queryParams, headerParams, cookieParams);
     }
   }
-
-  /**
-   * Encode the given form parameters as request body.
-   * @param formParams Form parameters
-   * @return HTTP form encoded parameters
-   */
-  private String getXWWWFormUrlencodedParams(Map<String, Object> formParams) {
-    StringBuilder formParamBuilder = new StringBuilder();
-
-    for (Entry<String, Object> param : formParams.entrySet()) {
-      String valueStr = parameterToString(param.getValue());
-      try {
-        formParamBuilder.append(URLEncoder.encode(param.getKey(), "utf8"))
-            .append("=")
-            .append(URLEncoder.encode(valueStr, "utf8"));
-        formParamBuilder.append("&");
-      } catch (UnsupportedEncodingException e) {
-        // move on to next
-      }
-    }
-
-    String encodedFormParams = formParamBuilder.toString();
-    if (encodedFormParams.endsWith("&")) {
-      encodedFormParams = encodedFormParams.substring(0, encodedFormParams.length() - 1);
-    }
-
-    return encodedFormParams;
-  }
 }
