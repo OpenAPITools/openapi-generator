@@ -297,11 +297,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
    */
-  public void setBearerToken(String bearerToken) {
+  public ApiClient setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBearerAuth) {
         ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No Bearer authentication configured!");
@@ -314,11 +314,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
    */
-  public void setUsername(String username) {
+  public ApiClient setUsername(String username) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setUsername(username);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -328,11 +328,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set password for the first HTTP basic authentication.
    * @param password Password
    */
-  public void setPassword(String password) {
+  public ApiClient setPassword(String password) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setPassword(password);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -345,11 +345,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
    */
-  public void setApiKey(String apiKey) {
+  public ApiClient setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKey(apiKey);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -359,11 +359,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set API key prefix for the first API key authentication.
    * @param apiKeyPrefix API key prefix
    */
-  public void setApiKeyPrefix(String apiKeyPrefix) {
+  public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -376,11 +376,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
    */
-  public void setAccessToken(String accessToken) {
+  public ApiClient setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setAccessToken(accessToken);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No OAuth2 authentication configured!");
