@@ -29,6 +29,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -446,7 +447,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return API client
    */
   public ApiClient setDebugging(boolean debugging) {
-    // TODO: what will this do in apache context
+    // TODO: implement debugging mode
     this.debugging = debugging;
     return this;
   }
@@ -984,8 +985,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     HttpClientContext context = HttpClientContext.create();
     context.setCookieStore(store);
 
-    // TODO handle parse exceptions
-    ContentType contentTypeObj = ContentType.parse(contentType);
+    ContentType contentTypeObj;
+    try {
+      contentTypeObj = ContentType.parse(contentType);
+    } catch (ParseException e) {
+      throw new ApiException("Could not parse content type " + contentType);
+    }
 
     if (body != null || !formParams.isEmpty()) {
       if (isBodyAllowed(method)) {
