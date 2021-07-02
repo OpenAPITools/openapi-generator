@@ -564,7 +564,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Add the HTTP method and return type
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            returnType = "()";
+            returnType = "NoContent";
         }
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";

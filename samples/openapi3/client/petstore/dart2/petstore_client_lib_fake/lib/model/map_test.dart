@@ -67,7 +67,7 @@ class MapTest {
     : MapTest(
         mapMapOfString: json[r'map_map_of_string'] == null
           ? null
-          : Map.mapFromJson(json[r'map_map_of_string']),
+          : (json[r'map_map_of_string'] as Map).cast<String, Map>(),
         mapOfEnumString: json[r'map_of_enum_string'] == null ?
           null :
           (json[r'map_of_enum_string'] as Map).cast<String, String>(),
@@ -82,12 +82,12 @@ class MapTest {
   static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MapTest>[]
-      : json.map((v) => MapTest.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => MapTest.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, MapTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MapTest>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = MapTest.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = MapTest.fromJson(value));
     }
     return map;
   }
@@ -95,9 +95,9 @@ class MapTest {
   // maps a json object with a list of MapTest-objects as value to a dart map
   static Map<String, List<MapTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MapTest>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = MapTest.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = MapTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
