@@ -1,13 +1,13 @@
-library: native
-#resteasy-version: 4.6.0.Final
-jackson-version: 10
-jackson-databind-version: 1.0.2
-jackson-databind-nullable-version: 20
+library: resteasy
+resteasy-version: 4.6.0.Final
+#jackson-version: 10
+#jackson-databind-version: 1.0.2
+#jackson-databind-nullable-version: 20
 #threetenbp-version: 1.0.4
-resteasy-jackson2-provider-version: 30
-junit-version: 40
-maven-plugin-version: 50
-dateLibrary: java8
+#resteasy-jackson2-provider-version: 30
+#junit-version: 40
+#maven-plugin-version: 50
+#dateLibrary: java8
 groupId: ru.practice
 artifactId: artifactId
 artifactVersion: 1.0.0-SNAPSHOT
@@ -23,8 +23,8 @@ scmUrl: https://github.com/Nikolai-AltSTU/openapi-generator.git
 apiPackage: ru.practice.client.api
 modelPackage: ru.practice.client.model
 invokerPackage: ru.practice.client
-licenses: false
-developers: false
-parent: false
+licenses-creating: false
+developers-creating: true
+parent-creating: false
 
 # mvn -f pom.genclient.xml process-sources

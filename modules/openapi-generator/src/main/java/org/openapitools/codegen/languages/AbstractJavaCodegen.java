@@ -475,15 +475,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
         }
 
-        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion) && (!additionalProperties.containsKey("parent") || additionalProperties.get("parent").equals(true))) {
+        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion) && (!additionalProperties.containsKey("parent-creating") || additionalProperties.get("parent-creating").equals(true))) {
             additionalProperties.put("parentOverridden", true);
         }
 
-        if (!additionalProperties.containsKey("licenses") || additionalProperties.get("licenses").equals(true)) {
+        if (!additionalProperties.containsKey("licenses-creating") || additionalProperties.get("licenses-creating").equals(true)) {
             additionalProperties.put("licensesOverridden", true);
         }
 
-        if (!additionalProperties.containsKey("developers") || additionalProperties.get("developers").equals(true)) {
+        if (!additionalProperties.containsKey("developers-creating") || additionalProperties.get("developers-creating").equals(true)) {
             additionalProperties.put("developersOverridden", true);
         }
 
