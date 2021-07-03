@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -93,8 +93,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| Pet id to delete |
- **ApiKey** | **String**|  | [optional]
+ **PetId** | **Int64**| Pet id to delete | 
+ **ApiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -142,7 +142,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Status** | [**String[]**](String.md)| Status values that need to be considered for filter |
+ **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -190,7 +190,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Tags** | [**String[]**](String.md)| Tags to filter by |
+ **Tags** | [**String[]**](String.md)| Tags to filter by | 
 
 ### Return type
 
@@ -240,7 +240,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to return |
+ **PetId** | **Int64**| ID of pet to return | 
 
 ### Return type
 
@@ -288,7 +288,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -338,9 +338,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet that needs to be updated |
- **Name** | **String**| Updated name of the pet | [optional]
- **Status** | **String**| Updated status of the pet | [optional]
+ **PetId** | **Int64**| ID of pet that needs to be updated | 
+ **Name** | **String**| Updated name of the pet | [optional] 
+ **Status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -390,9 +390,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to update |
- **AdditionalMetadata** | **String**| Additional data to pass to server | [optional]
- **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional]
+ **PetId** | **Int64**| ID of pet to update | 
+ **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] 
 
 ### Return type
 
