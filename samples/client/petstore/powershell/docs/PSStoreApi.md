@@ -36,7 +36,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **String**| ID of the order that needs to be deleted |
+ **OrderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **Int64**| ID of pet that needs to be fetched |
+ **OrderId** | **Int64**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -165,7 +165,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Order** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **Order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
