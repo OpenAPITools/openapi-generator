@@ -575,6 +575,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsBoolean() { return isBoolean; }
+
+    @Override
+    public void setIsBoolean(boolean isBoolean)  {
+        this.isBoolean = isBoolean;
+    }
+
+    @Override
     public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
 
     @Override

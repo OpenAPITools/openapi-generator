@@ -47,9 +47,7 @@ bool Tag::validate(std::stringstream& msg, const std::string& pathPrefix) const
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Tag" : pathPrefix;
 
-        
-    
-
+            
     return success;
 }
 
