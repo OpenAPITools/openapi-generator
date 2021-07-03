@@ -5,5 +5,3 @@ additionalProperties:
   platform: node
   npmName: ts-petstore-client
   useInversify: true
-  projectName: ts-petstore-client
-  moduleName: petstore

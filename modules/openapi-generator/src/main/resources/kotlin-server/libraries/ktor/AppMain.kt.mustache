@@ -1,61 +1,47 @@
 package {{packageName}}
 
+{{#featureMetrics}}
 import com.codahale.metrics.Slf4jReporter
+{{/featureMetrics}}
+import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.gson.*
+import io.ktor.http.*
+{{#featureLocations}}
+import io.ktor.locations.*
+{{/featureLocations}}
+{{#featureMetrics}}
+import io.ktor.metrics.dropwizard.*
+import java.util.concurrent.TimeUnit
+{{/featureMetrics}}
+import io.ktor.routing.*
+import io.ktor.util.*
+{{#hasAuthMethods}}
 import com.typesafe.config.ConfigFactory
-import io.ktor.application.Application
-import io.ktor.application.ApplicationStopping
-import io.ktor.application.install
-import io.ktor.application.log
+import io.ktor.auth.*
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.config.HoconApplicationConfig
-{{#featureAutoHead}}
-import io.ktor.features.AutoHeadResponse
-{{/featureAutoHead}}
-{{#featureCompression}}
-import io.ktor.features.Compression
-{{/featureCompression}}
-{{#featureCORS}}
-import io.ktor.features.CORS
-{{/featureCORS}}
-{{#featureConditionalHeaders}}
-import io.ktor.features.ConditionalHeaders
-{{/featureConditionalHeaders}}
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
-{{#featureHSTS}}
-import io.ktor.features.HSTS
-{{/featureHSTS}}
-import io.ktor.gson.GsonConverter
-import io.ktor.http.ContentType
-{{#featureLocations}}
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Locations
-{{/featureLocations}}
-import io.ktor.routing.Routing
-import java.util.concurrent.TimeUnit
-{{#hasAuthMethods}}
-import io.ktor.auth.Authentication
-import io.ktor.auth.oauth
-import io.ktor.metrics.dropwizard.DropwizardMetrics
-import org.openapitools.server.infrastructure.ApiKeyCredential
-import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.infrastructure.apiKeyAuth
+import org.openapitools.server.infrastructure.*
 {{/hasAuthMethods}}
 {{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
 {{/apis}}{{/apiInfo}}{{/generateApis}}
 
+{{#hasAuthMethods}}
 internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
 
 object HTTP {
     val client = HttpClient(Apache)
 }
+{{/hasAuthMethods}}
 
+@KtorExperimentalAPI
 {{#featureLocations}}
 @KtorExperimentalLocationsAPI
 {{/featureLocations}}
 fun Application.main() {
     install(DefaultHeaders)
+    {{#featureMetrics}}
     install(DropwizardMetrics) {
         val reporter = Slf4jReporter.forRegistry(registry)
             .outputTo(log)
@@ -64,27 +50,28 @@ fun Application.main() {
             .build()
         reporter.start(10, TimeUnit.SECONDS)
     }
+    {{/featureMetrics}}
 {{#generateApis}}
     install(ContentNegotiation) {
         register(ContentType.Application.Json, GsonConverter())
     }
     {{#featureAutoHead}}
-    install(AutoHeadResponse) // see http://ktor.io/features/autoheadresponse.html
+    install(AutoHeadResponse) // see https://ktor.io/docs/autoheadresponse.html
     {{/featureAutoHead}}
     {{#featureConditionalHeaders}}
-    install(ConditionalHeaders) // see http://ktor.io/features/conditional-headers.html
+    install(ConditionalHeaders) // see https://ktor.io/docs/conditional-headers.html
     {{/featureConditionalHeaders}}
-    {{#featureHSTS}}
-    install(HSTS, ApplicationHstsConfiguration()) // see http://ktor.io/features/hsts.html
-    {{/featureHSTS}}
-    {{#featureCORS}}
-    install(CORS, ApplicationCORSConfiguration()) // see http://ktor.io/features/cors.html
-    {{/featureCORS}}
     {{#featureCompression}}
-    install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
+    install(Compression, ApplicationCompressionConfiguration()) // see https://ktor.io/docs/compression.html
     {{/featureCompression}}
+    {{#featureCORS}}
+    install(CORS, ApplicationCORSConfiguration()) // see https://ktor.io/docs/cors.html
+    {{/featureCORS}}
+    {{#featureHSTS}}
+    install(HSTS, ApplicationHstsConfiguration()) // see https://ktor.io/docs/hsts.html
+    {{/featureHSTS}}
     {{#featureLocations}}
-    install(Locations) // see http://ktor.io/features/locations.html
+    install(Locations) // see https://ktor.io/docs/features-locations.html
     {{/featureLocations}}
     {{#hasAuthMethods}}
     install(Authentication) {
@@ -140,8 +127,4 @@ fun Application.main() {
     }
 
 {{/generateApis}}
-
-    environment.monitor.subscribe(ApplicationStopping) {
-        HTTP.client.close()
-    }
 }

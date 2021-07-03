@@ -50,10 +50,7 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Pet" : pathPrefix;
 
-        
-    
-    
-     
+                     
     
     /* PhotoUrls */ {
         const std::vector<std::string>& value = m_PhotoUrls;
@@ -74,8 +71,7 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
         }
 
     }
-    
-     
+         
     if (tagsIsSet())
     {
         const std::vector<Tag>& value = m_Tags;
@@ -96,9 +92,7 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
         }
 
     }
-    
-    
-
+        
     return success;
 }
 

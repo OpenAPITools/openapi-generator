@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +42,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -165,7 +162,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<>();
 
     public FruitReq() {
         super("oneOf", Boolean.TRUE);
@@ -182,15 +179,13 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("AppleReq", new GenericType<AppleReq>() {
-        });
-        schemas.put("BananaReq", new GenericType<BananaReq>() {
-        });
+        schemas.put("AppleReq", AppleReq.class);
+        schemas.put("BananaReq", BananaReq.class);
         JSON.registerDescendants(FruitReq.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return FruitReq.schemas;
     }
 

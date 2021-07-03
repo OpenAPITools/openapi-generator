@@ -1,0 +1,6 @@
+README.md
+Setup.hs
+lib/OpenAPIPetstore/API.hs
+lib/OpenAPIPetstore/Types.hs
+openapi-petstore.cabal
+stack.yaml
