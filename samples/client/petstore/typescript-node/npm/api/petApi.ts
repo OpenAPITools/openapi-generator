@@ -40,8 +40,8 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
