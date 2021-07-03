@@ -128,7 +128,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>reified</li>
 <li>return</li>
 <li>sealed</li>
-<li>set</li>
 <li>setparam</li>
 <li>super</li>
 <li>suspend</li>

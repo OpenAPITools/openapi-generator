@@ -51,6 +51,7 @@ data class Order (
     @Contextual @SerialName(value = "shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
+    /* Order Status */
     @SerialName(value = "status")
     val status: Order.Status? = null,
 

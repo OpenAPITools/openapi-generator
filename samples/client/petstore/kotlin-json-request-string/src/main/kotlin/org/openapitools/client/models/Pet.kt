@@ -56,6 +56,7 @@ data class Pet (
     @Json(name = "tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
+    /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
 

@@ -60,6 +60,7 @@ data class User (
     @SerializedName("phone")
     val phone: kotlin.String? = null,
 
+    /* User Status */
     @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
 

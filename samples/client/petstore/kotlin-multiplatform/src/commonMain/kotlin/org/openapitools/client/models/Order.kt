@@ -45,6 +45,7 @@ data class Order (
 
     @SerialName(value = "shipDate") val shipDate: kotlin.String? = null,
 
+    /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,
 
     @SerialName(value = "complete") val complete: kotlin.Boolean? = null

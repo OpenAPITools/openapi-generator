@@ -49,6 +49,7 @@ data class Order (
     @Json(name = "shipDate")
     val shipDate: kotlin.String? = null,
 
+    /* Order Status */
     @Json(name = "status")
     val status: Order.Status? = null,
 

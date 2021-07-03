@@ -48,6 +48,7 @@ data class Order (
     @field:JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
+    /* Order Status */
     @field:JsonProperty("status")
     val status: Order.Status? = null,
 

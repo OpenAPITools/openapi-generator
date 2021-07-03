@@ -48,6 +48,7 @@ data class Order (
     @SerializedName("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
+    /* Order Status */
     @SerializedName("status")
     val status: Order.Status? = null,
 

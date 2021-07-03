@@ -53,6 +53,7 @@ data class Pet (
     @field:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
+    /* pet status in the store */
     @field:JsonProperty("status")
     val status: Pet.Status? = null
 

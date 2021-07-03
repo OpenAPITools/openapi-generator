@@ -59,6 +59,7 @@ data class User (
     @field:JsonProperty("phone")
     val phone: kotlin.String? = null,
 
+    /* User Status */
     @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 

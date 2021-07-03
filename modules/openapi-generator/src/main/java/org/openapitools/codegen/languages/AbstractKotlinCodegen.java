@@ -152,7 +152,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "reified",
                 "return",
                 "sealed",
-                "set",
                 "setparam",
                 "super",
                 "suspend",

@@ -48,6 +48,7 @@ data class Order (
     @Json(name = "shipDate")
     val shipDate: org.threeten.bp.OffsetDateTime? = null,
 
+    /* Order Status */
     @Json(name = "status")
     val status: Order.Status? = null,
 

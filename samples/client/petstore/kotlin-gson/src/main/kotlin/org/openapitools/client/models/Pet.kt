@@ -53,6 +53,7 @@ data class Pet (
     @SerializedName("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
+    /* pet status in the store */
     @SerializedName("status")
     val status: Pet.Status? = null
 

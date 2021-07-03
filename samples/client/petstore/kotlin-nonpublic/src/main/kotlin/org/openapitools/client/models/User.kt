@@ -59,6 +59,7 @@ internal data class User (
     @Json(name = "phone")
     val phone: kotlin.String? = null,
 
+    /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
 
