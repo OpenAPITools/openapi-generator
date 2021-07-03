@@ -1,4 +1,4 @@
-<h1 align="center">OpenAPI Generator</h1>
+https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:emulator/proto/emulator_controller.proto;l=470;drc=11a90261472d771d0a0bc11fd19f9ae722154b0b<h1 align="center">OpenAPI Generator</h1>
 
 
 <div align="center">
