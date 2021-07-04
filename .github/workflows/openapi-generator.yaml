@@ -90,7 +90,7 @@ jobs:
         with:
           java-version: 8
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.9
+        uses: actions/download-artifact@v2.0.10
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -128,7 +128,7 @@ jobs:
         with:
           java-version: 8
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.9
+        uses: actions/download-artifact@v2.0.10
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
