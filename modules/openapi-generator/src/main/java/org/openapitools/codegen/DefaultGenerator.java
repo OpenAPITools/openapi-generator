@@ -812,6 +812,18 @@ public class DefaultGenerator implements Generator {
         return bundle;
     }
 
+    /**
+     * Add authentication methods to the given map
+     * This adds a boolean and a collection for each authentication type to the map.
+     * <p>
+     * Examples:
+     * <p> 
+     *   boolean hasOAuthMethods
+     * <p>
+     *   List&lt;CodegenSecurity&gt; oauthMethods
+     *
+     * @param bundle the map which the booleans and collections will be added
+     */
     void addAuthenticationSwitches(Map<String, Object> bundle){
         Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
