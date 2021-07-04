@@ -90,6 +90,6 @@ jobs:
           git config --global core.fileMode false
           git config --global core.safecrlf false
           git config --global core.autocrlf true
-          mkdir -p modules/openapi-generator-cli/target/
-          mv artifact/openapi-generator-cli.jar modules/openapi-generator-cli/target/
-          ./bin/utils/ensure-up-to-date ${{ matrix.flags }}
+          mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+          # test with java (jersey2) client generation only as ensure-uptodate script is run in another job instead
+          ./bin/generate-samples.sh ./bin/configs/java-jersey2-8.yaml
