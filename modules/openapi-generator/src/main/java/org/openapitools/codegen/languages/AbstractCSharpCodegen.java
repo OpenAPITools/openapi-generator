@@ -723,7 +723,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     parameter.isNullable = true;
                                 }
                             }
-                        }                    
+                        }
                     } else {
                         // Effectively mark enum models as enums
                         updateCodegenParametersEnum(operation.allParams, allModels);
