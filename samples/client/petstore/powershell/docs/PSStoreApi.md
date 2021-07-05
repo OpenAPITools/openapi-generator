@@ -21,7 +21,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```powershell
-$OrderId = "MyOrderId" # String | ID of the order that needs to be deleted
+$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
@@ -109,7 +109,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```powershell
-$OrderId = 789 # Int64 | ID of pet that needs to be fetched
+$OrderId = 987 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
 try {
@@ -150,7 +150,7 @@ Place an order for a pet
 
 ### Example
 ```powershell
-$Order = Initialize-Order -Id 0 -PetId 0 -Quantity 0 -ShipDate (Get-Date) -Status "placed" -Complete $false # Order | order placed for purchasing the pet
+(Initialize-Order -Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "placed" -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {

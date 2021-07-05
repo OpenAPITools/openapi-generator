@@ -32,7 +32,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User | Created user object
+(Initialize-User -Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123) # User | Created user object
 
 # Create user
 try {
@@ -80,7 +80,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User[] | List of user object
+@((Initialize-User -Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -128,7 +128,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User[] | List of user object
+@() # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -178,7 +178,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$Username = "MyUsername" # String | The name that needs to be deleted
+$Username = "Username_example" # String | The name that needs to be deleted
 
 # Delete user
 try {
@@ -219,7 +219,7 @@ Get user by user name
 
 ### Example
 ```powershell
-$Username = "MyUsername" # String | The name that needs to be fetched. Use user1 for testing.
+$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing.
 
 # Get user by user name
 try {
@@ -261,8 +261,8 @@ Logs user into the system
 
 ### Example
 ```powershell
-$Username = "MyUsername" # String | The user name for login
-$Password = "MyPassword" # String | The password for login in clear text
+$Username = "Username_example" # String | The user name for login
+$Password = "Password_example" # String | The password for login in clear text
 
 # Logs user into the system
 try {
@@ -357,8 +357,8 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.AUTH_KEY = "Bearer"
 
-$Username = "MyUsername" # String | name that need to be deleted
-$User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -LastName "MyLastName" -Email "MyEmail" -Password "MyPassword" -Phone "MyPhone" -UserStatus 0 # User | Updated user object
+$Username = "Username_example" # String | name that need to be deleted
+ # User | Updated user object
 
 # Updated user
 try {

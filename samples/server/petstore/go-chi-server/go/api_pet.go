@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/go-chi/chi/v5"
 )
 
 // A PetApiController binds http requests to an api service and writes the service results to the http response
@@ -101,7 +100,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -151,7 +150,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -192,7 +191,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -217,7 +216,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return

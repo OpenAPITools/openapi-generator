@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gorilla/mux"
 )
 
 // A UserApiController binds http requests to an api service and writes the service results to the http response
@@ -137,8 +136,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 
 // DeleteUser - Delete user
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	username := params["username"]
+	username := 
 	
 	result, err := c.service.DeleteUser(r.Context(), username)
 	// If an error occurred, encode the error with the status code
@@ -153,8 +151,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUserByName - Get user by user name
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	username := params["username"]
+	username := 
 	
 	result, err := c.service.GetUserByName(r.Context(), username)
 	// If an error occurred, encode the error with the status code
@@ -198,8 +195,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser - Updated user
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	username := params["username"]
+	username := 
 	
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {

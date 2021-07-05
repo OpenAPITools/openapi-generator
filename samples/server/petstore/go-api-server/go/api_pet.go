@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gorilla/mux"
 )
 
 // A PetApiController binds http requests to an api service and writes the service results to the http response
@@ -101,8 +100,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	petId, err := parseInt64Parameter(params["petId"], true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -152,8 +150,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	petId, err := parseInt64Parameter(params["petId"], true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -194,8 +191,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	params := mux.Vars(r)
-	petId, err := parseInt64Parameter(params["petId"], true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -220,8 +216,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	params := mux.Vars(r)
-	petId, err := parseInt64Parameter(params["petId"], true)
+	petId, err := parseInt64Parameter(, true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return

@@ -61,8 +61,6 @@ dependencies {
     implementation("io.ktor:ktor-client-apache:$ktor_version")
     implementation("io.ktor:ktor-gson:$ktor_version")
     implementation("io.ktor:ktor-locations:$ktor_version")
-    implementation("io.dropwizard.metrics:metrics-core:4.1.18")
-    implementation("io.ktor:ktor-metrics:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
 
     testImplementation("junit:junit:4.13.2")

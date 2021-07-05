@@ -72,7 +72,6 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
-
     }
     }
 
@@ -104,7 +103,6 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
-
     }
     }
 
@@ -136,7 +134,6 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
-
     }
     }
 
@@ -145,7 +142,6 @@ fun Route.PetApi() {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         call.respond(HttpStatusCode.NotImplemented)
-
     }
     }
 
@@ -154,7 +150,6 @@ fun Route.PetApi() {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
         call.respond(HttpStatusCode.NotImplemented)
-
     }
     }
 
@@ -174,7 +169,6 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
-
     }
     }
 

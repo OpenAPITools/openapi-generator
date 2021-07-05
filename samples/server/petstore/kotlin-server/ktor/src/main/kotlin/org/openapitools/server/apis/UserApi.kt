@@ -61,22 +61,18 @@ fun Route.UserApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-
     }
 
     get<Paths.loginUser> {
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
     get<Paths.logoutUser> {
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
     put<Paths.updateUser> {
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
 }

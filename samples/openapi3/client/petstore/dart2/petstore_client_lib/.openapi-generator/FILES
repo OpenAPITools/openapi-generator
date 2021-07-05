@@ -1,7 +1,6 @@
 .gitignore
 .travis.yml
 README.md
-analysis_options.yaml
 doc/ApiResponse.md
 doc/Category.md
 doc/Order.md

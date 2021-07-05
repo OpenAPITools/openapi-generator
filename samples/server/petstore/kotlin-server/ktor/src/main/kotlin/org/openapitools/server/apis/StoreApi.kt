@@ -55,7 +55,6 @@ fun Route.StoreApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-
     }
 
     post<Paths.placeOrder> {
@@ -74,7 +73,6 @@ fun Route.StoreApi() {
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
-
     }
 
 }

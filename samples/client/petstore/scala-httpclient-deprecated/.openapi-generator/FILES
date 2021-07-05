@@ -9,6 +9,8 @@ gradlew
 gradlew.bat
 pom.xml
 settings.gradle
+src/main/scala/org/openapitools/client/ApiInvoker.scala
+src/main/scala/org/openapitools/client/AsyncClient.scala
 src/main/scala/org/openapitools/client/model/ApiResponse.scala
 src/main/scala/org/openapitools/client/model/Category.scala
 src/main/scala/org/openapitools/client/model/Order.scala
@@ -18,5 +20,3 @@ src/main/scala/org/openapitools/client/model/User.scala
 src/main/scala/org/openapitools/example/api/PetApi.scala
 src/main/scala/org/openapitools/example/api/StoreApi.scala
 src/main/scala/org/openapitools/example/api/UserApi.scala
-src/main/scala/org/openapitools/example/invoker/ApiInvoker.scala
-src/main/scala/org/openapitools/example/invoker/AsyncClient.scala

@@ -103,7 +103,7 @@ export interface Pet {
      * @type {Array<Category>}
      * @memberof Pet
      */
-    _entries?: Array<Category>;
+    entries?: Array<Category>;
     /**
      * 
      * @type {string}
@@ -190,7 +190,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': CategoryFromJSON(json['category']),
         'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
-        '_entries': !exists(json, 'entries') ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
+        'entries': !exists(json, 'entries') ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
         'surname': !exists(json, 'surname') ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
@@ -222,7 +222,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value.category),
         'optionalCategory': CategoryToJSON(value.optionalCategory),
         'name': value.name,
-        'entries': value._entries === undefined ? undefined : ((value._entries as Array<any>).map(CategoryToJSON)),
+        'entries': value.entries === undefined ? undefined : ((value.entries as Array<any>).map(CategoryToJSON)),
         'surname': value.surname,
         'photoUrls': value.photoUrls,
         'warningStatus': WarningCodeToJSON(value.warningStatus),

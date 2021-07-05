@@ -1,3 +1,4 @@
+
 /**
  * A category for a pet
  * @export
@@ -17,6 +18,7 @@ export interface Category {
      */
     name?: string;
 }
+
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -42,6 +44,7 @@ export interface ModelApiResponse {
      */
     message?: string;
 }
+
 /**
  * An order for a pets from the pet store
  * @export
@@ -95,6 +98,7 @@ export enum OrderStatusEnum {
     Approved = 'approved',
     Delivered = 'delivered'
 }
+
 /**
  * A pet for sale in the pet store
  * @export
@@ -148,6 +152,7 @@ export enum PetStatusEnum {
     Pending = 'pending',
     Sold = 'sold'
 }
+
 /**
  * A tag for a pet
  * @export
@@ -167,6 +172,7 @@ export interface Tag {
      */
     name?: string;
 }
+
 /**
  * A User who is purchasing from the pet store
  * @export

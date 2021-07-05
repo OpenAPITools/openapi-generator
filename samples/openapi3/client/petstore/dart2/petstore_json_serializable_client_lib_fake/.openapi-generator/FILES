@@ -1,7 +1,6 @@
 .gitignore
 .travis.yml
 README.md
-analysis_options.yaml
 build.yaml
 doc/AdditionalPropertiesClass.md
 doc/Animal.md

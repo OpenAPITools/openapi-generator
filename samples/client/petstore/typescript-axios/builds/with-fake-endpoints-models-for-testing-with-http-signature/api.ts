@@ -383,7 +383,6 @@ export enum EnumArraysArrayEnumEnum {
  * @export
  * @enum {string}
  */
-
 export enum EnumClass {
     Abc = '_abc',
     Efg = '-efg',
@@ -1018,7 +1017,6 @@ export interface OuterComposite {
  * @export
  * @enum {string}
  */
-
 export enum OuterEnum {
     Placed = 'placed',
     Approved = 'approved',
@@ -1030,7 +1028,6 @@ export enum OuterEnum {
  * @export
  * @enum {string}
  */
-
 export enum OuterEnumDefaultValue {
     Placed = 'placed',
     Approved = 'approved',
@@ -1042,7 +1039,6 @@ export enum OuterEnumDefaultValue {
  * @export
  * @enum {string}
  */
-
 export enum OuterEnumInteger {
     NUMBER_0 = 0,
     NUMBER_1 = 1,
@@ -1054,7 +1050,6 @@ export enum OuterEnumInteger {
  * @export
  * @enum {string}
  */
-
 export enum OuterEnumIntegerDefaultValue {
     NUMBER_0 = 0,
     NUMBER_1 = 1,

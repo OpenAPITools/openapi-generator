@@ -9,8 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Apple } from './apple';
-import { Grape } from './grape';
 
 
 /**
