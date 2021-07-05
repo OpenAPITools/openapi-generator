@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")
+
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

@@ -39,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
+
   @NotNull
+
   public String getClassName() {
     return className;
   }
@@ -60,6 +62,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("color")
+
   public String getColor() {
     return color;
   }

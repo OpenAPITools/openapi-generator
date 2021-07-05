@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
+
   public Boolean getDeclawed() {
     return declawed;
   }

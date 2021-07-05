@@ -44,6 +44,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_string")
+
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -64,6 +65,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
+
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -84,6 +86,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_integer")
+
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -104,6 +107,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_boolean")
+
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -124,6 +128,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_integer")
+
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -144,6 +149,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
+
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -164,6 +170,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_string")
+
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -184,6 +191,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_anytype")
+
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -204,6 +212,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
+
   public Object getAnytype1() {
     return anytype1;
   }
@@ -224,6 +233,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_2")
+
   public Object getAnytype2() {
     return anytype2;
   }
@@ -244,6 +254,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")
+
   public Object getAnytype3() {
     return anytype3;
   }

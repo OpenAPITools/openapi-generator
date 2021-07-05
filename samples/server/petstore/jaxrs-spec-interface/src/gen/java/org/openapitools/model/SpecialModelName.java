@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
+
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
