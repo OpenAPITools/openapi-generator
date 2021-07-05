@@ -3298,10 +3298,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
             property.getVendorExtensions().putAll(p.getExtensions());
         } else if (p.get$ref() != null) {
-          Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-          if (referencedSchema.getExtensions() != null && !referencedSchema.getExtensions().isEmpty()) {
-            property.getVendorExtensions().putAll(referencedSchema.getExtensions());
-          }
+            Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+            if (referencedSchema.getExtensions() != null && !referencedSchema.getExtensions().isEmpty()) {
+                property.getVendorExtensions().putAll(referencedSchema.getExtensions());
+            }
         }
 
         String type = getSchemaType(p);
