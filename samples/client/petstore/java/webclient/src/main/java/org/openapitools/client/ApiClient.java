@@ -596,7 +596,12 @@ public class ApiClient extends JavaTimeFormatter {
         return requestBuilder.retrieve();
     }
 
-
+    /**
+     * Include queryParams in uriParams taking into account the paramName
+     * @param queryParam The query parameters
+     * @param uriParams The path parameters
+     * return templatized query string
+     */
     private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
