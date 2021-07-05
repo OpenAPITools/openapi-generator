@@ -201,6 +201,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
+        typeMapping.put("AnyType", "Value");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
@@ -563,7 +564,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Add the HTTP method and return type
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            returnType = "()";
+            returnType = "NoContent";
         }
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";

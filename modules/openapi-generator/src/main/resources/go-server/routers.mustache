@@ -4,10 +4,21 @@ package {{packageName}}
 import (
 	"encoding/json"
 	"errors"
+{{#routers}}
+	{{#mux}}
 	"github.com/gorilla/mux"
 	{{#featureCORS}}
 	"github.com/gorilla/handlers"
 	{{/featureCORS}}
+	{{/mux}}
+	{{#chi}}
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	{{#featureCORS}}
+	"github.com/go-chi/cors"
+	{{/featureCORS}}
+	{{/chi}}
+{{/routers}}
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
@@ -35,12 +46,25 @@ type Router interface {
 const errMsgRequiredMissing = "required parameter is missing"
 
 // NewRouter creates a new router for any number of api routers
-func NewRouter(routers ...Router) *mux.Router {
+func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}}chi.Router{{/chi}}{{/routers}} {
+{{#routers}}
+	{{#mux}}
 	router := mux.NewRouter().StrictSlash(true)
+	{{/mux}}
+	{{#chi}}
+	router := chi.NewRouter()
+	router.Use(middleware.Logger)
+	{{#featureCORS}}
+	router.Use(cors.Handler(cors.Options{}))
+	{{/featureCORS}}
+	{{/chi}}
+{{/routers}}
 	for _, api := range routers {
 		for _, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
+{{#routers}}
+	{{#mux}}
 			handler = Logger(handler, route.Name)
 			{{#featureCORS}}
 			handler = handlers.CORS()(handler)
@@ -51,6 +75,11 @@ func NewRouter(routers ...Router) *mux.Router {
 				Path(route.Pattern).
 				Name(route.Name).
 				Handler(handler)
+	{{/mux}}
+	{{#chi}}
+			router.Method(route.Method, route.Pattern, handler)
+	{{/chi}}
+{{/routers}}
 		}
 	}
 
@@ -59,7 +88,7 @@ func NewRouter(routers ...Router) *mux.Router {
 
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
 func EncodeJSONResponse(i interface{}, status *int,{{#addResponseHeaders}} headers map[string][]string,{{/addResponseHeaders}} w http.ResponseWriter) error {
-	{{#addResponseHeader}}
+	{{#addResponseHeaders}}
 	wHeader := w.Header()
 	if headers != nil {
 		for key, values := range headers {
@@ -69,10 +98,10 @@ func EncodeJSONResponse(i interface{}, status *int,{{#addResponseHeaders}} heade
 		}
 	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
-	{{/addResponseHeader}}
-	{{^addResponseHeader}}
+	{{/addResponseHeaders}}
+	{{^addResponseHeaders}}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	{{/addResponseHeader}}
+	{{/addResponseHeaders}}
 	if status != nil {
 		w.WriteHeader(*status)
 	} else {

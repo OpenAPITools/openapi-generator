@@ -1,1 +1,1 @@
-{{#isEmail}}EmailStr{{/isEmail}}{{#isUri}}AnyUrl{{/isUri}}{{^isEmail}}{{^isUri}}{{dataType}}{{/isUri}}{{/isEmail}}
+{{#isEmail}}EmailStr{{/isEmail}}{{#isUri}}AnyUrl{{/isUri}}{{#isFreeFormObject}}Dict[str, Any]{{/isFreeFormObject}}{{^isEmail}}{{^isUri}}{{^isFreeFormObject}}{{dataType}}{{/isFreeFormObject}}{{/isUri}}{{/isEmail}}

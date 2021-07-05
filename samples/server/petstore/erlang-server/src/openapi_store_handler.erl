@@ -270,5 +270,7 @@ validate_headers(_, Req) -> {true, Req}.
 
 prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
+prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
 prepare_body(_Code, Body) ->
     jsx:encode(Body).
