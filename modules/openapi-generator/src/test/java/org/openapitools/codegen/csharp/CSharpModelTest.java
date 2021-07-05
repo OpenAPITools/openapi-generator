@@ -39,19 +39,19 @@ public class CSharpModelTest {
     @Test
     public void assertOuterEnumIsString() {
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), false, 2), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), true, 2), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), false, 3), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), true, 3), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, true), true);
 
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), false, 2), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), true, 2), true);
-        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), false, 3), true);
-        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), true, 3), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, true), true);
     }
 
-    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final Boolean nullableReferenceTypes, final int openApiVersion){
+    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + Integer.toString(openApiVersion) + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
