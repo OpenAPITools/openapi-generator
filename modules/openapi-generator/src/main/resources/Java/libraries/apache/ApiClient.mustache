@@ -46,6 +46,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.cookie.Cookie;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -71,6 +72,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
 import java.lang.reflect.Type;
+import java.net.URI;
 
 import java.text.DateFormat;
 
@@ -909,6 +911,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return bodyMethods.contains(method);
   }
 
+  protected Cookie buildCookie(String key, String value, URI uri) {
+    BasicClientCookie cookie = new BasicClientCookie(key, value);
+    cookie.setDomain(uri.getHost());
+    cookie.setPath("/");
+    return cookie;
+  }
+
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException {
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
@@ -984,11 +993,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     BasicCookieStore store = new BasicCookieStore();
     for (Entry<String, String> keyValue : cookieParams.entrySet()) {
-      store.addCookie(new BasicClientCookie(keyValue.getKey(), keyValue.getValue()));
+      store.addCookie(buildCookie(keyValue.getKey(), keyValue.getValue(), builder.getUri()));
     }
     for (Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
       if (!cookieParams.containsKey(keyValue.getKey())) {
-        store.addCookie(new BasicClientCookie(keyValue.getKey(), keyValue.getValue()));
+        store.addCookie(buildCookie(keyValue.getKey(), keyValue.getValue(), builder.getUri()));
       }
     }
 
