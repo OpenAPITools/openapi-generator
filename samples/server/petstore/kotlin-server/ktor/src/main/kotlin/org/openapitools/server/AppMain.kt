@@ -1,10 +1,13 @@
 package org.openapitools.server
 
+import com.codahale.metrics.Slf4jReporter
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.locations.*
+import io.ktor.metrics.dropwizard.*
+import java.util.concurrent.TimeUnit
 import io.ktor.routing.*
 import io.ktor.util.*
 import com.typesafe.config.ConfigFactory
@@ -28,6 +31,14 @@ object HTTP {
 @KtorExperimentalLocationsAPI
 fun Application.main() {
     install(DefaultHeaders)
+    install(DropwizardMetrics) {
+        val reporter = Slf4jReporter.forRegistry(registry)
+            .outputTo(log)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build()
+        reporter.start(10, TimeUnit.SECONDS)
+    }
     install(ContentNegotiation) {
         register(ContentType.Application.Json, GsonConverter())
     }

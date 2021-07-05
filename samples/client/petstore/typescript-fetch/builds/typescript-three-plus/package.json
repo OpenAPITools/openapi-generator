@@ -10,7 +10,7 @@
     "prepare": "npm run build"
   },
   "devDependencies": {
-    "typescript": "^3.6"
+    "typescript": "^3.9.5"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

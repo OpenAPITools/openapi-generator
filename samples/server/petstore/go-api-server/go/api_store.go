@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gorilla/mux"
 )
 
 // A StoreApiController binds http requests to an api service and writes the service results to the http response
@@ -58,7 +59,8 @@ func (c *StoreApiController) Routes() Routes {
 
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
-	orderId := 
+	params := mux.Vars(r)
+	orderId := params["orderId"]
 	
 	result, err := c.service.DeleteOrder(r.Context(), orderId)
 	// If an error occurred, encode the error with the status code
@@ -86,7 +88,8 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
-	orderId, err := parseInt64Parameter(, true)
+	params := mux.Vars(r)
+	orderId, err := parseInt64Parameter(params["orderId"], true)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return

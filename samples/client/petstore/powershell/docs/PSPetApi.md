@@ -28,7 +28,9 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-(Initialize-Pet -Id 123 -Category (Initialize-Category -Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag -Id 123 -Name "Name_example")) -Status "available") # Pet | Pet object that needs to be added to the store
+$Category = Initialize-Category -Id 0 -Name "MyName"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
 try {
@@ -75,8 +77,8 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$PetId = 987 # Int64 | Pet id to delete
-$ApiKey = "ApiKey_example" # String |  (optional)
+$PetId = 789 # Int64 | Pet id to delete
+$ApiKey = "MyApiKey" # String |  (optional)
 
 # Deletes a pet
 try {
@@ -125,7 +127,7 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$Status = @("available") # String[] | Status values that need to be considered for filter
+$Status = "available" # String[] | Status values that need to be considered for filter
 
 # Finds Pets by status
 try {
@@ -173,7 +175,7 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$Tags = @("Inner_example") # String[] | Tags to filter by
+$Tags = "MyTags" # String[] | Tags to filter by
 
 # Finds Pets by tags
 try {
@@ -223,7 +225,7 @@ $Configuration.ApiKey.api_key = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration.ApiKeyPrefix.api_key = "Bearer"
 
-$PetId = 987 # Int64 | ID of pet to return
+$PetId = 789 # Int64 | ID of pet to return
 
 # Find pet by ID
 try {
@@ -269,7 +271,9 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-(Initialize-Pet -Id 123 -Category (Initialize-Category -Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag -Id 123 -Name "Name_example")) -Status "available") # Pet | Pet object that needs to be added to the store
+$Category = Initialize-Category -Id 0 -Name "MyName"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
 try {
@@ -317,9 +321,9 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$PetId = 987 # Int64 | ID of pet that needs to be updated
-$Name = "Name_example" # String | Updated name of the pet (optional)
-$Status = "Status_example" # String | Updated status of the pet (optional)
+$PetId = 789 # Int64 | ID of pet that needs to be updated
+$Name = "MyName" # String | Updated name of the pet (optional)
+$Status = "MyStatus" # String | Updated status of the pet (optional)
 
 # Updates a pet in the store with form data
 try {
@@ -369,9 +373,9 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-$PetId = 987 # Int64 | ID of pet to update
-$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional)
-$File = 987 # System.IO.FileInfo | file to upload (optional)
+$PetId = 789 # Int64 | ID of pet to update
+$AdditionalMetadata = "MyAdditionalMetadata" # String | Additional data to pass to server (optional)
+$File =  # System.IO.FileInfo | file to upload (optional)
 
 # uploads an image
 try {
