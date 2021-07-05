@@ -762,9 +762,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     } else {
       // Handle files with unknown content type
       if (obj instanceof File) {
-        return new FileEntity((File) obj);
+        return new FileEntity((File) obj, contentType);
       } else if (obj instanceof byte[]) {
-        return new ByteArrayEntity((byte[]) obj);
+        return new ByteArrayEntity((byte[]) obj, contentType);
       }
       throw new ApiException("Serialization for content type '" + contentType + "' not supported");
     }
