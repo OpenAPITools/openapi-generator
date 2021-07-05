@@ -792,7 +792,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       return objectMapper.readValue(entity.getContent(), valueType);
     } else {
       throw new ApiException(
-          "Deserialization for content type \"" + mimeType + "\" not supported for type \"" + valueType + "\"",
+          "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
           response.getStatusLine().getStatusCode(),
           responseHeaders,
           EntityUtils.toString(entity)
