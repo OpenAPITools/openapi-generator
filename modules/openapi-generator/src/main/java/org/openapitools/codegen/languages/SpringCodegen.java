@@ -229,7 +229,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             // set invokerPackage as basePackage:
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
-            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
+            LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
         super.processOpts();
