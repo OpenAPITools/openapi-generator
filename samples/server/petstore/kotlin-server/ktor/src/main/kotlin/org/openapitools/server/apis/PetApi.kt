@@ -46,7 +46,7 @@ fun Route.PetApi() {
     post<Paths.addPet> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
     }
 
@@ -54,7 +54,7 @@ fun Route.PetApi() {
     delete<Paths.deletePet> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
     }
 
@@ -85,7 +85,7 @@ fun Route.PetApi() {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
-            }
+            }
     }
     }
 
@@ -116,7 +116,7 @@ fun Route.PetApi() {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
-            }
+            }
     }
     }
 
@@ -147,7 +147,7 @@ fun Route.PetApi() {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
-            }
+            }
     }
     }
 
@@ -155,7 +155,7 @@ fun Route.PetApi() {
     put<Paths.updatePet> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
     }
 
@@ -163,7 +163,7 @@ fun Route.PetApi() {
     post<Paths.updatePetWithForm> {
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
     }
 
@@ -182,7 +182,7 @@ fun Route.PetApi() {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
-            }
+            }
     }
     }
 

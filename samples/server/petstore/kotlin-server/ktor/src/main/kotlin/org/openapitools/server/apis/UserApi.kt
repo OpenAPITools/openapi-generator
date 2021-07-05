@@ -42,19 +42,19 @@ fun Route.UserApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
     post<Paths.createUser> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     post<Paths.createUsersWithArrayInput> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     post<Paths.createUsersWithListInput> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     delete<Paths.deleteUser> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     get<Paths.getUserByName> {
@@ -74,19 +74,19 @@ fun Route.UserApi() {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
-        }
+        }
     }
 
     get<Paths.loginUser> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     get<Paths.logoutUser> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
     put<Paths.updateUser> {
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
 }
