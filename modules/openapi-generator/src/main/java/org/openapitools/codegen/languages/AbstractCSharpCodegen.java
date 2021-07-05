@@ -430,6 +430,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = super.buildEnumVars(values, dataType);
+
+        // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
+        // keep isString true so that the index will be used as the enum value instead of a string
+        // this is inline with C# enums with string values
+        if ("string?".equals(dataType)){
+            enumVars.forEach((enumVar) -> {
+                enumVar.put("isString", true);
+            }); 
+        }
+
+        return enumVars;
+    }
+
     /**
      * C# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
      * So, in C#, an enum is considers more like a user-defined primitive.
@@ -722,7 +738,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     parameter.isNullable = true;
                                 }
                             }
-                        }
+                        }                    
                     } else {
                         // Effectively mark enum models as enums
                         updateCodegenParametersEnum(operation.allParams, allModels);
@@ -1259,6 +1275,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             codegenParameter.example = "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
+        // this is mostly needed for reference types used as a method's parameters
+        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType.endsWith("?")
+                ? parameter.dataType
+                : parameter.dataType + "?";
         }
     }
 
