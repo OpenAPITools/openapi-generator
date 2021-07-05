@@ -120,7 +120,7 @@ class AnotherFakeApi
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
 
         $plugins = $plugins ?? [
-            new RedirectPlugin(),
+            new RedirectPlugin(['strict' => true]),
             new ErrorPlugin(),
         ];
 
