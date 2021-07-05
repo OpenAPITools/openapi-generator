@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
+
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -58,6 +59,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
+
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -79,6 +81,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
+
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

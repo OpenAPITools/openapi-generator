@@ -63,6 +63,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
+
   public String getAttributeString() {
     return attributeString;
   }
@@ -84,6 +85,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
+
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -105,6 +107,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
+
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -126,6 +129,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
+
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -147,6 +151,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
+
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -168,6 +173,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
+
   public String getNameString() {
     return nameString;
   }
@@ -189,6 +195,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
+
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -210,6 +217,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
+
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -231,6 +239,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
+
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -252,6 +261,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("name_array")
+
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -273,6 +283,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
+
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -294,6 +305,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
+
   public String getPrefixString() {
     return prefixString;
   }
@@ -315,6 +327,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
+
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -336,6 +349,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
+
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -357,6 +371,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
+
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -378,6 +393,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
+
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -399,6 +415,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
+
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -420,6 +437,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
+
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -441,6 +459,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
+
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -462,6 +481,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
+
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -483,6 +503,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
+
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -504,6 +525,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
+
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -525,6 +547,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
+
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -546,6 +569,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
+
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -567,6 +591,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
+
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -588,6 +613,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
+
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -609,6 +635,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
+
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -630,6 +657,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
+
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -651,6 +679,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")
+
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }

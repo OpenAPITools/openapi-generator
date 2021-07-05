@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("code")
+
   public Integer getCode() {
     return code;
   }
@@ -55,6 +56,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
+
   public String getType() {
     return type;
   }
@@ -76,6 +78,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("message")
+
   public String getMessage() {
     return message;
   }

@@ -76,6 +76,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+
   public Long getId() {
     return id;
   }
@@ -97,6 +98,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
+
   public Category getCategory() {
     return category;
   }
@@ -118,7 +120,9 @@ public enum StatusEnum {
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
+
   @NotNull
+
   public String getName() {
     return name;
   }
@@ -140,7 +144,9 @@ public enum StatusEnum {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
+
   @NotNull
+
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -162,6 +168,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
+
   public List<Tag> getTags() {
     return tags;
   }
@@ -184,6 +191,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
+
   public StatusEnum getStatus() {
     return status;
   }

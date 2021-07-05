@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")
+
   public String getClient() {
     return client;
   }
