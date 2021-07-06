@@ -335,7 +335,7 @@ module Petstore
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
       # use application/json by default
-      return 'application/json' if content_types.nil? || content_types.empty?
+      return 'application/json' if !content_types.nil? || !content_types.empty?
       # use JSON when present, otherwise use the first one
       json_content_type = content_types.find { |s| json_mime?(s) }
       json_content_type || content_types.first
