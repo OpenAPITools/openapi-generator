@@ -349,7 +349,7 @@ request_param_info('LoginUser', 'username') ->
         source => qs_val  ,
         rules => [
             {type, 'binary'},
-            {pattern, "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/" },
+            {pattern, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$" },
             required
         ]
     };

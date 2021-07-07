@@ -126,6 +126,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "var",
                 "when",
                 "while",
+                "private",
                 "open",
                 "external",
                 "internal"
