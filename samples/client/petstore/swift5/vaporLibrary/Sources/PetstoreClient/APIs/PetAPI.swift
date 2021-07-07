@@ -23,20 +23,20 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func addPetRaw(body: Pet, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/pet"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/pet"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -80,24 +80,24 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func deletePetRaw(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/pet/{petId}"
+        var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.DELETE, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
-            request.headers.add(name: "api_key", value: apiKey?.description ?? "")
+            localVariableRequest.headers.add(name: "api_key", value: apiKey?.description ?? "")
             
             
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -151,22 +151,22 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func findPetsByStatusRaw(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/pet/findByStatus"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/pet/findByStatus"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var status: [Status_findPetsByStatus]
             }
-            try request.query.encode(QueryParams(status: status))
+            try localVariableRequest.query.encode(QueryParams(status: status))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -212,22 +212,22 @@ open class PetAPI {
      */
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTagsRaw(tags: Set<String>, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/pet/findByTags"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/pet/findByTags"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var tags: Set<String>
             }
-            try request.query.encode(QueryParams(tags: tags))
+            try localVariableRequest.query.encode(QueryParams(tags: tags))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -273,22 +273,22 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func getPetByIdRaw(petId: Int64, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/pet/{petId}"
+        var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -335,20 +335,20 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func updatePetRaw(body: Pet, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/pet"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/pet"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PUT, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -399,18 +399,18 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func updatePetWithFormRaw(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/pet/{petId}"
+        var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -418,8 +418,8 @@ open class PetAPI {
                 var name: String?
                 var status: String?
             }
-            try request.content.encode(FormParams(name: name, status: status), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(name: name, status: status), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -463,18 +463,18 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func uploadFileRaw(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/pet/{petId}/uploadImage"
+        var localVariablePath = "/pet/{petId}/uploadImage"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -482,8 +482,8 @@ open class PetAPI {
                 var additionalMetadata: String?
                 var file: Data?
             }
-            try request.content.encode(FormParams(additionalMetadata: additionalMetadata, file: file), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, file: file), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -527,18 +527,18 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func uploadFileWithRequiredFileRaw(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/fake/{petId}/uploadImageWithRequiredFile"
+        var localVariablePath = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -546,8 +546,8 @@ open class PetAPI {
                 var additionalMetadata: String?
                 var requiredFile: Data
             }
-            try request.content.encode(FormParams(additionalMetadata: additionalMetadata, requiredFile: requiredFile), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(additionalMetadata: additionalMetadata, requiredFile: requiredFile), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
