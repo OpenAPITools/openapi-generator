@@ -89,8 +89,6 @@ class ChildCat(ModelComposed):
         """
         lazy_import()
         return {
-            'pet_type': (str,),  # noqa: E501
-            'name': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -102,8 +100,6 @@ class ChildCat(ModelComposed):
         return {'pet_type': val}
 
     attribute_map = {
-        'pet_type': 'pet_type',  # noqa: E501
-        'name': 'name',  # noqa: E501
     }
 
     read_only_vars = {
@@ -115,7 +111,6 @@ class ChildCat(ModelComposed):
         """ChildCat - a model defined in OpenAPI
 
         Keyword Args:
-            pet_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -146,7 +141,6 @@ class ChildCat(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -216,7 +210,6 @@ class ChildCat(ModelComposed):
         """ChildCat - a model defined in OpenAPI
 
         Keyword Args:
-            pet_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -247,7 +240,6 @@ class ChildCat(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            name (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -40,6 +40,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 @SuppressWarnings("static-method")
 public class PythonClientTest {
 
@@ -464,4 +466,148 @@ public class PythonClientTest {
 
     }
 
+    @Test
+    public void testModelVarsCorrect() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8813.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "ObjectNoProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 0);
+
+        modelName = "ObjectWithABProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 2);
+
+        modelName = "ObjectWithCDProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 2);
+
+        modelName = "ComposedOneOfNoProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 0);
+
+        modelName = "ComposedAnyOfNoProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 0);
+
+        modelName = "ComposedAllOfNoProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 0);
+
+        modelName = "ComposedOneOfWithProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 2);
+
+        modelName = "ComposedAnyOfWithProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 2);
+
+        modelName = "ComposedAllOfWithProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.size(), 2);
+    }
+
+    @Test
+    public void testPropertyVarsCorrect() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8813.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+
+        modelName = "OpjectWithPropsInObjectProps";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertEquals(cm.vars.get(0).vars.size(), 0); // ObjectNoProps
+        // these are complexTypes so vars will not be accurate
+        // assertEquals(cm.vars.get(1).vars.size(), 2); // ObjectWithABProps
+        // assertEquals(cm.vars.get(2).vars.size(), 2); // ObjectWithCDProps
+        assertEquals(cm.vars.get(3).vars.size(), 0); // ComposedOneOfNoProps
+        assertEquals(cm.vars.get(4).vars.size(), 0); // ComposedAnyOfNoProps
+        assertEquals(cm.vars.get(5).vars.size(), 0); // ComposedAllOfNoProps
+        assertEquals(cm.vars.get(6).vars.size(), 2); // ComposedOneOfWithProps
+        assertEquals(cm.vars.get(7).vars.size(), 2); // ComposedAnyOfWithProps
+        assertEquals(cm.vars.get(8).vars.size(), 2); // ComposedAllOfWithProps
+    }
+
+    @Test
+    public void testQueryParameterVarsCorrect() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8813.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+
+        final String path = "/queryParamVars";
+        final Operation operation = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation co = codegen.fromOperation(path, "get", operation, null);
+
+        assertEquals(co.queryParams.get(0).vars.size(), 0); // ObjectNoProps
+        // these are complexTypes so vars will not be accurate
+        // assertEquals(co.queryParams.get(1).vars.size(), 2); // ObjectWithABProps
+        // assertEquals(co.queryParams.get(2).vars.size(), 2); // ObjectWithCDProps
+        assertEquals(co.queryParams.get(3).vars.size(), 0); // ComposedOneOfNoProps
+        assertEquals(co.queryParams.get(4).vars.size(), 0); // ComposedAnyOfNoProps
+        assertEquals(co.queryParams.get(5).vars.size(), 0); // ComposedAllOfNoProps
+        assertEquals(co.queryParams.get(6).vars.size(), 2); // ComposedOneOfWithProps
+        assertEquals(co.queryParams.get(7).vars.size(), 2); // ComposedAnyOfWithProps
+        assertEquals(co.queryParams.get(8).vars.size(), 2); // ComposedAllOfWithProps
+    }
+
+    @Test
+    public void testBodyParamAndResponseVarsCorrect() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8813.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String path;
+        Operation op;
+        CodegenOperation co;
+
+        path = "/ComposedOneOfNoProps";
+        op = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "post", op, null);
+        assertEquals(co.bodyParam.vars.size(), 0);
+        assertEquals(co.responses.get(0).vars.size(), 0);
+
+        path = "/ComposedAnyOfNoProps";
+        op = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "post", op, null);
+        assertEquals(co.bodyParam.vars.size(), 0);
+        assertEquals(co.responses.get(0).vars.size(), 0);
+
+        path = "/ComposedAllOfNoProps";
+        op = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "post", op, null);
+        assertEquals(co.bodyParam.vars.size(), 0);
+        assertEquals(co.responses.get(0).vars.size(), 0);
+
+        path = "/ComposedOneOfWithProps";
+        op = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "post", op, null);
+        assertEquals(co.bodyParam.vars.size(), 2);
+        assertEquals(co.responses.get(0).vars.size(), 2);
+
+        path = "/ComposedAllOfWithProps";
+        op = openAPI.getPaths().get(path).getPost();
+        co = codegen.fromOperation(path, "post", op, null);
+        assertEquals(co.bodyParam.vars.size(), 2);
+        assertEquals(co.responses.get(0).vars.size(), 2);
+    }
 }

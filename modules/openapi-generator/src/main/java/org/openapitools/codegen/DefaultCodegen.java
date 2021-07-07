@@ -2350,6 +2350,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
+    protected void accumulatePropertiesAndRequiredPropertiesFromComposedSchema(Map<String, Schema> properties, List<String> required, Schema refSchema, Map<String, Schema> allProperties, List<String> allRequired) {
+        addProperties(properties, required, refSchema);
+        addProperties(allProperties, allRequired, refSchema);
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2536,8 +2541,7 @@ public class DefaultCodegen implements CodegenConfig {
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
                             // composition
-                            addProperties(properties, required, refSchema);
-                            addProperties(allProperties, allRequired, refSchema);
+                            accumulatePropertiesAndRequiredPropertiesFromComposedSchema(properties, required, refSchema, allProperties, allRequired);
                         }
                     }
 
@@ -2589,7 +2593,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
-
             // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
             if (supportsAdditionalPropertiesWithComposedSchema) {
                 // Process the schema specified with the 'additionalProperties' keyword.
@@ -2721,7 +2724,7 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
         if (schema.equals(new Schema())) {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
@@ -4992,7 +4995,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
      */
-    private void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    protected void addVars(IJsonSchemaValidationProperties m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         if (properties == null) {
             return;
         }
@@ -6373,7 +6376,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
         setAddProps(schema, property);
         if (!"object".equals(schema.getType())) {
             return;

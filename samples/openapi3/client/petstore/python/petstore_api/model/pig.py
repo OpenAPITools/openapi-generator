@@ -89,7 +89,6 @@ class Pig(ModelComposed):
         """
         lazy_import()
         return {
-            'class_name': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -104,7 +103,6 @@ class Pig(ModelComposed):
         return {'class_name': val}
 
     attribute_map = {
-        'class_name': 'className',  # noqa: E501
     }
 
     read_only_vars = {
@@ -116,7 +114,6 @@ class Pig(ModelComposed):
         """Pig - a model defined in OpenAPI
 
         Keyword Args:
-            class_name (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -216,7 +213,6 @@ class Pig(ModelComposed):
         """Pig - a model defined in OpenAPI
 
         Keyword Args:
-            class_name (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.

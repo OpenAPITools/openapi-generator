@@ -91,8 +91,6 @@ class Triangle(ModelComposed):
         """
         lazy_import()
         return {
-            'triangle_type': (str,),  # noqa: E501
-            'shape_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -108,8 +106,6 @@ class Triangle(ModelComposed):
         return {'triangle_type': val}
 
     attribute_map = {
-        'triangle_type': 'triangleType',  # noqa: E501
-        'shape_type': 'shapeType',  # noqa: E501
     }
 
     read_only_vars = {
@@ -121,7 +117,6 @@ class Triangle(ModelComposed):
         """Triangle - a model defined in OpenAPI
 
         Keyword Args:
-            triangle_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -152,7 +147,6 @@ class Triangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            shape_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -222,7 +216,6 @@ class Triangle(ModelComposed):
         """Triangle - a model defined in OpenAPI
 
         Keyword Args:
-            triangle_type (str):
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -253,7 +246,6 @@ class Triangle(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            shape_type (str): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

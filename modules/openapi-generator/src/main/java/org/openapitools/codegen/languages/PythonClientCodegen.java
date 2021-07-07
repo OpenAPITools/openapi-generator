@@ -46,6 +46,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -184,6 +185,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
 
+        /*
+        in this generator we turn these off because
+        each schema should be validated independently across schemas per OpenApi
+        also schemas can have variable name collisions across schemas
+        so property a can have type int in one schema and string in another
+        Turning these off allows each of the a definitions to remain separate and to not be stuffed into and collide in
+        a composed schema
+         */
+        this.supportsInheritance = false;
+        this.supportsMultipleInheritance = false;
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
@@ -668,6 +679,18 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         List<String> referencedModelNames = new ArrayList<String>();
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
+    }
+
+    @Override
+    protected void accumulatePropertiesAndRequiredPropertiesFromComposedSchema(Map<String, Schema> properties, List<String> required, Schema refSchema, Map<String, Schema> allProperties, List<String> allRequired) {
+        /*
+        in this generator we turn these off because
+        each schema should be validated independently across schemas per OpenApi
+        also schemas can have variable name collisions across schemas
+        so property a can have type int in one schema and string in another
+        Turning these off allows each of the a definitions to remain separate and to not be stuffed into and collide in
+        a composed schema
+         */
     }
 
     /**
@@ -1494,5 +1517,56 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             modelNameToSchemaCache = Collections.unmodifiableMap(m);
         }
         return modelNameToSchemaCache;
+    }
+
+    @Override
+    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property){
+        setAddProps(schema, property);
+        if (schema instanceof ComposedSchema && supportsAdditionalPropertiesWithComposedSchema) {
+            // if schema has properties outside of allOf/oneOf/anyOf also add them
+            ComposedSchema cs = (ComposedSchema) schema;
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
+                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                }
+                HashSet<String> requiredVars = new HashSet<>();
+                if (schema.getRequired() != null) {
+                    requiredVars.addAll(schema.getRequired());
+                }
+                addVars(property, property.getVars(), schema.getProperties(), requiredVars);
+            }
+            return;
+        }
+        if (!"object".equals(schema.getType())) {
+            return;
+        }
+        if (schema instanceof ObjectSchema) {
+            ObjectSchema objSchema = (ObjectSchema) schema;
+            HashSet<String> requiredVars = new HashSet<>();
+            if (objSchema.getRequired() != null) {
+                requiredVars.addAll(objSchema.getRequired());
+            }
+            addVars(property, property.getVars(), objSchema.getProperties(), requiredVars);
+            List<CodegenProperty> requireCpVars = property.getVars()
+                    .stream()
+                    .filter(p -> Boolean.TRUE.equals(p.required)).collect(Collectors.toList());
+            property.setRequiredVars(requireCpVars);
+        }
+        if (schema.getAdditionalProperties() == null) {
+            if (!disallowAdditionalPropertiesIfNotPresent) {
+                CodegenProperty cp = fromProperty("",  new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                CodegenProperty cp = fromProperty("", new Schema());
+                property.setAdditionalProperties(cp);
+            }
+        } else {
+            CodegenProperty cp = fromProperty("", (Schema) schema.getAdditionalProperties());
+            property.setAdditionalProperties(cp);
+        }
+        return;
     }
 }
