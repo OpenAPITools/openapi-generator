@@ -1209,7 +1209,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'pipe', pipe));
+      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
       queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));

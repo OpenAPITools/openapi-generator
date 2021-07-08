@@ -518,6 +518,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public boolean getIsBoolean() { return isBoolean; }
+
+    @Override
+    public void setIsBoolean(boolean isBoolean)  {
+        this.isBoolean = isBoolean;
+    }
+
+    @Override
     public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
 
     @Override
@@ -670,10 +678,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    @Override
     public Number getMultipleOf() {
         return multipleOf;
     }
 
+    @Override
     public void setMultipleOf(Number multipleOf) {
         this.multipleOf = multipleOf;
     }

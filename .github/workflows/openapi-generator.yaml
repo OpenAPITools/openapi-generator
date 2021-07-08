@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         env:
           cache-name: cache-maven-repository
         with:
@@ -38,7 +38,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -56,7 +56,7 @@ jobs:
         with:
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         env:
           cache-name: cache-maven-repository
         with:
@@ -73,7 +73,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -90,7 +90,7 @@ jobs:
         with:
           java-version: 8
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.0.10
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -128,7 +128,7 @@ jobs:
         with:
           java-version: 8
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.0.10
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -162,7 +162,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         env:
           cache-name: cache-maven-repository
         with:
@@ -194,7 +194,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.6
         env:
           cache-name: cache-maven-repository
         with:

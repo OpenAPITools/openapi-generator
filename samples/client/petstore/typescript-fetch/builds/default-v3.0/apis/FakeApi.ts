@@ -732,7 +732,7 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = typeof token === 'function' ? token("bearer_test", []) : token;
+            const tokenString = await token("bearer_test", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -871,7 +871,7 @@ export class FakeApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.pipe) {
-            queryParameters['pipe'] = requestParameters.pipe;
+            queryParameters['pipe'] = requestParameters.pipe.join(runtime.COLLECTION_FORMATS["pipes"]);
         }
 
         if (requestParameters.ioutil) {

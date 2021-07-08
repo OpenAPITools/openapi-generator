@@ -10,8 +10,14 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PetstoreClient.EnumClass")
+public typealias EnumClass = PetstoreClient.EnumClass
+
+extension PetstoreClient {
+
 public enum EnumClass: String, Codable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"
+}
 }

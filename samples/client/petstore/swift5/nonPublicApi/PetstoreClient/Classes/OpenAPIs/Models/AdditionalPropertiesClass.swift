@@ -33,3 +33,4 @@ internal struct AdditionalPropertiesClass: Codable, Hashable {
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
     }
 }
+

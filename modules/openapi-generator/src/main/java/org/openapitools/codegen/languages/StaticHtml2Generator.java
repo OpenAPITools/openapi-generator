@@ -229,7 +229,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Markdown markInstance = new Markdown();
             openAPI.getInfo().setDescription(markInstance.toHtml(currentDescription));
         } else {
-            LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
+            LOGGER.error("OpenAPI object description is empty [{}]", openAPI.getInfo().getTitle());
         }
     }
 

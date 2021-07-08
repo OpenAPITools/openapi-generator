@@ -33,6 +33,7 @@ public class TypeScriptNodeClientOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
+    public static final String PARAM_NAMING_VALUE = "camelCase";
     public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String NMP_NAME = "npmName";
     public static final String NMP_VERSION = "1.1.2";
@@ -57,6 +58,7 @@ public class TypeScriptNodeClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
+                .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(TypeScriptAngularClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptAngularClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())

@@ -17,6 +17,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
 |featureLocations|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
+|featureMetrics|Enables metrics feature.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
@@ -81,16 +82,20 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>continue</li>
 <li>do</li>
 <li>else</li>
+<li>external</li>
 <li>false</li>
 <li>for</li>
 <li>fun</li>
 <li>if</li>
 <li>in</li>
 <li>interface</li>
+<li>internal</li>
 <li>is</li>
 <li>null</li>
 <li>object</li>
+<li>open</li>
 <li>package</li>
+<li>private</li>
 <li>return</li>
 <li>super</li>
 <li>this</li>

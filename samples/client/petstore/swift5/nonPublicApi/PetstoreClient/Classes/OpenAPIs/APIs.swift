@@ -6,10 +6,13 @@
 
 import Foundation
 
-internal class PetstoreClientAPI {
+@available(*, deprecated, renamed: "PetstoreClient")
+internal typealias PetstoreClientAPI = PetstoreClient
+
+internal class PetstoreClient {
     internal static var basePath = "http://petstore.swagger.io:80/v2"
-    internal static var credential: URLCredential?
     internal static var customHeaders: [String: String] = [:]
+    internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     internal static var apiResponseQueue: DispatchQueue = .main
 }
@@ -32,7 +35,7 @@ internal class RequestBuilder<T> {
         self.parameters = parameters
         self.headers = headers
 
-        addHeaders(PetstoreClientAPI.customHeaders)
+        addHeaders(PetstoreClient.customHeaders)
     }
 
     internal func addHeaders(_ aHeaders: [String: String]) {
@@ -41,7 +44,7 @@ internal class RequestBuilder<T> {
         }
     }
 
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
 
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -51,7 +54,7 @@ internal class RequestBuilder<T> {
     }
 
     internal func addCredential() -> Self {
-        credential = PetstoreClientAPI.credential
+        credential = PetstoreClient.credential
         return self
     }
 }

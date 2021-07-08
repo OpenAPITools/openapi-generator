@@ -11,7 +11,7 @@ object Serializer {
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
-        .add(UriAdapter())
+        .add(URIAdapter())
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
 

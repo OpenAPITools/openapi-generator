@@ -396,14 +396,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             camelizedName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + camelizedName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, camelizedName);
         }
 
         // model name starts with number
         else if (camelizedName.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             camelizedName = "Model" + camelizedName;
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelizedName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelizedName);
         }
 
         return camelizedName;
@@ -435,10 +436,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
             operationId = "call_" + operationId;
         } else if (operationId.matches("\\d.*")) {
-            LOGGER.warn(operationId + " cannot be used as method name because it starts with a digit. Renamed to " + camelize("call_" + operationId));
+            LOGGER.warn("{} cannot be used as method name because it starts with a digit. Renamed to {}", operationId,
+                    camelize("call_" + operationId));
             operationId = "call_" + operationId;
         }
 
@@ -459,7 +461,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -1098,7 +1100,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             co, Map<String, List<CodegenOperation>> operations) {
         // only generate operation for the first tag of the tags
         if (tag != null && co.tags.size() > 1 && !tag.equals(co.tags.get(0).getName())) {
-            LOGGER.info("generated skip additional tag `" + tag + "` with operationId=" + co.operationId);
+            LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
             return;
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
@@ -1163,7 +1165,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     datatype = "models::" + datatype;
                 }
             } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):" + p + ". Datatype default to Object");
+                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
                 LOGGER.error(e.getMessage(), e);
             }

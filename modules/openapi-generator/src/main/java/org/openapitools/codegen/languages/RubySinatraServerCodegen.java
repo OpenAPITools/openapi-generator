@@ -132,7 +132,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -145,7 +145,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, underscore("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 

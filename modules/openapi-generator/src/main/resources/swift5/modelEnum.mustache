@@ -1,7 +1,7 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, Codable, CaseIterable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable {
 {{#allowableValues}}
 {{#enumVars}}
-    case {{name}} = {{{value}}}
+    case {{{name}}} = {{{value}}}
 {{/enumVars}}
 {{/allowableValues}}
 }
