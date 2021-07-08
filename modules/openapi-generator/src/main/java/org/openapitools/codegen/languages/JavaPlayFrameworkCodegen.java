@@ -31,11 +31,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";

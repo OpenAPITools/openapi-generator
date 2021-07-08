@@ -174,11 +174,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Pig).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Pig>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Pig");
                 match++;
@@ -186,16 +189,19 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Pig: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Whale).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Whale>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Whale");
                 match++;
@@ -203,16 +209,19 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Whale: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newMammal.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Zebra).GetProperty("AdditionalProperties") == null)
                 {
                     newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.SerializerSettings));
+                }
+                else
+                {
+                    newMammal = new Mammal(JsonConvert.DeserializeObject<Zebra>(jsonString, Mammal.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Zebra");
                 match++;
@@ -220,7 +229,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Zebra: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -231,7 +240,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newMammal;
         }
@@ -295,7 +304,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Mammal).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

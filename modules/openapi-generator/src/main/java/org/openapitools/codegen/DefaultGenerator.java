@@ -832,9 +832,8 @@ public class DefaultGenerator implements Generator {
 
     @Override
     public List<File> generate() {
-
         if (openAPI == null) {
-            throw new RuntimeException("missing OpenAPI input!");
+            throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
 
         if (config == null) {
@@ -939,7 +938,7 @@ public class DefaultGenerator implements Generator {
         // TODO: initial behavior is "merge" user defined with built-in templates. consider offering user a "replace" option.
         if (userDefinedTemplates != null && !userDefinedTemplates.isEmpty()) {
             Map<String, SupportingFile> supportingFilesMap = config.supportingFiles().stream()
-                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity()));
+                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (oldValue, newValue) -> oldValue));
 
             // TemplateFileType.SupportingFiles
             userDefinedTemplates.stream()

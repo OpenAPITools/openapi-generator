@@ -30,9 +30,9 @@ import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 import org.openapitools.client.JSON;
-
-
 /**
  * Cat
  */
@@ -69,6 +69,8 @@ public class Cat extends Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

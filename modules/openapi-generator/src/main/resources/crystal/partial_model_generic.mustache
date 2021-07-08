@@ -1,8 +1,10 @@
   {{#description}}
   # {{{description}}}
   {{/description}}
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}} include JSON::Serializable
-   include JSON::Serializable {{#vars}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+    include JSON::Serializable
+
+    {{#vars}}
     {{#description}}
     # {{{description}}}
     {{/description}}
@@ -30,7 +32,7 @@
       end
 
       def valid?(value)
-        !value || allowable_values.include?(value)
+        !value || allowable_values.includes?(value)
       end
     end
 
@@ -225,7 +227,7 @@
       {{/isNullable}}
       {{#maxLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length > {{{maxLength}}}
-        raise ArgumentError.new("invalid value for "{{{name}}}", the character length must be smaller than or equal to {{{maxLength}}}.")
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}

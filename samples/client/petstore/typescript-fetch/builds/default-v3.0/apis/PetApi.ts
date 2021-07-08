@@ -87,11 +87,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -130,11 +126,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -173,11 +165,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -211,18 +199,14 @@ export class PetApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters.tags) {
-            queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+            queryParameters['tags'] = Array.from(requestParameters.tags).join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -232,7 +216,7 @@ export class PetApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));
     }
 
     /**
@@ -296,11 +280,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const response = await this.request({
@@ -335,11 +315,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const consumes: runtime.Consume[] = [
@@ -396,11 +372,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const consumes: runtime.Consume[] = [
@@ -464,11 +436,7 @@ export class PetApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
         }
 
         const consumes: runtime.Consume[] = [

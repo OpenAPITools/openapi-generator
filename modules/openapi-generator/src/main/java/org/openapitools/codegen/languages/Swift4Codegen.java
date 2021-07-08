@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +40,7 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -243,7 +244,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
-                CodegenConstants.NON_PUBLIC_API_DESC 
+                CodegenConstants.NON_PUBLIC_API_DESC
                         + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
@@ -428,8 +429,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
-        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
-                "", 
+        supportingFiles.add(new SupportingFile("Package.swift.mustache",
+                "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
@@ -459,8 +460,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
         if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
-            supportingFiles.add(new SupportingFile("Result.mustache", 
-                    sourceFolder, 
+            supportingFiles.add(new SupportingFile("Result.mustache",
+                    sourceFolder,
                     "Result.swift"));
         }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
@@ -533,12 +534,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("URL");
+        return "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("Data");
+        return "Data".equals(dataType);
     }
 
     /**
@@ -567,8 +568,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to "
-                    + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -576,9 +576,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             String modelName = "Model" + name;
-            LOGGER.warn(name
-                    + " (model name starts with number) cannot be used as model name."
-                    + " Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -673,14 +672,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
-                    + " Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = camelize(sanitizeName("call_" + operationId), true);
         }
 
@@ -972,10 +970,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

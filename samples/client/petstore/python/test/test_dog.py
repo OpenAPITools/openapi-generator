@@ -73,23 +73,15 @@ class TestDog(unittest.TestCase):
             }
         )
 
-        # setting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(AttributeError):
-            dog['invalid_variable'] = 'some value'
-        # with setattr
-        with self.assertRaises(AttributeError):
-            setattr(dog, 'invalid_variable', 'some value')
-
         # getting a value that doesn't exist raises an exception
         # with a key
         with self.assertRaises(AttributeError):
-            invalid_variable = dog['invalid_variable']
+            invalid_variable = dog['not_here_a']
         # with getattr
-        self.assertEqual(getattr(dog, 'invalid_variable', 'some value'), 'some value')
+        self.assertEqual(getattr(dog, 'not_here_a', 'some value'), 'some value')
 
         with self.assertRaises(AttributeError):
-            invalid_variable = getattr(dog, 'invalid_variable')
+            invalid_variable = getattr(dog, 'not_here_a')
 
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info
@@ -120,16 +112,24 @@ class TestDog(unittest.TestCase):
         self.assertEqual(
             dog._var_name_to_model_instances,
             {
-                'breed': [dog, dog_allof_instance],
-                'class_name': [dog, animal_instance],
-                'color': [dog, animal_instance]
+                'breed': [dog, animal_instance, dog_allof_instance],
+                'class_name': [dog, animal_instance, dog_allof_instance],
+                'color': [dog, animal_instance, dog_allof_instance]
             }
         )
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            dog._additional_properties_model_instances, []
+            dog._additional_properties_model_instances, [dog]
         )
+
+        # setting a value that doesn't exist works
+        dog['invalid_variable'] = 'a'
+        assert dog.invalid_variable == 'a'
+
+        # with setattr
+        setattr(dog, 'invalid_variable', 'b')
+        assert dog.invalid_variable == 'b'
 
         # if we modify one of the properties owned by multiple
         # model_instances we get an exception when we try to access that
@@ -138,14 +138,14 @@ class TestDog(unittest.TestCase):
         with self.assertRaises(petstore_api.ApiValueError):
             breed = dog.breed
 
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            dog = Dog(
-                class_name=class_name,
-                color=color,
-                breed=breed,
-                unknown_property='some value'
-            )
+        # including extra parameters works
+        dog = Dog(
+            class_name=class_name,
+            color=color,
+            breed=breed,
+            unknown_property='some value'
+        )
+        assert dog.unknown_property == 'some value'
 
 if __name__ == '__main__':
     unittest.main()

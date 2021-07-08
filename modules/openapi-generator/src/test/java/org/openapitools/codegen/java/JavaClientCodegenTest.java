@@ -146,7 +146,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
 
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.client.model");
@@ -168,7 +168,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
@@ -190,7 +190,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
@@ -447,6 +447,38 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithAndWithoutDiscriminator() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 156);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
+                "import xyz.abcdef.invoker.JSON;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
+                "import xyz.abcdef.invoker.JSON;");
+    }
+
+    @Test
     public void testJdkHttpAsyncClient() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
@@ -494,10 +526,10 @@ public class JavaClientCodegenTest {
         ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
         CodegenResponse response = codegen.fromResponse("200", ok_200);
 
-        Assert.assertEquals(1, response.headers.size());
+        Assert.assertEquals(response.headers.size(), 1);
         CodegenProperty header = response.headers.get(0);
-        Assert.assertEquals("UUID", header.dataType);
-        Assert.assertEquals("Request", header.baseName);
+        Assert.assertEquals(header.dataType, "UUID");
+        Assert.assertEquals(header.baseName, "Request");
     }
 
     @Test
@@ -714,9 +746,9 @@ public class JavaClientCodegenTest {
     @Test
     public void escapeName() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        assertEquals("_default", codegen.toApiVarName("Default"));
-        assertEquals("_int", codegen.toApiVarName("int"));
-        assertEquals("pony", codegen.toApiVarName("pony"));
+        assertEquals(codegen.toApiVarName("Default"), "_default");
+        assertEquals(codegen.toApiVarName("int"), "_int");
+        assertEquals(codegen.toApiVarName("pony"), "pony");
     }
 
     @Test

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,12 +45,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
@@ -124,7 +125,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "val",
                 "var",
                 "when",
-                "while"
+                "while",
+                "private",
+                "open",
+                "external",
+                "internal"
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
@@ -420,7 +425,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
+            LOGGER.warn("{} with {} generator is ignored. Use {}.", CodegenConstants.INVOKER_PACKAGE, this.getName(), CodegenConstants.PACKAGE_NAME);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
@@ -623,14 +628,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modifiedName)) {
             final String modelName = "Model" + modifiedName;
-            LOGGER.warn(modifiedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", modifiedName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (modifiedName.matches("^\\d.*")) {
             final String modelName = "Model" + modifiedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -654,7 +660,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -889,10 +895,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

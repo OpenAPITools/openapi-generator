@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::AdditionalPropertiesClass');
 
-my $instance = WWW::OpenAPIClient::Object::AdditionalPropertiesClass->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::AdditionalPropertiesClass');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::AdditionalPropertiesClass->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::AdditionalPropertiesClass');
 

@@ -139,12 +139,12 @@ public class {{classname}} {
         final String[] contentTypes = { {{#hasConsumes}}
             {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
         {{/hasConsumes}} };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
 
         String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
         {{#returnType}}ParameterizedTypeReference<{{{returnType}}}> returnType = new ParameterizedTypeReference<{{{returnType}}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.invokeAPI(path, HttpMethod.{{httpMethod}}, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.{{httpMethod}}, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
     }
     {{/operation}}
 }

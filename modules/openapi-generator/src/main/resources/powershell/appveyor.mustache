@@ -1,24 +1,26 @@
 {{> partial_header}}
 version: 1.0.{build}
 image:
-  - Visual Studio 2019 # PS 6.x
-  #- Visual Studio 2017 # PS 5.x
-  #- Ubuntu # PS 6.x
-  # ref: https://www.appveyor.com/docs/build-environment/#build-worker-images
+  - Visual Studio 2019 # PWSH 7.x
+  #- Visual Studio 2017 # PS 5.x, PWSH 6.x
+  #- Ubuntu # PWSH 6.x
+  # ref: https://www.appveyor.com/docs/windows-images-software/
 install:
-  - ps: $PSVersionTable.PSVersion
-  - ps: Install-Module Pester -Force -Scope CurrentUser
+  - pwsh: $PSVersionTable.PSVersion
+  - pwsh: Install-Module Pester -Force -Scope CurrentUser
 build: off
 test_script:
-  - ps: |
+  - pwsh: |
+      .\Build.ps1
+      Import-Module -Name '.\src\{{{packageName}}}'
       $Result = Invoke-Pester -PassThru
       if ($Result.FailedCount -gt 0) {
           $host.SetShouldExit($Result.FailedCount)
           exit $Result.FailedCount
       }
 deploy_script:
-  - ps: |
-      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019") {
+  - pwsh: |
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null) {
           .\Build.ps1
           try {
               Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\{{{packageName}}}\ -Confirm:$False -Verbose

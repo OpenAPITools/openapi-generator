@@ -32,11 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
 
     protected String implFolder = "impl";
     protected boolean isAddExternalLibs = true;
@@ -129,6 +128,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::vector");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "std::string");
@@ -218,6 +218,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
         }
 
+        if(!codegenModel.isEnum
+                && codegenModel.anyOf.size()>1
+                && codegenModel.anyOf.contains("std::string")
+                && !codegenModel.anyOf.contains("AnyType")
+                && codegenModel.interfaces.size()==1
+        ){
+            codegenModel.vendorExtensions.put("x-is-string-enum-container",true);
+        }
         return codegenModel;
     }
 
@@ -401,7 +409,11 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() == null) {
+                return "\"\"";
+            } else {
+                return "\"" + p.getDefault().toString() + "\"";
+            }
         }
 
         return "";
@@ -411,6 +423,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }

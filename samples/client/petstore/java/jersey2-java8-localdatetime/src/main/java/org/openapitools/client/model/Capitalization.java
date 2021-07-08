@@ -79,6 +79,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
@@ -103,6 +105,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
@@ -127,6 +131,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
@@ -151,6 +157,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
@@ -175,6 +183,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -199,6 +209,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }

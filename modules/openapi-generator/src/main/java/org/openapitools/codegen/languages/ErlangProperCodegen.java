@@ -38,7 +38,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -359,7 +359,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -567,5 +567,10 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         public void setReplacedPathName(String replacedPathName) {
             this.replacedPathName = replacedPathName;
         }
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
     }
 }

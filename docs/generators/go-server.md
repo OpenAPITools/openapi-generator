@@ -7,11 +7,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addResponseHeaders|To include response headers in ImplResponse| |false|
 |enumClassPrefix|Prefix enum with class name| |false|
 |featureCORS|Enable Cross-Origin Resource Sharing middleware| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
+|router|Specify the router which should be used.|<dl><dt>**mux**</dt><dd>mux</dd><dt>**chi**</dt><dd>chi</dd></dl>|mux|
 |serverPort|The network port the generated server binds to| |8080|
 |sourceFolder|source folder for generated code| |go|
 

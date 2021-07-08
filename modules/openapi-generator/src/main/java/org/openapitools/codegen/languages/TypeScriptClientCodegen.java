@@ -19,11 +19,9 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -35,13 +33,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 
 public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
@@ -62,9 +61,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
 
-    
+
     private final Map<String, String> frameworkToHttpLibMap;
-    
+
     // NPM Options
     private static final String SNAPSHOT = "snapshot";
     @SuppressWarnings("squid:S5164")
@@ -83,14 +82,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public TypeScriptClientCodegen() {
         super();
-            
+
         this.frameworkToHttpLibMap = new HashMap<>();
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
-        
-        
+
+
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
-        
+
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
@@ -98,7 +97,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         embeddedTemplateDir = templateDir = "typescript";
 
         supportsInheritance = true;
-        
+
         // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
@@ -148,14 +147,16 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("object", "any");
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
+        typeMapping.put("map", "any");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
         typeMapping.put("File", "any");
+        typeMapping.put("file", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
-                
+
 
         cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
@@ -186,11 +187,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
-        
+
         // Git
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        
+
         // Util
         supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
         supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
@@ -200,7 +201,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
-        
+
         supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
         supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
@@ -242,12 +243,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void setNpmVersion(String npmVersion) {
         this.npmVersion = npmVersion;
     }
-    
+
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
-    
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
 
@@ -272,9 +273,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         }
     }
-    
+
     @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {      
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         final Object propFramework = additionalProperties.get(FRAMEWORK_SWITCH);
 
         Map<String, Boolean> frameworks = new HashMap<>();
@@ -288,27 +289,27 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         return objs;
     }
-    
+
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {     
-        
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {
+
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
             im.put("filename", ((String) im.get("import")).replace(".", "/"));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
-        
+
         @SuppressWarnings("unchecked")
         Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
         for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
-            operation.returnType = this.getReturnType(responses);          
+            operation.returnType = this.getReturnType(responses);
         }
         return operations;
     }
-    
+
     /**
      * Returns the correct return type based on all 2xx HTTP responses defined for an operation.
      * @param responses all CodegenResponses defined for one operation
@@ -325,19 +326,19 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
         }
-        
+
         if (returnTypes.size() == 0) {
             return null;
-        } 
+        }
 
         return String.join(" | ", returnTypes);
     }
-    
+
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + File.separator).length());
         return camelize(name);
     }
-    
+
     @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
@@ -377,40 +378,58 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toModelName(final String name) {
+        String fullModelName = name;
+        fullModelName = addPrefix(fullModelName, modelNamePrefix);
+        fullModelName = addSuffix(fullModelName, modelNameSuffix);
+        return toTypescriptTypeName(fullModelName, "Model");
+    }
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+    protected String addPrefix(String name, String prefix) {
+        if (!StringUtils.isEmpty(prefix)) {
+            name = prefix + "_" + name;
+        }
+        return name;
+    }
+
+    protected String addSuffix(String name, String suffix) {
+        if (!StringUtils.isEmpty(suffix)) {
+            name = name + "_" + suffix;
         }
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
+        return name;
+    }
+
+    protected String toTypescriptTypeName(final String name, String safePrefix) {
+        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
+
+        sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = camelize("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        if (isReservedWord(sanName)) {
+            String modelName = safePrefix + sanName;
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
             return modelName;
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
-            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+        if (sanName.matches("^\\d.*")) {
+            String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+                    modelName);
             return modelName;
         }
 
-        if (languageSpecificPrimitives.contains(name)) {
-            String modelName = camelize("model_" + name);
-            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+        if (languageSpecificPrimitives.contains(sanName)) {
+            String modelName = safePrefix + sanName;
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName, modelName);
             return modelName;
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        return sanName;
     }
 
     @Override
@@ -514,7 +533,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
     }
-    
+
     @Override
     protected boolean isReservedWord(String word) {
         // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
@@ -525,7 +544,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
+        if (ModelUtils.isComposedSchema(p)) {
+            return openAPIType;
+        } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return type;
@@ -739,7 +760,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
-    
+
     @Override
     public String getName() {
         return "typescript";
@@ -787,15 +808,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         additionalProperties.put("platforms", platforms);
 
-        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, propPlatform.equals("node") ? "Buffer" : "Blob");
+        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
-        if (!propPlatform.equals("deno")) {
+        if (!"deno".equals(propPlatform)) {
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
-        if (propPlatform.equals("deno")) {
+        if ("deno".equals(propPlatform)) {
             additionalProperties.put("extensionForDeno", ".ts");
         }
 
@@ -856,5 +877,56 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
+
+        return String.join(" | ", types);
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
+
+        return String.join(" | ", types);
+    }
+
+    /**
+     * Extracts the list of type names from a list of schemas.
+     * Excludes `AnyType` if there are other valid types extracted.
+     *
+     * @param schemas list of schemas
+     * @return list of types
+     */
+    protected List<String> getTypesFromSchemas(List<Schema> schemas) {
+        List<Schema> filteredSchemas = schemas.size() > 1
+                ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
+                : schemas;
+
+        return filteredSchemas.stream().map(schema -> {
+            String schemaType = getSchemaType(schema);
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                Schema inner = ap.getItems();
+                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
+            }
+            return schemaType;
+        }).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    protected void addImport(CodegenModel m, String type) {
+        if (type == null) {
+            return;
+        }
+
+        String[] parts = type.split("( [|&] )|[<>]");
+        for (String s : parts) {
+            if (needToImport(s)) {
+                m.imports.add(s);
+            }
+        }
     }
 }

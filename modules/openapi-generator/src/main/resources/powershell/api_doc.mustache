@@ -56,14 +56,29 @@ Set-ConfigurationHttpSigning $httpSigningParams
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{#allParams}}
+{{^isArray}}
+{{#isModel}}
+{{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/isModel}}
+{{^isModel}}
 ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/isModel}}
+{{/isArray}}
+{{#isArray}}
+{{#items.isModel}}
+{{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/items.isModel}}
+{{^items.isModel}}
+${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/items.isModel}}
+{{/isArray}}
 {{/allParams}}
 
 {{#summary}}
 # {{{.}}}
 {{/summary}}
 try {
-     $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+    $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 } catch {
     Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -78,8 +93,8 @@ Name | Type | Description  | Notes
 {{/allParams}}
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md) (PSCustomObject){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 

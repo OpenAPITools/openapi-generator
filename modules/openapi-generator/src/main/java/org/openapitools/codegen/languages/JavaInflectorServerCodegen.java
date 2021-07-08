@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
     protected String title = "OpenAPI Inflector";
     protected String implFolder = "src/main/java";

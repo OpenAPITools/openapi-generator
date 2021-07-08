@@ -1,5 +1,4 @@
-import 'dart:async';
-
+@Skip('Needs real petstore')
 import 'package:http/http.dart';
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
@@ -46,16 +45,14 @@ void main() {
     });
 
     test('doesn\'t get non-existing pet by id', () {
-      expect(petApi.getPetById(newId()),
-          throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(newId()), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('deletes existing pet by id', () async {
       var id = newId();
       await petApi.addPet(makePet(id: id));
       await petApi.deletePet(id, apiKey: 'special-key');
-      expect(
-          petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('updates pet with form', () async {
@@ -81,19 +78,17 @@ void main() {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
-      var status = PetStatusEnum.available.value;
+      var status = '${PetStatusEnum.available}';
 
-      return Future.wait([
-        petApi.addPet(makePet(id: id1, status: status)),
-        petApi.addPet(makePet(id: id2, status: status)),
-        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold.value))
-      ]).then((_) async {
-        var pets = await petApi.findPetsByStatus([status]);
-        var petIds = pets.map((pet) => pet.id).toList();
-        expect(petIds, contains(id1));
-        expect(petIds, contains(id2));
-        expect(petIds, isNot(contains(id3)));
-      });
+      await petApi.addPet(makePet(id: id1, status: status));
+      await petApi.addPet(makePet(id: id2, status: status));
+      await petApi.addPet(makePet(id: id3, status: '${PetStatusEnum.sold}'));
+
+      var pets = await petApi.findPetsByStatus([status]);
+      var petIds = pets.map((pet) => pet.id).toList();
+      expect(petIds, contains(id1));
+      expect(petIds, contains(id2));
+      expect(petIds, isNot(contains(id3)));
     });
 
     test('uploads a pet image', () async {
@@ -102,5 +97,5 @@ void main() {
       var file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
       await petApi.uploadFile(id, additionalMetadata: '', file: file);
     });
-  }, skip: 'e2e tests for CI');
+  });
 }

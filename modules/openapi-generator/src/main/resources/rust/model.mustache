@@ -9,12 +9,24 @@
 {{#isEnum}}
 /// {{{description}}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum {{classname}} {
+pub enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
-    {{name}},
+    {{{name}}},
 {{/enumVars}}{{/allowableValues}}
+}
+
+impl ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        match self {
+            {{#allowableValues}}
+            {{#enumVars}}
+            Self::{{{name}}} => String::from("{{{value}}}"),
+            {{/enumVars}}
+            {{/allowableValues}}
+        }
+    }
 }
 {{/isEnum}}
 
@@ -22,17 +34,17 @@ pub enum {{classname}} {
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
-pub enum {{classname}} {
+pub enum {{{classname}}} {
 {{#vendorExtensions}}
     {{#x-mapped-models}}
     #[serde(rename="{{mappingName}}")]
-    {{modelName}} {
+    {{{modelName}}} {
     {{#vars}}
         {{#description}}
         /// {{{description}}}
         {{/description}}
         #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
     {{/x-mapped-models}}
@@ -51,7 +63,7 @@ pub struct {{{classname}}} {
     /// {{{description}}}
     {{/description}}
     #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{#isArray}}{{#uniqueItems}}std::collections::HashSet<{{/uniqueItems}}{{^uniqueItems}}Vec<{{/uniqueItems}}{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
 {{/vars}}
 }
 
@@ -62,7 +74,7 @@ impl {{{classname}}} {
     pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}{{^required}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}},
+            {{{name}}}{{^required}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: Box::new({{{name}}}){{/isModel}}{{/required}},
             {{/vars}}
         }
     }
@@ -75,11 +87,11 @@ impl {{{classname}}} {
 {{#isEnum}}
 /// {{{description}}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum {{enumName}} {
+pub enum {{{enumName}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
-    {{name}},
+    {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
 }

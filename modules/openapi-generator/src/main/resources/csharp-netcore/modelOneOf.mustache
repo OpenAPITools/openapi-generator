@@ -113,15 +113,10 @@
                 {{#mappedModels}}
                 case "{{{mappingName}}}":
                     new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{modelName}}}>(jsonString, {{classname}}.SerializerSettings));
-                    }
                     return new{{classname}};
                 {{/mappedModels}}
                 default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
                     break;
             }
 
@@ -133,11 +128,14 @@
 
             try
             {
-                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (new{{{classname}}}.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof({{{.}}}).GetProperty("AdditionalProperties") == null)
                 {
                     new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
+                }
+                else
+                {
+                    new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("{{{.}}}");
                 match++;
@@ -145,7 +143,7 @@
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
             }
             {{/oneOf}}
 
@@ -157,7 +155,7 @@
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return new{{classname}};
         }
@@ -234,7 +232,7 @@
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

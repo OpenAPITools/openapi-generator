@@ -99,57 +99,57 @@ public class BashTest {
 
         ((BashClientCodegen)codegen).setProcessMarkdown(false);
 
-        Assert.assertEquals(codegen.escapeText("__Bold text__"), 
+        Assert.assertEquals(codegen.escapeText("__Bold text__"),
                             "__Bold text__");
 
-        Assert.assertEquals(codegen.escapeText("**Bold text**"), 
+        Assert.assertEquals(codegen.escapeText("**Bold text**"),
                             "**Bold text**");
 
-        Assert.assertEquals(codegen.escapeText("*Italic text*"), 
+        Assert.assertEquals(codegen.escapeText("*Italic text*"),
                             "*Italic text*");
 
-        Assert.assertEquals(codegen.escapeText("_Italic text_"), 
+        Assert.assertEquals(codegen.escapeText("_Italic text_"),
                             "_Italic text_");
 
 
         ((BashClientCodegen)codegen).setProcessMarkdown(true);
 
-        Assert.assertEquals(codegen.escapeText("__Bold text__"), 
+        Assert.assertEquals(codegen.escapeText("__Bold text__"),
                             "$(tput bold) Bold text $(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("**Bold text**"), 
+        Assert.assertEquals(codegen.escapeText("**Bold text**"),
                             "$(tput bold) Bold text $(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("*Italic text*"), 
+        Assert.assertEquals(codegen.escapeText("*Italic text*"),
                             "$(tput dim) Italic text $(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("_Italic text_"), 
+        Assert.assertEquals(codegen.escapeText("_Italic text_"),
                             "$(tput dim) Italic text $(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("# SECTION NAME"), 
+        Assert.assertEquals(codegen.escapeText("# SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("## SECTION NAME"), 
+        Assert.assertEquals(codegen.escapeText("## SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
-        Assert.assertEquals(codegen.escapeText("### SECTION NAME"), 
+        Assert.assertEquals(codegen.escapeText("### SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
         Assert.assertEquals(codegen.escapeText(
                                 "```\nnice -n 100 mvn test\n```"),
-                                "\n---\nnice -n 100 mvn test\n---"); 
+                                "\n---\nnice -n 100 mvn test\n---");
     }
 
     @Test(description = "test Bash client codegen escapeUnsafeCharacters method")
     public void escapeUnsafeCharactersTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 
-        Assert.assertEquals(codegen.escapeUnsafeCharacters("`no backticks`"), 
+        Assert.assertEquals(codegen.escapeUnsafeCharacters("`no backticks`"),
                                                           "'no backticks'");
 
 
     }
-    
+
     @Test(description = "test Bash client codegen escapeReservedWord method")
     public void escapeReservedWordTest() {
         final DefaultCodegen codegen = new BashClientCodegen();

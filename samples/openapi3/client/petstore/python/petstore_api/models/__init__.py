@@ -34,6 +34,7 @@ from petstore_api.model.class_model import ClassModel
 from petstore_api.model.client import Client
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.composed_schema_with_props_and_no_add_props import ComposedSchemaWithPropsAndNoAddProps
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
@@ -42,6 +43,7 @@ from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
+from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
@@ -52,6 +54,8 @@ from petstore_api.model.gm_fruit import GmFruit
 from petstore_api.model.grandparent_animal import GrandparentAnimal
 from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 from petstore_api.model.health_check_result import HealthCheckResult
+from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+from petstore_api.model.inline_object6 import InlineObject6
 from petstore_api.model.inline_response_default import InlineResponseDefault
 from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
@@ -63,6 +67,7 @@ from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
 from petstore_api.model.model_return import ModelReturn
+from petstore_api.model.mole import Mole
 from petstore_api.model.name import Name
 from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape
@@ -78,12 +83,14 @@ from petstore_api.model.pig import Pig
 from petstore_api.model.quadrilateral import Quadrilateral
 from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
 from petstore_api.model.read_only_first import ReadOnlyFirst
+from petstore_api.model.readonly import Readonly
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 from petstore_api.model.shape import Shape
 from petstore_api.model.shape_interface import ShapeInterface
 from petstore_api.model.shape_or_null import ShapeOrNull
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.model.some_object import SomeObject
+from petstore_api.model.some_object_with_self_attr import SomeObjectWithSelfAttr
 from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
 from petstore_api.model.string_enum import StringEnum

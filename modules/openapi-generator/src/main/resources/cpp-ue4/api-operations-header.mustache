@@ -22,7 +22,7 @@ class {{dllapi}} {{classname}}::{{operationIdCamelCase}}Request : public Request
 {
 public:
     virtual ~{{operationIdCamelCase}}Request() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	{{#allParams}}
@@ -35,6 +35,9 @@ public:
 		{{/enumVars}}
   	};
 	{{/allowableValues}}
+
+	static FString EnumToString(const {{{enumName}}}& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, {{{enumName}}}& EnumValue);
 	{{#description}}/* {{{description}}} */
 	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}

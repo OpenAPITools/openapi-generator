@@ -41,7 +41,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
-  }/**
+  }
+
+/**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -59,7 +61,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
-  }/**
+  }
+
+/**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
@@ -78,6 +82,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
+
 
   @Override
   public boolean equals(Object o) {

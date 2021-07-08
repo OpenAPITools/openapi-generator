@@ -15,12 +15,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
@@ -53,7 +55,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client body) throws WebClientResponseException {
+    private ResponseSpec testClassnameRequestCreation(Client body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -80,5 +82,23 @@ public class FakeClassnameTags123Api {
 
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * To test class name in snake case
+     * To test class name in snake case
+     * <p><b>200</b> - successful operation
+     * @param body client model
+     * @return Client
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Client> testClassname(Client body) throws WebClientResponseException {
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
+        return testClassnameRequestCreation(body).bodyToMono(localVarReturnType);
+    }
+
+    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client body) throws WebClientResponseException {
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
+        return testClassnameRequestCreation(body).toEntity(localVarReturnType);
     }
 }

@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc public class ArrayTest: NSObject, Codable {
 
@@ -25,4 +28,13 @@ import Foundation
         case arrayArrayOfModel = "array_array_of_model"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+    }
 }
+

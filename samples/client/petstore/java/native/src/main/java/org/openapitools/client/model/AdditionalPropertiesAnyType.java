@@ -31,7 +31,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -65,6 +64,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(String name) {
     this.name = name;
   }

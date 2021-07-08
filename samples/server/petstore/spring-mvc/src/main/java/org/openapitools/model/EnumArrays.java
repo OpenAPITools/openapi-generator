@@ -22,7 +22,8 @@ public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
    */
-  public enum JustSymbolEnum {
+  @com.fasterxml.jackson.annotation.JsonFormat
+public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
     DOLLAR("$");
@@ -60,7 +61,8 @@ public class EnumArrays   {
   /**
    * Gets or Sets arrayEnum
    */
-  public enum ArrayEnumEnum {
+  @com.fasterxml.jackson.annotation.JsonFormat
+public enum ArrayEnumEnum {
     FISH("fish"),
     
     CRAB("crab");

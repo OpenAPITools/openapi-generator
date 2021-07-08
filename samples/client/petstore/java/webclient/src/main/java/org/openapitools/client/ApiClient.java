@@ -29,6 +29,7 @@ import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -57,6 +58,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+
+import javax.annotation.Nullable;
+
 import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
@@ -87,21 +91,20 @@ public class ApiClient extends JavaTimeFormatter {
 
     private final WebClient webClient;
     private final DateFormat dateFormat;
+    private final ObjectMapper objectMapper;
 
     private Map<String, Authentication> authentications;
 
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(dateFormat);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNullableModule jnm = new JsonNullableModule();
-        mapper.registerModule(jnm);
-
-        this.webClient = buildWebClient(mapper);
+        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
+        this.webClient = buildWebClient(this.objectMapper);
         this.init();
+    }
+
+    public ApiClient(WebClient webClient) {
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient()), createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
@@ -109,19 +112,33 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
+        this.objectMapper = createDefaultObjectMapper(format);
         this.init();
     }
 
-    public DateFormat createDefaultDateFormat() {
+    public static DateFormat createDefaultDateFormat() {
         DateFormat dateFormat = new RFC3339DateFormat();
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat;
+    }
+
+    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
+        return mapper;
     }
 
     protected void init() {
@@ -136,20 +153,45 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
-    * Build the WebClient used to make HTTP requests.
+    * Build the WebClientBuilder used to make WebClient.
+    * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
-    public static WebClient buildWebClient(ObjectMapper mapper) {
+    public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
             }).build();
-        WebClient.Builder webClient = WebClient.builder().exchangeStrategies(strategies);
-        return webClient.build();
+        WebClient.Builder webClientBuilder = WebClient.builder().exchangeStrategies(strategies);
+        return webClientBuilder;
     }
 
+    /**
+     * Build the WebClientBuilder used to make WebClient.
+     * @return WebClient
+     */
+    public static WebClient.Builder buildWebClientBuilder() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null));
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @param mapper ObjectMapper used for serialize/deserialize
+     * @return WebClient
+     */
+    public static WebClient buildWebClient(ObjectMapper mapper) {
+        return buildWebClientBuilder(mapper).build();
+    }
+
+    /**
+     * Build the WebClient used to make HTTP requests.
+     * @return WebClient
+     */
+    public static WebClient buildWebClient() {
+        return buildWebClientBuilder(createDefaultObjectMapper(null)).build();
+    }
 
     /**
      * Get the current base path
@@ -338,6 +380,22 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
+     * Get the ObjectMapper used to make HTTP requests.
+     * @return ObjectMapper objectMapper
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    /**
+     * Get the WebClient used to make HTTP requests.
+     * @return WebClient webClient
+     */
+    public WebClient getWebClient() {
+        return webClient;
+    }
+
+    /**
      * Format the given parameter object into string.
      * @param param the object to convert
      * @return String the parameter represented as a String
@@ -441,6 +499,15 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
+    * Check if the given {@code String} is a Problem JSON MIME (RFC-7807).
+    * @param mediaType the input MediaType
+    * @return boolean true if the MediaType represents Problem JSON, false otherwise
+    */
+    public boolean isProblemJsonMime(String mediaType) {
+        return "application/problem+json".equalsIgnoreCase(mediaType);
+    }
+
+    /**
      * Select the Accept header's value from the given accepts array:
      *     if JSON exists in the given array, use it;
      *     otherwise use all of them (joining into a string)
@@ -454,7 +521,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
         for (String accept : accepts) {
             MediaType mediaType = MediaType.parseMediaType(accept);
-            if (isJsonMime(mediaType)) {
+            if (isJsonMime(mediaType) && !isProblemJsonMime(accept)) {
                 return Collections.singletonList(mediaType);
             }
         }
@@ -502,7 +569,7 @@ public class ApiClient extends JavaTimeFormatter {
         } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
             return BodyInserters.fromMultipartData(formParams);
         } else {
-            return obj != null ? BodyInserters.fromObject(obj) : null;
+            return obj != null ? BodyInserters.fromValue(obj) : null;
         }
     }
 
@@ -523,31 +590,9 @@ public class ApiClient extends JavaTimeFormatter {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Mono<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+    public <T> ResponseSpec invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
-        return requestBuilder.retrieve().bodyToMono(returnType);
-    }
-
-    /**
-     * Invoke API by sending HTTP request with the given options.
-     *
-     * @param <T> the return type to use
-     * @param path The sub-path of the HTTP URL
-     * @param method The request method
-     * @param pathParams The path parameters
-     * @param queryParams The query parameters
-     * @param body The request body object
-     * @param headerParams The header parameters
-     * @param formParams The form parameters
-     * @param accept The request's Accept header
-     * @param contentType The request's Content-Type header
-     * @param authNames The authentications to apply
-     * @param returnType The return type into which to deserialize the response
-     * @return The response body in chosen type
-     */
-    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
-        return requestBuilder.retrieve().bodyToFlux(returnType);
+        return requestBuilder.retrieve();
     }
 
     private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
@@ -558,7 +603,7 @@ public class ApiClient extends JavaTimeFormatter {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.encode().toUriString(), pathParams);
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(false).toUriString(), pathParams);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -640,10 +685,10 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
          // collectionFormat is assumed to be "csv" by default
-         if(collectionFormat == null) {
-             collectionFormat = CollectionFormat.CSV;
-         }
+        if(collectionFormat == null) {
+            collectionFormat = CollectionFormat.CSV;
+        }
 
-         return collectionFormat.collectionToString(values);
+        return collectionFormat.collectionToString(values);
     }
 }

@@ -60,11 +60,16 @@ public class FakeClassnameTags123Api {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
-  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
-    return new ApiException(localVarResponse.statusCode(),
-        operationId + " call received non-success response",
-        localVarResponse.headers(),
-        localVarResponse.body());
+  private ApiException getApiException(String operationId, HttpResponse<String> response) {
+    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
+    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**

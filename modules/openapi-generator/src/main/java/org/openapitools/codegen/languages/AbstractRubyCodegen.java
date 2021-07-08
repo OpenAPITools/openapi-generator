@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,7 +41,7 @@ import java.util.Locale;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
     public AbstractRubyCodegen() {
         super();
@@ -190,6 +191,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }
@@ -250,8 +252,10 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 } else {
                     LOGGER.info("Successfully executed: `{}`", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -23,13 +23,35 @@ inline FString ToString(const {{classname}}::{{operationIdCamelCase}}Request::{{
 	{
 	{{#enumVars}}
 	case {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}}:
-		return TEXT({{{value}}});
+		return TEXT("{{{value}}}");
 	{{/enumVars}}
 	}
 	{{/allowableValues}}
 
 	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}} Value (%d)"), (int)Value);	
 	return TEXT("");
+}
+
+FString {{classname}}::{{operationIdCamelCase}}Request::EnumToString(const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
+{
+	static TMap<FString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}> StringToEnum = { {{#allowableValues}}{{#enumVars}}
+		{ TEXT("{{{value}}}"), {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}} },{{/enumVars}}{{/allowableValues}} };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;	
+}
+
+bool {{classname}}::{{operationIdCamelCase}}Request::EnumFromString(const FString& EnumAsString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
@@ -48,15 +70,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}> StringToEnum = { {{#enumVars}}
-			{ TEXT({{{value}}}), {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}} },{{/enumVars}} };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	{{/allowableValues}}
 	return false;
@@ -109,7 +124,7 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	return Path;
 }
 
-void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { {{#consumes}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/consumes}} };
 	//static const TArray<FString> Produces = { {{#produces}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/produces}} };

@@ -1,0 +1,12 @@
+# for .net standard
+generatorName: csharp-netcore
+outputDir: samples/client/petstore/csharp-netcore/OpenAPIClient-ConditionalSerialization
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-netcore
+additionalProperties:
+  packageGuid: '{fa96c953-af24-457d-8a01-f2fd2a7547a9}'
+  useCompareNetObjects: true 
+  disallowAdditionalPropertiesIfNotPresent: false
+  useOneOfDiscriminatorLookup: true
+  targetFramework:  netstandard2.0
+  conditionalSerialization: true

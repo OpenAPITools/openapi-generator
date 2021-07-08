@@ -93,11 +93,16 @@ export class {{classname}} {
 {{/hasSomeFormParams}}
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        {{#isQueryParamObjectFormatJson}}
+        httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        {{/isQueryParamObjectFormatJson}}
+        {{^isQueryParamObjectFormatJson}}
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
         }
+        {{/isQueryParamObjectFormatJson}}
         return httpParams;
     }
 
@@ -334,9 +339,9 @@ export class {{classname}} {
 
 {{/hasFormParams}}
     {{^isResponseFile}}
-        let responseType: 'text' | 'json' = 'json';
+        let responseType_: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
+            responseType_ = 'text';
         }
 
     {{/isResponseFile}}
@@ -350,7 +355,7 @@ export class {{classname}} {
                 responseType: "blob",
     {{/isResponseFile}}
     {{^isResponseFile}}
-                responseType: <any>responseType,
+                responseType: <any>responseType_,
     {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

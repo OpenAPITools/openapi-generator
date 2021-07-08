@@ -62,8 +62,8 @@ export class BaseAPI {
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
         const body = ((typeof FormData !== "undefined" && context.body instanceof FormData) || context.body instanceof URLSearchParams || isBlob(context.body))
-	    ? context.body
-	    : JSON.stringify(context.body);
+        ? context.body
+        : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
@@ -90,8 +90,8 @@ export class BaseAPI {
             if (middleware.post) {
                 response = await middleware.post({
                     fetch: this.fetchApi,
-                    url,
-                    init,
+                    url: fetchParams.url,
+                    init: fetchParams.init,
                     response: response.clone(),
                 }) || response;
             }
@@ -135,7 +135,7 @@ export interface ConfigurationParameters {
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
     headers?: HTTPHeaders; //header params we want to use on every request
     credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
@@ -175,10 +175,10 @@ export class Configuration {
         return undefined;
     }
 
-    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
+    get accessToken(): ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined {
         const accessToken = this.configuration.accessToken;
         if (accessToken) {
-            return typeof accessToken === 'function' ? accessToken : () => accessToken;
+            return typeof accessToken === 'function' ? accessToken : async () => accessToken;
         }
         return undefined;
     }
@@ -226,6 +226,9 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
                 const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
                     .join(`&${encodeURIComponent(fullKey)}=`);
                 return `${encodeURIComponent(fullKey)}=${multiValue}`;
+            }
+            if (value instanceof Date) {
+                return `${encodeURIComponent(fullKey)}=${encodeURIComponent(value.toISOString())}`;
             }
             if (value instanceof Object) {
                 return querystring(value as HTTPQuery, fullKey);

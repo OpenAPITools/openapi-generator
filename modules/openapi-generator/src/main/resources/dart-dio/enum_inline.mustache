@@ -1,4 +1,4 @@
-class {{{classname}}}{{{enumName}}} extends EnumClass {
+class {{{enumName}}} extends EnumClass {
 
   {{#allowableValues}}
     {{#enumVars}}
@@ -6,14 +6,14 @@ class {{{classname}}}{{{enumName}}} extends EnumClass {
   /// {{{description}}}
       {{/description}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{#lambda.escapeBuiltValueEnum}}{{{value}}}{{/lambda.escapeBuiltValueEnum}}{{/isInteger}})
-  static const {{{classname}}}{{{enumName}}} {{name}} = _${{#lambda.camelcase}}{{{classname}}}{{{enumName}}}{{/lambda.camelcase}}_{{name}};
+  static const {{{enumName}}} {{name}} = _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}_{{name}};
     {{/enumVars}}
   {{/allowableValues}}
 
-  static Serializer<{{{classname}}}{{{enumName}}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{{enumName}}}{{/lambda.camelcase}}Serializer;
+  static Serializer<{{{enumName}}}> get serializer => _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}Serializer;
 
-  const {{{classname}}}{{{enumName}}}._(String name): super(name);
+  const {{{enumName}}}._(String name): super(name);
 
-  static BuiltSet<{{{classname}}}{{{enumName}}}> get values => _${{#lambda.camelcase}}{{{classname}}}{{{enumName}}}{{/lambda.camelcase}}Values;
-  static {{{classname}}}{{{enumName}}} valueOf(String name) => _${{#lambda.camelcase}}{{{classname}}}{{{enumName}}}{{/lambda.camelcase}}ValueOf(name);
+  static BuiltSet<{{{enumName}}}> get values => _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}Values;
+  static {{{enumName}}} valueOf(String name) => _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}ValueOf(name);
 }

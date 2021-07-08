@@ -12,11 +12,12 @@
 
 
 #include "Order.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 Order::Order()
 {
@@ -35,13 +36,58 @@ Order::Order()
     
 }
 
-Order::~Order()
+void Order::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void Order::validate()
+bool Order::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool Order::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "Order" : pathPrefix;
+
+                            
+    return success;
+}
+
+bool Order::operator==(const Order& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!petIdIsSet() && !rhs.petIdIsSet()) || (petIdIsSet() && rhs.petIdIsSet() && getPetId() == rhs.getPetId())) &&
+    
+    
+    ((!quantityIsSet() && !rhs.quantityIsSet()) || (quantityIsSet() && rhs.quantityIsSet() && getQuantity() == rhs.getQuantity())) &&
+    
+    
+    ((!shipDateIsSet() && !rhs.shipDateIsSet()) || (shipDateIsSet() && rhs.shipDateIsSet() && getShipDate() == rhs.getShipDate())) &&
+    
+    
+    ((!statusIsSet() && !rhs.statusIsSet()) || (statusIsSet() && rhs.statusIsSet() && getStatus() == rhs.getStatus())) &&
+    
+    
+    ((!completeIsSet() && !rhs.completeIsSet()) || (completeIsSet() && rhs.completeIsSet() && isComplete() == rhs.isComplete()))
+    
+    ;
+}
+
+bool Order::operator!=(const Order& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const Order& o)
@@ -59,6 +105,7 @@ void to_json(nlohmann::json& j, const Order& o)
         j["status"] = o.m_Status;
     if(o.completeIsSet())
         j["complete"] = o.m_Complete;
+    
 }
 
 void from_json(const nlohmann::json& j, Order& o)
@@ -93,6 +140,7 @@ void from_json(const nlohmann::json& j, Order& o)
         j.at("complete").get_to(o.m_Complete);
         o.m_CompleteIsSet = true;
     } 
+    
 }
 
 int64_t Order::getId() const
@@ -198,8 +246,6 @@ void Order::unsetComplete()
     m_CompleteIsSet = false;
 }
 
-}
-}
-}
-}
+
+} // namespace org::openapitools::server::model
 

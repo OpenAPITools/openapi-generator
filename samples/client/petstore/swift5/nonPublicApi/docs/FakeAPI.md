@@ -228,7 +228,7 @@ For this test, the body for this request much reference a schema named `File`.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
+let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [nil]) // FileSchemaTestClass | 
 
 FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
     guard error == nil else {
@@ -384,7 +384,7 @@ let float = 987 // Float | None (optional)
 let double = 987 // Double | None
 let string = "string_example" // String | None (optional)
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = 987 // Data | None
+let byte = Data([9, 8, 7]) // Data | None
 let binary = URL(string: "https://example.com")! // URL | None (optional)
 let date = Date() // Date | None (optional)
 let dateTime = Date() // Date | None (optional)

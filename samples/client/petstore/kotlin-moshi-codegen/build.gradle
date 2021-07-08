@@ -2,12 +2,12 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '6.8.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.5.10'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -29,10 +29,9 @@ test {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "com.squareup.moshi:moshi-adapters:1.9.2"
-    compile "com.squareup.moshi:moshi:1.9.2"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
-    compile "com.squareup.okhttp3:okhttp:4.2.2"
-    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "com.squareup.moshi:moshi:1.12.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

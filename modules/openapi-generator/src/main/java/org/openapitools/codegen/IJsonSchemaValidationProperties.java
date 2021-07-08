@@ -77,7 +77,19 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsArray();
 
-    void setIsArray(boolean isArray);
+    void setIsArray(boolean isShort);
+
+    boolean getIsShort();
+
+    void setIsShort(boolean isShort);
+
+    boolean getIsBoolean();
+
+    void setIsBoolean(boolean isBoolean);
+
+    boolean getIsUnboundedInteger();
+
+    void setIsUnboundedInteger(boolean isUnboundedInteger);
 
     CodegenProperty getAdditionalProperties();
 
@@ -98,4 +110,16 @@ public interface IJsonSchemaValidationProperties {
     boolean getHasValidation();
 
     void setHasValidation(boolean hasValidation);
+
+    boolean getAdditionalPropertiesIsAnyType();
+
+    void setAdditionalPropertiesIsAnyType(boolean additionalPropertiesIsAnyType);
+
+    boolean getHasVars();
+
+    void setHasVars(boolean hasRequiredVars);
+
+    boolean getHasRequired();
+
+    void setHasRequired(boolean hasRequired);
 }

@@ -16,6 +16,8 @@ using System.Linq;
 using System.Reflection;
 using RestSharp;
 using Xunit;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
@@ -339,6 +341,30 @@ namespace Org.OpenAPITools.Test
             //petApi.AddDefaultHeader ("header_key", "header_value");
             // the following should be used instead as suggested in the doc
             //petApi.Configuration.AddDefaultHeader("header_key2", "header_value2");
+        }
+
+        [Fact]
+        public void TestArrayOfString()
+        {
+            ArrayTest at = new ArrayTest();
+            JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+            {
+                // OpenAPI generated types generally hide default constructors.
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy
+                    {
+                        OverrideSpecifiedNames = false
+                    }
+                }
+            };
+            Assert.Equal("{}", JsonConvert.SerializeObject(at, _serializerSettings));
+
+            at.ArrayOfString = new List<string> { "Something here ..." };
+
+            Assert.Equal("{\"array_of_string\":[\"Something here ...\"]}", JsonConvert.SerializeObject(at, _serializerSettings));
+
         }
 
         public void Dispose()

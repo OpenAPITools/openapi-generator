@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -298,9 +298,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
+        // method name cannot use reserved keyword, e.g. if
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -352,24 +352,33 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         this.packageVersion = packageVersion;
     }
 
+    /**
+     * Returns the number of required parameters plus 1.
+     *
+     * @param os List of Codegen Parameters
+     * @return the string representation of the number of required paramters plus 1
+     */
     String length(Object os) {
         int l = 1;
         for (CodegenParameter o : ((ExtendedCodegenOperation) os).allParams) {
-            CodegenParameter q = (CodegenParameter) o;
-            if (q.required)
+            if (o.required)
                 l++;
         }
-
         return Integer.toString(l);
     }
 
+    /**
+     * Returns the number of required parameters or body parameters.
+     *
+     * @param os List of Codegen Parameters
+     * @return the number of required paramters or body parameters
+     */
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
         for (CodegenParameter o : allParams) {
             if (o.required || o.isBodyParam)
                 l++;
         }
-
         return l;
     }
 
@@ -464,5 +473,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         public void setReplacedPathName(String replacedPathName) {
             this.replacedPathName = replacedPathName;
         }
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
     }
 }

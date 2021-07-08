@@ -225,6 +225,30 @@ class FakeApi extends Controller
         return response('How about implementing testGroupParameters as a delete method ?');
     }
     /**
+     * Operation testBodyWithBinary
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testBodyWithBinary()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithBinary');
+        }
+        $body = $input['body'];
+
+
+        return response('How about implementing testBodyWithBinary as a put method ?');
+    }
+    /**
      * Operation testBodyWithFileSchema
      *
      * .
@@ -460,6 +484,30 @@ class FakeApi extends Controller
 
 
         return response('How about implementing fakeOuterStringSerialize as a post method ?');
+    }
+    /**
+     * Operation fakePropertyEnumIntegerSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakePropertyEnumIntegerSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['outer_object_with_enum_property'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $outer_object_with_enum_property when calling fakePropertyEnumIntegerSerialize');
+        }
+        $outer_object_with_enum_property = $input['outer_object_with_enum_property'];
+
+
+        return response('How about implementing fakePropertyEnumIntegerSerialize as a post method ?');
     }
     /**
      * Operation testQueryParameterCollectionFormat

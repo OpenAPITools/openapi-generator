@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -60,6 +59,8 @@ public class ModelReturn {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(Integer _return) {
     this._return = _return;
   }

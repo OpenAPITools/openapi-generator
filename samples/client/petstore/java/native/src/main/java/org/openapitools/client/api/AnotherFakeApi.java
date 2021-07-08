@@ -58,6 +58,19 @@ public class AnotherFakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
@@ -87,10 +100,7 @@ public class AnotherFakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "call123testSpecialTags call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("call123testSpecialTags", localVarResponse);
       }
       return new ApiResponse<Client>(
           localVarResponse.statusCode(),

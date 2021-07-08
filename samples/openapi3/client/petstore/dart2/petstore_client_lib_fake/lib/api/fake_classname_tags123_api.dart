@@ -31,7 +31,7 @@ class FakeClassnameTags123Api {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake_classname_test'.replaceAll('{format}', 'json');
+    final path = r'/fake_classname_test';
 
     Object postBody = modelClient;
 
@@ -43,17 +43,6 @@ class FakeClassnameTags123Api {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key_query'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -78,14 +67,14 @@ class FakeClassnameTags123Api {
   Future<ModelClient> testClassname(ModelClient modelClient) async {
     final response = await testClassnameWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
+        }
+    return Future<ModelClient>.value(null);
   }
 }

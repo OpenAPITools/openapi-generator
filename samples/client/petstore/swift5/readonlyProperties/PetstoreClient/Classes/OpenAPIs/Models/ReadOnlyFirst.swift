@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-public struct ReadOnlyFirst: Codable {
+public struct ReadOnlyFirst: Codable, Hashable {
 
     public private(set) var bar: String?
     public private(set) var baz: String?
@@ -17,4 +20,17 @@ public struct ReadOnlyFirst: Codable {
         self.baz = baz
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case bar
+        case baz
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(bar, forKey: .bar)
+        try container.encodeIfPresent(baz, forKey: .baz)
+    }
 }
+

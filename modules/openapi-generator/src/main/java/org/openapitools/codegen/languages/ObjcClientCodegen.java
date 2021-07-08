@@ -29,11 +29,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
 
     public static final String CLASS_PREFIX = "classPrefix";
     public static final String POD_NAME = "podName";
@@ -436,7 +435,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {} before further processing",
+                    type, "model_" + type);
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -615,7 +615,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
@@ -766,7 +766,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             // e.g. [[SWGPet alloc] init
             example = "[[" + type + " alloc] init]";
         } else {
-            LOGGER.warn("Example value for " + type + " not handled properly in setParameterExampleValue");
+            LOGGER.warn("Example value for {} not handled properly in setParameterExampleValue", type);
         }
 
         if (example == null) {
