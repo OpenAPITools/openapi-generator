@@ -474,4 +474,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.replacedPathName = replacedPathName;
         }
     }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
 }
