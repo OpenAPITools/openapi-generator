@@ -232,31 +232,30 @@ extension {{projectName}} {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}Raw({{#allParams}}{{paramName}}: {{#isEnum}}{{#isArray}}[{{enumName}}_{{operationId}}]{{/isArray}}{{^isArray}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers: HTTPHeaders = {{projectName}}.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
+        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} localVariablePath = "{{{path}}}"{{#pathParams}}
         let {{paramName}}PreEscape = String(describing: {{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}{{paramName}}{{/isEnum}})
         let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
-        let URLString = {{projectName}}.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
+        let localVariableURLString = {{projectName}}.basePath + localVariablePath
 
-        guard let apiClient = {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}Configuration.apiClient else {
+        guard let localVariableApiClient = {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.{{httpMethod}}, headers: headers, to: URI(string: URLString)) { request in
-            try {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.{{httpMethod}}, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try {{#swiftUseApiNamespace}}{{projectName}}.{{/swiftUseApiNamespace}}Configuration.apiWrapper(&localVariableRequest)
             {{#hasHeaderParams}}{{#headerParams}}
-            request.headers.add(name: "{{baseName}}", value: {{#isArray}}{{paramName}}{{^required}}?{{/required}}.map { $0{{#isEnum}}.rawValue{{/isEnum}}.description }.description{{/isArray}}{{^isArray}}{{#isEnum}}{{paramName}}{{^required}}?{{/required}}.rawValue.description{{/isEnum}}{{^isEnum}}{{paramName}}{{^required}}?{{/required}}.description{{/isEnum}}{{/isArray}}{{^required}} ?? ""{{/required}})
+            localVariableRequest.headers.add(name: "{{baseName}}", value: {{#isArray}}{{paramName}}{{^required}}?{{/required}}.map { $0{{#isEnum}}.rawValue{{/isEnum}}.description }.description{{/isArray}}{{^isArray}}{{#isEnum}}{{paramName}}{{^required}}?{{/required}}.rawValue.description{{/isEnum}}{{^isEnum}}{{paramName}}{{^required}}?{{/required}}.description{{/isEnum}}{{/isArray}}{{^required}} ?? ""{{/required}})
             {{/headerParams}}{{/hasHeaderParams}}
             {{#hasQueryParams}}struct QueryParams: Content {
                 {{#queryParams}}
                 var {{paramName}}: {{#isEnum}}{{#isArray}}[{{enumName}}_{{operationId}}]{{/isArray}}{{^isArray}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}
                 {{/queryParams}}
             }
-            try request.query.encode(QueryParams({{#queryParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/queryParams}})){{/hasQueryParams}}
+            try localVariableRequest.query.encode(QueryParams({{#queryParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/queryParams}})){{/hasQueryParams}}
             {{#hasBodyParam}}
-            {{#bodyParam}}{{#required}}{{#isBinary}}request.body = ByteBuffer(data: {{paramName}}){{/isBinary}}{{^isBinary}}{{#isFile}}request.body = ByteBuffer(data: {{paramName}}){{/isFile}}try request.content.encode({{paramName}}, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}{{/required}}{{^required}}if let body = {{paramName}} {
-
-                {{#isBinary}}request.body = ByteBuffer(data: body){{/isBinary}}{{^isBinary}}{{#isFile}}request.body = ByteBuffer(data: body){{/isFile}}try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}
+            {{#bodyParam}}{{#required}}{{#isBinary}}localVariableRequest.body = ByteBuffer(data: {{paramName}}){{/isBinary}}{{^isBinary}}{{#isFile}}localVariableRequest.body = ByteBuffer(data: {{paramName}}){{/isFile}}try localVariableRequest.content.encode({{paramName}}, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}{{/required}}{{^required}}if let localVariableBody = {{paramName}} {
+                {{#isBinary}}localVariableRequest.body = ByteBuffer(data: localVariableBody){{/isBinary}}{{^isBinary}}{{#isFile}}localVariableRequest.body = ByteBuffer(data: localVariableBody){{/isFile}}try localVariableRequest.content.encode(localVariableBody, using: Configuration.contentConfiguration.requireEncoder(for: {{{dataType}}}.defaultContentType)){{/isBinary}}
             }{{/required}}{{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}struct FormParams: Content {
@@ -265,8 +264,8 @@ extension {{projectName}} {
                 var {{paramName}}: {{#isEnum}}{{#isArray}}[{{enumName}}_{{operationId}}]{{/isArray}}{{^isArray}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}
                 {{/formParams}}
             }
-            try request.content.encode(FormParams({{#formParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/formParams}}), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType)){{/hasFormParams}}
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams({{#formParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/formParams}}), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType)){{/hasFormParams}}
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -352,48 +351,48 @@ extension {{projectName}} {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
-        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
+        {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} localVariablePath = "{{{path}}}"{{#pathParams}}
         let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
         let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
-        let URLString = {{projectName}}.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
+        let localVariableURLString = {{projectName}}.basePath + localVariablePath
         {{#bodyParam}}
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}})
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}})
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}
-        let formParams: [String: Any?] = [
+        let localVariableFormParams: [String: Any?] = [
                 {{#formParams}}
             {{> _param}},
                 {{/formParams}}
         ]
 
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
             {{/hasFormParams}}
             {{^hasFormParams}}
-        let parameters: [String: Any]? = nil
+        let localVariableParameters: [String: Any]? = nil
             {{/hasFormParams}}
 {{/bodyParam}}{{#hasQueryParams}}
-        var urlComponents = URLComponents(string: URLString)
-        urlComponents?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
             {{#queryParams}}
             {{> _param}},
             {{/queryParams}}
         ]){{/hasQueryParams}}{{^hasQueryParams}}
-        let urlComponents = URLComponents(string: URLString){{/hasQueryParams}}
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
 
-        let nillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}
+        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}
             :{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
             "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{#headerParams}}
             {{> _param}},{{/headerParams}}
         ]
 
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
+        let localVariableRequestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: (urlComponents?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return localVariableRequestBuilder.init(method: "{{httpMethod}}", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 {{/useVapor}}
 {{/operation}}
