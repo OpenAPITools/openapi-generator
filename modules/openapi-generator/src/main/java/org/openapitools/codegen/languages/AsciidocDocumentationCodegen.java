@@ -163,6 +163,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     private IncludeMarkupLambda includeSnippetMarkupLambda;
     private LinkMarkupLambda linkSnippetMarkupLambda;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
@@ -181,10 +182,12 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         return sanitized.startsWith(File.separator) || sanitized.startsWith("/") ? sanitized.substring(1) : sanitized;
     }
 
+    @Override
     public String getName() {
         return "asciidoc";
     }
 
+    @Override
     public String getHelp() {
         return "Generates asciidoc markup based documentation.";
     }
