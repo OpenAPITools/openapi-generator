@@ -20,9 +20,9 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import com.fasterxml.jackson.core.type.TypeReference
 import java.util.Date
 import java.util.Locale
+import com.fasterxml.jackson.core.type.TypeReference
 
 open class ApiClient(val baseUrl: String) {
     companion object {
