@@ -575,7 +575,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else if ("bool".equals(datatype)) {
-            return value.substring(0, 1).toUpperCase() + value.substring(1);
+            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
             return ensureQuotes(value);
         }
