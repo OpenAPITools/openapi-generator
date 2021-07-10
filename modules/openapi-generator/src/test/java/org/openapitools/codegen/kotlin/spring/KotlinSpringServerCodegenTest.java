@@ -84,7 +84,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServiceImplementation(true);
         codegen.setUseBeanValidation(false);
         codegen.setReactive(false);
-        codegen.setInterfaceImplementation(false);
+        codegen.setSkipDefaultInterface(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -109,8 +109,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
-        Assert.assertFalse(codegen.getInterfaceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.INTERFACE_IMPLEMENTATION), false);
+        Assert.assertFalse(codegen.getSkipDefaultInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE), false);
     }
 
     @Test
@@ -127,7 +127,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_IMPLEMENTATION, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, false);
         codegen.processOpts();
 
         final OpenAPI openAPI = new OpenAPI();
@@ -158,8 +158,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
-        Assert.assertFalse(codegen.getInterfaceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.INTERFACE_IMPLEMENTATION), false);
+        Assert.assertFalse(codegen.getSkipDefaultInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE), false);
     }
 
     @Test
