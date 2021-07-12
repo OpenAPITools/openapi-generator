@@ -71,7 +71,7 @@
      * @type {Number}
      * @default 60000
      */
-    this.timeout = 60000;
+    this.timeout = 120000;
 
     /**
      * If set to false an additional timestamp parameter is added to all API GET calls to
@@ -392,7 +392,7 @@
       // SuperAgent does not always produce a body; use the unparsed response as a fallback
       data = response.text;
     }
-    return exports.convertToType(data, returnType);
+    return exports.convertToType(data, returnType, response.headers["content-type"]);
   };
 
 {{#emitJSDoc}}{{^usePromises}}  /**
@@ -590,7 +590,7 @@
    * all properties on <code>data<code> will be converted to this type.
    * @returns An instance of the specified type or null or undefined if data is null or undefined.
    */
-{{/emitJSDoc}}  exports.convertToType = function(data, type) {
+{{/emitJSDoc}}  exports.convertToType = function(data, type, contentType=null) {
     if (data === null || data === undefined)
       return data
 
@@ -613,7 +613,50 @@
           return data;
         } else if (typeof type.constructFromObject === 'function') {
           // for model type like User or enum class
-          return type.constructFromObject(data);
+          // ndjson => Newline delimited json is returned as an array of
+          // bytes that needs to be split by newline and converted into objects
+          if (contentType === 'application/x-ndjson' && (data || data.buffer)) {
+              const bufferContainsInvalidJSON = (buffer) => {
+                  const chars = buffer.reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), '');
+                  return chars.includes('exports.default') || chars.includes('module.exports');
+              }
+
+              let char_buf = data;
+              let separator = '\n'
+              if (data.buffer) {
+                  // In npm we get an array of uints that must be converted to string
+                  char_buf = new Uint8Array(data.buffer);
+                  separator = 0xA;
+
+                  // when running with jest, superagent's response.body.buffer or data.buffer may contain invalid JSON objects
+                  if (bufferContainsInvalidJSON(char_buf)) {
+                      char_buf = data;
+                      separator = '\n';
+                  }
+              }
+
+              let from_idx = 0;
+              let to_idx = char_buf.indexOf(separator);
+              let results = [];
+              while (to_idx >= 0) {
+                  let msg = char_buf.slice(from_idx, to_idx);
+                  if (data.buffer) {
+                      msg = msg.reduce((acc, i) => acc += String.fromCharCode.apply(null, [i]), '');
+                  }
+
+                  const gene_json = JSON.parse(msg);
+                  if (gene_json.gene || gene_json.messages || gene_json.warnings || gene_json.errors) {
+                      results.push(type.constructFromObject(gene_json));
+                  }
+                  from_idx = to_idx + 1;
+                  to_idx = char_buf.indexOf(separator, from_idx);
+              }
+              return results;
+          }
+          else {
+              return type.constructFromObject(data);
+          }
+
         } else if (Array.isArray(type)) {
           // for array type like: ['String']
           var itemType = type[0];

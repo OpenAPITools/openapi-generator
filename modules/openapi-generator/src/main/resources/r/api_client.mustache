@@ -191,6 +191,7 @@ ApiClient  <- R6::R6Class(
             }
           }
         } else {
+          obj <- as.data.frame(obj)
           if(!is.null(nrow(obj))){
             returnObj <- vector("list", length = nrow(obj))
             if (nrow(obj) > 0) {

@@ -248,7 +248,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	{{#isNullable}}
 	{{#vendorExtensions.x-golang-is-container}}
 	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
-	if o.{{name}} != nil {
+	if o.{{name}} != nil {{#isArray}}&& len(o.Get{{name}}()) > 0 {{/isArray}}{
 		toSerialize["{{baseName}}"] = o.{{name}}
 	}
 	{{/vendorExtensions.x-golang-is-container}}
@@ -260,7 +260,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	{{/isNullable}}
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
-	if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil{{/required}} {
+	if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil {{#isArray}}&& len(o.Get{{name}}()) > 0 {{/isArray}}{{/required}} {
 		toSerialize["{{baseName}}"] = o.{{name}}
 	}
 	{{/isNullable}}
