@@ -763,6 +763,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
+        // name is not just equal to "_" which translates to "_u" corner case.
+        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_");
+
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
         }
@@ -795,7 +798,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        boolean beginsWithUnderScore = name.startsWith("_");
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
@@ -1988,7 +1990,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name == null || name.length() == 0) {
             return name;
         }
-        boolean beginsWithUnderScore = name.startsWith("_");
+        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_");
         name = toVarName(name);
         //
         // Let the property name capitalized
