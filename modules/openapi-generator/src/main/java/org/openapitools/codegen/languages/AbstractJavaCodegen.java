@@ -795,10 +795,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize (lower first character) the variable name
         // pet_id => petId
+        boolean beginsWithUnderScore = name.startsWith("_");
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for _ in start of word, put it back in, as camelize removes it totally.
+        if (isReservedWord(name) || name.matches("^\\d.*") || beginsWithUnderScore ) {
             name = escapeReservedWord(name);
         }
 
@@ -1993,10 +1995,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Refer to section 8.8: Capitalization of inferred names of the JavaBeans API specification
         // http://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf)
         //
-        if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
+        boolean beginsWithUnderScore = name.startsWith("_");
+        int indexToCheck = 0;
+        if (beginsWithUnderScore) {
+            indexToCheck = 1;
+        }
+        if (name.length() > 1 && Character.isLowerCase(name.charAt(indexToCheck)) && Character.isUpperCase(name.charAt(indexToCheck+1))) {
             lowercaseFirstLetter = true;
         }
-        return camelize(name, lowercaseFirstLetter);
+        name = camelize(name, lowercaseFirstLetter);
+        if ( beginsWithUnderScore ) {
+            name = "_" + name;
+        }
+        return name;
     }
 
     @Override
