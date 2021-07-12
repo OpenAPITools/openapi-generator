@@ -764,7 +764,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // name is not just equal to "_" which translates to "_u" corner case.
-        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_");
+        boolean prependUnderscore = prependUnderscore(name);
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
@@ -802,7 +802,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // for reserved word or word starting with number, append _
         // for _ in start of word, put it back in, as camelize removes it totally.
-        if (isReservedWord(name) || name.matches("^\\d.*") || beginsWithUnderScore ) {
+        if (isReservedWord(name) || name.matches("^\\d.*") || prependUnderscore ) {
             name = escapeReservedWord(name);
         }
 
@@ -1990,7 +1990,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name == null || name.length() == 0) {
             return name;
         }
-        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_");
+        boolean prependUnderscore = prependUnderscore(name);
         name = toVarName(name);
         //
         // Let the property name capitalized
@@ -2002,10 +2002,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             lowercaseFirstLetter = true;
         }
         name = camelize(name, lowercaseFirstLetter);
-        if ( beginsWithUnderScore ) {
+        if ( prependUnderscore ) {
             name = "_" + name;
         }
         return name;
+    }
+
+    private boolean prependUnderscore(String name) {
+        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_")
+                && ( name.equals("class") || name.equals("_class") || name.equals("__class") );
+        return beginsWithUnderScore;
     }
 
     @Override
