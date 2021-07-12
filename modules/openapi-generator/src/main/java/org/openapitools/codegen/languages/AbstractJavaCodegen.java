@@ -763,8 +763,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
+        // We need to rePrepend the "_" if it appears as first character of a series of characters in a name.
         // name is not just equal to "_" which translates to "_u" corner case.
-        boolean prependUnderscore = prependUnderscore(name);
+        boolean prependUnderscore = name.length()!=1 && name.startsWith("_");
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
@@ -1990,7 +1991,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name == null || name.length() == 0) {
             return name;
         }
-        boolean prependUnderscore = prependUnderscore(name);
+        boolean prependUnderscore = name.length()!=1 && name.startsWith("_");
         name = toVarName(name);
         //
         // Let the property name capitalized
@@ -2002,16 +2003,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             lowercaseFirstLetter = true;
         }
         name = camelize(name, lowercaseFirstLetter);
-        if ( prependUnderscore ) {
+        // Note capitalizing "P" initial letter since camelize capitalizes it
+        if ( prependUnderscore && !name.equals("PropertyClass")) {
             name = "_" + name;
         }
         return name;
-    }
-
-    private boolean prependUnderscore(String name) {
-        boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_")
-                && !( name.equals("class") || name.equals("_class") || name.equals("__class") );
-        return beginsWithUnderScore;
     }
 
     @Override
