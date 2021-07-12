@@ -16,13 +16,13 @@ import (
 {{/routers}}
 )
 
-// A {{classname}}Controller binds http requests to an api service and writes the service results to the http response
+// {{classname}}Controller binds http requests to an api service and writes the service results to the http response
 type {{classname}}Controller struct {
 	service {{classname}}Servicer
 	errorHandler ErrorHandler
 }
 
-// Option for how controller is set up.
+// {{classname}}Option for how the controller is set up.
 type {{classname}}Option func(*{{classname}}Controller)
 
 // WithErrorHandler inject ErrorHandler into controller
