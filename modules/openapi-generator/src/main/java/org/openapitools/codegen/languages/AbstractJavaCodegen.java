@@ -2010,7 +2010,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private boolean prependUnderscore(String name) {
         boolean beginsWithUnderScore = name.length()!=1 && name.startsWith("_")
-                && ( name.equals("class") || name.equals("_class") || name.equals("__class") );
+                && !( name.equals("class") || name.equals("_class") || name.equals("__class") );
         return beginsWithUnderScore;
     }
 
