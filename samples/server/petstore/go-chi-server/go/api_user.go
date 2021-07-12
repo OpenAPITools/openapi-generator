@@ -17,16 +17,16 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// A UserApiController binds http requests to an api service and writes the service results to the http response
+// UserApiController binds http requests to an api service and writes the service results to the http response
 type UserApiController struct {
 	service UserApiServicer
 	errorHandler ErrorHandler
 }
 
-// Option for how controller is set up.
+// UserApiOption for how the controller is set up.
 type UserApiOption func(*UserApiController)
 
-// WithErrorHandler inject ErrorHandler into controller
+// WithUserApiErrorHandler inject ErrorHandler into controller
 func WithUserApiErrorHandler(h ErrorHandler) UserApiOption {
 	return func(c *UserApiController) {
 		c.errorHandler = h

@@ -17,16 +17,16 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// A StoreApiController binds http requests to an api service and writes the service results to the http response
+// StoreApiController binds http requests to an api service and writes the service results to the http response
 type StoreApiController struct {
 	service StoreApiServicer
 	errorHandler ErrorHandler
 }
 
-// Option for how controller is set up.
+// StoreApiOption for how the controller is set up.
 type StoreApiOption func(*StoreApiController)
 
-// WithErrorHandler inject ErrorHandler into controller
+// WithStoreApiErrorHandler inject ErrorHandler into controller
 func WithStoreApiErrorHandler(h ErrorHandler) StoreApiOption {
 	return func(c *StoreApiController) {
 		c.errorHandler = h

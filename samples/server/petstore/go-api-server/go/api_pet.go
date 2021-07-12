@@ -17,16 +17,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A PetApiController binds http requests to an api service and writes the service results to the http response
+// PetApiController binds http requests to an api service and writes the service results to the http response
 type PetApiController struct {
 	service PetApiServicer
 	errorHandler ErrorHandler
 }
 
-// Option for how controller is set up.
+// PetApiOption for how the controller is set up.
 type PetApiOption func(*PetApiController)
 
-// WithErrorHandler inject ErrorHandler into controller
+// WithPetApiErrorHandler inject ErrorHandler into controller
 func WithPetApiErrorHandler(h ErrorHandler) PetApiOption {
 	return func(c *PetApiController) {
 		c.errorHandler = h
