@@ -1988,6 +1988,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name == null || name.length() == 0) {
             return name;
         }
+        boolean beginsWithUnderScore = name.startsWith("_");
         name = toVarName(name);
         //
         // Let the property name capitalized
@@ -1995,12 +1996,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Refer to section 8.8: Capitalization of inferred names of the JavaBeans API specification
         // http://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf)
         //
-        boolean beginsWithUnderScore = name.startsWith("_");
-        int indexToCheck = 0;
-        if (beginsWithUnderScore) {
-            indexToCheck = 1;
-        }
-        if (name.length() > 1 && Character.isLowerCase(name.charAt(indexToCheck)) && Character.isUpperCase(name.charAt(indexToCheck+1))) {
+        if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
             lowercaseFirstLetter = true;
         }
         name = camelize(name, lowercaseFirstLetter);
