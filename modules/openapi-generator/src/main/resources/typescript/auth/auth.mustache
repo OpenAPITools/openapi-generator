@@ -75,8 +75,12 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
     public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}private tokenProvider: TokenProvider) {}
     {{/isBasicBearer}}
     {{#isOAuth}}
-    // TODO: How to handle oauth2 authentication!
-    public constructor() {}
+    /**
+     * Configures OAuth2 with the necessary properties
+     *
+     * @param accessToken: The access token to be used for every request
+     */
+    public constructor(private accessToken: string) {}
     {{/isOAuth}}
 
     public getName(): string {
@@ -85,7 +89,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 
     public {{#isBasicBearer}}async {{/isBasicBearer}}applySecurityAuthentication(context: RequestContext) {
         {{#isApiKey}}
-        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}addCookie{{/isKeyInQuery}}{{#isKeyInCookie}}setQueryParam{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
+        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}setQueryParam{{/isKeyInQuery}}{{#isKeyInCookie}}addCookie{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
         {{/isApiKey}}
         {{#isBasicBasic}}
         let comb = this.username + ":" + this.password;
@@ -95,7 +99,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
         context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
         {{/isBasicBearer}}
         {{#isOAuth}}
-        // TODO
+        context.setHeaderParam("Authorization", "Bearer " + this.accessToken);
         {{/isOAuth}}
     }
 }
@@ -119,7 +123,7 @@ export const authMethodServices = {
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
 export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
-export type OAuth2Configuration = string;
+export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
     {{#authMethods}}
@@ -152,6 +156,7 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
             config["{{name}}"]["tokenProvider"]
             {{/isBasicBearer}}
             {{#isOAuth}}
+            config["{{name}}"]["accessToken"]
             {{/isOAuth}}
         );
     }

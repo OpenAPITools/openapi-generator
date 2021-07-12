@@ -7,8 +7,6 @@ steps:
   commands:
   - ./mvnw --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   - ./mvnw --quiet verify -Psamples.droneio -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  # run ensure up-to-date
-  - /bin/bash bin/utils/ensure-up-to-date
   # test java native client
   - ./mvnw clean test -f samples/client/petstore/java/native/pom.xml
   - ./mvnw clean test -f samples/client/petstore/java/native-async/pom.xml

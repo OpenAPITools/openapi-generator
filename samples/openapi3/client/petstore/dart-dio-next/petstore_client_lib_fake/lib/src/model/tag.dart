@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'tag.g.dart';
 
-
-
+/// Tag
+///
+/// Properties:
+/// * [id] 
+/// * [name] 
 abstract class Tag implements Built<Tag, TagBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;

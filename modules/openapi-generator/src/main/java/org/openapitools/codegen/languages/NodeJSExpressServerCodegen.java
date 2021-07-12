@@ -445,7 +445,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
-                LOGGER.info("Successfully executed: " + command);
+                LOGGER.info("Successfully executed: {}", command);
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state

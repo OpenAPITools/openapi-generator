@@ -678,7 +678,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, FileParameter binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -718,7 +718,7 @@ namespace Example
             var int64 = 789;  // long? | None (optional) 
             var _float = 3.4F;  // float? | None (optional) 
             var _string = _string_example;  // string | None (optional) 
-            var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
+            var binary = BINARY_DATA_HERE;  // FileParameter | None (optional) 
             var date = 2013-10-20;  // DateTime? | None (optional) 
             var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = password_example;  // string | None (optional) 
@@ -753,7 +753,7 @@ Name | Type | Description  | Notes
  **int64** | **long?**| None | [optional] 
  **_float** | **float?**| None | [optional] 
  **_string** | **string**| None | [optional] 
- **binary** | **System.IO.Stream****System.IO.Stream**| None | [optional] 
+ **binary** | **FileParameter****FileParameter**| None | [optional] 
  **date** | **DateTime?**| None | [optional] 
  **dateTime** | **DateTime?**| None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;]
  **password** | **string**| None | [optional] 

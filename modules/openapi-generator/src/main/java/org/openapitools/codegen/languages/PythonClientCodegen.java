@@ -163,7 +163,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
-        LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+        LOGGER.info(
+                "{} is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums",
+                CodegenConstants.GENERATE_ALIAS_AS_MODEL);
 
         Boolean attrNoneIfUnset = false;
         if (additionalProperties.containsKey(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET)) {
@@ -1106,7 +1108,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
             Schema refSchema = allDefinitions.get(ref);
             if (null == refSchema) {
-                LOGGER.warn("Unable to find referenced schema " + schema.get$ref() + "\n");
+                LOGGER.warn("Unable to find referenced schema {}\n", schema.get$ref());
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
@@ -1307,7 +1309,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             return fullPrefix + closeChars;
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         return example;

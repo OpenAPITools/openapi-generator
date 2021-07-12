@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.TypeHolderExample")
+public typealias TypeHolderExample = PetstoreClient.TypeHolderExample
+
+extension PetstoreClient {
 
 public final class TypeHolderExample: Codable, Hashable {
 
@@ -23,6 +30,7 @@ public final class TypeHolderExample: Codable, Hashable {
         self.boolItem = boolItem
         self.arrayItem = arrayItem
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
@@ -42,8 +50,6 @@ public final class TypeHolderExample: Codable, Hashable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 
-
-
     public static func == (lhs: TypeHolderExample, rhs: TypeHolderExample) -> Bool {
         lhs.stringItem == rhs.stringItem &&
         lhs.numberItem == rhs.numberItem &&
@@ -61,5 +67,6 @@ public final class TypeHolderExample: Codable, Hashable {
         hasher.combine(arrayItem.hashValue)
         
     }
+}
 
 }

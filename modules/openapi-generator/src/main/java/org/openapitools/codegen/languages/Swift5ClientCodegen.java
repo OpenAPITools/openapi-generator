@@ -63,9 +63,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
+    public static final String HASHABLE_MODELS = "hashableModels";
+    public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
+    protected static final String LIBRARY_VAPOR = "vapor";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
@@ -79,7 +84,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
+    protected boolean generateModelAdditionalProperties = true;
+    protected boolean hashableModels = true;
+    protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -91,9 +100,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     public Swift5ClientCodegen() {
         super();
+        this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
@@ -115,7 +125,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Bool",
                         "Void",
                         "String",
-                        "URL",
                         "Data",
                         "Date",
                         "Character",
@@ -267,15 +276,29 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
+                "Generate model additional properties (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
                 + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
         cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
                 + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
+        cliOptions.add(new CliOption(USE_CLASSES, "Use final classes for models instead of structs (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(HASHABLE_MODELS,
+            "Make hashable models (default: true)")
+            .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
+            "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
+            .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
+        supportedLibraries.put(LIBRARY_VAPOR, "HTTP client: Vapor");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -425,7 +448,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
         // Setup swiftUseApiNamespace option, which makes all the API
-        // classes inner-class of {{projectName}}API
+        // classes inner-class of {{projectName}}
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
@@ -448,63 +471,89 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
 
+        if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
+            setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
+        }
+        additionalProperties.put(GENERATE_MODEL_ADDITIONAL_PROPERTIES, generateModelAdditionalProperties);
+
+        if (additionalProperties.containsKey(HASHABLE_MODELS)) {
+            setHashableModels(convertPropertyToBooleanAndWriteBack(HASHABLE_MODELS));
+        }
+        additionalProperties.put(HASHABLE_MODELS, hashableModels);
+
+        if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_DATA)) {
+            setMapFileBinaryToData(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA));
+        }
+        additionalProperties.put(MAP_FILE_BINARY_TO_DATA, mapFileBinaryToData);
+        if (mapFileBinaryToData) {
+            typeMapping.put("file", "Data");
+            typeMapping.put("binary", "Data");
+        }
+
+        if (additionalProperties.containsKey(USE_CLASSES)) {
+            setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
+        }
+        additionalProperties.put(USE_CLASSES, useClasses);
+
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        supportingFiles.add(new SupportingFile("Podspec.mustache",
-                "",
-                projectName + ".podspec"));
-        supportingFiles.add(new SupportingFile("Cartfile.mustache",
-                "",
-                "Cartfile"));
+        if (!getLibrary().equals(LIBRARY_VAPOR)) {
+            supportingFiles.add(new SupportingFile("Podspec.mustache",
+                    "",
+                    projectName + ".podspec"));
+            supportingFiles.add(new SupportingFile("Cartfile.mustache",
+                    "",
+                    "Cartfile"));
+            supportingFiles.add(new SupportingFile("CodableHelper.mustache",
+                    sourceFolder,
+                    "CodableHelper.swift"));
+            supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                    sourceFolder,
+                    "OpenISO8601DateFormatter.swift"));
+            supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
+                    sourceFolder,
+                    "JSONDataEncoding.swift"));
+            supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
+                    sourceFolder,
+                    "JSONEncodingHelper.swift"));
+            supportingFiles.add(new SupportingFile("git_push.sh.mustache",
+                    "",
+                    "git_push.sh"));
+            supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
+                    sourceFolder,
+                    "SynchronizedDictionary.swift"));
+            supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                    "",
+                    "project.yml"));
+            supportingFiles.add(new SupportingFile("APIHelper.mustache",
+                    sourceFolder,
+                    "APIHelper.swift"));
+            supportingFiles.add(new SupportingFile("Models.mustache",
+                    sourceFolder,
+                    "Models.swift"));
+        }
         supportingFiles.add(new SupportingFile("Package.swift.mustache",
                 "",
                 "Package.swift"));
-        supportingFiles.add(new SupportingFile("APIHelper.mustache",
-                sourceFolder,
-                "APIHelper.swift"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder,
                 "Configuration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
-        supportingFiles.add(new SupportingFile("Models.mustache",
-                sourceFolder,
-                "Models.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
-        supportingFiles.add(new SupportingFile("CodableHelper.mustache",
-                sourceFolder,
-                "CodableHelper.swift"));
-        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                sourceFolder,
-                "OpenISO8601DateFormatter.swift"));
-        supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
-                sourceFolder,
-                "JSONDataEncoding.swift"));
-        supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
-                sourceFolder,
-                "JSONEncodingHelper.swift"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache",
-                "",
-                "git_push.sh"));
-        supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
-                sourceFolder,
-                "SynchronizedDictionary.swift"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
-        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
-                "",
-                "project.yml"));
 
         switch (getLibrary()) {
             case LIBRARY_ALAMOFIRE:
@@ -519,10 +568,21 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         sourceFolder,
                         "URLSessionImplementations.swift"));
                 break;
+            case LIBRARY_VAPOR:
+                additionalProperties.put("useVapor", true);
+                break;
             default:
                 break;
         }
 
+    }
+
+    public boolean isMapFileBinaryToData() {
+        return mapFileBinaryToData;
+    }
+
+    public void setMapFileBinaryToData(boolean mapFileBinaryToData) {
+        this.mapFileBinaryToData = mapFileBinaryToData;
     }
 
     @Override
@@ -614,8 +674,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to "
-                    + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -623,9 +682,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             String modelName = "Model" + name;
-            LOGGER.warn(name
-                    + " (model name starts with number) cannot be used as model name."
-                    + " Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -725,14 +783,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
-                    + " Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
             operationId = camelize(sanitizeName("call_" + operationId), true);
         }
 
@@ -818,7 +875,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 parentSchema = parentCodegenModel.parentSchema;
             }
         }
-
+        if (hashableModels) {
+            codegenModel.vendorExtensions.put("x-swift-hashable", true);
+        }
         return codegenModel;
     }
 
@@ -858,8 +917,20 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.swiftPackagePath = swiftPackagePath;
     }
 
+    public void setUseClasses(boolean useClasses) {
+        this.useClasses = useClasses;
+    }
+
     public void setUseBacktickEscapes(boolean useBacktickEscapes) {
         this.useBacktickEscapes = useBacktickEscapes;
+    }
+
+    public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
+        this.generateModelAdditionalProperties = generateModelAdditionalProperties;
+    }
+
+    public void setHashableModels(boolean hashableModels) {
+        this.hashableModels = hashableModels;
     }
 
     @Override
@@ -1033,7 +1104,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
@@ -1083,6 +1154,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             } else if ("URL".equals(codegenParameter.dataType)) { // URL
                 return "URL(string: \"https://example.com\")!";
+            } else if ("Data".equals(codegenParameter.dataType)) { // URL
+                return "Data([9, 8, 7])";
             } else if ("Date".equals(codegenParameter.dataType)) { // date
                 return "Date()";
             } else { // numeric

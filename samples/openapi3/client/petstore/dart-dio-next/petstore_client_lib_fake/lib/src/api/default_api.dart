@@ -17,9 +17,19 @@ class DefaultApi {
 
   const DefaultApi(this._dio, this._serializers);
 
+  /// fooGet
   /// 
   ///
-  /// 
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [InlineResponseDefault] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<InlineResponseDefault>> fooGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -38,19 +48,12 @@ class DefaultApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -65,13 +68,13 @@ class DefaultApi {
         specifiedType: _responseType,
       ) as InlineResponseDefault;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<InlineResponseDefault>(

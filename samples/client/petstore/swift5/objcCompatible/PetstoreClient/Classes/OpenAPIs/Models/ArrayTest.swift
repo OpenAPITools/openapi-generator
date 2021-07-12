@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class ArrayTest: NSObject, Codable {
 
@@ -19,6 +21,7 @@ import AnyCodable
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
@@ -33,7 +36,5 @@ import AnyCodable
         try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
-
-
-
 }
+

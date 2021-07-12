@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass")
+public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClient.MixedPropertiesAndAdditionalPropertiesClass
+
+extension PetstoreClient {
 
 public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
@@ -19,6 +26,7 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         self.dateTime = dateTime
         self.map = map
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime
@@ -34,8 +42,6 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         try container.encodeIfPresent(map, forKey: .map)
     }
 
-
-
     public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
         lhs.uuid == rhs.uuid &&
         lhs.dateTime == rhs.dateTime &&
@@ -49,5 +55,6 @@ public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashabl
         hasher.combine(map?.hashValue)
         
     }
+}
 
 }

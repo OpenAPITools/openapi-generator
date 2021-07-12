@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.EnumTest")
+public typealias EnumTest = PetstoreClient.EnumTest
+
+extension PetstoreClient {
 
 public final class EnumTest: Codable, Hashable {
 
@@ -41,6 +48,7 @@ public final class EnumTest: Codable, Hashable {
         self.enumNumber = enumNumber
         self.outerEnum = outerEnum
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
@@ -60,8 +68,6 @@ public final class EnumTest: Codable, Hashable {
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 
-
-
     public static func == (lhs: EnumTest, rhs: EnumTest) -> Bool {
         lhs.enumString == rhs.enumString &&
         lhs.enumStringRequired == rhs.enumStringRequired &&
@@ -79,5 +85,6 @@ public final class EnumTest: Codable, Hashable {
         hasher.combine(outerEnum?.hashValue)
         
     }
+}
 
 }

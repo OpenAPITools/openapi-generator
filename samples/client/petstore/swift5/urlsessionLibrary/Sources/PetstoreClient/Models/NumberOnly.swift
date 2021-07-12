@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.NumberOnly")
+public typealias NumberOnly = PetstoreClient.NumberOnly
+
+extension PetstoreClient {
 
 public final class NumberOnly: Codable, Hashable {
 
@@ -15,6 +22,7 @@ public final class NumberOnly: Codable, Hashable {
     public init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
@@ -26,8 +34,6 @@ public final class NumberOnly: Codable, Hashable {
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
 
-
-
     public static func == (lhs: NumberOnly, rhs: NumberOnly) -> Bool {
         lhs.justNumber == rhs.justNumber
         
@@ -37,5 +43,6 @@ public final class NumberOnly: Codable, Hashable {
         hasher.combine(justNumber?.hashValue)
         
     }
+}
 
 }

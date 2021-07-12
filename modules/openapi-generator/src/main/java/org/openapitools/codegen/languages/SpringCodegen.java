@@ -229,7 +229,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             // set invokerPackage as basePackage:
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
-            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
+            LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
         super.processOpts();
@@ -336,8 +336,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
-        typeMapping.put("file", "org.springframework.web.multipart.MultipartFile");
-        importMapping.put("org.springframework.web.multipart.MultipartFile", "org.springframework.web.multipart.MultipartFile");
+        typeMapping.put("file", "org.springframework.core.io.Resource");
+        importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);

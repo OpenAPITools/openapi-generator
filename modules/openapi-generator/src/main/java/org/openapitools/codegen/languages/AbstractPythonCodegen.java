@@ -600,6 +600,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
     }
 
     public void setProjectName(String projectName) {

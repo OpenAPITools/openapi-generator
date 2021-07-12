@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class Cat: NSObject, Codable {
 
@@ -24,6 +26,7 @@ import AnyCodable
         self.color = color
         self.declawed = declawed
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _className = "className"
         case color
@@ -38,7 +41,5 @@ import AnyCodable
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
-
-
-
 }
+

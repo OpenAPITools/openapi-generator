@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct Pet: Codable, Hashable {
 
@@ -31,6 +33,7 @@ internal struct Pet: Codable, Hashable {
         self.tags = tags
         self.status = status
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case category
@@ -51,7 +54,5 @@ internal struct Pet: Codable, Hashable {
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
     }
-
-
-
 }
+

@@ -4,7 +4,8 @@
 // https://openapi-generator.tech
 //
 
-import Foundation
+import Foundation{{#useVapor}}
+import Vapor{{/useVapor}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct APIHelper {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func rejectNil(_ source: [String: Any?]) -> [String: Any]? {

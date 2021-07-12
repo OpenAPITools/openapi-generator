@@ -6,12 +6,16 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct StringBooleanMap: Codable, Hashable {
 
+
     internal enum CodingKeys: CodingKey, CaseIterable {
     }
+
     internal var additionalProperties: [String: Bool] = [:]
 
     internal subscript(key: String) -> Bool? {
@@ -38,11 +42,11 @@ internal struct StringBooleanMap: Codable, Hashable {
     // Decodable protocol methods
 
     internal init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
         var nonAdditionalPropertyKeys = Set<String>()
-        additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }
+

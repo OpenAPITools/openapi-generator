@@ -7,6 +7,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Version>{{packageVersion}}</Version>
+{{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+{{/nullableReferenceTypes}}
 {{#isLibrary}}
     <OutputType>Library</OutputType>
 {{/isLibrary}}

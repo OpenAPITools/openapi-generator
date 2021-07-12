@@ -198,6 +198,10 @@ function DeserializeResponse {
         [string[]]$ContentTypes
     )
 
+    If ($ContentTypes -eq $null) {
+        $ContentTypes = [string[]]@()
+    }
+
     If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response
     } Elseif ($ReturnType -match '\[\]$') { # array

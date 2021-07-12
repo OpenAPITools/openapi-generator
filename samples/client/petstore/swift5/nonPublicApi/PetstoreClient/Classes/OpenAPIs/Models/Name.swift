@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** Model for testing model name same as property name */
 internal struct Name: Codable, Hashable {
@@ -22,6 +24,7 @@ internal struct Name: Codable, Hashable {
         self.property = property
         self._123number = _123number
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
@@ -38,7 +41,5 @@ internal struct Name: Codable, Hashable {
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
-
-
-
 }
+
