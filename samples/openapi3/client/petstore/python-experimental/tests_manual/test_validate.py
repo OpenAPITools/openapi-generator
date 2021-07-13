@@ -10,8 +10,10 @@ from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.array_holding_any_type import ArrayHoldingAnyType
 from petstore_api.model.foo import Foo
-from petstore_api.model.pig import Pig
-from petstore_api.model.danish_pig import DanishPig
+from petstore_api.model.animal import Animal
+from petstore_api.model.dog import Dog
+from petstore_api.model.dog_all_of import DogAllOf
+
 from petstore_api.model_utils import AnyTypeSchema, StrSchema
 
 class TestValidate(unittest.TestCase):
@@ -67,10 +69,14 @@ class TestValidate(unittest.TestCase):
     # TODO: add bool, None, object w/ discriminator, composition
     def test_discriminated_dict_validate(self):
         im = petstore_api.enums.InstantiationMetadata()
-        _cls, path_to_schemas = Pig._validate({'className': 'DanishPig'}, _instantiation_metadata=im)
+#         import pdb
+#         pdb.set_trace()
+        _cls, path_to_schemas = Animal._validate(dict(className='Dog', color='black'), _instantiation_metadata=im)
+        # TODO get DogAllOf working
         assert path_to_schemas == {
-            ('args[0]',): set([Pig, DanishPig, dict]),
+            ('args[0]',): set([Animal, Dog, dict]),
             ('args[0]', 'className'): set([StrSchema, str]),
+            ('args[0]', 'color'): set([StrSchema, str]),
         }
 
 

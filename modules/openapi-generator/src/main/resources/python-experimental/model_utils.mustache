@@ -32,6 +32,14 @@ from {{packageName}}.configuration import (
 none_type = type(None)
 file_type = io.IOBase
 
+def update(d: dict, u: dict):
+    """
+    Adds u to d
+    Where each dict is defaultdict(set)
+    """
+    for k, v in u.items():
+        d[k] = d[k].union(v)
+    return d
 
 class cached_property(object):
     # this caches the result of the function call for fn with no inputs
@@ -487,8 +495,8 @@ class Schema(metaclass=MetaForAllTypes):
         if hasattr(cls, '_composed_schemas') or hasattr(cls, '_discriminator'):
             # validate is called inside _validate
             return cls._validate(*args, _instantiation_metadata=_instantiation_metadata)
-        cls._validate(*args, _instantiation_metadata=_instantiation_metadata)
-        return cls, defaultdict(set)
+        _cls, path_to_schemas = cls._validate(*args, _instantiation_metadata=_instantiation_metadata)
+        return cls, path_to_schemas
 
 
 def _get_discriminated_class_helper(_disc_property_name, disc, super_inst, **kwargs):
@@ -761,7 +769,7 @@ class ListBase(metaclass=MetaForAllTypes):
                 )
                 _cls, other_path_to_schemas = item_cls._validate(
                     value, _instantiation_metadata=item_instantiation_metadata)
-                path_to_schemas.update(other_path_to_schemas)
+                update(path_to_schemas, other_path_to_schemas)
                 _instantiation_metadata.path_to_schemas.update(item_instantiation_metadata.path_to_schemas)
         return path_to_schemas
 
@@ -834,7 +842,7 @@ class NullableListSchema(ListBase, Schema):
             return new_cls, _path_to_schemas
         _instantiation_metadata.base_classes |= frozenset({cls})
         other_path_to_schemas = cls._validate_items(args[0], _instantiation_metadata=_instantiation_metadata)
-        _path_to_schemas.update(other_path_to_schemas)
+        update(_path_to_schemas, other_path_to_schemas)
         return new_cls, _path_to_schemas
 
 
@@ -873,7 +881,7 @@ class ListSchema(ListBase, Schema):
             return new_cls, _path_to_schemas
         _instantiation_metadata.base_classes |= frozenset({cls})
         other_path_to_schemas = cls._validate_items(args[0], _instantiation_metadata=_instantiation_metadata)
-        _path_to_schemas.update(other_path_to_schemas)
+        update(_path_to_schemas, other_path_to_schemas)
         return new_cls, _path_to_schemas
 
 
@@ -1281,7 +1289,7 @@ class DictBase(metaclass=MetaForAllTypes):
                 path_to_item=_instantiation_metadata.path_to_item+(property_name,)
             )
             _cls, other_path_to_schemas = schema._validate(value, _instantiation_metadata=arg_instantiation_metadata)
-            path_to_schemas.update(other_path_to_schemas)
+            update(path_to_schemas, other_path_to_schemas)
             _instantiation_metadata.path_to_schemas.update(arg_instantiation_metadata.path_to_schemas)
         return path_to_schemas
 
@@ -1519,7 +1527,7 @@ class NullableDictSchema(DictBase, Schema):
             return new_cls, _path_to_schemas
         cls._validate_arg_presence(args[0])
         other_path_to_schemas = cls._validate_args(args[0], _instantiation_metadata=_instantiation_metadata)
-        _path_to_schemas.update(other_path_to_schemas)
+        update(_path_to_schemas, other_path_to_schemas)
         try:
             _discriminator = cls._discriminator
         except AttributeError:
@@ -1540,7 +1548,8 @@ class NullableDictSchema(DictBase, Schema):
             # we have already moved through this class so stop here
             return cls._class_by_base_class[dict], _path_to_schemas
         _instantiation_metadata.base_classes |= frozenset({cls})
-        discriminated_new_cls, _path_to_schemas = cls._get_new_class_for_base_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+        discriminated_new_cls, other_path_to_schemas = cls._get_new_class_for_base_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+        update(_path_to_schemas, other_path_to_schemas)
         new_cls = get_new_class('Dynamic'+cls.__name__, (cls, discriminated_new_cls))
         log_cache_usage(get_new_class)
         return new_cls, _path_to_schemas
@@ -1621,7 +1630,7 @@ class DictSchema(DictBase, Schema):
         new_cls, _path_to_schemas = super()._validate(*args, _instantiation_metadata=_instantiation_metadata)
         cls._validate_arg_presence(args[0])
         other_path_to_schemas = cls._validate_args(args[0], _instantiation_metadata=_instantiation_metadata)
-        _path_to_schemas.update(other_path_to_schemas)
+        update(_path_to_schemas, other_path_to_schemas)
         try:
             _discriminator = cls._discriminator
         except AttributeError:
@@ -1642,7 +1651,8 @@ class DictSchema(DictBase, Schema):
             # we have already moved through this class so stop here
             return cls._class_by_base_class[dict], _path_to_schemas
         _instantiation_metadata.base_classes |= frozenset({cls})
-        discriminated_new_cls, _path_to_schemas = cls._get_new_class_for_base_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+        discriminated_new_cls, other_path_to_schemas = cls._get_new_class_for_base_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+        update(_path_to_schemas, other_path_to_schemas)
         new_cls = get_new_class('Dynamic'+cls.__name__, (cls, discriminated_new_cls))
         log_cache_usage(get_new_class)
         return new_cls, _path_to_schemas
