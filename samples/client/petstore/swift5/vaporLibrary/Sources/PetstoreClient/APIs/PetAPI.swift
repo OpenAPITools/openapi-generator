@@ -163,6 +163,10 @@ open class PetAPI {
             
             struct QueryParams: Content {
                 var status: [Status_findPetsByStatus]
+
+                enum CodingKeys: String, CodingKey {
+                    case status = "status"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(status: status))
             
@@ -224,6 +228,10 @@ open class PetAPI {
             
             struct QueryParams: Content {
                 var tags: Set<String>
+
+                enum CodingKeys: String, CodingKey {
+                    case tags = "tags"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(tags: tags))
             
