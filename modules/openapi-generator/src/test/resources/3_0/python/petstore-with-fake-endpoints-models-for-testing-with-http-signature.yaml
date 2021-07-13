@@ -1779,6 +1779,12 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_bool:
+          type: boolean
+          enum:
+            - false
+        boolEnum:
+          $ref: '#/components/schemas/BooleanEnum'
         stringEnum:
           $ref: '#/components/schemas/StringEnum'
         IntegerEnum:
@@ -2445,3 +2451,7 @@ components:
           type: boolean
         seeingGhosts:
           type: boolean
+    BooleanEnum:
+      type: boolean
+      enum:
+        - true

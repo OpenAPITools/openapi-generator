@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 **enum_string** | **str** |  | [optional] 
 **enum_integer** | **int** |  | [optional] 
 **enum_number** | **float** |  | [optional] 
+**enum_bool** | **bool** |  | [optional]  if omitted the server will use the default value of False
+**bool_enum** | [**BooleanEnum**](BooleanEnum.md) |  | [optional] 
 **string_enum** | [**StringEnum**](StringEnum.md) |  | [optional] 
 **integer_enum** | [**IntegerEnum**](IntegerEnum.md) |  | [optional] 
 **string_enum_with_default_value** | [**StringEnumWithDefaultValue**](StringEnumWithDefaultValue.md) |  | [optional] 
