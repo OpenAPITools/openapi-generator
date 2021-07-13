@@ -50,6 +50,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
+    protected static final String JVM_VOLLEY = "jvm-volley";
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
@@ -189,6 +190,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.0. JSON processing: Kotlinx Serialization: 1.2.1.");
+        // TODO: Add version information.
+        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley. JSON processing: gson");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -355,6 +358,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case JVM_OKHTTP4:
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
+            case JVM_VOLLEY:
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
