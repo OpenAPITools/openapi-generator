@@ -345,7 +345,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toVarName(String name) {
-        name = sanitizeName(name, "[^\\w$]");
+        name = sanitizeName(name, "^[^\\w_$@]*|[^\\w$]");
 
         if ("_".equals(name)) {
             name = "_u";
