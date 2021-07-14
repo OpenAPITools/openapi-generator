@@ -564,12 +564,14 @@ class ComposedSchema(Schema):
     @classmethod
     def __get_allof_classes(cls, *args, _instantiation_metadata: InstantiationMetadata):
         allof_classes = []
+        path_to_schemas = defaultdict(set)
         for allof_cls in cls._composed_schemas['allOf']:
             if allof_cls in _instantiation_metadata.base_classes:
                 continue
-            allof_new_cls, _path_to_schemas = cls._get_new_class_for_base_classes(allof_cls, *args, _instantiation_metadata=_instantiation_metadata)
+            allof_new_cls, other_path_to_schemas = cls._get_new_class_for_base_classes(allof_cls, *args, _instantiation_metadata=_instantiation_metadata)
+            update(path_to_schemas, other_path_to_schemas)
             allof_classes.append(allof_new_cls)
-        return allof_classes, _path_to_schemas
+        return allof_classes, path_to_schemas
 
     @classmethod
     def __get_oneof_class(cls, discriminated_cls, *args, _instantiation_metadata: InstantiationMetadata):
@@ -577,7 +579,7 @@ class ComposedSchema(Schema):
         chosen_oneof_cls = None
         original_base_classes = _instantiation_metadata.base_classes
         new_base_classes = _instantiation_metadata.base_classes
-        _path_to_schemas = defaultdict(set)
+        path_to_schemas = defaultdict(set)
         for oneof_cls in cls._composed_schemas['oneOf']:
             if oneof_cls in _instantiation_metadata.base_classes:
                 continue
@@ -589,7 +591,7 @@ class ComposedSchema(Schema):
                 continue
             _instantiation_metadata.base_classes = original_base_classes
             try:
-                oneof_new_cls, _path_to_schemas = cls._get_new_class_for_base_classes(oneof_cls, *args, _instantiation_metadata=_instantiation_metadata)
+                oneof_new_cls, path_to_schemas = cls._get_new_class_for_base_classes(oneof_cls, *args, _instantiation_metadata=_instantiation_metadata)
                 new_base_classes = _instantiation_metadata.base_classes
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and oneof_cls is discriminated_cls:
@@ -613,13 +615,14 @@ class ComposedSchema(Schema):
                 "discriminated schema {}".format(chosen_oneof_cls, discriminated_cls)
             )
         _instantiation_metadata.base_classes = new_base_classes
-        return oneof_classes[0], _path_to_schemas
+        return oneof_classes[0], path_to_schemas
 
     @classmethod
     def __get_anyof_classes(cls, discriminated_cls, *args, _instantiation_metadata: InstantiationMetadata):
         anyof_classes = []
         chosen_anyof_cls = None
         original_base_classes = _instantiation_metadata.base_classes
+        path_to_schemas = defaultdict(set)
         for anyof_cls in cls._composed_schemas['anyOf']:
             if anyof_cls in _instantiation_metadata.base_classes:
                 continue
@@ -632,7 +635,7 @@ class ComposedSchema(Schema):
 
             _instantiation_metadata.base_classes = original_base_classes
             try:
-                anyof_new_cls, _path_to_schemas = cls._get_new_class_for_base_classes(anyof_cls, *args, _instantiation_metadata=_instantiation_metadata)
+                anyof_new_cls, other_path_to_schemas = cls._get_new_class_for_base_classes(anyof_cls, *args, _instantiation_metadata=_instantiation_metadata)
             except (ApiValueError, ApiTypeError) as ex:
                 if discriminated_cls is not None and anyof_cls is discriminated_cls:
                     raise ex
@@ -640,6 +643,7 @@ class ComposedSchema(Schema):
             original_base_classes = _instantiation_metadata.base_classes
             chosen_anyof_cls = anyof_new_cls
             anyof_classes.append(anyof_new_cls)
+            update(path_to_schemas, other_path_to_schemas)
         if not anyof_classes:
             raise ApiValueError(
                 "Invalid inputs given to generate an instance of {}. None "
@@ -650,7 +654,7 @@ class ComposedSchema(Schema):
                 "Invalid oneOf schema selected. The {} schema that passed validation is not the "
                 "discriminated schema {}".format(chosen_anyof_cls, discriminated_cls)
             )
-        return anyof_classes, _path_to_schemas
+        return anyof_classes, path_to_schemas
 
     @classmethod
     def _validate(cls, *args, _instantiation_metadata: typing.Optional[InstantiationMetadata] = None):
@@ -692,14 +696,17 @@ class ComposedSchema(Schema):
                 discriminated_cls = cls._get_discriminated_class(_disc_property_name=disc_property_name, **args[0])
 
         if cls._composed_schemas['allOf']:
-            allof_classes, _other_path_to_schemas = cls.__get_allof_classes(*args, _instantiation_metadata=_instantiation_metadata)
+            allof_classes, other_path_to_schemas = cls.__get_allof_classes(*args, _instantiation_metadata=_instantiation_metadata)
             chosen_classes.extend(allof_classes)
+            update(path_to_schemas, other_path_to_schemas)
         if cls._composed_schemas['oneOf']:
-            oneof_class, _other_path_to_schemas = cls.__get_oneof_class(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+            oneof_class, other_path_to_schemas = cls.__get_oneof_class(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
             chosen_classes.append(oneof_class)
+            update(path_to_schemas, other_path_to_schemas)
         if cls._composed_schemas['anyOf']:
-            anyof_classes, _other_path_to_schemas = cls.__get_anyof_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
+            anyof_classes, other_path_to_schemas = cls.__get_anyof_classes(discriminated_cls, *args, _instantiation_metadata=_instantiation_metadata)
             chosen_classes.extend(anyof_classes)
+            update(path_to_schemas, other_path_to_schemas)
 
         print('BUILDING composed cls {}'.format('Dynamic'+cls.__name__))
         value_txt = "for value={}".format(args[0]) if args else ""

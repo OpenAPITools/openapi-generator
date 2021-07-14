@@ -14,7 +14,7 @@ from petstore_api.model.animal import Animal
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
 
-from petstore_api.model_utils import AnyTypeSchema, StrSchema
+from petstore_api.model_utils import AnyTypeSchema, StrSchema, IntOrFloatSchema
 
 class TestValidate(unittest.TestCase):
 
@@ -48,8 +48,8 @@ class TestValidate(unittest.TestCase):
         _cls, path_to_schemas = ArrayHoldingAnyType._validate([Decimal(1), 'a'], _instantiation_metadata=im)
         assert path_to_schemas == {
             ('args[0]',): set([ArrayHoldingAnyType, list]),
-            ('args[0]', 0): set([AnyTypeSchema, Decimal]),
-            ('args[0]', 1): set([AnyTypeSchema, str])
+            ('args[0]', 0): set([AnyTypeSchema, IntOrFloatSchema, Decimal]),
+            ('args[0]', 1): set([AnyTypeSchema, StrSchema, str])
         }
 
     def test_empty_dict_validate(self):
@@ -63,21 +63,19 @@ class TestValidate(unittest.TestCase):
         assert path_to_schemas == {
             ('args[0]',): set([Foo, dict]),
             ('args[0]', 'bar'): set([StrSchema, str]),
-            ('args[0]', 'additional'): set([AnyTypeSchema, Decimal])
+            ('args[0]', 'additional'): set([AnyTypeSchema, IntOrFloatSchema, Decimal])
         }
 
-    # TODO: add bool, None, object w/ discriminator, composition
     def test_discriminated_dict_validate(self):
         im = petstore_api.enums.InstantiationMetadata()
-#         import pdb
-#         pdb.set_trace()
         _cls, path_to_schemas = Animal._validate(dict(className='Dog', color='black'), _instantiation_metadata=im)
-        # TODO get DogAllOf working
         assert path_to_schemas == {
-            ('args[0]',): set([Animal, Dog, dict]),
-            ('args[0]', 'className'): set([StrSchema, str]),
-            ('args[0]', 'color'): set([StrSchema, str]),
+            ('args[0]',): set([Animal, Dog, DogAllOf, dict]),
+            ('args[0]', 'className'): set([StrSchema, str, AnyTypeSchema]),
+            ('args[0]', 'color'): set([StrSchema, str, AnyTypeSchema]),
         }
+
+    # TODO: add bool, None, composition
 
 
 if __name__ == '__main__':
