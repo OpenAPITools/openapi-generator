@@ -342,6 +342,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
         authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
 
+        // request destination folder
+        final String requestFolder = (sourceFolder + File.separator + packageName + File.separator + "request").replace(".", "/");
+
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
@@ -359,6 +362,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
             case JVM_VOLLEY:
+                processJVMVolleyLibrary(infrastructureFolder, requestFolder);
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
@@ -464,6 +468,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+        addSupportingSerializerAdapters(infrastructureFolder);
+    }
+
+    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder) {
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_VOLLEY, true);
+        supportingFiles.add(new SupportingFile("infrastructure/ApiInvoker.mustache", infrastructureFolder, "ApiInvoker.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+
+        supportingFiles.add(new SupportingFile("request/deleterequest.mustache", requestFolder, "deleterequest.kt"));
+        supportingFiles.add(new SupportingFile("request/getrequest.mustache", requestFolder, "getrequest.kt"));
+        supportingFiles.add(new SupportingFile("request/patchrequest.mustache", requestFolder, "patchrequest.kt"));
+        supportingFiles.add(new SupportingFile("request/postrequest.mustache", requestFolder, "postrequest.kt"));
+        supportingFiles.add(new SupportingFile("request/putrequest.mustache", requestFolder, "putrequest.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
