@@ -613,6 +613,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         } else if (getLibrary().equals(JVM_VOLLEY)) {
             supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
             supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+            supportingFiles.add(new SupportingFile("manifest.mustache", "", "src/main/AndroidManifest.xml"));
         } else {
             supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
             supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
