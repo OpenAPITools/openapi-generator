@@ -7,6 +7,8 @@ defmodule OpenapiPetstore.Mixfile do
      elixir: "~> 1.6",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package(),
+     description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\",
      deps: deps()]
   end
 
@@ -31,6 +33,14 @@ defmodule OpenapiPetstore.Mixfile do
     [
       {:tesla, "~> 1.2"},
       {:poison, "~> 3.0"}
+    ]
+  end
+
+   defp package() do
+    [
+      name: "openapi_petstore",
+      files: ~w(lib mix.exs README* LICENSE*),
+      licenses: [""]
     ]
   end
 end
