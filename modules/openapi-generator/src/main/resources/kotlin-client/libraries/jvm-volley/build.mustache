@@ -6,18 +6,11 @@ project.version = '{{artifactVersion}}'
 buildscript {
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
+        maven { url "https://maven.google.com" }
         jcenter()
     }
     dependencies {
-        {{#androidGradleVersion}}
-        classpath 'com.android.tools.build:gradle:{{{androidGradleVersion}}}'
-        {{/androidGradleVersion}}
-        {{^androidGradleVersion}}
-        classpath 'com.android.tools.build:gradle:2.3.+'
-        {{/androidGradleVersion}}
-        {{#useAndroidMavenGradlePlugin}}
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        {{/useAndroidMavenGradlePlugin}}
+        classpath 'com.android.tools.build:gradle:4.2.1'
     }
 }
 
@@ -38,22 +31,22 @@ android {
     compileSdkVersion {{{androidSdkVersion}}}
     {{/androidSdkVersion}}
     {{^androidSdkVersion}}
-    compileSdkVersion 25
+    compileSdkVersion 29
     {{/androidSdkVersion}}
     {{#androidBuildToolsVersion}}
     buildToolsVersion '{{{androidBuildToolsVersion}}}'
     {{/androidBuildToolsVersion}}
     {{^androidBuildToolsVersion}}
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '30.0.2'
     {{/androidBuildToolsVersion}}
     useLibrary  'org.apache.http.legacy'
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         {{#androidSdkVersion}}
         targetSdkVersion {{{androidSdkVersion}}}
         {{/androidSdkVersion}}
         {{^androidSdkVersion}}
-        targetSdkVersion 25
+        targetSdkVersion 29
         {{/androidSdkVersion}}
     }
     compileOptions {
