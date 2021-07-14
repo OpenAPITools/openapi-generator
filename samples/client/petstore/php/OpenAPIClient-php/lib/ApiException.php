@@ -27,7 +27,10 @@
 
 namespace OpenAPI\Client;
 
-use \Exception;
+use Exception;
+use Http\Client\Exception\RequestException;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * ApiException Class Doc Comment
@@ -37,13 +40,13 @@ use \Exception;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class ApiException extends Exception
+class ApiException extends RequestException
 {
 
     /**
      * The HTTP body of the server response either as Json or string.
      *
-     * @var \stdClass|string|null
+     * @var string|null
      */
     protected $responseBody;
 
@@ -61,19 +64,18 @@ class ApiException extends Exception
      */
     protected $responseObject;
 
-    /**
-     * Constructor
-     *
-     * @param string                $message         Error message
-     * @param int                   $code            HTTP status code
-     * @param string[]|null         $responseHeaders HTTP response header
-     * @param \stdClass|string|null $responseBody    HTTP decoded body of the server response either as \stdClass or string
-     */
-    public function __construct($message = "", $code = 0, $responseHeaders = [], $responseBody = null)
-    {
-        parent::__construct($message, $code);
-        $this->responseHeaders = $responseHeaders;
-        $this->responseBody = $responseBody;
+    public function __construct(
+        $message,
+        RequestInterface $request,
+        ResponseInterface $response = null,
+        Exception $previous = null
+    ) {
+        parent::__construct($message, $request, $previous);
+        if ($response) {
+            $this->responseHeaders = $response->getHeaders();
+            $this->responseBody = (string) $response->getBody();
+            $this->code = $response->getStatusCode();
+        }
     }
 
     /**

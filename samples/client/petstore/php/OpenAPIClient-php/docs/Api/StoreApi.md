@@ -29,8 +29,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
 $order_id = 'order_id_example'; // string | ID of the order that needs to be deleted
@@ -89,8 +89,8 @@ $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setApiKey('ap
 
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client(),
     $config
 );
@@ -143,8 +143,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
 $order_id = 56; // int | ID of pet that needs to be fetched
@@ -197,8 +197,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
 $order = new \OpenAPI\Client\Model\Order(); // \OpenAPI\Client\Model\Order | order placed for purchasing the pet

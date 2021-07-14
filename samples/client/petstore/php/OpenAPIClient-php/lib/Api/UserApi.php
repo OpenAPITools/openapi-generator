@@ -27,16 +27,32 @@
 
 namespace OpenAPI\Client\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Query;
+use Http\Client\Common\Plugin\ErrorPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Client\Common\PluginClient;
+use Http\Client\Common\PluginClientFactory;
+use Http\Client\Exception\HttpException;
+use Http\Client\HttpAsyncClient;
+use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Http\Message\RequestFactory;
+use Http\Promise\Promise;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
+use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
+use function sprintf;
 
 /**
  * UserApi Class Doc Comment
@@ -49,9 +65,19 @@ use OpenAPI\Client\ObjectSerializer;
 class UserApi
 {
     /**
-     * @var ClientInterface
+     * @var PluginClient
      */
-    protected $client;
+    protected $httpClient;
+
+    /**
+     * @var PluginClient
+     */
+    protected $httpAsyncClient;
+
+    /**
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
 
     /**
      * @var Configuration
@@ -69,20 +95,53 @@ class UserApi
     protected $hostIndex;
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @var RequestFactoryInterface
      */
+    protected $requestFactory;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    protected $streamFactory;
+
     public function __construct(
-        ClientInterface $client = null,
+        ClientInterface $httpClient = null,
         Configuration $config = null,
+        HttpAsyncClient $httpAsyncClient = null,
+        UriFactoryInterface $uriFactory = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null,
         HeaderSelector $selector = null,
+        ?array $plugins = null,
         $hostIndex = 0
     ) {
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->config = $config ?? (new Configuration())->setHost('http://petstore.swagger.io:80/v2');
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+
+        $plugins = $plugins ?? [
+            new RedirectPlugin(['strict' => true]),
+            new ErrorPlugin(),
+        ];
+
+        if ($this->config->getDebug()) {
+            $plugins[] = new DebugPlugin(fopen($this->config->getDebugFile(), 'ab'));
+        }
+
+        $this->httpClient = (new PluginClientFactory())->createClient(
+            $httpClient ?? Psr18ClientDiscovery::find(),
+            $plugins
+        );
+
+        $this->httpAsyncClient = (new PluginClientFactory())->createClient(
+            $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
+            $plugins
+        );
+
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
+
+        $this->headerSelector = $selector ?? new HeaderSelector();
+
         $this->hostIndex = $hostIndex;
     }
 
@@ -146,32 +205,30 @@ class UserApi
         $request = $this->createUserRequest($user);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -190,7 +247,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUserAsync($user)
     {
@@ -210,20 +267,19 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUserAsyncWithHttpInfo($user)
     {
         $returnType = '';
         $request = $this->createUserRequest($user);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -232,9 +288,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -246,7 +302,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function createUserRequest($user)
     {
@@ -261,7 +317,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -282,7 +338,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -302,11 +358,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -322,13 +378,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -363,32 +417,30 @@ class UserApi
         $request = $this->createUsersWithArrayInputRequest($user);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -407,7 +459,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUsersWithArrayInputAsync($user)
     {
@@ -427,20 +479,19 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUsersWithArrayInputAsyncWithHttpInfo($user)
     {
         $returnType = '';
         $request = $this->createUsersWithArrayInputRequest($user);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -449,9 +500,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -463,7 +514,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function createUsersWithArrayInputRequest($user)
     {
@@ -478,7 +529,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -499,7 +550,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -519,11 +570,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -539,13 +590,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -580,32 +629,30 @@ class UserApi
         $request = $this->createUsersWithListInputRequest($user);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -624,7 +671,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUsersWithListInputAsync($user)
     {
@@ -644,20 +691,19 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function createUsersWithListInputAsyncWithHttpInfo($user)
     {
         $returnType = '';
         $request = $this->createUsersWithListInputRequest($user);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -666,9 +712,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -680,7 +726,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function createUsersWithListInputRequest($user)
     {
@@ -695,7 +741,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -716,7 +762,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -736,11 +782,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -756,13 +802,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
     /**
@@ -797,32 +841,30 @@ class UserApi
         $request = $this->deleteUserRequest($username);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -841,7 +883,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function deleteUserAsync($username)
     {
@@ -861,20 +903,19 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function deleteUserAsyncWithHttpInfo($username)
     {
         $returnType = '';
         $request = $this->deleteUserRequest($username);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -883,9 +924,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -897,7 +938,7 @@ class UserApi
      * @param  string $username The name that needs to be deleted (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function deleteUserRequest($username)
     {
@@ -912,7 +953,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -955,11 +996,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -975,13 +1016,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'DELETE',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('DELETE', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1017,32 +1056,30 @@ class UserApi
         $request = $this->getUserByNameRequest($username);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             switch($statusCode) {
                 case 200:
@@ -1095,7 +1132,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function getUserByNameAsync($username)
     {
@@ -1115,15 +1152,14 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function getUserByNameAsyncWithHttpInfo($username)
     {
         $returnType = '\OpenAPI\Client\Model\User';
         $request = $this->getUserByNameRequest($username);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -1138,7 +1174,7 @@ class UserApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -1147,9 +1183,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -1161,7 +1197,7 @@ class UserApi
      * @param  string $username The name that needs to be fetched. Use user1 for testing. (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function getUserByNameRequest($username)
     {
@@ -1176,7 +1212,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1219,11 +1255,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1239,13 +1275,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1283,32 +1317,30 @@ class UserApi
         $request = $this->loginUserRequest($username, $password);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             switch($statusCode) {
                 case 200:
@@ -1362,7 +1394,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function loginUserAsync($username, $password)
     {
@@ -1383,15 +1415,14 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function loginUserAsyncWithHttpInfo($username, $password)
     {
         $returnType = 'string';
         $request = $this->loginUserRequest($username, $password);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -1406,7 +1437,7 @@ class UserApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -1415,9 +1446,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -1430,7 +1461,7 @@ class UserApi
      * @param  string $password The password for login in clear text (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function loginUserRequest($username, $password)
     {
@@ -1451,7 +1482,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
         // query params
@@ -1508,11 +1539,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1528,13 +1559,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1567,32 +1596,30 @@ class UserApi
         $request = $this->logoutUserRequest();
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -1610,7 +1637,7 @@ class UserApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function logoutUserAsync()
     {
@@ -1629,20 +1656,19 @@ class UserApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function logoutUserAsyncWithHttpInfo()
     {
         $returnType = '';
         $request = $this->logoutUserRequest();
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -1651,9 +1677,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -1664,7 +1690,7 @@ class UserApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function logoutUserRequest()
     {
@@ -1673,7 +1699,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1708,11 +1734,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1728,13 +1754,11 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
     /**
@@ -1771,32 +1795,30 @@ class UserApi
         $request = $this->updateUserRequest($username, $user);
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             return [null, $statusCode, $response->getHeaders()];
 
@@ -1816,7 +1838,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updateUserAsync($username, $user)
     {
@@ -1837,20 +1859,19 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function updateUserAsyncWithHttpInfo($username, $user)
     {
         $returnType = '';
         $request = $this->updateUserRequest($username, $user);
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -1859,9 +1880,9 @@ class UserApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -1874,7 +1895,7 @@ class UserApi
      * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function updateUserRequest($username, $user)
     {
@@ -1895,7 +1916,7 @@ class UserApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -1924,7 +1945,7 @@ class UserApi
         // for model (json/xml)
         if (isset($user)) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($user));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
             }
@@ -1944,11 +1965,11 @@ class UserApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -1964,31 +1985,76 @@ class UserApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('PUT', $uri, $headers, $httpBody);
     }
 
+
     /**
-     * Create http client option
+     * @param string $method
+     * @param string|UriInterface $uri
+     * @param array $headers
+     * @param string|StreamInterface|null $body
      *
-     * @throws \RuntimeException on file opening failure
-     * @return array of http client options
+     * @return RequestInterface
      */
-    protected function createHttpClientOption()
+    protected function createRequest(string $method, $uri, array $headers = [], $body = null): RequestInterface
     {
-        $options = [];
-        if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
-            if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
-            }
+        if ($this->requestFactory instanceof RequestFactory) {
+            return $this->requestFactory->createRequest(
+                $method,
+                $uri,
+                $headers,
+                $body
+            );
         }
 
-        return $options;
+        if (is_string($body) && '' !== $body && null === $this->streamFactory) {
+            throw new \RuntimeException('Cannot create request: A stream factory is required to create a request with a non-empty string body.');
+        }
+
+        $request = $this->requestFactory->createRequest($method, $uri);
+
+        foreach ($headers as $key => $value) {
+            $request = $request->withHeader($key, $value);
+        }
+
+        if (null !== $body && '' !== $body) {
+            $request = $request->withBody(
+                is_string($body) ? $this->streamFactory->createStream($body) : $body
+            );
+        }
+
+        return $request;
+    }
+
+    private function createUri(
+        string $operationHost,
+        string $resourcePath,
+        array $queryParams
+    ): UriInterface {
+        $parsedUrl = parse_url($operationHost);
+
+        $host = $parsedUrl['host'] ?? null;
+        $scheme = $parsedUrl['scheme'] ?? null;
+        $basePath = $parsedUrl['path'] ?? null;
+        $port = $parsedUrl['port'] ?? null;
+        $user = $parsedUrl['user'] ?? null;
+        $password = $parsedUrl['pass'] ?? null;
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withPort($port)
+            ->withQuery(Query::build($queryParams));
+
+        if ($user) {
+            $uri = $uri->withUserInfo($user, $password);
+        }
+
+        return $uri;
     }
 }

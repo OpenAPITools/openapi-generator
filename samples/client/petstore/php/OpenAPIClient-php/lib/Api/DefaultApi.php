@@ -27,16 +27,32 @@
 
 namespace OpenAPI\Client\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Query;
+use Http\Client\Common\Plugin\ErrorPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Client\Common\PluginClient;
+use Http\Client\Common\PluginClientFactory;
+use Http\Client\Exception\HttpException;
+use Http\Client\HttpAsyncClient;
+use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Http\Message\RequestFactory;
+use Http\Promise\Promise;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
+use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
+use function sprintf;
 
 /**
  * DefaultApi Class Doc Comment
@@ -49,9 +65,19 @@ use OpenAPI\Client\ObjectSerializer;
 class DefaultApi
 {
     /**
-     * @var ClientInterface
+     * @var PluginClient
      */
-    protected $client;
+    protected $httpClient;
+
+    /**
+     * @var PluginClient
+     */
+    protected $httpAsyncClient;
+
+    /**
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
 
     /**
      * @var Configuration
@@ -69,20 +95,53 @@ class DefaultApi
     protected $hostIndex;
 
     /**
-     * @param ClientInterface $client
-     * @param Configuration   $config
-     * @param HeaderSelector  $selector
-     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @var RequestFactoryInterface
      */
+    protected $requestFactory;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    protected $streamFactory;
+
     public function __construct(
-        ClientInterface $client = null,
+        ClientInterface $httpClient = null,
         Configuration $config = null,
+        HttpAsyncClient $httpAsyncClient = null,
+        UriFactoryInterface $uriFactory = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null,
         HeaderSelector $selector = null,
+        ?array $plugins = null,
         $hostIndex = 0
     ) {
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->config = $config ?? (new Configuration())->setHost('http://petstore.swagger.io:80/v2');
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+
+        $plugins = $plugins ?? [
+            new RedirectPlugin(['strict' => true]),
+            new ErrorPlugin(),
+        ];
+
+        if ($this->config->getDebug()) {
+            $plugins[] = new DebugPlugin(fopen($this->config->getDebugFile(), 'ab'));
+        }
+
+        $this->httpClient = (new PluginClientFactory())->createClient(
+            $httpClient ?? Psr18ClientDiscovery::find(),
+            $plugins
+        );
+
+        $this->httpAsyncClient = (new PluginClientFactory())->createClient(
+            $httpAsyncClient ?? HttpAsyncClientDiscovery::find(),
+            $plugins
+        );
+
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
+
+        $this->headerSelector = $selector ?? new HeaderSelector();
+
         $this->hostIndex = $hostIndex;
     }
 
@@ -141,32 +200,30 @@ class DefaultApi
         $request = $this->fooGetRequest();
 
         try {
-            $options = $this->createHttpClientOption();
             try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
                 throw new ApiException(
                     "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                    $request,
+                    null,
+                    $e
                 );
             }
 
             $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
 
             switch($statusCode) {
                 default:
@@ -216,7 +273,7 @@ class DefaultApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function fooGetAsync()
     {
@@ -233,15 +290,14 @@ class DefaultApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return Promise
      */
     public function fooGetAsyncWithHttpInfo()
     {
         $returnType = '\OpenAPI\Client\Model\InlineResponseDefault';
         $request = $this->fooGetRequest();
 
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
+        return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
                 function ($response) use ($returnType) {
                     if ($returnType === '\SplFileObject') {
@@ -256,7 +312,7 @@ class DefaultApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {
+                function (HttpException $exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
                     throw new ApiException(
@@ -265,9 +321,9 @@ class DefaultApi
                             $statusCode,
                             $exception->getRequest()->getUri()
                         ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
                     );
                 }
             );
@@ -278,7 +334,7 @@ class DefaultApi
      *
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function fooGetRequest()
     {
@@ -287,7 +343,7 @@ class DefaultApi
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
-        $httpBody = '';
+        $httpBody = null;
         $multipart = false;
 
 
@@ -322,11 +378,11 @@ class DefaultApi
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = Query::build($formParams);
             }
         }
 
@@ -342,31 +398,76 @@ class DefaultApi
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'GET',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('GET', $uri, $headers, $httpBody);
     }
 
+
     /**
-     * Create http client option
+     * @param string $method
+     * @param string|UriInterface $uri
+     * @param array $headers
+     * @param string|StreamInterface|null $body
      *
-     * @throws \RuntimeException on file opening failure
-     * @return array of http client options
+     * @return RequestInterface
      */
-    protected function createHttpClientOption()
+    protected function createRequest(string $method, $uri, array $headers = [], $body = null): RequestInterface
     {
-        $options = [];
-        if ($this->config->getDebug()) {
-            $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
-            if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
-            }
+        if ($this->requestFactory instanceof RequestFactory) {
+            return $this->requestFactory->createRequest(
+                $method,
+                $uri,
+                $headers,
+                $body
+            );
         }
 
-        return $options;
+        if (is_string($body) && '' !== $body && null === $this->streamFactory) {
+            throw new \RuntimeException('Cannot create request: A stream factory is required to create a request with a non-empty string body.');
+        }
+
+        $request = $this->requestFactory->createRequest($method, $uri);
+
+        foreach ($headers as $key => $value) {
+            $request = $request->withHeader($key, $value);
+        }
+
+        if (null !== $body && '' !== $body) {
+            $request = $request->withBody(
+                is_string($body) ? $this->streamFactory->createStream($body) : $body
+            );
+        }
+
+        return $request;
+    }
+
+    private function createUri(
+        string $operationHost,
+        string $resourcePath,
+        array $queryParams
+    ): UriInterface {
+        $parsedUrl = parse_url($operationHost);
+
+        $host = $parsedUrl['host'] ?? null;
+        $scheme = $parsedUrl['scheme'] ?? null;
+        $basePath = $parsedUrl['path'] ?? null;
+        $port = $parsedUrl['port'] ?? null;
+        $user = $parsedUrl['user'] ?? null;
+        $password = $parsedUrl['pass'] ?? null;
+
+        $uri = $this->uriFactory->createUri($basePath . $resourcePath)
+            ->withHost($host)
+            ->withScheme($scheme)
+            ->withPort($port)
+            ->withQuery(Query::build($queryParams));
+
+        if ($user) {
+            $uri = $uri->withUserInfo($user, $password);
+        }
+
+        return $uri;
     }
 }
