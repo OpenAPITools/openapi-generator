@@ -8,8 +8,6 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import {{packageName}}.infrastructure.ApiException
 import {{packageName}}.infrastructure.ApiInvoker
 
-import java.util.Map;
-import java.util.HashMap;
 import java.io.File;
 
 // Generated import family starts here
@@ -50,6 +48,23 @@ class {{classname}} {
 
         // create path and map variables
         val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", invoker!!.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+        // form params
+        val formParams: Map<String?, String?> = HashMap()
+
+        val queryParams: Map<String?, String?> = mapOf(
+            {{#queryParams}}
+            "{{baseName}}" to ApiInvoker.parameterToString({{paramName}}),
+            {{/queryParams}}
+        )
+
+        val headerParams: Map<String?, String?> = mapOf(
+            {{#headerParams}}
+            "{{baseName}}" to ApiInvoker.parameterToString({{paramName}}),
+            {{/headerParams}}
+        )
+
+        val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
 
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
