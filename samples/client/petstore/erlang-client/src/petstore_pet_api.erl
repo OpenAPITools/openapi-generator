@@ -9,7 +9,7 @@
          update_pet_with_form/2, update_pet_with_form/3,
          upload_file/2, upload_file/3]).
 
--define(BASE_URL, "/v2").
+-define(BASE_URL, <<"/v2">>).
 
 %% @doc Add a new pet to the store
 %% 
@@ -23,7 +23,7 @@ add_pet(Ctx, PetstorePet, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/pet"],
+    Path = [<<"/pet">>],
     QS = [],
     Headers = [],
     Body1 = PetstorePet,
@@ -44,7 +44,7 @@ delete_pet(Ctx, PetId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = delete,
-    Path = ["/pet/", PetId, ""],
+    Path = [<<"/pet/", PetId, "">>],
     QS = [],
     Headers = []++petstore_utils:optional_params(['api_key'], _OptionalParams),
     Body1 = [],
@@ -65,7 +65,7 @@ find_pets_by_status(Ctx, Status, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/pet/findByStatus"],
+    Path = [<<"/pet/findByStatus">>],
     QS = lists:flatten([[{<<"status">>, X} || X <- Status]])++petstore_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
@@ -86,7 +86,7 @@ find_pets_by_tags(Ctx, Tags, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/pet/findByTags"],
+    Path = [<<"/pet/findByTags">>],
     QS = lists:flatten([[{<<"tags">>, X} || X <- Tags]])++petstore_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
@@ -107,7 +107,7 @@ get_pet_by_id(Ctx, PetId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = get,
-    Path = ["/pet/", PetId, ""],
+    Path = [<<"/pet/", PetId, "">>],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -128,7 +128,7 @@ update_pet(Ctx, PetstorePet, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = put,
-    Path = ["/pet"],
+    Path = [<<"/pet">>],
     QS = [],
     Headers = [],
     Body1 = PetstorePet,
@@ -149,7 +149,7 @@ update_pet_with_form(Ctx, PetId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/pet/", PetId, ""],
+    Path = [<<"/pet/", PetId, "">>],
     QS = [],
     Headers = [],
     Body1 = {form, []++petstore_utils:optional_params(['name', 'status'], _OptionalParams)},
@@ -170,7 +170,7 @@ upload_file(Ctx, PetId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = post,
-    Path = ["/pet/", PetId, "/uploadImage"],
+    Path = [<<"/pet/", PetId, "/uploadImage">>],
     QS = [],
     Headers = [],
     Body1 = {form, []++petstore_utils:optional_params(['additionalMetadata', 'file'], _OptionalParams)},
