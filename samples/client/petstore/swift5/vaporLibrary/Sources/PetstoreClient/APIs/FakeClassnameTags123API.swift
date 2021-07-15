@@ -24,20 +24,20 @@ open class FakeClassnameTags123API {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testClassnameRaw(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake_classname_test"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake_classname_test"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PATCH, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
