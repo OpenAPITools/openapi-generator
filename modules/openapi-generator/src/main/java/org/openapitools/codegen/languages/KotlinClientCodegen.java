@@ -468,6 +468,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiInvoker.mustache", infrastructureFolder, "ApiInvoker.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiException.mustache", infrastructureFolder, "ApiException.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
 

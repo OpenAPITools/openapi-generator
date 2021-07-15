@@ -5,6 +5,9 @@ import com.android.volley.Response
 import java.util.*;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
+import {{packageName}}.infrastructure.ApiException
+import {{packageName}}.infrastructure.ApiInvoker
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
@@ -18,10 +21,10 @@ import java.io.File;
 class {{classname}} {
 
     var basePath = "{{{basePath}}}"
-    // var invoker = instance
-    // fun addHeader(key: String?, value: String?) {
-    //    invoker!!.addDefaultHeader(key!!, value!!)
-    // }
+    var invoker = ApiInvoker.instance
+    fun addHeader(key: String?, value: String?) {
+        invoker!!.addDefaultHeader(key!!, value!!)
+    }
 
     {{#operation}}
     /**
@@ -35,6 +38,19 @@ class {{classname}} {
     {{/isDeprecated}}
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         // Here's a funky method
+        var postBody: Any? = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
+        {{#allParams}}
+        {{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            throw ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+        }
+        {{/required}}
+        {{/allParams}}
+
+        // create path and map variables
+        val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", invoker!!.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
     {{/operation}}
