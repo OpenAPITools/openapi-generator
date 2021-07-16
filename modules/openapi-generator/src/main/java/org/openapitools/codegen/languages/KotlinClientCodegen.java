@@ -472,6 +472,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
 
+        supportingFiles.add(new SupportingFile("request/VolleyRequest.mustache", requestFolder, "VolleyRequest.kt"));
         supportingFiles.add(new SupportingFile("request/deleterequest.mustache", requestFolder, "deleterequest.kt"));
         supportingFiles.add(new SupportingFile("request/getrequest.mustache", requestFolder, "getrequest.kt"));
         supportingFiles.add(new SupportingFile("request/patchrequest.mustache", requestFolder, "patchrequest.kt"));
