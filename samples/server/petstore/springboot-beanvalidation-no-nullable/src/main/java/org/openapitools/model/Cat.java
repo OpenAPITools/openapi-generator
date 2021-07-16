@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -10,9 +11,13 @@ import org.openapitools.model.CatAllOf;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+
 /**
  * Cat
  */
+
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal  {
   @JsonProperty("declawed")

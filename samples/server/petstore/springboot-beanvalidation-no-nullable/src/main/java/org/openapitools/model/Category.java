@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,9 +9,13 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+
+import java.util.*;
+
 /**
  * Category
  */
+
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
   @JsonProperty("id")

@@ -41,6 +41,7 @@ public interface FakeClassnameTestApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
+
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         
         @Authorization(value = "api_key_query")
