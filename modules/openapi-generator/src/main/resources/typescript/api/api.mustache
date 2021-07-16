@@ -61,8 +61,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+    
         {{#queryParams}}
-
         // Query Params
         if ({{paramName}} !== undefined) {
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
