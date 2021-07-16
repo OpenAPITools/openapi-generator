@@ -9,6 +9,7 @@
 
 
 from datetime import date, datetime  # noqa: F401
+from copy import deepcopy
 import inspect
 import io
 import os
@@ -186,6 +187,24 @@ class OpenApiModel(object):
         """get the value of an attribute using dot notation: `instance.attr`"""
         return self.__getitem__(attr)
 
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        kwargs = {}
+        if self.discriminator and self.discriminator.keys():
+            key = list(cls.discriminator.keys())[0]
+            kwargs[key] = self.get(key)
+        result = cls.__new__(cls, **kwargs)
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
+
+
     def __new__(cls, *args, **kwargs):
         # this function uses the discriminator to
         # pick a new schema/class to instantiate because a discriminator
@@ -296,7 +315,8 @@ class OpenApiModel(object):
             self_inst.__init__(*args, **kwargs)
 
         new_inst = new_cls.__new__(new_cls, *args, **kwargs)
-        new_inst.__init__(*args, **kwargs)
+        # use _from_openapi_data to handle readOnly discriminator
+        new_inst = new_inst._from_openapi_data(*args, **kwargs)
         return new_inst
 
 
@@ -1726,7 +1746,7 @@ def get_valid_classes_phrase(input_classes):
     return "is one of [{0}]".format(", ".join(all_class_names))
 
 
-def get_allof_instances(self, model_args, constant_args):
+def get_allof_instances(self, model_args, constant_args, from_openapi_data=False):
     """
     Args:
         self: the class we are handling
@@ -1747,7 +1767,10 @@ def get_allof_instances(self, model_args, constant_args):
     for allof_class in self._composed_schemas['allOf']:
 
         try:
-            allof_instance = allof_class(**model_args, **constant_args)
+            if from_openapi_data:
+                allof_instance = allof_class._from_openapi_data(**model_args, **constant_args)
+            else:
+                allof_instance = allof_class(**model_args, **constant_args)
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(
@@ -1910,7 +1933,7 @@ def get_discarded_args(self, composed_instances, model_args):
     return discarded_args
 
 
-def validate_get_composed_info(constant_args, model_args, self):
+def validate_get_composed_info(constant_args, model_args, self, from_openapi_data=False):
     """
     For composed schemas, generate schema instances for
     all schemas in the oneOf/anyOf/allOf definition. If additional
@@ -1944,7 +1967,7 @@ def validate_get_composed_info(constant_args, model_args, self):
     """
     # create composed_instances
     composed_instances = []
-    allof_instances = get_allof_instances(self, model_args, constant_args)
+    allof_instances = get_allof_instances(self, model_args, constant_args, from_openapi_data)
     composed_instances.extend(allof_instances)
     oneof_instance = get_oneof_instance(self.__class__, model_args, constant_args)
     if oneof_instance is not None:
