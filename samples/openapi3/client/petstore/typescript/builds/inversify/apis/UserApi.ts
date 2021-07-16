@@ -45,10 +45,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             "application/json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize(user, "User", ""),
             contentType
@@ -91,10 +87,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             "application/json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize(user, "Array<User>", ""),
             contentType
@@ -133,10 +125,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json"
         ]);
@@ -313,10 +301,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json"
         ]);

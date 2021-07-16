@@ -119,10 +119,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             "application/json"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize(order, "Order", ""),
             contentType

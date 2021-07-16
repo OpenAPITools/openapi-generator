@@ -43,12 +43,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             "application/xml"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json",
-        
-            "application/xml"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize(pet, "Pet", ""),
             contentType
@@ -231,12 +225,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json",
-        
-            "application/xml"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const contentType = ObjectSerializer.getPreferredMediaType([
             "application/json",
         
