@@ -141,10 +141,6 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             "{{{mediaType}}}"{{^-last}},{{/-last}}
         {{/consumes}}]);
         requestContext.setHeaderParam("Content-Type", contentType);
-        const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
-            "{{{mediaType}}}"{{^-last}},{{/-last}}
-        {{/consumes}}]);
-        requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
             contentType
