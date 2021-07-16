@@ -1,6 +1,6 @@
 -module(openapi_router).
 
--export([get_paths/1]).
+-export([get_paths/1, get_validator_state/0]).
 
 -type operations() :: #{
     Method :: binary() => openapi_api:operation_id()
@@ -157,9 +157,15 @@ get_operations() ->
         }
     }.
 
+get_validator_state() ->
+    persistent_term:get({?MODULE, validator_state}).
+
+
 prepare_validator() ->
     R = jsx:decode(element(2, file:read_file(get_openapi_path()))),
-    jesse_state:new(R, [{default_schema_ver, <<"http://json-schema.org/draft-04/schema#">>}]).
+    JesseState = jesse_state:new(R, [{default_schema_ver, <<"http://json-schema.org/draft-04/schema#">>}]),
+    persistent_term:put({?MODULE, validator_state}, JesseState),
+    ?MODULE.
 
 
 get_openapi_path() ->
