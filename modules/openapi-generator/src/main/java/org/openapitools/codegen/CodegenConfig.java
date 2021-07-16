@@ -299,5 +299,9 @@ public interface CodegenConfig {
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
+    boolean isAllowInlineSchemas();
+
+    void setAllowInlineSchemas(boolean allowInlineSchemas);
+
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
 }

@@ -859,7 +859,7 @@ public class DefaultGenerator implements Generator {
 
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        inlineModelResolver.flatten(openAPI);
+        inlineModelResolver.flatten(openAPI, config);
 
         configureGeneratorProperties();
         configureOpenAPIInfo();
