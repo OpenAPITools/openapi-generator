@@ -25,6 +25,11 @@ class VolleyRequest(
     errorListener: Response.ErrorListener
 ) : Request<T>(method, url, errorListener) {
 
+    /**
+    * The underlying [Gson] instance.
+    */
+    private val gson = Gson()
+
     override fun getHeaders(): MutableMap<String, String> {
         val combined = HashMap<String, String>()
         combined.putAll(super.getHeaders())
