@@ -110,7 +110,7 @@ export class BaseAPI {
         };
     }
 
-    private rxjsRequest = <T>(params: AjaxConfig): Observable<AjaxResponse<any>> =>
+    private rxjsRequest = <T>(params: AjaxConfig): Observable<AjaxResponse<T>> =>
         of(params).pipe(
             map((request) => {
                 this.middleware.filter((item) => item.pre).forEach((mw) => (request = mw.pre!(request)));

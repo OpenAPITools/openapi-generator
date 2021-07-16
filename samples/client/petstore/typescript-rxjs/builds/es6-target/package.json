@@ -5,7 +5,7 @@
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-  "scripts": {
+  "scripts" : {
     "build": "node_modules/.bin/tsc --outDir dist/",
     "prepare": "npm run build"
   },

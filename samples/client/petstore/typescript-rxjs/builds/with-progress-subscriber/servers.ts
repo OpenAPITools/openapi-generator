@@ -38,6 +38,6 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
     }
 }
 
-const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  }, "")
+const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  }, "");
 
 export const servers = [server1];
