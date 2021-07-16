@@ -2,6 +2,7 @@
 {{#node}}
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
 {{#platforms}}
@@ -103,7 +104,7 @@ export class HttpException extends Error {
 /**
  * Represents the body of an outgoing HTTP request.
  */
-export type RequestBody = undefined | string | FormData;
+export type RequestBody = undefined | string | FormData | URLSearchParams;
 
 /**
  * Represents an HTTP request context
