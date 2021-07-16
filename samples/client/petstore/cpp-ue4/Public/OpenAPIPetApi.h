@@ -64,14 +64,14 @@ public:
     DECLARE_DELEGATE_OneParam(FUpdatePetWithFormDelegate, const UpdatePetWithFormResponse&);
     DECLARE_DELEGATE_OneParam(FUploadFileDelegate, const UploadFileResponse&);
     
-    bool AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
-    bool DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate = FDeletePetDelegate()) const;
-    bool FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate = FFindPetsByStatusDelegate()) const;
-    bool FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate = FFindPetsByTagsDelegate()) const;
-    bool GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate = FGetPetByIdDelegate()) const;
-    bool UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
-    bool UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate = FUpdatePetWithFormDelegate()) const;
-    bool UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate = FUploadFileDelegate()) const;
+    FHttpRequestPtr AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
+    FHttpRequestPtr DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate = FDeletePetDelegate()) const;
+    FHttpRequestPtr FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate = FFindPetsByStatusDelegate()) const;
+    FHttpRequestPtr FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate = FFindPetsByTagsDelegate()) const;
+    FHttpRequestPtr GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate = FGetPetByIdDelegate()) const;
+    FHttpRequestPtr UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
+    FHttpRequestPtr UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate = FUpdatePetWithFormDelegate()) const;
+    FHttpRequestPtr UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate = FUploadFileDelegate()) const;
     
 private:
     void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const;

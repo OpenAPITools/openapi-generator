@@ -36,6 +36,30 @@ inline FString ToString(const OpenAPIOrder::StatusEnum& Value)
 	return TEXT("");
 }
 
+FString OpenAPIOrder::EnumToString(const OpenAPIOrder::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIOrder::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIOrder::StatusEnum> StringToEnum = { 
+		{ TEXT("placed"), OpenAPIOrder::StatusEnum::Placed },
+		{ TEXT("approved"), OpenAPIOrder::StatusEnum::Approved },
+		{ TEXT("delivered"), OpenAPIOrder::StatusEnum::Delivered }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool OpenAPIOrder::EnumFromString(const FString& EnumAsString, OpenAPIOrder::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIOrder::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIOrde
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIOrder::StatusEnum> StringToEnum = { 
-			{ TEXT("placed"), OpenAPIOrder::StatusEnum::Placed },
-			{ TEXT("approved"), OpenAPIOrder::StatusEnum::Approved },
-			{ TEXT("delivered"), OpenAPIOrder::StatusEnum::Delivered }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

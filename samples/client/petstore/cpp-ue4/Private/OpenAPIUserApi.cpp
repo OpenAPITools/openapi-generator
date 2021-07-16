@@ -132,10 +132,10 @@ void OpenAPIUserApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceed
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-bool OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate /*= FCreateUserDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate /*= FCreateUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -148,7 +148,8 @@ bool OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, const FCreateU
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const
@@ -158,10 +159,10 @@ void OpenAPIUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate /*= FCreateUsersWithArrayInputDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate /*= FCreateUsersWithArrayInputDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -174,7 +175,8 @@ bool OpenAPIUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRe
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithArrayInputResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const
@@ -184,10 +186,10 @@ void OpenAPIUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpReq
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate /*= FCreateUsersWithListInputDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate /*= FCreateUsersWithListInputDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -200,7 +202,8 @@ bool OpenAPIUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequ
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithListInputResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const
@@ -210,10 +213,10 @@ void OpenAPIUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequ
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate /*= FDeleteUserDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate /*= FDeleteUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -226,7 +229,8 @@ bool OpenAPIUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteU
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnDeleteUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const
@@ -236,10 +240,10 @@ void OpenAPIUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate /*= FGetUserByNameDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate /*= FGetUserByNameDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -252,7 +256,8 @@ bool OpenAPIUserApi::GetUserByName(const GetUserByNameRequest& Request, const FG
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnGetUserByNameResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const
@@ -262,10 +267,10 @@ void OpenAPIUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpR
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate /*= FLoginUserDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate /*= FLoginUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -278,7 +283,8 @@ bool OpenAPIUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUser
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLoginUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const
@@ -288,10 +294,10 @@ void OpenAPIUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpRespo
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate /*= FLogoutUserDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate /*= FLogoutUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -304,7 +310,8 @@ bool OpenAPIUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutU
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLogoutUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const
@@ -314,10 +321,10 @@ void OpenAPIUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate /*= FUpdateUserDelegate()*/) const
+FHttpRequestPtr OpenAPIUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate /*= FUpdateUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -330,7 +337,8 @@ bool OpenAPIUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateU
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnUpdateUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const
