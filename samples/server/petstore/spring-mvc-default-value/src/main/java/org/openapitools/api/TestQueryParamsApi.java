@@ -46,7 +46,8 @@ public interface TestQueryParamsApi {
     @ApiOperation(value = "test query params", nickname = "queryParamsTest", notes = "desc", response = TestResponse.class, tags={ "verify-default-value", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "default response", response = TestResponse.class) })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/test-query-params",
         produces = { "application/json" }
     )

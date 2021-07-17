@@ -42,7 +42,8 @@ public interface AnotherFakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
     })
-    @PatchMapping(
+    @RequestMapping(
+        method = RequestMethod.PATCH,
         value = "/another-fake/dummy",
         produces = { "application/json" },
         consumes = { "application/json" }

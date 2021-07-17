@@ -44,7 +44,8 @@ public interface FakeClassnameTestApi {
          }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    @PatchMapping(
+    @RequestMapping(
+        method = RequestMethod.PATCH,
         value = "/fake_classname_test",
         produces = { "application/json" },
         consumes = { "application/json" }

@@ -40,7 +40,8 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @DeleteMapping(
+    @RequestMapping(
+        method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
     CompletableFuture<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
@@ -58,7 +59,8 @@ public interface StoreApi {
          }, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/store/inventory",
         produces = "application/json"
     )
@@ -79,7 +81,8 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
@@ -97,7 +100,8 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/store/order",
         produces = "application/json"
     )
