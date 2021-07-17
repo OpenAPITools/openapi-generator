@@ -718,8 +718,10 @@ public class PythonExperimentalClientCodegen extends PythonLegacyClientCodegen {
      * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
-        if (datatype.equals("int") || datatype.equals("float") || datatype.equals("int, float")) {
+        if ("int".equals(datatype) || "float".equals(datatype) || datatype.equals("int, float")) {
             return value;
+        } else if ("bool".equals(datatype)) {
+            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
             return ensureQuotes(value);
         }

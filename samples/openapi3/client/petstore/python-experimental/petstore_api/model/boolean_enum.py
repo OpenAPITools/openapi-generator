@@ -56,10 +56,10 @@ class BooleanEnum(BoolSchema):
     """
 
     _enum_name_by_value = {
-        "true": "TRUE",
+        True: "TRUE",
     }
 
     @class_property
     def TRUE(cls):
-        return cls._enum_by_value["true"].TRUE
+        return cls._enum_by_value[True].TRUE
 

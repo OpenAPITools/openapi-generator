@@ -13,6 +13,7 @@ from petstore_api.model.foo import Foo
 from petstore_api.model.animal import Animal
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
+from petstore_api.model.boolean_enum import BooleanEnum
 
 from petstore_api.model_utils import AnyTypeSchema, StrSchema, IntOrFloatSchema
 
@@ -75,7 +76,14 @@ class TestValidate(unittest.TestCase):
             ('args[0]', 'color'): set([StrSchema, str, AnyTypeSchema]),
         }
 
-    # TODO: add bool, None, composition
+    def test_bool_enum_validate(self):
+        im = petstore_api.enums.InstantiationMetadata()
+        _cls, path_to_schemas = BooleanEnum._validate(True, _instantiation_metadata=im)
+        assert path_to_schemas == {
+            ('args[0]',): set([BooleanEnum])
+        }
+
+    # TODO: add composition
 
 
 if __name__ == '__main__':
