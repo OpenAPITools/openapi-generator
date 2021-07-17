@@ -458,7 +458,7 @@ public class CodeGenMojo extends AbstractMojo {
                 }
             }
 
-            if (Boolean.TRUE.equals(skipIfSpecIsUnchanged) && inputSpecFile.exists()) {
+            if (Boolean.TRUE.equals(skipIfSpecIsUnchanged)) {
                 File storedInputSpecHashFile = getHashFile(inputSpecFile);
                 if (storedInputSpecHashFile.exists()) {
                     String inputSpecHash = null;
