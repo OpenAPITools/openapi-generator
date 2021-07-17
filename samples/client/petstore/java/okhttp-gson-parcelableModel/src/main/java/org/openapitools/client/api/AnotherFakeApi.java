@@ -66,7 +66,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsCall(Client body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsCall(Client body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -93,11 +93,17 @@ public class AnotherFakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -105,7 +111,7 @@ public class AnotherFakeApi {
         }
         
 
-        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -123,7 +129,11 @@ public class AnotherFakeApi {
      </table>
      */
     public Client call123testSpecialTags(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body);
+        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body, null);
+        return localVarResp.getData();
+    }
+    public Client call123testSpecialTags(Client body, Map<String, String> headers) throws ApiException {
+      ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body, headers);
         return localVarResp.getData();
     }
 
@@ -131,6 +141,7 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * @param body client model (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -139,10 +150,14 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null);
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, headers, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
+        return call123testSpecialTagsWithHttpInfo(body, null);
     }
 
     /**
@@ -158,11 +173,20 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsAsync(Client body, Map<String, String> headers, final ApiCallback<Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, headers, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null, _callback);
+Type localVarReturnType = new TypeToken<Client>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
 }

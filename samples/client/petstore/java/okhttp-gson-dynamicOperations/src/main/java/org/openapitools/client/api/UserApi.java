@@ -69,7 +69,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserCall(User body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUserCall(User body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -104,11 +104,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUserValidateBeforeCall(User body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUserValidateBeforeCall(User body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -116,7 +122,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = createUserCall(body, _callback);
+        okhttp3.Call localVarCall = createUserCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -133,13 +139,19 @@ public class UserApi {
      </table>
      */
     public void createUser(User body) throws ApiException {
-        createUserWithHttpInfo(body);
+        createUserWithHttpInfo(body, null);
+        
+    }
+    public void createUser(User body, Map<String, String> headers) throws ApiException {
+      createUserWithHttpInfo(body, headers);
+        
     }
 
     /**
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -148,9 +160,13 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
-        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, null);
+    public ApiResponse<Void> createUserWithHttpInfo(User body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
+        return createUserWithHttpInfo(body, null);
     }
 
     /**
@@ -166,12 +182,20 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserAsync(User body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUserAsync(User body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call createUserAsync(User body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = createUserValidateBeforeCall(body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for createUsersWithArrayInput
      * @param body List of user object (required)
@@ -184,7 +208,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputCall(List<User> body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputCall(List<User> body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -219,11 +243,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -231,7 +261,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = createUsersWithArrayInputCall(body, _callback);
+        okhttp3.Call localVarCall = createUsersWithArrayInputCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -248,13 +278,19 @@ public class UserApi {
      </table>
      */
     public void createUsersWithArrayInput(List<User> body) throws ApiException {
-        createUsersWithArrayInputWithHttpInfo(body);
+        createUsersWithArrayInputWithHttpInfo(body, null);
+        
+    }
+    public void createUsersWithArrayInput(List<User> body, Map<String, String> headers) throws ApiException {
+      createUsersWithArrayInputWithHttpInfo(body, headers);
+        
     }
 
     /**
      * Creates list of users with given input array
      * 
      * @param body List of user object (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -263,9 +299,13 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
-        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, null);
+    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
+        return createUsersWithArrayInputWithHttpInfo(body, null);
     }
 
     /**
@@ -281,12 +321,20 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputAsync(List<User> body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for createUsersWithListInput
      * @param body List of user object (required)
@@ -299,7 +347,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputCall(List<User> body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputCall(List<User> body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -334,11 +382,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -346,7 +400,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = createUsersWithListInputCall(body, _callback);
+        okhttp3.Call localVarCall = createUsersWithListInputCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -363,13 +417,19 @@ public class UserApi {
      </table>
      */
     public void createUsersWithListInput(List<User> body) throws ApiException {
-        createUsersWithListInputWithHttpInfo(body);
+        createUsersWithListInputWithHttpInfo(body, null);
+        
+    }
+    public void createUsersWithListInput(List<User> body, Map<String, String> headers) throws ApiException {
+      createUsersWithListInputWithHttpInfo(body, headers);
+        
     }
 
     /**
      * Creates list of users with given input array
      * 
      * @param body List of user object (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -378,9 +438,13 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
-        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, null);
+    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
+        return createUsersWithListInputWithHttpInfo(body, null);
     }
 
     /**
@@ -396,12 +460,20 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputAsync(List<User> body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for deleteUser
      * @param username The name that needs to be deleted (required)
@@ -415,7 +487,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteUserCall(String username, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -451,11 +523,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteUserValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteUserValidateBeforeCall(String username, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -463,7 +541,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = deleteUserCall(username, _callback);
+        okhttp3.Call localVarCall = deleteUserCall(username, headers, _callback);
         return localVarCall;
 
     }
@@ -481,13 +559,19 @@ public class UserApi {
      </table>
      */
     public void deleteUser(String username) throws ApiException {
-        deleteUserWithHttpInfo(username);
+        deleteUserWithHttpInfo(username, null);
+        
+    }
+    public void deleteUser(String username, Map<String, String> headers) throws ApiException {
+      deleteUserWithHttpInfo(username, headers);
+        
     }
 
     /**
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -497,9 +581,13 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, null);
+    public ApiResponse<Void> deleteUserWithHttpInfo(String username, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+        return deleteUserWithHttpInfo(username, null);
     }
 
     /**
@@ -516,12 +604,20 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteUserAsync(String username, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, _callback);
+        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for getUserByName
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
@@ -536,7 +632,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getUserByNameCall(String username, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -572,11 +668,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getUserByNameValidateBeforeCall(String username, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -584,7 +686,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = getUserByNameCall(username, _callback);
+        okhttp3.Call localVarCall = getUserByNameCall(username, headers, _callback);
         return localVarCall;
 
     }
@@ -604,7 +706,11 @@ public class UserApi {
      </table>
      */
     public User getUserByName(String username) throws ApiException {
-        ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username);
+        ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username, null);
+        return localVarResp.getData();
+    }
+    public User getUserByName(String username, Map<String, String> headers) throws ApiException {
+      ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username, headers);
         return localVarResp.getData();
     }
 
@@ -612,6 +718,7 @@ public class UserApi {
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;User&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -622,10 +729,14 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null);
+    public ApiResponse<User> getUserByNameWithHttpInfo(String username, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, headers, null);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+        return getUserByNameWithHttpInfo(username, null);
     }
 
     /**
@@ -643,13 +754,22 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> _callback) throws ApiException {
+    public okhttp3.Call getUserByNameAsync(String username, Map<String, String> headers, final ApiCallback<User> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, _callback);
+        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, headers, _callback);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null, _callback);
+Type localVarReturnType = new TypeToken<User>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for loginUser
      * @param username The user name for login (required)
@@ -664,7 +784,7 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call loginUserCall(String username, String password, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -701,11 +821,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -718,7 +844,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = loginUserCall(username, password, _callback);
+        okhttp3.Call localVarCall = loginUserCall(username, password, headers, _callback);
         return localVarCall;
 
     }
@@ -738,7 +864,11 @@ public class UserApi {
      </table>
      */
     public String loginUser(String username, String password) throws ApiException {
-        ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password);
+        ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password, null);
+        return localVarResp.getData();
+    }
+    public String loginUser(String username, String password, Map<String, String> headers) throws ApiException {
+      ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password, headers);
         return localVarResp.getData();
     }
 
@@ -747,6 +877,7 @@ public class UserApi {
      * 
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -756,10 +887,14 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
-        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null);
+    public ApiResponse<String> loginUserWithHttpInfo(String username, String password, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, headers, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+        return loginUserWithHttpInfo(username, password, null);
     }
 
     /**
@@ -777,13 +912,22 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call loginUserAsync(String username, String password, Map<String, String> headers, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, _callback);
+        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, headers, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null, _callback);
+Type localVarReturnType = new TypeToken<String>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for logoutUser
      * @param _callback Callback for upload/download progress
@@ -795,7 +939,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call logoutUserCall(final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call logoutUserCall(Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -830,14 +974,20 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call logoutUserValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call logoutUserValidateBeforeCall(Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call localVarCall = logoutUserCall(_callback);
+        okhttp3.Call localVarCall = logoutUserCall(headers, _callback);
         return localVarCall;
 
     }
@@ -853,12 +1003,18 @@ public class UserApi {
      </table>
      */
     public void logoutUser() throws ApiException {
-        logoutUserWithHttpInfo();
+        logoutUserWithHttpInfo(null);
+        
+    }
+    public void logoutUser(Map<String, String> headers) throws ApiException {
+      logoutUserWithHttpInfo(headers);
+        
     }
 
     /**
      * Logs out current logged in user session
      * 
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -867,9 +1023,13 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
-        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(null);
+    public ApiResponse<Void> logoutUserWithHttpInfo(Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
+        return logoutUserWithHttpInfo(null);
     }
 
     /**
@@ -884,12 +1044,20 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call logoutUserAsync(final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call logoutUserAsync(Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(_callback);
+        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call logoutUserAsync(final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = logoutUserValidateBeforeCall(null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for updateUser
      * @param username name that need to be deleted (required)
@@ -904,7 +1072,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserCall(String username, User body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateUserCall(String username, User body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -940,11 +1108,17 @@ public class UserApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateUserValidateBeforeCall(String username, User body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateUserValidateBeforeCall(String username, User body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -957,7 +1131,7 @@ public class UserApi {
         }
         
 
-        okhttp3.Call localVarCall = updateUserCall(username, body, _callback);
+        okhttp3.Call localVarCall = updateUserCall(username, body, headers, _callback);
         return localVarCall;
 
     }
@@ -976,7 +1150,12 @@ public class UserApi {
      </table>
      */
     public void updateUser(String username, User body) throws ApiException {
-        updateUserWithHttpInfo(username, body);
+        updateUserWithHttpInfo(username, body, null);
+        
+    }
+    public void updateUser(String username, User body, Map<String, String> headers) throws ApiException {
+      updateUserWithHttpInfo(username, body, headers);
+        
     }
 
     /**
@@ -984,6 +1163,7 @@ public class UserApi {
      * This can only be done by the logged in user.
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -993,9 +1173,13 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
-        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, null);
+    public ApiResponse<Void> updateUserWithHttpInfo(String username, User body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
+        return updateUserWithHttpInfo(username, body, null);
     }
 
     /**
@@ -1013,10 +1197,18 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserAsync(String username, User body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updateUserAsync(String username, User body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, _callback);
+        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call updateUserAsync(String username, User body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
 }

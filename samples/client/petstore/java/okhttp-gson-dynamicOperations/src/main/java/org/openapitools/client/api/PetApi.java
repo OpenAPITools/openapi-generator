@@ -73,7 +73,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetCall(Pet body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call addPetCall(Pet body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -108,11 +108,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(Pet body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -120,7 +126,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = addPetCall(body, _callback);
+        okhttp3.Call localVarCall = addPetCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -138,13 +144,19 @@ public class PetApi {
      </table>
      */
     public void addPet(Pet body) throws ApiException {
-        addPetWithHttpInfo(body);
+        addPetWithHttpInfo(body, null);
+        
+    }
+    public void addPet(Pet body, Map<String, String> headers) throws ApiException {
+      addPetWithHttpInfo(body, headers);
+        
     }
 
     /**
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -154,9 +166,13 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, null);
+    public ApiResponse<Void> addPetWithHttpInfo(Pet body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
+        return addPetWithHttpInfo(body, null);
     }
 
     /**
@@ -173,12 +189,20 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call addPetAsync(Pet body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = addPetValidateBeforeCall(body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for deletePet
      * @param petId Pet id to delete (required)
@@ -193,7 +217,7 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deletePetCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deletePetCall(Long petId, String apiKey, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -230,11 +254,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -242,7 +272,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = deletePetCall(petId, apiKey, _callback);
+        okhttp3.Call localVarCall = deletePetCall(petId, apiKey, headers, _callback);
         return localVarCall;
 
     }
@@ -261,7 +291,12 @@ public class PetApi {
      </table>
      */
     public void deletePet(Long petId, String apiKey) throws ApiException {
-        deletePetWithHttpInfo(petId, apiKey);
+        deletePetWithHttpInfo(petId, apiKey, null);
+        
+    }
+    public void deletePet(Long petId, String apiKey, Map<String, String> headers) throws ApiException {
+      deletePetWithHttpInfo(petId, apiKey, headers);
+        
     }
 
     /**
@@ -269,6 +304,7 @@ public class PetApi {
      * 
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -278,9 +314,13 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
-        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null);
+    public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+        return deletePetWithHttpInfo(petId, apiKey, null);
     }
 
     /**
@@ -298,12 +338,20 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deletePetAsync(Long petId, String apiKey, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, _callback);
+        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for findPetsByStatus
      * @param status Status values that need to be considered for filter (required)
@@ -317,7 +365,7 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call findPetsByStatusCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call findPetsByStatusCall(List<String> status, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -353,11 +401,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -365,7 +419,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = findPetsByStatusCall(status, _callback);
+        okhttp3.Call localVarCall = findPetsByStatusCall(status, headers, _callback);
         return localVarCall;
 
     }
@@ -384,7 +438,11 @@ public class PetApi {
      </table>
      */
     public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
-        ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status);
+        ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status, null);
+        return localVarResp.getData();
+    }
+    public List<Pet> findPetsByStatus(List<String> status, Map<String, String> headers) throws ApiException {
+      ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status, headers);
         return localVarResp.getData();
     }
 
@@ -392,6 +450,7 @@ public class PetApi {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -401,10 +460,14 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
-        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
+    public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, headers, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+        return findPetsByStatusWithHttpInfo(status, null);
     }
 
     /**
@@ -421,13 +484,22 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
+    public okhttp3.Call findPetsByStatusAsync(List<String> status, Map<String, String> headers, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, _callback);
+        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, headers, _callback);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null, _callback);
+Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for findPetsByTags
      * @param tags Tags to filter by (required)
@@ -443,7 +515,7 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsCall(Set<String> tags, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call findPetsByTagsCall(Set<String> tags, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -479,12 +551,18 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @Deprecated
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByTagsValidateBeforeCall(Set<String> tags, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByTagsValidateBeforeCall(Set<String> tags, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -492,7 +570,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = findPetsByTagsCall(tags, _callback);
+        okhttp3.Call localVarCall = findPetsByTagsCall(tags, headers, _callback);
         return localVarCall;
 
     }
@@ -513,7 +591,11 @@ public class PetApi {
      */
     @Deprecated
     public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
-        ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags);
+        ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags, null);
+        return localVarResp.getData();
+    }
+    public Set<Pet> findPetsByTags(Set<String> tags, Map<String, String> headers) throws ApiException {
+      ApiResponse<Set<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags, headers);
         return localVarResp.getData();
     }
 
@@ -521,6 +603,7 @@ public class PetApi {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Set&lt;Pet&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -532,10 +615,14 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
-        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
+    public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, headers, null);
         Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
+        return findPetsByTagsWithHttpInfo(tags, null);
     }
 
     /**
@@ -554,13 +641,23 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsAsync(Set<String> tags, final ApiCallback<Set<Pet>> _callback) throws ApiException {
+    public okhttp3.Call findPetsByTagsAsync(Set<String> tags, Map<String, String> headers, final ApiCallback<Set<Pet>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, _callback);
+        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, headers, _callback);
         Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+            @Deprecated
+        public okhttp3.Call findPetsByTagsAsync(Set<String> tags, final ApiCallback<Set<Pet>> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null, _callback);
+Type localVarReturnType = new TypeToken<Set<Pet>>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for getPetById
      * @param petId ID of pet to return (required)
@@ -575,7 +672,7 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetByIdCall(Long petId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getPetByIdCall(Long petId, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -611,11 +708,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "api_key" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -623,7 +726,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = getPetByIdCall(petId, _callback);
+        okhttp3.Call localVarCall = getPetByIdCall(petId, headers, _callback);
         return localVarCall;
 
     }
@@ -643,7 +746,11 @@ public class PetApi {
      </table>
      */
     public Pet getPetById(Long petId) throws ApiException {
-        ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId);
+        ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId, null);
+        return localVarResp.getData();
+    }
+    public Pet getPetById(Long petId, Map<String, String> headers) throws ApiException {
+      ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId, headers);
         return localVarResp.getData();
     }
 
@@ -651,6 +758,7 @@ public class PetApi {
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Pet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -661,10 +769,14 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
-        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
+    public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, headers, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+        return getPetByIdWithHttpInfo(petId, null);
     }
 
     /**
@@ -682,13 +794,22 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call getPetByIdAsync(Long petId, Map<String, String> headers, final ApiCallback<Pet> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, _callback);
+        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, headers, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null, _callback);
+Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for updatePet
      * @param body Pet object that needs to be added to the store (required)
@@ -704,7 +825,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetCall(Pet body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updatePetCall(Pet body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -739,11 +860,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(Pet body, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -751,7 +878,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = updatePetCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetCall(body, headers, _callback);
         return localVarCall;
 
     }
@@ -771,13 +898,19 @@ public class PetApi {
      </table>
      */
     public void updatePet(Pet body) throws ApiException {
-        updatePetWithHttpInfo(body);
+        updatePetWithHttpInfo(body, null);
+        
+    }
+    public void updatePet(Pet body, Map<String, String> headers) throws ApiException {
+      updatePetWithHttpInfo(body, headers);
+        
     }
 
     /**
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store (required)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -789,9 +922,13 @@ public class PetApi {
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, null);
+    public ApiResponse<Void> updatePetWithHttpInfo(Pet body, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
+        return updatePetWithHttpInfo(body, null);
     }
 
     /**
@@ -810,12 +947,20 @@ public class PetApi {
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetAsync(Pet body, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for updatePetWithForm
      * @param petId ID of pet that needs to be updated (required)
@@ -830,7 +975,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -874,11 +1019,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -886,7 +1037,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = updatePetWithFormCall(petId, name, status, _callback);
+        okhttp3.Call localVarCall = updatePetWithFormCall(petId, name, status, headers, _callback);
         return localVarCall;
 
     }
@@ -905,7 +1056,12 @@ public class PetApi {
      </table>
      */
     public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-        updatePetWithFormWithHttpInfo(petId, name, status);
+        updatePetWithFormWithHttpInfo(petId, name, status, null);
+        
+    }
+    public void updatePetWithForm(Long petId, String name, String status, Map<String, String> headers) throws ApiException {
+      updatePetWithFormWithHttpInfo(petId, name, status, headers);
+        
     }
 
     /**
@@ -914,6 +1070,7 @@ public class PetApi {
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -922,9 +1079,13 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
-        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null);
+    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, headers, null);
         return localVarApiClient.execute(localVarCall);
+    }
+
+    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+        return updatePetWithFormWithHttpInfo(petId, name, status, null);
     }
 
     /**
@@ -942,12 +1103,20 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, Map<String, String> headers, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, _callback);
+        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, headers, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null, _callback);
+localVarApiClient.executeAsync(localVarCall, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for uploadFile
      * @param petId ID of pet to update (required)
@@ -962,7 +1131,7 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -1006,11 +1175,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1018,7 +1193,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, file, _callback);
+        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, file, headers, _callback);
         return localVarCall;
 
     }
@@ -1038,7 +1213,11 @@ public class PetApi {
      </table>
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file, null);
+        return localVarResp.getData();
+    }
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file, Map<String, String> headers) throws ApiException {
+      ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file, headers);
         return localVarResp.getData();
     }
 
@@ -1048,6 +1227,7 @@ public class PetApi {
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1056,10 +1236,14 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null);
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, headers, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+        return uploadFileWithHttpInfo(petId, additionalMetadata, file, null);
     }
 
     /**
@@ -1077,13 +1261,22 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, Map<String, String> headers, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, _callback);
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, headers, _callback);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null, _callback);
+Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
     /**
      * Build call for uploadFileWithRequiredFile
      * @param petId ID of pet to update (required)
@@ -1098,7 +1291,7 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -1142,11 +1335,17 @@ public class PetApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        localVarApiClient.updateParamsForAuth(localVarAuthNames, localVarQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        if (headers != null) {
+          localVarHeaderParams.putAll(headers);
+        }
+
+        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1159,7 +1358,7 @@ public class PetApi {
         }
         
 
-        okhttp3.Call localVarCall = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, _callback);
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, headers, _callback);
         return localVarCall;
 
     }
@@ -1179,7 +1378,11 @@ public class PetApi {
      </table>
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, null);
+        return localVarResp.getData();
+    }
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers) throws ApiException {
+      ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, headers);
         return localVarResp.getData();
     }
 
@@ -1189,6 +1392,7 @@ public class PetApi {
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional)
+     * @param headers Map of HTTP headers that will override other headers. For example, you can specify Auth headers per request.
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1197,10 +1401,14 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null);
+    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers) throws ApiException {
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, headers, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+        return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, null);
     }
 
     /**
@@ -1218,11 +1426,20 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, Map<String, String> headers, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, _callback);
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, headers, _callback);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
+        public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+
+    okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null, _callback);
+Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+    localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+    return localVarCall;
+    }
+
 }
