@@ -12,8 +12,12 @@
 
 
 package org.openapitools.client;
-
-import org.openapitools.client.api.*;
+import org.openapitools.client.api.AnotherFakeApi;
+import org.openapitools.client.api.FakeApi;
+import org.openapitools.client.api.FakeClassnameTags123Api;
+import org.openapitools.client.api.PetApi;
+import org.openapitools.client.api.StoreApi;
+import org.openapitools.client.api.UserApi;
 
 import io.restassured.builder.RequestSpecBuilder;
 import java.util.function.Consumer;
