@@ -14,6 +14,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |featureCORS|use flask-cors for handling CORS requests| |false|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|moveTestsPythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
 |packageName|python package name (convention: snake_case).| |openapi_server|
 |packageVersion|python package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
