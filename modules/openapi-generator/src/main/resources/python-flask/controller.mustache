@@ -36,20 +36,20 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: List[{{>param_type}}]
+    :type {{paramName}}: {{typingList}}[{{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
-    :type {{paramName}}: list | bytes
+    :type {{paramName}}: {{typingList}} | bytes
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isArray}}
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: Dict[str, {{>param_type}}]
+    :type {{paramName}}: {{typingDict}}[str, {{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
-    :type {{paramName}}: dict | bytes
+    :type {{paramName}}: {{typingDict}} | bytes
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}

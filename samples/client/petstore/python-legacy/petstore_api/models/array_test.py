@@ -36,9 +36,9 @@ class ArrayTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'array_of_string': 'list[str]',
-        'array_array_of_integer': 'list[list[int]]',
-        'array_array_of_model': 'list[list[ReadOnlyFirst]]'
+        'array_of_string': 'List[str]',
+        'array_array_of_integer': 'List[List[int]]',
+        'array_array_of_model': 'List[List[ReadOnlyFirst]]'
     }
 
     attribute_map = {
@@ -71,7 +71,7 @@ class ArrayTest(object):
 
 
         :return: The array_of_string of this ArrayTest.  # noqa: E501
-        :rtype: list[str]
+        :rtype: List[str]
         """
         return self._array_of_string
 
@@ -81,7 +81,7 @@ class ArrayTest(object):
 
 
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
-        :type array_of_string: list[str]
+        :type array_of_string: List[str]
         """
 
         self._array_of_string = array_of_string
@@ -92,7 +92,7 @@ class ArrayTest(object):
 
 
         :return: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :rtype: list[list[int]]
+        :rtype: List[List[int]]
         """
         return self._array_array_of_integer
 
@@ -102,7 +102,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_integer: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :type array_array_of_integer: list[list[int]]
+        :type array_array_of_integer: List[List[int]]
         """
 
         self._array_array_of_integer = array_array_of_integer
@@ -113,7 +113,7 @@ class ArrayTest(object):
 
 
         :return: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :rtype: list[list[ReadOnlyFirst]]
+        :rtype: List[List[ReadOnlyFirst]]
         """
         return self._array_array_of_model
 
@@ -123,7 +123,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_model: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :type array_array_of_model: list[list[ReadOnlyFirst]]
+        :type array_array_of_model: List[List[ReadOnlyFirst]]
         """
 
         self._array_array_of_model = array_array_of_model

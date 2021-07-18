@@ -40,31 +40,31 @@ class XmlItem(object):
         'attribute_number': 'float',
         'attribute_integer': 'int',
         'attribute_boolean': 'bool',
-        'wrapped_array': 'list[int]',
+        'wrapped_array': 'List[int]',
         'name_string': 'str',
         'name_number': 'float',
         'name_integer': 'int',
         'name_boolean': 'bool',
-        'name_array': 'list[int]',
-        'name_wrapped_array': 'list[int]',
+        'name_array': 'List[int]',
+        'name_wrapped_array': 'List[int]',
         'prefix_string': 'str',
         'prefix_number': 'float',
         'prefix_integer': 'int',
         'prefix_boolean': 'bool',
-        'prefix_array': 'list[int]',
-        'prefix_wrapped_array': 'list[int]',
+        'prefix_array': 'List[int]',
+        'prefix_wrapped_array': 'List[int]',
         'namespace_string': 'str',
         'namespace_number': 'float',
         'namespace_integer': 'int',
         'namespace_boolean': 'bool',
-        'namespace_array': 'list[int]',
-        'namespace_wrapped_array': 'list[int]',
+        'namespace_array': 'List[int]',
+        'namespace_wrapped_array': 'List[int]',
         'prefix_ns_string': 'str',
         'prefix_ns_number': 'float',
         'prefix_ns_integer': 'int',
         'prefix_ns_boolean': 'bool',
-        'prefix_ns_array': 'list[int]',
-        'prefix_ns_wrapped_array': 'list[int]'
+        'prefix_ns_array': 'List[int]',
+        'prefix_ns_wrapped_array': 'List[int]'
     }
 
     attribute_map = {
@@ -285,7 +285,7 @@ class XmlItem(object):
 
 
         :return: The wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._wrapped_array
 
@@ -295,7 +295,7 @@ class XmlItem(object):
 
 
         :param wrapped_array: The wrapped_array of this XmlItem.  # noqa: E501
-        :type wrapped_array: list[int]
+        :type wrapped_array: List[int]
         """
 
         self._wrapped_array = wrapped_array
@@ -390,7 +390,7 @@ class XmlItem(object):
 
 
         :return: The name_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._name_array
 
@@ -400,7 +400,7 @@ class XmlItem(object):
 
 
         :param name_array: The name_array of this XmlItem.  # noqa: E501
-        :type name_array: list[int]
+        :type name_array: List[int]
         """
 
         self._name_array = name_array
@@ -411,7 +411,7 @@ class XmlItem(object):
 
 
         :return: The name_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._name_wrapped_array
 
@@ -421,7 +421,7 @@ class XmlItem(object):
 
 
         :param name_wrapped_array: The name_wrapped_array of this XmlItem.  # noqa: E501
-        :type name_wrapped_array: list[int]
+        :type name_wrapped_array: List[int]
         """
 
         self._name_wrapped_array = name_wrapped_array
@@ -516,7 +516,7 @@ class XmlItem(object):
 
 
         :return: The prefix_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._prefix_array
 
@@ -526,7 +526,7 @@ class XmlItem(object):
 
 
         :param prefix_array: The prefix_array of this XmlItem.  # noqa: E501
-        :type prefix_array: list[int]
+        :type prefix_array: List[int]
         """
 
         self._prefix_array = prefix_array
@@ -537,7 +537,7 @@ class XmlItem(object):
 
 
         :return: The prefix_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._prefix_wrapped_array
 
@@ -547,7 +547,7 @@ class XmlItem(object):
 
 
         :param prefix_wrapped_array: The prefix_wrapped_array of this XmlItem.  # noqa: E501
-        :type prefix_wrapped_array: list[int]
+        :type prefix_wrapped_array: List[int]
         """
 
         self._prefix_wrapped_array = prefix_wrapped_array
@@ -642,7 +642,7 @@ class XmlItem(object):
 
 
         :return: The namespace_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._namespace_array
 
@@ -652,7 +652,7 @@ class XmlItem(object):
 
 
         :param namespace_array: The namespace_array of this XmlItem.  # noqa: E501
-        :type namespace_array: list[int]
+        :type namespace_array: List[int]
         """
 
         self._namespace_array = namespace_array
@@ -663,7 +663,7 @@ class XmlItem(object):
 
 
         :return: The namespace_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._namespace_wrapped_array
 
@@ -673,7 +673,7 @@ class XmlItem(object):
 
 
         :param namespace_wrapped_array: The namespace_wrapped_array of this XmlItem.  # noqa: E501
-        :type namespace_wrapped_array: list[int]
+        :type namespace_wrapped_array: List[int]
         """
 
         self._namespace_wrapped_array = namespace_wrapped_array
@@ -768,7 +768,7 @@ class XmlItem(object):
 
 
         :return: The prefix_ns_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._prefix_ns_array
 
@@ -778,7 +778,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_array: The prefix_ns_array of this XmlItem.  # noqa: E501
-        :type prefix_ns_array: list[int]
+        :type prefix_ns_array: List[int]
         """
 
         self._prefix_ns_array = prefix_ns_array
@@ -789,7 +789,7 @@ class XmlItem(object):
 
 
         :return: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        :rtype: List[int]
         """
         return self._prefix_ns_wrapped_array
 
@@ -799,7 +799,7 @@ class XmlItem(object):
 
 
         :param prefix_ns_wrapped_array: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
-        :type prefix_ns_wrapped_array: list[int]
+        :type prefix_ns_wrapped_array: List[int]
         """
 
         self._prefix_ns_wrapped_array = prefix_ns_wrapped_array

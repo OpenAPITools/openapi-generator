@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict # noqa: F401
 
 from app.openapi_server.models.base_model_ import Model
 from app.openapi_server.models.category import Category  # noqa: F401,E501

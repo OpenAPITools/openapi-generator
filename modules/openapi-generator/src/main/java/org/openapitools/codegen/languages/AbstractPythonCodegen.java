@@ -43,6 +43,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
+    protected boolean supportPython39; // whether to support Python 3.9+
 
     public AbstractPythonCodegen() {
         super();
@@ -65,8 +66,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
-        languageSpecificPrimitives.add("list");
-        languageSpecificPrimitives.add("dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -75,6 +74,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("bytes");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
+        languageSpecificPrimitives.add("Set");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -82,9 +84,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("number", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
-        typeMapping.put("array", "list");
-        typeMapping.put("set", "list");
-        typeMapping.put("map", "dict");
+        typeMapping.put("set", "Set");
+        typeMapping.put("array", "List");
+        typeMapping.put("map", "Dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
@@ -100,6 +102,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         typeMapping.put("UUID", "str");
         typeMapping.put("URI", "str");
         typeMapping.put("null", "none_type");
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SUPPORT_PYTHON39, CodegenConstants.SUPPORT_PYTHON39_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -110,6 +115,33 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.SUPPORT_PYTHON39))) {
+            additionalProperties.put(CodegenConstants.SUPPORT_PYTHON39, Boolean.TRUE);
+
+            // Ref: https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
+            // update type mapping for type hints
+            typeMapping.put("set", "set");
+            typeMapping.put("array", "list");
+            typeMapping.put("map", "dict");
+
+            // update languageSpecificPrimitives for type hints
+            languageSpecificPrimitives.remove("List");
+            languageSpecificPrimitives.remove("Dict");
+            languageSpecificPrimitives.remove("Set");
+            languageSpecificPrimitives.add("list");
+            languageSpecificPrimitives.add("dict");
+            languageSpecificPrimitives.add("set");
+
+            additionalProperties.put("typingList", "list");
+            additionalProperties.put("typingDict", "dict");
+            setSupportPython39(true);
+        } else {
+            additionalProperties.put("typingList", "List");
+            additionalProperties.put("typingDict", "Dict");
+            setSupportPython39(false);
+        }
+        additionalProperties.put(CodegenConstants.SUPPORT_PYTHON39, this.supportPython39);
     }
 
     @Override
@@ -128,7 +160,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -596,6 +627,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length() - 1);
         if (pattern.startsWith("/")) pattern = pattern.substring(1);
         return pattern;
+    }
+
+    public void setSupportPython39(boolean supportPython39) {
+        this.supportPython39= supportPython39;
     }
 
     public void setPackageName(String packageName) {

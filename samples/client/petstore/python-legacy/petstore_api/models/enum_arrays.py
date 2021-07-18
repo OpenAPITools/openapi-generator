@@ -37,7 +37,7 @@ class EnumArrays(object):
     """
     openapi_types = {
         'just_symbol': 'str',
-        'array_enum': 'list[str]'
+        'array_enum': 'List[str]'
     }
 
     attribute_map = {
@@ -93,7 +93,7 @@ class EnumArrays(object):
 
 
         :return: The array_enum of this EnumArrays.  # noqa: E501
-        :rtype: list[str]
+        :rtype: List[str]
         """
         return self._array_enum
 
@@ -103,7 +103,7 @@ class EnumArrays(object):
 
 
         :param array_enum: The array_enum of this EnumArrays.  # noqa: E501
-        :type array_enum: list[str]
+        :type array_enum: List[str]
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and

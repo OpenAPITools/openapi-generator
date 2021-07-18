@@ -1800,11 +1800,11 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param enum_header_string_array: Header parameter enum test (string array)
-        :type enum_header_string_array: list[str]
+        :type enum_header_string_array: List[str]
         :param enum_header_string: Header parameter enum test (string)
         :type enum_header_string: str
         :param enum_query_string_array: Query parameter enum test (string array)
-        :type enum_query_string_array: list[str]
+        :type enum_query_string_array: List[str]
         :param enum_query_string: Query parameter enum test (string)
         :type enum_query_string: str
         :param enum_query_integer: Query parameter enum test (double)
@@ -1812,7 +1812,7 @@ class FakeApi(object):
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
         :param enum_form_string_array: Form parameter enum test (string array)
-        :type enum_form_string_array: list[str]
+        :type enum_form_string_array: List[str]
         :param enum_form_string: Form parameter enum test (string)
         :type enum_form_string: str
         :param async_req: Whether to execute the request asynchronously.
@@ -1844,11 +1844,11 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param enum_header_string_array: Header parameter enum test (string array)
-        :type enum_header_string_array: list[str]
+        :type enum_header_string_array: List[str]
         :param enum_header_string: Header parameter enum test (string)
         :type enum_header_string: str
         :param enum_query_string_array: Query parameter enum test (string array)
-        :type enum_query_string_array: list[str]
+        :type enum_query_string_array: List[str]
         :param enum_query_string: Query parameter enum test (string)
         :type enum_query_string: str
         :param enum_query_integer: Query parameter enum test (double)
@@ -1856,7 +1856,7 @@ class FakeApi(object):
         :param enum_query_double: Query parameter enum test (double)
         :type enum_query_double: float
         :param enum_form_string_array: Form parameter enum test (string array)
-        :type enum_form_string_array: list[str]
+        :type enum_form_string_array: List[str]
         :param enum_form_string: Form parameter enum test (string)
         :type enum_form_string: str
         :param async_req: Whether to execute the request asynchronously.
@@ -2152,7 +2152,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: dict(str, str)
+        :type request_body: Dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2181,7 +2181,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: dict(str, str)
+        :type request_body: Dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2426,15 +2426,15 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: list[str]
+        :type pipe: List[str]
         :param ioutil: (required)
-        :type ioutil: list[str]
+        :type ioutil: List[str]
         :param http: (required)
-        :type http: list[str]
+        :type http: List[str]
         :param url: (required)
-        :type url: list[str]
+        :type url: List[str]
         :param context: (required)
-        :type context: list[str]
+        :type context: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2464,15 +2464,15 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: list[str]
+        :type pipe: List[str]
         :param ioutil: (required)
-        :type ioutil: list[str]
+        :type ioutil: List[str]
         :param http: (required)
-        :type http: list[str]
+        :type http: List[str]
         :param url: (required)
-        :type url: list[str]
+        :type url: List[str]
         :param context: (required)
-        :type context: list[str]
+        :type context: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code

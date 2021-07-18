@@ -48,7 +48,7 @@ def place_order(body):  # noqa: E501
      # noqa: E501
 
     :param body: order placed for purchasing the pet
-    :type body: dict | bytes
+    :type body: Dict | bytes
 
     :rtype: Order
     """
