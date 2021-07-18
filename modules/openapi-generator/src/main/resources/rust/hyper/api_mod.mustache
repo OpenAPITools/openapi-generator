@@ -1,49 +1,45 @@
+use http;
 use hyper;
-use serde;
 use serde_json;
 
 #[derive(Debug)]
-pub enum Error<T> {
-    UriError(hyper::error::UriError),
+pub enum Error {
+    Api(ApiError),
+    Header(hyper::http::header::InvalidHeaderValue),
+    Http(http::Error),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
-    ApiError(ApiError<T>),
+    UriError(http::uri::InvalidUri),
 }
 
 #[derive(Debug)]
-pub struct ApiError<T> {
+pub struct ApiError {
     pub code: hyper::StatusCode,
-    pub content: Option<T>,
+    pub body: hyper::body::Body,
 }
 
-impl<'de, T> From<(hyper::StatusCode, &'de [u8])> for Error<T> 
-    where T: serde::Deserialize<'de> {
-    fn from(e: (hyper::StatusCode, &'de [u8])) -> Self {
-        if e.1.len() == 0 {
-            return Error::ApiError(ApiError{
-                code: e.0,
-                content: None,
-            });
-        }
-        match serde_json::from_slice::<T>(e.1) {
-            Ok(t) => Error::ApiError(ApiError{
-                code: e.0,
-                content: Some(t),
-            }),
-            Err(e) => {
-                Error::from(e)
-            }
-        }
+impl From<(hyper::StatusCode, hyper::body::Body)> for Error {
+    fn from(e: (hyper::StatusCode, hyper::body::Body)) -> Self {
+        Error::Api(ApiError {
+            code: e.0,
+            body: e.1,
+        })
     }
 }
 
-impl<T> From<hyper::Error> for Error<T> {
+impl From<http::Error> for Error {
+    fn from(e: http::Error) -> Self {
+        return Error::Http(e)
+    }
+}
+
+impl From<hyper::Error> for Error {
     fn from(e: hyper::Error) -> Self {
         return Error::Hyper(e)
     }
 }
 
-impl<T> From<serde_json::Error> for Error<T> {
+impl From<serde_json::Error> for Error {
     fn from(e: serde_json::Error) -> Self {
         return Error::Serde(e)
     }
