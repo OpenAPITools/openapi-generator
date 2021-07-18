@@ -67,7 +67,7 @@ class ComplexQuadrilateral(ModelComposed):
     }
 
     @cached_property
-    def additional_properties_type():
+    def additional_properties_type(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -78,7 +78,7 @@ class ComplexQuadrilateral(ModelComposed):
     _nullable = False
 
     @cached_property
-    def openapi_types():
+    def openapi_types(self):
         """
         This must be a method because a model may have properties that are
         of type self, this must run after the class is loaded
@@ -94,8 +94,9 @@ class ComplexQuadrilateral(ModelComposed):
         }
 
     @cached_property
-    def discriminator():
+    def discriminator(self):
         return None
+
 
 
     attribute_map = {
@@ -297,7 +298,7 @@ class ComplexQuadrilateral(ModelComposed):
                                      f"class with read only attributes.")
 
     @cached_property
-    def _composed_schemas():
+    def _composed_schemas(self):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
@@ -316,3 +317,4 @@ class ComplexQuadrilateral(ModelComposed):
           'oneOf': [
           ],
         }
+
