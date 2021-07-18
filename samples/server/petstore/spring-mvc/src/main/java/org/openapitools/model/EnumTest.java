@@ -211,7 +211,9 @@ public enum EnumNumberEnum {
    * @return enumStringRequired
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public EnumStringRequiredEnum getEnumStringRequired() {

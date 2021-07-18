@@ -39,7 +39,9 @@ public class Animal   {
    * @return className
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public String getClassName() {

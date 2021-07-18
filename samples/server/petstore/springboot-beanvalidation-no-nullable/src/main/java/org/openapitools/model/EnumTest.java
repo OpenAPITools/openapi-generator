@@ -204,7 +204,9 @@ public class EnumTest   {
    * @return enumStringRequired
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public EnumStringRequiredEnum getEnumStringRequired() {

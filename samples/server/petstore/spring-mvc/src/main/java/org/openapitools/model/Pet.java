@@ -132,7 +132,9 @@ public enum StatusEnum {
    * @return name
   */
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public String getName() {
@@ -158,7 +160,9 @@ public enum StatusEnum {
    * @return photoUrls
   */
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull         
+    
+    
 
 
   public Set<String> getPhotoUrls() {
