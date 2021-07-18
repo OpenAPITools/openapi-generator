@@ -1,5 +1,6 @@
 {{#discriminator}}
 export type {{classname}} = {{#children}}{{^-first}} | {{/-first}}{{classname}}{{/children}};
+{{>modelGenericVisitor}}
 {{/discriminator}}
 {{^discriminator}}
 {{#parent}}

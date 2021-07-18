@@ -1,0 +1,29 @@
+{{#subtypeVisitor}}
+    {{#discriminator}}
+
+
+export interface {{classname}}Visitor<R> {
+        {{#discriminator.mappedModels}}
+    visit{{modelName}}(value: {{modelName}}): R;
+        {{/discriminator.mappedModels}}
+}
+
+export function visit{{classname}}<R>(value: {{classname}}, visitor: {{classname}}Visitor<R>): R {
+    switch (value.{{discriminator.propertyName}}) {
+        {{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return visitor.visit{{modelName}}(<{{modelName}}>value);
+        {{/discriminator.mappedModels}}
+        default:
+        {{#taggedUnions}}
+            // Make the compiler fail if there is an unmapped member
+            const _exhaustiveCheck: never = value;
+            throw new Error("Unknown model discriminator for '" + value + "'" + _exhaustiveCheck);
+        {{/taggedUnions}}
+        {{^taggedUnions}}
+            throw new Error("Unknown model discriminator '" + value.{{discriminator.propertyName}} + "'");
+        {{/taggedUnions}}
+    }
+}
+    {{/discriminator}}
+{{/subtypeVisitor}}
