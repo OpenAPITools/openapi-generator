@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
  
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+{{#isContainer}}  private {{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}}{{/isContainer}}{{^isContainer}}  private {{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}};{{/vars}}
 
   {{#vars}}/**
    {{#description}}

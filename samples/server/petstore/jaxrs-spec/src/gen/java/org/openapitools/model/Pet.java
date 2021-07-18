@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
-  private @Valid List<Tag> tags = new ArrayList<Tag>();
+  private @Valid List<Tag> tags = null;
 
 public enum StatusEnum {
 

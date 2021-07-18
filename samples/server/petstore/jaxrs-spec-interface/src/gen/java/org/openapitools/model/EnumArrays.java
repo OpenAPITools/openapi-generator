@@ -85,7 +85,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = null;
 
   /**
    **/

@@ -20,14 +20,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesClass  implements Serializable {
   
-  private @Valid Map<String, String> mapString = new HashMap<String, String>();
-  private @Valid Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
-  private @Valid Map<String, Integer> mapInteger = new HashMap<String, Integer>();
-  private @Valid Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
-  private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
-  private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
-  private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
-  private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
+  private @Valid Map<String, String> mapString = null;
+  private @Valid Map<String, BigDecimal> mapNumber = null;
+  private @Valid Map<String, Integer> mapInteger = null;
+  private @Valid Map<String, Boolean> mapBoolean = null;
+  private @Valid Map<String, List<Integer>> mapArrayInteger = null;
+  private @Valid Map<String, List<Object>> mapArrayAnytype = null;
+  private @Valid Map<String, Map<String, String>> mapMapString = null;
+  private @Valid Map<String, Map<String, Object>> mapMapAnytype = null;
   private @Valid Object anytype1;
   private @Valid Object anytype2;
   private @Valid Object anytype3;
