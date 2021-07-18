@@ -31,6 +31,11 @@ class Model(object):
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+
+            if "attribute_map" in self.__dict__:
+                if attr in self.attribute_map:
+                    attr = self.attribute_map[attr]
+            
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
