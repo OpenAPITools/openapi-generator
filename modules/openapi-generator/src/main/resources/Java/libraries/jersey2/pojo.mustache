@@ -1,7 +1,14 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+ */
+{{#description}}
+{{#oapiAnnotationswagger2}}
+@ApiModel(description = "{{{description}}}")
+{{/oapiAnnotationswagger2}}
+{{#oapiAnnotationmicroprofile}}
+{{! TODO: Insert Microprofile equivalent here }}
+{{/oapiAnnotationmicroprofile}}
+{{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -196,7 +203,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 {{^required}}
   @javax.annotation.Nullable
 {{/required}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#oapiAnnotationswagger2}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/oapiAnnotationswagger2}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
