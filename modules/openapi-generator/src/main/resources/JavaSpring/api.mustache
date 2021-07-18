@@ -64,6 +64,9 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#virtualService}}
 @VirtualService
 {{/virtualService}}
+{{#-}}
+{{>requestMapping}}
+{{/-}}
 public interface {{classname}} {
 {{#jdk8-default-interface}}
     {{^isDelegate}}
