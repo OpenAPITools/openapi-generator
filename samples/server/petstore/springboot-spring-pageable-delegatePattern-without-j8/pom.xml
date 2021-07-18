@@ -16,6 +16,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.12.RELEASE</version>
     </parent>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
