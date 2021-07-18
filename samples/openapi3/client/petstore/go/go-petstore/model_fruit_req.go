@@ -34,8 +34,8 @@ func BananaReqAsFruitReq(v *BananaReq) FruitReq {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *FruitReq) UnmarshalJSON(data []byte) error {
-	var err error
 	match := 0
+	var err error
 	// try to unmarshal data into AppleReq
 	err = json.Unmarshal(data, &dst.AppleReq)
 	if err == nil {
