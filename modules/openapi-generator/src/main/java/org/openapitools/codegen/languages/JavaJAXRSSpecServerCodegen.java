@@ -46,7 +46,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean generatePom = true;
     private boolean generateBuilders = false;
     private boolean useSwaggerAnnotations = true;
-    private boolean useJackson = false;
+    private boolean useJackson = true;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     public JavaJAXRSSpecServerCodegen() {
@@ -61,8 +61,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         modelPackage = "org.openapitools.model";
 
         // cliOptions default redefinition need to be updated
-        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
-        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
@@ -102,6 +102,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(JACKSON, "Whether to generate Jackson annotations.", useJackson));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
     }
 
@@ -149,6 +150,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
 
         useJackson = convertPropertyToBoolean(JACKSON);
+        writePropertyBack(JACKSON, useJackson);
 
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
@@ -230,7 +232,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
      * @param location location inside the output folder. No file generated when set to null or empty string.
      */
     public void setOpenApiSpecFileLocation(String location) {
-        this.openApiSpecFileLocation = location;
+        openApiSpecFileLocation = location;
     }
 
     @Override
@@ -245,6 +247,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+            codegenModel.imports.remove("JsonSubTypes");
+            codegenModel.imports.remove("JsonTypeInfo");
         }
         return codegenModel;
     }
