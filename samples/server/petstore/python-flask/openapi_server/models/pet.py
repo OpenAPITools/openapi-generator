@@ -53,12 +53,12 @@ class Pet(Model):
             'status': 'status'
         }
 
-        self._id = id
-        self._category = category
-        self._name = name
-        self._photo_urls = photo_urls
-        self._tags = tags
-        self._status = status
+        self.id = id
+        self.category = category
+        self.name = name
+        self.photo_urls = photo_urls
+        self.tags = tags
+        self.status = status
 
     @classmethod
     def from_dict(cls, dikt) -> 'Pet':

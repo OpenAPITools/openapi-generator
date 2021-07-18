@@ -57,14 +57,14 @@ class User(Model):
             'user_status': 'userStatus'
         }
 
-        self._id = id
-        self._username = username
-        self._first_name = first_name
-        self._last_name = last_name
-        self._email = email
-        self._password = password
-        self._phone = phone
-        self._user_status = user_status
+        self.id = id
+        self.username = username
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.password = password
+        self.phone = phone
+        self.user_status = user_status
 
     @classmethod
     def from_dict(cls, dikt) -> 'User':
