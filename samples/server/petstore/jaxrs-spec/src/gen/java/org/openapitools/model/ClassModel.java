@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
+
   public String getPropertyClass() {
     return propertyClass;
   }

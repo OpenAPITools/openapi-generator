@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+
   public Long getId() {
     return id;
   }
@@ -51,6 +52,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
+
   public String getName() {
     return name;
   }

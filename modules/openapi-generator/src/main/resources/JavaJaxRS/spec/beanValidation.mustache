@@ -1,4 +1,4 @@
-{{#required}}
+{{#required}}{{^isReadOnly}}{{^isWriteOnly}}
   @NotNull
-{{/required}}
+{{/isWriteOnly}}{{/isReadOnly}}{{/required}}
 {{>beanValidationCore}}

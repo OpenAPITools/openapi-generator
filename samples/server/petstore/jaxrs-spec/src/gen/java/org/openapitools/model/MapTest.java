@@ -69,6 +69,7 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
+
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -89,6 +90,7 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
+
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -109,6 +111,7 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
+
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -129,6 +132,7 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
+
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

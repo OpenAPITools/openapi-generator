@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
+
   public UUID getUuid() {
     return uuid;
   }
@@ -58,6 +59,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
+
   public Date getDateTime() {
     return dateTime;
   }
@@ -78,6 +80,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("map")
+
   public Map<String, Animal> getMap() {
     return map;
   }

@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
+
   public BigDecimal getJustNumber() {
     return justNumber;
   }

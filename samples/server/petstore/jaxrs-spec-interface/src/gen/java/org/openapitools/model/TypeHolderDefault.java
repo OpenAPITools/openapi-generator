@@ -37,7 +37,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
+
   @NotNull
+
   public String getStringItem() {
     return stringItem;
   }
@@ -58,7 +60,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
+
   @NotNull
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -79,7 +83,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
+
   @NotNull
+
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -100,7 +106,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
+
   @NotNull
+
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -121,7 +129,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
+
   @NotNull
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

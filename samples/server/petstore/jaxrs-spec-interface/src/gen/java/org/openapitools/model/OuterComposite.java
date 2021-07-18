@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
+
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -53,6 +54,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
+
   public String getMyString() {
     return myString;
   }
@@ -73,6 +75,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
+
   public Boolean getMyBoolean() {
     return myBoolean;
   }

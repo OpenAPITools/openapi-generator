@@ -50,6 +50,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
+
  @Min(10) @Max(100)  public Integer getInteger() {
     return integer;
   }
@@ -72,6 +73,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
+
  @Min(20) @Max(200)  public Integer getInt32() {
     return int32;
   }
@@ -92,6 +94,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("int64")
+
   public Long getInt64() {
     return int64;
   }
@@ -114,7 +117,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
+
   @NotNull
+
  @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
   }
@@ -137,6 +142,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("float")
+
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
     return _float;
   }
@@ -159,6 +165,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("double")
+
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
     return _double;
   }
@@ -179,6 +186,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("string")
+
  @Pattern(regexp="/[a-z]/i")  public String getString() {
     return string;
   }
@@ -199,7 +207,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
+
   @NotNull
+
  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
     return _byte;
   }
@@ -220,6 +230,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
+
   public File getBinary() {
     return binary;
   }
@@ -240,7 +251,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
+
   @NotNull
+
   public LocalDate getDate() {
     return date;
   }
@@ -261,6 +274,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
+
   public Date getDateTime() {
     return dateTime;
   }
@@ -281,6 +295,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
+
   public UUID getUuid() {
     return uuid;
   }
@@ -301,7 +316,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
+
   @NotNull
+
  @Size(min=10,max=64)  public String getPassword() {
     return password;
   }
@@ -322,6 +339,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
+
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
