@@ -133,6 +133,7 @@ module XAuthIDAlias
     # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
     attr_accessor :params_encoding
 
+
     attr_accessor :inject_format
 
     attr_accessor :force_ending_format
@@ -151,9 +152,9 @@ module XAuthIDAlias
       @client_side_validation = true
       @verify_ssl = true
       @verify_ssl_host = true
-      @params_encoding = nil
       @cert_file = nil
       @key_file = nil
+      @params_encoding = nil
       @debugging = false
       @inject_format = false
       @force_ending_format = false
