@@ -8,6 +8,14 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 
 {{/additionalPropertiesType}}
+{{#discriminator}}
+    /**
+     * Discriminator
+     * @type {string}
+     * @memberof {{classname}}
+     */
+    '{{propertyBaseName}}': string;
+{{/discriminator}}
 {{#vars}}
     /**
      * {{{description}}}
