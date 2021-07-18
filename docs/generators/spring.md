@@ -68,6 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useClassLevelBeanValidation|Add @Validated to class-level Api interfaces| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
