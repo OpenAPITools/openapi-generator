@@ -106,6 +106,7 @@ namespace Org.OpenAPITools
                     // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
+                    c.EnableAnnotations();
                 });
                 services
                     .AddSwaggerGenNewtonsoftSupport();
