@@ -16,7 +16,7 @@ export default function() {
     {{#requestGroups}}
     group("{{{groupName}}}", () => {
         {{#variables}}
-        let {{{key}}} = "TODO_EDIT_THE_{{{value}}}";
+        let {{{key}}} = {{#lambda.handleParamValue}}{{value}}{{/lambda.handleParamValue}}
         {{/variables}}
         {{#requests}}
         {{#-first}}
