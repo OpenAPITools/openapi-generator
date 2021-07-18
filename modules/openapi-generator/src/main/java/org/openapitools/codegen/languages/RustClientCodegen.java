@@ -18,9 +18,11 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -509,6 +511,38 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return StringUtils.underscore(sanitizedOperationId);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        // If this endpoint has a single binary body parameter, we want
+        // to accept a body argument with the trait bound Into<Body>.
+        // This requires a type parameter in the function definition,
+        // in advance of actual parameter, and is thus far easier to decide
+        // here than in the template.
+        if (REQWEST_LIBRARY.equals(getLibrary()) && op.bodyParams != null && op.bodyParams.size() == 1) {
+            CodegenParameter cp = op.bodyParams.get(0);
+
+            if (cp.isBinary) {
+                cp.baseType = cp.dataType = "B";
+                op.vendorExtensions.put("x-rust-type-parameter", "B: Into<reqwest::Body>");
+
+                // A copy of the body parameter will appear somewhere in the
+                // allParams list.  We need to doctor that one as well.
+                int seen = 0;
+                for (CodegenParameter ap : op.allParams) {
+                    if (ap.isBinary && ap.isBodyParam) {
+                        ap.baseType = ap.dataType = "B";
+                        seen++;
+                    }
+                }
+                assert seen == 1;
+            }
+        }
+
+        return op;
     }
 
     @Override

@@ -84,7 +84,10 @@ pub enum UpdateUserError {
 
 
 /// This can only be done by the logged in user.
-pub fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<CreateUserError>> {
+pub fn create_user(
+    configuration: &configuration::Configuration,
+    body: crate::models::User,
+) -> Result<(), Error<CreateUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -111,7 +114,10 @@ pub fn create_user(configuration: &configuration::Configuration, body: crate::mo
     }
 }
 
-pub fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
+pub fn create_users_with_array_input(
+    configuration: &configuration::Configuration,
+    body: Vec<crate::models::User>,
+) -> Result<(), Error<CreateUsersWithArrayInputError>> {
 
     let local_var_client = &configuration.client;
 
@@ -138,7 +144,10 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
     }
 }
 
-pub fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
+pub fn create_users_with_list_input(
+    configuration: &configuration::Configuration,
+    body: Vec<crate::models::User>,
+) -> Result<(), Error<CreateUsersWithListInputError>> {
 
     let local_var_client = &configuration.client;
 
@@ -166,7 +175,10 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
 }
 
 /// This can only be done by the logged in user.
-pub fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserError>> {
+pub fn delete_user(
+    configuration: &configuration::Configuration,
+    username: &str,
+) -> Result<(), Error<DeleteUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -192,7 +204,10 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
     }
 }
 
-pub fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<GetUserByNameError>> {
+pub fn get_user_by_name(
+    configuration: &configuration::Configuration,
+    username: &str,
+) -> Result<crate::models::User, Error<GetUserByNameError>> {
 
     let local_var_client = &configuration.client;
 
@@ -218,7 +233,11 @@ pub fn get_user_by_name(configuration: &configuration::Configuration, username: 
     }
 }
 
-pub fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
+pub fn login_user(
+    configuration: &configuration::Configuration,
+    username: &str,
+    password: &str,
+) -> Result<String, Error<LoginUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -246,7 +265,9 @@ pub fn login_user(configuration: &configuration::Configuration, username: &str, 
     }
 }
 
-pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserError>> {
+pub fn logout_user(
+    configuration: &configuration::Configuration,
+) -> Result<(), Error<LogoutUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -273,7 +294,11 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
 }
 
 /// This can only be done by the logged in user.
-pub fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<UpdateUserError>> {
+pub fn update_user(
+    configuration: &configuration::Configuration,
+    username: &str,
+    body: crate::models::User,
+) -> Result<(), Error<UpdateUserError>> {
 
     let local_var_client = &configuration.client;
 
