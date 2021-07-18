@@ -32,7 +32,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AbstractJavaCodegenTest {
 
@@ -200,6 +202,92 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.8.0-SNAPSHOT");
     }
 
+    @Test
+    public void testAdditionalModelTypeAnnotationsSemiColon() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar");
+        
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+        
+        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        additionalModelTypeAnnotations.add("@Foo");
+        additionalModelTypeAnnotations.add("@Bar");
+
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
+    
+    @Test
+    public void testAdditionalModelTypeAnnotationsNewLineLinux() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\n@Bar");
+        
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+        
+        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        additionalModelTypeAnnotations.add("@Foo");
+        additionalModelTypeAnnotations.add("@Bar");
+
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
+    
+    @Test
+    public void testAdditionalModelTypeAnnotationsNewLineWindows() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\r\n@Bar");
+        
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+        
+        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        additionalModelTypeAnnotations.add("@Foo");
+        additionalModelTypeAnnotations.add("@Bar");
+
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
+    
+    @Test
+    public void testAdditionalModelTypeAnnotationsMixed() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, " \t @Foo;\r\n@Bar  ;\n @Foobar  ");
+        
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+        
+        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        additionalModelTypeAnnotations.add("@Foo");
+        additionalModelTypeAnnotations.add("@Bar");
+        additionalModelTypeAnnotations.add("@Foobar");
+
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
+    
+    @Test
+    public void testAdditionalModelTypeAnnotationsNoDuplicate() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar;@Foo");
+        
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+        
+        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        additionalModelTypeAnnotations.add("@Foo");
+        additionalModelTypeAnnotations.add("@Bar");
+
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
+    
     @Test
     public void toEnumValue() {
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
