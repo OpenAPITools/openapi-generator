@@ -280,6 +280,13 @@ public class {{classname}} {
     {{/required}}
     {{/allParams}}
 
+    {{#vendorExtensions}}{{#x-dependencies}}
+    // Check dependency: {{& idlDependency}}
+    if(!{{& assertOperation}}){
+      throw new ApiException(400, "Dependency not satisfied: {{& idlDependency}}");
+    }
+    {{/x-dependencies}}{{/vendorExtensions}}
+
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     {{! Switch delimiters for baseName so we can write constants like "{query}" }}

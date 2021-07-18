@@ -188,6 +188,13 @@ public class {{classname}} {
         }
         {{/required}}{{/allParams}}
 
+        {{#vendorExtensions}}{{#x-dependencies}}
+        // Check dependency: {{& idlDependency}}
+        if(!{{& assertOperation}}){
+            throw new ApiException("Dependency not satisfied: {{& idlDependency}}");
+        }
+        {{/x-dependencies}}{{/vendorExtensions}}
+
         okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
         return localVarCall;
 

@@ -64,6 +64,14 @@ public class {{classname}} {
       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
     {{/required}}{{/allParams}}
+
+    {{#vendorExtensions}}{{#x-dependencies}}
+    // Check dependency: {{& idlDependency}}
+    if(!{{& assertOperation}}){
+      throw new ApiException(400, "Dependency not satisfied: {{& idlDependency}}");
+    }
+    {{/x-dependencies}}{{/vendorExtensions}}
+    
     // create path and map variables
     String localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};

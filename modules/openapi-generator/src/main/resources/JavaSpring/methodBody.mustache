@@ -4,7 +4,14 @@
         {{#jdk8}}
             {{#async}}
 return CompletableFuture.supplyAsync(()-> {
-            {{/async}}getRequest().ifPresent(request -> {
+            {{/async}}
+        {{#vendorExtensions}}{{#x-dependencies}}
+        // Check dependency: {{& idlDependency}}
+        if(!{{& assertOperation}}){
+            return new ResponseEntity<>("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST);
+        }
+        {{/x-dependencies}}{{/vendorExtensions}}
+        getRequest().ifPresent(request -> {
 {{#async}}    {{/async}}            {{/jdk8}}for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
