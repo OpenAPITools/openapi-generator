@@ -27,9 +27,9 @@ Application requires at least one config file(`config/dev/config.inc.php` or `co
 
 ## Start devserver
 
-Run the following command in terminal to start localhost web server, assuming `./php-slim-server/` is public-accessible directory with `index.php` file:
+Run the following command in terminal to start localhost web server, assuming `./php-slim-server/public/` is public-accessible directory with `index.php` file:
 ```bash
-$ php -S localhost:8888 -t php-slim-server
+$ php -S localhost:8888 -t php-slim-server/public
 ```
 > **Warning** This web server was designed to aid application development.
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
@@ -40,7 +40,7 @@ $ php -S localhost:8888 -t php-slim-server
 ### PHPUnit
 
 This package uses PHPUnit 8 or 9(depends from your PHP version) for unit testing.
-[Test folder](test) contains templates which you can fill with real test assertions.
+[Test folder](tests) contains templates which you can fill with real test assertions.
 How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/writing-tests-for-phpunit.html).
 
 #### Run

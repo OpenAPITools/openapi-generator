@@ -27,7 +27,7 @@
     ]}
   },
   "autoload-dev": {
-    "psr-4": { "OpenAPIServer\\": "test/" }
+    "psr-4": { "OpenAPIServer\\": "tests/" }
   },
   "scripts": {
     "test": [
