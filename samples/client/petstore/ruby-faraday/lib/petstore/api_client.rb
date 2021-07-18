@@ -89,11 +89,9 @@ module Petstore
         fail ApiError.new('Connection timed out')
       end
 
-      if opts[:return_type]
-        data = deserialize(response, opts[:return_type])
-      else
-        data = nil
-      end
+      return_type = opts[:return_type] || opts[:return_types_map][response.status]
+      data = return_type ? deserialize(response, return_type) : nil
+
       return data, response.status, response.headers
     end
 

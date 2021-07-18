@@ -57,11 +57,13 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body] || @api_client.object_to_http_body(pet)
 
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
       # return_type
       return_type = opts[:debug_return_type]
 
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+      return_types_map = {}
 
       new_options = opts.merge(
         :operation => :"PetApi.add_pet",
@@ -70,7 +72,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
@@ -119,11 +122,13 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
       # return_type
       return_type = opts[:debug_return_type]
 
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+      return_types_map = {}
 
       new_options = opts.merge(
         :operation => :"PetApi.delete_pet",
@@ -132,7 +137,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
@@ -183,11 +189,16 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'Array<Pet>'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+        200 => “Array&lt;Pet&gt;“,
+        400 => nil,
+      }
 
       new_options = opts.merge(
         :operation => :"PetApi.find_pets_by_status",
@@ -196,7 +207,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
@@ -247,11 +259,16 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'Array<Pet>'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+        200 => “Array&lt;Pet&gt;“,
+        400 => nil,
+      }
 
       new_options = opts.merge(
         :operation => :"PetApi.find_pets_by_tags",
@@ -260,7 +277,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
@@ -310,11 +328,17 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'Pet'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || ['api_key']
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+        200 => “Pet“,
+        400 => nil,
+        404 => nil,
+      }
 
       new_options = opts.merge(
         :operation => :"PetApi.get_pet_by_id",
@@ -323,7 +347,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
@@ -371,11 +396,13 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body] || @api_client.object_to_http_body(pet)
 
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
       # return_type
       return_type = opts[:debug_return_type]
 
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+      return_types_map = {}
 
       new_options = opts.merge(
         :operation => :"PetApi.update_pet",
@@ -384,7 +411,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
@@ -438,11 +466,13 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
       # return_type
       return_type = opts[:debug_return_type]
 
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+      return_types_map = {}
 
       new_options = opts.merge(
         :operation => :"PetApi.update_pet_with_form",
@@ -451,7 +481,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
@@ -507,11 +538,15 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponse'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+        200 => “ApiResponse“,
+      }
 
       new_options = opts.merge(
         :operation => :"PetApi.upload_file",
@@ -520,7 +555,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
@@ -580,11 +616,15 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponse'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+        200 => “ApiResponse“,
+      }
 
       new_options = opts.merge(
         :operation => :"PetApi.upload_file_with_required_file",
@@ -593,7 +633,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
