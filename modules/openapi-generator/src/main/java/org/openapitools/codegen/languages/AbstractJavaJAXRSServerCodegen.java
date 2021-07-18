@@ -32,6 +32,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
     public static final String USE_TAGS = "useTags";
@@ -117,6 +119,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         } else {
+            co.operationIdCamelCase = co.operationId != null ? camelize(co.operationId) : null;
             co.baseName = basePath;
             if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
                 co.baseName = "default";

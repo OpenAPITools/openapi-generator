@@ -1,0 +1,25 @@
+{{#useTypesafeResponses}}
+
+
+    public static class {{operationIdCamelCase}}Response extends {{package}}.support.ResponseWrapper {
+        private {{operationIdCamelCase}}Response(Response delegate) {
+            super(delegate);
+        }
+        {{#responses}}
+        {{^vendorExtensions.x-java-is-response-void}}
+        {{#produces}}
+        public static {{operationIdCamelCase}}Response with{{{code}}}{{mediaTypeCamelized}}({{{dataType}}} entity) {
+            return new {{operationIdCamelCase}}Response(Response.status({{{code}}}).header("Content-Type", "{{{mediaType}}}").entity(entity).build());
+        }
+        {{/produces}}
+        {{/vendorExtensions.x-java-is-response-void}}
+        {{#vendorExtensions.x-java-is-response-void}}
+        public static {{operationIdCamelCase}}Response with{{{code}}}() {
+            return new {{operationIdCamelCase}}Response(Response.status({{{code}}}).build());
+        }
+        {{/vendorExtensions.x-java-is-response-void}}
+        {{/responses}}
+        public static {{operationIdCamelCase}}Response withCustomResponse(Response response) {
+            return new {{operationIdCamelCase}}Response(response);
+        }
+    }{{/useTypesafeResponses}}

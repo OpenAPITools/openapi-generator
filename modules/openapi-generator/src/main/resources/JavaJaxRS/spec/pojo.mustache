@@ -2,9 +2,11 @@
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
 import java.util.Objects;
+{{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+{{/jackson}}
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{description}}
@@ -42,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
+  {{#jackson}}
   @JsonProperty("{{baseName}}")
+  {{/jackson}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
@@ -51,7 +55,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.{{name}} = {{name}};
   }
 
-  {{#isListContainer}}
+  {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -68,8 +72,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -86,7 +90,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
   {{/vars}}
 
   @Override
