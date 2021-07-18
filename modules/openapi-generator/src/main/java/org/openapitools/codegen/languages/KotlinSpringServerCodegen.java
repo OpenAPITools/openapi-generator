@@ -64,6 +64,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
 
@@ -80,6 +81,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean serviceImplementation = false;
     private boolean reactive = false;
     private boolean interfaceOnly = false;
+    private boolean skipDefaultInterface = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
 
@@ -144,6 +146,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to generate default implementations for kotlin-spring interfaces", skipDefaultInterface);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
@@ -233,6 +236,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setInterfaceOnly(boolean interfaceOnly) {
         this.interfaceOnly = interfaceOnly;
+    }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
+    }
+
+    public boolean getSkipDefaultInterface() {
+        return this.skipDefaultInterface;
     }
 
     public void setDelegatePattern(boolean delegatePattern) {
@@ -359,6 +370,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
+
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(Boolean.parseBoolean(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
+        }
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, this.getSkipDefaultInterface());
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
