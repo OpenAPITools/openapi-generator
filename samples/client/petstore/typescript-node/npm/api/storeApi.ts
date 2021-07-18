@@ -40,6 +40,7 @@ export class StoreApi {
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -83,6 +84,10 @@ export class StoreApi {
 
     public setApiKey(key: StoreApiApiKeys, value: string) {
         (this.authentications as any)[StoreApiApiKeys[key]].apiKey = value;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
 
     public addInterceptor(interceptor: Interceptor) {

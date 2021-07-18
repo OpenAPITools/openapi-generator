@@ -25,6 +25,9 @@ lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractAuthenticator.php
 lib/BaseModel.php
 lib/Middleware/JsonBodyParserMiddleware.php
 lib/Model/ApiResponse.php

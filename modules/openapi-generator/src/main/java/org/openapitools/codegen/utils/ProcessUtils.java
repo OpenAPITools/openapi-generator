@@ -64,6 +64,24 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpBasicMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpBasicMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                httpBasicMethods.add(cs);
+            }
+        }
+
+        return httpBasicMethods;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with API keys.
      *
      * @param authMethods List of auth methods.
@@ -78,6 +96,24 @@ public class ProcessUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getApiKeyMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> apiKeyMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isApiKey)) {
+                apiKeyMethods.add(cs);
+            }
+        }
+
+        return apiKeyMethods;
     }
 
     /**
@@ -100,6 +136,24 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns a list of OAS Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OAS Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpSignatureMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpSignatureMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isHttpSignature)) {
+                httpSignatureMethods.add(cs);
+            }
+        }
+
+        return httpSignatureMethods;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer.
      *
      * @param authMethods List of auth methods.
@@ -114,6 +168,24 @@ public class ProcessUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns a list of Bearer Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of Bearer Codegen security objects
+     */
+    public static List<CodegenSecurity> getHttpBearerMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> httpBearerMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isBasicBearer)) {
+                httpBearerMethods.add(cs);
+            }
+        }
+
+        return httpBearerMethods;
     }
 
     /**
