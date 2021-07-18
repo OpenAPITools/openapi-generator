@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 
 @ApiModel(description="Describes the result of uploading an image resource")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class ModelApiResponse   {
@@ -21,6 +23,7 @@ public class ModelApiResponse   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("code")
+  
   public Integer getCode() {
     return code;
   }
@@ -33,6 +36,7 @@ public class ModelApiResponse   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
+  
   public String getType() {
     return type;
   }
@@ -45,6 +49,7 @@ public class ModelApiResponse   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("message")
+  
   public String getMessage() {
     return message;
   }

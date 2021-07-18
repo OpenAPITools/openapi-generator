@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 
 @ApiModel(description="A User who is purchasing from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class User   {
@@ -26,6 +28,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+  
   public Long getId() {
     return id;
   }
@@ -38,6 +41,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
+  
   public String getUsername() {
     return username;
   }
@@ -50,6 +54,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
+  
   public String getFirstName() {
     return firstName;
   }
@@ -62,6 +67,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
+  
   public String getLastName() {
     return lastName;
   }
@@ -74,6 +80,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
+  
   public String getEmail() {
     return email;
   }
@@ -86,6 +93,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
+  
   public String getPassword() {
     return password;
   }
@@ -98,6 +106,7 @@ public class User   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
+  
   public String getPhone() {
     return phone;
   }
@@ -111,6 +120,7 @@ public class User   {
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
+  
   public Integer getUserStatus() {
     return userStatus;
   }
