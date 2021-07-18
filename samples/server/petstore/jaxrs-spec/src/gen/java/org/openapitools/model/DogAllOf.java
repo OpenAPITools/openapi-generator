@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class DogAllOf  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class DogAllOf implements Serializable {
   
   private @Valid String breed;
 
@@ -79,4 +79,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 

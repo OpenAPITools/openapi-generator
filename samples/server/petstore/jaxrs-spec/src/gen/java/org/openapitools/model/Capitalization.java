@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Capitalization  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Capitalization implements Serializable {
   
   private @Valid String smallCamel;
   private @Valid String capitalCamel;
@@ -195,4 +195,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderDefault  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderDefault implements Serializable {
   
   private @Valid String stringItem = "what";
   private @Valid BigDecimal numberItem;
@@ -179,4 +179,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 

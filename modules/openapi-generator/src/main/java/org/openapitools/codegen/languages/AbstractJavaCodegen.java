@@ -1238,6 +1238,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // add implements for serializable/parcelable to all models
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> mo : models) {
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>()); // TODO: 5.0 Remove
+            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+            }
+        }
+
         return postProcessModelsEnum(objs);
     }
 
@@ -1337,6 +1348,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .filter(schema -> Objects.nonNull(schema.getEnum()))
                                     .findFirst()
                                     .orElse((Schema) s)));
+        }
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", importMapping.get(i));
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
         }
     }
 

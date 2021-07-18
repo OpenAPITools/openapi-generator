@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
@@ -131,4 +131,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 
