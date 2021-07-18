@@ -1,4 +1,5 @@
 package org.openapitools.vertxweb.server;
+import io.vertx.ext.web.RoutingContext;
 
 public class ApiResponse<T> {
     private final T data;
@@ -32,6 +33,12 @@ public class ApiResponse<T> {
     public int getStatusCode() {
         return statusCode;
     }
+
+    public void sendResponse(RoutingContext routingContext){
+        if (this.hasData()) {
+            routingContext.json(this.getData());
+        } else {
+            routingContext.response().end();
+        }
+    }
 }
-
-
