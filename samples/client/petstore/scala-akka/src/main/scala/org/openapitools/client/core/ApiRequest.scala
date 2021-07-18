@@ -59,6 +59,8 @@ case class ApiRequest[U](
 
   def withPathParam(name: String, value: Any): ApiRequest[U] = copy[U](pathParams = pathParams + (name -> value))
 
+  def withQueryParam(values: Map[String, Any]): ApiRequest[U] = copy[U](queryParams = queryParams ++ values)
+
   def withQueryParam(name: String, value: Any): ApiRequest[U] = copy[U](queryParams = queryParams + (name -> value))
 
   def withHeaderParam(name: String, value: Any): ApiRequest[U] = copy[U](headerParams = headerParams + (name -> value))
