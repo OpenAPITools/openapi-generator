@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: markdown rest api
+  description: |
+    this library can be used by:
+
+    1. someone who need it
+    2. everybody else
+  version: '0.1'
+servers:
+  - url: 'http://localhost'
+    description: Generated server url
+tags:
+  - name: admin
+    description: 'admin **api**, internal use'
+paths:
+  /rest/admin/info:
+    get:
+      tags:
+        - admin
+      summary: '*dummy* application info endpoint.'
+      description: some *notes* with special ><& chars
+      operationId: info
+      responses:
+        '200':
+          description: 'the **default** response'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AdminInfo"
+components:
+  schemas:
+    AdminInfo:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+          description: 'should be *very* secure'
+      description: 'oh, ``you`` should care about it'
+  securitySchemes:
+    Authentication:
+      type: apiKey
+      description: |
+        auth with jwt bearer token in 'Authentication' header of proctected
+        requests.
+      name: Authentication
+      in: header

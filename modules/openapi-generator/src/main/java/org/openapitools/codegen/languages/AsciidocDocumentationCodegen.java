@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import static nl.jworks.markdown_to_asciidoc.Converter.convertMarkdownToAsciiDoc;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,15 +27,36 @@ import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 
 /**
  * basic asciidoc markup generator.
@@ -351,12 +372,79 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         processBooleanFlag(USE_TABLE_TITLES_FLAG, useTableTitles);
     }
 
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        op.summary = concertLineByLine(operation.getSummary());
+        op.notes = concertLineByLine(op.unescapedNotes);
+
+        convertParamList(op.bodyParams);
+        convertParamList(op.pathParams);
+        convertParamList(op.queryParams);
+        convertParamList(op.headerParams);
+        convertParamList(op.formParams);
+
+        return op;
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        CodegenResponse r = super.fromResponse(responseCode, response);
+        r.message = concertLineByLine(response.getDescription());
+        return r;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, @SuppressWarnings("rawtypes") Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
+        if (m != null) {
+            m.description = concertLineByLine(m.unescapedDescription);
+        }
+        return m;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, @SuppressWarnings("rawtypes") Schema p) {
+        CodegenProperty cpc = super.fromProperty(name, p);
+        if(cpc != null) {
+            cpc.description = concertLineByLine(cpc.unescapedDescription);
+        }
+        return cpc;
+    }
+
+    private static String concertLineByLine(String content) {
+        if (content == null) {
+            return null;
+        }
+
+        return convertSpecialChars(convertMarkdownToAsciiDoc(content)).trim();
+    }
+
+    private static String convertSpecialChars(String content) {
+        return content.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">");
+    }
+
+    private void convertParamList(List<CodegenParameter> params) {
+        if (params == null) {
+            return;
+        }
+        for (CodegenParameter param : params) {
+            param.description = concertLineByLine(param.unescapedDescription);
+        }
+    }
+
     private void processBooleanFlag(String flag, boolean value) {
         if (additionalProperties.containsKey(flag)) {
             this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(flag));
         } else {
             additionalProperties.put(flag, value);
         }
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        return compiler.withEscaper(Escapers.NONE);
     }
 
     @Override
@@ -367,6 +455,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         if (this.includeSnippetMarkupLambda != null) {
             LOGGER.debug("snippets: " + ": " + this.includeSnippetMarkupLambda.resetCounter());
         }
+
+        String appDescription = (String) additionalProperties().get("unescapedAppDescription");
+        additionalProperties().put("appDescription", concertLineByLine(appDescription));
+
         super.processOpenAPI(openAPI);
     }
 
