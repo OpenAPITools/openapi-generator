@@ -4,7 +4,9 @@ package {{packageName}}
 import (
 	"context"
 	"net/http"{{#apiInfo}}{{#apis}}{{#imports}}
-	"{{import}}"{{/imports}}{{/apis}}{{/apiInfo}}
+	"{{import}}"{{/imports}}
+
+	{{#hasDifferentModelDir}}models "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}{{/apis}}{{/apiInfo}}
 )
 
 
@@ -22,5 +24,5 @@ type {{classname}}Router interface { {{#operations}}{{#operation}}
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type {{classname}}Servicer interface { {{#operations}}{{#operation}}
-	{{operationId}}(context.Context{{#allParams}}, {{dataType}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
+	{{operationId}}(context.Context{{#allParams}}, {{#isArray}}[]{{^isPrimitiveType}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isPrimitiveType}}{{baseType}}{{/isArray}}{{^isArray}}{{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/isArray}}{{/allParams}}) (ImplResponse, error){{/operation}}{{/operations}}
 }{{/apis}}{{/apiInfo}}
