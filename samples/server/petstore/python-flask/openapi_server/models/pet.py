@@ -61,15 +61,17 @@ class Pet(Model):
         self._status = status
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Pet':
+    def from_dict(cls, dikt, attr_map=True) -> 'Pet':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param attr_map: Defines if attribute_map is used in dict.
+        :type: bool
         :return: The Pet of this Pet.  # noqa: E501
         :rtype: Pet
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, attr_map=attr_map)
 
     @property
     def id(self):

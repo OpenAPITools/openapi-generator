@@ -57,15 +57,17 @@ class Order(Model):
         self._complete = complete
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Order':
+    def from_dict(cls, dikt, attr_map=True) -> 'Order':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param attr_map: Defines if attribute_map is used in dict.
+        :type: bool
         :return: The Order of this Order.  # noqa: E501
         :rtype: Order
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, attr_map=attr_map)
 
     @property
     def id(self):
