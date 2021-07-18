@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}{{#isMultipart}}retrofit.http@retrofit2.http.Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{baseName}}") {{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}} okhttp3.MultipartBody.Part {{paramName}}{{/isFile}}{{/isFormParam}}
