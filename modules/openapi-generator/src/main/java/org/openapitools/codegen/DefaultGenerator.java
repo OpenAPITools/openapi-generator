@@ -432,17 +432,17 @@ public class DefaultGenerator implements Generator {
         for (String name : modelKeys) {
             try {
                 //don't generate models that have an import mapping
-                if (config.importMapping().containsKey(name)) {
-                    LOGGER.debug("Model {} not imported due to import mapping", name);
-
-                    for (String templateName : config.modelTemplateFiles().keySet()) {
-                        // HACK: Because this returns early, could lead to some invalid model reporting.
-                        String filename = config.modelFilename(templateName, name);
-                        Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to import mapping conflict (either by user or by generator)." );
-                    }
-                    continue;
-                }
+//                if (config.importMapping().containsKey(name)) {
+//                    LOGGER.debug("Model {} not imported due to import mapping", name);
+//
+//                    for (String templateName : config.modelTemplateFiles().keySet()) {
+//                        // HACK: Because this returns early, could lead to some invalid model reporting.
+//                        String filename = config.modelFilename(templateName, name);
+//                        Path path = java.nio.file.Paths.get(filename);
+//                        this.templateProcessor.skip(path,"Skipped prior to model processing due to import mapping conflict (either by user or by generator)." );
+//                    }
+//                    continue;
+//                }
 
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
