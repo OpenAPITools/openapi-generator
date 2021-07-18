@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -371,21 +375,71 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.6.1</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{#jersey-version}}
+        <jersey-version>{{jersey-version}}</jersey-version>
+        {{/jersey-version}}
+        {{^jersey-version}}
         <jersey-version>2.30.1</jersey-version>
+        {{/jersey-version}}
+        {{#jackson-version}}
+        <jackson-version>{{jackson-version}}</jackson-version>
+        {{/jackson-version}}
+        {{^jackson-version}}
         <jackson-version>2.10.5</jackson-version>
+        {{/jackson-version}}
+        {{#jackson-databind-version}}
+        <jackson-databind-version>{{jackson-databind-version}}</jackson-databind-version>
+        {{/jackson-databind-version}}
+        {{^jackson-databind-version}}
         <jackson-databind-version>2.10.5.1</jackson-databind-version>
+        {{/jackson-databind-version}}
+        {{#jackson-databind-nullable-version}}
+        <jackson-databind-nullable-version>{{jackson-databind-nullable-version}}</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
+        {{^jackson-databind-nullable-version}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
         {{#threetenbp}}
+        {{#threetenbp-version}}
+        <threetenbp-version>{{threetenbp-version}}</threetenbp-version>
+        {{/threetenbp-version}}
+        {{^threetenbp-version}}
         <threetenbp-version>2.9.10</threetenbp-version>
+        {{/threetenbp-version}}
         {{/threetenbp}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
         {{#hasHttpSignatureMethods}}
+        {{#http-signature-version}}
+        <http-signature-version>{{http-signature-version}}</http-signature-version>
+        {{/http-signature-version}}
+        {{^http-signature-version}}
         <http-signature-version>1.5</http-signature-version>
+        {{/http-signature-version}}
         {{/hasHttpSignatureMethods}}
         {{#hasOAuthMethods}}
+        {{#scribejava-apis-version}}
+        <scribejava-apis-version>{{scribejava-apis-version}}</scribejava-apis-version>
+        {{/scribejava-apis-version}}
+        {{^scribejava-apis-version}}
         <scribejava-apis-version>6.9.0</scribejava-apis-version>
+        {{/scribejava-apis-version}}
         {{/hasOAuthMethods}}
     </properties>
 </project>

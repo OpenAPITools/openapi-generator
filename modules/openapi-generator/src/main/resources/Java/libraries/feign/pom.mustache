@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -360,20 +364,75 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.5.24</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{#feign-version}}
+        <feign-version>{{feign-version}}</feign-version>
+        {{/feign-version}}
+        {{^feign-version}}
         <feign-version>10.11</feign-version>
+        {{/feign-version}}
+        {{#feign-form-version}}
+        <feign-form-version>{{feign-form-version}}</feign-form-version>
+        {{/feign-form-version}}
+        {{^feign-form-version}}
         <feign-form-version>3.8.0</feign-form-version>
+        {{/feign-form-version}}
+        {{#jackson-version}}
+        <jackson-version>{{jackson-version}}</jackson-version>
+        {{/jackson-version}}
+        {{^jackson-version}}
         <jackson-version>2.10.3</jackson-version>
+        {{/jackson-version}}
         {{#openApiNullable}}
+        {{#jackson-databind-nullable-version}}
+        <jackson-databind-nullable-version>{{jackson-databind-nullable-version}}</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
+        {{^jackson-databind-nullable-version}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
         {{/openApiNullable}}
+        {{#jackson-databind-version}}
+        <jackson-databind-version>{{jackson-databind-version}}</jackson-databind-version>
+        {{/jackson-databind-version}}
+        {{^jackson-databind-version}}
         <jackson-databind-version>2.10.3</jackson-databind-version>
+        {{/jackson-databind-version}}
         {{#threetenbp}}
+        {{#jackson-threetenbp-version}}
+        <jackson-threetenbp-version>{{jackson-threetenbp-version}}</jackson-threetenbp-version>
+        {{/jackson-threetenbp-version}}
+        {{^jackson-threetenbp-version}}
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
+        {{/jackson-threetenbp-version}}
         {{/threetenbp}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>5.7.0</junit-version>
+        {{/junit-version}}
+        {{#maven-plugin-version}}
+        <maven-plugin-version>{{maven-plugin-version}}</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{^maven-plugin-version}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{#scribejava-version}}
+        <scribejava-version>{{scribejava-version}}</scribejava-version>
+        {{/scribejava-version}}
+        {{^scribejava-version}}
         <scribejava-version>8.0.0</scribejava-version>
+        {{/scribejava-version}}
     </properties>
 </project>

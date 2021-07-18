@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -330,19 +334,64 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#gson-fire-version}}
+        <gson-fire-version>{{gson-fire-version}}</gson-fire-version>
+        {{/gson-fire-version}}
+        {{^gson-fire-version}}
         <gson-fire-version>1.8.5</gson-fire-version>
+        {{/gson-fire-version}}
+        {{#swagger-core-version}}
+        <swagger-core-version>{{swagger-core-version}}</swagger-core-version>
+        {{/swagger-core-version}}
+        {{^swagger-core-version}}
         <swagger-core-version>1.6.2</swagger-core-version>
+        {{/swagger-core-version}}
+        {{#okhttp-version}}
+        <okhttp-version>{{okhttp-version}}</okhttp-version>
+        {{/okhttp-version}}
+        {{^okhttp-version}}
         <okhttp-version>4.9.1</okhttp-version>
+        {{/okhttp-version}}
+        {{#gson-version}}
+        <gson-version>{{gson-version}}</gson-version>
+        {{/gson-version}}
+        {{^gson-version}}
         <gson-version>2.8.6</gson-version>
+        {{/gson-version}}
+        {{#commons-lang3-version}}
+        <commons-lang3-version>{{commons-lang3-version}}</commons-lang3-version>
+        {{/commons-lang3-version}}
+        {{^commons-lang3-version}}
         <commons-lang3-version>3.11</commons-lang3-version>
+        {{/commons-lang3-version}}
         {{#joda}}
+        {{#jodatime-version}}
+        <jodatime-version>{{jodatime-version}}</jodatime-version>
+        {{/jodatime-version}}
+        {{^jodatime-version}}
         <jodatime-version>2.10.9</jodatime-version>
+        {{/jodatime-version}}
         {{/joda}}
         {{#threetenbp}}
+        {{#threetenbp-version}}
+        <threetenbp-version>{{threetenbp-version}}</threetenbp-version>
+        {{/threetenbp-version}}
+        {{^threetenbp-version}}
         <threetenbp-version>1.5.0</threetenbp-version>
+        {{/threetenbp-version}}
         {{/threetenbp}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

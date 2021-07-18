@@ -700,12 +700,7 @@ public class DefaultGenerator implements Generator {
                 if (StringUtils.isNotEmpty(support.getFolder())) {
                     outputFolder += File.separator + support.getFolder();
                 }
-                File of = new File(outputFolder);
-                if (!of.isDirectory()) {
-                    if(!dryRun && !of.mkdirs()) {
-                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
-                    }
-                }
+
                 String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
                         ? support.getDestinationFilename()
                         : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
@@ -1007,20 +1002,37 @@ public class DefaultGenerator implements Generator {
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         File target = new File(adjustedOutputFilename);
-        if (ignoreProcessor.allowsFile(target)) {
-            if (shouldGenerate) {
-                Path outDir = java.nio.file.Paths.get(this.config.getOutputDir()).toAbsolutePath();
-                Path absoluteTarget = target.toPath().toAbsolutePath();
-                if (!absoluteTarget.startsWith(outDir)) {
-                    throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
-                }
-                return this.templateProcessor.write(templateData,templateName, target);
-            } else {
-                this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
-                return null;
+
+        File downNonIgnoredFile = target;
+        File currentFile = target;
+
+        // Go up to directories from file
+        Path outDir = java.nio.file.Paths.get(this.config.getOutputDir()).toAbsolutePath();
+        while(currentFile.getParent().startsWith(outDir.toString()))
+        {
+            if (!ignoreProcessor.allowsFile(currentFile)) {
+                shouldGenerate = false;
+                downNonIgnoredFile = new File(currentFile.getParent());
             }
+            currentFile = new File(currentFile.getParent());
+        }
+
+        if (shouldGenerate) {
+            Path absoluteTarget = target.toPath().toAbsolutePath();
+            if (!absoluteTarget.startsWith(outDir)) {
+                throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
+            }
+            return this.templateProcessor.write(templateData,templateName, target);
         } else {
-            this.templateProcessor.ignore(target.toPath(), "Ignored by rule in ignore file.");
+            if(!downNonIgnoredFile.exists())
+            {
+                downNonIgnoredFile.mkdirs();
+            }
+            this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
+
+            if(ignoreProcessor.allowsFile(target)){
+                this.templateProcessor.ignore(target.toPath(), "Ignored by rule in ignore file.");
+            }
             return null;
         }
     }

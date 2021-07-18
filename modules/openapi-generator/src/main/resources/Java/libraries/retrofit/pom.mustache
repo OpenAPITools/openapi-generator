@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -280,16 +284,61 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{#retrofit-version}}
+        <retrofit-version>{{retrofit-version}}</retrofit-version>
+        {{/retrofit-version}}
+        {{^retrofit-version}}
         <retrofit-version>1.9.0</retrofit-version>
+        {{/retrofit-version}}
+        {{#okhttp-version}}
+        <okhttp-version>{{okhttp-version}}</okhttp-version>
+        {{/okhttp-version}}
+        {{^okhttp-version}}
         <okhttp-version>2.7.5</okhttp-version>
+        {{/okhttp-version}}
+        {{#jodatime-version}}
+        <jodatime-version>{{jodatime-version}}</jodatime-version>
+        {{/jodatime-version}}
+        {{^jodatime-version}}
         <jodatime-version>2.9.9</jodatime-version>
+        {{/jodatime-version}}
         {{#threetenbp}}
+        {{#threetenbp-version}}
+        <threetenbp-version>{{threetenbp-version}}</threetenbp-version>
+        {{/threetenbp-version}}
+        {{^threetenbp-version}}
         <threetenbp-version>1.4.0</threetenbp-version>
+        {{/threetenbp-version}}
         {{/threetenbp}}
+        {{#oltu-version}}
+        <oltu-version>{{oltu-version}}</oltu-version>
+        {{/oltu-version}}
+        {{^oltu-version}}
         <oltu-version>1.0.1</oltu-version>
+        {{/oltu-version}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#maven-plugin-version}}
+        <maven-plugin-version>{{maven-plugin-version}}</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{^maven-plugin-version}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
     </properties>
 </project>

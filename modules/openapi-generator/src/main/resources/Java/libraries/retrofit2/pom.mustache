@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -406,41 +410,121 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#gson-fire-version}}
+        <gson-fire-version>{{gson-fire-version}}</gson-fire-version>
+        {{/gson-fire-version}}
+        {{^gson-fire-version}}
         <gson-fire-version>1.8.3</gson-fire-version>
+        {{/gson-fire-version}}
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        {{/swagger-annotations-version}}
         {{#usePlayWS}}
+        {{#jackson-version}}
+        <jackson-version>{{jackson-version}}</jackson-version>
+        {{/jackson-version}}
+        {{^jackson-version}}
         <jackson-version>2.12.1</jackson-version>
+        {{/jackson-version}}
         {{#play24}}
+        {{#play-version}}
+        <play-version>{{play-version}}</play-version>
+        {{/play-version}}
+        {{^play-version}}
         <play-version>2.4.11</play-version>
+        {{/play-version}}
         {{/play24}}
         {{#play25}}
+        {{#play-version}}
+        <play-version>{{play-version}}</play-version>
+        {{/play-version}}
+        {{^play-version}}
         <play-version>2.5.15</play-version>
+        {{/play-version}}
         {{/play25}}
         {{#play26}}
+        {{#play-version}}
+        <play-version>{{play-version}}</play-version>
+        {{/play-version}}
+        {{^play-version}}
         <play-version>2.6.7</play-version>
+        {{/play-version}}
         {{/play26}}
         {{#openApiNullable}}
+        {{#jackson-databind-nullable-version}}
+        <jackson-databind-nullable-version>{{jackson-databind-nullable-version}}</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
+        {{^jackson-databind-nullable-version}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
         {{/openApiNullable}}
         {{/usePlayWS}}
+        {{#retrofit-version}}
+        <retrofit-version>{{retrofit-version}}</retrofit-version>
+        {{/retrofit-version}}
+        {{^retrofit-version}}
         <retrofit-version>2.5.0</retrofit-version>
+        {{/retrofit-version}}
         {{#useRxJava}}
+        {{#rxjava-version}}
+        <rxjava-version>{{rxjava-version}}</rxjava-version>
+        {{/rxjava-version}}
+        {{^rxjava-version}}
         <rxjava-version>1.3.0</rxjava-version>
+        {{/rxjava-version}}
         {{/useRxJava}}
         {{#useRxJava2}}
+        {{#rxjava-version}}
+        <rxjava-version>{{rxjava-version}}</rxjava-version>
+        {{/rxjava-version}}
+        {{^rxjava-version}}
         <rxjava-version>2.1.1</rxjava-version>
+        {{/rxjava-version}}
         {{/useRxJava2}}
         {{#useRxJava3}}
-            <rxjava-version>3.0.4</rxjava-version>
+            {{#rxjava-version}}
+        <rxjava-version>{{rxjava-version}}</rxjava-version>
+        {{/rxjava-version}}
+        {{^rxjava-version}}
+        <rxjava-version>3.0.4</rxjava-version>
+        {{/rxjava-version}}
         {{/useRxJava3}}
         {{#joda}}
+        {{#jodatime-version}}
+        <jodatime-version>{{jodatime-version}}</jodatime-version>
+        {{/jodatime-version}}
+        {{^jodatime-version}}
         <jodatime-version>2.9.9</jodatime-version>
+        {{/jodatime-version}}
         {{/joda}}
         {{#threetenbp}}
+        {{#threetenbp-version}}
+        <threetenbp-version>{{threetenbp-version}}</threetenbp-version>
+        {{/threetenbp-version}}
+        {{^threetenbp-version}}
         <threetenbp-version>1.4.0</threetenbp-version>
+        {{/threetenbp-version}}
         {{/threetenbp}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#oltu-version}}
+        <oltu-version>{{oltu-version}}</oltu-version>
+        {{/oltu-version}}
+        {{^oltu-version}}
         <oltu-version>1.0.1</oltu-version>
+        {{/oltu-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
     </properties>
 </project>

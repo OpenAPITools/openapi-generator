@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -148,19 +152,69 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.6.2</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{#spring-web-version}}
+        <spring-web-version>{{spring-web-version}}</spring-web-version>
+        {{/spring-web-version}}
+        {{^spring-web-version}}
         <spring-web-version>2.4.3</spring-web-version>
+        {{/spring-web-version}}
+        {{#jackson-version}}
+        <jackson-version>{{jackson-version}}</jackson-version>
+        {{/jackson-version}}
+        {{^jackson-version}}
         <jackson-version>2.11.3</jackson-version>
+        {{/jackson-version}}
+        {{#jackson-databind-version}}
+        <jackson-databind-version>{{jackson-databind-version}}</jackson-databind-version>
+        {{/jackson-databind-version}}
+        {{^jackson-databind-version}}
         <jackson-databind-version>2.11.3</jackson-databind-version>
+        {{/jackson-databind-version}}
         {{#openApiNullable}}
+        {{#jackson-databind-nullable-version}}
+        <jackson-databind-nullable-version>{{jackson-databind-nullable-version}}</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
+        {{^jackson-databind-nullable-version}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
         {{/openApiNullable}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
+        {{#reactor-version}}
+        <reactor-version>{{reactor-version}}</reactor-version>
+        {{/reactor-version}}
+        {{^reactor-version}}
         <reactor-version>3.4.3</reactor-version>
+        {{/reactor-version}}
+        {{#reactor-netty-version}}
+        <reactor-netty-version>{{reactor-netty-version}}</reactor-netty-version>
+        {{/reactor-netty-version}}
+        {{^reactor-netty-version}}
         <reactor-netty-version>0.7.15.RELEASE</reactor-netty-version>
+        {{/reactor-netty-version}}
         {{#joda}}
+        {{#jodatime-version}}
+        <jodatime-version>{{jodatime-version}}</jodatime-version>
+        {{/jodatime-version}}
+        {{^jodatime-version}}
         <jodatime-version>2.9.9</jodatime-version>
+        {{/jodatime-version}}
         {{/joda}}
     </properties>
 </project>

@@ -21,6 +21,7 @@
     </parent>
 {{/parentOverridden}}
 
+{{#licensesOverridden}}
     <licenses>
         <license>
             <name>{{licenseName}}</name>
@@ -28,7 +29,9 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+{{/licensesOverridden}}
 
+{{#developersOverridden}}
     <developers>
         <developer>
             <name>{{developerName}}</name>
@@ -37,6 +40,7 @@
             <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
         </developer>
     </developers>
+{{/developersOverridden}}
 
     <build>
         <plugins>
@@ -314,22 +318,77 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swagger-annotations-version}}
+        <swagger-annotations-version>{{swagger-annotations-version}}</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{^swagger-annotations-version}}
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        {{/swagger-annotations-version}}
+        {{#google-api-client-version}}
+        <google-api-client-version>{{google-api-client-version}}</google-api-client-version>
+        {{/google-api-client-version}}
+        {{^google-api-client-version}}
         <google-api-client-version>1.30.2</google-api-client-version>
+        {{/google-api-client-version}}
+        {{#jersey-common-version}}
+        <jersey-common-version>{{jersey-common-version}}</jersey-common-version>
+        {{/jersey-common-version}}
+        {{^jersey-common-version}}
         <jersey-common-version>2.25.1</jersey-common-version>
+        {{/jersey-common-version}}
+        {{#jackson-version}}
+        <jackson-version>{{jackson-version}}</jackson-version>
+        {{/jackson-version}}
+        {{^jackson-version}}
         <jackson-version>2.12.1</jackson-version>
+        {{/jackson-version}}
+        {{#jackson-databind-version}}
+        <jackson-databind-version>{{jackson-databind-version}}</jackson-databind-version>
+        {{/jackson-databind-version}}
+        {{^jackson-databind-version}}
         <jackson-databind-version>2.10.4</jackson-databind-version>
+        {{/jackson-databind-version}}
         {{#openApiNullable}}
+        {{#jackson-databind-nullable-version}}
+        <jackson-databind-nullable-version>{{jackson-databind-nullable-version}}</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
+        {{^jackson-databind-nullable-version}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/jackson-databind-nullable-version}}
         {{/openApiNullable}}
         {{#joda}}
+        {{#jodatime-version}}
+        <jodatime-version>{{jodatime-version}}</jodatime-version>
+        {{/jodatime-version}}
+        {{^jodatime-version}}
         <jodatime-version>2.9.9</jodatime-version>
+        {{/jodatime-version}}
         {{/joda}}
         {{#threetenbp}}
+        {{#jackson-threetenbp-version}}
+        <jackson-threetenbp-version>{{jackson-threetenbp-version}}</jackson-threetenbp-version>
+        {{/jackson-threetenbp-version}}
+        {{^jackson-threetenbp-version}}
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
+        {{/jackson-threetenbp-version}}
         {{/threetenbp}}
+        {{#javax-annotation-version}}
+        <javax-annotation-version>{{javax-annotation-version}}</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{^javax-annotation-version}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{/javax-annotation-version}}
+        {{#maven-plugin-version}}
+        <maven-plugin-version>{{maven-plugin-version}}</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{^maven-plugin-version}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
+        {{/maven-plugin-version}}
+        {{#junit-version}}
+        <junit-version>{{junit-version}}</junit-version>
+        {{/junit-version}}
+        {{^junit-version}}
         <junit-version>4.13.1</junit-version>
+        {{/junit-version}}
     </properties>
 </project>
