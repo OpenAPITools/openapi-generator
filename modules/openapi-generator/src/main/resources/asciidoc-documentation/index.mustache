@@ -96,7 +96,7 @@ Operation Id:: {{nickname}}
 ===== Responses
 
 .http response codes
-[cols="2,3,1"]
+[cols="1,2,3a"]
 |===         
 | Code | Message | Datatype 
 
@@ -105,6 +105,14 @@ Operation Id:: {{nickname}}
 | {{code}}
 | {{message}}
 | {{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
+
+{{^skipExamples}}
+{{#examples}}
+.{{contentType}}
+{{#snippetformatexample}}{{{example}}}{{/snippetformatexample}}
+
+{{/examples}}
+{{/skipExamples}}
 
 {{/responses}}
 |===         

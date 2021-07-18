@@ -37,6 +37,8 @@ import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.OpenAPI;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * basic asciidoc markup generator.
  *
@@ -149,6 +151,35 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Lamda emitting a formatted asciidoc code example. Use:
+     * 
+     * <pre>
+     * {{#snippetformatexample}}{{example}}{{/snippetformatjsonexample}}
+     * </pre>
+     */
+    public class FormatExampleMarkupLambda implements Mustache.Lambda {
+        
+        @Override
+        public void execute(final Template.Fragment frag, final Writer out) throws IOException {
+            final String content = frag.execute();
+
+            out.write("[source");
+
+            if (content.length() > 0 && content.charAt(0) == '{') {
+                // Assume it is JSON
+                out.write(",json]\n----\n");
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writerWithDefaultPrettyPrinter().writeValue(out, mapper.readTree(content));
+            } else {
+                out.write("]\n----\n");
+                out.write(content);
+            }
+
+            out.write("\n----\n");
+        }
+    }
+
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
@@ -162,6 +193,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
     private LinkMarkupLambda linkSnippetMarkupLambda;
+    private FormatExampleMarkupLambda formatExampleMarkupLambda;
 
     @Override
     public CodegenType getTag() {
@@ -343,6 +375,9 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
         additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda);
+
+        this.formatExampleMarkupLambda = new FormatExampleMarkupLambda();
+        additionalProperties.put("snippetformatexample", this.formatExampleMarkupLambda);
 
         processBooleanFlag(HEADER_ATTRIBUTES_FLAG, headerAttributes);
         processBooleanFlag(USE_INTRODUCTION_FLAG, useIntroduction);
