@@ -1,4 +1,5 @@
 README.md
+build.gradle
 pom.xml
 src/main/java/org/openapitools/api/AnotherFakeApi.java
 src/main/java/org/openapitools/api/AnotherFakeApiController.java
