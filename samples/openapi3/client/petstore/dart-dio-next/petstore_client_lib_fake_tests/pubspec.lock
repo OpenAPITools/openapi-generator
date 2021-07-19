@@ -151,9 +151,11 @@ packages:
   http_mock_adapter:
     dependency: "direct dev"
     description:
-      name: http_mock_adapter
-      url: "https://pub.intern.sk"
-    source: hosted
+      path: "."
+      ref: "bugfix/header-mapping"
+      resolved-ref: "64742f04ba1be08301f3aa2b8881b3aac6ec47bb"
+      url: "https://github.com/kuhnroyal/http-mock-adapter"
+    source: git
     version: "0.3.1"
   http_multi_server:
     dependency: transitive
