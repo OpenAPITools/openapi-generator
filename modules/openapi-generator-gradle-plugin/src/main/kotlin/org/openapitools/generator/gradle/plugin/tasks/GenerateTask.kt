@@ -21,12 +21,9 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
@@ -91,8 +88,8 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
-    @get:InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @Optional
+    @Input
     val inputSpec = project.objects.property<String>()
 
     /**
@@ -696,11 +693,11 @@ open class GenerateTask : DefaultTask() {
             }
 
             val clientOptInput = configurator.toClientOptInput()
-            val codgenConfig = clientOptInput.config
+            val codegenConfig = clientOptInput.config
 
             if (configOptions.isPresent) {
                 val userSpecifiedConfigOptions = configOptions.get()
-                codgenConfig.cliOptions().forEach {
+                codegenConfig.cliOptions().forEach {
                     if (userSpecifiedConfigOptions.containsKey(it.opt)) {
                         clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
                     }
