@@ -42,9 +42,8 @@ class {{classname}} (
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
-        if ({{paramName}} == null) {
-            throw ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
-        }
+        // This is probably taken care of by non-null types anyway
+        requireNotNull({{paramName}})
         {{/required}}
         {{/allParams}}
 
@@ -56,13 +55,13 @@ class {{classname}} (
 
         val queryParams: Map<String?, String?> = mapOf(
             {{#queryParams}}
-            "{{baseName}}" to ApiInvoker.parameterToString({{paramName}}),
+            "{{baseName}}" to ApiClient.parameterToString({{paramName}}),
             {{/queryParams}}
         )
 
         val headerParams: Map<String?, String?> = mapOf(
             {{#headerParams}}
-            "{{baseName}}" to ApiInvoker.parameterToString({{paramName}}),
+            "{{baseName}}" to ApiClient.parameterToString({{paramName}}),
             {{/headerParams}}
         )
 

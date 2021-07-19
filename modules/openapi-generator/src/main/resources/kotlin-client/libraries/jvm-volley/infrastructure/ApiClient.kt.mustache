@@ -22,6 +22,16 @@ class ApiClient(val context: Context) {
         }
     }
 
+    // TODO: Add correct code in here
+    fun parameterToString(str: String?): String {
+        return try {
+            URLEncoder.encode(str, "UTF-8")
+        } catch (e: UnsupportedEncodingException) {
+            str
+        }
+    }
+
+
     fun <T> invokeApi(request: GsonRequest<T>) {
         requestQueue.add(request)
     }
