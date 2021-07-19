@@ -3,10 +3,8 @@ package {{packageName}}.infrastructure
 import {{packageName}}.request.GsonRequest
 
 import android.content.Context
-import com.android.volley.Network
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.BaseHttpStack
-import com.android.volley.toolbox.HttpStack
 import com.android.volley.toolbox.Volley
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection
@@ -16,20 +14,10 @@ import javax.net.ssl.HttpsURLConnection
 
 class ApiClient(val context: Context) {
 
-    private var httpStack: HttpStack? = null
     private var baseHttpStack: BaseHttpStack? = null
-    private var network: Network? = null
 
-    constructor(val context: Context, httpStack: HttpStack): this(context) {
-        this.httpStack = httpStack
-    }
-
-    constructor(val context: Context, baseHttpStack: BaseHttpStack): this(context) {
+    constructor(context: Context, baseHttpStack: BaseHttpStack): this(context) {
         this.baseHttpStack = baseHttpStack
-    }
-
-    constructor(val context: Context, network: Network): this(context) {
-        this.network = network
     }
 
     fun escapeString(str: String): String {
@@ -41,11 +29,11 @@ class ApiClient(val context: Context) {
     }
 
     // TODO: Add correct code in here
-    fun parameterToString(str: String?): String {
+    fun parameterToString(str: Any?): String {
         return try {
-            URLEncoder.encode(str, "UTF-8")
+            URLEncoder.encode(str as String, "UTF-8")
         } catch (e: UnsupportedEncodingException) {
-            str
+            str as String
         }
     }
 
@@ -55,11 +43,11 @@ class ApiClient(val context: Context) {
     }
 
     private val requestQueue: RequestQueue by lazy {
-        val queueNetwork: Any? = httpStack ?: baseHttpStack ?: network
-        if (queueNetwork == null) {
-            Volley.newRequestQueue(context.applicationContext)
-        } else {
-            Volley.newRequestQueue(context.applicationContext, queueNetwork)
+        when {
+            baseHttpStack != null ->
+                Volley.newRequestQueue(context.applicationContext, baseHttpStack)
+            else ->
+                Volley.newRequestQueue(context.applicationContext)
         }
     }
 
