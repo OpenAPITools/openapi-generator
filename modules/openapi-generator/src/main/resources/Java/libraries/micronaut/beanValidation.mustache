@@ -1,4 +1,0 @@
-{{#useBeanValidation}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-  @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}
-  @Valid{{/isPrimitiveType}}{{/isContainer}}
-{{>libraries/micronaut/beanValidationCore}}{{/useBeanValidation}}
