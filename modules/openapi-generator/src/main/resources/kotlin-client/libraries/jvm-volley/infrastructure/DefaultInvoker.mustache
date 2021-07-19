@@ -1,0 +1,16 @@
+package {{packageName}}.infrastructure
+
+import android.content.Context
+import java.net.URLEncoder
+
+class DefaultInvoker(val context: Context) {
+
+    fun escapeString(str: String): String {
+        return try {
+            URLEncoder.encode(str, "UTF-8")
+        } catch (e: UnsupportedEncodingException) {
+            str
+        }
+    }
+
+}

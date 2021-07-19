@@ -8,6 +8,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import {{packageName}}.infrastructure.ApiException
 import {{packageName}}.infrastructure.ApiInvoker
+import {{packageName}}.infrastructure.DefaultInvoker
 
 import java.io.File;
 
@@ -17,13 +18,15 @@ import java.io.File;
 // Generated import family ends here
 
 {{#operations}}
-class {{classname}} (val context: Context, val invoker: ApiInvoker = DefaultInvoker(context)) {
+class {{classname}} (
+    val context: Context,
+    val invoker: DefaultInvoker = DefaultInvoker(context)) {
 
     var basePath = "{{{basePath}}}"
-    var invoker = ApiInvoker.instance
-    fun addHeader(key: String?, value: String?) {
-        invoker!!.addDefaultHeader(key!!, value!!)
-    }
+    //var invoker = ApiInvoker.instance
+    //fun addHeader(key: String?, value: String?) {
+    //    invoker!!.addDefaultHeader(key!!, value!!)
+    //}
 
     {{#operation}}
     /**
