@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	sw "./go-petstore"
+	sw "go-petstore"
 )
 
 var client *sw.APIClient
@@ -29,7 +29,7 @@ func TestMain(m *testing.M) {
 func TestAddPet(t *testing.T) {
 	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+		Tags: []sw.Tag{{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
@@ -59,7 +59,7 @@ func TestGetPetById(t *testing.T) {
 func TestGetPetByIdWithInvalidID(t *testing.T) {
 	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999).Execute()
 	if r != nil && r.StatusCode == 404 {
-		assertedError, ok := err.(sw.GenericOpenAPIError)
+		assertedError, ok := err.(*sw.GenericOpenAPIError)
 		a := assert.New(t)
 		a.True(ok)
 		a.Contains(string(assertedError.Body()), "type")

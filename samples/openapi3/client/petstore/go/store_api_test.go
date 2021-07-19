@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	sw "./go-petstore"
+	sw "go-petstore"
 )
 
 func TestPlaceOrder(t *testing.T) {

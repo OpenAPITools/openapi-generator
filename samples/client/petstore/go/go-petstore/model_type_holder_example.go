@@ -179,11 +179,11 @@ func (o *TypeHolderExample) GetArrayItem() []int32 {
 
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderExample) GetArrayItemOk() (*[]int32, bool) {
+func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
 	if o == nil  {
 		return nil, false
 	}
-	return &o.ArrayItem, true
+	return o.ArrayItem, true
 }
 
 // SetArrayItem sets field value

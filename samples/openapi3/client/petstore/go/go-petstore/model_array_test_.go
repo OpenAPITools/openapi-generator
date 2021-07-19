@@ -16,9 +16,9 @@ import (
 
 // ArrayTest struct for ArrayTest
 type ArrayTest struct {
-	ArrayOfString *[]string `json:"array_of_string,omitempty"`
-	ArrayArrayOfInteger *[][]int64 `json:"array_array_of_integer,omitempty"`
-	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
+	ArrayOfString []string `json:"array_of_string,omitempty"`
+	ArrayArrayOfInteger [][]int64 `json:"array_array_of_integer,omitempty"`
+	ArrayArrayOfModel [][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -47,12 +47,12 @@ func (o *ArrayTest) GetArrayOfString() []string {
 		var ret []string
 		return ret
 	}
-	return *o.ArrayOfString
+	return o.ArrayOfString
 }
 
 // GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayOfStringOk() (*[]string, bool) {
+func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *ArrayTest) HasArrayOfString() bool {
 
 // SetArrayOfString gets a reference to the given []string and assigns it to the ArrayOfString field.
 func (o *ArrayTest) SetArrayOfString(v []string) {
-	o.ArrayOfString = &v
+	o.ArrayOfString = v
 }
 
 // GetArrayArrayOfInteger returns the ArrayArrayOfInteger field value if set, zero value otherwise.
@@ -79,12 +79,12 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 		var ret [][]int64
 		return ret
 	}
-	return *o.ArrayArrayOfInteger
+	return o.ArrayArrayOfInteger
 }
 
 // GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*[][]int64, bool) {
+func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
 		return nil, false
 	}
@@ -102,7 +102,7 @@ func (o *ArrayTest) HasArrayArrayOfInteger() bool {
 
 // SetArrayArrayOfInteger gets a reference to the given [][]int64 and assigns it to the ArrayArrayOfInteger field.
 func (o *ArrayTest) SetArrayArrayOfInteger(v [][]int64) {
-	o.ArrayArrayOfInteger = &v
+	o.ArrayArrayOfInteger = v
 }
 
 // GetArrayArrayOfModel returns the ArrayArrayOfModel field value if set, zero value otherwise.
@@ -111,12 +111,12 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 		var ret [][]ReadOnlyFirst
 		return ret
 	}
-	return *o.ArrayArrayOfModel
+	return o.ArrayArrayOfModel
 }
 
 // GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfModelOk() (*[][]ReadOnlyFirst, bool) {
+func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
 		return nil, false
 	}
@@ -134,7 +134,7 @@ func (o *ArrayTest) HasArrayArrayOfModel() bool {
 
 // SetArrayArrayOfModel gets a reference to the given [][]ReadOnlyFirst and assigns it to the ArrayArrayOfModel field.
 func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
-	o.ArrayArrayOfModel = &v
+	o.ArrayArrayOfModel = v
 }
 
 func (o ArrayTest) MarshalJSON() ([]byte, error) {

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	sw "./go-petstore"
 	"github.com/stretchr/testify/assert"
+	sw "go-petstore"
 )
 
 func TestBanana(t *testing.T) {
