@@ -1,8 +1,12 @@
 package {{packageName}}.infrastructure
 
+import {{packageName}}.request.GsonRequest
+
 import android.content.Context
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.Volley
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
@@ -18,21 +22,27 @@ class DefaultInvoker(val context: Context) {
         }
     }
 
+    fun <T> invokeApi(request: GsonRequest<T>) {
+        requestQueue.add(request)
+    }
+
     private val requestQueue: RequestQueue by lazy {
-        val stack = object : HurlStack() {
-            override fun createConnection(url: URL?): HttpURLConnection {
-                val httpsURLConnection =
-                    super.createConnection(url) as HttpsURLConnection
-                try {
-                    httpsURLConnection.sslSocketFactory = getSSLSocketFactory()
-                    httpsURLConnection.hostnameVerifier = getHostnameVerifier()
-                } catch (e: Exception) {
-                    throw e
-                }
-                return httpsURLConnection
-            }
-        }
-        Volley.newRequestQueue(context, stack)
+// TODO: How do we add hostname verification and certicate based client/server trust check?
+//        val stack = object : HurlStack() {
+//           override fun createConnection(url: URL?): HttpURLConnection {
+//                val httpsURLConnection =
+//                   super.createConnection(url) as HttpsURLConnection
+//                try {
+//                    httpsURLConnection.sslSocketFactory = getSSLSocketFactory()
+//                    httpsURLConnection.hostnameVerifier = getHostnameVerifier()
+//                } catch (e: Exception) {
+//                    throw e
+//                }
+//                return httpsURLConnection
+//            }
+//        }
+//        Volley.newRequestQueue(context, stack)
+        Volley.newRequestQueue(context.applicationContext)
     }
 
 }

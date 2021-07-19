@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.net.HttpURLConnection
 
-class VolleyRequest(
+class GsonRequest<T>(
     method: Int,
     url: String,
     private val bodyAsStr: String?,
@@ -29,6 +29,10 @@ class VolleyRequest(
     * The underlying [Gson] instance.
     */
     private val gson = Gson()
+
+    override fun deliverResponse(response: T?) {
+        listener.onResponse(response)
+    }
 
     override fun getHeaders(): MutableMap<String, String> {
         val combined = HashMap<String, String>()
