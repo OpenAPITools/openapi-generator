@@ -19,7 +19,7 @@ jobs:
     # This action will "unshallow" so we have all tag info
     - name: Get latest tag
       id: tagger
-      uses: jimschubert/query-tag-action@v1
+      uses: jimschubert/query-tag-action@v2
       with:
         include: 'v*'
         exclude: '*-rc*'
