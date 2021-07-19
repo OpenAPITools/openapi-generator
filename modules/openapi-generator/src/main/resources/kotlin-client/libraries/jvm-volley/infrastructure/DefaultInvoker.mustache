@@ -1,7 +1,12 @@
 package {{packageName}}.infrastructure
 
 import android.content.Context
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.HurlStack
+import java.net.HttpURLConnection
+import java.net.URL
 import java.net.URLEncoder
+import javax.net.ssl.HttpsURLConnection
 
 class DefaultInvoker(val context: Context) {
 
@@ -11,6 +16,23 @@ class DefaultInvoker(val context: Context) {
         } catch (e: UnsupportedEncodingException) {
             str
         }
+    }
+
+    private val requestQueue: RequestQueue by lazy {
+        val stack = object : HurlStack() {
+            override fun createConnection(url: URL?): HttpURLConnection {
+                val httpsURLConnection =
+                    super.createConnection(url) as HttpsURLConnection
+                try {
+                    httpsURLConnection.sslSocketFactory = getSSLSocketFactory()
+                    httpsURLConnection.hostnameVerifier = getHostnameVerifier()
+                } catch (e: Exception) {
+                    throw e
+                }
+                return httpsURLConnection
+            }
+        }
+        Volley.newRequestQueue(context, stack)
     }
 
 }
