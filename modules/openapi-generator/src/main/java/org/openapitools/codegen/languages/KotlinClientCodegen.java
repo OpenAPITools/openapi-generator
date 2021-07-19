@@ -467,19 +467,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder) {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
-        supportingFiles.add(new SupportingFile("infrastructure/ApiInvoker.mustache", infrastructureFolder, "ApiInvoker.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiException.mustache", infrastructureFolder, "ApiException.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
 
-        supportingFiles.add(new SupportingFile("infrastructure/DefaultInvoker.mustache", infrastructureFolder, "DefaultInvoker.kt"));
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
 
-        supportingFiles.add(new SupportingFile("request/deleterequest.mustache", requestFolder, "deleterequest.kt"));
-        supportingFiles.add(new SupportingFile("request/getrequest.mustache", requestFolder, "getrequest.kt"));
-        supportingFiles.add(new SupportingFile("request/patchrequest.mustache", requestFolder, "patchrequest.kt"));
-        supportingFiles.add(new SupportingFile("request/postrequest.mustache", requestFolder, "postrequest.kt"));
-        supportingFiles.add(new SupportingFile("request/putrequest.mustache", requestFolder, "putrequest.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 

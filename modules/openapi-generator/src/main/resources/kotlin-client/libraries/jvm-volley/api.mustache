@@ -6,9 +6,7 @@ import com.android.volley.Response
 import java.util.*;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import {{packageName}}.infrastructure.ApiException
-import {{packageName}}.infrastructure.ApiInvoker
-import {{packageName}}.infrastructure.DefaultInvoker
+import {{packageName}}.infrastructure.ApiClient
 
 import java.io.File;
 
@@ -20,7 +18,7 @@ import java.io.File;
 {{#operations}}
 class {{classname}} (
     val context: Context,
-    val invoker: DefaultInvoker = DefaultInvoker(context)) {
+    val invoker: ApiClient = ApiClient(context)) {
 
     var basePath = "{{{basePath}}}"
     //var invoker = ApiInvoker.instance
