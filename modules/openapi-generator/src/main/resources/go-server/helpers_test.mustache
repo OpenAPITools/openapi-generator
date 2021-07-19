@@ -1,0 +1,15 @@
+{{>partial_header}}
+package {{packageName}}
+
+import "net/http"
+
+func ExampleResponse_withCookie() {
+	Response(http.StatusOK, "Hello, world!", WithCookie(&http.Cookie{
+		Name:  "openapi-cookie",
+		Value: "cookie set by an OpenAPI backend",
+	}))
+}
+
+func ExampleResponse_withHeader() {
+	Response(http.StatusOK, "Hello, world!", WithAddedHeader("x-my-header", "Header set by an OpenAPI backend"))
+}

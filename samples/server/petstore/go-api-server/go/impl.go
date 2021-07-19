@@ -9,9 +9,12 @@
 
 package petstoreserver
 
-//Implementation response defines an error code with the associated body
+import "net/http"
+
+// Implementation response defines an error code with the associated body
 type ImplResponse struct {
 	Code int
 	Headers map[string][]string
+	Cookies []*http.Cookie
 	Body interface{}
 }

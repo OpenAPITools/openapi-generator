@@ -65,12 +65,16 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	result, err := c.service.DeleteOrder(r.Context(), orderId)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetInventory - Returns pet inventories by status
@@ -78,12 +82,16 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 	result, err := c.service.GetInventory(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // GetOrderById - Find purchase order by ID
@@ -98,12 +106,16 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	result, err := c.service.GetOrderById(r.Context(), orderId)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -116,10 +128,14 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	result, err := c.service.PlaceOrder(r.Context(), *order)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		er := result
+		er.Body = err.Error()
+		if er.Code == 0 {
+			er.Code = http.StatusInternalServerError
+		}
+		EncodeJSONImplResponse(w, er)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
+	EncodeJSONImplResponse(w, result)
 }
