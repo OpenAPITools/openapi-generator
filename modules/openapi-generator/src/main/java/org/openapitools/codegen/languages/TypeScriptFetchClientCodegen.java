@@ -47,7 +47,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
-    protected boolean typescriptThreePlus = false;
+    protected boolean typescriptThreePlus = true;
     protected boolean withoutRuntimeChecks = false;
 
     // "Saga and Record" mode.
