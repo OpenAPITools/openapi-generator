@@ -1,0 +1,8 @@
+generatorName: go-server
+outputDir: samples/server/petstore/go-optional-parameters
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-optional-parameters.yaml
+templateDir: modules/openapi-generator/src/main/resources/go-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: petstoreserver
+  addResponseHeaders: true
