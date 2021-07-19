@@ -80,6 +80,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)

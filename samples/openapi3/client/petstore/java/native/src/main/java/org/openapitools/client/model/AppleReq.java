@@ -52,6 +52,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

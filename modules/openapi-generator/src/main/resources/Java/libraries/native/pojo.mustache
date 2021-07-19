@@ -203,6 +203,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 {{#isNullable}}
   @javax.annotation.Nullable
 {{/isNullable}}
+{{^isNullable}}
+  @javax.annotation.Nonnull
+{{/isNullable}}
 {{/required}}
 {{^required}}
   @javax.annotation.Nullable
