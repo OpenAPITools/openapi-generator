@@ -1,0 +1,42 @@
+from {{packageName}}.model_utils import (  # noqa: F401
+    AnyTypeSchema,
+    ComposedSchema,
+    DictSchema,
+    ListSchema,
+    StrSchema,
+    IntSchema,
+    Int32Schema,
+    Int64Schema,
+    Float32Schema,
+    Float64Schema,
+    IntOrFloatSchema,
+    DateSchema,
+    DateTimeSchema,
+    BoolSchema,
+    FileSchema,
+    NoneSchema,
+    NullableDictSchema,
+    NullableListSchema,
+    NullableStrSchema,
+    NullableIntSchema,
+    NullableFloatSchema,
+    NullableIntOrFloatSchema,
+    NullableDateSchema,
+    NullableDateTimeSchema,
+    NullableBoolSchema,
+    NullableFileSchema,
+    class_property,
+    cached_property,
+    isoparse,
+    none_type,
+    date,
+    datetime,
+    _get_discriminated_class_helper,
+)
+{{#imports}}
+{{#-first}}
+
+def lazy_import():
+{{/-first}}
+    {{{.}}}
+{{/imports}}

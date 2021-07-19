@@ -1,0 +1,45 @@
+{{indent}}    _validations = {
+{{#getUniqueItems}}
+{{indent}}        'unique_items': True,
+{{/getUniqueItems}}
+{{#maxLength}}
+{{indent}}        'max_length': {{maxLength}},
+{{/maxLength}}
+{{#minLength}}
+{{indent}}        'min_length': {{minLength}},
+{{/minLength}}
+{{#maxItems}}
+{{indent}}        'max_items': {{maxItems}},
+{{/maxItems}}
+{{#minItems}}
+{{indent}}        'min_items': {{minItems}},
+{{/minItems}}
+{{#maxProperties}}
+{{indent}}        'max_properties': {{maxProperties}},
+{{/maxProperties}}
+{{#minProperties}}
+{{indent}}        'min_properties': {{minProperties}},
+{{/minProperties}}
+{{#maximum}}
+{{indent}}        {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
+{{/maximum}}
+{{#minimum}}
+{{indent}}        {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
+{{/minimum}}
+{{#pattern}}
+{{indent}}        'regex': [{
+{{#vendorExtensions.x-regex}}
+{{indent}}            'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501
+{{/vendorExtensions.x-regex}}
+{{^vendorExtensions.x-regex}}
+{{indent}}            'pattern': r'{{{pattern}}}',  # noqa: E501
+{{/vendorExtensions.x-regex}}
+{{#vendorExtensions.x-modifiers}}
+{{indent}}            {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}
+{{/vendorExtensions.x-modifiers}}
+{{indent}}        }],
+{{/pattern}}
+{{#multipleOf}}
+{{indent}}        'multiple_of': [{{multipleOf}}],
+{{/multipleOf}}
+{{indent}}    }

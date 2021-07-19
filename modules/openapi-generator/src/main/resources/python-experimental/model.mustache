@@ -1,0 +1,31 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+import re  # noqa: F401
+import sys  # noqa: F401
+
+{{#models}}
+{{#model}}
+{{^getComposedSchemas}}
+{{#isMap}}
+{{> model_templates/imports_dict }}
+{{> /model_templates/schema }}
+{{/isMap}}
+{{#isArray}}
+{{> model_templates/imports_simple }}
+{{> model_templates/schema }}
+{{/isArray}}
+{{^isMap}}
+{{^isArray}}
+{{> model_templates/imports_simple }}
+{{> model_templates/schema }}
+{{/isArray}}
+{{/isMap}}
+{{/getComposedSchemas}}
+{{#getComposedSchemas}}
+{{> model_templates/imports_composed }}
+{{> model_templates/model_composed }}
+{{/getComposedSchemas}}
+{{/model}}
+{{/models}}
