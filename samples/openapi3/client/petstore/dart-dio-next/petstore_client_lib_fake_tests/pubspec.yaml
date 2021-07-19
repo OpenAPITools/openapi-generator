@@ -16,3 +16,9 @@ dev_dependencies:
   openapi:
     path: ../petstore_client_lib_fake
   test: 1.17.4
+
+#dependency_overrides:
+#  http_mock_adapter:
+#    git:
+#      url: https://github.com/kuhnroyal/http-mock-adapter
+#      ref: bugfix/header-mapping

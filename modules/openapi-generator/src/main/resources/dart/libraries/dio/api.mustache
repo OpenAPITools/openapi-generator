@@ -73,7 +73,8 @@ class {{classname}} {
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
           {{#authMethods}}{
-            'type': '{{type}}',
+            'type': '{{type}}',{{#scheme}}
+            'scheme': '{{scheme}}',{{/scheme}}
             'name': '{{name}}',{{#isApiKey}}
             'keyName': '{{keyParamName}}',
             'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}

@@ -137,6 +137,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'signature',
             'name': 'http_signature_test',
           },
         ],
@@ -988,6 +989,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'basic',
             'name': 'http_basic_test',
           },
         ],
@@ -1178,6 +1180,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'bearer',
             'name': 'bearer_test',
           },
         ],

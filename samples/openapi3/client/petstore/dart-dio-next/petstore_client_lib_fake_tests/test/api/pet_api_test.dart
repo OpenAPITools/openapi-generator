@@ -50,9 +50,6 @@ void main() {
               },
             ]
           }),
-          headers: {
-            Headers.contentTypeHeader: Matchers.pattern('application/json'),
-          },
         );
 
         final response = await client.getPetApi().getPetById(petId: 5);
@@ -76,9 +73,6 @@ void main() {
             'name': 'Paula',
             'photoUrls': <String>[],
           }),
-          headers: {
-            Headers.contentTypeHeader: Matchers.pattern('application/json'),
-          },
         );
 
         final response = await client.getPetApi().getPetById(petId: 5);
@@ -200,9 +194,6 @@ void main() {
                   ListFormat.csv,
                 ),
               ),
-            },
-            headers: <String, dynamic>{
-              Headers.contentTypeHeader: Matchers.pattern('application/json'),
             },
           ),
         );

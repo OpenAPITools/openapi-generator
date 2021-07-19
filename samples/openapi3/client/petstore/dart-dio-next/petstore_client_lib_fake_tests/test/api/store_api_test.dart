@@ -17,29 +17,21 @@ void main() {
   });
 
   group(StoreApi, () {
-    group('getInventory', () {
-      test('with API key', () async {
-        client.setApiKey('api_key', 'SECRET_API_KEY');
+    test('getInventory', () async {
+      server.onGet(
+        '/store/inventory',
+        (request) => request.reply(200, {
+          'foo': 5,
+          'bar': 999,
+          'baz': 0,
+        }),
+      );
 
-        server.onGet(
-          '/store/inventory',
-          (request) => request.reply(200, {
-            'foo': 5,
-            'bar': 999,
-            'baz': 0,
-          }),
-          headers: <String, dynamic>{
-            Headers.contentTypeHeader: Matchers.pattern('application/json'),
-            'api_key': 'SECRET_API_KEY',
-          },
-        );
+      final response = await client.getStoreApi().getInventory();
 
-        final response = await client.getStoreApi().getInventory();
-
-        expect(response.statusCode, 200);
-        expect(response.data, isNotNull);
-        expect(response.data.length, 3);
-      });
+      expect(response.statusCode, 200);
+      expect(response.data, isNotNull);
+      expect(response.data.length, 3);
     });
   });
 }

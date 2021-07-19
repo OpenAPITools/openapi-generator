@@ -11,7 +11,7 @@ class ApiKeyAuthInterceptor extends AuthInterceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final authInfo = getAuthInfo(options, 'apiKey');
+    final authInfo = getAuthInfo(options, (secure) => secure['type'] == 'apiKey');
     for (final info in authInfo) {
       final authName = info['name'] as String;
       final authKeyName = info['keyName'] as String;
