@@ -3,8 +3,10 @@ package {{packageName}}.infrastructure
 import {{packageName}}.request.GsonRequest
 
 import android.content.Context
+import com.android.volley.Network
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.BaseHttpStack
+import com.android.volley.toolbox.HttpStack
 import com.android.volley.toolbox.Volley
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection
@@ -13,6 +15,22 @@ import java.net.URLEncoder
 import javax.net.ssl.HttpsURLConnection
 
 class ApiClient(val context: Context) {
+
+    private var httpStack: HttpStack? = null
+    private var baseHttpStack: BaseHttpStack? = null
+    private var network: Network? = null
+
+    constructor(val context: Context, httpStack: HttpStack): this(context) {
+        this.httpStack = httpStack
+    }
+
+    constructor(val context: Context, baseHttpStack: BaseHttpStack): this(context) {
+        this.baseHttpStack = baseHttpStack
+    }
+
+    constructor(val context: Context, network: Network): this(context) {
+        this.network = network
+    }
 
     fun escapeString(str: String): String {
         return try {
@@ -27,22 +45,12 @@ class ApiClient(val context: Context) {
     }
 
     private val requestQueue: RequestQueue by lazy {
-// TODO: How do we add hostname verification and certicate based client/server trust check?
-//        val stack = object : HurlStack() {
-//           override fun createConnection(url: URL?): HttpURLConnection {
-//                val httpsURLConnection =
-//                   super.createConnection(url) as HttpsURLConnection
-//                try {
-//                    httpsURLConnection.sslSocketFactory = getSSLSocketFactory()
-//                    httpsURLConnection.hostnameVerifier = getHostnameVerifier()
-//                } catch (e: Exception) {
-//                    throw e
-//                }
-//                return httpsURLConnection
-//            }
-//        }
-//        Volley.newRequestQueue(context, stack)
-        Volley.newRequestQueue(context.applicationContext)
+        val queueNetwork: Any? = httpStack ?: baseHttpStack ?: network
+        if (queueNetwork == null) {
+            Volley.newRequestQueue(context.applicationContext)
+        } else {
+            Volley.newRequestQueue(context.applicationContext, queueNetwork)
+        }
     }
 
 }

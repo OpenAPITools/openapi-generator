@@ -2,7 +2,10 @@ package {{apiPackage}}
 
 // Steve was here
 import android.content.Context
+import com.android.volley.Network
 import com.android.volley.Response
+import com.android.volley.toolbox.BaseHttpStack
+import com.android.volley.toolbox.HttpStack
 import java.util.*;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
@@ -19,6 +22,10 @@ import java.io.File;
 class {{classname}} (
     val context: Context,
     val invoker: ApiClient = ApiClient(context)) {
+
+    constructor(context: Context, baseHttpStack: BaseHttpStack, invoker: ApiClient = ApiClient(context, baseHttpStack)) : this(context, invoker) {}
+    constructor(context: Context, httpStack: HttpStack, invoker: ApiClient = ApiClient(context, httpStack)) : this(context, invoker) {}
+    constructor(context: Context, network: Network, invoker: ApiClient = ApiClient(context, network)) : this(context, invoker) {}
 
     var basePath = "{{{basePath}}}"
     //var invoker = ApiInvoker.instance
