@@ -84,6 +84,8 @@ public class ApiClient extends JavaTimeFormatter {
         }
     }
 
+    private static final String URI_TEMPLATE_ATTRIBUTE = WebClient.class.getName() + ".uriTemplate";
+
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
@@ -615,6 +617,8 @@ public class ApiClient extends JavaTimeFormatter {
         addHeadersToRequest(defaultHeaders, requestBuilder);
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
+
+        requestBuilder.attribute(URI_TEMPLATE_ATTRIBUTE, path);
 
         requestBuilder.body(selectBody(body, formParams, contentType));
         return requestBuilder;
