@@ -56,15 +56,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public DartDioNextClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.Authorizations,
-                        ClientModificationFeature.UserAgent
-                )
-        );
-        generatorMetadata = GeneratorMetadata.newBuilder()
-                .stability(Stability.EXPERIMENTAL)
-                .build();
+        modifyFeatureSet(features -> features.includeClientModificationFeatures(
+                ClientModificationFeature.Authorizations, ClientModificationFeature.UserAgent));
+        generatorMetadata = GeneratorMetadata.newBuilder().stability(Stability.EXPERIMENTAL).build();
 
         outputFolder = "generated-code/dart-dio-next";
         embeddedTemplateDir = "dart/libraries/dio";
@@ -74,7 +68,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         modelPackage = "lib.src.model";
 
         supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
-        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
+        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
+                "Specify serialization library");
         serializationLibrary.setEnum(supportedLibraries);
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
@@ -84,7 +79,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
-        dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
+        dateOptions.put(DATE_LIBRARY_TIME_MACHINE,
+                "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
     }
@@ -120,8 +116,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (!additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -175,8 +173,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
-        supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
-        supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
+        supportingFiles.add(
+                new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
+        supportingFiles
+                .add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -207,7 +207,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 imports.put("OffsetDate", "package:time_machine/time_machine.dart");
                 imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache",
+                            srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:
@@ -217,8 +218,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                     typeMapping.put("date", "Date");
                     typeMapping.put("Date", "Date");
                     importMapping.put("Date", "package:" + pubName + "/src/model/date.dart");
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + "model", "date.dart"));
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache",
+                            srcFolder + File.separator + "model", "date.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache",
+                            srcFolder, "date_serializer.dart"));
                 }
                 break;
         }
@@ -274,7 +277,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 model.imports.add("BuiltSet");
             }
 
-            property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
+            property.getVendorExtensions().put("x-built-value-serializer-type",
+                    createBuiltValueSerializerType(property));
         }
     }
 
@@ -322,6 +326,18 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
+            // the MultipartFile handling above changes the type of some parameters from
+            // `UInt8List`, the default for files, to `MultipartFile`.
+            //
+            // The following block removes the required import for Uint8List if it is no
+            // longer in use.
+            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
+                    && op.responses.stream().filter(response -> response.dataType != null)
+                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                // Remove unused imports after processing
+                op.imports.remove("Uint8List");
+            }
+
             for (CodegenParameter param : op.bodyParams) {
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
@@ -333,11 +349,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))) {
-                // Remove unused imports after processing
-                op.imports.remove("Uint8List");
-            }
-
             resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams() || op.getHasQueryParams()) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
@@ -345,7 +356,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
             if (op.returnContainer != null) {
                 final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
+                serializer.put("isArray",
+                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
                 serializer.put("uniqueItems", op.uniqueItems);
                 serializer.put("isMap", Objects.equals("map", op.returnContainer));
                 serializer.put("baseType", op.returnBaseType);
