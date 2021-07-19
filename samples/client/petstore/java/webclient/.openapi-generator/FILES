@@ -127,14 +127,3 @@ src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/test/java/org/openapitools/client/api/DefaultApiTest.java
-src/test/java/org/openapitools/client/model/DeprecatedObjectTest.java
-src/test/java/org/openapitools/client/model/FooTest.java
-src/test/java/org/openapitools/client/model/HealthCheckResultTest.java
-src/test/java/org/openapitools/client/model/InlineResponseDefaultTest.java
-src/test/java/org/openapitools/client/model/NullableClassTest.java
-src/test/java/org/openapitools/client/model/ObjectWithDeprecatedFieldsTest.java
-src/test/java/org/openapitools/client/model/OuterEnumDefaultValueTest.java
-src/test/java/org/openapitools/client/model/OuterEnumIntegerDefaultValueTest.java
-src/test/java/org/openapitools/client/model/OuterEnumIntegerTest.java
-src/test/java/org/openapitools/client/model/OuterObjectWithEnumPropertyTest.java
