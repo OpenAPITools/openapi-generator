@@ -254,6 +254,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -274,6 +275,7 @@ use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
 use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
@@ -318,6 +320,7 @@ use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
+use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
@@ -338,6 +341,7 @@ use WWW::OpenAPIClient::Object::ModelReturn;
 use WWW::OpenAPIClient::Object::Name;
 use WWW::OpenAPIClient::Object::NullableClass;
 use WWW::OpenAPIClient::Object::NumberOnly;
+use WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
@@ -432,6 +436,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
  - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
@@ -452,6 +457,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Name](docs/Name.md)
  - [WWW::OpenAPIClient::Object::NullableClass](docs/NullableClass.md)
  - [WWW::OpenAPIClient::Object::NumberOnly](docs/NumberOnly.md)
+ - [WWW::OpenAPIClient::Object::ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [WWW::OpenAPIClient::Object::Order](docs/Order.md)
  - [WWW::OpenAPIClient::Object::OuterComposite](docs/OuterComposite.md)
  - [WWW::OpenAPIClient::Object::OuterEnum](docs/OuterEnum.md)

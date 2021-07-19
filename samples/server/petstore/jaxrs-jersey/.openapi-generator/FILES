@@ -32,6 +32,7 @@ src/gen/java/org/openapitools/model/CatAllOf.java
 src/gen/java/org/openapitools/model/Category.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
+src/gen/java/org/openapitools/model/DeprecatedObject.java
 src/gen/java/org/openapitools/model/Dog.java
 src/gen/java/org/openapitools/model/DogAllOf.java
 src/gen/java/org/openapitools/model/EnumArrays.java
@@ -51,6 +52,7 @@ src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NullableClass.java
 src/gen/java/org/openapitools/model/NumberOnly.java
+src/gen/java/org/openapitools/model/ObjectWithDeprecatedFields.java
 src/gen/java/org/openapitools/model/Order.java
 src/gen/java/org/openapitools/model/OuterComposite.java
 src/gen/java/org/openapitools/model/OuterEnum.java

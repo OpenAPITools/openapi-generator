@@ -16,6 +16,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/EnumArrays.md
@@ -37,6 +38,7 @@ docs/Model200Response.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -77,6 +79,7 @@ src/model/CatAllOf.js
 src/model/Category.js
 src/model/ClassModel.js
 src/model/Client.js
+src/model/DeprecatedObject.js
 src/model/Dog.js
 src/model/DogAllOf.js
 src/model/EnumArrays.js
@@ -96,6 +99,7 @@ src/model/Model200Response.js
 src/model/Name.js
 src/model/NullableClass.js
 src/model/NumberOnly.js
+src/model/ObjectWithDeprecatedFields.js
 src/model/Order.js
 src/model/OuterComposite.js
 src/model/OuterEnum.js

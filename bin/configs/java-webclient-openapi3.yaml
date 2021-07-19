@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/petstore/java/webclient-openapi3
+library: webclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+additionalProperties:
+  artifactId: petstore-webclient-openapi3
+  hideGenerationTimestamp: "true"
