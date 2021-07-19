@@ -53,16 +53,16 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(Pet body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec addPetRequestCreation(Pet pet) throws WebClientResponseException {
+        Object postBody = pet;
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new WebClientResponseException("Missing the required parameter 'pet' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -88,24 +88,24 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> addPet(Pet body) throws WebClientResponseException {
+    public Mono<Void> addPet(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return addPetRequestCreation(body).bodyToMono(localVarReturnType);
+        return addPetRequestCreation(pet).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> addPetWithHttpInfo(Pet body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> addPetWithHttpInfo(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return addPetRequestCreation(body).toEntity(localVarReturnType);
+        return addPetRequestCreation(pet).toEntity(localVarReturnType);
     }
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete
      * @param apiKey The apiKey parameter
@@ -143,7 +143,7 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete
      * @param apiKey The apiKey parameter
@@ -333,18 +333,18 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetRequestCreation(Pet body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling updatePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec updatePetRequestCreation(Pet pet) throws WebClientResponseException {
+        Object postBody = pet;
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new WebClientResponseException("Missing the required parameter 'pet' when calling updatePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -370,25 +370,26 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * <p><b>200</b> - successful operation
+     * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updatePet(Pet body) throws WebClientResponseException {
+    public Mono<Void> updatePet(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(body).bodyToMono(localVarReturnType);
+        return updatePetRequestCreation(pet).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Void>> updatePetWithHttpInfo(Pet body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(body).toEntity(localVarReturnType);
+        return updatePetRequestCreation(pet).toEntity(localVarReturnType);
     }
     /**
      * Updates a pet in the store with form data
      * 
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
@@ -432,6 +433,7 @@ public class PetApi {
     /**
      * Updates a pet in the store with form data
      * 
+     * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet

@@ -1,321 +1,405 @@
 package org.openapitools.client.api;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.common.Slf4jNotifier;
-import feign.FeignException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.openapitools.client.ApiClient;
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import org.openapitools.client.model.OuterComposite;
-import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
+import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.User;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+/**
+ * API tests for FakeApi
+ */
 class FakeApiTest {
 
-  private static WireMockServer wm = new WireMockServer(options().dynamicPort().notifier(new Slf4jNotifier(true)));
+    private FakeApi api;
 
-  private FakeApi api;
+    @BeforeEach
+    public void setup() {
+        api = new ApiClient().buildClient(FakeApi.class);
+    }
 
-  @BeforeAll
-  static void startWireMock() {
-    wm.start();
-  }
+    
+    /**
+     * Health check endpoint
+     *
+     * 
+     */
+    @Test
+    void fakeHealthGetTest() {
+        // HealthCheckResult response = api.fakeHealthGet();
 
-  @AfterAll
-  static void stopWireMock() {
-    wm.shutdown();
-  }
+        // TODO: test validations
+    }
 
-  @BeforeEach
-  void setUp() {
-    ApiClient apiClient = new ApiClient();
-    apiClient.setBasePath(wm.baseUrl());
-    api = apiClient.buildClient(FakeApi.class);
-  }
+    
+    /**
+     * test http signature authentication
+     *
+     * 
+     */
+    @Test
+    void fakeHttpSignatureTestTest() {
+        Pet pet = null;
+        String query1 = null;
+        String header1 = null;
+        // api.fakeHttpSignatureTest(pet, query1, header1);
 
-  @Test
-  void createXmlItem() {
-    wm.stubFor(post(urlEqualTo("/fake/create_xml_item"))
-            .withHeader("Content-Type", equalTo("application/xml"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(ok()));
+        // TODO: test validations
+    }
 
-    XmlItem xmlItem = new XmlItem();
-    api.createXmlItem(xmlItem);
-  }
+    /**
+     * test http signature authentication
+     *
+     * 
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    void fakeHttpSignatureTestTestQueryMap() {
+        Pet pet = null;
+        String header1 = null;
+        FakeApi.FakeHttpSignatureTestQueryParams queryParams = new FakeApi.FakeHttpSignatureTestQueryParams()
+            .query1(null);
+        // api.fakeHttpSignatureTest(pet, header1, queryParams);
 
-  @ParameterizedTest
-  @ValueSource(strings = {"true", "false"})
-  void fakeOuterBooleanSerialize(String returnBoolean) {
-    wm.stubFor(post(urlEqualTo("/fake/outer/boolean"))
-            .withHeader("Content-Type", equalTo("*/*"))
-            .withHeader("Accept", equalTo("*/*"))
-            .willReturn(ok(returnBoolean)));
+    // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * Test serialization of outer boolean types
+     */
+    @Test
+    void fakeOuterBooleanSerializeTest() {
+        Boolean body = null;
+        // Boolean response = api.fakeOuterBooleanSerialize(body);
 
-    boolean expectedBoolean = Boolean.parseBoolean(returnBoolean);
-    Boolean aBoolean = api.fakeOuterBooleanSerialize(expectedBoolean);
+        // TODO: test validations
+    }
 
-    assertThat(aBoolean, is(expectedBoolean));
-  }
+    
+    /**
+     * 
+     *
+     * Test serialization of object with outer number type
+     */
+    @Test
+    void fakeOuterCompositeSerializeTest() {
+        OuterComposite outerComposite = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
 
-  @Test
-  void fakeOuterCompositeSerialize() {
-    String body = "{\n" +
-            "   \"my_number\": 123.45,\n" +
-            "   \"my_string\":\"Hello\",\n" +
-            "   \"my_boolean\": true\n" +
-            "}";
-    wm.stubFor(post(urlEqualTo("/fake/outer/composite"))
-            .withHeader("Content-Type", equalTo("*/*"))
-            .withHeader("Accept", equalTo("*/*"))
-            .withRequestBody(equalToJson(body, true, false))
-            .willReturn(ok(body)));
+        // TODO: test validations
+    }
 
-    OuterComposite outerComposite = new OuterComposite();
-    outerComposite.setMyBoolean(Boolean.TRUE);
-    outerComposite.setMyNumber(BigDecimal.valueOf(123.45));
-    outerComposite.setMyString("Hello");
+    
+    /**
+     * 
+     *
+     * Test serialization of outer number types
+     */
+    @Test
+    void fakeOuterNumberSerializeTest() {
+        BigDecimal body = null;
+        // BigDecimal response = api.fakeOuterNumberSerialize(body);
 
-    OuterComposite result = api.fakeOuterCompositeSerialize(outerComposite);
+        // TODO: test validations
+    }
 
-    assertThat(result, is(outerComposite));
-  }
+    
+    /**
+     * 
+     *
+     * Test serialization of outer string types
+     */
+    @Test
+    void fakeOuterStringSerializeTest() {
+        String body = null;
+        // String response = api.fakeOuterStringSerialize(body);
 
-  @Test
-  void fakeOuterNumberSerialize() {
-    String body = "123.45";
-    wm.stubFor(post(urlEqualTo("/fake/outer/number"))
-            .withHeader("Content-Type", equalTo("*/*"))
-            .withHeader("Accept", equalTo("*/*"))
-            .withRequestBody(equalTo(body))
-            .willReturn(ok(body)));
+        // TODO: test validations
+    }
 
-    BigDecimal result = api.fakeOuterNumberSerialize(BigDecimal.valueOf(123.45));
+    
+    /**
+     * 
+     *
+     * Test serialization of enum (int) properties with examples
+     */
+    @Test
+    void fakePropertyEnumIntegerSerializeTest() {
+        OuterObjectWithEnumProperty outerObjectWithEnumProperty = null;
+        // OuterObjectWithEnumProperty response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
 
-    assertThat(result, is(result));
-  }
+        // TODO: test validations
+    }
 
-  @Test
-  void fakeOuterStringSerialize() {
-    String body = "Hello world";
-    wm.stubFor(post(urlEqualTo("/fake/outer/string"))
-            .withHeader("Content-Type", equalTo("*/*"))
-            .withHeader("Accept", equalTo("*/*"))
-            .withRequestBody(equalTo("\"" + body + "\""))
-            .willReturn(ok("\"" + body + "\"")));
+    
+    /**
+     * 
+     *
+     * For this test, the body has to be a binary file.
+     */
+    @Test
+    void testBodyWithBinaryTest() {
+        File body = null;
+        // api.testBodyWithBinary(body);
 
-    String result = api.fakeOuterStringSerialize(body);
+        // TODO: test validations
+    }
 
-    assertThat(result, is(body));
-  }
+    
+    /**
+     * 
+     *
+     * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+     */
+    @Test
+    void testBodyWithFileSchemaTest() {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        // api.testBodyWithFileSchema(fileSchemaTestClass);
 
-  @Test
-  void testBodyWithFileSchema() throws IOException {
-    //TODO
-  }
+        // TODO: test validations
+    }
 
-  @Test
-  void testBodyWithQueryParams() {
-    String body = "{\n" +
-            "   \"id\":123456,\n" +
-            "   \"username\":null,\n" +
-            "   \"firstName\":\"Bruce\",\n" +
-            "   \"lastName\":\"Wayne\",\n" +
-            "   \"email\":\"mail@email.com\",\n" +
-            "   \"password\":\"password\",\n" +
-            "   \"phone\":\"+123 3313131\",\n" +
-            "   \"userStatus\":1\n" +
-            "}";
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
+    void testBodyWithQueryParamsTest() {
+        String query = null;
+        User user = null;
+        // api.testBodyWithQueryParams(query, user);
 
-    wm.stubFor(put(urlEqualTo("/fake/body-with-query-params?query=tags"))
-            .withHeader("Content-Type", equalTo("application/json"))
-            .withHeader("Accept", equalTo("application/json"))
-            .withRequestBody(equalToJson(body))
-            .willReturn(ok()));
+        // TODO: test validations
+    }
 
-    User user = new User();
-    user.setEmail("mail@email.com");
-    user.setFirstName("Bruce");
-    user.setLastName("Wayne");
-    user.setId(123456L);
-    user.setUserStatus(1);
-    user.setPassword("password");
-    user.setPhone("+123 3313131");
+    /**
+     * 
+     *
+     * 
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    void testBodyWithQueryParamsTestQueryMap() {
+        User user = null;
+        FakeApi.TestBodyWithQueryParamsQueryParams queryParams = new FakeApi.TestBodyWithQueryParamsQueryParams()
+            .query(null);
+        // api.testBodyWithQueryParams(user, queryParams);
 
-    api.testBodyWithQueryParams("tags", user);
-  }
+    // TODO: test validations
+    }
+    
+    /**
+     * To test \&quot;client\&quot; model
+     *
+     * To test \&quot;client\&quot; model
+     */
+    @Test
+    void testClientModelTest() {
+        Client client = null;
+        // Client response = api.testClientModel(client);
 
-  @Test
-  void testBodyWithQueryParamsMap() {
-    String body = "{\n" +
-            "   \"id\":123456,\n" +
-            "   \"username\":null,\n" +
-            "   \"firstName\":\"Bruce\",\n" +
-            "   \"lastName\":\"Wayne\",\n" +
-            "   \"email\":\"mail@email.com\",\n" +
-            "   \"password\":\"password\",\n" +
-            "   \"phone\":\"+123 3313131\",\n" +
-            "   \"userStatus\":1\n" +
-            "}";
+        // TODO: test validations
+    }
 
-    wm.stubFor(put(urlEqualTo("/fake/body-with-query-params?query=value1"))
-            .withHeader("Content-Type", equalTo("application/json"))
-            .withHeader("Accept", equalTo("application/json"))
-            .withRequestBody(equalToJson(body))
-            .willReturn(ok()));
+    
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     *
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     */
+    @Test
+    void testEndpointParametersTest() {
+        BigDecimal number = null;
+        Double _double = null;
+        String patternWithoutDelimiter = null;
+        byte[] _byte = null;
+        Integer integer = null;
+        Integer int32 = null;
+        Long int64 = null;
+        Float _float = null;
+        String string = null;
+        File binary = null;
+        LocalDate date = null;
+        OffsetDateTime dateTime = null;
+        String password = null;
+        String paramCallback = null;
+        // api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
-    User user = new User();
-    user.setEmail("mail@email.com");
-    user.setFirstName("Bruce");
-    user.setLastName("Wayne");
-    user.setId(123456L);
-    user.setUserStatus(1);
-    user.setPassword("password");
-    user.setPhone("+123 3313131");
+        // TODO: test validations
+    }
 
-    FakeApi.TestBodyWithQueryParamsQueryParams queryParams = new FakeApi.TestBodyWithQueryParamsQueryParams();
-    queryParams.query("value1");
+    
+    /**
+     * To test enum parameters
+     *
+     * To test enum parameters
+     */
+    @Test
+    void testEnumParametersTest() {
+        List<String> enumHeaderStringArray = null;
+        String enumHeaderString = null;
+        List<String> enumQueryStringArray = null;
+        String enumQueryString = null;
+        Integer enumQueryInteger = null;
+        Double enumQueryDouble = null;
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 
-    api.testBodyWithQueryParams(user, queryParams);
-  }
+        // TODO: test validations
+    }
 
-  @Test
-  void testClientModel() {
-    String body = "{\n" +
-            "   \"client\":\"Mr Wayne\"\n" +
-            "}";
+    /**
+     * To test enum parameters
+     *
+     * To test enum parameters
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    void testEnumParametersTestQueryMap() {
+        List<String> enumHeaderStringArray = null;
+        String enumHeaderString = null;
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
+        FakeApi.TestEnumParametersQueryParams queryParams = new FakeApi.TestEnumParametersQueryParams()
+            .enumQueryStringArray(null)
+            .enumQueryString(null)
+            .enumQueryInteger(null)
+            .enumQueryDouble(null);
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumFormStringArray, enumFormString, queryParams);
 
-    wm.stubFor(patch(urlEqualTo("/fake"))
-            .withHeader("Content-Type", equalTo("application/json"))
-            .withHeader("Accept", equalTo("application/json"))
-            .withRequestBody(equalToJson(body))
-            .willReturn(ok(body)));
+    // TODO: test validations
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    void testGroupParametersTest() {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        // api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
-    Client client = new Client();
-    client.setClient("Mr Wayne");
+        // TODO: test validations
+    }
 
-    Client result = api.testClientModel(client);
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    void testGroupParametersTestQueryMap() {
+        Boolean requiredBooleanGroup = null;
+        Boolean booleanGroup = null;
+        FakeApi.TestGroupParametersQueryParams queryParams = new FakeApi.TestGroupParametersQueryParams()
+            .requiredStringGroup(null)
+            .requiredInt64Group(null)
+            .stringGroup(null)
+            .int64Group(null);
+        // api.testGroupParameters(requiredBooleanGroup, booleanGroup, queryParams);
 
-    assertThat(result.getClient(), is("Mr Wayne"));
-  }
+    // TODO: test validations
+    }
+    
+    /**
+     * test inline additionalProperties
+     *
+     * 
+     */
+    @Test
+    void testInlineAdditionalPropertiesTest() {
+        Map<String, String> requestBody = null;
+        // api.testInlineAdditionalProperties(requestBody);
 
-  @Test
-  void testEndpointParameters() throws IOException {
-    wm.stubFor(post(urlEqualTo("/fake"))
-            .withHeader("Content-Type", containing("application/x-www-form-urlencoded"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(ok()));
+        // TODO: test validations
+    }
 
-    //TODO Cannot serialize bytearray to x-www-form-urlencoded, must use multipart
-    api.testEndpointParameters(BigDecimal.ONE, 1.0, "abc", null, 123,
-            1234, 123L, 1.0f, "string", File.createTempFile("testEndpointParameters", "tmp"), LocalDate.now(), OffsetDateTime.now(),
-            "password", "callback");
-  }
+    
+    /**
+     * test json serialization of form data
+     *
+     * 
+     */
+    @Test
+    void testJsonFormDataTest() {
+        String param = null;
+        String param2 = null;
+        // api.testJsonFormData(param, param2);
 
-  @Test
-  void testEnumParameters() {
-    //TODO GET method does not allow request body
-  }
+        // TODO: test validations
+    }
 
-  @Test
-  void testGroupParameters() {
-    wm.stubFor(delete(urlEqualTo("/fake?required_string_group=123&required_int64_group=123&string_group=123&int64_group=123"))
-            .withHeader("Accept", equalTo("application/json"))
-            .withHeader("required_boolean_group", equalTo("true"))
-            .withHeader("boolean_group", equalTo("true"))
-            .willReturn(ok()));
+    
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     */
+    @Test
+    void testQueryParameterCollectionFormatTest() {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        // api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
-    api.testGroupParameters(123, true, 123L, 123, true, 123L);
-  }
+        // TODO: test validations
+    }
 
-  @Test
-  void testInlineAdditionalProperties() {
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    void testQueryParameterCollectionFormatTestQueryMap() {
+        FakeApi.TestQueryParameterCollectionFormatQueryParams queryParams = new FakeApi.TestQueryParameterCollectionFormatQueryParams()
+            .pipe(null)
+            .ioutil(null)
+            .http(null)
+            .url(null)
+            .context(null);
+        // api.testQueryParameterCollectionFormat(queryParams);
 
-    wm.stubFor(post(urlEqualTo("/fake/inline-additionalProperties"))
-            .withHeader("Content-Type", equalTo("application/json"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(ok()));
-
-    api.testInlineAdditionalProperties(new HashMap<>());
-
-  }
-
-  @Test
-  void testQueryParameterCollectionFormat() {
-
-    wm.stubFor(put(urlEqualTo("/fake/test-query-paramters?pipe=pipe1&pipe=pipe2&ioutil=io&http=http&url=url&context=context"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(ok()));
-
-    api.testQueryParameterCollectionFormat(Arrays.asList("pipe1", "pipe2"), Arrays.asList("io"), Arrays.asList("http"), Arrays.asList("url"), Arrays.asList("context"));
-  }
-
-  @Test
-  void testQueryParameterCollectionFormatQueryParams() {
-
-    wm.stubFor(put(urlEqualTo("/fake/test-query-paramters?ioutil=io&context=context&http=http&pipe=pipe1&pipe=pipe2&url=url"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(ok()));
-
-    HashMap<String, Object> params = new HashMap<>();
-    params.put("context", Arrays.asList("context"));
-    params.put("pipe", Arrays.asList("pipe1", "pipe2"));
-    params.put("ioutil", Arrays.asList("io"));
-    params.put("http", Arrays.asList("http"));
-    params.put("url", Arrays.asList("url"));
-
-    api.testQueryParameterCollectionFormat(params);
-  }
-
-  @Test
-  void test404() {
-    wm.stubFor(post(urlEqualTo("/fake/create_xml_item"))
-            .withHeader("Content-Type", equalTo("application/xml"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(notFound()));
-
-    XmlItem xmlItem = new XmlItem();
-    assertThrows(FeignException.NotFound.class, () -> api.createXmlItem(xmlItem));
-  }
-
-  @Test
-  void test500() {
-    wm.stubFor(post(urlEqualTo("/fake/create_xml_item"))
-            .withHeader("Content-Type", equalTo("application/xml"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(serverError()));
-
-    XmlItem xmlItem = new XmlItem();
-    assertThrows(FeignException.InternalServerError.class, () -> api.createXmlItem(xmlItem));
-  }
-
-  @Test
-  void test400() {
-    wm.stubFor(post(urlEqualTo("/fake/create_xml_item"))
-            .withHeader("Content-Type", equalTo("application/xml"))
-            .withHeader("Accept", equalTo("application/json"))
-            .willReturn(badRequest()));
-
-    XmlItem xmlItem = new XmlItem();
-    assertThrows(FeignException.BadRequest.class, () -> api.createXmlItem(xmlItem));
-  }
+    // TODO: test validations
+    }
+    
 }

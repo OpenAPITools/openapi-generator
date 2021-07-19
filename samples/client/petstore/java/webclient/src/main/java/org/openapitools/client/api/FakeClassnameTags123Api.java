@@ -51,15 +51,15 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param client client model
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(Client body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec testClassnameRequestCreation(Client client) throws WebClientResponseException {
+        Object postBody = client;
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new WebClientResponseException("Missing the required parameter 'client' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -88,17 +88,17 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param client client model
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client body) throws WebClientResponseException {
+    public Mono<Client> testClassname(Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return testClassnameRequestCreation(body).bodyToMono(localVarReturnType);
+        return testClassnameRequestCreation(client).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return testClassnameRequestCreation(body).toEntity(localVarReturnType);
+        return testClassnameRequestCreation(client).toEntity(localVarReturnType);
     }
 }
