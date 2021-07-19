@@ -1,0 +1,11 @@
+package {{invokerPackage}}.auth.configuration;
+
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.http.MutableHttpRequest;
+
+
+public interface ConfigurableAuthorization {
+    String getName();
+
+    void applyAuthorization(@NonNull MutableHttpRequest<?> request);
+}

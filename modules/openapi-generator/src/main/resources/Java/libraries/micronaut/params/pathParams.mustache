@@ -1,1 +1,1 @@
-{{#isPathParam}}@PathVariable("{{baseName}}") {{{dataType}}} {{paramName}}{{/isPathParam}}
+{{#isPathParam}}@PathVariable(name="{{baseName}}"{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}}){{>libraries/micronaut/beanValidation}} {{>libraries/micronaut/params/type}} {{paramName}}{{/isPathParam}}

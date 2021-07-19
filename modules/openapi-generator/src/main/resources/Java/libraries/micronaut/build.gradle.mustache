@@ -4,9 +4,10 @@ plugins {
 }
 
 version = "0.1"
-group = "test.client"
+group = "{{invokerPackage}}"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -28,12 +29,20 @@ ext {
 }
 
 dependencies {
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
     implementation("io.swagger:swagger-annotations:$swagger_annotations_version")
     implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-http-netty")
+    implementation("io.micronaut:micronaut-http-server")
+    implementation("io.micronaut:micronaut-http-server-netty")
+    implementation("io.micronaut:micronaut-router")
     implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.security:micronaut-security-annotations")
     implementation("javax.annotation:javax.annotation-api")
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
     implementation("com.github.joschi.jackson:jackson-datatype-threetenbp:$threepane_version")
     implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version")
 }

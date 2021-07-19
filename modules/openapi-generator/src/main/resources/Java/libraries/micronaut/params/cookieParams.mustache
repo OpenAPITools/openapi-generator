@@ -1,1 +1,1 @@
-{{#isCookieParam}}@CookieValue("{{baseName}}") {{{dataType}}} {{paramName}}{{/isCookieParam}}
+{{#isCookieParam}}@CookieValue(value="{{baseName}}"{{#defaultValue}}, defaultValue="{{defaultValue}}"{{/defaultValue}}) {{>libraries/micronaut/beanValidationCore}} {{>libraries/micronaut/params/type}} {{paramName}}{{/isCookieParam}}

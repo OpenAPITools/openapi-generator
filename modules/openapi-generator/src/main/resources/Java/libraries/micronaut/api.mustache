@@ -1,20 +1,21 @@
 package {{package}};
 
+
+import io.micronaut.http.annotation.*;
+import io.micronaut.core.annotation.*;
+import io.micronaut.http.client.annotation.Client;
+import {{invokerPackage}}.auth.Authorization;
+import {{invokerPackage}}.query.QueryParam;
+import io.reactivex.Single;
 {{#imports}}import {{import}};
 {{/imports}}
-
 {{^fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+    import java.util.ArrayList;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
 {{/fullJavaUtil}}
 
-import {{invokerPackage}}.query.QueryFormattedValue;
-import {{invokerPackage}}.query.QueryFormat;
-import io.micronaut.http.client.annotation.Client;
-import io.micronaut.http.annotation.*;
-import io.reactivex.Single;
 
 {{>generatedAnnotation}}
 @Client("${base-path}")
@@ -36,33 +37,35 @@ public interface {{classname}} {
   * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
    */
-  @CustomHttpMethod(method="{{httpMethod}}", uri="{{{path}}}")
+  @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
   {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
-  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"})
+  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#authMethods}}
+  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}
   {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Single<Void>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
         {{>libraries/micronaut/params/queryParams}}{{>libraries/micronaut/params/pathParams}}{{>libraries/micronaut/params/headerParams}}{{>libraries/micronaut/params/bodyParams}}{{>libraries/micronaut/params/formParams}}{{>libraries/micronaut/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
 
   /**
-  * {{summary}}
-  * Blocking version
-  * {{notes}}
-  {{#allParams}}
-      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-  {{/allParams}}
-  {{#returnType}}
-      * @return {{returnType}}
-  {{/returnType}}
-  {{#externalDocs}}
-      * {{description}}
-      * @see <a href="{{url}}">{{summary}} Documentation</a>
-  {{/externalDocs}}
-  */
-  @CustomHttpMethod(method="{{httpMethod}}", uri="{{{path}}}{{#hasQueryParams}}{?{{/hasQueryParams}}{{#queryParams}}{{baseName}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{=< >=}}}<={{ }}=>{{/hasQueryParams}}")
+   * {{summary}}
+   * Blocking version
+   * {{notes}}
+{{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+{{#returnType}}
+   * @return {{returnType}}
+{{/returnType}}
+{{#externalDocs}}
+  * {{description}}
+  * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+   */
+  @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
   {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
-  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"})
+  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#authMethods}}
+  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}
   {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}Blocking({{^allParams}});{{/allParams}}{{#allParams}}
-      {{>libraries/micronaut/queryParams}}{{>libraries/micronaut/pathParams}}{{>libraries/micronaut/headerParams}}{{>libraries/micronaut/bodyParams}}{{>libraries/micronaut/formParams}}{{^-last}}, {{/-last}}{{#-last}}
+        {{>libraries/micronaut/params/queryParams}}{{>libraries/micronaut/params/pathParams}}{{>libraries/micronaut/params/headerParams}}{{>libraries/micronaut/params/bodyParams}}{{>libraries/micronaut/params/formParams}}{{>libraries/micronaut/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
 
   {{/operation}}

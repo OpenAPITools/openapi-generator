@@ -1,1 +1,1 @@
-{{#isHeaderParam}}@Header("{{baseName}}") {{{dataType}}} {{paramName}}{{/isHeaderParam}}
+{{#isHeaderParam}}@Header(name="{{baseName}}"{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}}){{>libraries/micronaut/beanValidation}} {{>libraries/micronaut/params/type}} {{paramName}}{{/isHeaderParam}}

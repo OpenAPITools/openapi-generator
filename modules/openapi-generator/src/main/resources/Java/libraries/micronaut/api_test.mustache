@@ -6,7 +6,7 @@ package {{package}};
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import io.reactivex.Single;
 
 {{^fullJavaUtil}}
@@ -35,7 +35,7 @@ public class {{classname}}Test {
     @Test
     public void {{operationId}}Test() {
         {{#allParams}}
-        {{^isQueryParam}}{{{dataType}}} {{paramName}} = null;{{/isQueryParam}}{{#isQueryParam}}{{#collectionFormat}}{{#isCollectionFormatMulti}}{{{dataType}}} {{paramName}} = null;{{/isCollectionFormatMulti}}{{^isCollectionFormatMulti}}{{{collectionFormat.toUpperCase}}}Params {{paramName}} = new {{{collectionFormat.toUpperCase}}}Params();{{/isCollectionFormatMulti}}{{/collectionFormat}}{{^collectionFormat}}{{{dataType}}} {{paramName}} = null;{{/collectionFormat}}{{/isQueryParam}}
+        {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
         // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}Blocking({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{#returnType}}// Single<{{{returnType}}}> asyncResponse = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}); {{/returnType}}
