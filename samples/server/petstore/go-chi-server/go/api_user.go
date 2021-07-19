@@ -17,14 +17,34 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// A UserApiController binds http requests to an api service and writes the service results to the http response
+// UserApiController binds http requests to an api service and writes the service results to the http response
 type UserApiController struct {
 	service UserApiServicer
+	errorHandler ErrorHandler
+}
+
+// UserApiOption for how the controller is set up.
+type UserApiOption func(*UserApiController)
+
+// WithUserApiErrorHandler inject ErrorHandler into controller
+func WithUserApiErrorHandler(h ErrorHandler) UserApiOption {
+	return func(c *UserApiController) {
+		c.errorHandler = h
+	}
 }
 
 // NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer) Router {
-	return &UserApiController{service: s}
+func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
+	controller := &UserApiController{
+		service:      s,
+		errorHandler: DefaultErrorHandler,
+	}
+
+	for _, opt := range opts {
+		opt(controller)
+	}
+
+	return controller
 }
 
 // Routes returns all of the api route for the UserApiController
@@ -85,13 +105,13 @@ func (c *UserApiController) Routes() Routes {
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUser(r.Context(), *user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -103,13 +123,13 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -121,13 +141,13 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -142,7 +162,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.DeleteUser(r.Context(), username)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -157,7 +177,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	result, err := c.service.GetUserByName(r.Context(), username)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -173,7 +193,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.LoginUser(r.Context(), username, password)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -186,7 +206,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.LogoutUser(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
@@ -200,13 +220,13 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	result, err := c.service.UpdateUser(r.Context(), username, *user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
 	// If no error, encode the body and the result code
