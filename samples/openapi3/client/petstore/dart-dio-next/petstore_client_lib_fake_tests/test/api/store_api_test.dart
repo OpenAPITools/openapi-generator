@@ -8,8 +8,8 @@ void main() {
   DioAdapter server;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    server = DioAdapter.configure(dio: client.dio);
   });
 
   tearDown(() {

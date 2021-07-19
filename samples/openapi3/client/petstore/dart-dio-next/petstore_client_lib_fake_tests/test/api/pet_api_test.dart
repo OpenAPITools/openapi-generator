@@ -6,9 +6,6 @@ import 'package:http_parser/http_parser.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
-import '../matcher/form_data_matcher.dart';
-import '../matcher/list_param_matcher.dart';
-
 void main() {
   const photo1 = 'https://localhost/photo1.jpg';
   const photo2 = 'https://localhost/photo2.jpg';
@@ -17,8 +14,8 @@ void main() {
   DioAdapter server;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    server = DioAdapter.configure(dio: client.dio);
   });
 
   tearDown(() {
@@ -125,7 +122,7 @@ void main() {
               },
             ]
           },
-          headers: {
+          headers: <String, dynamic>{
             Headers.contentTypeHeader: Matchers.pattern('application/json'),
             Headers.contentLengthHeader: Matchers.integer,
           },
@@ -161,7 +158,7 @@ void main() {
             'name': 'Paula',
             'photoUrls': <String>[],
           },
-          headers: {
+          headers: <String, dynamic>{
             Headers.contentTypeHeader: Matchers.pattern('application/json'),
             Headers.contentLengthHeader: Matchers.integer,
           },
@@ -197,8 +194,8 @@ void main() {
           request: Request(
             method: RequestMethods.get,
             queryParameters: <String, dynamic>{
-              'status': ListParamMatcher<dynamic>(
-                expected: ListParam<String>(
+              'status': Matchers.listParam<String>(
+                ListParam(
                   ['available', 'sold'],
                   ListFormat.csv,
                 ),
@@ -251,8 +248,8 @@ void main() {
                   Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
-            data: FormDataMatcher(
-              expected: FormData.fromMap(<String, dynamic>{
+            data: Matchers.formData(
+              FormData.fromMap(<String, dynamic>{
                 r'requiredFile': file,
               }),
             ),
@@ -288,8 +285,8 @@ void main() {
                   Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
-            data: FormDataMatcher(
-              expected: FormData.fromMap(<String, dynamic>{
+            data: Matchers.formData(
+              FormData.fromMap(<String, dynamic>{
                 'additionalMetadata': 'foo',
                 r'requiredFile': file,
               }),

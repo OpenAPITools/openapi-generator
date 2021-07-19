@@ -7,15 +7,13 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
-import '../matcher/list_param_matcher.dart';
-
 void main() {
   Openapi client;
   DioAdapter server;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    server = DioAdapter.configure(dio: client.dio);
   });
 
   tearDown(() {
@@ -100,16 +98,16 @@ void main() {
           (request) => request.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': ListParamMatcher(
-              expected: ListParam(
+            'enum_form_string_array': Matchers.listParam<String>(
+              ListParam(
                 ['foo', 'bar'],
                 ListFormat.csv,
               ),
             ),
           },
           queryParameters: <String, dynamic>{
-            'enum_query_string_array': ListParamMatcher(
-              expected: ListParam(
+            'enum_query_string_array': Matchers.listParam<String>(
+              ListParam(
                 ['a', 'b', 'c'],
                 ListFormat.multi,
               ),
