@@ -2479,6 +2479,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             // interfaces (schemas defined in allOf, anyOf, oneOf)
             List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+            List<CodegenProperty> anyOfProps = new ArrayList<>();
+            List<CodegenProperty> allOfProps = new ArrayList<>();
+            List<CodegenProperty> oneOfProps = new ArrayList<>();
             if (!interfaces.isEmpty()) {
                 // m.interfaces is for backward compatibility
                 if (m.interfaces == null)
@@ -2490,11 +2493,11 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                         // primitive type
                         String languageType = getTypeDeclaration(interfaceSchema);
+                        CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
                         if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
-                            CodegenProperty cp = fromProperty("composedSchemaImports", interfaceSchema);
-                            while (cp != null) {
-                                addImport(m, cp.complexType);
-                                cp = cp.items;
+                            while (interfaceProperty != null) {
+                                addImport(m, interfaceProperty.complexType);
+                                interfaceProperty = interfaceProperty.items;
                             }
                         }
 
@@ -2503,12 +2506,15 @@ public class DefaultCodegen implements CodegenConfig {
                                 LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                             } else {
                                 m.anyOf.add(languageType);
+                                anyOfProps.add(interfaceProperty);
+
                             }
                         } else if (composed.getOneOf() != null) {
                             if (m.oneOf.contains(languageType)) {
                                 LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                             } else {
                                 m.oneOf.add(languageType);
+                                oneOfProps.add(interfaceProperty);
                             }
                         } else if (composed.getAllOf() != null) {
                             // no need to add primitive type to allOf, which should comprise of schemas (models) only
@@ -2525,6 +2531,7 @@ public class DefaultCodegen implements CodegenConfig {
                         refSchema = allDefinitions.get(ref);
                     }
                     final String modelName = toModelName(ref);
+                    CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
@@ -2543,15 +2550,22 @@ public class DefaultCodegen implements CodegenConfig {
 
                     if (composed.getAnyOf() != null) {
                         m.anyOf.add(modelName);
+                        anyOfProps.add(interfaceProperty);
                     } else if (composed.getOneOf() != null) {
                         m.oneOf.add(modelName);
+                        oneOfProps.add(interfaceProperty);
                     } else if (composed.getAllOf() != null) {
                         m.allOf.add(modelName);
+                        allOfProps.add(interfaceProperty);
                     } else {
                         LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                     }
                 }
             }
+
+            m.vendorExtensions.put("x-oneOf-as-properties", oneOfProps);
+            m.vendorExtensions.put("x-allOf-as-properties", allOfProps);
+            m.vendorExtensions.put("x-anyOf-as-properties", anyOfProps);
 
             if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
                 m.parentSchema = parentName;
