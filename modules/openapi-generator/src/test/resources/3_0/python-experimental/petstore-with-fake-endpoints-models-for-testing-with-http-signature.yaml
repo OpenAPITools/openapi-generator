@@ -2147,7 +2147,6 @@ components:
       anyOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      additionalProperties: false
     fruitReq:
       oneOf:
         - type: 'null'

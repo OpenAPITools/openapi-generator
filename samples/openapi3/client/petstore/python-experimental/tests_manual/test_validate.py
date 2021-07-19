@@ -14,6 +14,11 @@ from petstore_api.model.animal import Animal
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
 from petstore_api.model.boolean_enum import BooleanEnum
+from petstore_api.model.pig import Pig
+from petstore_api.model.danish_pig import DanishPig
+from petstore_api.model.gm_fruit import GmFruit
+from petstore_api.model.apple import Apple
+from petstore_api.model.banana import Banana
 
 from petstore_api.model_utils import AnyTypeSchema, StrSchema, IntOrFloatSchema
 
@@ -83,7 +88,22 @@ class TestValidate(unittest.TestCase):
             ('args[0]',): set([BooleanEnum])
         }
 
-    # TODO: add composition
+    def test_oneof_composition_pig_validate(self):
+        im = petstore_api.enums.InstantiationMetadata()
+        _cls, path_to_schemas = Pig._validate(dict(className='DanishPig'), _instantiation_metadata=im)
+        assert path_to_schemas == {
+            ('args[0]',): set([Pig, DanishPig, dict]),
+            ('args[0]', 'className'): set([DanishPig.className]),
+        }
+
+    def test_anyof_composition_gm_fruit_validate(self):
+        im = petstore_api.enums.InstantiationMetadata()
+        _cls, path_to_schemas = GmFruit._validate(dict(cultivar='GoldenDelicious', lengthCm=Decimal(10)), _instantiation_metadata=im)
+        assert path_to_schemas == {
+            ('args[0]',): set([GmFruit, Apple, Banana, dict]),
+            ('args[0]', 'cultivar'): set([Apple.cultivar, AnyTypeSchema, StrSchema, str]),
+            ('args[0]', 'lengthCm'): set([AnyTypeSchema, IntOrFloatSchema, Decimal]),
+        }
 
 
 if __name__ == '__main__':
