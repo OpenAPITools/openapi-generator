@@ -14,11 +14,10 @@ import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.net.HttpURLConnection
 
-class BaseRequestFactory {
-            // TODO - Move the following helper methods to the request factory
-       companion object {
-        private var INSTANCE: ApiInvoker? = null
+class RequestFactory {
 
+    // TODO - Move the following helper methods to the request factory
+    companion object {
         /** Content type "text/plain" with UTF-8 encoding.  */
         val TEXT_PLAIN_UTF8 = ContentType.create("text/plain", Consts.UTF_8)
 
@@ -33,9 +32,9 @@ class BaseRequestFactory {
          * @see https://en.wikipedia.org/wiki/ISO_8601
          */
         val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
-        fun setUserAgent(userAgent: String) {
-            INSTANCE!!.addDefaultHeader("User-Agent", userAgent)
-        }
+        // fun setUserAgent(userAgent: String) {
+        //    INSTANCE!!.addDefaultHeader("User-Agent", userAgent)
+        //}
 
         fun parseDateTime(str: String?): Date {
             return try {
@@ -66,6 +65,7 @@ class BaseRequestFactory {
                 URLEncoder.encode(str, "UTF-8")
             } catch (e: UnsupportedEncodingException) {
                 str
+            }
         }
 
         fun parameterToString(param: Any?): String {
@@ -89,7 +89,7 @@ class BaseRequestFactory {
 
         /*
         Format to {@code Pair} objects.
-       */
+        */
         @JvmStatic
         fun parameterToPairs(collectionFormat: String?, name: String?, value: Any?): List<Pair> {
             var collectionFormat = collectionFormat
@@ -138,7 +138,7 @@ class BaseRequestFactory {
             return params
         }
 
-/*        @JvmOverloads
+        /*        @JvmOverloads
         fun initializeInstance(
             cache: Cache? = null,
             network: Network? = null,
@@ -201,17 +201,10 @@ class BaseRequestFactory {
             DATE_TIME_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
             DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
         }
-    }
 
-
-}
-
-// 
-class RequestFactory<T> : BaseRequestFactory {
-    
-    fun build() : Request {
-        // Pivot on the method (verb), and whether parameters are optional
-        return when (enum.parse(method)){
+        fun build<T>() : Request<T> {
+            // Pivot on the method (verb), and whether parameters are optional
+            return when (enum.parse(method)){
             Method.GET -> GsonRequest<T>(Method.GET, url,
                 bodyAsStr,
                 clazz,
@@ -222,6 +215,7 @@ class RequestFactory<T> : BaseRequestFactory {
                 response,
                 listener,
                 errorListener)
+            }
         }
     }
 }

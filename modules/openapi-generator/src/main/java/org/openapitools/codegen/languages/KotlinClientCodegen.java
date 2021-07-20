@@ -338,6 +338,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // request destination folder
         final String requestFolder = (sourceFolder + File.separator + packageName + File.separator + "request").replace(".", "/");
 
+        // auth destination folder
+        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
@@ -355,7 +358,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
             case JVM_VOLLEY:
-                processJVMVolleyLibrary(infrastructureFolder, requestFolder);
+                processJVMVolleyLibrary(infrastructureFolder, requestFolder, authFolder);
                 break;
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
@@ -465,9 +468,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
-    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder) {
+    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder, String authFolder) {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
+
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "Authentication.kt"));
+        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache", authFolder, "HttpBasicAuth.kt"));
 
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));

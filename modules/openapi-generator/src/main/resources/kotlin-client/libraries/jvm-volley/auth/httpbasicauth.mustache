@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+package {{packageName}}.auth
+
+import android.util.Base64
+import java.util.Map
+import java.util.List
+
+class HttpBasicAuth: Authentication {
+    val username: String? = null
+    val password: String? = null
+
+    override fun applyToParams(queryParams: List<Pair<String, String>>, headerParams: Map<String, String>) {
+        val str = username ?: "" + ":" + password ?: ""
+        headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.toByteArray(), Base64.DEFAULT))
+    }
+}

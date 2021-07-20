@@ -2,6 +2,7 @@ package {{apiPackage}}
 
 // Steve was here
 import android.content.Context
+import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
 import java.util.*;
@@ -59,25 +60,25 @@ class {{classname}} (
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", requestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
+        val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", RequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
         val formParams: Map<String?, String?> = HashMap()
 
         val queryParams: Map<String?, String?> = mapOf(
             {{#queryParams}}
-            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
+            "{{baseName}}" to RequestFactory.parameterToString({{paramName}}),
             {{/queryParams}}
         )
 
         val headerParams: Map<String?, String?> = mapOf(
             {{#headerParams}}
-            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
+            "{{baseName}}" to RequestFactory.parameterToString({{paramName}}),
             {{/headerParams}}
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        val request = requestFactory<{{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}>
+        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build()
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
     {{/operation}}

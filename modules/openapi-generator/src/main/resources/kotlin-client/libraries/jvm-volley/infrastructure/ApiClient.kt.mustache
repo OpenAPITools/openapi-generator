@@ -1,6 +1,8 @@
 package {{packageName}}.infrastructure
 
 import {{packageName}}.request.GsonRequest
+import {{packageName}}.auth.Authentication
+import {{packageName}}.auth.HttpBasicAuth
 
 import android.content.Context
 import com.android.volley.RequestQueue
@@ -31,7 +33,7 @@ class ApiClient(val context: Context) {
      */
     var authentications: Map<String, Authentication>? = null
         private set
-    var connectionTimeout: Int
+    var connectionTimeout: Int = 0
 
 
     // TODO - Add auth method here
