@@ -49,29 +49,6 @@ public interface {{classname}} {
         {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
 
-  /**
-   * {{summary}}
-   * Blocking version
-   * {{notes}}
-{{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-{{/allParams}}
-{{#returnType}}
-   * @return {{returnType}}
-{{/returnType}}
-{{#externalDocs}}
-   * {{description}}
-   * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-   */
-  @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-  {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
-  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#authMethods}}
-  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}
-  {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}Blocking({{^allParams}});{{/allParams}}{{#allParams}}
-        {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
-  );{{/-last}}{{/allParams}}
-
   {{/operation}}
 {{/operations}}
 }

@@ -7,7 +7,7 @@ version = "0.1"
 group = "{{invokerPackage}}"
 
 repositories {
-    mavenLocal()
+    // mavenLocal()
     mavenCentral()
 }
 
@@ -16,40 +16,25 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("test.client.*")
+        annotations("{{invokerPackage}}.*")
     }
 }
 
-ext {
-    swagger_annotations_version = "1.5.9"
-    oltu_version = "1.0.1"
-    threepane_version = "2.6.4"
-    jackson_version = "2.11.4"
-    junit_version = "4.12"
-}
 
 dependencies {
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
-    implementation("io.swagger:swagger-annotations:$swagger_annotations_version")
     implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-http-netty")
-    implementation("io.micronaut:micronaut-http-server")
-    implementation("io.micronaut:micronaut-http-server-netty")
-    implementation("io.micronaut:micronaut-router")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    implementation("io.micronaut.security:micronaut-security-annotations")
     implementation("javax.annotation:javax.annotation-api")
+    implementation("io.swagger:swagger-annotations:1.5.9")
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("com.github.joschi.jackson:jackson-datatype-threetenbp:$threepane_version")
-    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version")
 }
 
 
 application {
-    mainClass.set("test.client.Application")
+    mainClass.set("")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("11")

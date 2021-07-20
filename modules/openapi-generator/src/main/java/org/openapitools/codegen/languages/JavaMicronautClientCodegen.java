@@ -142,8 +142,6 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("query/QueryParam.mustache", queryFolder, "QueryParam.java"));
         supportingFiles.add(new SupportingFile("query/QueryParamBinder.mustache", queryFolder, "QueryParamBinder.java"));
 
-        supportingFiles.add(new SupportingFile("doc/README.mustache", "", "README.md").doNotOverwrite());
-
         // Gradle files
         supportingFiles.add(new SupportingFile("configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
         supportingFiles.add(new SupportingFile("configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
@@ -165,6 +163,8 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         importMapping.put("Date", "java.util.Date");
 
         // Add documentation files
+        supportingFiles.add(new SupportingFile("doc/README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("doc/auth.mustache", apiDocPath, "auth.md"));
         modelDocTemplateFiles.put("doc/model_doc.mustache", ".md");
         apiDocTemplateFiles.put("doc/api_doc.mustache", ".md");
         modelDocTemplateFiles.remove("model_doc.mustache");

@@ -10,58 +10,59 @@ Method | HTTP request | Description
 
 ## Creating {{classname}}
 
-To get an instance of {{classname}}, you can use micronaut's application context:
+To initiate an instance of `{{classname}}`, you can use micronaut's `ApplicationContext`:
 ```java
 /* imports
-import io.micronaut.context.ApplicationContext;
 import io.micronaut.runtime.Micronaut;
-import {{{package}}}.{{{classname}}}
+import io.micronaut.context.ApplicationContext;
+import {{package}}.{{classname}};
 */
 
-ApplicationContext ctx = Micronaut.run();
-PetApi apiInstance = ctx.getBean(PetApi.class);
+ApplicationContext context = Micronaut.run(/* ... */);
+PetApi apiInstance = context.getBean({{classname}}.class);
 ```
-Or `@Inject` annotation can be used. More information in
-[Micronaut's guide](https://docs.micronaut.io/latest/guide/#beans)
+
+Or the `@Inject` annotation:
+```java
+@Singleton
+class MyClass {
+    @Inject
+    {{classname}} {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}};
+
+    /* ... use the injected variable */
+}
+```
+Note that the class needs to be annotated with one of Micronaut's [scope annotations](https://docs.micronaut.io/latest/guide/#scopes) like `Singleton` in order to be processed.
+
+More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
 {{#operations}}
 {{#operation}}
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+```java
+{{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Single<Void>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+```
 
 {{summary}}{{#notes}}
 
 {{notes}}{{/notes}}
 
-### Example
-```java
-{{#allParams}}
-{{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
-{{/allParams}}
-{{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^returnType}}{{/returnType}};{{#returnType}}.getBlocking();
-System.out.println(result);{{/returnType}}
-```
-
-### Parameters
-{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+{{#allParams}}{{#-last}}### Parameters
 Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
-{{/allParams}}
+------------- | ------------- | ------------- | -------------
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}`{{dataType}}`{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}`{{dataType}}`{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional parameter]{{/required}}{{#defaultValue}} [default to `{{defaultValue}}`]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}`{{{.}}}`{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}{{/-last}}{{/allParams}}
 
-### Return type
+{{#returnType}}### Return type
+{{#returnTypeIsPrimitive}}`{{returnType}}`{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
-
-### Authorization
-
-{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+{{#authMethods}}{{#-last}}### Authorization{{#authMethods}}
+* **[{{name}}](auth.md#{{name}})**{{#scopes}}{{#-last}}, scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}{{/authMethods}}{{/-last}}{{/authMethods}}
 
 ### HTTP request headers
-
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{/operation}}
 {{/operations}}
