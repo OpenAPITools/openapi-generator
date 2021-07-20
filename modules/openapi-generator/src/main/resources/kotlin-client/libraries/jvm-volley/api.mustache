@@ -78,7 +78,19 @@ class {{classname}} (
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build()
+        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
+                Request.Method.{{httpMethod}},
+                path,
+                bodyAsStr,
+                {{{returnType}}}::Class.java,
+                headerParams,
+                queryParams,
+                contentTypeForBody,
+                encodingForParams,
+                response,
+                listener,
+                errorListener
+        )
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
     {{/operation}}
