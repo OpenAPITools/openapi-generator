@@ -20,7 +20,8 @@ import java.io.File;
 {{#operations}}
 class {{classname}} (
     val context: Context,
-    val invoker: ApiClient = ApiClient(context)) {
+    val invoker: ApiClient = ApiClient(context),
+    val requestFactory: RequestFactory = RequestFactory()) {
 
     constructor(context: Context, baseHttpStack: BaseHttpStack, invoker: ApiClient = ApiClient(context, baseHttpStack)) : this(context, invoker) {}
 
@@ -58,7 +59,7 @@ class {{classname}} (
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", invoker!!.escapeString({{{paramName}}}.toString())){{/pathParams}};
+        val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", requestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
         val formParams: Map<String?, String?> = HashMap()
@@ -76,7 +77,7 @@ class {{classname}} (
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        val request = requestFactory<{{ResponseType}}>
+        val request = requestFactory<{{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}>
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
     {{/operation}}

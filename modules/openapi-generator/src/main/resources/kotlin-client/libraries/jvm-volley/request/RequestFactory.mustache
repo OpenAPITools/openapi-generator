@@ -61,6 +61,13 @@ class BaseRequestFactory {
             return DATE_FORMAT.format(date)
         }
 
+        fun escapeString(str: String): String {
+            return try {
+                URLEncoder.encode(str, "UTF-8")
+            } catch (e: UnsupportedEncodingException) {
+                str
+        }
+
         fun parameterToString(param: Any?): String {
             return if (param == null) {
                 ""
@@ -202,26 +209,19 @@ class BaseRequestFactory {
 // 
 class RequestFactory<T> : BaseRequestFactory {
     
-    build() : Request {
-    // Pivot on the method (verb), and whether parameters are optional 
-    when (enum.parse(method)){
-        Method.GET -> GsonRequest<T>(Method.GET, url, 
-    bodyAsStr,
-    clazz,
-    headers,
-    params,
-    contentTypeForBody,
-    encodingForParams,
-    response,
-    listener,
-    errorListener
-)
-
+    fun build() : Request {
+        // Pivot on the method (verb), and whether parameters are optional
+        return when (enum.parse(method)){
+            Method.GET -> GsonRequest<T>(Method.GET, url,
+                bodyAsStr,
+                clazz,
+                headers,
+                params,
+                contentTypeForBody,
+                encodingForParams,
+                response,
+                listener,
+                errorListener)
+        }
     }
-    
-    }
-    }
-
-
 }
-
