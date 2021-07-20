@@ -9,7 +9,7 @@
 -type init_opts()  :: {
     Operations :: operations(),
     LogicHandler :: atom(),
-    ValidatorState :: jesse_state:state()
+    ValidatorMod :: module()
 }.
 
 -export_type([init_opts/0]).
