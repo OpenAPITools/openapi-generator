@@ -277,7 +277,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
             let filenameKey = "filename="
             guard let range = contentItem.range(of: filenameKey) else {
-                break
+                continue
             }
 
             filename = contentItem
