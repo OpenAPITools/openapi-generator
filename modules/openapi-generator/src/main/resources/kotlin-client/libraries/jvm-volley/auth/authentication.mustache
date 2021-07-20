@@ -6,5 +6,5 @@ import java.util.List
 
 public interface Authentication {
   /** Apply authentication settings to header and query params. */
-  fun applyToParams(queryParams: List<Pair<String, String>>, headerParams: Map<String, String>)
+  fun applyToParams(queryParams: List<Pair<String, String>>, headerParams: MutableMap<String, String>)
 }

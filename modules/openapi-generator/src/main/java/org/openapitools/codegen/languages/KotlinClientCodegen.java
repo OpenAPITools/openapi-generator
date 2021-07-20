@@ -292,6 +292,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (MULTIPLATFORM.equals(getLibrary())) {
             sourceFolder = "src/commonMain/kotlin";
         }
+        else if (JVM_VOLLEY.equals(getLibrary())){
+            // Android plugin wants it's source in java
+            sourceFolder = "src/main/java";
+        }
 
 
         boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
@@ -469,11 +473,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder, String authFolder) {
+
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
 
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache", authFolder, "HttpBasicAuth.kt"));
+        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache", authFolder, "ApiKeyAuth.kt"));
 
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
