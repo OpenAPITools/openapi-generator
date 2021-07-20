@@ -118,7 +118,9 @@ class {{classname}} {
     {{{returnType}}} _responseData;
 
     try {
-{{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
+{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+{{#useJsonSerializable}}
+_responseData = deserialize<{{{returnType}}}, {{{returnBaseType}}}>(_response.data!, '{{{returnType}}}', growable: true);{{/useJsonSerializable}}
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
