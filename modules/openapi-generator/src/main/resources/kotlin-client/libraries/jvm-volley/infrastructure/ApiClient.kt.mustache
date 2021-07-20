@@ -53,7 +53,7 @@ class ApiClient(val context: Context) {
      * Helper method to set username for the first HTTP basic authentication.
      */
     fun setUsername(username: String?) {
-        for (var auth in authentications!!.values) {
+        for (auth in authentications!!.values) {
             if (auth is HttpBasicAuth) {
                 auth.username = username
                 return
@@ -108,12 +108,12 @@ class ApiClient(val context: Context) {
      */
     private fun updateParamsForAuth(
         authNames: Array<String>,
-        queryParams: List<Pair>?,
-        headerParams: Map<String?, String?>
+        queryParams: List<Pair<String, String>>?,
+        headerParams: Map<String, String>
     ) {
         for (authName in authNames) {
             val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
-            auth.applyToParams(queryParams, headerParams)
+            auth.applyToParams(queryParams?.toMutableList()!!, headerParams?.toMutableMap())
         }
     }
 

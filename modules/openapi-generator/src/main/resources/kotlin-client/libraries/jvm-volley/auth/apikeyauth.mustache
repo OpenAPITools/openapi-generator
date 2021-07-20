@@ -1,22 +1,21 @@
 {{>licenseInfo}}
 package {{packageName}}.auth
 
-import java.util.List
+import kotlin.collections.MutableMap
+import kotlin.collections.MutableList
 
 class ApiKeyAuth(private val location: String, val paramName: String) : Authentication {
-    val apiKey: String? = null
+    var apiKey: String? = null
     var apiKeyPrefix: String? = null
 
-
-
-    override fun applyToParams(queryParams: List<kotlin.Pair<String, String>>, headerParams: MutableMap<String, String>) {
+    override fun applyToParams(queryParams: MutableList<kotlin.Pair<String, String>>, headerParams: MutableMap<String, String>) {
         if (apiKey == null) {
             return
         }
         val value: String = if (apiKeyPrefix != null) {
             "$apiKeyPrefix $apiKey"
         } else {
-            apiKey
+            apiKey!!
         }
         if ("query" == location) {
             queryParams.add(paramName to value)

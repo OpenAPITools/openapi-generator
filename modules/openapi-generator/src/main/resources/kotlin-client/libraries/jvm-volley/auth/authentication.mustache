@@ -1,10 +1,10 @@
 {{>licenseInfo}}
 package {{packageName}}.auth
 
-import java.util.Map
-import java.util.List
+import kotlin.collections.MutableMap
+import kotlin.collections.MutableList
 
 public interface Authentication {
   /** Apply authentication settings to header and query params. */
-  fun applyToParams(queryParams: List<Pair<String, String>>, headerParams: MutableMap<String, String>)
+  fun applyToParams(queryParams: MutableList<Pair<String, String>>, headerParams: MutableMap<String, String>)
 }
