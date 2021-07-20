@@ -20,20 +20,97 @@ class ApiClient(val context: Context) {
         this.baseHttpStack = baseHttpStack
     }
 
-    fun escapeString(str: String): String {
-        return try {
-            URLEncoder.encode(str, "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            str
-        }
+    private val defaultHeaderMap: MutableMap<String, String> = HashMap()
+
+    fun addDefaultHeader(key: String, value: String) {
+        defaultHeaderMap[key] = value
     }
 
-    // TODO: Add correct code in here
-    fun parameterToString(str: Any?): String {
-        return try {
-            URLEncoder.encode(str as String, "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            str as String
+    /**
+     * Get authentications (key: authentication name, value: authentication).
+     */
+    var authentications: Map<String, Authentication>? = null
+        private set
+    var connectionTimeout: Int
+
+
+    // TODO - Add auth method here
+
+    /**
+     * Get authentication for the given name.
+     *
+     * @param authName The authentication name
+     * @return The authentication, null if not found
+     */
+    fun getAuthentication(authName: String): Authentication? {
+        return authentications!![authName]
+    }
+
+    /**
+     * Helper method to set username for the first HTTP basic authentication.
+     */
+    fun setUsername(username: String?) {
+        for (auth in authentications!!.values) {
+            if (auth is HttpBasicAuth) {
+                auth.username = username
+                return
+            }
+        }
+        throw RuntimeException("No HTTP basic authentication configured!")
+    }
+
+    /**
+     * Helper method to set password for the first HTTP basic authentication.
+     */
+    fun setPassword(password: String?) {
+        for (auth in authentications!!.values) {
+            if (auth is HttpBasicAuth) {
+                auth.password = password
+                return
+            }
+        }
+        throw RuntimeException("No HTTP basic authentication configured!")
+    }
+
+    /**
+     * Helper method to set API key value for the first API key authentication.
+     */
+    fun setApiKey(apiKey: String?) {
+        for (auth in authentications!!.values) {
+            if (auth is ApiKeyAuth) {
+                auth.apiKey = apiKey
+                return
+            }
+        }
+        throw RuntimeException("No API key authentication configured!")
+    }
+
+    /**
+     * Helper method to set API key prefix for the first API key authentication.
+     */
+    fun setApiKeyPrefix(apiKeyPrefix: String?) {
+        for (auth in authentications!!.values) {
+            if (auth is ApiKeyAuth) {
+                auth.apiKeyPrefix = apiKeyPrefix
+                return
+            }
+        }
+        throw RuntimeException("No API key authentication configured!")
+    }
+
+    /**
+     * Update query and header parameters based on authentication settings.
+     *
+     * @param authNames The authentications to apply
+     */
+    private fun updateParamsForAuth(
+        authNames: Array<String>,
+        queryParams: List<Pair>?,
+        headerParams: Map<String?, String?>
+    ) {
+        for (authName in authNames) {
+            val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
+            auth.applyToParams(queryParams, headerParams)
         }
     }
 

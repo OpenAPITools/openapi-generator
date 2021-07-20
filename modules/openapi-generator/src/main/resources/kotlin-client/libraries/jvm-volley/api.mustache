@@ -8,6 +8,7 @@ import java.util.*;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import {{packageName}}.infrastructure.ApiClient
+import {{packageName}}.request.RequestFactory
 
 import java.io.File;
 
@@ -28,6 +29,7 @@ class {{classname}} (
     //fun addHeader(key: String?, value: String?) {
     //    invoker!!.addDefaultHeader(key!!, value!!)
     //}
+    // TODO - Set up auth on the invoker/client
 
     {{#operation}}
     /**
@@ -50,6 +52,11 @@ class {{classname}} (
         {{/required}}
         {{/allParams}}
 
+        // Do some work or avoid some work based on what we know about the model, 
+        // before we delegate to a pluggable request factory template
+        // The request factory template contains only pure code and no templates
+        // to make it easy to override with your own.
+
         // create path and map variables
         val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", invoker!!.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
@@ -58,18 +65,18 @@ class {{classname}} (
 
         val queryParams: Map<String?, String?> = mapOf(
             {{#queryParams}}
-            "{{baseName}}" to invoker.parameterToString({{paramName}}),
+            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
             {{/queryParams}}
         )
 
         val headerParams: Map<String?, String?> = mapOf(
             {{#headerParams}}
-            "{{baseName}}" to invoker.parameterToString({{paramName}}),
+            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
             {{/headerParams}}
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-
+        val request = requestFactory<{{ResponseType}}>
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
     }
     {{/operation}}
