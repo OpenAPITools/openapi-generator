@@ -356,6 +356,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 break;
             case JVM_VOLLEY:
                 processJVMVolleyLibrary(infrastructureFolder, requestFolder);
+                break;
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
@@ -468,6 +469,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
 
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
 
         addSupportingSerializerAdapters(infrastructureFolder);
