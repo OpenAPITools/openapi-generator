@@ -10,6 +10,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import {{packageName}}.infrastructure.ApiClient
 import {{packageName}}.request.RequestFactory
@@ -102,7 +103,6 @@ class {{classname}} (
                     Request.Method.{{httpMethod}},
                     path,
                     bodyAsStr,
-                    {{{returnType}}}::class.java,
                     headerParams,
                     queryParams,
                     localVarContentType,
@@ -116,7 +116,6 @@ class {{classname}} (
                     Request.Method.{{httpMethod}},
                     path,
                     bodyAsStr,
-                    Unit::class.java,
                     headerParams,
                     queryParams,
                     localVarContentType,

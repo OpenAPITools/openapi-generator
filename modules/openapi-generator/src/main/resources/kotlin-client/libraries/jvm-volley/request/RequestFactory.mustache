@@ -21,6 +21,8 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import java.lang.reflect.Type
+
 
 
 class RequestFactory {
@@ -221,7 +223,6 @@ class RequestFactory {
         fun <T> build(method: Int,
                url : String,
                bodyAsStr: String?,
-               clazz: Class<T>,
                headers: Map<String, String>?,
                params: Map<String, String>?,
                contentTypeForBody: String?,
@@ -234,7 +235,6 @@ class RequestFactory {
                     getMethodPreconditionCheck()
                     GsonRequest<T>(method, url,
                         bodyAsStr,
-                        clazz,
                         headers,
                         params,
                         contentTypeForBody,
@@ -243,8 +243,8 @@ class RequestFactory {
                         errorListener)
                 }
                 Request.Method.DELETE -> {
-                    deleteMethodPreconditionCheck()
-                    StringRequest(method, url, responseListener, errorListener)
+                        deleteMethodPreconditionCheck()
+                        StringRequest(method, url, responseListener as Response.Listener<String>, errorListener) as Request<T>
                 }
                 else -> {
                     // TODO: Make this better.
@@ -278,12 +278,8 @@ class RequestFactory {
                        responseListener,
                        errorListener)
                 }
-                Request.Method.DELETE -> {
-                    if (body
-                    deleteMethodPreconditionCheck(
-
-                    )
-                    StringRequest(method, url, responseListener, errorListener)
+                Request.Method.DELETE -> {  deleteMethodPreconditionCheck()
+                                            StringRequest(method, url, responseListener as Response.Listener<String>, errorListener) as Request<T>
                 }
             }
 */

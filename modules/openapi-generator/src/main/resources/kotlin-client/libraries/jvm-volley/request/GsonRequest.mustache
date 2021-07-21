@@ -10,12 +10,13 @@ import com.google.gson.JsonSyntaxException
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.net.HttpURLConnection
+import java.lang.reflect.Type
+import com.google.gson.reflect.TypeToken
 
 class GsonRequest<T>(
     method: Int,
     url: String,
     private val bodyAsStr: String?,
-    private val clazz: Class<T>,
     private val headers: Map<String, String>?,
     private val params: Map<String, String>?,
     private val contentTypeForBody: String?,
@@ -30,6 +31,8 @@ class GsonRequest<T>(
     private val gson = Gson()
 
     private var response: NetworkResponse? = null
+
+    inline fun <reified T> Gson.fromJson(json: String) = fromJson<T>(json, object: TypeToken<T>() {}.type)
 
     override fun deliverResponse(response: T?) {
         listener.onResponse(response)
@@ -51,8 +54,9 @@ class GsonRequest<T>(
                 response?.data ?: ByteArray(0),
                 Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
             )
+            val type = object : TypeToken<T>() {}.type
             Response.success(
-                gson.fromJson(json, clazz),
+                Gson().fromJson<T>(json, type),
                 HttpHeaderParser.parseCacheHeaders(response)
             )
         } catch (e: UnsupportedEncodingException) {
