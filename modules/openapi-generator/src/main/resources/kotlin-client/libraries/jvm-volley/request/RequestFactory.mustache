@@ -8,6 +8,7 @@ import com.android.volley.ParseError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
+import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import org.apache.http.Consts
@@ -209,78 +210,82 @@ class RequestFactory {
             DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
         }
 
+        private fun getMethodPreconditionCheck() {
+            // TODO: Implement
+        }
+
+        private fun deleteMethodPreconditionCheck() {
+            // TODO: Implement
+        }
+
         fun <T> build(method: Int,
-                       url : String,
-                       bodyAsStr: String?,
-                       clazz: Class<T>,
-                       headers: MutableMap<String, String>?,
-                       params: MutableMap<String, String>?,
-                       contentTypeForBody: String?,
-                       encodingForParams: String?,
-                       response: NetworkResponse?,
-                       listener: Response.Listener<T>,
-                       errorListener: Response.ErrorListener  ) : Request<T> {
+               url : String,
+               bodyAsStr: String?,
+               clazz: Class<T>,
+               headers: Map<String, String>?,
+               params: Map<String, String>?,
+               contentTypeForBody: String?,
+               encodingForParams: String?,
+               responseListener: Response.Listener<T>,
+               errorListener: Response.ErrorListener): Request<T> {
             // Pivot on the method (verb), and whether parameters are optional
             return when(method) {
-               Request.Method.GET -> {
-                   getMethodPreconditionCheck(
+                Request.Method.GET -> {
+                    getMethodPreconditionCheck()
+                    GsonRequest<T>(method, url,
+                        bodyAsStr,
+                        clazz,
+                        headers,
+                        params,
+                        contentTypeForBody,
+                        encodingForParams,
+                        responseListener,
+                        errorListener)
+                }
+                Request.Method.DELETE -> {
+                    deleteMethodPreconditionCheck()
+                    StringRequest(method, url, responseListener, errorListener)
+                }
+                else -> {
+                    // TODO: Make this better.
+                    throw Exception("Unsupported method")
+                }
+            }
+        }
 
-                   )
-                   GsonRequest<T>(method, url,
-                           bodyAsStr,
-                           clazz,
-                           headers,
-                           params,
-                           contentTypeForBody,
-                           encodingForParams,
-                           response,
-                           listener,
-                           errorListener)
-               }
+/*        fun <T> build(method: Int,
+                       url : String,
+                       bodyAsStr: String?,
+                       headers: Map<String, String>?,
+                       params: Map<String, String>?,
+                       contentTypeForBody: String?,
+                       encodingForParams: String?,
+                       responseListener: Response.Listener<T>,
+                       errorListener: Response.ErrorListener): Request<T> {
+            // Pivot on the method (verb), and whether parameters are optional
+            return when(method) {
+                Request.Method.GET -> {
+                    getMethodPreconditionCheck(
+
+                    )
+                    GsonRequest<T>(method, url,
+                       bodyAsStr,
+                       clazz,
+                       headers,
+                       params,
+                       contentTypeForBody,
+                       encodingForParams,
+                       responseListener,
+                       errorListener)
+                }
                 Request.Method.DELETE -> {
                     if (body
                     deleteMethodPreconditionCheck(
 
                     )
-                    StringRequest(method, url, listener, errorListener)
+                    StringRequest(method, url, responseListener, errorListener)
                 }
             }
+*/
         }
-
-        fun <T> build(method: Int,
-                               url : String,
-                               bodyAsStr: String?,
-                               headers: MutableMap<String, String>?,
-                               params: MutableMap<String, String>?,
-                               contentTypeForBody: String?,
-                               encodingForParams: String?,
-                               response: NetworkResponse?,
-                               listener: Response.Listener<T>,
-                               errorListener: Response.ErrorListener  ) : Request<T> {
-                    // Pivot on the method (verb), and whether parameters are optional
-                    return when(method) {
-                       Request.Method.GET -> {
-                           getMethodPreconditionCheck(
-
-                           )
-                           GsonRequest<T>(method, url,
-                                   bodyAsStr,
-                                   clazz,
-                                   headers,
-                                   params,
-                                   contentTypeForBody,
-                                   encodingForParams,
-                                   response,
-                                   listener,
-                                   errorListener)
-                       }
-                        Request.Method.DELETE -> {
-                            if (body
-                            deleteMethodPreconditionCheck(
-
-                            )
-                            StringRequest(method, url, listener, errorListener)
-                        }
-                    }
-                }
 }

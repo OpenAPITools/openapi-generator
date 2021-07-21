@@ -16,11 +16,10 @@ class GsonRequest<T>(
     url: String,
     private val bodyAsStr: String?,
     private val clazz: Class<T>,
-    private val headers: MutableMap<String, String>?,
-    private val params: MutableMap<String, String>?,
+    private val headers: Map<String, String>?,
+    private val params: Map<String, String>?,
     private val contentTypeForBody: String?,
     private val encodingForParams: String?,
-    private var response: NetworkResponse?,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
 ) : Request<T>(method, url, errorListener) {
@@ -29,6 +28,8 @@ class GsonRequest<T>(
     * The underlying [Gson] instance.
     */
     private val gson = Gson()
+
+    private var response: NetworkResponse? = null
 
     override fun deliverResponse(response: T?) {
         listener.onResponse(response)

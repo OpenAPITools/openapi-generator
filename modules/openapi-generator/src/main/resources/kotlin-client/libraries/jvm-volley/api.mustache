@@ -6,6 +6,9 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
 import java.util.*;
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import {{packageName}}.infrastructure.ApiClient
@@ -67,54 +70,62 @@ class {{classname}} (
         val path = "{{{path}}}"{{#pathParams}}.replace("\\{" + "{{baseName}}" + "\\}", RequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
-        val formParams: Map<String?, String?> = HashMap()
+        val formParams: Map<String, String> = HashMap()
 
-        val queryParams: Map<String?, String?> = mapOf(
+        val queryParams: Map<String, String> = mapOf(
             {{#queryParams}}
             "{{baseName}}" to RequestFactory.parameterToString({{paramName}}),
             {{/queryParams}}
         )
 
-        val headerParams: Map<String?, String?> = mapOf(
+        val headerParams: Map<String, String> = mapOf(
             {{#headerParams}}
             "{{baseName}}" to RequestFactory.parameterToString({{paramName}}),
             {{/headerParams}}
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        // Call the correct request builder based on whether we have a return type or a body.
-        // All other switching on types must be done in code inside the builder
-        {{#returnType}}
-        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
-                Request.Method.{{httpMethod}},
-                path,
-                bodyAsStr,
-                {{{returnType}}}<T>::Class.java,
-                headerParams,
-                queryParams,
-                localVarContentType,
-                encodingForParams,
-                response,
-                listener,
-                errorListener
-        )
-        return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
-        {{/returnType}}
-        {{^returnType}}
 
-        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
-                        Request.Method.{{httpMethod}},
-                        path,
-                        bodyAsStr,
-                        headerParams,
-                        queryParams,
-                        localVarContentType,
-                        encodingForParams,
-                        response,
-                        listener,
-                        errorListener
-                )
-        {{/returnType}}
+        return suspendCoroutine { continuation ->
+            val responseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
+                continuation.resume(response)
+            }
+
+            val errorListener = Response.ErrorListener { error ->
+                continuation.resumeWithException(error)
+            }
+
+            // Call the correct request builder based on whether we have a return type or a body.
+            // All other switching on types must be done in code inside the builder
+            {{#returnType}}
+            val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
+                    Request.Method.{{httpMethod}},
+                    path,
+                    bodyAsStr,
+                    {{{returnType}}}::class.java,
+                    headerParams,
+                    queryParams,
+                    localVarContentType,
+                    null,
+                    responseListener,
+                    errorListener)
+            {{/returnType}}
+
+            {{^returnType}}
+            val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
+                    Request.Method.{{httpMethod}},
+                    path,
+                    bodyAsStr,
+                    Unit::class.java,
+                    headerParams,
+                    queryParams,
+                    localVarContentType,
+                    null,
+                    responseListener,
+                    errorListener)
+            {{/returnType}}
+
+        }
     }
     {{/operation}}
 }
