@@ -5,8 +5,8 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +16,11 @@ import java.util.Map;
 /**
  * API tests for PetApi
  */
-public class PetApiTest {
+class PetApiTest {
 
     private PetApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient(PetApi.class);
     }
@@ -32,7 +32,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void addPetTest() {
+    void addPetTest() {
         Pet body = null;
         // api.addPet(body);
 
@@ -46,7 +46,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void deletePetTest() {
+    void deletePetTest() {
         Long petId = null;
         String apiKey = null;
         // api.deletePet(petId, apiKey);
@@ -61,7 +61,7 @@ public class PetApiTest {
      * Multiple status values can be provided with comma separated strings
      */
     @Test
-    public void findPetsByStatusTest() {
+    void findPetsByStatusTest() {
         List<String> status = null;
         // List<Pet> response = api.findPetsByStatus(status);
 
@@ -77,7 +77,7 @@ public class PetApiTest {
      * listing them out individually.
      */
     @Test
-    public void findPetsByStatusTestQueryMap() {
+    void findPetsByStatusTestQueryMap() {
         PetApi.FindPetsByStatusQueryParams queryParams = new PetApi.FindPetsByStatusQueryParams()
             .status(null);
         // List<Pet> response = api.findPetsByStatus(queryParams);
@@ -91,7 +91,7 @@ public class PetApiTest {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      */
     @Test
-    public void findPetsByTagsTest() {
+    void findPetsByTagsTest() {
         Set<String> tags = null;
         // Set<Pet> response = api.findPetsByTags(tags);
 
@@ -107,7 +107,7 @@ public class PetApiTest {
      * listing them out individually.
      */
     @Test
-    public void findPetsByTagsTestQueryMap() {
+    void findPetsByTagsTestQueryMap() {
         PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
             .tags(null);
         // Set<Pet> response = api.findPetsByTags(queryParams);
@@ -121,7 +121,7 @@ public class PetApiTest {
      * Returns a single pet
      */
     @Test
-    public void getPetByIdTest() {
+    void getPetByIdTest() {
         Long petId = null;
         // Pet response = api.getPetById(petId);
 
@@ -135,7 +135,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void updatePetTest() {
+    void updatePetTest() {
         Pet body = null;
         // api.updatePet(body);
 
@@ -149,7 +149,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void updatePetWithFormTest() {
+    void updatePetWithFormTest() {
         Long petId = null;
         String name = null;
         String status = null;
@@ -165,7 +165,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void uploadFileTest() {
+    void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
         File file = null;
@@ -181,7 +181,7 @@ public class PetApiTest {
      * 
      */
     @Test
-    public void uploadFileWithRequiredFileTest() {
+    void uploadFileWithRequiredFileTest() {
         Long petId = null;
         File requiredFile = null;
         String additionalMetadata = null;

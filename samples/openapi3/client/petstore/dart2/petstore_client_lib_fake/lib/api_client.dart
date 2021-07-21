@@ -218,6 +218,8 @@ class ApiClient {
           return Category.fromJson(value);
         case 'ClassModel':
           return ClassModel.fromJson(value);
+        case 'DeprecatedObject':
+          return DeprecatedObject.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
         case 'DogAllOf':
@@ -261,6 +263,8 @@ class ApiClient {
           return NullableClass.fromJson(value);
         case 'NumberOnly':
           return NumberOnly.fromJson(value);
+        case 'ObjectWithDeprecatedFields':
+          return ObjectWithDeprecatedFields.fromJson(value);
         case 'Order':
           return Order.fromJson(value);
         case 'OuterComposite':

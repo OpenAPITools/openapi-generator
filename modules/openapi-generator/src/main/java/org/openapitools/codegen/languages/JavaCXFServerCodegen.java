@@ -242,7 +242,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ToStringSerializer");
 
         //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey("jackson")) {
+        if (additionalProperties.containsKey(JACKSON)) {
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");

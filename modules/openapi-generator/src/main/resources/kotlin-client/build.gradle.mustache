@@ -53,6 +53,11 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    {{^doNotUseRxAndCoroutines}}
+    {{#useCoroutines}}
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+    {{/useCoroutines}}
+    {{/doNotUseRxAndCoroutines}}
     {{#moshi}}
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

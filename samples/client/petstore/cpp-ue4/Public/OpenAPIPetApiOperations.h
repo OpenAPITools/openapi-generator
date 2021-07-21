@@ -88,6 +88,9 @@ public:
 		Pending,
 		Sold,
   	};
+
+	static FString EnumToString(const StatusEnum& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, StatusEnum& EnumValue);
 	/* Status values that need to be considered for filter */
 	TArray<StatusEnum> Status;
 };

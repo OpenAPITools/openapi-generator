@@ -7,7 +7,8 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 7.2 and later.
+PHP 7.3 and later.
+Should also work with PHP 8.0 but has not been tested.
 
 ### Composer
 
@@ -127,6 +128,7 @@ Class | Method | HTTP request | Description
 - [Category](docs/Model/Category.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
+- [DeprecatedObject](docs/Model/DeprecatedObject.md)
 - [Dog](docs/Model/Dog.md)
 - [DogAllOf](docs/Model/DogAllOf.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
@@ -147,6 +149,7 @@ Class | Method | HTTP request | Description
 - [Name](docs/Model/Name.md)
 - [NullableClass](docs/Model/NullableClass.md)
 - [NumberOnly](docs/Model/NumberOnly.md)
+- [ObjectWithDeprecatedFields](docs/Model/ObjectWithDeprecatedFields.md)
 - [Order](docs/Model/Order.md)
 - [OuterComposite](docs/Model/OuterComposite.md)
 - [OuterEnum](docs/Model/OuterEnum.md)

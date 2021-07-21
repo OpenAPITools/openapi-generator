@@ -31,10 +31,16 @@ public interface {{classname}} extends ApiClient.Api {
    * @return {{returnType}}
 {{/returnType}}
 {{#externalDocs}}
-  * {{description}}
-  * @see <a href="{{url}}">{{summary}} Documentation</a>
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+{{#isDeprecated}}
+  @Deprecated
+{{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
 {{#vendorExtensions.x-contentType}}    "Content-Type: {{vendorExtensions.x-contentType}}",
@@ -72,7 +78,13 @@ public interface {{classname}} extends ApiClient.Api {
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
       {{/externalDocs}}
+      {{#isDeprecated}}
+   * @deprecated
+      {{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
 {{#vendorExtensions.x-contentType}}  "Content-Type: {{vendorExtensions.x-contentType}}",

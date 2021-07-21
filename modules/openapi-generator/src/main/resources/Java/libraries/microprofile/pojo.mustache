@@ -69,7 +69,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * maximum: {{maximum}}
   {{/maximum}}
    * @return {{name}}
+  {{#deprecated}}
+   * @deprecated
+  {{/deprecated}}
   **/
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
   {{^withXml}}
   @JsonbProperty("{{baseName}}")
   {{/withXml}}

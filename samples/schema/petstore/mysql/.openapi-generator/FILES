@@ -11,6 +11,7 @@ Model/CatAllOf.sql
 Model/Category.sql
 Model/ClassModel.sql
 Model/Client.sql
+Model/DeprecatedObject.sql
 Model/Dog.sql
 Model/DogAllOf.sql
 Model/EnumArrays.sql
@@ -29,6 +30,7 @@ Model/MixedPropertiesAndAdditionalPropertiesClass.sql
 Model/Name.sql
 Model/NullableClass.sql
 Model/NumberOnly.sql
+Model/ObjectWithDeprecatedFields.sql
 Model/Order.sql
 Model/OuterComposite.sql
 Model/OuterEnum.sql

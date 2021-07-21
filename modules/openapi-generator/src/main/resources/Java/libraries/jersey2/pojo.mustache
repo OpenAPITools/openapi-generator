@@ -1,6 +1,8 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */{{#description}}
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
+ * @deprecated{{/isDeprecated}}
+ */{{#isDeprecated}}
+@Deprecated{{/isDeprecated}}{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -187,10 +189,19 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
    * maximum: {{maximum}}
   {{/maximum}}
    * @return {{name}}
+  {{#deprecated}}
+   * @deprecated
+  {{/deprecated}}
   **/
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
 {{#required}}
 {{#isNullable}}
   @javax.annotation.Nullable
+{{/isNullable}}
+{{^isNullable}}
+  @javax.annotation.Nonnull
 {{/isNullable}}
 {{/required}}
 {{^required}}

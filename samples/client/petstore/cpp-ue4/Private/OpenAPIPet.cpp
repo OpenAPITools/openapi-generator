@@ -36,6 +36,30 @@ inline FString ToString(const OpenAPIPet::StatusEnum& Value)
 	return TEXT("");
 }
 
+FString OpenAPIPet::EnumToString(const OpenAPIPet::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIPet::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), OpenAPIPet::StatusEnum::Available },
+		{ TEXT("pending"), OpenAPIPet::StatusEnum::Pending },
+		{ TEXT("sold"), OpenAPIPet::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool OpenAPIPet::EnumFromString(const FString& EnumAsString, OpenAPIPet::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIPet::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIPet:
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), OpenAPIPet::StatusEnum::Available },
-			{ TEXT("pending"), OpenAPIPet::StatusEnum::Pending },
-			{ TEXT("sold"), OpenAPIPet::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

@@ -14,6 +14,7 @@ doc/CatAllOf.md
 doc/Category.md
 doc/ClassModel.md
 doc/DefaultApi.md
+doc/DeprecatedObject.md
 doc/Dog.md
 doc/DogAllOf.md
 doc/EnumArrays.md
@@ -37,6 +38,7 @@ doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
 doc/NumberOnly.md
+doc/ObjectWithDeprecatedFields.md
 doc/Order.md
 doc/OuterComposite.md
 doc/OuterEnum.md
@@ -76,6 +78,7 @@ lib/model/cat.dart
 lib/model/cat_all_of.dart
 lib/model/category.dart
 lib/model/class_model.dart
+lib/model/deprecated_object.dart
 lib/model/dog.dart
 lib/model/dog_all_of.dart
 lib/model/enum_arrays.dart
@@ -97,6 +100,7 @@ lib/model/model_return.dart
 lib/model/name.dart
 lib/model/nullable_class.dart
 lib/model/number_only.dart
+lib/model/object_with_deprecated_fields.dart
 lib/model/order.dart
 lib/model/outer_composite.dart
 lib/model/outer_enum.dart

@@ -19,6 +19,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/EnumArrays.md
@@ -41,6 +42,7 @@ docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -80,6 +82,7 @@ lib/petstore/models/cat_all_of.rb
 lib/petstore/models/category.rb
 lib/petstore/models/class_model.rb
 lib/petstore/models/client.rb
+lib/petstore/models/deprecated_object.rb
 lib/petstore/models/dog.rb
 lib/petstore/models/dog_all_of.rb
 lib/petstore/models/enum_arrays.rb
@@ -100,6 +103,7 @@ lib/petstore/models/model_return.rb
 lib/petstore/models/name.rb
 lib/petstore/models/nullable_class.rb
 lib/petstore/models/number_only.rb
+lib/petstore/models/object_with_deprecated_fields.rb
 lib/petstore/models/order.rb
 lib/petstore/models/outer_composite.rb
 lib/petstore/models/outer_enum.rb
