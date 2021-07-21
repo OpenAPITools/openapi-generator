@@ -32,7 +32,7 @@ pub struct GetOrderByIdParams {
 #[derive(Clone, Debug)]
 pub struct PlaceOrderParams {
     /// order placed for purchasing the pet
-    pub body: crate::models::Order
+    pub order: crate::models::Order
 }
 
 
@@ -206,7 +206,7 @@ pub async fn get_order_by_id(configuration: &configuration::Configuration, param
 
 pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
     // unbox the parameters
-    let body = params.body;
+    let order = params.order;
 
 
     let local_var_client = &configuration.client;
@@ -217,7 +217,7 @@ pub async fn place_order(configuration: &configuration::Configuration, params: P
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&order);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;

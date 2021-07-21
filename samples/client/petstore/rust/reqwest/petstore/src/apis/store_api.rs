@@ -138,7 +138,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     }
 }
 
-pub fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
+pub fn place_order(configuration: &configuration::Configuration, order: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
 
     let local_var_client = &configuration.client;
 
@@ -148,7 +148,7 @@ pub fn place_order(configuration: &configuration::Configuration, body: crate::mo
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&order);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;

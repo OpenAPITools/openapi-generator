@@ -33,23 +33,22 @@ impl<C: hyper::client::Connect> PetApiClient<C> {
 }
 
 pub trait PetApi {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn add_pet(&self, pet: crate::models::Pet) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Box<dyn Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<dyn Future<Item = Vec<crate::models::Pet>, Error = Error<serde_json::Value>>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>>;
-    fn update_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_pet(&self, pet: crate::models::Pet) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Box<dyn Future<Item = crate::models::ApiResponse, Error = Error<serde_json::Value>>>;
 }
 
 impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn add_pet(&self, pet: crate::models::Pet) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-        req = req.with_body_param(body);
-        req = req.returns_nothing();
+        req = req.with_body_param(pet);
 
         req.execute(self.configuration.borrow())
     }
@@ -98,12 +97,11 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn update_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_pet(&self, pet: crate::models::Pet) -> Box<dyn Future<Item = crate::models::Pet, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Put, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
-        req = req.with_body_param(body);
-        req = req.returns_nothing();
+        req = req.with_body_param(pet);
 
         req.execute(self.configuration.borrow())
     }

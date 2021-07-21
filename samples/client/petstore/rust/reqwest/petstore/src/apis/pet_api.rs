@@ -82,7 +82,7 @@ pub enum UploadFileError {
 }
 
 
-pub fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<AddPetError>> {
+pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<AddPetError>> {
 
     let local_var_client = &configuration.client;
 
@@ -95,7 +95,7 @@ pub fn add_pet(configuration: &configuration::Configuration, body: crate::models
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -104,7 +104,7 @@ pub fn add_pet(configuration: &configuration::Configuration, body: crate::models
     let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        Ok(())
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<AddPetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -241,7 +241,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     }
 }
 
-pub fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<UpdatePetError>> {
+pub fn update_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<UpdatePetError>> {
 
     let local_var_client = &configuration.client;
 
@@ -254,7 +254,7 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -263,7 +263,7 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
     let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        Ok(())
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<UpdatePetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
