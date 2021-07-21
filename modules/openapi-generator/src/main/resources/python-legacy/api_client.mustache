@@ -57,6 +57,7 @@ class ApiClient(object):
         'date': datetime.date,
         'datetime': datetime.datetime,
         'object': object,
+        'list': list,
     }
     _pool = None
 
@@ -696,7 +697,7 @@ class ApiClient(object):
                 and klass.discriminator_value_class_map):
             has_discriminator = True
 
-        if not klass.openapi_types and has_discriminator is False:
+        if not (hasattr(klass, 'openapi_types') and klass.openapi_types) and has_discriminator is False:
             return data
 
         kwargs = {}
