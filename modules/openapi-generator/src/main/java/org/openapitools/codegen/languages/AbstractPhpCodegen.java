@@ -191,6 +191,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
+            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
+            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
+        }
+
+        if (!this.getComposerPackageName().isEmpty()) {
+            additionalProperties.put("composerPackageName", this.getComposerPackageName());
+        }
+
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         // make api and model src path available in mustache template
