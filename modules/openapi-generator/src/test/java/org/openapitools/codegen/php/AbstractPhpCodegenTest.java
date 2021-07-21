@@ -22,6 +22,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -98,6 +99,27 @@ public class AbstractPhpCodegenTest {
 
         Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
         Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
+    }
+
+    @Test(dataProvider = "composerNames", description = "Issue #9998")
+    public void testGetComposerPackageName(String gitUserId, String gitRepoId, String result) {
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.processOpts();
+
+        codegen.setGitUserId(gitUserId);
+        codegen.setGitRepoId(gitRepoId);
+        Assert.assertEquals(codegen.getComposerPackageName(), result);
+    }
+
+    @DataProvider(name = "composerNames")
+    public static Object[][] composerNames() {
+        return new Object[][] {
+            {"", "", ""},
+            {"null", "null", ""},
+            {"GIT_REPO_ID", "GIT_USER_ID", ""},
+            {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
+            {"foo", "bar", "foo/bar"},
+        };
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {
