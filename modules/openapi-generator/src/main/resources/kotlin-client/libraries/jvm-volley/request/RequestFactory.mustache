@@ -219,7 +219,7 @@ class RequestFactory {
                        encodingForParams: String?,
                        response: NetworkResponse?,
                        listener: Response.Listener<T>,
-                       errorListener: Response.ErrorListener  ) : Request<out T> {
+                       errorListener: Response.ErrorListener  ) : Request<T> {
             // Pivot on the method (verb), and whether parameters are optional
             return when(method) {
                Request.Method.GET -> {
@@ -238,6 +238,7 @@ class RequestFactory {
                            errorListener)
                }
                 Request.Method.DELETE -> {
+                    if (body
                     deleteMethodPreconditionCheck(
 
                     )
@@ -245,4 +246,41 @@ class RequestFactory {
                 }
             }
         }
+
+        fun <T> build(method: Int,
+                               url : String,
+                               bodyAsStr: String?,
+                               headers: MutableMap<String, String>?,
+                               params: MutableMap<String, String>?,
+                               contentTypeForBody: String?,
+                               encodingForParams: String?,
+                               response: NetworkResponse?,
+                               listener: Response.Listener<T>,
+                               errorListener: Response.ErrorListener  ) : Request<T> {
+                    // Pivot on the method (verb), and whether parameters are optional
+                    return when(method) {
+                       Request.Method.GET -> {
+                           getMethodPreconditionCheck(
+
+                           )
+                           GsonRequest<T>(method, url,
+                                   bodyAsStr,
+                                   clazz,
+                                   headers,
+                                   params,
+                                   contentTypeForBody,
+                                   encodingForParams,
+                                   response,
+                                   listener,
+                                   errorListener)
+                       }
+                        Request.Method.DELETE -> {
+                            if (body
+                            deleteMethodPreconditionCheck(
+
+                            )
+                            StringRequest(method, url, listener, errorListener)
+                        }
+                    }
+                }
 }

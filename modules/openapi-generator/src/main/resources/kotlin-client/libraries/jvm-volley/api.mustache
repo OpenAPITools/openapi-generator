@@ -46,6 +46,7 @@ class {{classname}} (
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         // Here's a funky method
         var postBody: Any? = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
+        var bodyAsStr: String? = null
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
@@ -53,6 +54,9 @@ class {{classname}} (
         requireNotNull({{paramName}})
         {{/required}}
         {{/allParams}}
+
+        var localVarContentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        var localVarContentType: String = if (localVarContentTypes.size > 0) { localVarContentTypes[0] } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -78,20 +82,39 @@ class {{classname}} (
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        // Call the correct request builder based on whether we have a return type or a body.
+        // All other switching on types must be done in code inside the builder
+        {{#returnType}}
         val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
                 Request.Method.{{httpMethod}},
                 path,
                 bodyAsStr,
-                {{{returnType}}}::Class.java,
+                {{{returnType}}}<T>::Class.java,
                 headerParams,
                 queryParams,
-                contentTypeForBody,
+                localVarContentType,
                 encodingForParams,
                 response,
                 listener,
                 errorListener
         )
         return {{#returnType}}null{{/returnType}}{{^returnType}}Unit{{/returnType}}
+        {{/returnType}}
+        {{^returnType}}
+
+        val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
+                        Request.Method.{{httpMethod}},
+                        path,
+                        bodyAsStr,
+                        headerParams,
+                        queryParams,
+                        localVarContentType,
+                        encodingForParams,
+                        response,
+                        listener,
+                        errorListener
+                )
+        {{/returnType}}
     }
     {{/operation}}
 }
