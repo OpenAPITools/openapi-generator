@@ -71,7 +71,7 @@ public class TypeHolderExample {
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "arrayItem")
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
 
   public TypeHolderExample stringItem(String stringItem) {
