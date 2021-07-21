@@ -41,7 +41,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @ApiResponses(
         value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
-    @DeleteMapping(
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
     )
     fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: kotlin.String
@@ -58,7 +59,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
-    @GetMapping(
+    @RequestMapping(
+        method = [RequestMethod.GET],
         value = ["/store/inventory"],
         produces = ["application/json"]
     )
@@ -73,7 +75,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         response = Order::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
-    @GetMapping(
+    @RequestMapping(
+        method = [RequestMethod.GET],
         value = ["/store/order/{orderId}"],
         produces = ["application/xml", "application/json"]
     )
@@ -89,7 +92,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         response = Order::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
-    @PostMapping(
+    @RequestMapping(
+        method = [RequestMethod.POST],
         value = ["/store/order"],
         produces = ["application/xml", "application/json"]
     )

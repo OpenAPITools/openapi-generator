@@ -481,6 +481,15 @@ paths:
       responses:
         default:
           description: successful operation
+    options:
+      tags:
+        - user
+      summary: logoutUserOptions
+      description: ''
+      operationId: logoutUserOptions
+      responses:
+        default:
+          description: endpoint configuration response
   '/user/{username}':
     get:
       tags:
