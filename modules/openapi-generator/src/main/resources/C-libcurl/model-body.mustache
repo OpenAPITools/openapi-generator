@@ -164,7 +164,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}{{^-last}},{{/-last}}
@@ -347,8 +347,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
-    goto fail; //Byte
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    goto fail; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -481,6 +481,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
+        {{#isByteArray}}
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isByteArray}}
         {{#isNumeric}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
@@ -562,9 +568,9 @@ fail:
     {{/isEnum}}
     {{#isByteArray}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{name}}}))
+    if(!cJSON_IsString({{{name}}}))
     {
-    goto end; //Byte
+    goto end; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -707,6 +713,13 @@ fail:
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
+        {{#isByteArray}}
+        if(!cJSON_IsString(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isByteArray}}
         {{#isBoolean}}
         if(!cJSON_IsBool(localMapObject))
         {
@@ -772,7 +785,7 @@ fail:
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
         {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
