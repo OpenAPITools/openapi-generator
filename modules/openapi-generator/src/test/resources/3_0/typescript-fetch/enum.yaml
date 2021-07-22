@@ -206,6 +206,17 @@ components:
         - one
         - two
         - three
+    StringEnumTwo:
+      type: string
+      enum:
+        - twoone
+        - twotwo
+        - twothree
+    StringOneOf:
+      type: string
+      oneOf:
+        - $ref: "#/components/schemas/StringEnum"
+        - $ref: "#/components/schemas/StringEnumTwo"
     NumberEnum:
       type: number
       enum:
