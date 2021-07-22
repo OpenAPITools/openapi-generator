@@ -238,3 +238,10 @@ components:
           nullable: true
           allOf:
             - $ref: "#/components/schemas/NumberEnum"
+    ObjectOneOfEnum:
+      type: "object"
+      properties:
+        combined-string-enum:
+          oneOf: 
+            - $ref: '#/components/schemas/StringEnum'
+            - $ref: '#/components/schemas/StringEnumTwo'
