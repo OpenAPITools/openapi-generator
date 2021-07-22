@@ -245,3 +245,8 @@ components:
           oneOf: 
             - $ref: '#/components/schemas/StringEnum'
             - $ref: '#/components/schemas/StringEnumTwo'
+    ObjectCombinedEnum:
+      type: "object"
+      properties:
+        combined-string-enum:
+          $ref: '#/components/schemas/StringOneOf'
