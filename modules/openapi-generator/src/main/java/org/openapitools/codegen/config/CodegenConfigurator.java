@@ -301,7 +301,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
         if (StringUtils.isNotEmpty(gitUserId)) {
-            addAdditionalProperty(CodegenConstants.GIT_HOST, gitUserId);
+            addAdditionalProperty(CodegenConstants.GIT_USER_ID, gitUserId);
         }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
