@@ -32,8 +32,6 @@ class GsonRequest<T>(
 
     private var response: NetworkResponse? = null
 
-    inline fun <reified T> Gson.fromJson(json: String) = fromJson<T>(json, object: TypeToken<T>() {}.type)
-
     override fun deliverResponse(response: T?) {
         listener.onResponse(response)
     }

@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import java.lang.reflect.Type
+import {{packageName}}.auth.Authentication
 
 
 
@@ -212,6 +213,40 @@ class RequestFactory {
             DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
         }
 
+        /**
+        * Get authentications (key: authentication name, value: authentication).
+        */
+        var authentications: Map<String, Authentication>? = mapOf(
+            {{#authMethods}}
+                {{#isApiKey}}
+                    "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
+                {{/isApiKey}}
+                {{#isBasic}}
+                    "{{name}}", HttpBasicAuth()
+                {{/isBasic}}
+                {{#isOAuth}}
+                    // TODO: comment out below as OAuth does not exist
+                    //"{{name}}", OAuth()
+                {{/isOAuth}}
+            {{/authMethods}}
+        )
+
+        /**
+        * Update query and header parameters based on authentication settings.
+        *
+        * @param authNames The authentications to apply
+        */
+        private fun updateParamsForAuth(
+            authNames: Array<String>,
+            queryParams: List<Pair<String, String>>?,
+            headerParams: Map<String, String>
+        ) {
+            for (authName in authNames) {
+                val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
+                auth.applyToParams(queryParams?.toMutableList()!!, headerParams?.toMutableMap())
+            }
+        }
+
         private fun getMethodPreconditionCheck() {
             // TODO: Implement
         }
@@ -227,8 +262,10 @@ class RequestFactory {
                params: Map<String, String>?,
                contentTypeForBody: String?,
                encodingForParams: String?,
+               authNames: Array<String>?,
                responseListener: Response.Listener<T>,
                errorListener: Response.ErrorListener): Request<T> {
+                updateParamsForAuth(authNames, params, headers)
             // Pivot on the method (verb), and whether parameters are optional
             return when(method) {
                 Request.Method.GET -> {

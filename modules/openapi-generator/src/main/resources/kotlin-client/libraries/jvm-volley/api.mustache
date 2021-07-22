@@ -3,8 +3,10 @@ package {{apiPackage}}
 // Steve was here
 import android.content.Context
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.BaseHttpStack
+import com.android.volley.toolbox.Volley
 import java.util.*;
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -25,10 +27,10 @@ import java.io.File;
 {{#operations}}
 class {{classname}} (
     val context: Context,
-    val invoker: ApiClient = ApiClient(context),
+    val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
+        Volley.newRequestQueue(context.applicationContext)
+    }),
     val requestFactory: RequestFactory = RequestFactory()) {
-
-    constructor(context: Context, baseHttpStack: BaseHttpStack, invoker: ApiClient = ApiClient(context, baseHttpStack)) : this(context, invoker) {}
 
     var basePath = "{{{basePath}}}"
     //var invoker = ApiInvoker.instance
@@ -86,6 +88,7 @@ class {{classname}} (
         )
 
         val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        val authNames = arrayOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
@@ -98,7 +101,6 @@ class {{classname}} (
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            {{#returnType}}
             val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
                     Request.Method.{{httpMethod}},
                     path,
@@ -107,23 +109,11 @@ class {{classname}} (
                     queryParams,
                     localVarContentType,
                     null,
+                    authNames,
                     responseListener,
                     errorListener)
-            {{/returnType}}
 
-            {{^returnType}}
-            val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = RequestFactory.build(
-                    Request.Method.{{httpMethod}},
-                    path,
-                    bodyAsStr,
-                    headerParams,
-                    queryParams,
-                    localVarContentType,
-                    null,
-                    responseListener,
-                    errorListener)
-            {{/returnType}}
-
+            requestQueue.value.add(request)
         }
     }
     {{/operation}}

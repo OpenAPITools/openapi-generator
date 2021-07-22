@@ -101,21 +101,7 @@ class ApiClient(val context: Context) {
         throw RuntimeException("No API key authentication configured!")
     }
 
-    /**
-     * Update query and header parameters based on authentication settings.
-     *
-     * @param authNames The authentications to apply
-     */
-    private fun updateParamsForAuth(
-        authNames: Array<String>,
-        queryParams: List<Pair<String, String>>?,
-        headerParams: Map<String, String>
-    ) {
-        for (authName in authNames) {
-            val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
-            auth.applyToParams(queryParams?.toMutableList()!!, headerParams?.toMutableMap())
-        }
-    }
+
 
 
     fun <T> invokeApi(request: GsonRequest<T>) {
