@@ -31,7 +31,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}FromJSONTyped(json, true){{^-last}}, {{/-last}}{{/oneOf}} };
+    return {{#oneOf}}{{{.}}}FromJSONTyped(json, true){{^-last}} || {{/-last}}{{/oneOf}};
 {{/discriminator}}
 }
 
@@ -53,6 +53,6 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     }
 {{/discriminator}}
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+    return {{#oneOf}}{{{.}}}ToJSON(value as {{{.}}}){{^-last}} || {{/-last}}{{/oneOf}} };
 {{/discriminator}}
 }
