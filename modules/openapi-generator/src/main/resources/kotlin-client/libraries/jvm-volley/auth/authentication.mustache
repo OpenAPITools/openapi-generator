@@ -6,5 +6,5 @@ import kotlin.collections.MutableList
 
 public interface Authentication {
   /** Apply authentication settings to header and query params. */
-  fun applyToParams(queryParams: MutableList<Pair<String, String>>, headerParams: MutableMap<String, String>)
+  fun applyToParams(queryParams: MutableMap<String, String>, headerParams: MutableMap<String, String>)
 }

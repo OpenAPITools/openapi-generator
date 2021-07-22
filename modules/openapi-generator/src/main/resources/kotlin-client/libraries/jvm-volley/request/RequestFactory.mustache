@@ -238,13 +238,17 @@ class RequestFactory {
         */
         private fun updateParamsForAuth(
             authNames: Array<String>,
-            queryParams: List<Pair<String, String>>?,
+            queryParams: Map<String, String>,
             headerParams: Map<String, String>
-        ) {
+        ) : Pair<Map<String, String>, Map<String, String>>  {
+            val updatedQueryParams = queryParams.toMutableMap()
+            val updatedHeaderParams = headerParams.toMutableMap()
+
             for (authName in authNames) {
                 val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
-                auth.applyToParams(queryParams?.toMutableList()!!, headerParams?.toMutableMap())
+                auth.applyToParams(updatedQueryParams, updatedHeaderParams)
             }
+            return updatedQueryParams.toMap() to updatedHeaderParams.toMap()
         }
 
         private fun getMethodPreconditionCheck() {
@@ -265,15 +269,15 @@ class RequestFactory {
                authNames: Array<String>?,
                responseListener: Response.Listener<T>,
                errorListener: Response.ErrorListener): Request<T> {
-                updateParamsForAuth(authNames, params, headers)
+               val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
             // Pivot on the method (verb), and whether parameters are optional
             return when(method) {
                 Request.Method.GET -> {
                     getMethodPreconditionCheck()
                     GsonRequest<T>(method, url,
                         bodyAsStr,
-                        headers,
-                        params,
+                        updatedParams.second,
+                        updatedParams.first,
                         contentTypeForBody,
                         encodingForParams,
                         responseListener,

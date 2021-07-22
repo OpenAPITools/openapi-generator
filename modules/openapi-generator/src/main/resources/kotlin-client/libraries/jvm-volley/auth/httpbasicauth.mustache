@@ -9,7 +9,7 @@ class HttpBasicAuth: Authentication {
     var username: String? = null
     var password: String? = null
 
-    override fun applyToParams(queryParams: MutableList<Pair<String, String>>, headerParams: MutableMap<String, String>) {
+    override fun applyToParams(queryParams: MutableMap<String, String>, headerParams: MutableMap<String, String>) {
         val str = username ?: "" + ":" + password ?: ""
         headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.toByteArray(), Base64.DEFAULT))
     }

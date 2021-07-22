@@ -8,7 +8,7 @@ class ApiKeyAuth(private val location: String, val paramName: String) : Authenti
     var apiKey: String? = null
     var apiKeyPrefix: String? = null
 
-    override fun applyToParams(queryParams: MutableList<kotlin.Pair<String, String>>, headerParams: MutableMap<String, String>) {
+    override fun applyToParams(queryParams: MutableMap<String, String>, headerParams: MutableMap<String, String>) {
         if (apiKey == null) {
             return
         }
@@ -18,7 +18,7 @@ class ApiKeyAuth(private val location: String, val paramName: String) : Authenti
             apiKey!!
         }
         if ("query" == location) {
-            queryParams.add(paramName to value)
+            queryParams[paramName] = value
         } else if ("header" == location) {
             headerParams[paramName] = value
         }
