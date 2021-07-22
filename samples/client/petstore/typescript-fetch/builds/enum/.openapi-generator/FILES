@@ -6,5 +6,7 @@ models/InlineObject.ts
 models/InlineResponse200.ts
 models/NumberEnum.ts
 models/StringEnum.ts
+models/StringEnumTwo.ts
+models/StringOneOf.ts
 models/index.ts
 runtime.ts
