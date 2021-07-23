@@ -596,6 +596,10 @@ public class SpringCodegenTest {
         codegen.setUseBeanValidation(useBeanValidation);
         codegen.setPerformBeanValidation(performBeanValidation);
         codegen.setJava8(java8);
+        if(!java8){
+            //the default date library is java8, by default it activates java8 mode
+            codegen.setDateLibrary("legacy");
+        }
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);

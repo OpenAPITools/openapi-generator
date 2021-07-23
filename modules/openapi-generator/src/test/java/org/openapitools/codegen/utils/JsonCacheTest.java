@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
 import org.openapitools.codegen.utils.JsonCache.Root.MergePolicy;
 import org.testng.annotations.BeforeMethod;
@@ -216,7 +215,6 @@ public class JsonCacheTest {
         ObjectMapper mapper = root.getMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.registerModule(new JodaModule());
-        mapper.registerModule(new ThreeTenModule());
         cache = root.child("/JsonCacheTest");
         reload();
     }
@@ -307,11 +305,6 @@ public class JsonCacheTest {
     }
 
     @Test
-    public void testAddDateTimeThreeTen() throws Exception {
-        testAddDate0(DATETIME_OFFSET_STR, org.threeten.bp.OffsetDateTime.parse(DATETIME_OFFSET_STR));
-    }
-
-    @Test
     public void testAddDouble() throws Exception {
         cache.add("/array/1", 5.1D);
         assertEquals(5, cache.size("/array"), "Array size incorrect after add(path, value)");
@@ -374,11 +367,6 @@ public class JsonCacheTest {
     @Test
     public void testAddLocalDateJoda() throws Exception {
         testAddDate0(DATE_STR, org.joda.time.LocalDate.parse(DATE_STR));
-    }
-
-    @Test
-    public void testAddLocalDateThreeTen() throws Exception {
-        testAddDate0(DATE_STR, org.threeten.bp.LocalDate.parse(DATE_STR));
     }
 
     @Test
@@ -1189,11 +1177,6 @@ public class JsonCacheTest {
     }
 
     @Test
-    public void testSetDateTime310() throws Exception {
-        testSetDate0(DATETIME_OFFSET_STR, org.threeten.bp.OffsetDateTime.parse(DATETIME_OFFSET_STR));
-    }
-
-    @Test
     public void testSetDateTimeJava8() throws Exception {
         testSetDate0(DATETIME_OFFSET_STR, java.time.OffsetDateTime.parse(DATETIME_OFFSET_STR));
     }
@@ -1236,11 +1219,6 @@ public class JsonCacheTest {
         assertEquals(22, cache.getInt("/object/nestedNumber"), "nested getInt() returned incorrect result;");
 
         assertTrue(root.isDirty(), "cache should be dirty after integer writes;");
-    }
-
-    @Test
-    public void testSetLocalDate310() throws Exception {
-        testSetDate0(DATE_STR, org.threeten.bp.LocalDate.parse(DATE_STR));
     }
 
     @Test

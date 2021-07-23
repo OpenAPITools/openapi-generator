@@ -693,12 +693,6 @@
       ]
     },
     {
-      "input": "kotlin-client-threetenbp.sh",
-      "matches": [
-        "Client: Kotlin"
-      ]
-    },
-    {
       "input": "kotlin-server-petstore.sh",
       "matches": [
         "Server: Kotlin"

@@ -1389,7 +1389,6 @@
                 <module>samples/client/petstore/kotlin-retrofit2</module>
                 <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
                 <module>samples/client/petstore/kotlin-string</module>
-                <module>samples/client/petstore/kotlin-threetenbp</module>
                 <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->

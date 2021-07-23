@@ -114,9 +114,6 @@ ext {
     {{/openApiNullable}}
     jersey_version = "2.27"
     junit_version = "4.13.1"
-    {{#threetenbp}}
-    threetenbp_version = "2.9.10"
-    {{/threetenbp}}
     {{#hasOAuthMethods}}
     scribejava_apis_version = "6.9.0"
     {{/hasOAuthMethods}}
@@ -151,9 +148,6 @@ dependencies {
     {{#hasHttpSignatureMethods}}
     implementation "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     {{/hasHttpSignatureMethods}}
-    {{#threetenbp}}
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
-    {{/threetenbp}}
     {{^java8}}
     implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}

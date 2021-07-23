@@ -20,14 +20,8 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 {{/kotlinx_serialization}}
-{{^threetenbp}}
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-{{/threetenbp}}
-{{#threetenbp}}
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.format.DateTimeFormatter
-{{/threetenbp}}
 
 {{#moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class OffsetDateTimeAdapter {

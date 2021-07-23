@@ -9,16 +9,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{#gson}}
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-{{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
-{{/threetenbp}}
-{{#threetenbp}}
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.OffsetDateTime
-{{/threetenbp}}
 import java.util.UUID
 {{/gson}}
 {{#jackson}}
@@ -31,16 +24,9 @@ import java.util.Date
 {{#kotlinx_serialization}}
 import java.math.BigDecimal
 import java.math.BigInteger
-{{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
-{{/threetenbp}}
-{{#threetenbp}}
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.OffsetDateTime
-{{/threetenbp}}
 import java.util.UUID
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule

@@ -24,9 +24,6 @@ lazy val root = (project in file(".")).
       {{#java8}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.9.10" % "compile",
       {{/java8}}
-      {{#threetenbp}}
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
-      {{/threetenbp}}
       {{#hasOAuthMethods}}
       "com.github.scribejava" % "scribejava-apis" % "6.9.0" % "compile",
       {{/hasOAuthMethods}}

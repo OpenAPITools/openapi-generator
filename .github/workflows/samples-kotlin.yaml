@@ -39,7 +39,6 @@ jobs:
           - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
           - samples/client/petstore/kotlin-retrofit2-rx3
           - samples/client/petstore/kotlin-string
-          - samples/client/petstore/kotlin-threetenbp
           - samples/client/petstore/kotlin-uppercase-enum
     steps:
       - uses: actions/checkout@v2

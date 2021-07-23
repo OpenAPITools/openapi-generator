@@ -139,9 +139,6 @@ ext {
     {{#joda}}
     jodatime_version = "2.9.9"
     {{/joda}}
-    {{#threetenbp}}
-    threetenbp_version = "1.4.0"
-    {{/threetenbp}}
     json_fire_version = "1.8.0"
 }
 
@@ -170,9 +167,6 @@ dependencies {
     {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
-    {{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-    {{/threetenbp}}
     {{#usePlayWS}}
     {{#play26}}
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"

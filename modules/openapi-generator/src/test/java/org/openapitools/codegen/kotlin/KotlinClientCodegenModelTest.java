@@ -107,50 +107,6 @@ public class KotlinClientCodegenModelTest {
         Assert.assertFalse(property3.isContainer);
     }
 
-    @Test(description = "convert a simple model: threetenbp")
-    public void selectDateLibraryAsThreetenbp() {
-        final Schema schema = getSimpleSchema();
-        final KotlinClientCodegen codegen = new KotlinClientCodegen();
-        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
-        codegen.processOpts();
-
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setOpenAPI(openAPI);
-        final CodegenModel cm = codegen.fromModel("sample", schema);
-
-        final CodegenProperty property3 = cm.vars.get(2);
-        Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "org.threeten.bp.OffsetDateTime");
-        Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "org.threeten.bp.OffsetDateTime");
-        Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isContainer);
-    }
-
-    @Test(description = "convert a simple model: threetenbp-localdatetime")
-    public void selectDateLibraryAsThreetenbpLocalDateTime() {
-        final Schema schema = getSimpleSchema();
-        final KotlinClientCodegen codegen = new KotlinClientCodegen();
-        String value = KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value;
-        Assert.assertEquals(value, "threetenbp-localdatetime");
-        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value);
-        codegen.processOpts();
-
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setOpenAPI(openAPI);
-        final CodegenModel cm = codegen.fromModel("sample", schema);
-
-        final CodegenProperty property3 = cm.vars.get(2);
-        Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "org.threeten.bp.LocalDateTime");
-        Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
-        Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isContainer);
-    }
-
     @Test(description = "convert a simple model: date string")
     public void selectDateLibraryAsString() {
         final Schema schema = getSimpleSchema();

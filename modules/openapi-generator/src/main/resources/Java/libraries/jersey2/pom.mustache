@@ -312,13 +312,6 @@
             <version>${jackson-version}</version>
         </dependency>
         {{/java8}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${threetenbp-version}</version>
-        </dependency>
-        {{/threetenbp}}
         {{^java8}}
         <!-- Base64 encoding that works in both JVM and Android -->
         <dependency>
@@ -376,9 +369,6 @@
         <jackson-version>2.10.5</jackson-version>
         <jackson-databind-version>2.10.5.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        {{#threetenbp}}
-        <threetenbp-version>2.9.10</threetenbp-version>
-        {{/threetenbp}}
         <javax-annotation-version>1.3.2</javax-annotation-version>
         <junit-version>4.13.1</junit-version>
         {{#hasHttpSignatureMethods}}

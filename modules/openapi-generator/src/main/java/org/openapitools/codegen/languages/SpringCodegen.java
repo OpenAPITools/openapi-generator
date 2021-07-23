@@ -413,15 +413,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
 
-        if ("threetenbp".equals(dateLibrary)) {
-            supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "CustomInstantDeserializer.java"));
-            if (SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library)) {
-                supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
-            }
-        }
-
         if ((!this.delegatePattern && this.java8) || this.delegateMethod) {
             additionalProperties.put("jdk8-no-delegate", true);
         }

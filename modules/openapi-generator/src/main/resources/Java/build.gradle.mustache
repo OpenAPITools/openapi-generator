@@ -129,9 +129,6 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
-    {{#threetenbp}}
-    jackson_threetenbp_version = "2.9.10"
-    {{/threetenbp}}
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
@@ -155,9 +152,6 @@ dependencies {
     {{#java8}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
-    {{#threetenbp}}
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
-    {{/threetenbp}}
     {{^java8}}
     implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}

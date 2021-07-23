@@ -105,9 +105,6 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
-    {{#threetenbp}}
-    jackson_threetenbp_version = "2.9.10"
-    {{/threetenbp}}
     feign_version = "10.11"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
@@ -134,9 +131,6 @@ dependencies {
     {{#java8}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
-    {{#threetenbp}}
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
-    {{/threetenbp}}
     implementation "com.brsanthu:migbase64:2.2"
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"

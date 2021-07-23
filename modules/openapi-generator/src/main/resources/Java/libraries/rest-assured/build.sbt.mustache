@@ -29,9 +29,6 @@ lazy val root = (project in file(".")).
       {{#java8}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.10.3",
       {{/java8}}
-      {{#threetenbp}}
-      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.10.0",
-      {{/threetenbp}}
 {{/jackson}}
 {{#gson}}
       "com.google.code.gson" % "gson" % "2.8.6",
@@ -40,9 +37,6 @@ lazy val root = (project in file(".")).
 {{#joda}}
       "joda-time" % "joda-time" % "2.10.5" % "compile",
 {{/joda}}
-{{#threetenbp}}
-      "org.threeten" % "threetenbp" % "1.4.3" % "compile",
-{{/threetenbp}}
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
 {{#useBeanValidation}}
       "javax.validation" % "validation-api" % "2.0.1.Final" % "compile",

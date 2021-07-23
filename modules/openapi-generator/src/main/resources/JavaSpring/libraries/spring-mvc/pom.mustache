@@ -222,13 +222,6 @@
             <version>${jackson-version}</version>
         </dependency>
         {{/joda}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${jackson-threetenbp-version}</version>
-        </dependency>
-        {{/threetenbp}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -285,7 +278,6 @@
         <servlet-api-version>2.5</servlet-api-version>
         <springfox-version>2.8.0</springfox-version>
         <jackson-version>2.9.9</jackson-version>
-        <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}

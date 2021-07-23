@@ -100,7 +100,6 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
-    threetenbp_version = "2.9.10"
     resteasy_version = "4.5.11.Final"
     junit_version = "4.13"
 }
@@ -114,7 +113,6 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}

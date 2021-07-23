@@ -13,12 +13,6 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{/java8}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
-{{#threetenbp}}
-import org.threeten.bp.*;
-{{/threetenbp}}
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.AbstractHttpContent;
 import com.google.api.client.http.HttpRequestFactory;
@@ -49,13 +43,6 @@ public class ApiClient {
         {{#java8}}
         objectMapper.registerModule(new JavaTimeModule());
         {{/java8}}
-        {{#threetenbp}}
-        ThreeTenModule module = new ThreeTenModule();
-        module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-        module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-        module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-        objectMapper.registerModule(module);
-        {{/threetenbp}}
         {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         objectMapper.registerModule(jnm);
