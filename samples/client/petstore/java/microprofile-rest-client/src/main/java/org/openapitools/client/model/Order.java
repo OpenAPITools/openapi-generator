@@ -12,7 +12,7 @@
 
 package org.openapitools.client.model;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
@@ -37,7 +37,7 @@ public class Order  {
 
   private Integer quantity;
 
-  private Date shipDate;
+  private OffsetDateTime shipDate;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -156,18 +156,18 @@ public class Order  {
    * @return shipDate
   **/
   @JsonbProperty("shipDate")
-  public Date getShipDate() {
+  public OffsetDateTime getShipDate() {
     return shipDate;
   }
 
   /**
     * Set shipDate
   **/
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
-  public Order shipDate(Date shipDate) {
+  public Order shipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }

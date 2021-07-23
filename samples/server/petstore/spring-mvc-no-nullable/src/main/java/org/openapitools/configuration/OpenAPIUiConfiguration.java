@@ -81,7 +81,6 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
         .indentOutput(true)
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         
-        
         .dateFormat(new RFC3339DateFormat());
   }
 

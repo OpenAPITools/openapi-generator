@@ -14,7 +14,6 @@ pom.xml
 settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
-src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ParamExpander.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java

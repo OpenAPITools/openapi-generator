@@ -146,7 +146,7 @@ public class ObjectWithDeprecatedFields {
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
-      this.bars = new ArrayList<String>();
+      this.bars = new ArrayList<>();
     }
     this.bars.add(barsItem);
     return this;

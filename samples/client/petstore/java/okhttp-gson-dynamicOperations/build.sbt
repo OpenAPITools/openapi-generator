@@ -15,7 +15,6 @@ lazy val root = (project in file(".")).
       "com.google.code.gson" % "gson" % "2.8.6",
       "org.apache.commons" % "commons-lang3" % "3.10",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
-      "org.threeten" % "threetenbp" % "1.4.3" % "compile",
       "io.swagger.parser.v3" % "swagger-parser-v3" "2.0.23" % "compile"
       "io.gsonfire" % "gson-fire" % "1.8.3" % "compile",
       "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
