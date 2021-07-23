@@ -287,6 +287,9 @@ public class CodegenConstants {
     public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
     public static final String GENERATE_ROOM_MODELS_DESC = "Generate Room database models in addition to API models";
 
+    public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
+    public static final String ROOM_MODEL_PACKAGE_DESC = "package for generated room models";
+
     // Not user-configurable. System provided for use in templates.
 
     public static final String GENERATE_APIS = "generateApis";

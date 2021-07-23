@@ -57,6 +57,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String groupId = "org.openapitools";
     protected String packageName = "org.openapitools";
     protected String apiSuffix = "Api";
+    protected String roomModelPackage = "";
 
     protected String sourceFolder = "src/main/kotlin";
     protected String testFolder = "src/test/kotlin";
@@ -399,6 +400,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             this.setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE))
                 this.setModelPackage(packageName + ".models");
+            if (!additionalProperties.containsKey(CodegenConstants.ROOM_MODEL_PACKAGE))
+                this.setRoomModelPackage(packageName + ".models.room");
             if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE))
                 this.setApiPackage(packageName + ".apis");
         } else {
@@ -460,6 +463,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
+        additionalProperties.put(CodegenConstants.ROOM_MODEL_PACKAGE, roomModelPackage);
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -509,10 +513,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.serializableModel = serializableModel;
     }
 
-    public boolean getGenerateRoomModels() { return generateRoomModels; }
-
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
+    }
+
+    public void setRoomModelPackage(String roomModelPackage) {
+        this.roomModelPackage = roomModelPackage;
     }
 
     public boolean nonPublicApi() {
