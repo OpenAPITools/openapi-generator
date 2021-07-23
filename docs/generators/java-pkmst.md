@@ -18,7 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |basePackage|base package for java source code| |null|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd></dl>|threetenbp|
+|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use java8</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd></dl>|java8|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
