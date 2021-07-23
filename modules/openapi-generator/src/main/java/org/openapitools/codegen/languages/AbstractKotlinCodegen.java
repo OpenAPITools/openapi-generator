@@ -66,6 +66,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
     protected boolean needsDataClassBody = false;
+    protected boolean generateRoomModels = false;
 
     protected boolean nonPublicApi = false;
 
@@ -206,6 +207,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC));
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_ROOM_MODELS, CodegenConstants.GENERATE_ROOM_MODELS_DESC, false));
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
     }
@@ -446,6 +449,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ROOM_MODELS)) {
+            this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_ROOM_MODELS));
+        } else {
+            additionalProperties.put(CodegenConstants.GENERATE_ROOM_MODELS, generateRoomModels);
+        }
+
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
         additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
 
@@ -498,6 +507,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSerializableModel(boolean serializableModel) {
         this.serializableModel = serializableModel;
+    }
+
+    public boolean getGenerateRoomModels() { return generateRoomModels; }
+
+    public void setGenerateRoomModels(Boolean generateRoomModels) {
+        this.generateRoomModels = generateRoomModels;
     }
 
     public boolean nonPublicApi() {
