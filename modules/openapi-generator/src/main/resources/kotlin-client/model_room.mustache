@@ -1,0 +1,19 @@
+{{>licenseInfo}}
+package {{roomModelPackage}}
+
+import androidx.room.Entity
+
+{{#models}}
+{{#model}}
+@Entity(tableName = "{{classname}}")
+/**
+* Room model for {{{description}}}
+{{#allVars}}
+* @param {{{name}}} {{{description}}}
+{{/allVars}}
+*/
+data class {{classname}}RoomModel (
+    val id: Int) {
+}
+{{/model}}
+{{/models}}

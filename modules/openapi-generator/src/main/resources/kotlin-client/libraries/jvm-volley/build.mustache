@@ -95,6 +95,10 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.robolectric:robolectric:${robolectric_version}"
     testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
+    {{#generateRoomModels}}
+    annotationProcessor "androidx.room:room-runtime:2.3.0-alpha03"
+    implementation "androidx.room:room-runtime:2.3.0-alpha03"
+    {{/generateRoomModels}}
 }
 
 afterEvaluate {

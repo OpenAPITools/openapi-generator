@@ -41,6 +41,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -389,6 +390,20 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    private void generateRoomModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+        if (!(config instanceof KotlinClientCodegen)) return;
+        KotlinClientCodegen kotlinConfig = (KotlinClientCodegen) config;
+        if (kotlinConfig.getGenerateRoomModels()) {
+            for (String templateName : kotlinConfig.getRoomModelTemplateFiles().keySet()) {
+                String filename = kotlinConfig.roomModelFilename(templateName, modelName);
+                File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
+                if (written != null) {
+                    files.add(written);
+                }
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
@@ -533,6 +548,11 @@ public class DefaultGenerator implements Generator {
 
                 // to generate model files
                 generateModel(files, models, modelName);
+
+                // to generate room model files (Kotlin only)
+                if (config instanceof KotlinClientCodegen) {
+                    generateRoomModel(files, models, modelName);
+                }
 
                 // to generate model test files
                 generateModelTests(files, models, modelName);

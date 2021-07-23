@@ -59,6 +59,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiSuffix = "Api";
     protected String roomModelPackage = "";
 
+    protected Map<String, String> roomModelTemplateFiles = new HashMap<String, String>();
     protected String sourceFolder = "src/main/kotlin";
     protected String testFolder = "src/test/kotlin";
 
@@ -513,6 +514,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.serializableModel = serializableModel;
     }
 
+    public boolean getGenerateRoomModels() { return generateRoomModels; }
+
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
     }
@@ -520,6 +523,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public void setRoomModelPackage(String roomModelPackage) {
         this.roomModelPackage = roomModelPackage;
     }
+
+    public Map<String, String> getRoomModelTemplateFiles() { return roomModelTemplateFiles; }
 
     public boolean nonPublicApi() {
         return nonPublicApi;
@@ -698,6 +703,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toModelFilename(String name) {
         // Should be the same as the model name
         return toModelName(name);
+    }
+
+    public String roomModelFileFolder() {
+        return outputFolder + File.separator + sourceFolder + File.separator + roomModelPackage.replace('.', File.separatorChar);
+    }
+
+    public String roomModelFilename(String templateName, String modelName) {
+        String suffix = "RoomModel" + roomModelTemplateFiles.get(templateName);
+        return roomModelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**
