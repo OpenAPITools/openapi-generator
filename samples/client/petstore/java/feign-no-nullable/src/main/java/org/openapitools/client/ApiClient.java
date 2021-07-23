@@ -19,11 +19,11 @@ import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
-import org.openapitools.client.auth.ApiErrorDecoder;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
+import org.openapitools.client.auth.ApiErrorDecoder;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
 import org.openapitools.client.auth.OAuthFlow;
