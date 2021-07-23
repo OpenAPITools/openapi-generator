@@ -52,6 +52,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json', 'application/xml'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -368,6 +369,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json', 'application/xml'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -435,6 +437,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -506,6 +509,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['multipart/form-data'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -581,6 +585,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['multipart/form-data'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}

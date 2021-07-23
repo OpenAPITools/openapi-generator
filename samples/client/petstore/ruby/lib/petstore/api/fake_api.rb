@@ -112,6 +112,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json', 'application/xml'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
       header_params[:'header_1'] = opts[:'header_1'] if !opts[:'header_1'].nil?
 
       # form parameters
@@ -174,6 +175,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -235,6 +237,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -296,6 +299,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -357,6 +361,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -422,6 +427,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -481,6 +487,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['image/png'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -544,6 +551,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -612,6 +620,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -679,6 +688,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -836,6 +846,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -961,6 +972,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
       header_params[:'enum_header_string_array'] = @api_client.build_collection_param(opts[:'enum_header_string_array'], :csv) if !opts[:'enum_header_string_array'].nil?
       header_params[:'enum_header_string'] = opts[:'enum_header_string'] if !opts[:'enum_header_string'].nil?
 
@@ -1113,6 +1125,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1182,6 +1195,7 @@ module Petstore
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?
           header_params['Content-Type'] = content_type
+      end
 
       # form parameters
       form_params = opts[:form_params] || {}
