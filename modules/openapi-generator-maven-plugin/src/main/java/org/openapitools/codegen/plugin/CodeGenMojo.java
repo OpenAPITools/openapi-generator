@@ -500,7 +500,13 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (isNotEmpty(inputSpec)) {
-                configurator.setInputSpec(inputSpec);
+                URL url = inputSpecRemoteUrl();
+
+                if ((! inputSpecFile.exists()) && url != null) {
+                    configurator.setInputSpec(url.toString());
+                } else {
+                    configurator.setInputSpec(inputSpec);
+                }
             }
 
             if (isNotEmpty(gitHost)) {
@@ -828,12 +834,17 @@ public class CodeGenMojo extends AbstractMojo {
      * Try to parse inputSpec setting string into URL
      * @return A valid URL or null if inputSpec is not a valid URL
      */
-    private URL inputSpecRemoteUrl(){
-        try {
-            return new URI(inputSpec).toURL();
-        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
-            return null;
+    private URL inputSpecRemoteUrl() {
+        URL url = getClass().getClassLoader().getResource(inputSpec);
+
+        if (url == null) {
+            try {
+                url = new URI(inputSpec).toURL();
+            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+            }
         }
+
+        return url;
     }
 
     /**
