@@ -1,0 +1,11 @@
+<settings>
+    <activeProfiles>
+        <activeProfile>default</activeProfile>
+    </activeProfiles>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <localRepository>${basedir}/local-repo</localRepository>
+        </profile>
+    </profiles>
+</settings>
