@@ -94,7 +94,7 @@ public class StoreApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -133,7 +133,7 @@ public class StoreApi {
 
         ParameterizedTypeReference<Map<String, Integer>> returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
         return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -186,7 +186,7 @@ public class StoreApi {
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Place an order for a pet
      * 
@@ -234,5 +234,5 @@ public class StoreApi {
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
 }
