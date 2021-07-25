@@ -213,7 +213,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
         throw new RuntimeException("No API key authentication configured!");
     }
-  
+
     /**
      * Helper method to set API key prefix for the first API key authentication.
      *
@@ -228,7 +228,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
         throw new RuntimeException("No API key authentication configured!");
     }
-  
+
 
     /**
      * Helper method to set access token for the first OAuth2 authentication.
