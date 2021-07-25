@@ -1,5 +1,7 @@
 {
-    "name": "{{gitUserId}}/{{gitRepoId}}",
+    {{#composerPackageName}}
+    "name": "{{composerPackageName}}",
+    {{/composerPackageName}}
     {{#artifactVersion}}
     "version": "{{artifactVersion}}",
     {{/artifactVersion}}
