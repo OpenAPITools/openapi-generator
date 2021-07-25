@@ -96,7 +96,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/pet", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Deletes a pet
      * 
@@ -149,7 +149,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/pet/{petId}", HttpMethod.DELETE, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -199,7 +199,7 @@ public class PetApi {
 
         ParameterizedTypeReference<List<Pet>> returnType = new ParameterizedTypeReference<List<Pet>>() {};
         return apiClient.invokeAPI("/pet/findByStatus", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -253,7 +253,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Set<Pet>> returnType = new ParameterizedTypeReference<Set<Pet>>() {};
         return apiClient.invokeAPI("/pet/findByTags", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Find pet by ID
      * Returns a single pet
@@ -306,7 +306,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Pet> returnType = new ParameterizedTypeReference<Pet>() {};
         return apiClient.invokeAPI("/pet/{petId}", HttpMethod.GET, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Update an existing pet
      * 
@@ -357,7 +357,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/pet", HttpMethod.PUT, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Updates a pet in the store with form data
      * 
@@ -414,7 +414,7 @@ public class PetApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/pet/{petId}", HttpMethod.POST, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * uploads an image
      * 
@@ -474,7 +474,7 @@ public class PetApi {
 
         ParameterizedTypeReference<ModelApiResponse> returnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return apiClient.invokeAPI("/pet/{petId}/uploadImage", HttpMethod.POST, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * uploads an image (required)
      * 
@@ -539,5 +539,5 @@ public class PetApi {
 
         ParameterizedTypeReference<ModelApiResponse> returnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return apiClient.invokeAPI("/fake/{petId}/uploadImageWithRequiredFile", HttpMethod.POST, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
 }
