@@ -5,22 +5,22 @@ import 'package:test/test.dart';
 
 void main() {
   Openapi client;
-  DioAdapter server;
+  DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
-    server = DioAdapter.configure(dio: client.dio);
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group(StoreApi, () {
     test('getInventory', () async {
-      server.onGet(
+      tester.onGet(
         '/store/inventory',
-        (request) => request.reply(200, {
+        (server) => server.reply(200, {
           'foo': 5,
           'bar': 999,
           'baz': 0,

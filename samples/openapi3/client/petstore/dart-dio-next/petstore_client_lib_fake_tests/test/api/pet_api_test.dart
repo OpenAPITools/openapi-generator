@@ -11,23 +11,23 @@ void main() {
   const photo2 = 'https://localhost/photo2.jpg';
 
   Openapi client;
-  DioAdapter server;
+  DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
-    server = DioAdapter.configure(dio: client.dio);
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group(PetApi, () {
     group('getPetById', () {
       test('complete', () async {
-        server.onGet(
+        tester.onGet(
           '/pet/5',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'id': 5,
             'name': 'Paula',
             'status': 'sold',
@@ -66,9 +66,9 @@ void main() {
       });
 
       test('minimal', () async {
-        server.onGet(
+        tester.onGet(
           '/pet/5',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'id': 5,
             'name': 'Paula',
             'photoUrls': <String>[],
@@ -90,9 +90,9 @@ void main() {
 
     group('addPet', () {
       test('complete', () async {
-        server.onPost(
+        tester.onPost(
           '/pet',
-          (request) => request.reply(200, ''),
+          (server) => server.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
@@ -144,9 +144,9 @@ void main() {
       });
 
       test('minimal', () async {
-        server.onPost(
+        tester.onPost(
           '/pet',
-          (request) => request.reply(200, ''),
+          (server) => server.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
@@ -169,9 +169,9 @@ void main() {
 
     group('getMultiplePets', () {
       test('findByStatus', () async {
-        server.onRoute(
+        tester.onRoute(
           '/pet/findByStatus',
-          (request) => request.reply(200, [
+          (server) => server.reply(200, [
             {
               'id': 5,
               'name': 'Paula',
@@ -225,9 +225,9 @@ void main() {
           contentType: MediaType.parse('image/png'),
         );
 
-        server.onRoute(
+        tester.onRoute(
           '/fake/5/uploadImageWithRequiredFile',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'code': 200,
             'type': 'success',
             'message': 'File uploaded',
@@ -235,8 +235,7 @@ void main() {
           request: Request(
             method: RequestMethods.post,
             headers: <String, dynamic>{
-              Headers.contentTypeHeader:
-                  Matchers.pattern('multipart/form-data'),
+              Headers.contentTypeHeader: Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
             data: Matchers.formData(
@@ -262,9 +261,9 @@ void main() {
           contentType: MediaType.parse('image/png'),
         );
 
-        server.onRoute(
+        tester.onRoute(
           '/fake/3/uploadImageWithRequiredFile',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'code': 200,
             'type': 'success',
             'message': 'File uploaded',
@@ -272,8 +271,7 @@ void main() {
           request: Request(
             method: RequestMethods.post,
             headers: <String, dynamic>{
-              Headers.contentTypeHeader:
-                  Matchers.pattern('multipart/form-data'),
+              Headers.contentTypeHeader: Matchers.pattern('multipart/form-data'),
               Headers.contentLengthHeader: Matchers.integer,
             },
             data: Matchers.formData(

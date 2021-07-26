@@ -5,24 +5,24 @@ import 'package:test/test.dart';
 
 void main() {
   Openapi client;
-  DioAdapter server;
+  DioAdapter tester;
 
   setUp(() {
     client = Openapi(dio: Dio());
-    server = DioAdapter.configure(dio: client.dio);
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group('Authentication', () {
     test('http_basic', () async {
       client.setBasicAuth('http_basic_test', 'foo', 'bar');
 
-      server.onPost(
+      tester.onPost(
         '/fake',
-        (request) => request.reply(200, null),
+        (server) => server.reply(200, null),
         data: {
           'number': '1',
           'double': '1.1',
@@ -49,9 +49,9 @@ void main() {
     test('bearer', () async {
       client.setBearerAuth('bearer_test', 'foobar');
 
-      server.onDelete(
+      tester.onDelete(
         '/fake',
-        (request) => request.reply(200, null),
+        (server) => server.reply(200, null),
         headers: <String, dynamic>{
           'required_boolean_group': 'false',
           'authorization': Matchers.pattern('Bearer foobar'),
@@ -74,9 +74,9 @@ void main() {
     test('api_key', () async {
       client.setApiKey('api_key', 'SECRET_API_KEY');
 
-      server.onGet(
+      tester.onGet(
         '/store/inventory',
-        (request) => request.reply(200, {
+        (server) => server.reply(200, {
           'foo': 999,
         }),
         headers: <String, dynamic>{
