@@ -150,7 +150,7 @@ public class {{classname}} {
 
         {{#returnType}}ParameterizedTypeReference<{{{returnType}}}> returnType = new ParameterizedTypeReference<{{{returnType}}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
         return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, {{#hasPathParams}}uriVariables{{/hasPathParams}}{{^hasPathParams}}Collections.<String, Object>emptyMap(){{/hasPathParams}}, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     {{/operation}}
 }
 {{/operations}}

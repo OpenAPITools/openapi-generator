@@ -89,7 +89,7 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Creates list of users with given input array
      * 
@@ -132,7 +132,7 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user/createWithArray", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Creates list of users with given input array
      * 
@@ -175,7 +175,7 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user/createWithList", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -223,7 +223,7 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user/{username}", HttpMethod.DELETE, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Get user by user name
      * 
@@ -276,7 +276,7 @@ public class UserApi {
 
         ParameterizedTypeReference<User> returnType = new ParameterizedTypeReference<User>() {};
         return apiClient.invokeAPI("/user/{username}", HttpMethod.GET, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Logs user into the system
      * 
@@ -334,7 +334,7 @@ public class UserApi {
 
         ParameterizedTypeReference<String> returnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/user/login", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Logs out current logged in user session
      * 
@@ -370,7 +370,7 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user/logout", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -425,5 +425,5 @@ public class UserApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/user/{username}", HttpMethod.PUT, uriVariables, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
-      }
+    }
 }
