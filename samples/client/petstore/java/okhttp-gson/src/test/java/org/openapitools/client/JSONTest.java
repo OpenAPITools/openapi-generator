@@ -17,11 +17,11 @@ import java.util.TimeZone;
 
 import okio.ByteString;
 import org.junit.*;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZoneOffset;
-import org.threeten.bp.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.*;
 
@@ -130,7 +130,9 @@ public class JSONTest {
     public void testDefaultDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
-        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        order.setShipDate(offsetDateTime);
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();
@@ -142,7 +144,9 @@ public class JSONTest {
     public void testCustomDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
         final String dateStr = "2015-11-07T14:11:05-02:00";
-        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        order.setShipDate(offsetDateTime);
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();
