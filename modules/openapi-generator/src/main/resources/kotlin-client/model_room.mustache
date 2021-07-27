@@ -18,7 +18,7 @@ import {{modelPackage}}.*
 */
 data class {{classname}}RoomModel (
     @PrimaryKey(autoGenerate = true) val {{classname}}Id: Int,
-    {{#allVars}}{{#items.isPrimitiveType}}var {{{name}}}: {{#isArray}}{{#isList}}{{#uniqueItems}}kotlin.collections.Set{{/uniqueItems}}{{^uniqueItems}}kotlin.collections.List{{/uniqueItems}}{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}},
+    {{#allVars}}{{#items.isPrimitiveType}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}},
     {{/items.isPrimitiveType}}{{/allVars}}
     {{#allVars}}{{^isEnum}}{{^isArray}}var {{{name}}}: {{{dataType}}}{{>model_room_init_var}},
     {{/isArray}}{{/isEnum}}{{/allVars}}
@@ -26,7 +26,7 @@ data class {{classname}}RoomModel (
     {{/isArray}}{{/isEnum}}{{/allVars}}) {
 {{#allVars}}{{#isArray}}{{#isList}}{{^items.isPrimitiveType}}
     @Ignore
-    var {{{name}}}: {{#isArray}}{{#isList}}{{#uniqueItems}}kotlin.collections.Set{{/uniqueItems}}{{^uniqueItems}}kotlin.collections.List{{/uniqueItems}}{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{^items.isPrimitiveType}}{{^items.isModel}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{/isArray}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
+    var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{^items.isPrimitiveType}}{{^items.isModel}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{/isArray}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
 {{/items.isPrimitiveType}}{{/isList}}{{/isArray}}{{/allVars}}
 }
 {{/model}}

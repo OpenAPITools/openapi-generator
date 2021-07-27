@@ -356,6 +356,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
+//            if (generateRoomModels) {
+//                cm.vendorExtensions.put("x-has-data-class-body", true);
+//                break;
+//            }
+
             if (cm.getDiscriminator() != null) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
                 break;
