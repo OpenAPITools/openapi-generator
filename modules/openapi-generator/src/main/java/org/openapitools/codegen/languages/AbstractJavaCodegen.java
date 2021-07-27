@@ -1219,6 +1219,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
         }
+
+        if (openApiNullable) {
+            if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                model.imports.add("JsonNullable");
+                model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
+            }
+        }
     }
 
     @Override
