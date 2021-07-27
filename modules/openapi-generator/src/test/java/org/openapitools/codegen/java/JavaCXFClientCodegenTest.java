@@ -276,7 +276,7 @@ public class JavaCXFClientCodegenTest {
         codegenProperty.isNullable = true;
 
         codegen.postProcessModelProperty(codegenModel, codegenProperty);
-        Assert.assertFalse(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertTrue(codegenModel.imports.contains("JsonNullable"));
         Assert.assertFalse(codegenModel.imports.contains("JsonIgnore"));
         Assert.assertNull(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"));
     }
