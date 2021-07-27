@@ -7,6 +7,7 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/src/serializers.dart';
 import 'package:openapi/src/auth/api_key_auth.dart';
 import 'package:openapi/src/auth/basic_auth.dart';
+import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/another_fake_api.dart';
 import 'package:openapi/src/api/default_api.dart';
@@ -38,6 +39,7 @@ class Openapi {
       this.dio.interceptors.addAll([
         OAuthInterceptor(),
         BasicAuthInterceptor(),
+        BearerAuthInterceptor(),
         ApiKeyAuthInterceptor(),
       ]);
     } else {
@@ -48,6 +50,12 @@ class Openapi {
   void setOAuthToken(String name, String token) {
     if (this.dio.interceptors.any((i) => i is OAuthInterceptor)) {
       (this.dio.interceptors.firstWhere((i) => i is OAuthInterceptor) as OAuthInterceptor).tokens[name] = token;
+    }
+  }
+
+  void setBearerAuth(String name, String token) {
+    if (this.dio.interceptors.any((i) => i is BearerAuthInterceptor)) {
+      (this.dio.interceptors.firstWhere((i) => i is BearerAuthInterceptor) as BearerAuthInterceptor).tokens[name] = token;
     }
   }
 

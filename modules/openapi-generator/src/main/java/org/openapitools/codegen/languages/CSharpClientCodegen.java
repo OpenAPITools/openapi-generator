@@ -537,33 +537,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        super.postProcessOperationsWithModels(objs, allModels);
-        if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation : ops) {
-                    if (operation.returnType != null) {
-                        operation.returnContainer = operation.returnType;
-                        if (this.returnICollection && (
-                                operation.returnType.startsWith("List") ||
-                                        operation.returnType.startsWith("Collection"))) {
-                            // NOTE: ICollection works for both List<T> and Collection<T>
-                            int genericStart = operation.returnType.indexOf("<");
-                            if (genericStart > 0) {
-                                operation.returnType = "ICollection" + operation.returnType.substring(genericStart);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return objs;
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }

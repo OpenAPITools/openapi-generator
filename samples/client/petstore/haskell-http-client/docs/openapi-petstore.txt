@@ -286,10 +286,12 @@ ParamBodyMultipartFormData :: [Part] -> ParamBody
 _mkRequest :: Method -> [ByteString] -> OpenAPIPetstoreRequest req contentType res accept
 _mkParams :: Params
 setHeader :: OpenAPIPetstoreRequest req contentType res accept -> [Header] -> OpenAPIPetstoreRequest req contentType res accept
+addHeader :: OpenAPIPetstoreRequest req contentType res accept -> [Header] -> OpenAPIPetstoreRequest req contentType res accept
 removeHeader :: OpenAPIPetstoreRequest req contentType res accept -> [HeaderName] -> OpenAPIPetstoreRequest req contentType res accept
 _setContentTypeHeader :: forall req contentType res accept. MimeType contentType => OpenAPIPetstoreRequest req contentType res accept -> OpenAPIPetstoreRequest req contentType res accept
 _setAcceptHeader :: forall req contentType res accept. MimeType accept => OpenAPIPetstoreRequest req contentType res accept -> OpenAPIPetstoreRequest req contentType res accept
 setQuery :: OpenAPIPetstoreRequest req contentType res accept -> [QueryItem] -> OpenAPIPetstoreRequest req contentType res accept
+addQuery :: OpenAPIPetstoreRequest req contentType res accept -> [QueryItem] -> OpenAPIPetstoreRequest req contentType res accept
 addForm :: OpenAPIPetstoreRequest req contentType res accept -> Form -> OpenAPIPetstoreRequest req contentType res accept
 _addMultiFormPart :: OpenAPIPetstoreRequest req contentType res accept -> Part -> OpenAPIPetstoreRequest req contentType res accept
 _setBodyBS :: OpenAPIPetstoreRequest req contentType res accept -> ByteString -> OpenAPIPetstoreRequest req contentType res accept
