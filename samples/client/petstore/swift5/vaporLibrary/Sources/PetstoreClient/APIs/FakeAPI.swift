@@ -324,6 +324,10 @@ open class FakeAPI {
             
             struct QueryParams: Content {
                 var query: String
+
+                enum CodingKeys: String, CodingKey {
+                    case query = "query"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(query: query))
             try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: User.defaultContentType))
@@ -605,6 +609,13 @@ open class FakeAPI {
                 var enumQueryString: EnumQueryString_testEnumParameters?
                 var enumQueryInteger: EnumQueryInteger_testEnumParameters?
                 var enumQueryDouble: EnumQueryDouble_testEnumParameters?
+
+                enum CodingKeys: String, CodingKey {
+                    case enumQueryStringArray = "enum_query_string_array"
+                    case enumQueryString = "enum_query_string"
+                    case enumQueryInteger = "enum_query_integer"
+                    case enumQueryDouble = "enum_query_double"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble))
             struct FormParams: Content {
@@ -683,6 +694,13 @@ open class FakeAPI {
                 var requiredInt64Group: Int64
                 var stringGroup: Int?
                 var int64Group: Int64?
+
+                enum CodingKeys: String, CodingKey {
+                    case requiredStringGroup = "required_string_group"
+                    case requiredInt64Group = "required_int64_group"
+                    case stringGroup = "string_group"
+                    case int64Group = "int64_group"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(requiredStringGroup: requiredStringGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, int64Group: int64Group))
             
@@ -846,6 +864,14 @@ open class FakeAPI {
                 var http: [String]
                 var url: [String]
                 var context: [String]
+
+                enum CodingKeys: String, CodingKey {
+                    case pipe = "pipe"
+                    case ioutil = "ioutil"
+                    case http = "http"
+                    case url = "url"
+                    case context = "context"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context))
             

@@ -238,7 +238,7 @@
 		<junit-version>4.8.1</junit-version>
 		<kotlin.version>1.5.10</kotlin.version>
 		<kotlinJvmTarget>1.8</kotlinJvmTarget>
-		<moshi-kotlin.version>1.8.0</moshi-kotlin.version>
+		<moshi-kotlin.version>1.12.0</moshi-kotlin.version>
 		<migbase64.version>2.2</migbase64.version>
 	</properties>
 </project>

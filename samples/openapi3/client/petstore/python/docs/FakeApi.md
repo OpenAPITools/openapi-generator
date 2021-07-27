@@ -454,6 +454,8 @@ with petstore_api.ApiClient() as api_client:
         enum_string_required="UPPER",
         enum_integer=1,
         enum_number=1.1,
+        enum_bool=False,
+        bool_enum=BooleanEnum(True),
         string_enum=StringEnum("placed"),
         integer_enum=IntegerEnum(0),
         string_enum_with_default_value=StringEnumWithDefaultValue("placed"),

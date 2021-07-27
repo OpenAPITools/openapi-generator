@@ -1264,6 +1264,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
+        // this is mostly needed for reference types used as a method's parameters
+        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType.endsWith("?")
+                ? parameter.dataType
+                : parameter.dataType + "?";
+        }
+    }
+
+    @Override
     public void postProcessFile(File file, String fileType) {
         if (file == null) {
             return;

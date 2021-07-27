@@ -278,6 +278,11 @@ open class UserAPI {
             struct QueryParams: Content {
                 var username: String
                 var password: String
+
+                enum CodingKeys: String, CodingKey {
+                    case username = "username"
+                    case password = "password"
+                }
             }
             try localVariableRequest.query.encode(QueryParams(username: username, password: password))
             

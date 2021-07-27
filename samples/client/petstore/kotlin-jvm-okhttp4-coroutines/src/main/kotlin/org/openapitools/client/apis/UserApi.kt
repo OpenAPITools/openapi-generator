@@ -13,6 +13,8 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.User
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
@@ -43,14 +45,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun createUser(body: User) : Unit {
+    suspend fun createUser(body: User) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = createUserRequestConfig(body = body)
 
         val localVarResponse = request<User, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -95,14 +97,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
+    suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
 
         val localVarResponse = request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -147,14 +149,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
+    suspend fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
 
         val localVarResponse = request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -199,14 +201,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun deleteUser(username: kotlin.String) : Unit {
+    suspend fun deleteUser(username: kotlin.String) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteUserRequestConfig(username = username)
 
         val localVarResponse = request<Unit, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -252,14 +254,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getUserByName(username: kotlin.String) : User {
+    suspend fun getUserByName(username: kotlin.String) : User = withContext(Dispatchers.IO) {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
 
         val localVarResponse = request<Unit, User>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as User
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -306,14 +308,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
+    suspend fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String = withContext(Dispatchers.IO) {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
 
         val localVarResponse = request<Unit, kotlin.String>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -362,14 +364,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun logoutUser() : Unit {
+    suspend fun logoutUser() : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = logoutUserRequestConfig()
 
         val localVarResponse = request<Unit, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -414,14 +416,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun updateUser(username: kotlin.String, body: User) : Unit {
+    suspend fun updateUser(username: kotlin.String, body: User) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = updateUserRequestConfig(username = username, body = body)
 
         val localVarResponse = request<User, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
