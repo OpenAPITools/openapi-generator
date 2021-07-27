@@ -31,11 +31,18 @@ type {{classname}} interface {
 	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
 	 @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
 	 @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	{{#isDeprecated}}
+
+	Deprecated
+	{{/isDeprecated}}
 	*/
 	{{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
 
 	// {{nickname}}Execute executes the request{{#returnType}}
 	//  @return {{{.}}}{{/returnType}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
 	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 	{{/operation}}
 }
@@ -75,6 +82,10 @@ func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Reques
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
  @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
  @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+{{#isDeprecated}}
+
+Deprecated
+{{/isDeprecated}}
 */
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
@@ -88,6 +99,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
 
 // Execute executes the request{{#returnType}}
 //  @return {{{.}}}{{/returnType}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}

@@ -71,11 +71,14 @@ type PetApi interface {
 
 	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	 @return ApiFindPetsByTagsRequest
+
+	Deprecated
 	*/
 	FindPetsByTags(ctx _context.Context) ApiFindPetsByTagsRequest
 
 	// FindPetsByTagsExecute executes the request
 	//  @return []Pet
+	// Deprecated
 	FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet, *_nethttp.Response, error)
 
 	/*
@@ -479,6 +482,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFindPetsByTagsRequest
+
+Deprecated
 */
 func (a *PetApiService) FindPetsByTags(ctx _context.Context) ApiFindPetsByTagsRequest {
 	return ApiFindPetsByTagsRequest{
@@ -489,6 +494,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context) ApiFindPetsByTagsRe
 
 // Execute executes the request
 //  @return []Pet
+// Deprecated
 func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
