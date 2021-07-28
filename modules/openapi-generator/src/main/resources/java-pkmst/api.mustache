@@ -55,7 +55,8 @@ public interface {{classname}} {
     {{#headerParams}}{{>implicitHeader}}{{/headerParams}}
     })
     {{/implicitHeaders}}
-    @{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Mapping(
+    @RequestMapping(
+        method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}},
         produces = "{{{vendorExtensions.x-accepts}}}",
         consumes = "{{{vendorExtensions.x-contentType}}}"{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},

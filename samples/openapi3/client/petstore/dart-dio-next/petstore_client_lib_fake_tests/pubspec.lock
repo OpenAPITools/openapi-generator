@@ -49,14 +49,14 @@ packages:
       name: built_collection
       url: "https://pub.intern.sk"
     source: hosted
-    version: "5.1.0"
+    version: "5.0.0"
   built_value:
     dependency: "direct dev"
     description:
       name: built_value
       url: "https://pub.intern.sk"
     source: hosted
-    version: "8.1.0"
+    version: "8.0.6"
   charcode:
     dependency: transitive
     description:
@@ -154,7 +154,7 @@ packages:
       name: http_mock_adapter
       url: "https://pub.intern.sk"
     source: hosted
-    version: "0.2.1"
+    version: "0.3.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -217,7 +217,7 @@ packages:
       name: mockito
       url: "https://pub.intern.sk"
     source: hosted
-    version: "5.0.8"
+    version: "5.0.11"
   node_preamble:
     dependency: transitive
     description:
