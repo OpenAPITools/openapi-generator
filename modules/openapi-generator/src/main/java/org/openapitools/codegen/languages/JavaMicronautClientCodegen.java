@@ -2,7 +2,6 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.slf4j.Logger;
@@ -12,20 +11,20 @@ import java.util.*;
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
 
-public class JavaMicronautClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures {
+public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
+    public static final String CONFIGURE_AUTH = "configureAuth";
 
     public static final String NAME = "micronaut-client";
 
     protected String title;
     protected String configPackage;
     protected boolean useBeanValidation;
-    protected boolean performBeanValidation;
+    protected boolean configureAuthorization;
 
     public JavaMicronautClientCodegen() {
         super();
@@ -34,7 +33,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools";
         configPackage = "org.openapitools.configuration";
         useBeanValidation = true;
-        performBeanValidation = true;
+        configureAuthorization = true;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
@@ -46,7 +45,8 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.OAuth2_AuthorizationCode,
                         SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Password
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OpenIDConnect
                 ))
         );
 
@@ -69,13 +69,20 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         additionalProperties.put("closebrace", "}");
 
         cliOptions.add(new CliOption(TITLE, "Client service name").defaultValue(title));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(configPackage));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "Configuration package for generated code").defaultValue(configPackage));
+        cliOptions.add(CliOption.newBoolean(CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
 
         // Remove the date library option
         cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
                 .ifPresent(v -> cliOptions.remove(v));
+
+        // Add reserved words
+        String[] reservedWordsArray = new String[]{
+                "client", "format", "queryvalue", "queryparam", "pathvariable", "header", "cookie",
+                "authorization", "body"
+        };
+        reservedWords.addAll(Arrays.asList(reservedWordsArray));
     }
 
     @Override
@@ -97,6 +104,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
+        // Get properties
         if (additionalProperties.containsKey(TITLE)) {
             this.title = (String) additionalProperties.get(TITLE);
         }
@@ -113,15 +121,16 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
             additionalProperties.put(INVOKER_PACKAGE, invokerPackage);
         }
 
+        // Get boolean properties
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
-        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
-            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
+        if (additionalProperties.containsKey(CONFIGURE_AUTH)) {
+            this.configureAuthorization = convertPropertyToBoolean(CONFIGURE_AUTH);
         }
-        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
+        writePropertyBack(CONFIGURE_AUTH, configureAuthorization);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -129,15 +138,21 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
         supportingFiles.add(new SupportingFile("configuration/application.yml.mustache", resourceFolder, "application.yml").doNotOverwrite());
-        final String authFolder = invokerFolder + "/auth";
-        supportingFiles.add(new SupportingFile("auth/Authorization.mustache", authFolder, "Authorization.java"));
-        supportingFiles.add(new SupportingFile("auth/AuthorizationBinder.mustache", authFolder, "AuthorizationBinder.java"));
-        supportingFiles.add(new SupportingFile("auth/Authorizations.mustache", authFolder, "Authorizations.java"));
-        supportingFiles.add(new SupportingFile("auth/AuthorizationFilter.mustache", authFolder, "AuthorizationFilter.java"));
-        final String authConfigurationFolder = authFolder + "/configuration";
-        supportingFiles.add(new SupportingFile("auth/configuration/ApiKeyAuthConfiguration.mustache", authConfigurationFolder, "ApiKeyAuthConfiguration.java"));
-        supportingFiles.add(new SupportingFile("auth/configuration/ConfigurableAuthorization.mustache", authConfigurationFolder, "ConfigurableAuthorization.java"));
-        supportingFiles.add(new SupportingFile("auth/configuration/HttpBasicAuthConfiguration.mustache", authConfigurationFolder, "HttpBasicAuthConfiguration.java"));
+
+        // Authorization files
+        if (configureAuthorization) {
+            final String authFolder = invokerFolder + "/auth";
+            supportingFiles.add(new SupportingFile("auth/Authorization.mustache", authFolder, "Authorization.java"));
+            supportingFiles.add(new SupportingFile("auth/AuthorizationBinder.mustache", authFolder, "AuthorizationBinder.java"));
+            supportingFiles.add(new SupportingFile("auth/Authorizations.mustache", authFolder, "Authorizations.java"));
+            supportingFiles.add(new SupportingFile("auth/AuthorizationFilter.mustache", authFolder, "AuthorizationFilter.java"));
+            final String authConfigurationFolder = authFolder + "/configuration";
+            supportingFiles.add(new SupportingFile("auth/configuration/ApiKeyAuthConfiguration.mustache", authConfigurationFolder, "ApiKeyAuthConfiguration.java"));
+            supportingFiles.add(new SupportingFile("auth/configuration/ConfigurableAuthorization.mustache", authConfigurationFolder, "ConfigurableAuthorization.java"));
+            supportingFiles.add(new SupportingFile("auth/configuration/HttpBasicAuthConfiguration.mustache", authConfigurationFolder, "HttpBasicAuthConfiguration.java"));
+        }
+
+        // Query files
         final String queryFolder = invokerFolder + "/query";
         supportingFiles.add(new SupportingFile("query/QueryParam.mustache", queryFolder, "QueryParam.java"));
         supportingFiles.add(new SupportingFile("query/QueryParamBinder.mustache", queryFolder, "QueryParamBinder.java"));
@@ -158,9 +173,10 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
 
         // Use the default java Date
-        typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "Date");
-        importMapping.put("Date", "java.util.Date");
+        typeMapping.put("date", "LocalDate");
+        typeMapping.put("DateTime", "LocalDateTime");
+        importMapping.put("LocalDate", "java.time.LocalDate");
+        importMapping.put("LocalDateTime", "java.time.LocalDateTime");
 
         // Add documentation files
         supportingFiles.add(new SupportingFile("doc/README.mustache", "", "README.md").doNotOverwrite());
@@ -186,7 +202,19 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void setPerformBeanValidation(boolean performBeanValidation) {
-        this.performBeanValidation = performBeanValidation;
+    public String toApiVarName(String name) {
+        String apiVarName = super.toApiVarName(name);
+        if (reservedWords.contains(apiVarName)) {
+            apiVarName = escapeReservedWord(apiVarName);
+        }
+        return apiVarName;
+    }
+
+    public boolean isUseBeanValidation() {
+        return useBeanValidation;
+    }
+
+    public boolean isConfigureAuthorization() {
+        return configureAuthorization;
     }
 }

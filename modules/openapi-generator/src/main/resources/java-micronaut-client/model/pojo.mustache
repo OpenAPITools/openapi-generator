@@ -1,104 +1,88 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+ */
+{{#description}}
+@ApiModel(description = "{{{description}}}")
+{{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
-{{#vars}}
+  {{#vars}}
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
-{{/vars}}
+  {{/vars}}
 })
 @JsonTypeName("{{name}}")
 {{/jackson}}
-{{#additionalModelTypeAnnotations}}{{{.}}}
-{{/additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>model/typeInfoAnnotation}}{{/discriminator}}{{>model/xmlAnnotation}}
-@Introspected
-public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
-{{#serializableModel}}
+{{#additionalModelTypeAnnotations}}
+{{{.}}}
+{{/additionalModelTypeAnnotations}}
+{{>generatedAnnotation}}{{#discriminator}}{{>model/typeInfoAnnotation}}{{/discriminator}}{{>model/xmlAnnotation}}{{#useBeanValidation}}@Introspected
+{{/useBeanValidation}}{{!
+Declare the class with extends and implements
+}}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
+    {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
-{{/serializableModel}}
-  {{#vars}}
-    {{#isEnum}}
-    {{^isContainer}}
+    {{/serializableModel}}
+    {{#vars}}
+        {{#isEnum}}
+            {{^isContainer}}
 {{>model/modelInnerEnum}}
-    {{/isContainer}}
-    {{#isContainer}}
-    {{#mostInnerItems}}
+            {{/isContainer}}
+            {{#isContainer}}
+                {{#mostInnerItems}}
 {{>model/modelInnerEnum}}
-    {{/mostInnerItems}}
-    {{/isContainer}}
-    {{/isEnum}}
-  {{#gson}}
-  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
-  {{/gson}}
-  {{#jackson}}
+                {{/mostInnerItems}}
+            {{/isContainer}}
+        {{/isEnum}}
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
-  {{/jackson}}
-  {{#withXml}}
-  {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/isXmlAttribute}}
-  {{^isXmlAttribute}}
-    {{^isContainer}}
+        {{#withXml}}
+            {{#isXmlAttribute}}
+  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"
+            {{/isXmlAttribute}}
+            {{^isXmlAttribute}}
+                {{^isContainer}}
   @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
+                {{/isContainer}}
+                {{#isContainer}}
   // Is a container wrapped={{isXmlWrapped}}
-      {{#items}}
+                    {{#items}}
   // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
   // items.example={{example}} items.type={{dataType}}
   @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/items}}
-      {{#isXmlWrapped}}
+                    {{/items}}
+                    {{#isXmlWrapped}}
   @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/isXmlAttribute}}
-  {{/withXml}}
-  {{#gson}}
-  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
-  {{/gson}}
-  {{#vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
+                    {{/isXmlWrapped}}
+                {{/isContainer}}
+            {{/isXmlAttribute}}
+        {{/withXml}}
+        {{#vendorExtensions.x-is-jackson-optional-nullable}}
+            {{#isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
-  {{/isContainer}}
-  {{^isContainer}}
+            {{/isContainer}}
+            {{^isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
-  {{/isContainer}}
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}
-  {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
+            {{/isContainer}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{^vendorExtensions.x-is-jackson-optional-nullable}}
+            {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
+            {{/isContainer}}
+            {{^isContainer}}
   {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{/isContainer}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{/vars}}
 
-  {{/vars}}
-  {{#parcelableModel}}
+    {{#parcelableModel}}
   public {{classname}}() {
-  {{#parent}}
+        {{#parent}}
     super();
-  {{/parent}}
-  {{#gson}}
-  {{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  {{/discriminator}}
-  {{/gson}}
+        {{/parent}}
   }
-  {{/parcelableModel}}
-  {{^parcelableModel}}
-  {{#gson}}
-  {{#discriminator}}
-  public {{classname}}() {
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  }
-  {{/discriminator}}
-  {{/gson}}
-  {{/parcelableModel}}
-  {{#vars}}
+
+    {{/parcelableModel}}
+    {{#vars}}
 
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
@@ -173,18 +157,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/maximum}}
    * @return {{name}}
   **/
-{{#required}}
-{{#isNullable}}
-  @io.micronaut.core.annotation.Nullable
-{{/isNullable}}
-{{/required}}
-{{^required}}
-  @io.micronaut.core.annotation.Nullable
-{{/required}}
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{>model/beanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}

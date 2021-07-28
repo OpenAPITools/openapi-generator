@@ -6,6 +6,7 @@ import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import {{invokerPackage}}.auth.Authorization;
 import {{invokerPackage}}.query.QueryParam;
+import io.micronaut.core.convert.format.Format;
 import io.reactivex.Single;
 {{#imports}}import {{import}};
 {{/imports}}
@@ -20,11 +21,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
-
 {{>generatedAnnotation}}
 @Client("${base-path}")
 public interface {{classname}} {
-
 {{#operations}}{{#operation}}
   /**
    * {{summary}}
@@ -43,12 +42,11 @@ public interface {{classname}} {
    */
   @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
   {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
-  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#authMethods}}
-  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}
+  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#configureAuth}}{{#authMethods}}
+  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}{{/configureAuth}}
   {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Single<Void>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
         {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
-
   {{/operation}}
 {{/operations}}
 }
