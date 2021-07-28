@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -69,9 +68,6 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
     public PhpDataTransferClientCodegen() {
         super();
-        //Force generation of form models - they are used for bodyParam
-        GlobalSettings.setProperty(CodegenConstants.SKIP_FORM_MODEL, "false");
-
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
@@ -175,6 +171,13 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
         generateParameterSchemas(openAPI);
         generateContainerSchemas(openAPI);
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        super.processOpenAPI(openAPI);
+
+        quoteMediaTypes(openAPI);
     }
 
     /**
@@ -396,5 +399,46 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 addInternalExtensionToSchema(schema, VEN_CONTAINER_DATA_TYPE, containerDataType);
             }
         }
+    }
+
+    /**
+     * Awfully nasty workaround - add quotation marks for all media types to prevent special treatment of form media types
+     * in org/openapitools/codegen/DefaultGenerator.java:873
+     * TODO find a better way to prevent special form media type treatment
+     *
+     * @param openAPI OpenAPI object
+     */
+    protected void quoteMediaTypes(OpenAPI openAPI) {
+        Map<String, PathItem> paths = openAPI.getPaths();
+        if (paths != null) {
+            for (String pathname : paths.keySet()) {
+                PathItem path = paths.get(pathname);
+                List<Operation> operations = path.readOperations();
+                if (operations != null) {
+                    for (Operation operation: operations) {
+                        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                        if (requestBody != null) {
+                            requestBody.setContent(copyWithQuotedMediaTypes(requestBody.getContent()));
+                        }
+                        ApiResponses responses = operation.getResponses();
+                        for (String responseCode : responses.keySet()) {
+                            ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, responses.get(responseCode));
+                            response.setContent(copyWithQuotedMediaTypes(response.getContent()));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected Content copyWithQuotedMediaTypes(Content content) {
+        Content result = null;
+        if (content != null) {
+            result = new Content();
+            for (String mediaType: content.keySet()) {
+                result.addMediaType("'" + mediaType + "'", content.get(mediaType));
+            }
+        }
+        return result;
     }
 }
