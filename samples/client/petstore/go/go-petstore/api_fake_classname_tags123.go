@@ -49,6 +49,7 @@ type ApiTestClassnameRequest struct {
 	body *Client
 }
 
+// client model
 func (r ApiTestClassnameRequest) Body(body Client) ApiTestClassnameRequest {
 	r.body = &body
 	return r

@@ -49,6 +49,7 @@ type ApiCall123TestSpecialTagsRequest struct {
 	client *Client
 }
 
+// client model
 func (r ApiCall123TestSpecialTagsRequest) Client(client Client) ApiCall123TestSpecialTagsRequest {
 	r.client = &client
 	return r

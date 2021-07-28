@@ -60,6 +60,12 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request s
 {{/allParams}}
 }
 {{#allParams}}{{^isPathParam}}
+{{#description}}
+// {{.}}
+{{/description}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r

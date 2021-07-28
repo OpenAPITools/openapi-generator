@@ -135,6 +135,7 @@ type ApiCreateUserRequest struct {
 	body *User
 }
 
+// Created user object
 func (r ApiCreateUserRequest) Body(body User) ApiCreateUserRequest {
 	r.body = &body
 	return r
@@ -236,6 +237,7 @@ type ApiCreateUsersWithArrayInputRequest struct {
 	body *[]User
 }
 
+// List of user object
 func (r ApiCreateUsersWithArrayInputRequest) Body(body []User) ApiCreateUsersWithArrayInputRequest {
 	r.body = &body
 	return r
@@ -335,6 +337,7 @@ type ApiCreateUsersWithListInputRequest struct {
 	body *[]User
 }
 
+// List of user object
 func (r ApiCreateUsersWithListInputRequest) Body(body []User) ApiCreateUsersWithListInputRequest {
 	r.body = &body
 	return r
@@ -634,10 +637,12 @@ type ApiLoginUserRequest struct {
 	password *string
 }
 
+// The user name for login
 func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
 	r.username = &username
 	return r
 }
+// The password for login in clear text
 func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
 	r.password = &password
 	return r
@@ -841,6 +846,7 @@ type ApiUpdateUserRequest struct {
 	body *User
 }
 
+// Updated user object
 func (r ApiUpdateUserRequest) Body(body User) ApiUpdateUserRequest {
 	r.body = &body
 	return r

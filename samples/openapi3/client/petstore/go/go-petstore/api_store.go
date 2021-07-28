@@ -414,6 +414,7 @@ type ApiPlaceOrderRequest struct {
 	order *Order
 }
 
+// order placed for purchasing the pet
 func (r ApiPlaceOrderRequest) Order(order Order) ApiPlaceOrderRequest {
 	r.order = &order
 	return r

@@ -336,6 +336,7 @@ type ApiFakeOuterBooleanSerializeRequest struct {
 	body *bool
 }
 
+// Input boolean as post body
 func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBooleanSerializeRequest {
 	r.body = &body
 	return r
@@ -445,6 +446,7 @@ type ApiFakeOuterCompositeSerializeRequest struct {
 	outerComposite *OuterComposite
 }
 
+// Input composite as post body
 func (r ApiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite OuterComposite) ApiFakeOuterCompositeSerializeRequest {
 	r.outerComposite = &outerComposite
 	return r
@@ -554,6 +556,7 @@ type ApiFakeOuterNumberSerializeRequest struct {
 	body *float32
 }
 
+// Input number as post body
 func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumberSerializeRequest {
 	r.body = &body
 	return r
@@ -663,6 +666,7 @@ type ApiFakeOuterStringSerializeRequest struct {
 	body *string
 }
 
+// Input string as post body
 func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
 	r.body = &body
 	return r
@@ -981,6 +985,7 @@ type ApiTestClientModelRequest struct {
 	client *Client
 }
 
+// client model
 func (r ApiTestClientModelRequest) Client(client Client) ApiTestClientModelRequest {
 	r.client = &client
 	return r
@@ -1106,58 +1111,72 @@ type ApiTestEndpointParametersRequest struct {
 	callback *string
 }
 
+// None
 func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpointParametersRequest {
 	r.number = &number
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Double(double float64) ApiTestEndpointParametersRequest {
 	r.double = &double
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) ApiTestEndpointParametersRequest {
 	r.patternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Byte_(byte_ string) ApiTestEndpointParametersRequest {
 	r.byte_ = &byte_
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Integer(integer int32) ApiTestEndpointParametersRequest {
 	r.integer = &integer
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Int32_(int32_ int32) ApiTestEndpointParametersRequest {
 	r.int32_ = &int32_
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Int64_(int64_ int64) ApiTestEndpointParametersRequest {
 	r.int64_ = &int64_
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Float(float float32) ApiTestEndpointParametersRequest {
 	r.float = &float
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpointParametersRequest {
 	r.string_ = &string_
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
 	r.binary = &binary
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Date(date string) ApiTestEndpointParametersRequest {
 	r.date = &date
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) DateTime(dateTime time.Time) ApiTestEndpointParametersRequest {
 	r.dateTime = &dateTime
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Password(password string) ApiTestEndpointParametersRequest {
 	r.password = &password
 	return r
 }
+// None
 func (r ApiTestEndpointParametersRequest) Callback(callback string) ApiTestEndpointParametersRequest {
 	r.callback = &callback
 	return r
@@ -1331,34 +1350,42 @@ type ApiTestEnumParametersRequest struct {
 	enumFormString *string
 }
 
+// Header parameter enum test (string array)
 func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
+// Header parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
+// Query parameter enum test (string array)
 func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
+// Query parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
+// Query parameter enum test (double)
 func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
+// Query parameter enum test (double)
 func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
+// Form parameter enum test (string array)
 func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
+// Form parameter enum test (string)
 func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
@@ -1492,26 +1519,32 @@ type ApiTestGroupParametersRequest struct {
 	int64Group *int64
 }
 
+// Required String in group parameters
 func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) ApiTestGroupParametersRequest {
 	r.requiredStringGroup = &requiredStringGroup
 	return r
 }
+// Required Boolean in group parameters
 func (r ApiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) ApiTestGroupParametersRequest {
 	r.requiredBooleanGroup = &requiredBooleanGroup
 	return r
 }
+// Required Integer in group parameters
 func (r ApiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) ApiTestGroupParametersRequest {
 	r.requiredInt64Group = &requiredInt64Group
 	return r
 }
+// String in group parameters
 func (r ApiTestGroupParametersRequest) StringGroup(stringGroup int32) ApiTestGroupParametersRequest {
 	r.stringGroup = &stringGroup
 	return r
 }
+// Boolean in group parameters
 func (r ApiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) ApiTestGroupParametersRequest {
 	r.booleanGroup = &booleanGroup
 	return r
 }
+// Integer in group parameters
 func (r ApiTestGroupParametersRequest) Int64Group(int64Group int64) ApiTestGroupParametersRequest {
 	r.int64Group = &int64Group
 	return r
@@ -1629,6 +1662,7 @@ type ApiTestInlineAdditionalPropertiesRequest struct {
 	requestBody *map[string]string
 }
 
+// request body
 func (r ApiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[string]string) ApiTestInlineAdditionalPropertiesRequest {
 	r.requestBody = &requestBody
 	return r
@@ -1729,10 +1763,12 @@ type ApiTestJsonFormDataRequest struct {
 	param2 *string
 }
 
+// field1
 func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataRequest {
 	r.param = &param
 	return r
 }
+// field2
 func (r ApiTestJsonFormDataRequest) Param2(param2 string) ApiTestJsonFormDataRequest {
 	r.param2 = &param2
 	return r

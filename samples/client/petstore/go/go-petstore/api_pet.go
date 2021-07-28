@@ -155,6 +155,7 @@ type ApiAddPetRequest struct {
 	body *Pet
 }
 
+// Pet object that needs to be added to the store
 func (r ApiAddPetRequest) Body(body Pet) ApiAddPetRequest {
 	r.body = &body
 	return r
@@ -355,6 +356,7 @@ type ApiFindPetsByStatusRequest struct {
 	status *[]string
 }
 
+// Status values that need to be considered for filter
 func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusRequest {
 	r.status = &status
 	return r
@@ -466,6 +468,7 @@ type ApiFindPetsByTagsRequest struct {
 	tags *[]string
 }
 
+// Tags to filter by
 func (r ApiFindPetsByTagsRequest) Tags(tags []string) ApiFindPetsByTagsRequest {
 	r.tags = &tags
 	return r
@@ -700,6 +703,7 @@ type ApiUpdatePetRequest struct {
 	body *Pet
 }
 
+// Pet object that needs to be added to the store
 func (r ApiUpdatePetRequest) Body(body Pet) ApiUpdatePetRequest {
 	r.body = &body
 	return r
@@ -801,10 +805,12 @@ type ApiUpdatePetWithFormRequest struct {
 	status *string
 }
 
+// Updated name of the pet
 func (r ApiUpdatePetWithFormRequest) Name(name string) ApiUpdatePetWithFormRequest {
 	r.name = &name
 	return r
 }
+// Updated status of the pet
 func (r ApiUpdatePetWithFormRequest) Status(status string) ApiUpdatePetWithFormRequest {
 	r.status = &status
 	return r
@@ -910,10 +916,12 @@ type ApiUploadFileRequest struct {
 	file **os.File
 }
 
+// Additional data to pass to server
 func (r ApiUploadFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
+// file to upload
 func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
 	r.file = &file
 	return r
@@ -1038,10 +1046,12 @@ type ApiUploadFileWithRequiredFileRequest struct {
 	additionalMetadata *string
 }
 
+// file to upload
 func (r ApiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) ApiUploadFileWithRequiredFileRequest {
 	r.requiredFile = &requiredFile
 	return r
 }
+// Additional data to pass to server
 func (r ApiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) ApiUploadFileWithRequiredFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r

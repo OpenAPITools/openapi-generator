@@ -414,6 +414,7 @@ type ApiPlaceOrderRequest struct {
 	body *Order
 }
 
+// order placed for purchasing the pet
 func (r ApiPlaceOrderRequest) Body(body Order) ApiPlaceOrderRequest {
 	r.body = &body
 	return r
