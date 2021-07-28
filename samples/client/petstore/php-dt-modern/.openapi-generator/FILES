@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 composer.json
 src/App/ApiClient.php
