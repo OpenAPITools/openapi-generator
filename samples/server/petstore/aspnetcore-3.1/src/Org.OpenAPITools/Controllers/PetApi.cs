@@ -108,6 +108,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
+        [Obsolete]
         public virtual IActionResult FindPetsByTags([FromQuery (Name = "tags")][Required()]List<string> tags)
         { 
 
