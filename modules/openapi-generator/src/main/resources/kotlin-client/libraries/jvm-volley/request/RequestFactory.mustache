@@ -11,10 +11,9 @@ import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import org.apache.http.Consts
-import org.apache.http.entity.ContentType
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.net.HttpURLConnection
 import java.net.URLEncoder
 import java.text.ParseException
@@ -30,8 +29,6 @@ class RequestFactory {
 
     // TODO - Move the following helper methods to the request factory
     companion object {
-        /** Content type "text/plain" with UTF-8 encoding.  */
-        val TEXT_PLAIN_UTF8 = ContentType.create("text/plain", Consts.UTF_8)
 
         /**
          * ISO 8601 date time format.
