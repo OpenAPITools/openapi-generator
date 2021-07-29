@@ -235,6 +235,21 @@ components:
       oneOf:
         - $ref: "#/components/schemas/NumberEnum"
         - $ref: "#/components/schemas/NumberEnumTwo"
+    ObjectEnum:
+      type: object
+      enum:
+        - { value: 1, type: "foo" }
+        - { value: 2, type: "bar" }
+    ObjectEnumReverse:
+      type: object
+      enum:
+        - { value: 1, type: "bar" }
+        - { value: 2, type: "for" }
+    ObjectOneOf:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/ObjectEnum"
+        - $ref: "#/components/schemas/ObjectEnumReverse"
     EnumPatternObject:
       type: object
       properties:
