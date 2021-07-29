@@ -70,7 +70,7 @@ class {{classname}} (
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("{{baseName}}", RequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
+        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", RequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
         val formParams: Map<String, String> = HashMap()

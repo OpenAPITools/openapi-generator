@@ -268,15 +268,20 @@ class RequestFactory {
                errorListener: Response.ErrorListener): Request<T> {
                val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
             // Pivot on the method (verb), and whether parameters are optional
+            val updatedUrl = if (!params.isNullOrEmpty()) {
+                params.asSequence().fold("$url?") {acc, param ->
+                        "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
+                    }.trimEnd('&')
+                } else {
+                    url
+                }
             return when(method) {
                 Request.Method.GET -> {
                     getMethodPreconditionCheck()
-                    GsonRequest<T>(method, url,
+                    GsonRequest<T>(method, updatedUrl,
                         bodyAsStr,
                         updatedParams.second,
-                        updatedParams.first,
                         contentTypeForBody,
-                        encodingForParams,
                         responseListener,
                         errorListener)
                 }
@@ -286,12 +291,10 @@ class RequestFactory {
                 }
                 Request.Method.POST, Request.Method.PATCH, Request.Method.PUT -> {
                     // TODO: precondition check
-                    GsonRequest<T>(method, url,
+                    GsonRequest<T>(method, updatedUrl,
                         bodyAsStr,
                         headers,
-                        params,
                         contentTypeForBody,
-                        encodingForParams,
                         responseListener,
                         errorListener)
                 }

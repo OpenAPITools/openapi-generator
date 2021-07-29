@@ -18,9 +18,7 @@ class GsonRequest<T>(
     url: String,
     private val bodyAsStr: String?,
     private val headers: Map<String, String>?,
-    private val params: Map<String, String>?,
     private val contentTypeForBody: String?,
-    private val encodingForParams: String?,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
 ) : Request<T>(method, url, errorListener) {
