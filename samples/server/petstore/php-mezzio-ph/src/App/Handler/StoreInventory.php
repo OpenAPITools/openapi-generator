@@ -25,7 +25,7 @@ class StoreInventory
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
      * TODO check if generated return container type is valid
-     * @return map[string,int]
+     * @return array<string,int>
      */
     public function getInventory(ServerRequestInterface $request): array
     {

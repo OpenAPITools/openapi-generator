@@ -542,9 +542,9 @@ public class FakeApi {
      * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -561,9 +561,9 @@ public class FakeApi {
      * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)

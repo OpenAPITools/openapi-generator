@@ -77,8 +77,10 @@ func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Reques
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
 		ApiService: a,
-		ctx: ctx,{{#pathParams}}
-		{{paramName}}: {{paramName}},{{/pathParams}}
+		ctx: ctx,
+		{{#pathParams}}
+		{{paramName}}: {{paramName}},
+		{{/pathParams}}
 	}
 }
 

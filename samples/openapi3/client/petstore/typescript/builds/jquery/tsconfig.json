@@ -20,11 +20,10 @@
     "lib": [ "es6", "dom" ],
   },
   "exclude": [
-  	"dist",
+    "dist",
     "node_modules"
   ],
   "filesGlob": [
     "./**/*.ts",
   ]
-  
 }

@@ -1,5 +1,6 @@
 # Triangle
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

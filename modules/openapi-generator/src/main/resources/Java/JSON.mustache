@@ -61,14 +61,15 @@ public class JSON {
     {{/jsr310}}
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
+    @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
         {{#models}}
         {{#model}}
         {{#discriminator}}
-                .registerTypeSelector({{classname}}.class, new TypeSelector() {
+                .registerTypeSelector({{classname}}.class, new TypeSelector<{{classname}}>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends {{classname}}> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         {{#mappedModels}}
                         classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelName}}.class);

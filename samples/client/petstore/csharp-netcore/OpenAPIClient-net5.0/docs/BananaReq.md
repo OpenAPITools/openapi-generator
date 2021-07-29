@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.BananaReq
+
 ## Properties
 
 Name | Type | Description | Notes

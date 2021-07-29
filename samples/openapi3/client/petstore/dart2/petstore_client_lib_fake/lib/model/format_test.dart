@@ -126,9 +126,7 @@ class FormatTest {
     if (int64 != null) {
       json[r'int64'] = int64;
     }
-    if (number != null) {
       json[r'number'] = number;
-    }
     if (float != null) {
       json[r'float'] = float;
     }
@@ -141,24 +139,18 @@ class FormatTest {
     if (string != null) {
       json[r'string'] = string;
     }
-    if (byte != null) {
       json[r'byte'] = byte;
-    }
     if (binary != null) {
       json[r'binary'] = binary;
     }
-    if (date != null) {
       json[r'date'] = _dateFormatter.format(date.toUtc());
-    }
     if (dateTime != null) {
       json[r'dateTime'] = dateTime.toUtc().toIso8601String();
     }
     if (uuid != null) {
       json[r'uuid'] = uuid;
     }
-    if (password != null) {
       json[r'password'] = password;
-    }
     if (patternWithDigits != null) {
       json[r'pattern_with_digits'] = patternWithDigits;
     }

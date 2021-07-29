@@ -4,16 +4,18 @@
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
 
-{{#apiNamespaceDeclarations}}
-namespace {{this}} {
-{{/apiNamespaceDeclarations}}
+namespace {{apiNamespace}}
+{
 
 using namespace {{helpersNamespace}};
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
-{{classname}}::{{classname}}(std::shared_ptr<Pistache::Rest::Router> rtr) { 
-    router = rtr;
+const std::string {{classname}}::base = "{{basePathWithoutHost}}";
+
+{{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
+    : router(rtr)
+{
 }
 
 void {{classname}}::init() {
@@ -31,8 +33,26 @@ void {{classname}}::setupRoutes() {
     router->addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
 }
 
+std::pair<Pistache::Http::Code, std::string> {{classname}}::handleParsingException(const std::exception& ex) const noexcept
+{
+    try {
+        throw ex;
+    } catch (nlohmann::detail::exception &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    } catch ({{helpersNamespace}}::ValidationException &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    }
+}
+
+std::pair<Pistache::Http::Code, std::string> {{classname}}::handleOperationException(const std::exception& ex) const noexcept
+{
+    return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
+}
+
 {{#operation}}
 void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &{{#hasParams}}request{{/hasParams}}, Pistache::Http::ResponseWriter response) {
+    try {
+
     {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{#hasPathParams}}
     // Getting the path params
@@ -71,30 +91,38 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{#hasBodyParam}}
     {{#bodyParam}}
     {{^isPrimitiveType}}
-      nlohmann::json::parse(request.body()).get_to({{paramName}});
+        nlohmann::json::parse(request.body()).get_to({{paramName}});
+        {{paramName}}.validate();
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
-      {{paramName}} = request.body();
+        {{paramName}} = request.body();
     {{/isPrimitiveType}}
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
+        return;
+    }
+
+    try {
     {{/bodyParam}}
     {{/hasBodyParam}}
-      this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
+        this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     try {
       this->{{operationIdSnakeCase}}(request, response);
     {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
@@ -104,8 +132,6 @@ void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
-{{#apiNamespaceDeclarations}}
-}
-{{/apiNamespaceDeclarations}}
+} // namespace {{apiNamespace}}
 
 {{/operations}}

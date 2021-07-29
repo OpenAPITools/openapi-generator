@@ -83,7 +83,7 @@ interface {{classname}} {
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}});
+        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/isDelegate}}
     }
 {{/operation}}

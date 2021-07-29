@@ -421,6 +421,8 @@ public class NullableClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
@@ -545,6 +547,8 @@ public class NullableClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -267,7 +268,7 @@ public class ApiClient extends JavaTimeFormatter {
    * the system's default tempopary folder.
    *
    * @return the temporary folder path
-   * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)"></a>
+   * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempFile(java.lang.String,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)">createTempFile</a>
    */
   public String getTempFolderPath() {
     return tempFolderPath;
@@ -585,15 +586,15 @@ public class ApiClient extends JavaTimeFormatter {
         prefix = filename.substring(0, pos) + "-";
         suffix = filename.substring(pos);
       }
-      // File.createTempFile requires the prefix to be at least three characters long
+      // Files.createTempFile requires the prefix to be at least three characters long
       if (prefix.length() < 3)
         prefix = "download-";
     }
 
     if (tempFolderPath == null)
-      return File.createTempFile(prefix, suffix);
+      return Files.createTempFile(prefix, suffix).toFile();
     else
-      return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+      return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
   }
 
   /**

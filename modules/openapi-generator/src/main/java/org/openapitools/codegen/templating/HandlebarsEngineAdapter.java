@@ -40,7 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-    static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = new String[]{"handlebars", "hbs"};
 
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename

@@ -19,7 +19,7 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
-    final path = '/fake/health'.replaceAll('{format}', 'json');
+    final path = r'/fake/health';
 
     Object postBody;
 
@@ -59,15 +59,15 @@ class FakeApi {
   Future<HealthCheckResult> fakeHealthGet() async {
     final response = await fakeHealthGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'HealthCheckResult') as HealthCheckResult;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
+        }
+    return Future<HealthCheckResult>.value(null);
   }
 
   /// test http signature authentication
@@ -90,7 +90,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/fake/http-signature-test'.replaceAll('{format}', 'json');
+    final path = r'/fake/http-signature-test';
 
     Object postBody = pet;
 
@@ -149,7 +149,7 @@ class FakeApi {
   Future<void> fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async {
     final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1 );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -164,7 +164,7 @@ class FakeApi {
   Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/boolean'.replaceAll('{format}', 'json');
+    final path = r'/fake/outer/boolean';
 
     Object postBody = body;
 
@@ -209,15 +209,15 @@ class FakeApi {
   Future<bool> fakeOuterBooleanSerialize({ bool body }) async {
     final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'bool') as bool;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
+        }
+    return Future<bool>.value(null);
   }
 
   /// Test serialization of object with outer number type
@@ -231,7 +231,7 @@ class FakeApi {
   Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/composite'.replaceAll('{format}', 'json');
+    final path = r'/fake/outer/composite';
 
     Object postBody = outerComposite;
 
@@ -276,15 +276,15 @@ class FakeApi {
   Future<OuterComposite> fakeOuterCompositeSerialize({ OuterComposite outerComposite }) async {
     final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'OuterComposite') as OuterComposite;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
+        }
+    return Future<OuterComposite>.value(null);
   }
 
   /// Test serialization of outer number types
@@ -298,7 +298,7 @@ class FakeApi {
   Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/number'.replaceAll('{format}', 'json');
+    final path = r'/fake/outer/number';
 
     Object postBody = body;
 
@@ -343,15 +343,15 @@ class FakeApi {
   Future<num> fakeOuterNumberSerialize({ num body }) async {
     final response = await fakeOuterNumberSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'num') as num;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
+        }
+    return Future<num>.value(null);
   }
 
   /// Test serialization of outer string types
@@ -365,7 +365,7 @@ class FakeApi {
   Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
     // Verify required params are set.
 
-    final path = '/fake/outer/string'.replaceAll('{format}', 'json');
+    final path = r'/fake/outer/string';
 
     Object postBody = body;
 
@@ -410,15 +410,85 @@ class FakeApi {
   Future<String> fakeOuterStringSerialize({ String body }) async {
     final response = await fakeOuterStringSerializeWithHttpInfo( body: body );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
+        }
+    return Future<String>.value(null);
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    // Verify required params are set.
+    if (outerObjectWithEnumProperty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
     }
-    return null;
+
+    final path = r'/fake/property/enum-int';
+
+    Object postBody = outerObjectWithEnumProperty;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['application/json'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Test serialization of enum (int) properties with examples
+  ///
+  /// Parameters:
+  ///
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
+  ///   Input enum (int) as post body
+  Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
+        }
+    return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
   /// For this test, the body for this request much reference a schema named `File`.
@@ -434,7 +504,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
     }
 
-    final path = '/fake/body-with-file-schema'.replaceAll('{format}', 'json');
+    final path = r'/fake/body-with-file-schema';
 
     Object postBody = fileSchemaTestClass;
 
@@ -478,7 +548,7 @@ class FakeApi {
   Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async {
     final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -497,7 +567,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/fake/body-with-query-params'.replaceAll('{format}', 'json');
+    final path = r'/fake/body-with-query-params';
 
     Object postBody = user;
 
@@ -543,7 +613,7 @@ class FakeApi {
   Future<void> testBodyWithQueryParams(String query, User user) async {
     final response = await testBodyWithQueryParamsWithHttpInfo(query, user);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -563,7 +633,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = r'/fake';
 
     Object postBody = modelClient;
 
@@ -610,15 +680,15 @@ class FakeApi {
   Future<ModelClient> testClientModel(ModelClient modelClient) async {
     final response = await testClientModelWithHttpInfo(modelClient);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ModelClient') as ModelClient;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
+        }
+    return Future<ModelClient>.value(null);
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -685,7 +755,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = r'/fake';
 
     Object postBody;
 
@@ -867,7 +937,7 @@ class FakeApi {
   Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
     final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -905,7 +975,7 @@ class FakeApi {
   Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     // Verify required params are set.
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1007,7 +1077,7 @@ class FakeApi {
   Future<void> testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1048,7 +1118,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
     }
 
-    final path = '/fake'.replaceAll('{format}', 'json');
+    final path = r'/fake';
 
     Object postBody;
 
@@ -1124,7 +1194,7 @@ class FakeApi {
   Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
     final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1142,7 +1212,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
     }
 
-    final path = '/fake/inline-additionalProperties'.replaceAll('{format}', 'json');
+    final path = r'/fake/inline-additionalProperties';
 
     Object postBody = requestBody;
 
@@ -1187,7 +1257,7 @@ class FakeApi {
   Future<void> testInlineAdditionalProperties(Map<String, String> requestBody) async {
     final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1211,7 +1281,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
     }
 
-    final path = '/fake/jsonFormData'.replaceAll('{format}', 'json');
+    final path = r'/fake/jsonFormData';
 
     Object postBody;
 
@@ -1273,7 +1343,7 @@ class FakeApi {
   Future<void> testJsonFormData(String param, String param2) async {
     final response = await testJsonFormDataWithHttpInfo(param, param2);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -1310,7 +1380,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
-    final path = '/fake/test-query-paramters'.replaceAll('{format}', 'json');
+    final path = r'/fake/test-query-paramters';
 
     Object postBody;
 
@@ -1368,7 +1438,7 @@ class FakeApi {
   Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
     final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 }

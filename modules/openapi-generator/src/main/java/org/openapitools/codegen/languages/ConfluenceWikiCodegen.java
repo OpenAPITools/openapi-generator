@@ -128,7 +128,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(objs);
     }
-    
+
     @Override
     public String escapeQuotationMark(String input) {
         // just return the original string
@@ -140,13 +140,13 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         // just return the original string
         return input;
     }
-    
+
     @Override
     public String escapeText(String input) {
         if (input == null) {
             return input;
         }
-        
+
         // chomp tailing newline because it breaks the tables and keep all other sign to show documentation properly
         return StringUtils.chomp(input);
     }

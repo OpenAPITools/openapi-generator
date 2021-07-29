@@ -12,5 +12,6 @@ data class RequestConfig(
     val method: RequestMethod,
     val path: String,
     val headers: MutableMap<String, String> = mutableMapOf(),
-    val query: MutableMap<String, List<String>> = mutableMapOf()
+    val query: MutableMap<String, List<String>> = mutableMapOf(),
+    val body: kotlin.Any? = null
 )

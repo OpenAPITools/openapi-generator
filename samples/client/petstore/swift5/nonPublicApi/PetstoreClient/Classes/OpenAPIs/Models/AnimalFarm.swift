@@ -6,5 +6,6 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal typealias AnimalFarm = [Animal]

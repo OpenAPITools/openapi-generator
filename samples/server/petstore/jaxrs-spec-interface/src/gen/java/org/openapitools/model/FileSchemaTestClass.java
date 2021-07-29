@@ -39,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setFile(java.io.File file) {
     this.file = file;
-  }/**
+  }
+
+/**
    **/
   public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
@@ -58,6 +60,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {

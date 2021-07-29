@@ -27,7 +27,7 @@ type TypeHolderDefault struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderDefault {
+func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32) *TypeHolderDefault {
 	this := TypeHolderDefault{}
 	this.StringItem = stringItem
 	this.NumberItem = numberItem
@@ -51,7 +51,7 @@ func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
 
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderDefault) GetStringItem() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -75,7 +75,7 @@ func (o *TypeHolderDefault) SetStringItem(v string) {
 
 // GetNumberItem returns the NumberItem field value
 func (o *TypeHolderDefault) GetNumberItem() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
@@ -99,7 +99,7 @@ func (o *TypeHolderDefault) SetNumberItem(v float32) {
 
 // GetIntegerItem returns the IntegerItem field value
 func (o *TypeHolderDefault) GetIntegerItem() int32 {
-	if o == nil  {
+	if o == nil {
 		var ret int32
 		return ret
 	}
@@ -123,7 +123,7 @@ func (o *TypeHolderDefault) SetIntegerItem(v int32) {
 
 // GetBoolItem returns the BoolItem field value
 func (o *TypeHolderDefault) GetBoolItem() bool {
-	if o == nil  {
+	if o == nil {
 		var ret bool
 		return ret
 	}
@@ -147,7 +147,7 @@ func (o *TypeHolderDefault) SetBoolItem(v bool) {
 
 // GetArrayItem returns the ArrayItem field value
 func (o *TypeHolderDefault) GetArrayItem() []int32 {
-	if o == nil  {
+	if o == nil {
 		var ret []int32
 		return ret
 	}

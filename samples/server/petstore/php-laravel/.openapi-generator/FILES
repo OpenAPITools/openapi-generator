@@ -60,6 +60,7 @@ lib/app/Models/OuterEnum.php
 lib/app/Models/OuterEnumDefaultValue.php
 lib/app/Models/OuterEnumInteger.php
 lib/app/Models/OuterEnumIntegerDefaultValue.php
+lib/app/Models/OuterObjectWithEnumProperty.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SpecialModelName.php

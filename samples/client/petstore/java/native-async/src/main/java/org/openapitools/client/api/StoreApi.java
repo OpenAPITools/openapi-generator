@@ -67,6 +67,14 @@ public class StoreApi {
         localVarResponse.body());
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors

@@ -42,8 +42,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
+    protected static final String SUPPORTS_RETRY = "supportsRetry";
 
     protected static final String NET_STANDARD = "netStandard";
+
+    // HTTP libraries
+    protected static final String RESTSHARP = "restsharp";
+    protected static final String HTTPCLIENT = "httpclient";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
@@ -80,6 +85,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
 
+    protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
@@ -93,6 +99,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String licenseId;
     protected String packageTags;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+
+    protected boolean needsCustomHttpMethod = false;
+    protected boolean needsUriBuilder = false;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -290,6 +299,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         regexModifiers.put('m', "Multiline");
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
+
+        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                + "(Experimental. May subject to breaking changes without further notice.)");
+        supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set RESTSHARP as the default
+        libraryOption.setDefault(RESTSHARP);
+        cliOptions.add(libraryOption);
+        setLibrary(RESTSHARP);
     }
 
     @Override
@@ -536,7 +556,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          */
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -556,41 +576,65 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (isEmpty(modelPackage)) {
             setModelPackage("Model");
         }
+
         clientPackage = "Client";
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
-        boolean strategyMatched = false;
-        FrameworkStrategy strategy = defaultFramework;
-        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
-            if (framework.equals(frameworkStrategy.name)) {
-                strategy = frameworkStrategy;
-                strategyMatched = true;
+        if (RESTSHARP.equals(getLibrary())) {
+            additionalProperties.put("useRestSharp", true);
+            needsCustomHttpMethod = true;
+        } else if (HTTPCLIENT.equals(getLibrary())) {
+            setLibrary(HTTPCLIENT);
+            additionalProperties.put("useHttpClient", true);
+            needsUriBuilder = true;
+        } else {
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+        }
+
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String[] frameworks;
+        List<FrameworkStrategy> strategies = new ArrayList<>();
+
+        if (inputFramework.contains(";")) {
+            // multiple target framework
+            frameworks = inputFramework.split(";");
+            additionalProperties.put("multiTarget", true);
+        } else {
+            // just a single value
+            frameworks = new String [] {inputFramework};
+        }
+
+        for (String framework : frameworks) {
+            boolean strategyMatched = false;
+            for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+                if (framework.equals(frameworkStrategy.name)) {
+                    strategies.add(frameworkStrategy);
+                    strategyMatched = true;
+                }
+
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
+                   LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                }
+            }
+
+            if (!strategyMatched) {
+                // throws exception if the input targetFramework is invalid
+                throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
+                framework + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
             }
         }
 
-        // throws exception if the input targetFramework is invalid
-        if (strategyMatched == false) {
-            throw new IllegalArgumentException("Invalid .NET framework version: " +
-                    framework + ". List of supported versions: " +
-                    frameworkStrategies.stream()
-                    .map(p -> p.name)
-                    .collect(Collectors.joining(", ")));
-        }
-
-        strategy.configureAdditionalProperties(additionalProperties);
-
-        setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.name);
-        setTestTargetFramework(strategy.testTargetFramework);
-
-        if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
-            LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
-        }
+        configureAdditionalPropertiesForFrameworks(additionalProperties, strategies);
+        setTargetFrameworkNuget(strategies);
+        setTargetFramework(strategies);
+        setTestTargetFramework(strategies);
 
         setSupportsAsync(Boolean.TRUE);
-        setNetStandard(strategy.isNetStandard);
+        setNetStandard(strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
 
-        if (!strategy.isNetStandard) {
+        if (!netStandard) {
             setNetCoreProjectFileFlag(true);
         }
 
@@ -614,6 +658,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
+        syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
@@ -644,7 +689,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
-        supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        if(needsCustomHttpMethod) {
+            supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        }
+        if(needsUriBuilder) {
+            supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
+        }
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
             supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
         }
@@ -654,7 +704,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
-        supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
+
+        if (supportsRetry) {
+            supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
+        }
 
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
@@ -717,6 +770,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.supportsAsync = supportsAsync;
     }
 
+    public void setSupportsRetry(Boolean supportsRetry) {
+        this.supportsRetry = supportsRetry;
+    }
+
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
             throw new IllegalArgumentException("Invalid .NET framework version: " +
@@ -730,12 +787,37 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
     }
 
+    public void setTargetFramework(List<FrameworkStrategy> strategies) {
+        for (FrameworkStrategy strategy : strategies) {
+            if (!frameworks.containsKey(strategy.name)) {
+                throw new IllegalArgumentException("Invalid .NET framework version: " +
+                        strategy.name + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
+            }
+        }
+        this.targetFramework = strategies.stream().map(p -> p.name)
+                .collect(Collectors.joining(";"));
+        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+    }
+
     public void setTestTargetFramework(String testTargetFramework) {
         this.testTargetFramework = testTargetFramework;
     }
 
+    public void setTestTargetFramework(List<FrameworkStrategy> strategies) {
+        this.testTargetFramework = strategies.stream().map(p -> p.testTargetFramework)
+                .collect(Collectors.joining(";"));
+    }
+
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
         this.targetFrameworkNuget = targetFrameworkNuget;
+    }
+
+    public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
+        this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
+                .collect(Collectors.joining(";"));
     }
 
     public void setValidatable(boolean validatable) {
@@ -959,6 +1041,23 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
+    protected void configureAdditionalPropertiesForFrameworks(final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
+        properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, strategies.stream()
+                .map(p -> p.name)
+                .collect(Collectors.joining(";")));
+
+        // not intended to be user-settable
+        properties.put(TARGET_FRAMEWORK_IDENTIFIER, strategies.stream()
+                .map(p -> p.getTargetFrameworkIdentifier())
+                .collect(Collectors.joining(";")));
+        properties.put(TARGET_FRAMEWORK_VERSION, strategies.stream()
+                .map(p -> p.getTargetFrameworkVersion())
+                .collect(Collectors.joining(";")));
+        properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
+
+        properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+    }
+
     /**
      * Return the instantiation type of the property, especially for map and array
      *
@@ -1008,5 +1107,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
     }
 }

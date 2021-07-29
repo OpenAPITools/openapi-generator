@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 [**TestQueryParameterCollectionFormat**](FakeApi.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-paramters | 
+[**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeApi.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-paramters | 
 
 
 
@@ -973,6 +974,74 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestUniqueItemsHeaderAndQueryParameterCollectionFormat
+
+> []Pet TestUniqueItemsHeaderAndQueryParameterCollectionFormat(ctx).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    queryUnique := []string{"Inner_example"} // []string | 
+    headerUnique := []string{"Inner_example"} // []string | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestUniqueItemsHeaderAndQueryParameterCollectionFormat`: []Pet
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.TestUniqueItemsHeaderAndQueryParameterCollectionFormat`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryUnique** | **[]string** |  | 
+ **headerUnique** | **[]string** |  | 
+
+### Return type
+
+[**[]Pet**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

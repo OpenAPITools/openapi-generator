@@ -70,7 +70,7 @@
             {
                 this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             }
-            
+
             {{/required}}
             {{#isNullable}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
@@ -100,7 +100,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/vars}}
         }
-        
+
         {{#vars}}
         {{^isInherited}}
         {{^isEnum}}
@@ -132,7 +132,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -296,7 +296,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             }
             {{/minLength}}
             {{/isEnum}}
-            
+ 
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
             if(this.{{{name}}} > ({{{dataType}}}){{maximum}})

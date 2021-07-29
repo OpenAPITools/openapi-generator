@@ -68,6 +68,8 @@ public class GrandparentAnimal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPetType(String petType) {
     this.petType = petType;
   }

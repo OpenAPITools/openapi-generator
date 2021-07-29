@@ -62,8 +62,8 @@ export class BaseAPI {
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
         const body = ((typeof FormData !== "undefined" && context.body instanceof FormData) || context.body instanceof URLSearchParams || isBlob(context.body))
-	    ? context.body
-	    : JSON.stringify(context.body);
+        ? context.body
+        : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {

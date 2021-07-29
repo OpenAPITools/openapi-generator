@@ -21,10 +21,15 @@ public class {{classname}}Handler {
 
     private static final Logger logger = LoggerFactory.getLogger({{classname}}Handler.class);
 
-    private final {{classname}} apiImpl;
+    private final {{classname}} api;
 
+    public {{classname}}Handler({{classname}} api) {
+        this.api = api;
+    }
+
+    @Deprecated
     public {{classname}}Handler() {
-        this.apiImpl = new {{classname}}Impl();
+        this(new {{classname}}Impl());
     }
 
     public void mount(RouterBuilder builder) {
@@ -48,7 +53,7 @@ public class {{classname}}Handler {
         logger.debug("Parameter {{paramName}} is {}", {{paramName}});
 {{/allParams}}
 
-        apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+        api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

@@ -29,12 +29,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
     public static final String BUNDLE_ALIAS = "bundleAlias";
@@ -257,7 +256,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        if (templateName.equals("api_controller.mustache"))
+        if ("api_controller.mustache".equals(templateName))
             return controllerFileFolder() + File.separator + toControllerName(tag) + suffix;
 
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
@@ -417,20 +416,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 if (param.isContainer) {
                     param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
                 }
-
-                // Quote default values for strings
-                // @todo: The default values for headers, forms and query params are handled
-                //        in DefaultCodegen fromParameter with no real possibility to override
-                //        the functionality. Thus we are handling quoting of string values here
-                if (param.dataType.equals("string") && param.defaultValue != null && !param.defaultValue.isEmpty()) {
-                    param.defaultValue = "'" + param.defaultValue + "'";
-                }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
                 op.vendorExtensions.put("x-comment-type", op.returnType);
-                if (op.returnContainer != null && op.returnContainer.equals("array")) {
+                if ("array".equals(op.returnContainer)) {
                     op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
                 }
             } else {

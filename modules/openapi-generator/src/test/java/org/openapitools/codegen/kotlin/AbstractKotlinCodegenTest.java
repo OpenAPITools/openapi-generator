@@ -16,7 +16,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -77,7 +76,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
     }
 
-    private class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
+    private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
         @Override
         public CodegenType getTag() {
             return null;

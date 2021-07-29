@@ -26,22 +26,24 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents those settings applied to a generation workflow.
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-    private static final AtomicLong lastWarning = new AtomicLong(0);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
     public static final boolean DEFAULT_SKIP_OVERWRITE = false;
     public static final boolean DEFAULT_REMOVE_OPERATION_ID_PREFIX = false;
+    public static final boolean DEFAULT_SKIP_OPERATION_EXAMPLE = false;
     public static final boolean DEFAULT_LOG_TO_STDERR = false;
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
@@ -56,6 +58,7 @@ public class WorkflowSettings {
     private boolean verbose = DEFAULT_VERBOSE;
     private boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
     private boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+    private boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
     private boolean logToStderr = DEFAULT_LOG_TO_STDERR;
     private boolean validateSpec = DEFAULT_VALIDATE_SPEC;
     private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
@@ -65,7 +68,7 @@ public class WorkflowSettings {
     private String templateDir;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
-    private ImmutableMap<String, String> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
+    private ImmutableMap<String, ?> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
 
     private WorkflowSettings(Builder builder) {
         this.inputSpec = builder.inputSpec;
@@ -104,6 +107,7 @@ public class WorkflowSettings {
         builder.verbose = copy.isVerbose();
         builder.skipOverwrite = copy.isSkipOverwrite();
         builder.removeOperationIdPrefix = copy.isRemoveOperationIdPrefix();
+        builder.skipOperationExample = copy.isSkipOperationExample();
         builder.logToStderr = copy.isLogToStderr();
         builder.validateSpec = copy.isValidateSpec();
         builder.enablePostProcessFile = copy.isEnablePostProcessFile();
@@ -167,6 +171,15 @@ public class WorkflowSettings {
      */
     public boolean isRemoveOperationIdPrefix() {
         return removeOperationIdPrefix;
+    }
+
+    /**
+     * Indicates whether or not to skip examples defined in the operation.
+     *
+     * @return <code>true</code> if the examples defined in the operation should be skipped.
+     */
+    public boolean isSkipOperationExample() {
+        return skipOperationExample;
     }
 
     /**
@@ -271,7 +284,15 @@ public class WorkflowSettings {
      * @return the system properties
      */
     public Map<String, String> getGlobalProperties() {
-        return globalProperties;
+        return globalProperties.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
+                    if (e.getValue() instanceof List) {
+                        return ((List<?>) e.getValue()).stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(","));
+                    }
+                    return String.valueOf(e.getValue());
+                }));
     }
 
     /**
@@ -284,6 +305,7 @@ public class WorkflowSettings {
         private Boolean verbose = DEFAULT_VERBOSE;
         private Boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
         private Boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
+        private Boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
         private Boolean logToStderr = DEFAULT_LOG_TO_STDERR;
         private Boolean validateSpec = DEFAULT_VALIDATE_SPEC;
         private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
@@ -295,7 +317,7 @@ public class WorkflowSettings {
         private String ignoreFileOverride;
 
         // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
-        private Map<String, String> globalProperties = new HashMap<>();;
+        private Map<String, String> globalProperties = new HashMap<>();
 
         private Builder() {
         }
@@ -359,6 +381,17 @@ public class WorkflowSettings {
          */
         public Builder withRemoveOperationIdPrefix(Boolean removeOperationIdPrefix) {
             this.removeOperationIdPrefix = removeOperationIdPrefix != null ? removeOperationIdPrefix : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
+            return this;
+        }
+
+        /**
+         * Sets the {@code skipOperationExample} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param skipOperationExample the {@code skipOperationExample} to set
+         * @return a reference to this Builder
+         */
+        public Builder withSkipOperationExample(Boolean skipOperationExample) {
+            this.skipOperationExample = skipOperationExample != null ? skipOperationExample : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
             return this;
         }
 
@@ -568,6 +601,7 @@ public class WorkflowSettings {
         return isVerbose() == that.isVerbose() &&
                 isSkipOverwrite() == that.isSkipOverwrite() &&
                 isRemoveOperationIdPrefix() == that.isRemoveOperationIdPrefix() &&
+                isSkipOperationExample() == that.isSkipOperationExample() &&
                 isLogToStderr() == that.isLogToStderr() &&
                 isValidateSpec() == that.isValidateSpec() &&
                 isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
@@ -590,6 +624,7 @@ public class WorkflowSettings {
                 isVerbose(),
                 isSkipOverwrite(),
                 isRemoveOperationIdPrefix(),
+                isSkipOperationExample(),
                 isLogToStderr(),
                 isValidateSpec(),
                 isGenerateAliasAsModel(),

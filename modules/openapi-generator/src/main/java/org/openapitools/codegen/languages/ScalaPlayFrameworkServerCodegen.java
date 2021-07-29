@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -48,7 +47,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String ROUTES_FILE_NAME = "routesFileName";
     public static final String BASE_PACKAGE = "basePackage";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
+     final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
     protected boolean supportAsync = false;

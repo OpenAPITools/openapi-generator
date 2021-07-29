@@ -44,7 +44,7 @@ public class HealthCheckResult   {
    * Get nullableMessage
    * @return nullableMessage
    **/
-  @JsonProperty("NullableMessage")
+  @JsonProperty(value = "NullableMessage")
   @ApiModelProperty(value = "")
   
   public String getNullableMessage() {

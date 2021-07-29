@@ -18,5 +18,5 @@ gradle generateGoWithInvalidSpec    # expected outcome: BUILD FAILED
 The samples can be tested against other versions of the plugin using the `openApiGeneratorVersion` property. For example:
 
 ```bash
-gradle -PopenApiGeneratorVersion=5.0.1 openApiValidate
+gradle -PopenApiGeneratorVersion=5.1.0 openApiValidate
 ```

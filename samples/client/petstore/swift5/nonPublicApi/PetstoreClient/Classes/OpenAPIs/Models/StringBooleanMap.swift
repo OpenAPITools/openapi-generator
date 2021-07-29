@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import AnyCodable
 
-internal struct StringBooleanMap: Codable {
+internal struct StringBooleanMap: Codable, Hashable {
 
+    internal enum CodingKeys: CodingKey, CaseIterable {
+    }
     internal var additionalProperties: [String: Bool] = [:]
 
     internal subscript(key: String) -> Bool? {
@@ -27,10 +30,9 @@ internal struct StringBooleanMap: Codable {
     // Encodable protocol methods
 
     internal func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeMap(additionalProperties)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
     }
 
     // Decodable protocol methods
@@ -41,5 +43,6 @@ internal struct StringBooleanMap: Codable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 }

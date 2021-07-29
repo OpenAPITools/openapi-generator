@@ -42,7 +42,7 @@ import static org.openapitools.codegen.CodegenType.SERVER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpNancyFXServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNancyFXServerCodegen.class);
 
     private static final String API_NAMESPACE = "Modules";
     private static final String MODEL_NAMESPACE = "Models";
@@ -423,7 +423,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         return ImmutableSet.of("LocalTime?", "LocalDate?", "ZonedDateTime?");
     }
 
-    private class DependencyInfo {
+    private static class DependencyInfo {
         private final String version;
         private final String framework;
 

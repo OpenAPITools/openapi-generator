@@ -60,6 +60,8 @@ public class InlineResponseDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(Foo string) {
     this.string = string;
   }

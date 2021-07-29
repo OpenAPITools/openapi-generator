@@ -46,8 +46,8 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
  **ApiKey** | **String**|  | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -143,8 +143,8 @@ Name | Type | Description  | Notes
  **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet[]**](Pet.md)
+
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -191,8 +191,8 @@ Name | Type | Description  | Notes
  **Tags** | [**String[]**](String.md)| Tags to filter by | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet[]**](Pet.md)
+
+[**Pet[]**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -241,8 +241,8 @@ Name | Type | Description  | Notes
  **PetId** | **Int64**| ID of pet to return | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -287,8 +287,8 @@ Name | Type | Description  | Notes
  **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**Pet**](Pet.md)
+
+[**Pet**](Pet.md) (PSCustomObject)
 
 ### Authorization
 
@@ -339,7 +339,7 @@ Name | Type | Description  | Notes
  **Status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -391,8 +391,8 @@ Name | Type | Description  | Notes
  **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**ApiResponse**](ApiResponse.md)
+
+[**ApiResponse**](ApiResponse.md) (PSCustomObject)
 
 ### Authorization
 

@@ -108,16 +108,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void processOpts() {
         if (additionalProperties.containsKey(GENERATE_POM)) {
-            generatePom = Boolean.valueOf(additionalProperties.get(GENERATE_POM).toString());
+            generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
         }
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString());
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
                 additionalProperties.remove(INTERFACE_ONLY);
             }
         }
         if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.valueOf(additionalProperties.get(RETURN_RESPONSE).toString());
+            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
             if (!returnResponse) {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
@@ -126,7 +126,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             useSwaggerAnnotations = false;
         } else {
             if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-                useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+                useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
             }
         }
         if (KUMULUZEE_LIBRARY.equals(library)){
@@ -135,7 +135,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
         if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
-            generateBuilders = Boolean.valueOf(additionalProperties.get(GENERATE_BUILDERS).toString());
+            generateBuilders = Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString());
         }
         additionalProperties.put(GENERATE_BUILDERS, generateBuilders);
 

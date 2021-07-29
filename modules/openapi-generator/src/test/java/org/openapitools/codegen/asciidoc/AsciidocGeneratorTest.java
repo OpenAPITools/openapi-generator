@@ -11,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
@@ -25,7 +24,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 /** unit test asciidoc markup generation against ping.yaml openapi spec. */
 public class AsciidocGeneratorTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
 
     @Test
     public void testPingSpecTitle() throws Exception {
@@ -112,7 +111,7 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
 
     }
-    
+
 
     @Test
     public void testHeaderAttributesFlagRemovesAttributesFromMarkupHeaderSection() throws Exception {
@@ -147,6 +146,6 @@ public class AsciidocGeneratorTest {
             }
         }
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
-    }    
+    }
 
 }

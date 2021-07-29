@@ -10,17 +10,29 @@ import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.delete
-import io.ktor.locations.get
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.Route
+{{#featureLocations}}
+import {{packageName}}.Paths
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.delete
+import io.ktor.locations.get
+import io.ktor.locations.post
+import io.ktor.locations.put
+import io.ktor.locations.options
+import io.ktor.locations.head
+{{/featureLocations}}
+{{^featureLocations}}
+import io.ktor.routing.delete
+import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.put
+import io.ktor.routing.options
+import io.ktor.routing.head
 import io.ktor.routing.route
+{{/featureLocations}}
 
-import {{packageName}}.Paths
 import {{packageName}}.infrastructure.ApiPrincipal
 
 
@@ -28,34 +40,33 @@ import {{packageName}}.infrastructure.ApiPrincipal
 {{/imports}}
 
 {{#operations}}
+    {{#featureLocations}}
 @KtorExperimentalLocationsAPI
+    {{/featureLocations}}
 fun Route.{{classname}}() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
 {{#operation}}
-    {{#bodyAllowed}}
-
+    {{#hasAuthMethods}}
+        {{#authMethods}}
+    authenticate("{{{name}}}") {
+        {{/authMethods}}
+    {{/hasAuthMethods}}
+    {{^featureLocations}}
     route("{{path}}") {
-        {{#hasAuthMethods}}
-            {{#authMethods}}
-            authenticate("{{{name}}}") {
-            {{/authMethods}}
-        {{/hasAuthMethods}}
         {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
             {{#lambda.indented_12}}{{>libraries/ktor/_api_body}}{{/lambda.indented_12}}
         }
-        {{#hasAuthMethods}}
-            }
-        {{/hasAuthMethods}}
     }
-    {{/bodyAllowed}}
-    {{^bodyAllowed}}
-
-    {{! NOTE: Locations can be used on routes without body parameters.}}
-    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {  _: Paths.{{operationId}} ->
+    {{/featureLocations}}
+    {{#featureLocations}}
+    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {
         {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
     }
-    {{/bodyAllowed}}
+    {{/featureLocations}}
+    {{#hasAuthMethods}}
+    }
+    {{/hasAuthMethods}}
 
 {{/operation}}
 }

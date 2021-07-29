@@ -41,7 +41,7 @@ public interface UserApi  {
     @ApiOperation(value = "Create user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(@Valid User body);
+    public void createUser(@Valid @NotNull User body);
 
     /**
      * Creates list of users with given input array
@@ -52,7 +52,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(@Valid List<User> body);
+    public void createUsersWithArrayInput(@Valid @NotNull List<User> body);
 
     /**
      * Creates list of users with given input array
@@ -63,7 +63,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(@Valid List<User> body);
+    public void createUsersWithListInput(@Valid @NotNull List<User> body);
 
     /**
      * Delete user
@@ -129,6 +129,6 @@ public interface UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, @Valid User body);
+    public void updateUser(@PathParam("username") String username, @Valid @NotNull User body);
 }
 

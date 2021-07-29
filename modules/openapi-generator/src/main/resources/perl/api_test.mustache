@@ -21,13 +21,11 @@ isa_ok($api, '{{moduleName}}::{{classname}}');
 #
 # {{{nickname}}} test
 #
-{
-{{#allParams}}    my ${{paramName}} = undef; # replace NULL with a proper value
+# uncomment below and update the test
+{{#allParams}}
+#my ${{nickname}}_{{paramName}} = undef; # replace NULL with a proper value
 {{/allParams}}
-    my $result = $api->{{nickname}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-}
+#my ${{nickname}}_result = $api->{{nickname}}({{#allParams}}{{paramName}} => ${{nickname}}_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
 {{/operation}}
 {{/operations}}
-
-1;

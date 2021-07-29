@@ -75,6 +75,8 @@ public class ChildCat extends ParentPet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(String name) {
     this.name = name;
   }
@@ -106,6 +108,8 @@ public class ChildCat extends ParentPet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPetType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));

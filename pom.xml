@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.2.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -271,7 +271,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -1206,6 +1206,7 @@
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
@@ -1235,8 +1236,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1253,6 +1252,7 @@
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
@@ -1284,6 +1284,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
                 <!-- move to other CI as the following fails often in CircleCI
                 <module>samples/server/petstore/spring-mvc</module>
@@ -1296,6 +1297,7 @@
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
+                <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
@@ -1351,15 +1353,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
-                <module>samples/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
-                <module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1377,17 +1371,21 @@
                 <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin</module>
+                <module>samples/client/petstore/kotlin-gson</module>
+                <module>samples/client/petstore/kotlin-jackson</module>
+                <module>samples/client/petstore/kotlin-json-request-string</module>
+                <module>samples/client/petstore/kotlin-jvm-okhttp4-coroutines</module>
+                <module>samples/client/petstore/kotlin-moshi-codegen</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
-                <!--<module>samples/client/petstore/kotlin/</module>-->
+                <module>samples/client/petstore/kotlin-nonpublic</module>
+                <module>samples/client/petstore/kotlin-nullable</module>
+                <module>samples/client/petstore/kotlin-okhttp3</module>
                 <module>samples/client/petstore/kotlin-retrofit2</module>
                 <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
-                <module>samples/client/petstore/kotlin-jackson/</module>
-                <module>samples/client/petstore/kotlin-gson/</module>
-                <module>samples/client/petstore/kotlin-nonpublic/</module>
-                <module>samples/client/petstore/kotlin-nullable/</module>
-                <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
-                <module>samples/client/petstore/kotlin-json-request-string/</module>
+                <module>samples/client/petstore/kotlin-string</module>
+                <module>samples/client/petstore/kotlin-threetenbp</module>
+                <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
@@ -1417,6 +1415,12 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/client/petstore/R</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->

@@ -46,7 +46,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {

@@ -44,12 +44,12 @@ public class ObjcModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        
+
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        
+
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
@@ -59,7 +59,7 @@ public class ObjcModelTest {
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
-    
+
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
         final Schema model = new Schema()
@@ -177,7 +177,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property1.isPrimitiveType);
     }
 
-    
+
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema model = new Schema()

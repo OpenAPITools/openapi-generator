@@ -24,6 +24,21 @@ class {{classname}}(ModelComposed):
 {{/optionalVars}}
     }
 
+    read_only_vars = {
+{{#requiredVars}}
+{{#isReadOnly}}
+        '{{name}}',  # noqa: E501
+{{/isReadOnly}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#isReadOnly}}
+        '{{name}}',  # noqa: E501
+{{/isReadOnly}}
+{{/optionalVars}}
+    }
+
+{{> model_templates/method_from_openapi_data_composed }}
+
 {{> model_templates/method_init_composed }}
 
     @cached_property

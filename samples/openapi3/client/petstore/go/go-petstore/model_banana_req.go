@@ -27,7 +27,7 @@ type _BananaReq BananaReq
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBananaReq(lengthCm float32, ) *BananaReq {
+func NewBananaReq(lengthCm float32) *BananaReq {
 	this := BananaReq{}
 	this.LengthCm = lengthCm
 	return &this
@@ -43,7 +43,7 @@ func NewBananaReqWithDefaults() *BananaReq {
 
 // GetLengthCm returns the LengthCm field value
 func (o *BananaReq) GetLengthCm() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}

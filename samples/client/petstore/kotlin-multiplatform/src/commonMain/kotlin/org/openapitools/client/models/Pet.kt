@@ -38,16 +38,13 @@ data class Pet (
 ) {
 
     /**
-    * pet status in the store
-    * Values: available,pending,sold
-    */
-    @Serializable(with = Status.Serializer::class)
-    enum class Status(val value: kotlin.String){
+     * pet status in the store
+     * Values: available,pending,sold
+     */
+    enum class Status(val value: kotlin.String) {
         available("available"),
         pending("pending"),
         sold("sold");
-
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value.toString() }.toTypedArray())
     }
 }
 

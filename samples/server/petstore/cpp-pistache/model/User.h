@@ -22,10 +22,8 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+namespace org::openapitools::server::model
+{
 
 /// <summary>
 /// A User who is purchasing from the pet store
@@ -34,9 +32,22 @@ class  User
 {
 public:
     User();
-    virtual ~User();
+    virtual ~User() = default;
 
-    void validate();
+
+    /// <summary>
+    /// Validate the current data in the model. Throws a ValidationException on failure.
+    /// </summary>
+    void validate() const;
+
+    /// <summary>
+    /// Validate the current data in the model. Returns false on error and writes an error
+    /// message into the given stringstream.
+    /// </summary>
+    bool validate(std::stringstream& msg) const;
+
+    bool operator==(const User& rhs) const;
+    bool operator!=(const User& rhs) const;
 
     /////////////////////////////////////////////
     /// User members
@@ -117,11 +128,11 @@ protected:
     bool m_PhoneIsSet;
     int32_t m_UserStatus;
     bool m_UserStatusIsSet;
+
+    // Helper overload for validate. Used when one model stores another model and calls it's validate.
+    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
 };
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::model
 
 #endif /* User_H_ */

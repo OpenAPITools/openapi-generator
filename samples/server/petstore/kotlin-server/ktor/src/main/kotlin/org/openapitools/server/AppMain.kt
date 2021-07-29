@@ -18,12 +18,11 @@ import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
 import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Locations
-import io.ktor.metrics.Metrics
 import io.ktor.routing.Routing
 import java.util.concurrent.TimeUnit
-import io.ktor.util.KtorExperimentalAPI
 import io.ktor.auth.Authentication
 import io.ktor.auth.oauth
+import io.ktor.metrics.dropwizard.DropwizardMetrics
 import org.openapitools.server.infrastructure.ApiKeyCredential
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.infrastructure.apiKeyAuth
@@ -32,23 +31,21 @@ import org.openapitools.server.apis.StoreApi
 import org.openapitools.server.apis.UserApi
 
 
-@KtorExperimentalAPI
 internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
 
 object HTTP {
     val client = HttpClient(Apache)
 }
 
-@KtorExperimentalAPI
 @KtorExperimentalLocationsAPI
 fun Application.main() {
     install(DefaultHeaders)
-    install(Metrics) {
+    install(DropwizardMetrics) {
         val reporter = Slf4jReporter.forRegistry(registry)
-                .outputTo(log)
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .build()
+            .outputTo(log)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build()
         reporter.start(10, TimeUnit.SECONDS)
     }
     install(ContentNegotiation) {
@@ -72,8 +69,8 @@ fun Application.main() {
             client = HttpClient(Apache)
             providerLookup = { ApplicationAuthProviders["petstore_auth"] }
             urlProvider = { _ ->
-            // TODO: define a callback url here.
-            "/"
+                // TODO: define a callback url here.
+                "/"
             }
         }
     }
@@ -84,8 +81,7 @@ fun Application.main() {
     }
 
 
-    environment.monitor.subscribe(ApplicationStopping)
-    {
+    environment.monitor.subscribe(ApplicationStopping) {
         HTTP.client.close()
     }
 }

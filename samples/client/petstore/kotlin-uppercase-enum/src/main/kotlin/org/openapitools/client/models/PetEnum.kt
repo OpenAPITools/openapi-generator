@@ -19,16 +19,14 @@ import com.squareup.moshi.Json
 * Values: MY_FIRST_VALUE,MY_SECOND_VALUE
 */
 
-enum class PetEnum(val value: kotlin.String){
+enum class PetEnum(val value: kotlin.String) {
 
 
     @Json(name = "myFirstValue")
     MY_FIRST_VALUE("myFirstValue"),
 
-
     @Json(name = "MY_SECOND_VALUE")
     MY_SECOND_VALUE("MY_SECOND_VALUE");
-
 
 
     /**
@@ -38,6 +36,5 @@ enum class PetEnum(val value: kotlin.String){
     override fun toString(): String {
         return value
     }
-
 }
 

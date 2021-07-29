@@ -28,8 +28,8 @@ void main() {
       // // use the store api to add an order
       // storeApi.apiClient.client = FakeClient(
       //   expectedUrl: 'http://petstore.swagger.io/v2/store/order',
-      //   expectedPostRequestBody: storeApi.apiClient.serialize(newOrder),
-      //   postResponseBody: storeApi.apiClient.serialize(newOrder),
+      //   expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
+      //   postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
       //   expectedHeaders: {"Content-Type": "application/json"}
       // );
       // await storeApi.placeOrder(newOrder);
@@ -37,7 +37,7 @@ void main() {
       // // retrieve the same order by id
       // storeApi.apiClient.client = FakeClient(
       //   expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
-      //   getResponseBody: storeApi.apiClient.serialize(newOrder),
+      //   getResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
       // );
       // final placedOrder = await storeApi.getOrderById(id);
       // expect(placedOrder.id, equals(id));
@@ -51,8 +51,8 @@ void main() {
       // // use the store api to add an order
       // storeApi.apiClient.client = FakeClient(
       //   expectedUrl: 'http://petstore.swagger.io/v2/store/order',
-      //   expectedPostRequestBody: storeApi.apiClient.serialize(newOrder),
-      //   postResponseBody: storeApi.apiClient.serialize(newOrder),
+      //   expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
+      //   postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
       //   expectedHeaders: {"Content-Type": "application/json"}
       // );
       // await storeApi.placeOrder(newOrder);

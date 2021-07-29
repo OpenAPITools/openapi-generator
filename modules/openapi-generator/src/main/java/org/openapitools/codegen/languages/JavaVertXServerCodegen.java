@@ -42,7 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
 
     protected String resourceFolder = "src/main/resources";
     protected String rootPackage = "org.openapitools.server.api";

@@ -20,17 +20,18 @@ import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.delete
-import io.ktor.locations.get
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.Route
-import io.ktor.routing.post
-import io.ktor.routing.put
-import io.ktor.routing.route
-
 import org.openapitools.server.Paths
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.delete
+import io.ktor.locations.get
+import io.ktor.locations.post
+import io.ktor.locations.put
+import io.ktor.locations.options
+import io.ktor.locations.head
+
 import org.openapitools.server.infrastructure.ApiPrincipal
 
 
@@ -40,34 +41,23 @@ import org.openapitools.server.models.User
 fun Route.UserApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
-
-    route("/user") {
-        post {
-            call.respond(HttpStatusCode.NotImplemented)
-        }
-    }
-
-
-    route("/user/createWithArray") {
-        post {
-            call.respond(HttpStatusCode.NotImplemented)
-        }
-    }
-
-
-    route("/user/createWithList") {
-        post {
-            call.respond(HttpStatusCode.NotImplemented)
-        }
-    }
-
-
-    delete<Paths.deleteUser> {  _: Paths.deleteUser ->
+    post<Paths.createUser> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
+    post<Paths.createUsersWithArrayInput> {
+        call.respond(HttpStatusCode.NotImplemented)
+    }
 
-    get<Paths.getUserByName> {  _: Paths.getUserByName ->
+    post<Paths.createUsersWithListInput> {
+        call.respond(HttpStatusCode.NotImplemented)
+    }
+
+    delete<Paths.deleteUser> {
+        call.respond(HttpStatusCode.NotImplemented)
+    }
+
+    get<Paths.getUserByName> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "firstName" : "firstName",
@@ -80,28 +70,23 @@ fun Route.UserApi() {
           "username" : "username"
         }"""
         
-        when(exampleContentType) {
+        when (exampleContentType) {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
     }
 
-
-    get<Paths.loginUser> {  _: Paths.loginUser ->
+    get<Paths.loginUser> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-
-    get<Paths.logoutUser> {  _: Paths.logoutUser ->
+    get<Paths.logoutUser> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-
-    route("/user/{username}") {
-        put {
-            call.respond(HttpStatusCode.NotImplemented)
-        }
+    put<Paths.updateUser> {
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
 }

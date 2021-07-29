@@ -67,6 +67,14 @@ public class AnotherFakeApi {
         localVarResponse.body());
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * To test special tags
    * To test special tags and operation ID starting with number

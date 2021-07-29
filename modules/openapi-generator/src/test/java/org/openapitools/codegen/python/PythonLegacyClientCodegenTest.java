@@ -24,13 +24,11 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public class PythonLegacyClientCodegenTest {
 

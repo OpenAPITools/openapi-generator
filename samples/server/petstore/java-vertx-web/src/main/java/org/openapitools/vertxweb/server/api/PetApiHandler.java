@@ -22,10 +22,15 @@ public class PetApiHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(PetApiHandler.class);
 
-    private final PetApi apiImpl;
+    private final PetApi api;
 
+    public PetApiHandler(PetApi api) {
+        this.api = api;
+    }
+
+    @Deprecated
     public PetApiHandler() {
-        this.apiImpl = new PetApiImpl();
+        this(new PetApiImpl());
     }
 
     public void mount(RouterBuilder builder) {
@@ -50,7 +55,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter pet is {}", pet);
 
-        apiImpl.addPet(pet)
+        api.addPet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -74,7 +79,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter apiKey is {}", apiKey);
 
-        apiImpl.deletePet(petId, apiKey)
+        api.deletePet(petId, apiKey)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -96,7 +101,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter status is {}", status);
 
-        apiImpl.findPetsByStatus(status)
+        api.findPetsByStatus(status)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -118,7 +123,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter tags is {}", tags);
 
-        apiImpl.findPetsByTags(tags)
+        api.findPetsByTags(tags)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -140,7 +145,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter petId is {}", petId);
 
-        apiImpl.getPetById(petId)
+        api.getPetById(petId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -163,7 +168,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter pet is {}", pet);
 
-        apiImpl.updatePet(pet)
+        api.updatePet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -188,7 +193,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter formBody is {}", formBody);
 
-        apiImpl.updatePetWithForm(petId, formBody)
+        api.updatePetWithForm(petId, formBody)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -212,7 +217,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter file is {}", file);
 
-        apiImpl.uploadFile(petId, file)
+        api.uploadFile(petId, file)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

@@ -15,12 +15,28 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED){{#contentCompression}}
 find_package(ZLIB REQUIRED){{/contentCompression}}
 
-file(GLOB SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+add_library(${PROJECT_NAME}
+{{#models}}
+{{#model}}
+    {{classname}}.cpp
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    {{classname}}.cpp
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+    {{prefix}}Helpers.cpp
+    {{prefix}}HttpRequest.cpp
+    {{prefix}}HttpFileElement.cpp
 )
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network {{#contentCompression}} ${ZLIB_LIBRARIES}{{/contentCompression}})
 
-add_library(${PROJECT_NAME} ${SRCS})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network ssl crypto{{#contentCompression}} ${ZLIB_LIBRARIES}{{/contentCompression}})
+if(NOT APPLE)
+  target_link_libraries(${PROJECT_NAME} PRIVATE ssl crypto)
+endif()
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)

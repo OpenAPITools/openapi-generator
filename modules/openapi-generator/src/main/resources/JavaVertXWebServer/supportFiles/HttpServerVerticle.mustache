@@ -10,7 +10,8 @@ import io.vertx.ext.web.openapi.RouterBuilderOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 {{#apiInfo}}{{#apis}}
-import {{apiPackage}}.{{classname}}Handler;{{/apis}}{{/apiInfo}}
+import {{apiPackage}}.{{classname}}Handler;
+import {{apiPackage}}.{{classname}}Impl;{{/apis}}{{/apiInfo}}
 
 public class HttpServerVerticle extends AbstractVerticle {
 
@@ -18,7 +19,7 @@ public class HttpServerVerticle extends AbstractVerticle {
     private static final String specFile = "src/main/resources/openapi.yaml";
 
     {{#apiInfo}}{{#apis}}
-    private final {{classname}}Handler {{classVarName}}Handler = new {{classname}}Handler();{{/apis}}{{/apiInfo}}
+    private final {{classname}}Handler {{classVarName}}Handler = new {{classname}}Handler(new {{classname}}Impl());{{/apis}}{{/apiInfo}}
 
     @Override
     public void start(Promise<Void> startPromise) {

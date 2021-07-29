@@ -5,13 +5,13 @@ package {{packageName}}
 {{/-first}}	"{{import}}"{{#-last}}
 )
 {{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
-type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
-// List of {{{name}}}
+// List of {{{classname}}}
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
-	{{name}} {{{classname}}} = {{{value}}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}

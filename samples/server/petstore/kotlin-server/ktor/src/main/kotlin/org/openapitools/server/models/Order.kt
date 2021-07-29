@@ -22,7 +22,7 @@ import java.io.Serializable
  * @param status Order Status
  * @param complete 
  */
-data class Order (
+data class Order(
     val id: kotlin.Long? = null,
     val petId: kotlin.Long? = null,
     val quantity: kotlin.Int? = null,
@@ -32,9 +32,9 @@ data class Order (
     val complete: kotlin.Boolean? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
     /**
     * Order Status
     * Values: placed,approved,delivered

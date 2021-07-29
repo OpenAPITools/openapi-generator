@@ -216,7 +216,7 @@ These options default to true and don't limit the generation of the feature opti
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
-To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.2)
+To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to `true`) (this option is introduced at v3.2.2 and `true` by default starting from v5.x).
 
 ```sh
 --global-property skipFormModel=true

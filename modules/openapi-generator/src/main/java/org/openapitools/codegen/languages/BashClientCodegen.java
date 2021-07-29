@@ -39,7 +39,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
 
     protected String apiVersion = "1.0.0";
 

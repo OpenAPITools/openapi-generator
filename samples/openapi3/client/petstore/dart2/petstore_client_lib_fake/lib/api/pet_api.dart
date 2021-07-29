@@ -29,7 +29,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -74,7 +74,7 @@ class PetApi {
   Future<void> addPet(Pet pet) async {
     final response = await addPetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -94,7 +94,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -146,7 +146,7 @@ class PetApi {
   Future<void> deletePet(int petId, { String apiKey }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -166,7 +166,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
-    final path = '/pet/findByStatus'.replaceAll('{format}', 'json');
+    final path = r'/pet/findByStatus';
 
     Object postBody;
 
@@ -215,17 +215,17 @@ class PetApi {
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
     final response = await findPetsByStatusWithHttpInfo(status);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
     }
-    return null;
+    return Future<List<Pet>>.value(null);
   }
 
   /// Finds Pets by tags
@@ -244,7 +244,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
-    final path = '/pet/findByTags'.replaceAll('{format}', 'json');
+    final path = r'/pet/findByTags';
 
     Object postBody;
 
@@ -293,17 +293,17 @@ class PetApi {
   Future<Set<Pet>> findPetsByTags(Set<String> tags) async {
     final response = await findPetsByTagsWithHttpInfo(tags);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'Set<Pet>') as List)
+      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Set<Pet>') as List)
         .cast<Pet>()
         .toSet();
     }
-    return null;
+    return Future<Set<Pet>>.value(null);
   }
 
   /// Find pet by ID
@@ -322,7 +322,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -370,15 +370,15 @@ class PetApi {
   Future<Pet> getPetById(int petId) async {
     final response = await getPetByIdWithHttpInfo(petId);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
+        }
+    return Future<Pet>.value(null);
   }
 
   /// Update an existing pet
@@ -395,7 +395,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
-    final path = '/pet'.replaceAll('{format}', 'json');
+    final path = r'/pet';
 
     Object postBody = pet;
 
@@ -440,7 +440,7 @@ class PetApi {
   Future<void> updatePet(Pet pet) async {
     final response = await updatePetWithHttpInfo(pet);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -464,7 +464,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -530,7 +530,7 @@ class PetApi {
   Future<void> updatePetWithForm(int petId, { String name, String status }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -554,7 +554,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
-    final path = '/pet/{petId}/uploadImage'.replaceAll('{format}', 'json')
+    final path = r'/pet/{petId}/uploadImage'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -618,15 +618,15 @@ class PetApi {
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
     final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
+        }
+    return Future<ApiResponse>.value(null);
   }
 
   /// uploads an image (required)
@@ -652,7 +652,7 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
     }
 
-    final path = '/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{format}', 'json')
+    final path = r'/fake/{petId}/uploadImageWithRequiredFile'
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
     Object postBody;
@@ -716,14 +716,14 @@ class PetApi {
   Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata }) async {
     final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata );
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
+        }
+    return Future<ApiResponse>.value(null);
   }
 }

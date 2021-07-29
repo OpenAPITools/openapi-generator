@@ -28,13 +28,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
@@ -50,9 +51,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public CLibcurlClientCodegen() {
         super();
 
-        // TODO: c maintainer review
-        // Assumes that C community considers api/model header files as documentation.
-        // Generator supports Basic, OAuth, and API key explicitly. Bearer is excluded although clients are able to set headers directly.
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
                         DocumentationFeature.Readme
@@ -82,8 +80,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.put("model-body.mustache", ".c");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".c");
-        //modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        //apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
 
         // TODO add auto-generated test files
@@ -893,9 +891,26 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
+        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
+        System.out.println("################################################################################");
     }
 }

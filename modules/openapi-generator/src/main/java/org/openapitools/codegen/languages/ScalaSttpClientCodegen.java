@@ -380,9 +380,9 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
             String value = getValue(additionalProperties);
-            if (value.equals(CIRCE) || value.equals(JSON4S)) {
-                additionalProperties.put(CIRCE, value.equals(CIRCE));
-                additionalProperties.put(JSON4S, value.equals(JSON4S));
+            if (CIRCE.equals(value) || JSON4S.equals(value)) {
+                additionalProperties.put(CIRCE, CIRCE.equals(value));
+                additionalProperties.put(JSON4S, JSON4S.equals(value));
             } else {
                 IllegalArgumentException exception =
                         new IllegalArgumentException("Invalid json library: " + value + ". Must be " + CIRCE + " " +

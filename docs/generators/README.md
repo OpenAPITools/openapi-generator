@@ -91,6 +91,7 @@ The following generators are available:
 * [jaxrs-resteasy-eap](jaxrs-resteasy-eap.md)  
 * [jaxrs-spec](jaxrs-spec.md)  
 * [kotlin-server](kotlin-server.md)  
+* [kotlin-server-deprecated](kotlin-server-deprecated.md)  
 * [kotlin-spring](kotlin-spring.md)  
 * [kotlin-vertx (beta)](kotlin-vertx.md)  
 * [nodejs-express-server (beta)](nodejs-express-server.md)  

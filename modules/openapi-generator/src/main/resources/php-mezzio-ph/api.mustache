@@ -45,10 +45,10 @@ class {{classname}}
 {{^isPrimitiveType}}
 {{#isContainer}}
      * TODO check if attribute is valid and can handle your container type
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"{{dataType}}","objectAttr":"bodyData"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"{{{dataType}}}","objectAttr":"bodyData"})
 {{/isContainer}}
 {{^isContainer}}
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"bodyData"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{{dataType}}}::class,"objectAttr":"bodyData"})
 {{/isContainer}}
 {{/isPrimitiveType}}
 {{/bodyParam}}
@@ -64,7 +64,7 @@ class {{classname}}
 {{#returnContainer}}
      * TODO check if generated return container type is valid
 {{/returnContainer}}
-     * @return {{returnType}}
+     * @return {{{returnType}}}
 {{/returnType}}
      */
     public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}{{/returnType}}
@@ -78,7 +78,7 @@ class {{classname}}
 {{/vendorExtensions}}
 {{#bodyParam}}
 {{^isPrimitiveType}}
-        /** @var {{dataType}} $bodyData */
+        /** @var {{{dataType}}} $bodyData */
         $bodyData = $request->getAttribute("bodyData");
 {{/isPrimitiveType}}
 {{/bodyParam}}

@@ -44,7 +44,7 @@ import io.swagger.v3.oas.models.OpenAPI;
  */
 public class AsciidocDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AsciidocDocumentationCodegen.class);
 
     public static final String SPEC_DIR = "specDir";
     public static final String SNIPPET_DIR = "snippetDir";

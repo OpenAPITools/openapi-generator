@@ -2,6 +2,7 @@
 
 # SpecialModelName
 
+
 ## Properties
 
 Name | Type | Description | Notes

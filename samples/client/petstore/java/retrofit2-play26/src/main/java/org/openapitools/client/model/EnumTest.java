@@ -220,6 +220,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -245,6 +247,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -270,6 +274,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -295,6 +301,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -321,6 +329,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }

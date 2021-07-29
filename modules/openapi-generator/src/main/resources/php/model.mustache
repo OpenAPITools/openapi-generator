@@ -41,7 +41,7 @@ use \{{invokerPackage}}\ObjectSerializer;
 {{^isEnum}}
  * @implements \ArrayAccess<TKey, TValue>
  * @template TKey int|null
- * @template TValue mixed|null  
+ * @template TValue mixed|null
 {{/isEnum}}
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}

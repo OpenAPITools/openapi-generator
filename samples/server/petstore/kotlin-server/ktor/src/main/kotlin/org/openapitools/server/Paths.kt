@@ -13,8 +13,17 @@ package org.openapitools.server
 
 import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Location
+import org.openapitools.server.models.*
 
 object Paths {
+    /**
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/pet") class addPet(val body: Pet)
+
     /**
      * Deletes a pet
      * 
@@ -30,7 +39,7 @@ object Paths {
      * @param status Status values that need to be considered for filter 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/findByStatus") class findPetsByStatus(val status: kotlin.Array<kotlin.String>)
+    @Location("/pet/findByStatus") class findPetsByStatus(val status: kotlin.collections.List<kotlin.String>)
 
     /**
      * Finds Pets by tags
@@ -38,7 +47,7 @@ object Paths {
      * @param tags Tags to filter by 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/findByTags") class findPetsByTags(val tags: kotlin.Array<kotlin.String>)
+    @Location("/pet/findByTags") class findPetsByTags(val tags: kotlin.collections.List<kotlin.String>)
 
     /**
      * Find pet by ID
@@ -47,6 +56,34 @@ object Paths {
      */
     @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class getPetById(val petId: kotlin.Long)
+
+    /**
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/pet") class updatePet(val body: Pet)
+
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated 
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/pet/{petId}") class updatePetWithForm(val petId: kotlin.Long, val name: kotlin.String? = null, val status: kotlin.String? = null)
+
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update 
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/pet/{petId}/uploadImage") class uploadFile(val petId: kotlin.Long, val additionalMetadata: kotlin.String? = null, val file: java.io.File? = null)
 
     /**
      * Delete purchase order by ID
@@ -70,6 +107,38 @@ object Paths {
      */
     @KtorExperimentalLocationsAPI
     @Location("/store/order/{orderId}") class getOrderById(val orderId: kotlin.Long)
+
+    /**
+     * Place an order for a pet
+     * 
+     * @param body order placed for purchasing the pet 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/store/order") class placeOrder(val body: Order)
+
+    /**
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/user") class createUser(val body: User)
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/user/createWithArray") class createUsersWithArrayInput(val body: kotlin.collections.List<User>)
+
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/user/createWithList") class createUsersWithListInput(val body: kotlin.collections.List<User>)
 
     /**
      * Delete user
@@ -102,5 +171,14 @@ object Paths {
      */
     @KtorExperimentalLocationsAPI
     @Location("/user/logout") class logoutUser()
+
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted 
+     * @param body Updated user object 
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/user/{username}") class updateUser(val username: kotlin.String, val body: User)
 
 }

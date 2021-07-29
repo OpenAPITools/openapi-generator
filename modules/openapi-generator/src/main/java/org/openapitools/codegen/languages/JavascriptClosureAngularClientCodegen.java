@@ -32,7 +32,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
 
     public static final String USE_ES6 = "useEs6";
 

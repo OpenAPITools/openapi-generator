@@ -7,6 +7,13 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+{{#models}}
+{{#model}}
+{{#discriminator}}
+using JsonSubTypes;
+{{/discriminator}}
+{{/model}}
+{{/models}}
 using {{packageName}}.Converters;
 
 {{#models}}
@@ -17,6 +24,12 @@ namespace {{modelPackage}}
     /// {{description}}
     /// </summary>
     [DataContract]
+    {{#discriminator}}
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{#mappedModels}}
+    [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/mappedModels}}
+    {{/discriminator}}
     public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
     {
         {{#vars}}

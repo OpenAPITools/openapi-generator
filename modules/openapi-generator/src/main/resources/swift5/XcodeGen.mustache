@@ -4,7 +4,7 @@ targets:
     type: framework
     platform: iOS
     deploymentTarget: "9.0"
-    sources: [{{projectName}}]
+    sources: [{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}{{/useSPMFileStructure}}{{/swiftPackagePath}}]
     info:
       path: ./Info.plist
       version: {{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}
@@ -15,3 +15,4 @@ targets:
     - carthage: Alamofire{{/useAlamofire}}{{#useRxSwift}}
     - carthage: RxSwift{{/useRxSwift}}{{#usePromiseKit}}
     - carthage: PromiseKit{{/usePromiseKit}}
+    - carthage: AnyCodable

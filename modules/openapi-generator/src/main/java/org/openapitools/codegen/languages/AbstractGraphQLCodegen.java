@@ -32,7 +32,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapi2graphql";

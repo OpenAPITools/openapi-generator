@@ -145,7 +145,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
 
         if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.valueOf(
+            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(
                     this.additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
         }
         if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
@@ -157,7 +157,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
         this.additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         if (this.additionalProperties.containsKey(FULL_JAVA_UTIL)) {
-            this.setFullJavaUtil(Boolean.valueOf(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
+            this.setFullJavaUtil(Boolean.parseBoolean(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
 
         if (this.additionalProperties.containsKey(EUREKA_URI)) {
@@ -178,7 +178,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("java8", true);
 
         if (this.additionalProperties.containsKey(WITH_XML)) {
-            this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
+            this.setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
         }
         this.additionalProperties.put(WITH_XML, withXml);
 
@@ -658,7 +658,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    private class ResourcePath {
+    private static class ResourcePath {
 
         private String path;
 

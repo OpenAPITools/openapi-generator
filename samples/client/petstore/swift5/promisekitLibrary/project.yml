@@ -13,3 +13,4 @@ targets:
     scheme: {}
     dependencies:
     - carthage: PromiseKit
+    - carthage: AnyCodable

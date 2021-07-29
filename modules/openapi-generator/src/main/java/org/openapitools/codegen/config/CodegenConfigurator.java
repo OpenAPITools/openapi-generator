@@ -429,6 +429,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setSkipOperationExample(boolean skipOperationExample) {
+        workflowSettingsBuilder.withSkipOperationExample(skipOperationExample);
+        return this;
+    }
+
     public CodegenConfigurator setSkipOverwrite(boolean skipOverwrite) {
         workflowSettingsBuilder.withSkipOverwrite(skipOverwrite);
         return this;
@@ -583,6 +588,7 @@ public class CodegenConfigurator {
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
         config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
         config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());
+        config.setSkipOperationExample(workflowSettings.isSkipOperationExample());
         config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());

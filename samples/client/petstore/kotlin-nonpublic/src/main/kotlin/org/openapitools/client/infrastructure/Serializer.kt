@@ -13,6 +13,8 @@ internal object Serializer {
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
         .add(KotlinJsonAdapterFactory())
+        .add(BigDecimalAdapter())
+        .add(BigIntegerAdapter())
 
     @JvmStatic
     val moshi: Moshi by lazy {

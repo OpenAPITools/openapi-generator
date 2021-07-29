@@ -5,7 +5,7 @@ MyApp.add_route('POST', '/v2/pet', {
   "resourcePath" => "/Pet",
   "summary" => "Add a new pet to the store",
   "nickname" => "add_pet", 
-  "responseClass" => "void",
+  "responseClass" => "Pet",
   "endpoint" => "/pet", 
   "notes" => "",
   "parameters" => [
@@ -123,7 +123,7 @@ MyApp.add_route('PUT', '/v2/pet', {
   "resourcePath" => "/Pet",
   "summary" => "Update an existing pet",
   "nickname" => "update_pet", 
-  "responseClass" => "void",
+  "responseClass" => "Pet",
   "endpoint" => "/pet", 
   "notes" => "",
   "parameters" => [

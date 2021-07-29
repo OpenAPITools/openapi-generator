@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-internal struct User: Codable {
+internal struct User: Codable, Hashable {
 
     internal var id: Int64?
     internal var username: String?
@@ -29,5 +30,31 @@ internal struct User: Codable {
         self.phone = phone
         self.userStatus = userStatus
     }
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case username
+        case firstName
+        case lastName
+        case email
+        case password
+        case phone
+        case userStatus
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+    }
+
+
 
 }

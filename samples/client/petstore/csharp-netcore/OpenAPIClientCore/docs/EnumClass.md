@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.EnumClass
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -33,7 +33,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;
@@ -87,6 +87,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("Dockerfile", "", "Dockerfile"));
     }
 
     @Override

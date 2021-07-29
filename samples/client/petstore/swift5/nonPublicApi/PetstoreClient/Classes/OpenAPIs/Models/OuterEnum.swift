@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnyCodable
 
 internal enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Whale
+
 ## Properties
 
 Name | Type | Description | Notes

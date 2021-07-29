@@ -1,618 +1,563 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.6
+// @dart=2.7
 
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/api_response.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
+import 'package:openapi/model/api_response.dart';
+import 'package:openapi/model/pet.dart';
 
 class PetApi {
 
-    final Dio _dio;
+  final Dio _dio;
 
-    final Serializers _serializers;
+  final Serializers _serializers;
 
-    const PetApi(this._dio, this._serializers);
+  const PetApi(this._dio, this._serializers);
 
-    /// Add a new pet to the store
-    ///
-    /// 
-    Future<Response<void>> addPet(
-        Pet pet, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet';
+  /// Add a new pet to the store
+  ///
+  /// 
+  Future<Response<void>> addPet(
+    Pet pet, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet',
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+        'application/xml',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    const _type = FullType(Pet);
+    _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-        final contentTypes = <String>[
-            'application/json',
-            'application/xml',
-        ];
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
+    return _response;
+  }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        );
-    }
+  /// Deletes a pet
+  ///
+  /// 
+  Future<Response<void>> deletePet(
+    int petId, { 
+    String apiKey,
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+      method: 'DELETE',
+      headers: <String, dynamic>{
+        if (apiKey != null) r'api_key': apiKey,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-    /// Deletes a pet
-    ///
-    /// 
-    Future<Response<void>> deletePet(
-        int petId, { 
-        String apiKey,
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    dynamic _bodyData;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        headerParams[r'api_key'] = apiKey;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    return _response;
+  }
 
-        final contentTypes = <String>[];
+  /// Finds Pets by status
+  ///
+  /// Multiple status values can be provided with comma separated strings
+  Future<Response<BuiltList<Pet>>> findPetsByStatus(
+    BuiltList<String> status, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/findByStatus',
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      queryParameters: <String, dynamic>{
+        r'status': status,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'delete'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        );
-    }
+    dynamic _bodyData;
 
-    /// Finds Pets by status
-    ///
-    /// Multiple status values can be provided with comma separated strings
-    Future<Response<BuiltList<Pet>>> findPetsByStatus(
-        BuiltList<String> status, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/findByStatus';
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    const _responseType = FullType(BuiltList, [FullType(Pet)]);
+    final BuiltList<Pet> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as BuiltList<Pet>;
 
-        queryParams[r'status'] = status;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    return Response<BuiltList<Pet>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        final contentTypes = <String>[];
+  /// Finds Pets by tags
+  ///
+  /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  Future<Response<BuiltSet<Pet>>> findPetsByTags(
+    BuiltSet<String> tags, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/findByTags',
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      queryParameters: <String, dynamic>{
+        r'tags': tags,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            const type = FullType(BuiltList, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltList<Pet>;
+    dynamic _bodyData;
 
-            return Response<BuiltList<Pet>>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-    /// Finds Pets by tags
-    ///
-    /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    Future<Response<BuiltSet<Pet>>> findPetsByTags(
-        BuiltSet<String> tags, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/findByTags';
+    const _responseType = FullType(BuiltSet, [FullType(Pet)]);
+    final BuiltSet<Pet> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as BuiltSet<Pet>;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    return Response<BuiltSet<Pet>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        queryParams[r'tags'] = tags;
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+  /// Find pet by ID
+  ///
+  /// Returns a single pet
+  Future<Response<Pet>> getPetById(
+    int petId, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'api_key',
+            'keyName': 'api_key',
+            'where': 'header',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        final contentTypes = <String>[];
+    dynamic _bodyData;
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            const type = FullType(BuiltSet, [FullType(Pet)]);
-            final data = _serializers.deserialize(
-                response.data is String
-                ? jsonDecode(response.data as String)
-                : response.data,
-                specifiedType: type,
-            ) as BuiltSet<Pet>;
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-            return Response<BuiltSet<Pet>>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    const _responseType = FullType(Pet);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Pet;
 
-    /// Find pet by ID
-    ///
-    /// Returns a single pet
-    Future<Response<Pet>> getPetById(
-        int petId, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    return Response<Pet>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+  /// Update an existing pet
+  ///
+  /// 
+  Future<Response<void>> updatePet(
+    Pet pet, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet',
+      method: 'PUT',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/json',
+        'application/xml',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    dynamic _bodyData;
 
-        final contentTypes = <String>[];
+    const _type = FullType(Pet);
+    _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'get'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'apiKey',
-                            'name': 'api_key',
-                            'keyName': 'api_key',
-                            'where': 'header',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-            final data = _serializers.deserializeWith<Pet>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-            return Response<Pet>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    return _response;
+  }
 
-    /// Update an existing pet
-    ///
-    /// 
-    Future<Response<void>> updatePet(
-        Pet pet, { 
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet';
+  /// Updates a pet in the store with form data
+  ///
+  /// 
+  Future<Response<void>> updatePetWithForm(
+    int petId, { 
+    String name,
+    String status,
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'application/x-www-form-urlencoded',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    dynamic _bodyData;
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    _bodyData = <String, dynamic>{
+      if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
+      if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
+    };
 
-        final contentTypes = <String>[
-            'application/json',
-            'application/xml',
-        ];
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final bodySerializer = _serializers.serializerForType(Pet) as Serializer<Pet>;
-        final serializedBody = _serializers.serializeWith(bodySerializer, pet);
-        final jsonpet = json.encode(serializedBody);
-        bodyData = jsonpet;
+    return _response;
+  }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'put'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        );
-    }
+  /// uploads an image
+  ///
+  /// 
+  Future<Response<ApiResponse>> uploadFile(
+    int petId, { 
+    String additionalMetadata,
+    Uint8List file,
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString()),
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'multipart/form-data',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-    /// Updates a pet in the store with form data
-    ///
-    /// 
-    Future<Response<void>> updatePetWithForm(
-        int petId, { 
-        String name,
-        String status,
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    dynamic _bodyData;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    _bodyData = FormData.fromMap(<String, dynamic>{
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
+      if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+    });
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final contentTypes = <String>[
-            'application/x-www-form-urlencoded',
-        ];
+    const _responseType = FullType(ApiResponse);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as ApiResponse;
 
-        final formData = <String, dynamic>{
-            if (name != null) r'name': parameterToString(_serializers, name),
-            if (status != null) r'status': parameterToString(_serializers, status),
-        };
-        bodyData = formData;
+    return Response<ApiResponse>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        );
-    }
+  /// uploads an image (required)
+  ///
+  /// 
+  Future<Response<ApiResponse>> uploadFileWithRequiredFile(
+    int petId,
+    Uint8List requiredFile, { 
+    String additionalMetadata,
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString()),
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: [
+        'multipart/form-data',
+      ].first,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
 
-    /// uploads an image
-    ///
-    /// 
-    Future<Response<ApiResponse>> uploadFile(
-        int petId, { 
-        String additionalMetadata,
-        Uint8List file,
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
+    dynamic _bodyData;
 
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
+    _bodyData = FormData.fromMap(<String, dynamic>{
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
+      r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
+    });
 
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
 
-        final contentTypes = <String>[
-            'multipart/form-data',
-        ];
+    const _responseType = FullType(ApiResponse);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as ApiResponse;
 
-        final formData = <String, dynamic>{
-            if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
-            if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
-        };
-        bodyData = FormData.fromMap(formData);
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<ApiResponse>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
-
-    /// uploads an image (required)
-    ///
-    /// 
-    Future<Response<ApiResponse>> uploadFileWithRequiredFile(
-        int petId,
-        Uint8List requiredFile, { 
-        String additionalMetadata,
-        CancelToken cancelToken,
-        Map<String, dynamic> headers,
-        Map<String, dynamic> extra,
-        ValidateStatus validateStatus,
-        ProgressCallback onSendProgress,
-        ProgressCallback onReceiveProgress,
-    }) async {
-        final String _path = '/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
-
-        final queryParams = <String, dynamic>{};
-        final headerParams = <String, dynamic>{ 
-            if (headers != null) ...headers,
-        };
-        dynamic bodyData;
-
-        queryParams.removeWhere((key, dynamic value) => value == null);
-        headerParams.removeWhere((key, dynamic value) => value == null);
-
-        final contentTypes = <String>[
-            'multipart/form-data',
-        ];
-
-        final formData = <String, dynamic>{
-            if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
-            r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
-        };
-        bodyData = FormData.fromMap(formData);
-
-        return _dio.request<dynamic>(
-            _path,
-            queryParameters: queryParams,
-            data: bodyData,
-            options: Options(
-                method: 'post'.toUpperCase(),
-                headers: headerParams,
-                extra: <String, dynamic>{
-                    'secure': <Map<String, String>>[
-                        {
-                            'type': 'oauth2',
-                            'name': 'petstore_auth',
-                        },
-                    ],
-                    if (extra != null) ...extra,
-                },
-                validateStatus: validateStatus,
-                contentType: contentTypes.isNotEmpty ? contentTypes[0] : 'application/json',
-            ),
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-        ).then((response) {
-            final serializer = _serializers.serializerForType(ApiResponse) as Serializer<ApiResponse>;
-            final data = _serializers.deserializeWith<ApiResponse>(
-                serializer,
-                response.data is String ? jsonDecode(response.data as String) : response.data,
-            );
-
-            return Response<ApiResponse>(
-                data: data,
-                headers: response.headers,
-                isRedirect: response.isRedirect,
-                request: response.request,
-                redirects: response.redirects,
-                statusCode: response.statusCode,
-                statusMessage: response.statusMessage,
-                extra: response.extra,
-            );
-        });
-    }
+    return Response<ApiResponse>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
 }

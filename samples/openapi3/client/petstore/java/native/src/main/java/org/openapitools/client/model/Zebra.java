@@ -31,7 +31,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -106,6 +105,8 @@ public class Zebra extends HashMap<String, Object> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(TypeEnum type) {
     this.type = type;
   }
@@ -129,6 +130,8 @@ public class Zebra extends HashMap<String, Object> {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }

@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
 
     protected String title = "OpenAPI Undertow Server";
     protected String implFolder = "src/main/java";

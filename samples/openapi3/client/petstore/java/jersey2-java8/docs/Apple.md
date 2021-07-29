@@ -2,6 +2,7 @@
 
 # Apple
 
+
 ## Properties
 
 Name | Type | Description | Notes

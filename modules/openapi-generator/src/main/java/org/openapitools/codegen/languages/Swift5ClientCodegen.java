@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,9 +42,8 @@ import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -61,6 +61,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
+    public static final String USE_SPM_FILE_STRUCTURE = "useSPMFileStructure";
+    public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
+    public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
@@ -73,9 +76,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
-    protected boolean swiftUseApiNamespace;
+    protected boolean swiftUseApiNamespace = false;
+    protected boolean useSPMFileStructure = false;
+    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected boolean useBacktickEscapes = false;
     protected String[] responseAs = new String[0];
-    protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
+    protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -197,7 +203,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Set");
         typeMapping.put("date", "Date");
@@ -220,8 +225,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "Any");
-        typeMapping.put("AnyType", "Any");
+        typeMapping.put("object", "AnyCodable");
+        typeMapping.put("AnyType", "AnyCodable");
 
         importMapping = new HashMap<>();
 
@@ -259,8 +264,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
+                "Escape reserved words using backticks (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
+        cliOptions.add(new CliOption(USE_SPM_FILE_STRUCTURE, "Use SPM file structure"
+                + " and set the source path to Sources" + File.separator + "{{projectName}} (default: false)."));
+        cliOptions.add(new CliOption(SWIFT_PACKAGE_PATH, "Set a custom source path instead of "
+                + projectName + File.separator + "Classes" + File.separator + "OpenAPIs" + "."));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -334,7 +346,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+            Schema inner = null;
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                inner = ap.getItems();
+            } else if (ModelUtils.isMapSchema(schema)) {
+                inner = getAdditionalProperties(schema);
+            }
+
+            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
         }
     }
 
@@ -412,6 +432,20 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
+        }
+
+        if (additionalProperties.containsKey(USE_SPM_FILE_STRUCTURE)) {
+            setUseSPMFileStructure(convertPropertyToBooleanAndWriteBack(USE_SPM_FILE_STRUCTURE));
+            sourceFolder = "Sources" + File.separator + projectName;
+        }
+
+        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH) && ((String)additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
+            setSwiftPackagePath((String)additionalProperties.get(SWIFT_PACKAGE_PATH));
+            sourceFolder = swiftPackagePath;
+        }
+
+        if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
+            setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
@@ -501,7 +535,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name;  // add an underscore to the name
+        return useBacktickEscapes && !objcCompatible ? "`" + name + "`" : "_" + name;
     }
 
     @Override
@@ -546,12 +580,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("URL");
+        return "URL".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("Data");
+        return "Data".equals(dataType);
     }
 
     /**
@@ -628,7 +662,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
-                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
@@ -720,9 +754,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // pet_id => petId
         name = camelize(name, true);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for reserved words surround with `` or append _
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
+        }
+
+        // for words starting with number, append _
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         return name;
@@ -745,9 +784,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // pet_id => petId
         name = camelize(name, true);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        // for reserved words surround with ``
+        if (isReservedWord(name)) {
             name = escapeReservedWord(name);
+        }
+
+        // for words starting with number, append _
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
         }
 
         return name;
@@ -804,6 +848,18 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setSwiftUseApiNamespace(boolean swiftUseApiNamespace) {
         this.swiftUseApiNamespace = swiftUseApiNamespace;
+    }
+
+    public void setUseSPMFileStructure(boolean useSPMFileStructure) {
+        this.useSPMFileStructure = useSPMFileStructure;
+    }
+
+    public void setSwiftPackagePath(String swiftPackagePath) {
+        this.swiftPackagePath = swiftPackagePath;
+    }
+
+    public void setUseBacktickEscapes(boolean useBacktickEscapes) {
+        this.useBacktickEscapes = useBacktickEscapes;
     }
 
     @Override
@@ -979,8 +1035,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -999,13 +1057,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet()));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
             }
         }
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, visitedModels) + "]";
         } else if (codegenParameter.isMap) { // TODO: map, file type
@@ -1037,11 +1095,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                if (visitedModels.contains(modelMaps.get(codegenParameter.dataType))) {
+                if (visitedModels.contains(codegenParameter.dataType)) {
                     // recursive/self-referencing model, simply return nil to avoid stackoverflow
                     return "nil";
                 } else {
-                    visitedModels.add(modelMaps.get(codegenParameter.dataType));
+                    visitedModels.add(codegenParameter.dataType);
                     return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, visitedModels);
                 }
             } else {
@@ -1051,7 +1109,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, visitedModels) + "]";
         } else if (codegenProperty.isMap) { // TODO: map, file type
@@ -1083,10 +1141,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                if (visitedModels.contains(modelMaps.get(codegenProperty.dataType))) {
+                if (visitedModels.contains(codegenProperty.dataType)) {
                     // recursive/self-referencing model, simply return nil to avoid stackoverflow
                     return "nil";
                 } else {
+                    visitedModels.add(codegenProperty.dataType);
                     return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, visitedModels);
                 }
             } else {
@@ -1096,7 +1155,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set visitedModels) {
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
         String example;
         example = codegenModel.name + "(";
         List<String> propertyExamples = new ArrayList<>();

@@ -81,19 +81,17 @@ void main() {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
-      var status = PetStatusEnum.available.value;
+      var status = '${PetStatusEnum.available}';
 
-      return Future.wait([
-        petApi.addPet(makePet(id: id1, status: status)),
-        petApi.addPet(makePet(id: id2, status: status)),
-        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold.value))
-      ]).then((_) async {
-        var pets = await petApi.findPetsByStatus([status]);
-        var petIds = pets.map((pet) => pet.id).toList();
-        expect(petIds, contains(id1));
-        expect(petIds, contains(id2));
-        expect(petIds, isNot(contains(id3)));
-      });
+      await petApi.addPet(makePet(id: id1, status: status));
+      await petApi.addPet(makePet(id: id2, status: status));
+      await petApi.addPet(makePet(id: id3, status: '${PetStatusEnum.sold}'));
+
+      var pets = await petApi.findPetsByStatus([status]);
+      var petIds = pets.map((pet) => pet.id).toList();
+      expect(petIds, contains(id1));
+      expect(petIds, contains(id2));
+      expect(petIds, isNot(contains(id3)));
     });
 
     test('uploads a pet image', () async {

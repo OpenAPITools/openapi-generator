@@ -27,7 +27,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.QuadrilateralInterface;
 import org.openapitools.client.model.ShapeInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -64,6 +63,8 @@ public class SimpleQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -87,6 +88,8 @@ public class SimpleQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }

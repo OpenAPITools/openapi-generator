@@ -17,7 +17,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
 #else
     #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
@@ -59,7 +59,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
 
-#if QT_VERSION >= 0x051500
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 #else
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -223,7 +223,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                    #if QT_VERSION >= 0x051500
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
                             .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
                             .arg(randomGenerator.generate());
                     #else
@@ -430,10 +430,26 @@ void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
 }
 
 void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
-    if (getResponseHeaders().contains(QString("Content-Disposition"))) {
-        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
+    QString contentDispositionHdr;
+    QString contentTypeHdr;
+    QString contentEncodingHdr;
+
+    for(auto hdr: getResponseHeaders().keys()){
+        if(hdr.compare(QString("Content-Disposition"), Qt::CaseInsensitive) == 0){
+            contentDispositionHdr = getResponseHeaders().value(hdr);
+        }
+        if(hdr.compare(QString("Content-Type"), Qt::CaseInsensitive) == 0){
+            contentTypeHdr = getResponseHeaders().value(hdr);
+        }
+        if(hdr.compare(QString("Content-Encoding"), Qt::CaseInsensitive) == 0){
+            contentEncodingHdr = getResponseHeaders().value(hdr);
+        }
+    }
+
+    if (!contentDispositionHdr.isEmpty()) {
+        auto contentDisposition = contentDispositionHdr.split(QString(";"), SKIP_EMPTY_PARTS);
         auto contentType =
-            getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
+            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
@@ -447,13 +463,13 @@ void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
             files.insert(filename, felement);
         }
 
-    } else if (getResponseHeaders().contains(QString("Content-Type"))) {
-        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), SKIP_EMPTY_PARTS);
+    } else if (!contentTypeHdr.isEmpty()) {
+        auto contentType = contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
             // TODO : Handle Multipart responses
         } else {
-            if(headers.contains("Content-Encoding")){
-                auto encoding = headers.value("Content-Encoding").split(QString(";"), SKIP_EMPTY_PARTS);
+            if(!contentEncodingHdr.isEmpty()){
+                auto encoding = contentEncodingHdr.split(QString(";"), SKIP_EMPTY_PARTS);
                 if(encoding.count() > 0){
                     auto compressionTypes = encoding.first().split(',', SKIP_EMPTY_PARTS);
                     if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
@@ -480,7 +496,7 @@ QByteArray PFXHttpRequestWorker::compress(const QByteArray& input, int level, PF
     
     Q_UNUSED(input);
     Q_UNUSED(level);
-    Q_UNUSED(compressType);        
+    Q_UNUSED(compressType);
     return QByteArray();
 }
 

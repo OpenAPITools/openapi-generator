@@ -447,6 +447,38 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithAndWithoutDiscriminator() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 156);
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
+                "import xyz.abcdef.invoker.JSON;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
+                "import xyz.abcdef.invoker.JSON;");
+    }
+
+    @Test
     public void testJdkHttpAsyncClient() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
@@ -996,18 +1028,18 @@ public class JavaClientCodegenTest {
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArray(java.util.Collection<org.springframework.web.multipart.MultipartFile> files)",
+                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.web.multipart.MultipartFile> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
-                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "multipartMixed(org.springframework.web.multipart.MultipartFile file, MultipartMixedMarker marker)",
+                "multipartMixedWithHttpInfo(org.springframework.web.multipart.MultipartFile file, MultipartMixedMarker marker)",
                 "formParams.add(\"file\", file);",
 
                 //single file
-                "multipartSingle(org.springframework.core.io.Resource file)",
-                "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
+                "multipartSingle(org.springframework.web.multipart.MultipartFile file)",
+                "multipartSingleWithHttpInfo(org.springframework.web.multipart.MultipartFile file)",
                 "formParams.add(\"file\", file);"
         );
     }

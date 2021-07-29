@@ -189,6 +189,32 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  Test serialization of enum (int) properties with examples
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - outer_object_with_enum_property (OuterObjectWithEnumProperty): Input enum (int) as post body
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
+  def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/fake/property/enum-int")
+    |> add_param(:body, :body, outer_object_with_enum_property)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.OuterObjectWithEnumProperty{}}
+    ])
+  end
+
+  @doc """
   For this test, the body for this request much reference a schema named `File`.
 
   ## Parameters

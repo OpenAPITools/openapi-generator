@@ -24,25 +24,22 @@
 #include <pistache/http_headers.h>
 #include <pistache/optional.h>
 
+#include <utility>
 
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace api {
-
-using namespace org::openapitools::server::model;
+namespace org::openapitools::server::api
+{
 
 class  PetApi {
 public:
-    PetApi(std::shared_ptr<Pistache::Rest::Router>);
-    virtual ~PetApi() {}
+    explicit PetApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
+    virtual ~PetApi() = default;
     void init();
 
-    const std::string base = "/v2";
+    static const std::string base;
 
 private:
     void setupRoutes();
@@ -57,7 +54,19 @@ private:
     void upload_file_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Rest::Router> router;
+    const std::shared_ptr<Pistache::Rest::Router> router;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overriden to return custom error formats.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overriden to return custom error formats.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;
 
     /// <summary>
     /// Add a new pet to the store
@@ -66,8 +75,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
-
+    virtual void add_pet(const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Deletes a pet
     /// </summary>
@@ -77,7 +85,6 @@ private:
     /// <param name="petId">Pet id to delete</param>
     /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
     virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Finds Pets by status
     /// </summary>
@@ -86,7 +93,6 @@ private:
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
     virtual void find_pets_by_status(const Pistache::Optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Finds Pets by tags
     /// </summary>
@@ -95,7 +101,6 @@ private:
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
     virtual void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Find pet by ID
     /// </summary>
@@ -104,7 +109,6 @@ private:
     /// </remarks>
     /// <param name="petId">ID of pet to return</param>
     virtual void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Update an existing pet
     /// </summary>
@@ -112,8 +116,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    virtual void update_pet(const Pet &body, Pistache::Http::ResponseWriter &response) = 0;
-
+    virtual void update_pet(const org::openapitools::server::model::Pet &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Updates a pet in the store with form data
     /// </summary>
@@ -121,7 +124,6 @@ private:
     /// 
     /// </remarks>
     virtual void update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// uploads an image
     /// </summary>
@@ -132,10 +134,7 @@ private:
 
 };
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::api
 
 #endif /* PetApi_H_ */
 

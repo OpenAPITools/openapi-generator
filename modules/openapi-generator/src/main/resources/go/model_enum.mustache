@@ -12,6 +12,14 @@ const (
 	{{/allowableValues}}
 )
 
+var allowed{{{classname}}}EnumValues = []{{{classname}}}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
 func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 	var value {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 	err := json.Unmarshal(src, &value)
@@ -19,7 +27,7 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := {{{classname}}}(value)
-	for _, existing := range []{{classname}}{ {{#allowableValues}}{{#enumVars}}{{{value}}}, {{/enumVars}} {{/allowableValues}} } {
+	for _, existing := range allowed{{{classname}}}EnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -27,6 +35,27 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 	}
 
 	return fmt.Errorf("%+v is not a valid {{classname}}", value)
+}
+
+// New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func New{{{classname}}}FromValue(v {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}) (*{{{classname}}}, error) {
+	ev := {{{classname}}}(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, allowed{{{classname}}}EnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v {{{classname}}}) IsValid() bool {
+	for _, existing := range allowed{{{classname}}}EnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
 }
 
 // Ptr returns reference to {{{name}}} value

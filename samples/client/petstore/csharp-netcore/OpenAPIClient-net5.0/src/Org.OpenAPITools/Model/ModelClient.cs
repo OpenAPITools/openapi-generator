@@ -38,15 +38,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="_client">_client.</param>
         public ModelClient(string _client = default(string))
         {
-            this.__Client = _client;
+            this._Client = _client;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets __Client
+        /// Gets or Sets _Client
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string __Client { get; set; }
+        public string _Client { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  __Client: ").Append(__Client).Append("\n");
+            sb.Append("  _Client: ").Append(_Client).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,8 +106,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.__Client != null)
-                    hashCode = hashCode * 59 + this.__Client.GetHashCode();
+                if (this._Client != null)
+                    hashCode = hashCode * 59 + this._Client.GetHashCode();
                 if (this.AdditionalProperties != null)
                     hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;

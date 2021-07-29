@@ -3,6 +3,7 @@ package {{packageName}}
 
 import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Location
+import {{packageName}}.models.*
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -11,7 +12,6 @@ object Paths {
 {{#apis}}
 {{#operations}}
     {{#operation}}
-    {{^bodyAllowed}}
     /**
      * {{summary}}
      * {{#unescapedNotes}}{{.}}{{/unescapedNotes}}
@@ -20,7 +20,6 @@ object Paths {
     @KtorExperimentalLocationsAPI
     @Location("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 
-    {{/bodyAllowed}}
     {{/operation}}
 {{/operations}}
 {{/apis}}

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.

@@ -104,6 +104,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(TypeEnum type) {
     this.type = type;
   }
@@ -127,6 +129,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }

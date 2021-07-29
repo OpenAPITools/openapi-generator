@@ -41,6 +41,8 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -524,7 +526,7 @@ public class ApiClient {
      * with file response. The default value is <code>null</code>, i.e. using
      * the system's default tempopary folder.
      *
-     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile">createTempFile</a>
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempFile(java.lang.String,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)">createTempFile</a>
      * @return Temporary folder path
      */
     public String getTempFolderPath() {
@@ -900,10 +902,10 @@ public class ApiClient {
     public RequestBody serialize(Object obj, String contentType) throws ApiException {
         if (obj instanceof byte[]) {
             // Binary (byte array) body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (byte[]) obj);
+            return RequestBody.create((byte[]) obj, MediaType.parse(contentType));
         } else if (obj instanceof File) {
             // File body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (File) obj);
+            return RequestBody.create((File) obj, MediaType.parse(contentType));
         } else if (isJsonMime(contentType)) {
             String content;
             if (obj != null) {
@@ -911,7 +913,7 @@ public class ApiClient {
             } else {
                 content = null;
             }
-            return RequestBody.create(MediaType.parse(contentType), content);
+            return RequestBody.create(content, MediaType.parse(contentType));
         } else {
             throw new ApiException("Content type \"" + contentType + "\" is not supported");
         }
@@ -968,15 +970,15 @@ public class ApiClient {
                 prefix = filename.substring(0, pos) + "-";
                 suffix = filename.substring(pos);
             }
-            // File.createTempFile requires the prefix to be at least three characters long
+            // Files.createTempFile requires the prefix to be at least three characters long
             if (prefix.length() < 3)
                 prefix = "download-";
         }
 
         if (tempFolderPath == null)
-            return File.createTempFile(prefix, suffix);
+            return Files.createTempFile(prefix, suffix).toFile();
         else
-            return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+            return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
     }
 
     /**
@@ -1161,7 +1163,7 @@ public class ApiClient {
                 reqBody = null;
             } else {
                 // use an empty request body (for POST, PUT and PATCH)
-                reqBody = RequestBody.create(MediaType.parse(contentType), "");
+                reqBody = RequestBody.create("", MediaType.parse(contentType));
             }
         } else {
             reqBody = serialize(body, contentType);
@@ -1312,10 +1314,10 @@ public class ApiClient {
                 File file = (File) param.getValue();
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"; filename=\"" + file.getName() + "\"");
                 MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
-                mpBuilder.addPart(partHeaders, RequestBody.create(mediaType, file));
+                mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");
-                mpBuilder.addPart(partHeaders, RequestBody.create(null, parameterToString(param.getValue())));
+                mpBuilder.addPart(partHeaders, RequestBody.create(parameterToString(param.getValue()), null));
             }
         }
         return mpBuilder.build();

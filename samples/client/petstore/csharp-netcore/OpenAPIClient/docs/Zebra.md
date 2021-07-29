@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Zebra
+
 ## Properties
 
 Name | Type | Description | Notes

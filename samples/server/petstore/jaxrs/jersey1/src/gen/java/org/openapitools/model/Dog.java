@@ -45,7 +45,7 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
    **/
-  @JsonProperty("breed")
+  @JsonProperty(value = "breed")
   @ApiModelProperty(value = "")
   
   public String getBreed() {

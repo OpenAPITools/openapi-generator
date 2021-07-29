@@ -58,6 +58,14 @@ public class StoreApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    if (body != null) {
+      msgPrefix += ": " + body;
+    }
+    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+  }
+
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -85,10 +93,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "deleteOrder call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "deleteOrder call received non-success response");
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -155,10 +160,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "getInventory call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "getInventory call received non-success response");
       }
       return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
@@ -222,10 +224,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "getOrderById call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "getOrderById call received non-success response");
       }
       return new ApiResponse<Order>(
           localVarResponse.statusCode(),
@@ -294,10 +293,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "placeOrder call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw createApiException(localVarResponse, "placeOrder call received non-success response");
       }
       return new ApiResponse<Order>(
           localVarResponse.statusCode(),

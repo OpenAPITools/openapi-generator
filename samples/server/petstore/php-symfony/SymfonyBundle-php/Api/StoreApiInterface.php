@@ -97,12 +97,12 @@ interface StoreApiInterface
      *
      * Place an order for a pet
      *
-     * @param  OpenAPI\Server\Model\Order $body  order placed for purchasing the pet (required)
+     * @param  OpenAPI\Server\Model\Order $order  order placed for purchasing the pet (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return OpenAPI\Server\Model\Order
      *
      */
-    public function placeOrder(Order $body, &$responseCode, array &$responseHeaders);
+    public function placeOrder(Order $order, &$responseCode, array &$responseHeaders);
 }

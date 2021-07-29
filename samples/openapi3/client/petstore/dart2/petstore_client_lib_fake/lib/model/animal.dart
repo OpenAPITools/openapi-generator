@@ -35,9 +35,7 @@ class Animal {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (className != null) {
       json[r'className'] = className;
-    }
     if (color != null) {
       json[r'color'] = color;
     }

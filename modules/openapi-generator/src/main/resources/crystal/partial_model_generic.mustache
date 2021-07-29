@@ -1,8 +1,10 @@
   {{#description}}
   # {{{description}}}
   {{/description}}
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}} include JSON::Serializable
-   include JSON::Serializable {{#vars}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+    include JSON::Serializable
+
+    {{#vars}}
     {{#description}}
     # {{{description}}}
     {{/description}}

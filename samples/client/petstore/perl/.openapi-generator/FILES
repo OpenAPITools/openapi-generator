@@ -44,6 +44,7 @@ docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -98,6 +99,7 @@ lib/WWW/OpenAPIClient/Object/OuterEnum.pm
 lib/WWW/OpenAPIClient/Object/OuterEnumDefaultValue.pm
 lib/WWW/OpenAPIClient/Object/OuterEnumInteger.pm
 lib/WWW/OpenAPIClient/Object/OuterEnumIntegerDefaultValue.pm
+lib/WWW/OpenAPIClient/Object/OuterObjectWithEnumProperty.pm
 lib/WWW/OpenAPIClient/Object/Pet.pm
 lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm

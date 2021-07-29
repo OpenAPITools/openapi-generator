@@ -13,16 +13,17 @@
 #include "StoreApi.h"
 #include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace api {
+namespace org::openapitools::server::api
+{
 
 using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
-StoreApi::StoreApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
-    router = rtr;
+const std::string StoreApi::base = "/v2";
+
+StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
+    : router(rtr)
+{
 }
 
 void StoreApi::init() {
@@ -41,84 +42,116 @@ void StoreApi::setupRoutes() {
     router->addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
 }
 
+std::pair<Pistache::Http::Code, std::string> StoreApi::handleParsingException(const std::exception& ex) const noexcept
+{
+    try {
+        throw ex;
+    } catch (nlohmann::detail::exception &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    } catch (org::openapitools::server::helpers::ValidationException &e) {
+        return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
+    }
+}
+
+std::pair<Pistache::Http::Code, std::string> StoreApi::handleOperationException(const std::exception& ex) const noexcept
+{
+    return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
+}
+
 void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
     // Getting the path params
     auto orderId = request.param(":orderId").as<std::string>();
     
     try {
-      this->delete_order(orderId, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->delete_order(orderId, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void StoreApi::get_inventory_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     try {
-      this->get_inventory(response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->get_inventory(response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
     // Getting the path params
     auto orderId = request.param(":orderId").as<int64_t>();
     
     try {
-      this->get_order_by_id(orderId, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
-        return;
+        this->get_order_by_id(orderId, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
 void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
 
     // Getting the body param
     
     Order body;
     
     try {
-      nlohmann::json::parse(request.body()).get_to(body);
-      this->place_order(body, response);
-    } catch (nlohmann::detail::exception &e) {
-        //send a 400 error
-        response.send(Pistache::Http::Code::Bad_Request, e.what());
+        nlohmann::json::parse(request.body()).get_to(body);
+        body.validate();
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    try {
+        this->place_order(body, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
-        //send a 500 error
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
         return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
 
 }
@@ -127,8 +160,5 @@ void StoreApi::store_api_default_handler(const Pistache::Rest::Request &, Pistac
     response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::api
 

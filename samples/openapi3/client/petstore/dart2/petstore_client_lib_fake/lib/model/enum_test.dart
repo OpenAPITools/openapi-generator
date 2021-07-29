@@ -68,9 +68,7 @@ class EnumTest {
     if (enumString != null) {
       json[r'enum_string'] = enumString;
     }
-    if (enumStringRequired != null) {
       json[r'enum_string_required'] = enumStringRequired;
-    }
     if (enumInteger != null) {
       json[r'enum_integer'] = enumInteger;
     }

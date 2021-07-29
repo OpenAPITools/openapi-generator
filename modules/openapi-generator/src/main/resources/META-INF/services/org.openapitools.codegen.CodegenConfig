@@ -24,6 +24,7 @@ org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
+org.openapitools.codegen.languages.DartDioNextClientCodegen
 org.openapitools.codegen.languages.DartJaguarClientCodegen
 org.openapitools.codegen.languages.EiffelClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
@@ -43,6 +44,7 @@ org.openapitools.codegen.languages.GraphQLNodeJSExpressServerCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
+org.openapitools.codegen.languages.KotlinServerDeprecatedCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.KotlinVertxServerCodegen
 org.openapitools.codegen.languages.KtormSchemaCodegen
@@ -130,3 +132,4 @@ org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
+org.openapitools.codegen.languages.GoEchoServerCodegen

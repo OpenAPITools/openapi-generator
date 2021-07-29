@@ -1146,6 +1146,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+          examples:
+            simple-list:
+              summary: Simple list example
+              description: Should not get into code examples
+              value:
+                - username: foo
+                - username: bar
       description: List of user object
       required: true
     Client:
@@ -1539,6 +1546,11 @@ components:
           enum:
             - 1
             - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
         enum_number:
           type: number
           format: double
@@ -1786,6 +1798,8 @@ components:
         '$special[property.name]':
           type: integer
           format: int64
+        '_special_model.name_':
+          type: string
       xml:
         name: '$special[model.name]'
     HealthCheckResult:

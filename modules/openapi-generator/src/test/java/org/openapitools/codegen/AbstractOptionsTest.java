@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.mockito.MockSettings;
 import org.openapitools.codegen.options.OptionsProvider;

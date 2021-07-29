@@ -19,7 +19,7 @@ inline FString ToString(const {{classname}}::Values& Value)
 	{
 	{{#enumVars}}
 	case {{classname}}::Values::{{name}}:
-		return TEXT({{{value}}});
+		return TEXT("{{{value}}}");
 	{{/enumVars}}
 	}
 	{{/allowableValues}}
@@ -45,7 +45,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	if (JsonValue->TryGetString(TmpValue))
 	{
 		static TMap<FString, {{classname}}::Values> StringToEnum = { {{#enumVars}}
-			{ TEXT({{{value}}}), {{classname}}::Values::{{name}} },{{/enumVars}} };
+			{ TEXT("{{{value}}}"), {{classname}}::Values::{{name}} },{{/enumVars}} };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)
@@ -69,7 +69,7 @@ inline FString ToString(const {{classname}}::{{{enumName}}}& Value)
 	{
 	{{#enumVars}}
 	case {{classname}}::{{{enumName}}}::{{name}}:
-		return TEXT({{{value}}});
+		return TEXT("{{{value}}}");
 	{{/enumVars}}
 	}
 	{{/allowableValues}}
@@ -95,7 +95,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	if (JsonValue->TryGetString(TmpValue))
 	{
 		static TMap<FString, {{classname}}::{{{enumName}}}> StringToEnum = { {{#enumVars}}
-			{ TEXT({{{value}}}), {{classname}}::{{{enumName}}}::{{name}} },{{/enumVars}} };
+			{ TEXT("{{{value}}}"), {{classname}}::{{{enumName}}}::{{name}} },{{/enumVars}} };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)

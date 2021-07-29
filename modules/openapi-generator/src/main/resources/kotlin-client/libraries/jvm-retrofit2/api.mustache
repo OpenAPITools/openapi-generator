@@ -47,6 +47,12 @@ import okhttp3.MultipartBody
 
 {{/isMultipart}}
 {{/x-kotlin-multipart-import}}
+{{#operation}}
+{{#isResponseFile}}
+import okhttp3.ResponseBody
+
+{{/isResponseFile}}
+{{/operation}}
 interface {{classname}} {
     {{#operation}}
     /**

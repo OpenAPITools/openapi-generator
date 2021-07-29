@@ -7,6 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addResponseHeaders|To include response headers in ImplResponse| |false|
 |enumClassPrefix|Prefix enum with class name| |false|
 |featureCORS|Enable Cross-Origin Resource Sharing middleware| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

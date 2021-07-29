@@ -50,7 +50,7 @@ Name | Type | Description  | Notes
  **User** | [**User**](User.md)| Created user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
  **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -196,7 +196,7 @@ Name | Type | Description  | Notes
  **Username** | **String**| The name that needs to be deleted | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -237,8 +237,8 @@ Name | Type | Description  | Notes
  **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-[**User**](User.md)
+
+[**User**](User.md) (PSCustomObject)
 
 ### Authorization
 
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
  **Password** | **String**| The password for login in clear text | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 **String**
 
 ### Authorization
@@ -324,7 +324,7 @@ try {
 This endpoint does not need any parameter.
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization
@@ -377,7 +377,7 @@ Name | Type | Description  | Notes
  **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
+
 void (empty response body)
 
 ### Authorization

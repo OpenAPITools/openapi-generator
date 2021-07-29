@@ -49,7 +49,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected boolean useBeanValidation = true;
     protected boolean useTags = false;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
     public AbstractJavaJAXRSServerCodegen() {
         super();

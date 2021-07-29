@@ -126,6 +126,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*OpenApiPetstore.FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *OpenApiPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -189,7 +190,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.MapTest](docs/MapTest.md)
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [OpenApiPetstore.Model200Response](docs/Model200Response.md)
- - [OpenApiPetstore.ModelReturn](docs/ModelReturn.md)
  - [OpenApiPetstore.Name](docs/Name.md)
  - [OpenApiPetstore.NullableClass](docs/NullableClass.md)
  - [OpenApiPetstore.NumberOnly](docs/NumberOnly.md)
@@ -199,8 +199,10 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [OpenApiPetstore.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OpenApiPetstore.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [OpenApiPetstore.OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)

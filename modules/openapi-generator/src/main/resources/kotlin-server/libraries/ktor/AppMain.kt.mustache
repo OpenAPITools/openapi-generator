@@ -28,15 +28,16 @@ import io.ktor.features.HSTS
 {{/featureHSTS}}
 import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
+{{#featureLocations}}
 import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Locations
-import io.ktor.metrics.Metrics
+{{/featureLocations}}
 import io.ktor.routing.Routing
 import java.util.concurrent.TimeUnit
-import io.ktor.util.KtorExperimentalAPI
 {{#hasAuthMethods}}
 import io.ktor.auth.Authentication
 import io.ktor.auth.oauth
+import io.ktor.metrics.dropwizard.DropwizardMetrics
 import org.openapitools.server.infrastructure.ApiKeyCredential
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.infrastructure.apiKeyAuth
@@ -44,23 +45,23 @@ import org.openapitools.server.infrastructure.apiKeyAuth
 {{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
 {{/apis}}{{/apiInfo}}{{/generateApis}}
 
-@KtorExperimentalAPI
 internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
 
 object HTTP {
     val client = HttpClient(Apache)
 }
 
-@KtorExperimentalAPI
+{{#featureLocations}}
 @KtorExperimentalLocationsAPI
+{{/featureLocations}}
 fun Application.main() {
     install(DefaultHeaders)
-    install(Metrics) {
+    install(DropwizardMetrics) {
         val reporter = Slf4jReporter.forRegistry(registry)
-                .outputTo(log)
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .build()
+            .outputTo(log)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build()
         reporter.start(10, TimeUnit.SECONDS)
     }
 {{#generateApis}}
@@ -82,7 +83,9 @@ fun Application.main() {
     {{#featureCompression}}
     install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
     {{/featureCompression}}
+    {{#featureLocations}}
     install(Locations) // see http://ktor.io/features/locations.html
+    {{/featureLocations}}
     {{#hasAuthMethods}}
     install(Authentication) {
     {{#authMethods}}
@@ -117,8 +120,8 @@ fun Application.main() {
             client = HttpClient(Apache)
             providerLookup = { ApplicationAuthProviders["{{{name}}}"] }
             urlProvider = { _ ->
-            // TODO: define a callback url here.
-            "/"
+                // TODO: define a callback url here.
+                "/"
             }
         }
             {{/bodyAllowed}}
@@ -138,8 +141,7 @@ fun Application.main() {
 
 {{/generateApis}}
 
-    environment.monitor.subscribe(ApplicationStopping)
-    {
+    environment.monitor.subscribe(ApplicationStopping) {
         HTTP.client.close()
     }
 }

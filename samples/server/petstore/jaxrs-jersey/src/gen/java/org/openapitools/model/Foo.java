@@ -43,7 +43,7 @@ public class Foo   {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar")
   @ApiModelProperty(value = "")
   
   public String getBar() {

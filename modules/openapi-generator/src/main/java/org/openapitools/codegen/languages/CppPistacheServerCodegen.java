@@ -32,11 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CppPistacheServerCodegen.class);
 
     protected String implFolder = "impl";
     protected boolean isAddExternalLibs = true;
@@ -129,6 +128,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::vector");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "std::string");

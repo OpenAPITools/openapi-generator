@@ -79,6 +79,8 @@ public class TypeHolderDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -105,6 +107,8 @@ public class TypeHolderDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -130,6 +134,8 @@ public class TypeHolderDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -155,6 +161,8 @@ public class TypeHolderDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
@@ -185,6 +193,8 @@ public class TypeHolderDefault {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }

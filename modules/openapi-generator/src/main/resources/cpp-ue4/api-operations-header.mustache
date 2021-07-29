@@ -22,7 +22,7 @@ class {{dllapi}} {{classname}}::{{operationIdCamelCase}}Request : public Request
 {
 public:
     virtual ~{{operationIdCamelCase}}Request() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	{{#allParams}}

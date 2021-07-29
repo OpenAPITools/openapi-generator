@@ -44,18 +44,10 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteOrder(orderId: kotlin.String) : Unit {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.DELETE,
-            "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
+
         val localVarResponse = request<Any?>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -74,6 +66,28 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
+    * To obtain the request config of the operation deleteOrder
+    *
+    * @param orderId ID of the order that needs to be deleted 
+    * @return RequestConfig
+    */
+    fun deleteOrderRequestConfig(orderId: kotlin.String) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.DELETE,
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Returns pet inventories by status
     * Returns a map of status codes to quantities
     * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -84,18 +98,10 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/store/inventory",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = getInventoryRequestConfig()
+
         val localVarResponse = request<kotlin.collections.Map<kotlin.String, kotlin.Int>>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -114,6 +120,27 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
+    * To obtain the request config of the operation getInventory
+    *
+    * @return RequestConfig
+    */
+    fun getInventoryRequestConfig() : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/store/inventory",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Find purchase order by ID
     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched 
@@ -125,18 +152,10 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getOrderById(orderId: kotlin.Long) : Order {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
+
         val localVarResponse = request<Order>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -155,6 +174,28 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
+    * To obtain the request config of the operation getOrderById
+    *
+    * @param orderId ID of pet that needs to be fetched 
+    * @return RequestConfig
+    */
+    fun getOrderByIdRequestConfig(orderId: kotlin.Long) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Place an order for a pet
     * 
     * @param body order placed for purchasing the pet 
@@ -166,18 +207,10 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun placeOrder(body: Order) : Order {
-        val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.POST,
-            "/store/order",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
+        val localVariableConfig = placeOrderRequestConfig(body = body)
+
         val localVarResponse = request<Order>(
-            localVariableConfig,
-            localVariableBody
+            localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
@@ -193,6 +226,28 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * To obtain the request config of the operation placeOrder
+    *
+    * @param body order placed for purchasing the pet 
+    * @return RequestConfig
+    */
+    fun placeOrderRequestConfig(body: Order) : RequestConfig {
+        val localVariableBody: kotlin.Any? = body
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.POST,
+            path = "/store/order",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
     }
 
 }

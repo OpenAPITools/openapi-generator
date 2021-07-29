@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AnyCodable
 
-public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, Hashable {
 
     public private(set) var uuid: UUID?
     public private(set) var dateTime: Date?
@@ -18,5 +19,21 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
         self.dateTime = dateTime
         self.map = map
     }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case uuid
+        case dateTime
+        case map
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(map, forKey: .map)
+    }
+
+
 
 }

@@ -44,7 +44,7 @@ public class Client  implements Serializable {
    * Get client
    * @return client
    **/
-  @JsonProperty("client")
+  @JsonProperty(value = "client")
   @ApiModelProperty(value = "")
   
   public String getClient() {
