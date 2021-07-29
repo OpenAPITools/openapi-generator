@@ -53,6 +53,6 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     }
 {{/discriminator}}
 {{^discriminator}}
-    return {{#oneOf}}{{{.}}}ToJSON(value as {{{.}}}){{^-last}} || {{/-last}}{{/oneOf}};
+    return {{#oneOf}}{{{.}}}ToJSON(value as {{{.}}}){{^-last}} ?? {{/-last}}{{/oneOf}};
 {{/discriminator}}
 }

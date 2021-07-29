@@ -220,9 +220,21 @@ components:
     NumberEnum:
       type: number
       enum:
+        - 0
         - 1
         - 2
         - 3
+    NumberEnumTwo:
+      type: number
+      enum:
+        - 4
+        - 5
+        - 6
+    NumberOneOf:
+      type: number
+      oneOf:
+        - $ref: "#/components/schemas/NumberEnum"
+        - $ref: "#/components/schemas/NumberEnumTwo"
     EnumPatternObject:
       type: object
       properties:

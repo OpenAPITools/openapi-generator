@@ -1,10 +1,16 @@
 {{>modelEnumInterfaces}}
 
-export function {{classname}}FromJSON(json: any): {{classname}} {
+export function {{classname}}FromJSON(json: any): {{classname}} | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values({{classname}}).includes(json as {{classname}})) {
+        return null;
+    }
     return {{classname}}FromJSONTyped(json, false);
 }
 
-export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} | null {
     return json as {{classname}};
 }
 
