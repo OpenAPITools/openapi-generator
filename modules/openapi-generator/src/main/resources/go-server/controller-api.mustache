@@ -39,6 +39,9 @@ func (c *{{classname}}Controller) Routes() Routes {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{{summary}}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
 	{{#hasFormParams}}
 	{{#isMultipart}}

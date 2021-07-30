@@ -136,6 +136,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 }
 
 // FindPetsByTags - Finds Pets by tags
+// Deprecated
 func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	tags := strings.Split(query.Get("tags"), ",")
