@@ -1441,6 +1441,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
