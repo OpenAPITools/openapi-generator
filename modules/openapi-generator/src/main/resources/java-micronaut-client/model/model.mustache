@@ -32,7 +32,17 @@ import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
 
 {{#models}}
-{{#model}}
-{{#isEnum}}{{>model/modelEnum}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>model/oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>model/pojo}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
-{{/model}}
+    {{#model}}
+        {{#isEnum}}
+{{>model/modelEnum}}
+        {{/isEnum}}
+        {{^isEnum}}
+            {{#vendorExtensions.x-is-one-of-interface}}
+{{>model/oneof_interface}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+            {{^vendorExtensions.x-is-one-of-interface}}
+{{>model/pojo}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+    {{/model}}
 {{/models}}

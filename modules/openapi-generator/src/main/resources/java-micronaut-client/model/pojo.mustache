@@ -75,7 +75,6 @@ Declare the class with extends and implements
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
     {{/vars}}
-
     {{#parcelableModel}}
   public {{classname}}() {
         {{#parent}}
@@ -171,10 +170,7 @@ Declare the class with extends and implements
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^vendorExtensions.x-is-jackson-optional-nullable}}
             {{#jackson}}
-{{>model/jackson_annotations}}
-            {{/jackson}}
-        {{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{{datatypeWithEnum}}} {{getter}}() {
+{{>model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}  public {{{datatypeWithEnum}}} {{getter}}() {
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
             {{#isReadOnly}}
 {{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}    if ({{name}} == null) {
@@ -198,15 +194,12 @@ Declare the class with extends and implements
   {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
     {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}   this.{{name}} = {{name}};
   }
-        {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
         {{^isReadOnly}}
             {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
-{{>model/jackson_annotations}}
-                {{/vendorExtensions.x-is-jackson-optional-nullable}}
-            {{/jackson}}
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{>model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -214,9 +207,9 @@ Declare the class with extends and implements
     this.{{name}} = {{name}};
             {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
+
         {{/isReadOnly}}
     {{/vars}}
-
   @Override
   public boolean equals(Object o) {
     {{#useReflectionEqualsHashCode}}
