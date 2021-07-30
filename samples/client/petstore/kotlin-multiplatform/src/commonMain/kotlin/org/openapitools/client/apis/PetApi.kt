@@ -16,27 +16,19 @@ import org.openapitools.client.models.Pet
 
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
-import kotlinx.serialization.UnstableDefault
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 
-class PetApi @UseExperimental(UnstableDefault::class) constructor(
-    baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+class PetApi(
+    baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+    jsonSerializer: Json = ApiClient.JSON_DEFAULT
+) : ApiClient(baseUrl, httpClientEngine, jsonSerializer) {
 
     /**
      * Add a new pet to the store
@@ -54,7 +46,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/pet",
             query = localVariableQuery,
@@ -89,7 +81,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
         val localVariableHeaders = mutableMapOf<String, String>()
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
@@ -123,7 +115,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/pet/findByStatus",
             query = localVariableQuery,
@@ -141,10 +133,10 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     private class FindPetsByStatusResponse(val value: List<Pet>) {
         @Serializer(FindPetsByStatusResponse::class)
         companion object : KSerializer<FindPetsByStatusResponse> {
-            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-                override val descriptor = StringDescriptor.withName("FindPetsByStatusResponse")
-                override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
+            private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
+            override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
         }
     }
 
@@ -167,7 +159,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/pet/findByTags",
             query = localVariableQuery,
@@ -185,10 +177,10 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     private class FindPetsByTagsResponse(val value: List<Pet>) {
         @Serializer(FindPetsByTagsResponse::class)
         companion object : KSerializer<FindPetsByTagsResponse> {
-            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-                override val descriptor = StringDescriptor.withName("FindPetsByTagsResponse")
-                override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
+            private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
+            override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
         }
     }
 
@@ -210,7 +202,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
@@ -241,7 +233,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.PUT,
             "/pet",
             query = localVariableQuery,
@@ -279,7 +271,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/pet/{petId}".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
@@ -317,7 +309,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", "$petId"),
             query = localVariableQuery,
@@ -332,13 +324,4 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
 
-
-    companion object {
-        internal fun setMappers(serializer: KotlinxSerializer) {
-            
-            serializer.setMapper(FindPetsByStatusResponse::class, FindPetsByStatusResponse.serializer())
-            serializer.setMapper(FindPetsByTagsResponse::class, FindPetsByTagsResponse.serializer())
-            
-        }
-    }
 }

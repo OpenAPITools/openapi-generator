@@ -61,7 +61,7 @@ class ApiClient {
   Future<Response> invokeAPI(
     String path,
     String method,
-    Iterable<QueryParam> queryParams,
+    List<QueryParam> queryParams,
     Object body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
@@ -171,13 +171,13 @@ class ApiClient {
     List<QueryParam> queryParams,
     Map<String, String> headerParams,
   ) {
-    authNames.forEach((authName) {
+    for(final authName in authNames) {
       final auth = _authentications[authName];
       if (auth == null) {
         throw ArgumentError('Authentication undefined: $authName');
       }
       auth.applyToParams(queryParams, headerParams);
-    });
+    }
   }
 
   static dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
@@ -218,6 +218,8 @@ class ApiClient {
           return Category.fromJson(value);
         case 'ClassModel':
           return ClassModel.fromJson(value);
+        case 'DeprecatedObject':
+          return DeprecatedObject.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
         case 'DogAllOf':
@@ -261,6 +263,8 @@ class ApiClient {
           return NullableClass.fromJson(value);
         case 'NumberOnly':
           return NumberOnly.fromJson(value);
+        case 'ObjectWithDeprecatedFields':
+          return ObjectWithDeprecatedFields.fromJson(value);
         case 'Order':
           return Order.fromJson(value);
         case 'OuterComposite':

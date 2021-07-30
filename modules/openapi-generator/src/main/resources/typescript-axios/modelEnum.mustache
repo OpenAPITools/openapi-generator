@@ -3,6 +3,11 @@
  * @export
  * @enum {string}
  */
+{{#isBoolean}}
+export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}
+{{/isBoolean}}
+
+{{^isBoolean}}
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
@@ -15,3 +20,4 @@ export enum {{classname}} {
 {{/enumVars}}
 {{/allowableValues}}
 }
+{{/isBoolean}}

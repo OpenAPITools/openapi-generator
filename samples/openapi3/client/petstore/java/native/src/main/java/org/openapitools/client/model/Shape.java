@@ -32,8 +32,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +43,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -180,7 +177,7 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<>();
 
     public Shape() {
         super("oneOf", Boolean.FALSE);
@@ -197,10 +194,8 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Quadrilateral", new GenericType<Quadrilateral>() {
-        });
-        schemas.put("Triangle", new GenericType<Triangle>() {
-        });
+        schemas.put("Quadrilateral", Quadrilateral.class);
+        schemas.put("Triangle", Triangle.class);
         JSON.registerDescendants(Shape.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -211,7 +206,7 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Shape.schemas;
     }
 

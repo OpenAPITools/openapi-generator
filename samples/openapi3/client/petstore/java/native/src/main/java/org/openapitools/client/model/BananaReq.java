@@ -53,6 +53,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

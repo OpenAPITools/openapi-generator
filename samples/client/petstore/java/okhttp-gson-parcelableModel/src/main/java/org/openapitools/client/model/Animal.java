@@ -56,6 +56,7 @@ public class Animal implements Parcelable {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {

@@ -75,6 +75,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -85,6 +86,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "bash";
     }
@@ -95,6 +97,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a Bash client script based on cURL.";
     }
@@ -380,6 +383,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      * Location to write model files.  You can use the modelPackage() as defined
      * when the class is instantiated.
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder;
     }
@@ -509,6 +513,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Override with any special text escaping logic
      */
+    @Override
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input == null) {
@@ -605,6 +610,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param input String to be cleaned up
      * @return string with unsafe characters removed or escaped
      */
+    @Override
     public String escapeUnsafeCharacters(String input) {
 
         /**

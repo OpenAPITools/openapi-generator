@@ -40,7 +40,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      */
     open func createURLRequest() -> URLRequest? {
         guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding
@@ -83,7 +83,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         managerStore[managerId] = manager
 
         guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding?
@@ -133,7 +133,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
-                fatalError("Unsuported Media Type - \(contentType)")
+                fatalError("Unsupported Media Type - \(contentType)")
             }
         }
 
@@ -277,7 +277,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             let filenameKey = "filename="
             guard let range = contentItem.range(of: filenameKey) else {
-                break
+                continue
             }
 
             filename = contentItem

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -188,6 +189,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
             this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
+            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
+            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
+        }
+
+        if (!this.getComposerPackageName().isEmpty()) {
+            additionalProperties.put("composerPackageName", this.getComposerPackageName());
         }
 
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
@@ -757,5 +770,23 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    /**
+     * Get Composer package name based on GIT_USER_ID and GIT_REPO_ID.
+     *
+     * @return package name or empty string on fail
+     */
+    public String getComposerPackageName() {
+        String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
+        if (
+            packageName.contentEquals("/")
+            || packageName.contentEquals("null/null")
+            || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
+        ) {
+            return "";
+        }
+
+        return packageName;
     }
 }
