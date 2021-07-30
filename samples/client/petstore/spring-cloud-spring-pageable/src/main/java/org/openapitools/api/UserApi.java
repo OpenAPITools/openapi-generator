@@ -163,6 +163,7 @@ public interface UserApi {
      *
      * @return endpoint configuration response (status code 200)
      */
+
     @ApiOperation(value = "logoutUserOptions", nickname = "logoutUserOptions", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "endpoint configuration response") })
