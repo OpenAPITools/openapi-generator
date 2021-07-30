@@ -55,7 +55,7 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
-    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -82,7 +82,7 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/store/inventory", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -117,7 +117,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -138,17 +138,17 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     }
 }
 
-pub fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
+pub fn place_order(configuration: &configuration::Configuration, order: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/store/order", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&order);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;

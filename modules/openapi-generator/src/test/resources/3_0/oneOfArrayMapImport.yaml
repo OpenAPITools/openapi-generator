@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+   title: fruity
+   version: 0.0.1
+paths:
+   /:
+      get:
+         responses:
+            '200':
+               description: desc
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/fruit'
+components:
+   schemas:
+      fruit:
+         title: fruit
+         properties:
+            color:
+               type: string
+         oneOf:
+            - $ref: '#/components/schemas/apples'
+            - $ref: '#/components/schemas/grapes'
+         # additionalProperties:
+         #    type: string
+         # uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
+      apple:
+         title: apple
+         type: object
+         properties:
+            kind:
+               type: string
+      apples:
+         title: apples
+         type: object
+         additionalProperties:
+            $ref: '#/components/schemas/apple'
+      grape:
+         title: grape
+         type: object
+         properties:
+            color:
+               type: string
+      grapes:
+         title: grapes
+         type: array
+         items:
+            $ref: '#/components/schemas/grape'

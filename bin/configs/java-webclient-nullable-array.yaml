@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/petstore/java/webclient-nulable-arrays
+library: webclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/schema-with-nullable-arrays.yaml
+additionalProperties:
+  artifactId: petstore-webclient-nullable-arrays
+  hideGenerationTimestamp: "true"

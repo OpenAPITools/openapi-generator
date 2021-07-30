@@ -78,7 +78,7 @@ public class CSharpModelTest {
         final CodegenProperty property = generated.vars.get(1);
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.name, "Examples");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.dataType, "Collection<string>");
         Assert.assertEquals(property.baseType, "Collection");
         Assert.assertEquals(property.containerType, "array");

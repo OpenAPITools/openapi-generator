@@ -41,6 +41,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
+    protected boolean conditionalSerialization = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
@@ -1259,6 +1260,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             codegenParameter.example = "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        // ensure a method's parameters are marked as nullable when nullable or when nullReferences are enabled
+        // this is mostly needed for reference types used as a method's parameters
+        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType.endsWith("?")
+                ? parameter.dataType
+                : parameter.dataType + "?";
         }
     }
 

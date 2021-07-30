@@ -67,12 +67,12 @@ class OuterComposite {
   static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OuterComposite>[]
-      : json.map((v) => OuterComposite.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => OuterComposite.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, OuterComposite> mapFromJson(Map<String, dynamic> json) {
     final map = <String, OuterComposite>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = OuterComposite.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = OuterComposite.fromJson(value));
     }
     return map;
   }
@@ -80,9 +80,9 @@ class OuterComposite {
   // maps a json object with a list of OuterComposite-objects as value to a dart map
   static Map<String, List<OuterComposite>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<OuterComposite>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = OuterComposite.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = OuterComposite.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

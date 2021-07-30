@@ -115,6 +115,7 @@ protected:
     bool m_TagsIsSet;
     std::string m_Status;
     bool m_StatusIsSet;
+    
 };
 
 } // namespace org::openapitools::server::model

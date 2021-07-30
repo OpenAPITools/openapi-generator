@@ -91,12 +91,12 @@ class Pet {
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Pet>[]
-      : json.map((v) => Pet.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => Pet.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Pet>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Pet.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Pet.fromJson(value));
     }
     return map;
   }
@@ -104,9 +104,9 @@ class Pet {
   // maps a json object with a list of Pet-objects as value to a dart map
   static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Pet>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Pet.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Pet.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

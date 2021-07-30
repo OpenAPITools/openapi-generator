@@ -134,6 +134,7 @@ protected:
     bool m_PhoneIsSet;
     int32_t m_UserStatus;
     bool m_UserStatusIsSet;
+    
 };
 
 } // namespace org::openapitools::server::model

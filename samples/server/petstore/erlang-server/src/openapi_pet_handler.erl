@@ -29,9 +29,11 @@
 -spec init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {cowboy_rest, Req :: cowboy_req:req(), State :: state()}.
 
-init(Req, {Operations, LogicHandler, ValidatorState}) ->
+init(Req, {Operations, LogicHandler, ValidatorMod}) ->
     Method = cowboy_req:method(Req),
     OperationID = maps:get(Method, Operations, undefined),
+
+    ValidatorState = ValidatorMod:get_validator_state(),
 
     error_logger:info_msg("Attempt to process operation: ~p", [OperationID]),
 
@@ -474,6 +476,8 @@ handle_request_json(
 validate_headers(_, Req) -> {true, Req}.
 
 prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
 prepare_body(_Code, Body) ->
     jsx:encode(Body).

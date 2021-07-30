@@ -151,7 +151,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         apiTestTemplateFiles.clear(); // TODO: add test template
 
         // spring uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
         additionalProperties.put("openbrace", OPEN_BRACE);
         additionalProperties.put("closebrace", CLOSE_BRACE);
 
@@ -238,7 +238,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             // set invokerPackage as basePackage:
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
-            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
+            LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
         super.processOpts();
@@ -866,7 +866,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         } else { // enum class
             //Needed imports for Jackson's JsonCreator
-            if (additionalProperties.containsKey("jackson")) {
+            if (additionalProperties.containsKey(JACKSON)) {
                 model.imports.add("JsonCreator");
             }
         }

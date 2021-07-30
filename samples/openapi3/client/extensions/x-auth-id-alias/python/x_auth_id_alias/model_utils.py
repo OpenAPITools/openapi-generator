@@ -47,7 +47,7 @@ def convert_js_args_to_python_args(fn):
 
 class cached_property(object):
     # this caches the result of the function call for fn with no inputs
-    # use this as a decorator on fuction methods that you want converted
+    # use this as a decorator on function methods that you want converted
     # into cached properties
     result_key = '_results'
 
