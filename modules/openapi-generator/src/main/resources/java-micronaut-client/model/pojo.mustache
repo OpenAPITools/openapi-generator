@@ -15,7 +15,8 @@
 {{#additionalModelTypeAnnotations}}
 {{{.}}}
 {{/additionalModelTypeAnnotations}}
-{{>generatedAnnotation}}{{#discriminator}}{{>model/typeInfoAnnotation}}{{/discriminator}}{{>model/xmlAnnotation}}{{#useBeanValidation}}@Introspected
+{{>generatedAnnotation}}{{#discriminator}}{{>model/typeInfoAnnotation}}{{/discriminator}}{{>model/xmlAnnotation}}{{#useBeanValidation}}
+@Introspected
 {{/useBeanValidation}}{{!
 Declare the class with extends and implements
 }}public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
@@ -72,6 +73,7 @@ Declare the class with extends and implements
   {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
             {{/isContainer}}
         {{/vendorExtensions.x-is-jackson-optional-nullable}}
+
     {{/vars}}
 
     {{#parcelableModel}}
@@ -83,17 +85,20 @@ Declare the class with extends and implements
 
     {{/parcelableModel}}
     {{#vars}}
-
-  {{^isReadOnly}}
+        {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+            {{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = {{name}};
+            {{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
   }
-  {{#isArray}}
 
+            {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+                {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
     }
@@ -103,22 +108,22 @@ Declare the class with extends and implements
       // this can never happen, as we make sure above that the value is present
     }
     return this;
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
+                {{/vendorExtensions.x-is-jackson-optional-nullable}}
+                {{^vendorExtensions.x-is-jackson-optional-nullable}}
+                    {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
-    {{/required}}
+                    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+                {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
-  {{/isArray}}
-  {{#isMap}}
 
+            {{/isArray}}
+            {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+                {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
     }
@@ -128,21 +133,21 @@ Declare the class with extends and implements
       // this can never happen, as we make sure above that the value is present
     }
     return this;
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
+                {{/vendorExtensions.x-is-jackson-optional-nullable}}
+                {{^vendorExtensions.x-is-jackson-optional-nullable}}
+                    {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
-    {{/required}}
+                    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+                {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
-  {{/isMap}}
 
-  {{/isReadOnly}}
-   /**
+            {{/isMap}}
+        {{/isReadOnly}}
+  /**
   {{#description}}
    * {{description}}
   {{/description}}
@@ -156,87 +161,94 @@ Declare the class with extends and implements
    * maximum: {{maximum}}
   {{/maximum}}
    * @return {{name}}
-  **/
-{{#jsonb}}
-  @JsonbProperty("{{baseName}}")
-{{/jsonb}}
+   **/
 {{>model/beanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-{{#vendorExtensions.x-extra-annotation}}
+        {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
-{{/vendorExtensions.x-extra-annotation}}
-{{#vendorExtensions.x-is-jackson-optional-nullable}}
-  {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
-  @JsonIgnore
-{{/vendorExtensions.x-is-jackson-optional-nullable}}
-{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{>model/jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{/vendorExtensions.x-extra-annotation}}
+        {{#vendorExtensions.x-is-jackson-optional-nullable}}
+{{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}  @JsonIgnore
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{^vendorExtensions.x-is-jackson-optional-nullable}}
+            {{#jackson}}
+{{>model/jackson_annotations}}
+            {{/jackson}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
   public {{{datatypeWithEnum}}} {{getter}}() {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}
-    {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
-    if ({{name}} == null) {
+        {{#vendorExtensions.x-is-jackson-optional-nullable}}
+            {{#isReadOnly}}
+{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}    if ({{name}} == null) {
       {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
     }
     {{/isReadOnly}}
     return {{name}}.orElse(null);
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{^vendorExtensions.x-is-jackson-optional-nullable}}
     return {{name}};
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
-  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+        {{#vendorExtensions.x-is-jackson-optional-nullable}}
 {{>model/jackson_annotations}}
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-is-jackson-optional-nullable}}
+
   @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
   {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
-    {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
-    this.{{name}} = {{name}};
+    {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}   this.{{name}} = {{name}};
   }
-  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+        {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
-  {{^isReadOnly}}
-{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{>model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+        {{^isReadOnly}}
+            {{#jackson}}
+                {{^vendorExtensions.x-is-jackson-optional-nullable}}
+{{>model/jackson_annotations}}
+                {{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{/jackson}}
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+            {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+            {{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+            {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
-  {{/isReadOnly}}
-
-  {{/vars}}
+        {{/isReadOnly}}
+    {{/vars}}
 
   @Override
   public boolean equals(Object o) {
-  {{#useReflectionEqualsHashCode}}
+    {{#useReflectionEqualsHashCode}}
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
-  {{/useReflectionEqualsHashCode}}
-  {{^useReflectionEqualsHashCode}}
+    {{/useReflectionEqualsHashCode}}
+    {{^useReflectionEqualsHashCode}}
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }{{#hasVars}}
+    }
+        {{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
     return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
         {{/-last}}{{/vars}}{{#parent}} &&
-        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
-  {{/useReflectionEqualsHashCode}}
+        super.equals(o){{/parent}};
+        {{/hasVars}}
+        {{^hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};
+        {{/hasVars}}
+    {{/useReflectionEqualsHashCode}}
   }
 
   @Override
   public int hashCode() {
-  {{#useReflectionEqualsHashCode}}
+    {{#useReflectionEqualsHashCode}}
     return HashCodeBuilder.reflectionHashCode(this);
-  {{/useReflectionEqualsHashCode}}
-  {{^useReflectionEqualsHashCode}}
+    {{/useReflectionEqualsHashCode}}
+    {{^useReflectionEqualsHashCode}}
     return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  {{/useReflectionEqualsHashCode}}
+    {{/useReflectionEqualsHashCode}}
   }
 
   @Override
@@ -264,41 +276,40 @@ Declare the class with extends and implements
     return o.toString().replace("\n", "\n    ");
   }
 
-{{#parcelableModel}}
-
+    {{#parcelableModel}}
   public void writeToParcel(Parcel out, int flags) {
-{{#model}}
-{{#isArray}}
+        {{#model}}
+            {{#isArray}}
     out.writeList(this);
-{{/isArray}}
-{{^isArray}}
-{{#parent}}
+            {{/isArray}}
+            {{^isArray}}
+                {{#parent}}
     super.writeToParcel(out, flags);
-{{/parent}}
-{{#vars}}
+                {{/parent}}
+                {{#vars}}
     out.writeValue({{name}});
-{{/vars}}
-{{/isArray}}
-{{/model}}
+                {{/vars}}
+            {{/isArray}}
+        {{/model}}
   }
 
   {{classname}}(Parcel in) {
-{{#isArray}}
+        {{#isArray}}
     in.readTypedList(this, {{arrayModelType}}.CREATOR);
-{{/isArray}}
-{{^isArray}}
-{{#parent}}
+        {{/isArray}}
+        {{^isArray}}
+            {{#parent}}
     super(in);
-{{/parent}}
-{{#vars}}
-{{#isPrimitiveType}}
+            {{/parent}}
+            {{#vars}}
+                {{#isPrimitiveType}}
     {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
-{{/isPrimitiveType}}
-{{^isPrimitiveType}}
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
     {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
-{{/isPrimitiveType}}
-{{/vars}}
-{{/isArray}}
+                {{/isPrimitiveType}}
+            {{/vars}}
+        {{/isArray}}
   }
 
   public int describeContents() {
@@ -307,20 +318,20 @@ Declare the class with extends and implements
 
   public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
     public {{classname}} createFromParcel(Parcel in) {
-{{#model}}
-{{#isArray}}
+        {{#model}}
+            {{#isArray}}
       {{classname}} result = new {{classname}}();
       result.addAll(in.readArrayList({{arrayModelType}}.class.getClassLoader()));
       return result;
-{{/isArray}}
-{{^isArray}}
+            {{/isArray}}
+            {{^isArray}}
       return new {{classname}}(in);
-{{/isArray}}
-{{/model}}
+            {{/isArray}}
+        {{/model}}
     }
     public {{classname}}[] newArray(int size) {
       return new {{classname}}[size];
     }
   };
-{{/parcelableModel}}
+    {{/parcelableModel}}
 }
