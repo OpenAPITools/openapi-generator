@@ -7,7 +7,6 @@ version = "0.1"
 group = "{{invokerPackage}}"
 
 repositories {
-    // mavenLocal()
     mavenCentral()
 }
 
@@ -27,12 +26,13 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.swagger:swagger-annotations:1.5.9")
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
-
+// TODO Set the main class
 application {
     mainClass.set("")
 }

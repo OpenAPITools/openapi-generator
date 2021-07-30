@@ -41,7 +41,7 @@ More information can be found inside [Inversion of Control guide section](https:
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
 ```java
-{{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Single<Void>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Void>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 ```
 
 {{summary}}{{#notes}}

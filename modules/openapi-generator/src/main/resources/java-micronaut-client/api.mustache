@@ -7,7 +7,7 @@ import io.micronaut.http.client.annotation.Client;
 import {{invokerPackage}}.auth.Authorization;
 import {{invokerPackage}}.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 {{#imports}}import {{import}};
 {{/imports}}
 import javax.annotation.Generated;
@@ -26,8 +26,18 @@ import javax.validation.constraints.*;
 public interface {{classname}} {
 {{#operations}}{{#operation}}
   /**
+    {{#summary}}
    * {{summary}}
+    {{/summary}}
+    {{#notes}}
    * {{notes}}
+    {{/notes}}
+    {{^summary}}
+        {{^notes}}
+   * {{nickname}}
+        {{/notes}}
+    {{/summary}}
+   *
 {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -43,7 +53,7 @@ public interface {{classname}} {
   {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
   {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#configureAuth}}{{#authMethods}}
   @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}{{/configureAuth}}
-  {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Single<Void>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
+  {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Void>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
         {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
   {{/operation}}

@@ -20,11 +20,12 @@ import io.micronaut.security.oauth2.client.clientcredentials.propagation.ClientC
 import io.micronaut.security.oauth2.client.clientcredentials.propagation.ClientCredentialsTokenPropagator;
 import io.micronaut.security.oauth2.configuration.OauthClientConfiguration;
 import io.micronaut.security.oauth2.endpoint.token.response.TokenResponse;
-import io.reactivex.Flowable;
-import {{invokerPackage}}.auth.configuration.ConfigurableAuthorization;
+import org.openapitools.auth.configuration.ConfigurableAuthorization;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +74,7 @@ public class AuthorizationFilter implements HttpClientFilter {
     ) {
         List<?> names = request.getAttribute(AuthorizationBinder.AUTHORIZATION_NAMES, List.class).orElse(null);
         if (CollectionUtils.isNotEmpty(names)) {
-            List<Flowable<HttpRequest>> authorizers = new ArrayList<>(names.size());
+            List<Publisher<HttpRequest>> authorizers = new ArrayList<>(names.size());
 
             for (Object nameObject: names) {
                 if (!(nameObject instanceof String)) {
@@ -84,7 +85,7 @@ public class AuthorizationFilter implements HttpClientFilter {
                 // Check if other authorizations have the key
                 if (authorizationsByName.containsKey(name)) {
                     ConfigurableAuthorization authorizer = authorizationsByName.get(name);
-                    authorizers.add(Flowable.fromCallable(() -> {
+                    authorizers.add(Mono.fromCallable(() -> {
                         authorizer.applyAuthorization(request);
                         return request;
                     }));
@@ -106,7 +107,7 @@ public class AuthorizationFilter implements HttpClientFilter {
                 }
 
                 ClientCredentialsTokenPropagator tokenHandler = getTokenPropagator(name);
-                Flowable<HttpRequest> authorizer = Flowable.fromPublisher(clientCredentialsClient
+                Flux<HttpRequest> authorizer = Flux.from(clientCredentialsClient
                         .requestToken(getScope(clientConfiguration)))
                         .map(TokenResponse::getAccessToken)
                         .map(accessToken -> {
@@ -118,7 +119,7 @@ public class AuthorizationFilter implements HttpClientFilter {
                 authorizers.add(authorizer);
             }
 
-            return Flowable.concat(authorizers)
+            return Flux.concat(authorizers)
                     .switchMap(v -> chain.proceed(request));
         }
 

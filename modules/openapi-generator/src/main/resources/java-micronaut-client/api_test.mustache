@@ -6,7 +6,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import jakarta.inject.Inject;
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -30,14 +30,15 @@ public class {{classname}}Test {
      * {{summary}}
      {{#notes}}*
      * {{notes}}
-     {{/notes}}*/
+     {{/notes}}
+     */
     @Test
     public void {{operationId}}Test() {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).blockingGet();
-        {{#returnType}}// Single<{{{returnType}}}> asyncResponse = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}); {{/returnType}}
+        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block();
+        // {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Void>{{/returnType}} asyncResponse = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         // TODO: test validations
     }
 
