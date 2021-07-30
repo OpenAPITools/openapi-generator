@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import java.io.UnsupportedEncodingException
+import java.lang.reflect.Type
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.net.HttpURLConnection
@@ -20,7 +21,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import java.lang.reflect.Type
 import {{packageName}}.auth.Authentication
 
 
@@ -264,6 +264,7 @@ class RequestFactory {
                contentTypeForBody: String?,
                encodingForParams: String?,
                authNames: Array<String>?,
+               type: Type,
                responseListener: Response.Listener<T>,
                errorListener: Response.ErrorListener): Request<T> {
                val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
@@ -282,6 +283,7 @@ class RequestFactory {
                         bodyAsStr,
                         updatedParams.second,
                         contentTypeForBody,
+                        type,
                         responseListener,
                         errorListener)
                 }
@@ -295,6 +297,7 @@ class RequestFactory {
                         bodyAsStr,
                         headers,
                         contentTypeForBody,
+                        type,
                         responseListener,
                         errorListener)
                 }

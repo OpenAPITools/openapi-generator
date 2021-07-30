@@ -1,32 +1,49 @@
 package {{packageName}}.request
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.net.HttpURLConnection
 import java.lang.reflect.Type
-import com.google.gson.reflect.TypeToken
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
+import {{packageName}}.infrastructure.OffsetDateTimeAdapter
+import {{packageName}}.infrastructure.LocalDateTimeAdapter
+import {{packageName}}.infrastructure.LocalDateAdapter
+import {{packageName}}.infrastructure.ByteArrayAdapter
+
+@RequiresApi(Build.VERSION_CODES.O)
 class GsonRequest<T>(
     method: Int,
     url: String,
     private val bodyAsStr: String?,
     private val headers: Map<String, String>?,
     private val contentTypeForBody: String?,
+    private val type: Type,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
 ) : Request<T>(method, url, errorListener) {
 
-    /**
-    * The underlying [Gson] instance.
-    */
-    private val gson = Gson()
+    val gsonBuilder: GsonBuilder = GsonBuilder()
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+
+    val gson: Gson by lazy {
+        gsonBuilder.create()
+    }
 
     private var response: NetworkResponse? = null
 
@@ -50,9 +67,8 @@ class GsonRequest<T>(
                 response?.data ?: ByteArray(0),
                 Charset.forName(HttpHeaderParser.parseCharset(response?.headers))
             )
-            val type = object : TypeToken<T>() {}.type
             Response.success(
-                Gson().fromJson<T>(json, type),
+                gson.fromJson<T>(json, type),
                 HttpHeaderParser.parseCacheHeaders(response)
             )
         } catch (e: UnsupportedEncodingException) {
