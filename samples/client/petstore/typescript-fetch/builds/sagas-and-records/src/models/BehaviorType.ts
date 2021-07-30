@@ -23,11 +23,17 @@ export enum BehaviorType {
     Overt = 'Overt'
 }
 
-export function BehaviorTypeFromJSON(json: any): BehaviorType {
+export function BehaviorTypeFromJSON(json: any): BehaviorType | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(BehaviorType).includes(json as BehaviorType)) {
+        return null;
+    }
     return BehaviorTypeFromJSONTyped(json, false);
 }
 
-export function BehaviorTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): BehaviorType {
+export function BehaviorTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): BehaviorType | null {
     return json as BehaviorType;
 }
 

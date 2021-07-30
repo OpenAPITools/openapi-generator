@@ -32,11 +32,17 @@ export enum DeploymentRequestStatus {
     Paired = 'Paired'
 }
 
-export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestStatus {
+export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestStatus | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(DeploymentRequestStatus).includes(json as DeploymentRequestStatus)) {
+        return null;
+    }
     return DeploymentRequestStatusFromJSONTyped(json, false);
 }
 
-export function DeploymentRequestStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeploymentRequestStatus {
+export function DeploymentRequestStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeploymentRequestStatus | null {
     return json as DeploymentRequestStatus;
 }
 

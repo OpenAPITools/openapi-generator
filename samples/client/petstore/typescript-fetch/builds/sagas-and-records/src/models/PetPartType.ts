@@ -23,11 +23,17 @@ export enum PetPartType {
     Long = 'Long'
 }
 
-export function PetPartTypeFromJSON(json: any): PetPartType {
+export function PetPartTypeFromJSON(json: any): PetPartType | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(PetPartType).includes(json as PetPartType)) {
+        return null;
+    }
     return PetPartTypeFromJSONTyped(json, false);
 }
 
-export function PetPartTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetPartType {
+export function PetPartTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetPartType | null {
     return json as PetPartType;
 }
 

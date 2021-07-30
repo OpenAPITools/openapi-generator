@@ -23,11 +23,17 @@ export enum OuterEnum {
     Delivered = 'delivered'
 }
 
-export function OuterEnumFromJSON(json: any): OuterEnum {
+export function OuterEnumFromJSON(json: any): OuterEnum | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(OuterEnum).includes(json as OuterEnum)) {
+        return null;
+    }
     return OuterEnumFromJSONTyped(json, false);
 }
 
-export function OuterEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnum {
+export function OuterEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnum | null {
     return json as OuterEnum;
 }
 

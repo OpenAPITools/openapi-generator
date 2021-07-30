@@ -23,11 +23,17 @@ export enum StringEnum {
     Three = 'three'
 }
 
-export function StringEnumFromJSON(json: any): StringEnum {
+export function StringEnumFromJSON(json: any): StringEnum | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(StringEnum).includes(json as StringEnum)) {
+        return null;
+    }
     return StringEnumFromJSONTyped(json, false);
 }
 
-export function StringEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringEnum {
+export function StringEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringEnum | null {
     return json as StringEnum;
 }
 

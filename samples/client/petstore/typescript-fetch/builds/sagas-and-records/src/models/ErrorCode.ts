@@ -38,11 +38,17 @@ export enum ErrorCode {
     MaximumVolumeBlocksMusicVolumeIncrease = 'Maximum_Volume_Blocks_Music_Volume_Increase'
 }
 
-export function ErrorCodeFromJSON(json: any): ErrorCode {
+export function ErrorCodeFromJSON(json: any): ErrorCode | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(ErrorCode).includes(json as ErrorCode)) {
+        return null;
+    }
     return ErrorCodeFromJSONTyped(json, false);
 }
 
-export function ErrorCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorCode {
+export function ErrorCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorCode | null {
     return json as ErrorCode;
 }
 

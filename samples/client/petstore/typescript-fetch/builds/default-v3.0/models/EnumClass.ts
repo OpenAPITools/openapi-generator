@@ -23,11 +23,17 @@ export enum EnumClass {
     Xyz = '(xyz)'
 }
 
-export function EnumClassFromJSON(json: any): EnumClass {
+export function EnumClassFromJSON(json: any): EnumClass | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(EnumClass).includes(json as EnumClass)) {
+        return null;
+    }
     return EnumClassFromJSONTyped(json, false);
 }
 
-export function EnumClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumClass {
+export function EnumClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumClass | null {
     return json as EnumClass;
 }
 

@@ -23,11 +23,17 @@ export enum OuterEnumInteger {
     NUMBER_2 = 2
 }
 
-export function OuterEnumIntegerFromJSON(json: any): OuterEnumInteger {
+export function OuterEnumIntegerFromJSON(json: any): OuterEnumInteger | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(OuterEnumInteger).includes(json as OuterEnumInteger)) {
+        return null;
+    }
     return OuterEnumIntegerFromJSONTyped(json, false);
 }
 
-export function OuterEnumIntegerFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnumInteger {
+export function OuterEnumIntegerFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnumInteger | null {
     return json as OuterEnumInteger;
 }
 

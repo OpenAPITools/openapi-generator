@@ -17,28 +17,27 @@
  * @export
  * @enum {string}
  */
-export enum NumberEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3
+export enum NumberEnumTwo {
+    NUMBER_4 = 4,
+    NUMBER_5 = 5,
+    NUMBER_6 = 6
 }
 
-export function NumberEnumFromJSON(json: any): NumberEnum | null {
+export function NumberEnumTwoFromJSON(json: any): NumberEnumTwo | null {
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if(!Object.values(NumberEnum).includes(json as NumberEnum)) {
+    if(!Object.values(NumberEnumTwo).includes(json as NumberEnumTwo)) {
         return null;
     }
-    return NumberEnumFromJSONTyped(json, false);
+    return NumberEnumTwoFromJSONTyped(json, false);
 }
 
-export function NumberEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): NumberEnum | null {
-    return json as NumberEnum;
+export function NumberEnumTwoFromJSONTyped(json: any, ignoreDiscriminator: boolean): NumberEnumTwo | null {
+    return json as NumberEnumTwo;
 }
 
-export function NumberEnumToJSON(value?: NumberEnum | null): any {
+export function NumberEnumTwoToJSON(value?: NumberEnumTwo | null): any {
     return value as any;
 }
 

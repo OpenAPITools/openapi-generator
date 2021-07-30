@@ -46,6 +46,6 @@ export function StringOneOfToJSON(value?: StringOneOf | null): any {
     if (value === null) {
         return null;
     }
-    return StringEnumToJSON(value as StringEnum) || StringEnumTwoToJSON(value as StringEnumTwo);
+    return StringEnumToJSON(value as StringEnum) ?? StringEnumTwoToJSON(value as StringEnumTwo);
 }
 

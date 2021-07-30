@@ -23,11 +23,17 @@ export enum WarningCode {
     NoVolumeRangeSpecified = 'No_Volume_Range_Specified'
 }
 
-export function WarningCodeFromJSON(json: any): WarningCode {
+export function WarningCodeFromJSON(json: any): WarningCode | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(WarningCode).includes(json as WarningCode)) {
+        return null;
+    }
     return WarningCodeFromJSONTyped(json, false);
 }
 
-export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): WarningCode {
+export function WarningCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): WarningCode | null {
     return json as WarningCode;
 }
 

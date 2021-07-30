@@ -2,6 +2,8 @@ export * from './EnumPatternObject';
 export * from './InlineObject';
 export * from './InlineResponse200';
 export * from './NumberEnum';
+export * from './NumberEnumTwo';
+export * from './NumberOneOf';
 export * from './ObjectCombinedEnum';
 export * from './ObjectOneOfEnum';
 export * from './StringEnum';

@@ -23,11 +23,17 @@ export enum OuterEnumDefaultValue {
     Delivered = 'delivered'
 }
 
-export function OuterEnumDefaultValueFromJSON(json: any): OuterEnumDefaultValue {
+export function OuterEnumDefaultValueFromJSON(json: any): OuterEnumDefaultValue | null {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    if(!Object.values(OuterEnumDefaultValue).includes(json as OuterEnumDefaultValue)) {
+        return null;
+    }
     return OuterEnumDefaultValueFromJSONTyped(json, false);
 }
 
-export function OuterEnumDefaultValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnumDefaultValue {
+export function OuterEnumDefaultValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterEnumDefaultValue | null {
     return json as OuterEnumDefaultValue;
 }
 

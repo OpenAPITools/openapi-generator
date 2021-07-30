@@ -5,6 +5,8 @@ models/EnumPatternObject.ts
 models/InlineObject.ts
 models/InlineResponse200.ts
 models/NumberEnum.ts
+models/NumberEnumTwo.ts
+models/NumberOneOf.ts
 models/ObjectCombinedEnum.ts
 models/ObjectOneOfEnum.ts
 models/StringEnum.ts
