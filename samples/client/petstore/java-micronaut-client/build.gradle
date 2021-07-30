@@ -1,0 +1,42 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "1.5.0"
+}
+
+version = "0.1"
+group = "org.openapitools"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("org.openapitools.*")
+    }
+}
+
+
+dependencies {
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("javax.annotation:javax.annotation-api")
+    implementation("io.swagger:swagger-annotations:1.5.9")
+    runtimeOnly("ch.qos.logback:logback-classic")
+}
+
+// TODO Set the main class
+application {
+    mainClass.set("")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
