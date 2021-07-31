@@ -104,7 +104,9 @@ func (c *UserApiController) Routes() Routes {
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -126,7 +128,9 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
 	user := []User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -150,7 +154,9 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
 	user := []User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -235,7 +241,9 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	username := chi.URLParam(r, "username")
 	
 	user := User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
