@@ -31,4 +31,69 @@ type {{classname}} struct {
 	// {{{description}}}{{/description}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-}{{/isEnum}}{{/model}}{{/models}}
+}{{/isEnum}}
+
+// AssertRequired{{classname}} checks if the required fields are not zero-ed
+func AssertRequired{{classname}}(obj {{classname}}) error {
+	elements := map[string]interface{}{
+{{#requiredVars}}		"{{baseName}}": obj.{{name}},
+{{/requiredVars}}	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+{{#Vars}}
+	{{#isModel}}
+		{{#isNullable}}
+	if obj.{{name}} != nil {
+		if err := AssertRequired{{baseType}}(*obj.{{name}}); err != nil {
+			return err
+		}
+	}
+
+		{{/isNullable}}
+		{{^isNullable}}
+	if err := AssertRequired{{baseType}}(obj.{{name}}); err != nil {
+		return err
+	}
+
+		{{/isNullable}}
+	{{/isModel}}
+	{{#isArray}}
+		{{#items.isModel}}
+			{{#isNullable}}
+	if obj.{{name}} != nil {
+		for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
+			if err := AssertRequired{{items.baseType}}(el); err != nil {
+				return err
+			}
+		}
+    }
+
+			{{/isNullable}}
+			{{^isNullable}}
+	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
+		if err := AssertRequired{{items.baseType}}(el); err != nil {
+			return err
+		}
+	}
+
+			{{/isNullable}}
+		{{/items.isModel}}
+	{{/isArray}}
+{{/Vars}}
+{{#parent}}
+	{{^isMap}}
+	{{^isArray}}
+	if err := AssertRequired{{{parent}}}(obj.{{{parent}}}); err != nil {
+		return err
+	}
+
+	{{/isArray}}
+	{{/isMap}}
+{{/parent}}
+	return nil
+}
+{{/model}}{{/models}}
