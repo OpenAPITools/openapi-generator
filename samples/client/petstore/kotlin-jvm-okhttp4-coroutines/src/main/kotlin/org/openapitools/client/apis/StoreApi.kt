@@ -22,6 +22,8 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.Order
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
@@ -52,14 +54,14 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun deleteOrder(orderId: kotlin.String) : Unit {
+    suspend fun deleteOrder(orderId: kotlin.String) : Unit = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
         val localVarResponse = request<Unit, Unit>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -104,14 +106,14 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    suspend fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> = withContext(Dispatchers.IO) {
         val localVariableConfig = getInventoryRequestConfig()
 
         val localVarResponse = request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -156,14 +158,14 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun getOrderById(orderId: kotlin.Long) : Order {
+    suspend fun getOrderById(orderId: kotlin.Long) : Order = withContext(Dispatchers.IO) {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
         val localVarResponse = request<Unit, Order>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
@@ -209,14 +211,14 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun placeOrder(body: Order) : Order {
+    suspend fun placeOrder(body: Order) : Order = withContext(Dispatchers.IO) {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
         val localVarResponse = request<Order, Order>(
             localVariableConfig
         )
 
-        return when (localVarResponse.responseType) {
+        return@withContext when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")

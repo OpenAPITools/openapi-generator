@@ -678,10 +678,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    @Override
     public Number getMultipleOf() {
         return multipleOf;
     }
 
+    @Override
     public void setMultipleOf(Number multipleOf) {
         this.multipleOf = multipleOf;
     }

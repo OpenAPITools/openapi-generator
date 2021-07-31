@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -208,15 +207,15 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec placeOrderRequestCreation(Order body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec placeOrderRequestCreation(Order order) throws WebClientResponseException {
+        Object postBody = order;
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new WebClientResponseException("Missing the required parameter 'order' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -230,7 +229,9 @@ public class StoreApi {
             "application/xml", "application/json"
         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { };
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -244,17 +245,17 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> placeOrder(Order body) throws WebClientResponseException {
+    public Mono<Order> placeOrder(Order order) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return placeOrderRequestCreation(body).bodyToMono(localVarReturnType);
+        return placeOrderRequestCreation(order).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order order) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return placeOrderRequestCreation(body).toEntity(localVarReturnType);
+        return placeOrderRequestCreation(order).toEntity(localVarReturnType);
     }
 }

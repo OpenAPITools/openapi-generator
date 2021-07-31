@@ -24,27 +24,19 @@ import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
-import kotlinx.serialization.UnstableDefault
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 
-class StoreApi @UseExperimental(UnstableDefault::class) constructor(
-    baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+class StoreApi(
+    baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+    jsonSerializer: Json = ApiClient.JSON_DEFAULT
+) : ApiClient(baseUrl, httpClientEngine, jsonSerializer) {
 
     /**
      * Delete purchase order by ID
@@ -63,7 +55,7 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
@@ -95,7 +87,7 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/store/inventory",
             query = localVariableQuery,
@@ -113,10 +105,10 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
         @Serializer(GetInventoryResponse::class)
         companion object : KSerializer<GetInventoryResponse> {
-            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
-                override val descriptor = StringDescriptor.withName("GetInventoryResponse")
-                override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
-                override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
+            private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = serializer<Map<String, kotlin.Int>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
+            override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
         }
     }
 
@@ -138,7 +130,7 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/store/order/{orderId}".replace("{" + "orderId" + "}", "$orderId"),
             query = localVariableQuery,
@@ -170,7 +162,7 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableHeaders = mutableMapOf<String, String>()
 
-        val localVariableConfig = RequestConfig(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/store/order",
             query = localVariableQuery,
@@ -186,11 +178,4 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
 
 
-
-    companion object {
-        internal fun setMappers(serializer: KotlinxSerializer) {
-            serializer.setMapper(GetInventoryResponse::class, GetInventoryResponse.serializer())
-            
-        }
-    }
 }

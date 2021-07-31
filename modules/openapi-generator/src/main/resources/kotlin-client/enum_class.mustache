@@ -15,7 +15,6 @@ import kotlinx.serialization.Serializable
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 {{/multiplatform}}
 
 /**
@@ -39,6 +38,9 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{#kotlinx_serialization}}
     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/kotlinx_serialization}}
+    {{/multiplatform}}
+    {{#multiplatform}}
+    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}

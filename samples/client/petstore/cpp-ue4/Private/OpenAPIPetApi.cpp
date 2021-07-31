@@ -132,10 +132,10 @@ void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-bool OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate /*= FAddPetDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate /*= FAddPetDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -148,7 +148,8 @@ bool OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelegate& 
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnAddPetResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const
@@ -158,10 +159,10 @@ void OpenAPIPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponseP
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate /*= FDeletePetDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate /*= FDeletePetDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -174,7 +175,8 @@ bool OpenAPIPetApi::DeletePet(const DeletePetRequest& Request, const FDeletePetD
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnDeletePetResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate) const
@@ -184,10 +186,10 @@ void OpenAPIPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpRespon
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate /*= FFindPetsByStatusDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate /*= FFindPetsByStatusDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -200,7 +202,8 @@ bool OpenAPIPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request, con
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByStatusResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate) const
@@ -210,10 +213,10 @@ void OpenAPIPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHtt
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate /*= FFindPetsByTagsDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate /*= FFindPetsByTagsDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -226,7 +229,8 @@ bool OpenAPIPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, const F
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByTagsResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate) const
@@ -236,10 +240,10 @@ void OpenAPIPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpR
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate /*= FGetPetByIdDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate /*= FGetPetByIdDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -252,7 +256,8 @@ bool OpenAPIPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetPetBy
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnGetPetByIdResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate) const
@@ -262,10 +267,10 @@ void OpenAPIPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpRespo
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate /*= FUpdatePetDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate /*= FUpdatePetDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -278,7 +283,8 @@ bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetD
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const
@@ -288,10 +294,10 @@ void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpRespon
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate /*= FUpdatePetWithFormDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate /*= FUpdatePetWithFormDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -304,7 +310,8 @@ bool OpenAPIPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Request, c
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetWithFormResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate) const
@@ -314,10 +321,10 @@ void OpenAPIPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHt
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIPetApi::UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate /*= FUploadFileDelegate()*/) const
+FHttpRequestPtr OpenAPIPetApi::UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate /*= FUploadFileDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -330,7 +337,8 @@ bool OpenAPIPetApi::UploadFile(const UploadFileRequest& Request, const FUploadFi
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUploadFileResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIPetApi::OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate) const

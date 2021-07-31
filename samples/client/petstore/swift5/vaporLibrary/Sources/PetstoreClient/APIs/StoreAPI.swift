@@ -21,22 +21,22 @@ open class StoreAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func deleteOrderRaw(orderId: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/store/order/{order_id}"
+        var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.DELETE, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -77,19 +77,19 @@ open class StoreAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func getInventoryRaw(headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/store/inventory"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/store/inventory"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -127,22 +127,22 @@ open class StoreAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func getOrderByIdRaw(orderId: Int64, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        var path = "/store/order/{order_id}"
+        var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
-        let URLString = PetstoreClient.basePath + path
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -183,20 +183,20 @@ open class StoreAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func placeOrderRaw(body: Order, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/store/order"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/store/order"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Order.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Order.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 

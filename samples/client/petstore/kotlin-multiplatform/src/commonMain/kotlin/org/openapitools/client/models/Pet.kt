@@ -24,7 +24,8 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 
 /**
  * A pet for sale in the pet store
@@ -59,10 +60,11 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
+    @Serializable
     enum class Status(val value: kotlin.String) {
-        available("available"),
-        pending("pending"),
-        sold("sold");
+        @SerialName(value = "available") available("available"),
+        @SerialName(value = "pending") pending("pending"),
+        @SerialName(value = "sold") sold("sold");
     }
 }
 

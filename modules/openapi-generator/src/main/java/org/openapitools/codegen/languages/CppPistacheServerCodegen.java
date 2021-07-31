@@ -423,6 +423,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }

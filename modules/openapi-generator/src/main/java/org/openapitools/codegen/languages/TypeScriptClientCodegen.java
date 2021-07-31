@@ -410,20 +410,22 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
-            LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName, modelName);
             return modelName;
         }
 

@@ -53,8 +53,12 @@ public class ApiClient {
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
         auth = new ApiKeyAuth("query", "api_key_query");
+      } else if ("bearer_test".equals(authName)) {
+        auth = new HttpBearerAuth("bearer");
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
+      } else if ("http_signature_test".equals(authName)) {
+        auth = new HttpBearerAuth("signature");
       } else if ("petstore_auth".equals(authName)) {
         auth = buildOauthRequestInterceptor(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
