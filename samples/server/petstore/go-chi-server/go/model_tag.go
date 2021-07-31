@@ -16,3 +16,16 @@ type Tag struct {
 
 	Name string `json:"name,omitempty"`
 }
+
+// AssertRequiredTag checks if the required fields are not zero-ed
+func AssertRequiredTag(obj Tag) error {
+	elements := map[string]interface{}{
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	return nil
+}

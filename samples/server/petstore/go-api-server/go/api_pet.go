@@ -103,12 +103,16 @@ func (c *PetApiController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
-	pet := &Pet{}
+	pet := Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.AddPet(r.Context(), *pet)
+	if err := AssertRequiredPet(pet); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.AddPet(r.Context(), pet)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -192,12 +196,16 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePet - Update an existing pet
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
-	pet := &Pet{}
+	pet := Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.UpdatePet(r.Context(), *pet)
+	if err := AssertRequiredPet(pet); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.UpdatePet(r.Context(), pet)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

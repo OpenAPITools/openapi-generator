@@ -16,3 +16,16 @@ type Category struct {
 
 	Name string `json:"name,omitempty"`
 }
+
+// AssertRequiredCategory checks if the required fields are not zero-ed
+func AssertRequiredCategory(obj Category) error {
+	elements := map[string]interface{}{
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	return nil
+}

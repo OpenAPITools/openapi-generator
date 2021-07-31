@@ -9,7 +9,11 @@
 
 package petstoreserver
 
-//Response return a ImplResponse struct filled
+import (
+	"reflect"
+)
+
+// Response return a ImplResponse struct filled
 func Response(code int, body interface{}) ImplResponse {
 	return ImplResponse {
 		Code: code,
@@ -18,11 +22,16 @@ func Response(code int, body interface{}) ImplResponse {
 	}
 }
 
-//ResponseWithHeaders return a ImplResponse struct filled, including headers
+// ResponseWithHeaders return a ImplResponse struct filled, including headers
 func ResponseWithHeaders(code int, headers map[string][]string, body interface{}) ImplResponse {
 	return ImplResponse {
 		Code: code,
 		Headers: headers,
 		Body: body,
 	}
+}
+
+// IsZeroValue checks if the val is the zero-ed value
+func IsZeroValue(val interface{}) bool {
+	return val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface())
 }

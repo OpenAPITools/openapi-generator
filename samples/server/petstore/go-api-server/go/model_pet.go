@@ -25,3 +25,28 @@ type Pet struct {
 	// pet status in the store
 	Status string `json:"status,omitempty"`
 }
+
+// AssertRequiredPet checks if the required fields are not zero-ed
+func AssertRequiredPet(obj Pet) error {
+	elements := map[string]interface{}{
+		"name": obj.Name,
+		"photoUrls": obj.PhotoUrls,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if err := AssertRequiredCategory(obj.Category); err != nil {
+		return err
+	}
+
+	for _, el := range obj.Tags {
+		if err := AssertRequiredTag(el); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

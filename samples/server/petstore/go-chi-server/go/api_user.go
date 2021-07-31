@@ -103,12 +103,16 @@ func (c *UserApiController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	user := &User{}
+	user := User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUser(r.Context(), *user)
+	if err := AssertRequiredUser(user); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.CreateUser(r.Context(), user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -121,12 +125,18 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
-	user := &[]User{}
+	user := []User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
+	for _, el := range user {
+		if err := AssertRequiredUser(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithArrayInput(r.Context(), user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -139,12 +149,18 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
-	user := &[]User{}
+	user := []User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
+	for _, el := range user {
+		if err := AssertRequiredUser(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithListInput(r.Context(), user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -218,12 +234,16 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	username := chi.URLParam(r, "username")
 	
-	user := &User{}
+	user := User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.UpdateUser(r.Context(), username, *user)
+	if err := AssertRequiredUser(user); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.UpdateUser(r.Context(), username, user)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
