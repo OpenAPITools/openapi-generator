@@ -32,13 +32,5 @@ type User struct {
 
 // AssertRequiredUser checks if the required fields are not zero-ed
 func AssertRequiredUser(obj User) error {
-	elements := map[string]interface{}{
-	}
-	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
-		}
-	}
-
 	return nil
 }

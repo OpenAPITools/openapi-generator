@@ -32,13 +32,5 @@ type Order struct {
 
 // AssertRequiredOrder checks if the required fields are not zero-ed
 func AssertRequiredOrder(obj Order) error {
-	elements := map[string]interface{}{
-	}
-	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
-		}
-	}
-
 	return nil
 }

@@ -21,13 +21,5 @@ type ApiResponse struct {
 
 // AssertRequiredApiResponse checks if the required fields are not zero-ed
 func AssertRequiredApiResponse(obj ApiResponse) error {
-	elements := map[string]interface{}{
-	}
-	for name, el := range elements {
-		if isZero := IsZeroValue(el); isZero {
-			return &RequiredError{Field: name}
-		}
-	}
-
 	return nil
 }
