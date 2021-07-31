@@ -35,6 +35,7 @@ type {{classname}} struct {
 
 // AssertRequired{{classname}} checks if the required fields are not zero-ed
 func AssertRequired{{classname}}(obj {{classname}}) error {
+{{#hasRequired}}
 	elements := map[string]interface{}{
 {{#requiredVars}}		"{{baseName}}": obj.{{name}},
 {{/requiredVars}}	}
@@ -44,6 +45,7 @@ func AssertRequired{{classname}}(obj {{classname}}) error {
 		}
 	}
 
+{{/hasRequired}}
 {{#Vars}}
 	{{#isModel}}
 		{{#isNullable}}
