@@ -172,7 +172,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
 	{{paramName}} := {{dataType}}{}
-	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
+	d := json.NewDecoder(r.Body)
+	{{#disallowUnknownFields}}
+	d.DisallowUnknownFields()
+	{{/disallowUnknownFields}}
+	if err := d.Decode(&{{paramName}}); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}

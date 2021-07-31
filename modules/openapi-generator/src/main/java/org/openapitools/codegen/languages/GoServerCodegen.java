@@ -50,7 +50,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
     protected Boolean addResponseHeaders = false;
-
+    protected Boolean disallowUnknownFields = true;
 
     public GoServerCodegen() {
         super();
@@ -105,6 +105,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.setType("bool");
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
+
+        // option to disallow unknown fields in body
+        CliOption optDisallowUnknownFields = new CliOption("disallowUnknownFields", "To disallow unknown fields in request body");
+        optDisallowUnknownFields.setType("bool");
+        optDisallowUnknownFields.defaultValue(disallowUnknownFields.toString());
+        cliOptions.add(optDisallowUnknownFields);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -209,6 +215,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
             this.setAddResponseHeaders(convertPropertyToBooleanAndWriteBack("addResponseHeaders"));
         } else {
             additionalProperties.put("addResponseHeaders", addResponseHeaders);
+        }
+
+        if (additionalProperties.containsKey("disallowUnknownFields")) {
+            this.setDisallowUnknownFields(convertPropertyToBooleanAndWriteBack("disallowUnknownFields"));
+        } else {
+            additionalProperties.put("disallowUnknownFields", disallowUnknownFields);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
@@ -358,5 +370,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setAddResponseHeaders(Boolean addResponseHeaders) {
         this.addResponseHeaders = addResponseHeaders;
+    }
+
+    public void setDisallowUnknownFields(Boolean disallowUnknownFields) {
+        this.disallowUnknownFields = disallowUnknownFields;
     }
 }
