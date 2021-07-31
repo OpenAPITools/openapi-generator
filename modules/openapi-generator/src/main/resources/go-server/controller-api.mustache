@@ -173,9 +173,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isBodyParam}}
 	{{paramName}} := {{dataType}}{}
 	d := json.NewDecoder(r.Body)
-	{{#disallowUnknownFields}}
+	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
-	{{/disallowUnknownFields}}
+	{{/isAdditionalPropertiesTrue}}
 	if err := d.Decode(&{{paramName}}); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
