@@ -11,8 +11,10 @@ package petstoreserver
 
 import (
 	"context"
-	"net/http"
 	"errors"
+	"net/http"
+
+	
 )
 
 // UserApiService is a service that implents the logic for the UserApiServicer

@@ -3,9 +3,11 @@ package {{packageName}}
 
 import (
 	"context"
-	"net/http"
-	"errors"{{#imports}}
+	"errors"
+	"net/http"{{#imports}}
 	"{{import}}"{{/imports}}
+
+	{{#hasDifferentModelDir}}models "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/{{modelPackage}}"{{/hasDifferentModelDir}}
 )
 
 // {{classname}}Service is a service that implents the logic for the {{classname}}Servicer
@@ -20,7 +22,7 @@ func New{{classname}}Service() {{classname}}Servicer {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{summary}}
-func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
+func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{#isModel}}{{#hasDifferentModelDir}}models.{{/hasDifferentModelDir}}{{/isModel}}{{dataType}}{{/allParams}}) (ImplResponse, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
