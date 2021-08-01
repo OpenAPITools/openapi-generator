@@ -169,6 +169,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.OffsetDateTime");
+        typeMapping.put("AnyType", "kotlin.Any");
 
         instantiationTypes.put("array", "kotlin.collections.ArrayList");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
