@@ -35,9 +35,9 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
     protected boolean generateJbossDeploymentDescriptor = true;
 
-    private static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
+    private static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
 
-    private boolean useSwaggerAnnotations = true;
+    private boolean swaggerAnnotations = true;
 
     public JavaResteasyServerCodegen() {
         super();
@@ -64,7 +64,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         cliOptions.add(
                 CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));
-        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", swaggerAnnotations));
     }
 
     @Override
@@ -87,10 +87,10 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
-        if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-            useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+        if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
+            swaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(SWAGGER_ANNOTATIONS).toString());
         }
-        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+        writePropertyBack(SWAGGER_ANNOTATIONS, swaggerAnnotations);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());
