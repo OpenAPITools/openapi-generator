@@ -85,7 +85,7 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init);
+        let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         for (const middleware of this.middleware) {
             if (middleware.post) {
                 response = await middleware.post({
@@ -148,7 +148,7 @@ export class Configuration {
     }
 
     get fetchApi(): FetchAPI {
-        return this.configuration.fetchApi || window.fetch.bind(window);
+        return this.configuration.fetchApi;
     }
 
     get middleware(): Middleware[] {
