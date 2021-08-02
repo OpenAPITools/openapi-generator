@@ -50,6 +50,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_default'
           description: response
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: client error
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: not found
   /pet:
     post:
       operationId: addPet
