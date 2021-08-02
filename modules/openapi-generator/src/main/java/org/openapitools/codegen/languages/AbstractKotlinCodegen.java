@@ -23,12 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +67,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
+
+    // model classes cannot use the same property names defined in HashMap
+    // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
+    protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     public AbstractKotlinCodegen() {
         super();
@@ -856,11 +855,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // should be the same as variable name
-        return toVarName(name);
+        return toVariableName(name);
     }
 
     @Override
     public String toVarName(String name) {
+        name = toVariableName(name);
+        if (propertyAdditionalKeywords.contains(name)) {
+            return camelize("property_" + name, true);
+        } else {
+            return name;
+        }
+    }
+
+    protected String toVariableName(String name) {
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
         name = sanitizeKotlinSpecificNames(name);
@@ -984,7 +992,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                     itemsSchema.setDefault(element.asText());
                     defaultContent.append(toDefaultValue(itemsSchema)).append(",");
                 });
-                defaultContent.deleteCharAt(defaultContent.length()-1); // remove trailing comma
+                defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
                 return arrInstantiationType + "Of(" + defaultContent + ")";
             }
         } else if (ModelUtils.isStringSchema(p)) {

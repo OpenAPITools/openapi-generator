@@ -3,11 +3,6 @@ package {{packageName}}.infrastructure
 {{#supportAndroidApiLevel25AndBelow}}
 import android.os.Build
 {{/supportAndroidApiLevel25AndBelow}}
-{{#hasAuthMethods}}
-{{#isBasicBasic}}
-import okhttp3.Credentials
-{{/isBasicBasic}}
-{{/hasAuthMethods}}
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 {{#jvm-okhttp3}}
@@ -252,7 +247,7 @@ import com.squareup.moshi.adapter
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
-                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                    requestConfig.headers[Authorization] = okhttp3.Credentials.basic(username, password)
                 }
             }
         }
