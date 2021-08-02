@@ -1,46 +1,104 @@
 package org.openapitools.api;
 
-import java.util.List;
+import org.openapitools.model.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import io.swagger.annotations.ApiParam;
+import io.swagger.jaxrs.*;
+
+import java.util.List;
+import org.openapitools.model.User;
+
+import java.util.List;
+import java.util.Map;
+
+import java.io.InputStream;
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
-import org.openapitools.model.User;
+import javax.ws.rs.*;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/user")
 
 
+@io.swagger.annotations.Api(description = "the user API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public interface UserApi  {
-
-    @POST Response createUser( @NotNull @Valid User body,@Context SecurityContext securityContext);
+   
     @POST
-    @Path("/createWithArray") Response createUsersWithArrayInput( @NotNull @Valid List<User> body,@Context SecurityContext securityContext);
+    
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response createUser(@ApiParam(value = "Created user object" ,required=true) @NotNull @Valid User body,@Context SecurityContext securityContext);
     @POST
-    @Path("/createWithList") Response createUsersWithListInput( @NotNull @Valid List<User> body,@Context SecurityContext securityContext);
+    @Path("/createWithArray")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,@Context SecurityContext securityContext);
+    @POST
+    @Path("/createWithList")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,@Context SecurityContext securityContext);
     @DELETE
-    @Path("/{username}") Response deleteUser( @PathParam("username") String username,@Context SecurityContext securityContext);
+    @Path("/{username}")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
+    public Response deleteUser( @PathParam("username") String username,@Context SecurityContext securityContext);
     @GET
     @Path("/{username}")
-
-    @Produces({ "application/xml", "application/json" }) Response getUserByName( @PathParam("username") String username,@Context SecurityContext securityContext);
+    
+    @Produces({ "application/xml", "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = User.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
+    public Response getUserByName( @PathParam("username") String username,@Context SecurityContext securityContext);
     @GET
     @Path("/login")
-
-    @Produces({ "application/xml", "application/json" }) Response loginUser( @NotNull  @QueryParam("username") String username, @NotNull  @QueryParam("password") String password,@Context SecurityContext securityContext);
+    
+    @Produces({ "application/xml", "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
+    public Response loginUser( @NotNull  @QueryParam("username") String username, @NotNull  @QueryParam("password") String password,@Context SecurityContext securityContext);
     @GET
-    @Path("/logout") Response logoutUser(@Context SecurityContext securityContext);
+    @Path("/logout")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response logoutUser(@Context SecurityContext securityContext);
     @PUT
-    @Path("/{username}") Response updateUser( @PathParam("username") String username, @NotNull @Valid User body,@Context SecurityContext securityContext);
+    @Path("/{username}")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
+    public Response updateUser( @PathParam("username") String username,@ApiParam(value = "Updated user object" ,required=true) @NotNull @Valid User body,@Context SecurityContext securityContext);
 }
