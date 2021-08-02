@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         public enum JustSymbolEnum
         {
             /// <summary>
-            /// Enum GreaterThanOrEqualTo for value: >=
+            /// Enum GreaterThanOrEqualTo for value: &gt;&#x3D;
             /// </summary>
             [EnumMember(Value = ">=")]
             GreaterThanOrEqualTo = 1,
