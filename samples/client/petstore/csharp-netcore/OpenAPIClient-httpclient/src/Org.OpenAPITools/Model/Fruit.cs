@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
         {
             Fruit newFruit = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newFruit;
             }

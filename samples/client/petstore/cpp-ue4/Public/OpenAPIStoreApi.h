@@ -52,10 +52,10 @@ public:
     DECLARE_DELEGATE_OneParam(FGetOrderByIdDelegate, const GetOrderByIdResponse&);
     DECLARE_DELEGATE_OneParam(FPlaceOrderDelegate, const PlaceOrderResponse&);
     
-    bool DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
-    bool GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
-    bool GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
-    bool PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
+    FHttpRequestPtr DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
+    FHttpRequestPtr GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
+    FHttpRequestPtr GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
+    FHttpRequestPtr PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
     
 private:
     void OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const;
