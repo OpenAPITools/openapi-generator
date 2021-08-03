@@ -13,8 +13,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
-        classpath 'com.android.tools.build:gradle:3.2.+'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath 'com.android.tools.build:gradle:4.0.2'
         {{#useAndroidMavenGradlePlugin}}
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         {{/useAndroidMavenGradlePlugin}}
@@ -36,12 +36,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '30.0.3'
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         {{#supportJava6}}
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
@@ -86,6 +87,7 @@ ext {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.gson:gson:$gson_version"
@@ -105,8 +107,8 @@ afterEvaluate {
         task.description = "Create jar artifact for ${variant.name}"
         task.dependsOn variant.javaCompile
         task.from variant.javaCompile.destinationDir
-        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+        task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+        task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
         artifacts.add('archives', task);
     }
 }

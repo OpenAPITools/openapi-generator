@@ -1,7 +1,5 @@
 package {{packageName}}.request
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
 import com.android.volley.Request
@@ -23,7 +21,6 @@ import {{packageName}}.infrastructure.LocalDateTimeAdapter
 import {{packageName}}.infrastructure.LocalDateAdapter
 import {{packageName}}.infrastructure.ByteArrayAdapter
 
-@RequiresApi(Build.VERSION_CODES.O)
 class GsonRequest<T>(
     method: Int,
     url: String,
