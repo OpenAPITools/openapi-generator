@@ -894,6 +894,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return String.join(" | ", types);
     }
 
+    @Override
+    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+        List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
+
+        return String.join(" & ", types);
+    }
+
     /**
      * Extracts the list of type names from a list of schemas.
      * Excludes `AnyType` if there are other valid types extracted.
