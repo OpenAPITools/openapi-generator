@@ -75,11 +75,11 @@ interface PetApiInterface
      *
      * Add a new pet to the store
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
@@ -89,10 +89,10 @@ interface PetApiInterface
      *
      * Deletes a pet
      *
-     * @param  int $petId  Pet id to delete (required)
-     * @param  string $apiKey   (optional)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \int $petId  Pet id to delete (required)
+     * @param  \string $apiKey   (optional)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
@@ -104,11 +104,11 @@ interface PetApiInterface
      *
      * Finds Pets by status
      *
-     * @param  string[] $status  Status values that need to be considered for filter (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string[] $status  Status values that need to be considered for filter (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
+     * @return \OpenAPI\Server\Model\Pet[]
      *
      */
     public function findPetsByStatus(array $status, &$responseCode, array &$responseHeaders);
@@ -118,11 +118,11 @@ interface PetApiInterface
      *
      * Finds Pets by tags
      *
-     * @param  string[] $tags  Tags to filter by (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \string[] $tags  Tags to filter by (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet[]
+     * @return \OpenAPI\Server\Model\Pet[]
      *
      */
     public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
@@ -132,11 +132,11 @@ interface PetApiInterface
      *
      * Find pet by ID
      *
-     * @param  int $petId  ID of pet to return (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \int $petId  ID of pet to return (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function getPetById($petId, &$responseCode, array &$responseHeaders);
@@ -146,11 +146,11 @@ interface PetApiInterface
      *
      * Update an existing pet
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Pet
+     * @return \OpenAPI\Server\Model\Pet
      *
      */
     public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
@@ -160,11 +160,11 @@ interface PetApiInterface
      *
      * Updates a pet in the store with form data
      *
-     * @param  int $petId  ID of pet that needs to be updated (required)
-     * @param  string $name  Updated name of the pet (optional)
-     * @param  string $status  Updated status of the pet (optional)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \int $petId  ID of pet that needs to be updated (required)
+     * @param  \string $name  Updated name of the pet (optional)
+     * @param  \string $status  Updated status of the pet (optional)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
@@ -176,13 +176,13 @@ interface PetApiInterface
      *
      * uploads an image
      *
-     * @param  int $petId  ID of pet to update (required)
-     * @param  string $additionalMetadata  Additional data to pass to server (optional)
-     * @param  UploadedFile $file  file to upload (optional)
-     * @param  integer $responseCode     The HTTP response code to return
-     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     * @param  \int $petId  ID of pet to update (required)
+     * @param  \string $additionalMetadata  Additional data to pass to server (optional)
+     * @param  \UploadedFile $file  file to upload (optional)
+     * @param  \int $responseCode     The HTTP response code to return
+     * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\ApiResponse
+     * @return \OpenAPI\Server\Model\ApiResponse
      *
      */
     public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);
