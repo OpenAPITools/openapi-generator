@@ -8,6 +8,7 @@
  */
 
 using System.Collections.Generic;
+using System.Web;
 
 namespace Org.OpenAPITools.Client
 {
@@ -29,7 +30,7 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var parameter in parameters)
                 {
-                    _path = _path.Replace("{" + parameter.Key + "}", parameter.Value);
+                    _path = _path.Replace("{" + parameter.Key + "}", HttpUtility.UrlEncode(parameter.Value));
                 }
             }
 
@@ -39,7 +40,7 @@ namespace Org.OpenAPITools.Client
                 {
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + value + "&";
+                        _query = _query + parameter.Key + "=" + HttpUtility.UrlEncode(value) + "&";
                     }
                 }
             }

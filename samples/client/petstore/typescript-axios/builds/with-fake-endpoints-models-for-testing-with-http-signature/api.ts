@@ -1101,6 +1101,7 @@ export interface Pet {
      * pet status in the store
      * @type {string}
      * @memberof Pet
+     * @deprecated
      */
     status?: PetStatusEnum;
 }

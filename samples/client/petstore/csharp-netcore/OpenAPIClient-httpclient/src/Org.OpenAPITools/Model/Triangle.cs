@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         {
             Triangle newTriangle = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newTriangle;
             }
