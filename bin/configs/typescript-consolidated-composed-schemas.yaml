@@ -1,0 +1,6 @@
+generatorName: typescript
+outputDir: samples/openapi3/client/petstore/typescript/builds/composed-schemas
+inputSpec: modules/openapi-generator/src/test/resources/3_0/composed-schemas.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript
+additionalProperties:
+  npmName: ts-petstore-client
