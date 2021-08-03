@@ -183,7 +183,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isArray}}
 		{{#items.isModel}}
 	for _, el := range {{paramName}} {
-		if err := AssertRequired{{baseType}}(el); err != nil {
+		if err := Assert{{baseType}}Required(el); err != nil {
 			c.errorHandler(w, r, err, nil)
 			return
 		}
@@ -192,7 +192,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{^isArray}}
 		{{#isModel}}
-	if err := AssertRequired{{baseType}}({{paramName}}); err != nil {
+	if err := Assert{{baseType}}Required({{paramName}}); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
