@@ -1656,83 +1656,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String writePredefinedDependency(GeneralPredefinedDependency dep, CodegenOperation operation, String assertOperation){
         if (dep.getNot() != null)
-            assertOperation += "(!";
-        assertOperation += "(";
+            assertOperation += "!";
+        assertOperation += dep.getPredefDepType() + "Dependency(";
 
         for(GeneralPredicate depElement:dep.getPredefDepElements()){
-            assertOperation += "(";
-            switch (dep.getPredefDepType()){
-                case "Or":
-                    assertOperation = writePredicate(depElement, operation, assertOperation);
-                    assertOperation += ") || ";
-                    break;
-                case "OnlyOne":
-                case "ZeroOrOne":
-                    assertOperation = writeZeroOrOneOnlyOneElement(depElement, dep.getPredefDepElements(), operation, assertOperation);
-                    assertOperation += ") && ";
-                    break;
-                case "AllOrNone":
-                    assertOperation = writeAllOrNoneElement(depElement, dep.getPredefDepElements(), operation, assertOperation);
-                    assertOperation += ") && ";
-                    break;
-            }
+            assertOperation = writePredicate(depElement, operation, assertOperation);
+            assertOperation += ",";
         }
-
-        if(dep.getPredefDepType().equals("OnlyOne")){
-            assertOperation += "(";
-            for (GeneralPredicate depElement:dep.getPredefDepElements()){
-                assertOperation += "(";
-                assertOperation = writePredicate(depElement, operation, assertOperation);
-                assertOperation += ") || ";
-            }
-            assertOperation = assertOperation.substring(0,assertOperation.length()-4);
-            assertOperation += ")";
-        } else
-            assertOperation = assertOperation.substring(0,assertOperation.length()-4);
-        assertOperation += ")";
-        if (dep.getNot() != null)
-            assertOperation += ")";
-
-        return assertOperation;
-    }
-
-    private String writeZeroOrOneOnlyOneElement(GeneralPredicate element, EList<GeneralPredicate> allElements, CodegenOperation operation, String assertOperation) {
-        return writeZeroOrOneAllOrNoneElement(element, allElements, false, true, operation, assertOperation);
-    }
-
-    private String writeAllOrNoneElement(GeneralPredicate element, EList<GeneralPredicate> allElements, CodegenOperation operation, String assertOperation) {
-        assertOperation = writeZeroOrOneAllOrNoneElement(element, allElements, false, false, operation, assertOperation);
-        assertOperation += ") && (";
-        assertOperation = writeZeroOrOneAllOrNoneElement(element, allElements, true, true, operation, assertOperation);
-
-        return assertOperation;
-    }
-
-    private String writeZeroOrOneAllOrNoneElement(GeneralPredicate element, EList<GeneralPredicate> allElements, boolean negateElement, boolean negateRemainingElements, CodegenOperation operation, String assertOperation) {
-        if(negateElement){
-            assertOperation += "(";
-            assertOperation = writePredicate(element, operation, assertOperation);
-            assertOperation += ") || (";
-        } else {
-            assertOperation += "(!(";
-            assertOperation = writePredicate(element, operation, assertOperation);
-            assertOperation += ")) || (";
-        }
-
-        for (GeneralPredicate remaining:allElements){
-            if(!remaining.equals(element)){
-                if (negateRemainingElements){
-                    assertOperation += "(!(";
-                    assertOperation = writePredicate(remaining, operation, assertOperation);
-                    assertOperation += ")) && ";
-                }else {
-                    assertOperation += "(";
-                    assertOperation = writePredicate(remaining, operation, assertOperation);
-                    assertOperation += ") && ";
-                }
-            }
-        }
-        assertOperation = assertOperation.substring(0,assertOperation.length()-4);
+        assertOperation = assertOperation.substring(0,assertOperation.length()-1);
         assertOperation += ")";
 
         return assertOperation;
