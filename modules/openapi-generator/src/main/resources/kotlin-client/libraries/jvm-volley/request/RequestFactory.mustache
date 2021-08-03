@@ -14,10 +14,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import {{packageName}}.auth.Authentication
 
-class RequestFactory {
+class RequestFactory: IRequestFactory {
 
     companion object {
-
         /**
          * ISO 8601 date time format.
          * @see https://en.wikipedia.org/wiki/ISO_8601
@@ -29,165 +28,165 @@ class RequestFactory {
          * @see https://en.wikipedia.org/wiki/ISO_8601
          */
         val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
+    }
 
-        fun parseDateTime(str: String?): Date {
-            return try {
-                DATE_TIME_FORMAT.parse(str)
-            } catch (e: ParseException) {
-                throw RuntimeException(e)
-            }
+    fun parseDateTime(str: String?): Date {
+        return try {
+            DATE_TIME_FORMAT.parse(str)
+        } catch (e: ParseException) {
+            throw RuntimeException(e)
         }
+    }
 
-        fun parseDate(str: String?): Date {
-            return try {
-                DATE_FORMAT.parse(str)
-            } catch (e: ParseException) {
-                throw RuntimeException(e)
-            }
+    fun parseDate(str: String?): Date {
+        return try {
+            DATE_FORMAT.parse(str)
+        } catch (e: ParseException) {
+            throw RuntimeException(e)
         }
+    }
 
-        fun formatDateTime(datetime: Date?): String {
-            return DATE_TIME_FORMAT.format(datetime)
+    fun formatDateTime(datetime: Date?): String {
+        return DATE_TIME_FORMAT.format(datetime)
+    }
+
+    fun formatDate(date: Date?): String {
+        return DATE_FORMAT.format(date)
+    }
+
+    fun escapeString(str: String): String {
+        return try {
+            URLEncoder.encode(str, "UTF-8")
+        } catch (e: UnsupportedEncodingException) {
+            str
         }
+    }
 
-        fun formatDate(date: Date?): String {
-            return DATE_FORMAT.format(date)
-        }
-
-        fun escapeString(str: String): String {
-            return try {
-                URLEncoder.encode(str, "UTF-8")
-            } catch (e: UnsupportedEncodingException) {
-                str
-            }
-        }
-
-        fun parameterToString(param: Any?): String {
-            return if (param == null) {
-                ""
-            } else if (param is Date) {
-                formatDateTime(param as Date?)
-            } else if (param is Collection<*>) {
-                val b = StringBuilder()
-                for (o in param) {
-                    if (b.length > 0) {
-                        b.append(",")
-                    }
-                    b.append(o.toString())
+    fun parameterToString(param: Any?): String {
+        return if (param == null) {
+            ""
+        } else if (param is Date) {
+            formatDateTime(param as Date?)
+        } else if (param is Collection<*>) {
+            val b = StringBuilder()
+            for (o in param) {
+                if (b.length > 0) {
+                    b.append(",")
                 }
-                b.toString()
+                b.append(o.toString())
+            }
+            b.toString()
+        } else {
+            param.toString()
+        }
+    }
+
+    init {
+        // Use UTC as the default time zone.
+        DATE_TIME_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
+        DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
+    }
+
+    /**
+    * Get authentications (key: authentication name, value: authentication).
+    */
+    private var authentications: Map<String, Authentication>? = mapOf(
+        {{#authMethods}}
+            {{#isApiKey}}
+                "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
+            {{/isApiKey}}
+            {{#isBasic}}
+                "{{name}}", HttpBasicAuth()
+            {{/isBasic}}
+            {{#isOAuth}}
+                // TODO: comment out below as OAuth does not exist
+                //"{{name}}", OAuth()
+            {{/isOAuth}}
+        {{/authMethods}}
+    )
+
+    /**
+    * Update query and header parameters based on authentication settings.
+    *
+    * @param authNames The authentications to apply
+    */
+    private fun updateParamsForAuth(
+        authNames: Array<String>,
+        queryParams: Map<String, String>,
+        headerParams: Map<String, String>
+    ) : Pair<Map<String, String>, Map<String, String>>  {
+        val updatedQueryParams = queryParams.toMutableMap()
+        val updatedHeaderParams = headerParams.toMutableMap()
+
+        for (authName in authNames) {
+            val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
+            auth.applyToParams(updatedQueryParams, updatedHeaderParams)
+        }
+        return updatedQueryParams.toMap() to updatedHeaderParams.toMap()
+    }
+
+    private fun getMethodPreconditionCheck() {
+        // TODO: Implement
+    }
+
+    private fun deleteMethodPreconditionCheck() {
+        // TODO: Implement
+    }
+
+    private fun postPutPatchPreconditionCheck() {
+        // TODO: Implement
+    }
+
+    override fun <T> build(method: Int,
+           url : String,
+           bodyAsStr: String?,
+           headers: Map<String, String>?,
+           params: Map<String, String>?,
+           contentTypeForBody: String?,
+           authNames: Array<String>?,
+           type: Type,
+           responseListener: Response.Listener<T>,
+           errorListener: Response.ErrorListener): Request<T> {
+
+        val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
+
+        // Pivot on the method (verb), and whether parameters are optional
+        val updatedUrl = if (!params.isNullOrEmpty()) {
+            params.asSequence().fold("$url?") {acc, param ->
+                    "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
+                }.trimEnd('&')
             } else {
-                param.toString()
+                url
             }
-        }
 
-        init {
-            // Use UTC as the default time zone.
-            DATE_TIME_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
-            DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
-        }
-
-        /**
-        * Get authentications (key: authentication name, value: authentication).
-        */
-        private var authentications: Map<String, Authentication>? = mapOf(
-            {{#authMethods}}
-                {{#isApiKey}}
-                    "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
-                {{/isApiKey}}
-                {{#isBasic}}
-                    "{{name}}", HttpBasicAuth()
-                {{/isBasic}}
-                {{#isOAuth}}
-                    // TODO: comment out below as OAuth does not exist
-                    //"{{name}}", OAuth()
-                {{/isOAuth}}
-            {{/authMethods}}
-        )
-
-        /**
-        * Update query and header parameters based on authentication settings.
-        *
-        * @param authNames The authentications to apply
-        */
-        private fun updateParamsForAuth(
-            authNames: Array<String>,
-            queryParams: Map<String, String>,
-            headerParams: Map<String, String>
-        ) : Pair<Map<String, String>, Map<String, String>>  {
-            val updatedQueryParams = queryParams.toMutableMap()
-            val updatedHeaderParams = headerParams.toMutableMap()
-
-            for (authName in authNames) {
-                val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
-                auth.applyToParams(updatedQueryParams, updatedHeaderParams)
+        return when(method) {
+            Request.Method.GET -> {
+                getMethodPreconditionCheck()
+                GsonRequest<T>(method, updatedUrl,
+                    bodyAsStr,
+                    updatedParams.second,
+                    contentTypeForBody,
+                    type,
+                    responseListener,
+                    errorListener)
             }
-            return updatedQueryParams.toMap() to updatedHeaderParams.toMap()
-        }
-
-        private fun getMethodPreconditionCheck() {
-            // TODO: Implement
-        }
-
-        private fun deleteMethodPreconditionCheck() {
-            // TODO: Implement
-        }
-
-        private fun postPutPatchPreconditionCheck() {
-            // TODO: Implement
-        }
-
-        fun <T> build(method: Int,
-               url : String,
-               bodyAsStr: String?,
-               headers: Map<String, String>?,
-               params: Map<String, String>?,
-               contentTypeForBody: String?,
-               authNames: Array<String>?,
-               type: Type,
-               responseListener: Response.Listener<T>,
-               errorListener: Response.ErrorListener): Request<T> {
-
-            val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
-
-            // Pivot on the method (verb), and whether parameters are optional
-            val updatedUrl = if (!params.isNullOrEmpty()) {
-                params.asSequence().fold("$url?") {acc, param ->
-                        "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
-                    }.trimEnd('&')
-                } else {
-                    url
-                }
-
-            return when(method) {
-                Request.Method.GET -> {
-                    getMethodPreconditionCheck()
-                    GsonRequest<T>(method, updatedUrl,
-                        bodyAsStr,
-                        updatedParams.second,
-                        contentTypeForBody,
-                        type,
-                        responseListener,
-                        errorListener)
-                }
-                Request.Method.DELETE -> {
-                    deleteMethodPreconditionCheck()
-                    StringRequest(method, url, responseListener as Response.Listener<String>, errorListener) as Request<T>
-                }
-                Request.Method.POST, Request.Method.PATCH, Request.Method.PUT -> {
-                    postPutPatchPreconditionCheck()
-                    GsonRequest<T>(method, updatedUrl,
-                        bodyAsStr,
-                        headers,
-                        contentTypeForBody,
-                        type,
-                        responseListener,
-                        errorListener)
-                }
-                else -> {
-                    // TODO: Make this better.
-                    throw Exception("Unsupported method")
-                }
+            Request.Method.DELETE -> {
+                deleteMethodPreconditionCheck()
+                StringRequest(method, url, responseListener as Response.Listener<String>, errorListener) as Request<T>
+            }
+            Request.Method.POST, Request.Method.PATCH, Request.Method.PUT -> {
+                postPutPatchPreconditionCheck()
+                GsonRequest<T>(method, updatedUrl,
+                    bodyAsStr,
+                    headers,
+                    contentTypeForBody,
+                    type,
+                    responseListener,
+                    errorListener)
+            }
+            else -> {
+                // TODO: Make this better.
+                throw Exception("Unsupported method")
             }
         }
     }
