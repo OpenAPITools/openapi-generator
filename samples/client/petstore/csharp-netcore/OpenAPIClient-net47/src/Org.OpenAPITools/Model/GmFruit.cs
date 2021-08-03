@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         {
             GmFruit newGmFruit = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newGmFruit;
             }

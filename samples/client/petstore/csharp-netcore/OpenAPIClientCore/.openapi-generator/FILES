@@ -24,6 +24,7 @@ docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/Drawing.md
@@ -55,6 +56,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -129,6 +131,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs
 src/Org.OpenAPITools/Model/Drawing.cs
@@ -158,6 +161,7 @@ src/Org.OpenAPITools/Model/Name.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
+src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs
 src/Org.OpenAPITools/Model/Order.cs
 src/Org.OpenAPITools/Model/OuterComposite.cs
 src/Org.OpenAPITools/Model/OuterEnum.cs

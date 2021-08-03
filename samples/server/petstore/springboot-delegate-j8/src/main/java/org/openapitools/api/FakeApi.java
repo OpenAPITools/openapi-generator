@@ -45,7 +45,8 @@ public interface FakeApi {
     @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
@@ -64,7 +65,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/outer/boolean",
         produces = { "*/*" }
     )
@@ -83,7 +85,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "fakeOuterCompositeSerialize", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/outer/composite",
         produces = { "*/*" }
     )
@@ -102,7 +105,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/outer/number",
         produces = { "*/*" }
     )
@@ -121,7 +125,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "fakeOuterStringSerialize", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/outer/string",
         produces = { "*/*" }
     )
@@ -140,7 +145,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "testBodyWithFileSchema", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    @PutMapping(
+    @RequestMapping(
+        method = RequestMethod.PUT,
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
     )
@@ -159,7 +165,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "testBodyWithQueryParams", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    @PutMapping(
+    @RequestMapping(
+        method = RequestMethod.PUT,
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
     )
@@ -178,7 +185,8 @@ public interface FakeApi {
     @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    @PatchMapping(
+    @RequestMapping(
+        method = RequestMethod.PATCH,
         value = "/fake",
         produces = { "application/json" },
         consumes = { "application/json" }
@@ -216,7 +224,8 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -244,7 +253,8 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -268,7 +278,8 @@ public interface FakeApi {
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", nickname = "testGroupParameters", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong") })
-    @DeleteMapping(
+    @RequestMapping(
+        method = RequestMethod.DELETE,
         value = "/fake"
     )
     default ResponseEntity<Void> testGroupParameters(@NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@ApiParam(value = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group", required=true) Boolean requiredBooleanGroup,@NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Boolean in group parameters" ) @RequestHeader(value="boolean_group", required=false) Boolean booleanGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
@@ -285,7 +296,8 @@ public interface FakeApi {
     @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
@@ -304,7 +316,8 @@ public interface FakeApi {
     @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -327,7 +340,8 @@ public interface FakeApi {
     @ApiOperation(value = "", nickname = "testQueryParameterCollectionFormat", notes = "To test the collection format in query parameters", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    @PutMapping(
+    @RequestMapping(
+        method = RequestMethod.PUT,
         value = "/fake/test-query-paramters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context) {
@@ -350,7 +364,8 @@ public interface FakeApi {
          }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
