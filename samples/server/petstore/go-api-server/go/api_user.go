@@ -110,7 +110,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertRequiredUser(user); err != nil {
+	if err := AssertUserRequired(user); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
@@ -135,7 +135,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	for _, el := range user {
-		if err := AssertRequiredUser(el); err != nil {
+		if err := AssertUserRequired(el); err != nil {
 			c.errorHandler(w, r, err, nil)
 			return
 		}
@@ -161,7 +161,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	for _, el := range user {
-		if err := AssertRequiredUser(el); err != nil {
+		if err := AssertUserRequired(el); err != nil {
 			c.errorHandler(w, r, err, nil)
 			return
 		}
@@ -250,7 +250,7 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertRequiredUser(user); err != nil {
+	if err := AssertUserRequired(user); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}

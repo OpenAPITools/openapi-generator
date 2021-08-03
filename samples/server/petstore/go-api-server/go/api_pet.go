@@ -110,7 +110,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertRequiredPet(pet); err != nil {
+	if err := AssertPetRequired(pet); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
@@ -205,7 +205,7 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertRequiredPet(pet); err != nil {
+	if err := AssertPetRequired(pet); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}

@@ -10,8 +10,14 @@
 package petstoreserver
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+)
+
+var (
+	// ErrTypeAssertionError is thrown when type an interface does not match the asserted type
+	ErrTypeAssertionError = errors.New("unable to assert type")
 )
 
 // ParsingError indicates that an error has occurred when parsing request parameters

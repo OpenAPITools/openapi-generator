@@ -135,7 +135,7 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertRequiredOrder(order); err != nil {
+	if err := AssertOrderRequired(order); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
