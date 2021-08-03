@@ -20,6 +20,9 @@ func New{{classname}}Service() {{classname}}Servicer {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{summary}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.

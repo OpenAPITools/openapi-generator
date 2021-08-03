@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         {
             Mammal newMammal = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newMammal;
             }

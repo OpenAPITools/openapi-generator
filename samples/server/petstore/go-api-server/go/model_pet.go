@@ -23,6 +23,7 @@ type Pet struct {
 	Tags []Tag `json:"tags,omitempty"`
 
 	// pet status in the store
+	// Deprecated
 	Status string `json:"status,omitempty"`
 }
 
