@@ -225,29 +225,29 @@ export class {{classname}} {
 
 {{#authMethods}}
 {{#-first}}
-        let credential: string | undefined;
+        let localVarCredential: string | undefined;
 {{/-first}}
         // authentication ({{name}}) required
-        credential = this.configuration.lookupCredential('{{name}}');
-        if (credential) {
+        localVarCredential = this.configuration.lookupCredential('{{name}}');
+        if (localVarCredential) {
 {{#isApiKey}}
     {{#isKeyInHeader}}
-            localVarHeaders = localVarHeaders.set('{{keyParamName}}', credential);
+            localVarHeaders = localVarHeaders.set('{{keyParamName}}', localVarCredential);
     {{/isKeyInHeader}}
     {{#isKeyInQuery}}
-            localVarQueryParameters = localVarQueryParameters.set('{{keyParamName}}', credential);
+            localVarQueryParameters = localVarQueryParameters.set('{{keyParamName}}', localVarCredential);
     {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
-            localVarHeaders = localVarHeaders.set('Authorization', 'Basic ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Basic ' + localVarCredential);
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
     {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
 {{/isOAuth}}
         }
 
