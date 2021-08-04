@@ -642,6 +642,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                             }
                         });
                     }
+
+                    if(ops.stream().anyMatch(op -> op.vendorExtensions.containsKey("x-dependencies")))
+                        supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + invokerPackage).replace(".", "/"), "DependencyUtil.java"));
+
                 }
             }
 

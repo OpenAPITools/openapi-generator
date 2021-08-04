@@ -546,6 +546,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("Arrays", "java.util.Arrays");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
+        importMapping.put("DependencyUtil", invokerPackage + ".DependencyUtil");
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
@@ -1445,8 +1446,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if(operation.getExtensions() != null && operation.getExtensions().containsKey("x-dependencies")){
             List<String> dependencies =(List<String>) operation.getExtensions().get("x-dependencies");
-//          List<CodegenDependency> dependencyList = new ArrayList<>();
-            List<Map<String,String>> dependencyList = new ArrayList<>();
+            List<CodegenDependency> dependencyList = new ArrayList<>();
+//          List<Map<String,String>> dependencyList = new ArrayList<>();
             try {
                 Injector injector = new IDLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
                 XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
@@ -1456,14 +1457,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     resource.load(new ByteArrayInputStream(dep.getBytes()), resourceSet.getLoadOptions());
                     String assertOperation = writeDependency((Dependency) resource.getContents().get(0).eContents().get(0),op);
 
-                    Map<String,String> dependency = new HashMap<>();
-                    dependency.put("idlDependency",dep);
-                    dependency.put("assertOperation",assertOperation);
+                    CodegenDependency dependency = new CodegenDependency();
+                    dependency.idlDependency = dep;
+                    dependency.assertOperation = assertOperation;
                     dependencyList.add(dependency);
                     resource.unload();
                 }
 
                 op.vendorExtensions.put("x-dependencies",dependencyList);
+                op.imports.add("DependencyUtil");
 
             }catch (IOException e){
                 LOGGER.error("Error while processing IDL dependencies for operation: " + op.operationId + ". They will not be included");
@@ -1477,7 +1479,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return op;
     }
 
-
+    /**
+     *  Write the assertion operation for the IDL dependency
+     * @param dep
+     * @param operation
+     * @return Assertion operation for the dependency
+     */
     public String writeDependency(Dependency dep, CodegenOperation operation){
         String assertion = "";
         if(dep.getDep() instanceof ConditionalDependencyImpl) {
@@ -1582,6 +1589,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return assertOperation;
     }
 
+    /**
+     * Write conditional dependency (IF condition THEN consequence) as
+     * (!(condition) || (consequence)) in Java syntax
+     * @param dep
+     * @param operation
+     * @param assertOperation
+     * @return
+     */
     private String writeConditionalDependency(ConditionalDependency dep, CodegenOperation operation, String assertOperation) {
         assertOperation += "(!";
         assertOperation = writePredicate(dep.getCondition(), operation, assertOperation);
@@ -1592,6 +1607,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return assertOperation;
     }
 
+    /**
+     * Write a relational dependency (e.g. p1<p2) in Java syntax
+     * @param dep
+     * @param alone
+     * @param operation
+     * @param assertOperation
+     * @return
+     */
     private String writeRelationalDependency(RelationalDependency dep, boolean alone, CodegenOperation operation, String assertOperation){
         if(alone)
             assertOperation += "(!(" + writeParamName(dep.getParam1().getName(),operation) + " != null && " + writeParamName(dep.getParam2().getName(),operation) + " != null) || (" +
@@ -1601,6 +1624,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return assertOperation;
     }
 
+    /**
+     * Writes arithmetic dependency (e.g. p1+p2<100) in Java syntax
+     * @param dep
+     * @param alone
+     * @param operation
+     * @param assertOperation
+     * @return
+     */
     private String writeArithmeticDependency(ArithmeticDependency dep, boolean alone, CodegenOperation operation, String assertOperation){
         assertOperation += "(";
         if (alone)
@@ -1654,10 +1685,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return assertOperation;
     }
 
+    /**
+     * Writes a predefined dependency (e.g ZeroOrOne(p1,p2)) as a call to a static method in Java
+     * @param dep
+     * @param operation
+     * @param assertOperation
+     * @return
+     */
     private String writePredefinedDependency(GeneralPredefinedDependency dep, CodegenOperation operation, String assertOperation){
         if (dep.getNot() != null)
             assertOperation += "!";
-        assertOperation += dep.getPredefDepType() + "Dependency(";
+        assertOperation += "DependencyUtil." + dep.getPredefDepType() + "Dependency(";
 
         for(GeneralPredicate depElement:dep.getPredefDepElements()){
             assertOperation = writePredicate(depElement, operation, assertOperation);

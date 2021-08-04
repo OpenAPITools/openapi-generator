@@ -8,7 +8,7 @@ return CompletableFuture.supplyAsync(()-> {
         {{#vendorExtensions}}{{#x-dependencies}}
         // Check dependency: {{& idlDependency}}
         if(!{{& assertOperation}}){
-            return new ResponseEntity<>("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST);
         }
         {{/x-dependencies}}{{/vendorExtensions}}
         getRequest().ifPresent(request -> {
