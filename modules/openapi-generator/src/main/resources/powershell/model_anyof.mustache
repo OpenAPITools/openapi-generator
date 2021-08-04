@@ -64,7 +64,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
                 Write-Debug "Failed to match '{{{modelName}}}' defined in anyOf ({{{apiNamePrefix}}}{{{classname}}}) using the discriminator lookup ({{{mappingName}}}). Proceeding with the typical anyOf type matching."
             }
         }
-    
+
         {{/mappedModels}}
         {{/discriminator}}
         {{#anyOf}}

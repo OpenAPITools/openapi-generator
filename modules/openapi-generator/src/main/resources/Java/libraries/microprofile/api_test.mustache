@@ -26,7 +26,7 @@ import java.util.Map;
  * {{{appName}}} Test
  *
  {{/appName}}
- * API tests for {{classname}} 
+ * API tests for {{classname}}
  */
 {{#generateSpringBootApplication}}
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,7 +38,7 @@ public class {{classname}}Test {
 
     private {{classname}} client;
     private String baseUrl = "http://localhost:9080";
-    
+
     @Before
     public void setup() throws MalformedURLException {
         client = RestClientBuilder.newBuilder()
@@ -68,8 +68,8 @@ public class {{classname}}Test {
         {{/allParams}}
         //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         //{{#returnType}}assertNotNull(response);{{/returnType}}
-        
-        
+
+
     }
     {{/operation}}{{/operations}}
 }

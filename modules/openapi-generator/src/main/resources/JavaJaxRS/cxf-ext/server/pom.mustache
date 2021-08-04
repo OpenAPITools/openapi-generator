@@ -96,7 +96,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -227,7 +227,7 @@
 {{/generateSpringBootApplication}}
     </dependency>
 {{/java8}}
-{{#generateSpringApplication}}    
+{{#generateSpringApplication}}
     <!-- Spring Framework -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -256,7 +256,7 @@
 {{^generateSpringBootApplication}}
       <version>${spring-version}</version>
 {{/generateSpringBootApplication}}
-    </dependency>    
+    </dependency>
 {{/generateSpringApplication}}
 {{#generateSpringBootApplication}}
     <!-- Spring Boot dependencies for integration tests -->
@@ -331,11 +331,11 @@
 {{#useBeanValidation}}
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}
-{{#generateSpringApplication}}    
+{{#generateSpringApplication}}
   {{^generateSpringBootApplication}}
     <spring-version>5.0.8.RELEASE</spring-version>
   {{/generateSpringBootApplication}}
-{{/generateSpringApplication}}    
+{{/generateSpringApplication}}
 {{^generateSpringBootApplication}}
     <junit-version>4.13</junit-version>
     <logback-version>1.2.0</logback-version>

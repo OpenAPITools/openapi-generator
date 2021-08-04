@@ -25,11 +25,11 @@ namespace {{this}} {
     Q_UNUSED({{paramName}});
     {{/allParams}}
     auto reqObj = qobject_cast<{{classname}}Request*>(sender());
-    if( reqObj != nullptr ) 
-    { 
+    if( reqObj != nullptr )
+    {
         {{#returnType}}{{{returnType}}} res;{{/returnType}}
         reqObj->{{nickname}}Response({{#returnType}}res{{/returnType}});
-    }    
+    }
 }
 {{/operation}}{{/operations}}
 

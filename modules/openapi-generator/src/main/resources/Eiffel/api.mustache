@@ -22,16 +22,16 @@ feature -- API Access
 			-- {{#returnType}}
 			-- Result {{returnType}}{{/returnType}}
 		require
-		{{#allParams}}	
+		{{#allParams}}
 		{{#hasValidation}}
 		{{#maximum}}
-			{{{paramName}}}_is_less_or_equal_than: {{{paramName}}} <= {{{maximum}}} 
+			{{{paramName}}}_is_less_or_equal_than: {{{paramName}}} <= {{{maximum}}}
         {{/maximum}}
      	{{#minimum}}
-     		{{{paramName}}}_is_greater_or_equal_than: {{{paramName}}} >= {{{minimum}}} 
+     		{{{paramName}}}_is_greater_or_equal_than: {{{paramName}}} >= {{{minimum}}}
         {{/minimum}}
 		{{/hasValidation}}
-		{{/allParams}}	
+		{{/allParams}}
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -65,7 +65,7 @@ feature -- API Access
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}>>),"Content-Type")
 			l_request.set_auth_names ({ARRAY [STRING]}<<{{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}}>>)
 			l_response := api_client.call_api (l_path, "{{httpMethod}}", l_request, {{#returnType}}Void{{/returnType}}{{^returnType}}agent serializer{{/returnType}}, {{#returnType}}agent deserializer{{/returnType}}{{^returnType}}Void{{/returnType}})
-			{{#returnType}}	
+			{{#returnType}}
 			if l_response.has_error then
 				last_error := l_response.error
 			elseif attached { {{{returnType}}} } l_response.data ({ {{{returnType}}} }) as l_data then
@@ -79,7 +79,7 @@ feature -- API Access
 				last_error := l_response.error
 			end
 			{{/returnType}}
-		end	
+		end
 {{/operation}}
 
 

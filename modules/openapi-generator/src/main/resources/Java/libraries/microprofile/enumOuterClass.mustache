@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   @Override
 {{#jackson}}
   @JsonValue
-{{/jackson}}  
+{{/jackson}}
   public String toString() {
     return String.valueOf(value);
   }
@@ -44,5 +44,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
     }
     {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/useNullForUnknownEnumValue}}
   }
-  
+
 }

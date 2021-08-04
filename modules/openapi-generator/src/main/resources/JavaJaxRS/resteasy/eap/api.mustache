@@ -30,7 +30,7 @@ import javax.validation.Valid;
 {{>generatedAnnotation}}
 {{#operations}}
 public interface {{classname}}  {
-   
+
 {{#operation}}
     @{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}

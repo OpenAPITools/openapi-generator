@@ -1,4 +1,4 @@
-{{>noteinfo}}  
+{{>noteinfo}}
 
 class
 	API_CLIENT
@@ -17,10 +17,10 @@ feature {NONE} -- Initialization
 			set_user_agent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/Eiffel{{/httpUserAgent}}");
 
 			create authentications.make (3) {{#authMethods}}{{#isBasic}}
-			authentications.force (create {HTTP_BASIC_AUTH}, "{{name}}") 
+			authentications.force (create {HTTP_BASIC_AUTH}, "{{name}}")
 			is_basic_auth_configured := True {{/isBasic}}{{#isApiKey}}
-			authentications.force (create {API_KEY_AUTH}.make ({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"), "{{name}}") 
-			is_api_key_configured := True {{/isApiKey}}{{#isOAuth}} 
+			authentications.force (create {API_KEY_AUTH}.make ({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"), "{{name}}")
+			is_api_key_configured := True {{/isApiKey}}{{#isOAuth}}
 			authentications.force (create {OAUTH},"{{name}}")
 			is_oauth_configured := True	 {{/isOAuth}}{{/authMethods}}
 		end
@@ -42,7 +42,7 @@ feature -- Status Report
 			-- is basic auth configured.
 
 	is_api_key_configured: BOOLEAN
-			-- is api key auth configured.		
+			-- is api key auth configured.
 
 	is_oauth_configured: BOOLEAN
 			-- is oauth configured.
@@ -138,7 +138,7 @@ feature -- Query Parameter Helpers
 			if attached {LIST [ANY]} a_value as a_list then
 					-- Collection
 				if a_list.is_empty then
-						-- Return an empty list	
+						-- Return an empty list
 					create {ARRAYED_LIST [TUPLE [name: STRING; value: STRING]]} Result.make (0)
 				else
 						-- collection format: multi, csv, ssv, tsv, pipes.
@@ -312,7 +312,7 @@ feature --Helper: Http Client
 			-- Url encode `a_val'
 		do
 			Result := (create {URL_ENCODER}).encoded_string (a_val)
-		end	
+		end
 
 feature -- HTTP client: call api
 
@@ -373,9 +373,9 @@ feature -- HTTP client: call api
 				then
 						-- Serialize an object `a_body' to content-type `l_type'
 						-- if not support by default you will need to extend
-						-- the target API with the corresponding implementation.	
+						-- the target API with the corresponding implementation.
 					l_context_executor.set_upload_data((create {API_SERIALIZER}).serializer (l_custom_serializer, l_content_type, l_body))
-				end			
+				end
 			end
 
 			if
@@ -514,7 +514,7 @@ feature {NONE} -- Implementation
 					sess.set_is_debug (True)
 				end
 				debug ("proxy8888")
-					sess.set_proxy ("127.0.0.1", 8888) --| inspect traffic with http://www.fiddler2.com/					
+					sess.set_proxy ("127.0.0.1", 8888) --| inspect traffic with http://www.fiddler2.com/
 				end
 			end
 		end

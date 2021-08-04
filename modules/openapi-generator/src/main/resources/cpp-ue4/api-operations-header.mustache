@@ -8,7 +8,7 @@
 {{/imports}}
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 
@@ -24,7 +24,7 @@ public:
     virtual ~{{operationIdCamelCase}}Request() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	{{#allParams}}
 	{{#isEnum}}
 	{{#allowableValues}}
@@ -56,7 +56,7 @@ public:
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	{{/responses.0}}
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     {{#returnType}}{{{returnType}}} Content;{{/returnType}}
 };
 

@@ -6,7 +6,7 @@
 {{/imports}}
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#models}}
@@ -54,7 +54,7 @@ public:
 		{{/enumVars}}
   	};
 	{{/allowableValues}}
-	
+
 	static FString EnumToString(const {{{enumName}}}& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, {{{enumName}}}& EnumValue);
 	{{#description}}/* {{{description}}} */

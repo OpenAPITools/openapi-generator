@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 {{{notes}}}{{/notes}}
 
-### Example 
+### Example
 ```dart
 import 'package:{{pubName}}/api.dart';
 {{#hasAuthMethods}}
@@ -50,7 +50,7 @@ var api_instance = new {{classname}}();
 var {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}new {{{dataType}}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-try { 
+try {
     {{#returnType}}var result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{#returnType}}
     print(result);

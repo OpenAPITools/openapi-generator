@@ -16,7 +16,7 @@ import RESTDataSource from 'apollo-datasource-rest';
 export default class ApiClient extends RESTDataSource {
     constructor() {
         super()
-        
+
         {{#emitJSDoc}}/**
          * The authentication methods to be included for all API calls.
          * @type {Array.<String>}
@@ -187,7 +187,7 @@ export default class ApiClient extends RESTDataSource {
         this.applyAuthOptions(fetchOptions, authNames);
 
         var body = null;
-        
+
         if (bodyParam !== null && bodyParam !== undefined) {
             body = bodyParam;
         } else if (formParams !== null && formParams !== undefined) {

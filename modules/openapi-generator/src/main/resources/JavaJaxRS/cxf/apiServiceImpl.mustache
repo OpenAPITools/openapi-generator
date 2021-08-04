@@ -50,10 +50,10 @@ public class {{classname}}ServiceImpl implements {{classname}} {
     {{/summary}}
     public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{^-last}}, {{/-last}}{{/allParams}}) {
         // TODO: Implement...
-        
+
         {{#useGenericResponse}}return Response.ok().entity("magic!").build();{{/useGenericResponse}}{{^useGenericResponse}}{{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}{{/useGenericResponse}}
     }
-    
+
 {{/operation}}
 }
 {{/operations}}

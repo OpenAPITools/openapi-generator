@@ -46,7 +46,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     {{/isReadOnly}}
 {{/allVars}}
 {{/discardReadOnly}}
-{{^discardReadOnly}}        
+{{^discardReadOnly}}
 {{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true)]
         {{#pattern}}
@@ -117,7 +117,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minItems}}
         {{/hasValidation}}
-        {{/vars}} 
+        {{/vars}}
 
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
@@ -179,7 +179,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/hasValidation}}
         {{/isReadOnly}}
         {{/vars}}
-        
+
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>

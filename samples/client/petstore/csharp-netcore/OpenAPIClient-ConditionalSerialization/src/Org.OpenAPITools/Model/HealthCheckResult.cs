@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
         public string NullableMessage
-        { 
+        {
             get{ return _NullableMessage;}
             set
             {
                 _NullableMessage = value;
                 _flagNullableMessage = true;
-            } 
+            }
         }
         private string _NullableMessage;
         private bool _flagNullableMessage;

@@ -16,7 +16,7 @@
 #' \itemize{
 {{#allParams}}
 {{#isEnum}}
-#' \item \emph{ @param } {{paramName}} Enum < {{#allowableValues}}{{values}}{{/allowableValues}} > 
+#' \item \emph{ @param } {{paramName}} Enum < {{#allowableValues}}{{values}}{{/allowableValues}} >
 {{/isEnum}}
 {{^isEnum}}
 {{#isContainer}}
@@ -97,7 +97,7 @@
 {{#isBasic}}
 #' #Configure HTTP basic authorization: {{{name}}}
 #' # provide your username in the user-serial format
-#' api.instance$apiClient$username <- '<user-serial>'; 
+#' api.instance$apiClient$username <- '<user-serial>';
 #' # provide your api key generated using the developer portal
 #' api.instance$apiClient$password <- '<api_key>';
 {{/isBasic}}
@@ -116,9 +116,9 @@
 {{#useRlangExceptionHandling}}
 #'result <- tryCatch(
 #'             api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-#'             ApiException = function(ex) ex 
+#'             ApiException = function(ex) ex
 #'          )
-#' # In case of error, print the error object 
+#' # In case of error, print the error object
 #' if(!is.null(result$ApiException)) {
 #'   cat(result$ApiException$toString())
 #' } else {

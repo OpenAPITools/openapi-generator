@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
         public bool Declawed
-        { 
+        {
             get{ return _Declawed;}
             set
             {
                 _Declawed = value;
                 _flagDeclawed = true;
-            } 
+            }
         }
         private bool _Declawed;
         private bool _flagDeclawed;

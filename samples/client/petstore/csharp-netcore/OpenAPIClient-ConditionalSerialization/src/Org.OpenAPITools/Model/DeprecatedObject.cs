@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name
-        { 
+        {
             get{ return _Name;}
             set
             {
                 _Name = value;
                 _flagName = true;
-            } 
+            }
         }
         private string _Name;
         private bool _flagName;

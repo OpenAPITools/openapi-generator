@@ -152,7 +152,7 @@ void {{classname}}Request::sendCustomResponse(QByteArray & res, QNetworkReply::N
     socket->write(res);
     if(socket->isOpen()){
         socket->close();
-    }    
+    }
 }
 
 void {{classname}}Request::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){

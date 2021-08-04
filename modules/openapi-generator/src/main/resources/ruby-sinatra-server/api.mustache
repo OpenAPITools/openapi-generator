@@ -6,9 +6,9 @@ require 'json'
 MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
   "resourcePath" => "/{{{baseName}}}",
   "summary" => "{{{summary}}}",
-  "nickname" => "{{nickname}}", 
+  "nickname" => "{{nickname}}",
   "responseClass" => "{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}",
-  "endpoint" => "{{{path}}}", 
+  "endpoint" => "{{{path}}}",
   "notes" => "{{{notes}}}",
   "parameters" => [
     {{#queryParams}}

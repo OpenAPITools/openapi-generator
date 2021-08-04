@@ -76,10 +76,10 @@ h2. Models
         h3. {{classname}}
 
         {{{description}}}
-        
+
         {{#isEnum}} ||Name||Value||Description||
         {{#allowableValues}} {{#enumVars}} |{{{name}}} |{{{value}}} |{{{enumDescription}}} |
-        {{/enumVars}} 
+        {{/enumVars}}
         {{/allowableValues}} {{/isEnum}}
         {{^isEnum}}||Field Name||Required||Type||Description||Enum||
         {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} |{{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} |

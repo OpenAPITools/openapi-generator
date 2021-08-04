@@ -26,7 +26,7 @@ Method | HTTP request | Description
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 {{#allParams}}
 **{{paramName}}** | {{#isPrimitiveType}}{{#isNumber}}**{{{dataType}}}**{{/isNumber}}{{#isLong}}**{{{dataType}}}**{{/isLong}}{{#isInteger}}**{{{dataType}}}**{{/isInteger}}{{#isDouble}}**{{{dataType}}}**{{/isDouble}}{{#isFloat}}**{{{dataType}}}**{{/isFloat}}{{#isBoolean}}**{{dataType}}**{{/isBoolean}}{{#isEnum}}{{#isString}}**{{projectName}}_{{operationId}}_{{baseName}}_e**{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}**{{{dataType}}} \***{{/isString}}{{/isEnum}}{{#isByteArray}}**{{{dataType}}} \***{{/isByteArray}}{{#isDate}}**{{{dataType}}}**{{/isDate}}{{#isDateTime}}**{{{dataType}}}**{{/isDateTime}}{{#isFile}}**{{{dataType}}}**{{/isFile}}{{#isFreeFormObject}}**[{{dataType}}_t]({{baseType}}.md) \***{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}**{{datatypeWithEnum}}_e**{{/isEnum}}{{^isEnum}}**[{{{dataType}}}_t]({{{baseType}}}.md) \***{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}**{{datatypeWithEnum}}_e**{{/isEnum}}{{/isModel}}{{#isUuid}}**{{dataType}} \***{{/isUuid}}{{#isEmail}}**{{dataType}}**{{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}**[{{dataType}}_t]({{baseType}}.md) \***{{/isArray}}{{#isMap}}**{{dataType}}**{{/isMap}}{{/isContainer}} | {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
 {{/allParams}}

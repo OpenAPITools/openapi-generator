@@ -56,7 +56,7 @@
         [Obsolete]
         {{/deprecated}}
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
-        
+
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -67,14 +67,14 @@
             return false;
         }
         {{/isReadOnly}}
-        
+
         {{^isReadOnly}}
         [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#isBoolean}}true{{/isBoolean}}{{^isBoolean}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/isBoolean}}{{/vendorExtensions.x-emit-default-value}})]
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} 
-        { 
+        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}}
+        {
             get{ return _{{name}};}
             set
             {
@@ -219,7 +219,7 @@
         [Obsolete]
         {{/deprecated}}
         public {{{dataType}}} {{name}} { get; private set; }
-        
+
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
         /// </summary>
@@ -238,13 +238,13 @@
         [Obsolete]
         {{/deprecated}}
         public {{{dataType}}} {{name}}
-        { 
+        {
             get{ return _{{name}};}
             set
             {
                 _{{name}} = value;
                 _flag{{name}} = true;
-            } 
+            }
         }
         private {{{dataType}}} _{{name}};
         private bool _flag{{name}};

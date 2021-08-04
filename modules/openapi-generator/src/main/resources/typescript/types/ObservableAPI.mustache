@@ -80,7 +80,7 @@ export class Observable{{classname}} {
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}(rsp)));
             }));
     }
- 
+
 {{/operation}}
 }
 {{/operations}}

@@ -171,7 +171,7 @@ class {{controllerName}} extends Controller
             // Set authentication method '{{name}}'
             $handler->set{{name}}($security{{name}});
             {{/authMethods}}
-            
+
             // Make the call to the business logic
             $responseCode = {{#returnType}}200{{/returnType}}{{^returnType}}204{{/returnType}};
             $responseHeaders = [];

@@ -13,7 +13,7 @@ open {{import}}
 {{/import}}
 {{/imports}}
 
-module {{classname}}Handler = 
+module {{classname}}Handler =
 
 {{#operations}}
     /// <summary>
@@ -26,14 +26,14 @@ module {{classname}}Handler =
     /// {{#summary}}{{summary}}{{/summary}}
     /// </summary>
 
-    let {{operationId}} {{#hasPathParams}}(pathParams:{{operationId}}PathParams){{/hasPathParams}} : HttpHandler = 
+    let {{operationId}} {{#hasPathParams}}(pathParams:{{operationId}}PathParams){{/hasPathParams}} : HttpHandler =
       fun (next : HttpFunc) (ctx : HttpContext) ->
         task {
           {{#hasQueryParams}}
           let queryParams = ctx.TryBindQueryString<{{operationId}}QueryParams>()
           {{/hasQueryParams}}
           {{#hasBodyParam}}
-          let! bodyParams = 
+          let! bodyParams =
             ctx.BindJsonAsync<{{operationId}}BodyParams>()
           {{/hasBodyParam}}
           {{#hasFormParams}}
@@ -52,7 +52,7 @@ module {{classname}}Handler =
           {{/-first}}
           {{/allParams}}
           let result = {{classname}}Service.{{operationId}} ctx {{#allParams}}{{#-first}}serviceArgs{{/-first}}{{/allParams}}
-          return! (match result with 
+          return! (match result with
                       {{#responses}}
                       | {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} resolved ->
                             setStatusCode {{code}} >=> {{#primitiveType}}{{^isMap}}text{{/isMap}}{{/primitiveType}}{{^primitiveType}}json{{/primitiveType}} resolved.content
@@ -64,4 +64,4 @@ module {{classname}}Handler =
     {{/operation}}
 {{/operations}}
 
-    
+

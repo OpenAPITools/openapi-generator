@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 {{{notes}}}{{/notes}}
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use {{moduleName}}::{{classname}};
@@ -50,7 +50,7 @@ my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-eval { 
+eval {
     {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };

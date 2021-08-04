@@ -253,7 +253,7 @@ class {{classname}}(object):
         {{/hasConsumes}}
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
-        
+
         {{#returnType}}
         {{#responses}}
         {{#-first}}

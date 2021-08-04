@@ -50,9 +50,9 @@ api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 {{#useRlangExceptionHandling}}
 result <- tryCatch(
              api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-             ApiException = function(ex) ex 
+             ApiException = function(ex) ex
           )
-# In case of error, print the error object 
+# In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
  } else {

@@ -169,7 +169,7 @@ namespace {{packageName}}.Client
         private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
-        private readonly HttpClient _httpClient;    
+        private readonly HttpClient _httpClient;
         private readonly bool _disposeClient;
 
         /// <summary>
@@ -196,9 +196,9 @@ namespace {{packageName}}.Client
         /// </summary>
         public ApiClient() :
                  this({{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
@@ -207,7 +207,7 @@ namespace {{packageName}}.Client
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(string basePath)
-        {    
+        {
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
             _httpClientHandler = new HttpClientHandler();
@@ -215,7 +215,7 @@ namespace {{packageName}}.Client
             _disposeClient = true;
             _baseUrl = basePath;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
@@ -228,9 +228,9 @@ namespace {{packageName}}.Client
         /// </remarks>
         public ApiClient(HttpClient client, HttpClientHandler handler = null) :
                  this(client, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath, handler)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
@@ -244,10 +244,10 @@ namespace {{packageName}}.Client
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
-        {    
+        {
             if (client == null) throw new ArgumentNullException("client cannot be null");
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-            
+
             _httpClientHandler = handler;
             _httpClient = client;
             _baseUrl = basePath;
@@ -509,7 +509,7 @@ namespace {{packageName}}.Client
             {
                 return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
-			
+
             object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
