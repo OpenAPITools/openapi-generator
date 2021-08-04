@@ -178,23 +178,23 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = new HttpParams({encoder: this.encoder});
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
 {{#queryParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isQueryParamObjectFormatJson}}
-        queryParameters = this.addToHttpParams(queryParameters,
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>{{paramName}}, '{{baseName}}');
         {{/isQueryParamObjectFormatJson}}
         {{^isQueryParamObjectFormatJson}}
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                queryParameters = this.addToHttpParams(queryParameters,
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, '{{baseName}}');
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            queryParameters = this.addToHttpParams(queryParameters,
+            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                 {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         {{/isQueryParamObjectFormatJson}}
@@ -202,7 +202,7 @@ export class {{classname}} {
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>{{paramName}}, '{{baseName}}');
         }
         {{/isArray}}
@@ -235,7 +235,7 @@ export class {{classname}} {
             headers = headers.set('{{keyParamName}}', credential);
     {{/isKeyInHeader}}
     {{#isKeyInQuery}}
-            queryParameters = queryParameters.set('{{keyParamName}}', credential);
+            localVarQueryParameters = localVarQueryParameters.set('{{keyParamName}}', credential);
     {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
@@ -349,7 +349,7 @@ export class {{classname}} {
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
     {{#hasQueryParams}}
-                params: queryParameters,
+                params: localVarQueryParameters,
     {{/hasQueryParams}}
     {{#isResponseFile}}
                 responseType: "blob",
