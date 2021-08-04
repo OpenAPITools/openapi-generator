@@ -81,4 +81,3 @@ func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (ImplResp
 
 	return Response(http.StatusNotImplemented, nil), errors.New("PlaceOrder method not implemented")
 }
-

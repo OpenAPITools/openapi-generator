@@ -156,4 +156,3 @@ public interface PetApi  {
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata);
 }
-

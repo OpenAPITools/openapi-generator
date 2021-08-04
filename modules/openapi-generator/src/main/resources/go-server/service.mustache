@@ -41,4 +41,3 @@ func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {
 {{/responses}}
 	return Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
 }{{/operation}}{{/operations}}
-

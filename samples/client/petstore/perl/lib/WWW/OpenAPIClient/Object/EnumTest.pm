@@ -158,7 +158,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => '',
                                   class => 'EnumTest',
                                   required => [], # TODO

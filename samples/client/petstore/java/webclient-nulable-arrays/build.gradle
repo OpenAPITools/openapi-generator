@@ -138,4 +138,3 @@ dependencies {
     implementation "javax.annotation:javax.annotation-api:$javax_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }
-

@@ -154,7 +154,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => 'Model for testing model with \&quot;_class\&quot; property',
                                   class => 'ClassModel',
                                   required => [], # TODO

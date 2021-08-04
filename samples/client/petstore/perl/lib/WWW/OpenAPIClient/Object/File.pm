@@ -154,7 +154,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => 'Must be named &#x60;File&#x60; for test.',
                                   class => 'File',
                                   required => [], # TODO

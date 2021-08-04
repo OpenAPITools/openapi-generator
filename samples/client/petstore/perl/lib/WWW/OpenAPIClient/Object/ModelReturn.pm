@@ -154,7 +154,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => 'Model for testing reserved words',
                                   class => 'ModelReturn',
                                   required => [], # TODO

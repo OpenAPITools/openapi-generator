@@ -818,4 +818,3 @@ public class ApiClient extends JavaTimeFormatter {
         }
     }
 }
-

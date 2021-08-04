@@ -139,4 +139,3 @@ func (s *PetApiService) UploadFile(ctx context.Context, petId int64, additionalM
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UploadFile method not implemented")
 }
-

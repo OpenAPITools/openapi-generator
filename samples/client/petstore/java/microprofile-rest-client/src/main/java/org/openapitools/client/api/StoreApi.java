@@ -79,4 +79,3 @@ public interface StoreApi  {
     @Produces({ "application/xml", "application/json" })
     public Order placeOrder(Order body) throws ApiException, ProcessingException;
 }
-

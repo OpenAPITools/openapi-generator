@@ -155,7 +155,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => '',
                                   class => 'FileSchemaTestClass',
                                   required => [], # TODO

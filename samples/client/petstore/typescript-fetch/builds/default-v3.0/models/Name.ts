@@ -76,4 +76,3 @@ export function NameToJSON(value?: Name | null): any {
     };
 }
 
-

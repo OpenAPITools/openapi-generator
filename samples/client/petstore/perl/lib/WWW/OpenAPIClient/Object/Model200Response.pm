@@ -154,7 +154,6 @@ sub _deserialize {
 }
 
 
-
 __PACKAGE__->class_documentation({description => 'Model for testing model name starting with number',
                                   class => 'Model200Response',
                                   required => [], # TODO

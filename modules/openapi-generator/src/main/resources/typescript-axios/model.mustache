@@ -8,4 +8,3 @@ import { {{class}} } from './{{filename}}';{{/imports}}{{/hasOneOf}}{{/hasAllOf}
 {{#models}}{{#model}}
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{#allOf}}{{#-first}}{{>modelAllOf}}{{/-first}}{{/allOf}}{{^isEnum}}{{^oneOf}}{{^allOf}}{{>modelGeneric}}{{/allOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}{{/models}}
-

@@ -128,4 +128,3 @@ func (s *UserApiService) UpdateUser(ctx context.Context, username string, user U
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UpdateUser method not implemented")
 }
-

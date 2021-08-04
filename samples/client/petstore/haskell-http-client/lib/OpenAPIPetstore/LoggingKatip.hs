@@ -115,4 +115,3 @@ levelError = LG.ErrorS
 
 levelDebug :: LogLevel
 levelDebug = LG.DebugS
-

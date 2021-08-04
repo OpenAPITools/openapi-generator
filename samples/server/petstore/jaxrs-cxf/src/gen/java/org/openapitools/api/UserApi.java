@@ -131,4 +131,3 @@ public interface UserApi  {
         @ApiResponse(code = 404, message = "User not found") })
     public void updateUser(@PathParam("username") String username, @Valid @NotNull User body);
 }
-

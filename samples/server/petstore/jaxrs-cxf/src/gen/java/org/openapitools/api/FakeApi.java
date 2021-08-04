@@ -189,4 +189,3 @@ public interface FakeApi  {
         @ApiResponse(code = 200, message = "Success") })
     public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context);
 }
-
