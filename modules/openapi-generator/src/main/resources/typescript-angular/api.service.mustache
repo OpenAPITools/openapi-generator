@@ -295,47 +295,47 @@ export class {{classname}} {
 {{#hasFormParams}}
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): any; };
+        let localVarFormParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
-{{#formParams}}
+{{#localVarFormParams}}
 {{#isFile}}
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         useForm = canConsumeForm;
 {{/isFile}}
-{{/formParams}}
+{{/localVarFormParams}}
         if (useForm) {
-            formParams = new FormData();
+            localVarFormParams = new FormData();
         } else {
-            formParams = new HttpParams({encoder: this.encoder});
+            localVarFormParams = new HttpParams({encoder: this.encoder});
         }
 
-{{#formParams}}
+{{#localVarFormParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                formParams = formParams.append('{{baseName}}', <any>element) as any || formParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             if (useForm) {
                 {{paramName}}.forEach((element) => {
-                    formParams = formParams.append('{{baseName}}', <any>element) as any || formParams;
+                    localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
             })
             } else {
-                formParams = formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || formParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
             }
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined) {
-            formParams = formParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || formParams;
+            localVarFormParams = localVarFormParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}useForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || localVarFormParams;
         }
         {{/isArray}}
-{{/formParams}}
+{{/localVarFormParams}}
 
 {{/hasFormParams}}
     {{^isResponseFile}}
@@ -346,7 +346,7 @@ export class {{classname}} {
 
     {{/isResponseFile}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
     {{#hasQueryParams}}
                 params: localVarQueryParameters,
