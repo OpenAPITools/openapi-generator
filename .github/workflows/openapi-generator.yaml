@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
-      - fix_ci2
   pull_request:
     branches:
       - master
