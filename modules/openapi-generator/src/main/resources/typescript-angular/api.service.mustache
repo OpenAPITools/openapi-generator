@@ -297,7 +297,7 @@ export class {{classname}} {
 
         let localVarFormParams: { append(param: string, value: any): any; };
         let localVarUseForm = false;
-        let convertFormParamsToString = false;
+        let localVarConvertFormParamsToString = false;
 {{#localVarFormParams}}
 {{#isFile}}
         // use FormData to transmit files using content-type "multipart/form-data"
@@ -346,7 +346,7 @@ export class {{classname}} {
 
     {{/isResponseFile}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
     {{#hasQueryParams}}
                 params: localVarQueryParameters,
