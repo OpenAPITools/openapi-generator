@@ -76,6 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        [Obsolete]
         public decimal Id
         { 
             get{ return _Id;}
@@ -100,6 +101,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
+        [Obsolete]
         public DeprecatedObject DeprecatedRef
         { 
             get{ return _DeprecatedRef;}
@@ -124,6 +126,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bars
         /// </summary>
         [DataMember(Name = "bars", EmitDefaultValue = false)]
+        [Obsolete]
         public List<string> Bars
         { 
             get{ return _Bars;}
