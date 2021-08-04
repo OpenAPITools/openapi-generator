@@ -89,6 +89,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "float",
                         "string",
                         "object",
+                        "array",
                         "DateTime",
                         "mixed",
                         "number",
