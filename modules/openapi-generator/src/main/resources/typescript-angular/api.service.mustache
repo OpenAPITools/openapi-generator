@@ -209,16 +209,16 @@ export class {{classname}} {
 {{/queryParams}}
 
 {{/hasQueryParams}}
-        let headers = this.defaultHeaders;
+        let localVarHeaders = this.defaultHeaders;
 {{#headerParams}}
         {{#isArray}}
         if ({{paramName}}) {
-            headers = headers.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            localVarHeaders = localVarHeaders.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
-            headers = headers.set('{{baseName}}', String({{paramName}}));
+            localVarHeaders = localVarHeaders.set('{{baseName}}', String({{paramName}}));
         }
         {{/isArray}}
 {{/headerParams}}
@@ -232,7 +232,7 @@ export class {{classname}} {
         if (credential) {
 {{#isApiKey}}
     {{#isKeyInHeader}}
-            headers = headers.set('{{keyParamName}}', credential);
+            localVarHeaders = localVarHeaders.set('{{keyParamName}}', credential);
     {{/isKeyInHeader}}
     {{#isKeyInQuery}}
             localVarQueryParameters = localVarQueryParameters.set('{{keyParamName}}', credential);
@@ -240,14 +240,14 @@ export class {{classname}} {
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
-            headers = headers.set('Authorization', 'Basic ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Basic ' + credential);
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-            headers = headers.set('Authorization', 'Bearer ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + credential);
     {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-            headers = headers.set('Authorization', 'Bearer ' + credential);
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + credential);
 {{/isOAuth}}
         }
 
@@ -263,7 +263,7 @@ export class {{classname}} {
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
         if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
+            localVarHeaders = localVarHeaders.set('Accept', httpHeaderAcceptSelected);
         }
 
 {{#bodyParam}}
@@ -288,7 +288,7 @@ export class {{classname}} {
 {{#bodyParam}}
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
         }
 {{/bodyParam}}
 
@@ -358,7 +358,7 @@ export class {{classname}} {
                 responseType: <any>responseType_,
     {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
-                headers: headers,
+                localVarHeaders: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
