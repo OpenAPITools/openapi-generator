@@ -31,7 +31,13 @@ public interface {{classname}} {
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{{path}}}")
@@ -50,7 +56,13 @@ public interface {{classname}} {
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{{path}}}")

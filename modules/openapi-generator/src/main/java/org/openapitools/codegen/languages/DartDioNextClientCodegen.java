@@ -157,6 +157,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         final String authFolder = srcFolder + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
@@ -322,6 +323,18 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
+            // the MultipartFile handling above changes the type of some parameters from
+            // `UInt8List`, the default for files, to `MultipartFile`.
+            //
+            // The following block removes the required import for Uint8List if it is no
+            // longer in use.
+            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
+                    && op.responses.stream().filter(response -> response.dataType != null)
+                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                // Remove unused imports after processing
+                op.imports.remove("Uint8List");
+            }
+
             for (CodegenParameter param : op.bodyParams) {
                 if (param.isContainer) {
                     final Map<String, Object> serializer = new HashMap<>();
@@ -331,11 +344,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                     serializer.put("baseType", param.baseType);
                     serializers.add(serializer);
                 }
-            }
-
-            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))) {
-                // Remove unused imports after processing
-                op.imports.remove("Uint8List");
             }
 
             resultImports.addAll(rewriteImports(op.imports, false));

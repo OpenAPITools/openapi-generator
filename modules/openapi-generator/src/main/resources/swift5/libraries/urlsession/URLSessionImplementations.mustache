@@ -270,7 +270,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
             let filenameKey = "filename="
             guard let range = contentItem.range(of: filenameKey) else {
-                break
+                continue
             }
 
             filename = contentItem
