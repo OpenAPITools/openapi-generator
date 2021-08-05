@@ -1,6 +1,5 @@
 package {{apiPackage}}
 
-// Steve was here
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -18,10 +17,8 @@ import {{packageName}}.request.RequestFactory
 
 import java.io.File;
 
-// Generated import family starts here
 {{#imports}}import {{import}}
 {{/imports}}
-// Generated import family ends here
 
 {{#operations}}
 class {{classname}} (
@@ -31,12 +28,6 @@ class {{classname}} (
     }),
     val requestFactory: RequestFactory = RequestFactory(),
     val basePath: String = "{{{basePath}}}") {
-
-    //var invoker = ApiInvoker.instance
-    //fun addHeader(key: String?, value: String?) {
-    //    invoker!!.addDefaultHeader(key!!, value!!)
-    //}
-    // TODO - Set up auth on the invoker/client
 
     {{#operation}}
     /**
@@ -49,7 +40,6 @@ class {{classname}} (
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        // Here's a funky method
         var postBody: Any? = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
         var bodyAsStr: String? = null
         {{#allParams}}
@@ -60,8 +50,8 @@ class {{classname}} (
         {{/required}}
         {{/allParams}}
 
-        var localVarContentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        var localVarContentType: String = if (localVarContentTypes.size > 0) { localVarContentTypes[0] } else { "application/json" }
+        var contentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -87,7 +77,6 @@ class {{classname}} (
             {{/headerParams}}
         )
 
-        val contentTypes = arrayOf<String>({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
         val authNames = arrayOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
         return suspendCoroutine { continuation ->
@@ -109,7 +98,7 @@ class {{classname}} (
                     bodyAsStr,
                     headerParams,
                     queryParams,
-                    localVarContentType,
+                    contentType,
                     authNames,
                     type,
                     responseListener,
