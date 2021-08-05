@@ -28,7 +28,7 @@ namespace {{apiPackage}}
     public {{#classModifier}}{{classModifier}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     { {{#operation}}
         /// <summary>
-        /// {{#summary}}{{summary}}{{/summary}}
+        /// {{summary}}
         /// </summary>{{#notes}}
         /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}

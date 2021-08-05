@@ -26,8 +26,8 @@ type Mutation {
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}
   {{/allParams}}
-  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
-  {{operationId}}{{#hasParams}}(input: {{operationId}}Input!){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+  # @return [{{returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}(input: {{operationId}}Input!){{/hasParams}}: {{returnType}}{{^returnType}}Boolean{{/returnType}}
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
 }
@@ -46,8 +46,8 @@ type Query {
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}
   {{/allParams}}
-  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
-  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+  # @return [{{returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}: {{returnType}}{{^returnType}}Boolean{{/returnType}}
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
 }

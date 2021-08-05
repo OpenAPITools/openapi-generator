@@ -5,14 +5,14 @@ All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{vendorExtensions.x-powershell-method-name}}**]({{classname}}.md#{{vendorExtensions.x-powershell-method-name-lowercase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{vendorExtensions.x-powershell-method-name}}**]({{classname}}.md#{{vendorExtensions.x-powershell-method-name-lowercase}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 <a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
 # **{{{vendorExtensions.x-powershell-method-name}}}**
-> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
+> {{{returnType}}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
 {{#allParams}}
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-{{paramName}}] <{{{vendorExtensions.x-powershell-data-type}}}><br>
 {{/allParams}}

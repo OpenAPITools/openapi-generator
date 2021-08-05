@@ -45,7 +45,7 @@ feature -- API Access
 			l_path.replace_substring_all ("{"+"{{baseName}}"+"}", api_client.url_encode ({{{paramName}}}.out))
 			{{/pathParams}}
 			{{#queryParams}}
-			l_request.fill_query_params(api_client.parameter_to_tuple("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+			l_request.fill_query_params(api_client.parameter_to_tuple("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
 			{{/queryParams}}
 
 			{{#headerParams}}

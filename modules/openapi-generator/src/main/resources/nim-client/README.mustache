@@ -32,7 +32,7 @@ All URIs are relative to *{{{basePath}}}*
 
 Module | Proc | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{{classFilename}}} | {{{operationId}}} | **{{#lambda.uppercase}}{{{httpMethod}}}{{/lambda.uppercase}}** {{{path}}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{{classFilename}}} | {{{operationId}}} | **{{#lambda.uppercase}}{{{httpMethod}}}{{/lambda.uppercase}}** {{{path}}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 To generate documentation with Nim DocGen, use:

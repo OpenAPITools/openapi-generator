@@ -27,7 +27,7 @@ public class {{classname}} {
      {{/returnType}}
      * @throws OAS.ApiException if fails to make API call
      */
-    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
+    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
     {{#allParams}}
       {{#required}}
         client.assertNotNull(params.get('{{paramName}}'), '{{paramName}}');

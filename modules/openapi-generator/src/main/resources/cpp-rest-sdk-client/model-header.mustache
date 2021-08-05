@@ -26,7 +26,7 @@ namespace {{this}} {
 {{/vendorExtensions.x-has-forward-declarations}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -70,7 +70,7 @@ public:
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();

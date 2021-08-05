@@ -53,7 +53,7 @@ class ApiClient {
          * @default {}
          */{{/emitJSDoc}}
         this.defaultHeaders = {
-            'User-Agent': '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{projectVersion}}/Javascript{{/httpUserAgent}}'
+            'User-Agent': '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{projectVersion}}/Javascript{{/httpUserAgent}}'
         };
 
         /**

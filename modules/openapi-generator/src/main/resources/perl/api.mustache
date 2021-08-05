@@ -60,7 +60,7 @@ sub new {
         returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
         };
 }
-# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+# @return {{{returnType}}}{{^returnType}}void{{/returnType}}
 #
 sub {{operationId}} {
     my ($self, %args) = @_;

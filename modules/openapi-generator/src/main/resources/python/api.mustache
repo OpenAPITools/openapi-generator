@@ -46,7 +46,7 @@ class {{classname}}(object):
 {{/requiredParams}}
             **kwargs
         ):
-            """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+            """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
             {{{notes}}}  # noqa: E501
@@ -96,7 +96,7 @@ class {{classname}}(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+                {{returnType}}{{^returnType}}None{{/returnType}}
                     If the method is called asynchronously, returns the request
                     thread.
             """

@@ -31,7 +31,7 @@ template constructResult[T](response: Response): untyped =
     (none(T.typedesc), response)
 
 {{#operations}}{{#operation}}
-proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}}{{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
+proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}}{{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
   ## {{{summary}}}{{#hasBodyParam}}
   httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}{{^isMultipart}}
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}

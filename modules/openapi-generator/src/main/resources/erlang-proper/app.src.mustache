@@ -1,6 +1,6 @@
 { application, {{packageName}}
 , [ {description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"OpenAPI client library for EQC testing"{{/appDescription}}}
-  , {vsn, "{{#apiVersion}}{{apiVersion}}{{/apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"}
+  , {vsn, "{{apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"}
   , {registered, []}
   , { applications
     , [ kernel
@@ -10,7 +10,7 @@
       ]
     }
   , { env
-    , [ {host, "http://{{#host}}{{{host}}}{{/host}}{{^host}}localhost:8080{{/host}}"}
+    , [ {host, "http://{{{host}}}{{^host}}localhost:8080{{/host}}"}
       , {basic_auth, {"admin", "admin"}}
       ]
     }

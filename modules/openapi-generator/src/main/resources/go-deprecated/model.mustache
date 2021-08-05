@@ -12,8 +12,8 @@ import (
 {{/imports}}
 {{#model}}
 {{#isEnum}}
-// {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
-type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+// {{{classname}}} {{{description}}}{{^description}}the model '{{{classname}}}'{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{name}}}
 const (

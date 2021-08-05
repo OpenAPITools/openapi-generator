@@ -1,6 +1,6 @@
         {{^isContainer}}
         /// <summary>
-        /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{^description}}Defines {{{name}}}{{/description}}{{description}}
         /// </summary>
         {{#description}}
         /// <value>{{description}}</value>
@@ -8,7 +8,7 @@
         {{#isString}}
         [JsonConverter(typeof(StringEnumConverter))]
         {{/isString}}
-        {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
+        {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
         {
             {{#allowableValues}}
             {{#enumVars}}

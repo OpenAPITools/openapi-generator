@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     {{^useCoreData}}s.framework    = 'SystemConfiguration'{{/useCoreData}}{{#useCoreData}}s.frameworks = 'SystemConfiguration', 'CoreData'{{/useCoreData}}
 
     s.homepage     = "{{gitRepoURL}}"
-    s.license      = "{{#license}}{{license}}{{/license}}{{^license}}Apache License, Version 2.0{{/license}}"
+    s.license      = "{{license}}{{^license}}Apache License, Version 2.0{{/license}}"
     s.source       = { :git => "{{gitRepoURL}}.git", :tag => "#{s.version}" }
     s.author       = { "{{authorName}}" => "{{authorEmail}}" }
 

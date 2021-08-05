@@ -23,7 +23,7 @@ module {{classname}}Handler =
     {{#operation}}
     //#region {{operationId}}
     /// <summary>
-    /// {{#summary}}{{summary}}{{/summary}}
+    /// {{summary}}
     /// </summary>
 
     let {{operationId}} {{#hasPathParams}}(pathParams:{{operationId}}PathParams){{/hasPathParams}} : HttpHandler =

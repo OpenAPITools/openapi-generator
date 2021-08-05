@@ -20,7 +20,7 @@ namespace {{packageName}}.Controllers
     public class {{classname}}Controller : Controller
     { {{#operation}}
         /// <summary>
-        /// {{#summary}}{{summary}}{{/summary}}
+        /// {{summary}}
         /// </summary>{{#notes}}
         /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}

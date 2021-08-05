@@ -16,7 +16,7 @@ namespace {{modelPackage}} {
   public class {{classname}}{{#parent}} : {{{parent}}}{{/parent}} {
     {{#vars}}
     /// <summary>
-    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
     /// </summary>{{#description}}
     /// <value>{{{description}}}</value>{{/description}}
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]

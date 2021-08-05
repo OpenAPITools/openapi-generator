@@ -7,7 +7,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
   "resourcePath" => "/{{{baseName}}}",
   "summary" => "{{{summary}}}",
   "nickname" => "{{nickname}}",
-  "responseClass" => "{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}",
+  "responseClass" => "{{{returnType}}}{{^returnType}}void{{/returnType}}",
   "endpoint" => "{{{path}}}",
   "notes" => "{{{notes}}}",
   "parameters" => [

@@ -87,14 +87,14 @@ instance P.Show {{configType}} where
 --
 -- configUserAgent:
 --
--- @"{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"@
+-- @"{{{httpUserAgent}}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"@
 --
 newConfig :: IO {{configType}}
 newConfig = do
     logCxt <- initLogContext
     return $ {{configType}}
         { configHost = "{{{basePath}}}"
-        , configUserAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"
+        , configUserAgent = "{{{httpUserAgent}}}{{^httpUserAgent}}{{{cabalName}}}/{{{cabalVersion}}}{{/httpUserAgent}}"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt
         , configAuthMethods = []

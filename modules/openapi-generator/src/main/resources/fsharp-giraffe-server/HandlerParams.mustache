@@ -103,7 +103,7 @@ module {{classname}}HandlerParams =
     {{#responses}}
 
     type {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response = {
-      content:{{#dataType}}{{{.}}}{{/dataType}}{{^dataType}}string{{/dataType}};
+      content:{{{dataType}}}{{^dataType}}string{{/dataType}};
       {{^code}}code:int{{/code}}
     }
     {{/responses}}

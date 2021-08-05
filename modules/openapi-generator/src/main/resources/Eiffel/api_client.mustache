@@ -14,7 +14,7 @@ feature {NONE} -- Initialization
 			set_base_path (default_base_path)
 
 				--set default user_agent
-			set_user_agent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/Eiffel{{/httpUserAgent}}");
+			set_user_agent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/Eiffel{{/httpUserAgent}}");
 
 			create authentications.make (3) {{#authMethods}}{{#isBasic}}
 			authentications.force (create {HTTP_BASIC_AUTH}, "{{name}}")

@@ -19,7 +19,7 @@ class {{classname}} {
   const {{classname}}(this._dio{{#useBuiltValue}}, this._serializers{{/useBuiltValue}});
 
   {{#operation}}
-  /// {{#summary}}{{.}}{{/summary}}{{^summary}}{{nickname}}{{/summary}}
+  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
   /// {{notes}}
   ///
   /// Parameters:
@@ -42,7 +42,7 @@ class {{classname}} {
   {{#isDeprecated}}
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
-  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
     required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
     {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isQueryParam}}{{#isHeaderParam}}
     {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isHeaderParam}}{{#isBodyParam}}

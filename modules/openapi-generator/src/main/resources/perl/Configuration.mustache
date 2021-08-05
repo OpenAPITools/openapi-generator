@@ -33,7 +33,7 @@ default: 180
 
 String. custom UserAgent header
 
-default: {{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{moduleVersion}}}/perl{{/httpUserAgent}}
+default: {{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{moduleVersion}}}/perl{{/httpUserAgent}}
 
 =item api_key: (optional)
 
@@ -82,7 +82,7 @@ sub new {
 
     # class/static variables
     $p{http_timeout} //= 180;
-    $p{http_user_agent} //= '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{moduleVersion}}}/perl{{/httpUserAgent}}';
+    $p{http_user_agent} //= '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{moduleVersion}}}/perl{{/httpUserAgent}}';
 
     # authentication setting
     $p{api_key} //= {};
