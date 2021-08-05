@@ -20,7 +20,7 @@ namespace {{packageName}}.{{packageContext}}.Models
     public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{.}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{^isInherited}}
         /// <summary>
-        /// {{^description}}{{{name}}}{{/description}}{{description}}
+        /// {{description}}{{^description}}{{{name}}}{{/description}}
         /// </summary>
         public {{>nullableDataType}} {{name}} { get; set; }
 {{/isInherited}}{{/vars}}

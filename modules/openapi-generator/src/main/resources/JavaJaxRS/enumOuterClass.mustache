@@ -3,7 +3,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 {{/jackson}}
 
 /**
- * {{^description}}Gets or Sets {{{name}}}{{/description}}{{description}}
+ * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#gson}}

@@ -11,7 +11,7 @@ import com.google.gson.stream.JsonWriter;
 {{/gson}}
 
 /**
- * {{^description}}Gets or Sets {{{name}}}{{/description}}{{description}}
+ * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
 {{#gson}}
 @JsonAdapter({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Adapter.class)
