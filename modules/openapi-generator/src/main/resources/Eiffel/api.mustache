@@ -13,7 +13,7 @@ feature -- API Access
 
 {{#operation}}
 
-	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}
+	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}
 			-- {{summary}}
 			-- {{notes}}
 			-- {{#allParams}}

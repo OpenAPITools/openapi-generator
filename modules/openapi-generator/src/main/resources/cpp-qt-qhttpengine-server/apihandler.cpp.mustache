@@ -20,7 +20,7 @@ namespace {{this}} {
 
 }
 
-{{#operations}}{{#operation}}void {{classname}}Handler::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+{{#operations}}{{#operation}}void {{classname}}Handler::{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     {{#allParams}}
     Q_UNUSED({{paramName}});
     {{/allParams}}
