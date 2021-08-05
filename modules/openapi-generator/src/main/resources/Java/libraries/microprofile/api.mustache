@@ -23,7 +23,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  *
  {{/appDescription}}
  */
@@ -41,7 +41,7 @@ public interface {{classname}}  {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      {{#isDeprecated}}

@@ -13,7 +13,7 @@ object Paths {
 {{#operations}}
     {{#operation}}
     /**{{#summary}}
-     * {{summary}}{{/summary}}
+     * {{.}}{{/summary}}
      * {{unescapedNotes}}
      {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}*/

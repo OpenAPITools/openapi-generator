@@ -136,7 +136,7 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
         }
 
         {{/queryParams}}
@@ -225,7 +225,7 @@ public class {{classname}} {
      * {{summary}}
      * {{notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}{{/allParams}}{{#returnType}}
-     * @return {{returnType}}{{/returnType}}
+     * @return {{.}}{{/returnType}}
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      {{#responses.0}}
      * @http.response.details
@@ -247,8 +247,8 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
-        {{#returnType}}ApiResponse<{{{returnType}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+        {{#returnType}}ApiResponse<{{{.}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
         return localVarResp.getData();{{/returnType}}
     }
     {{/vendorExtensions.x-group-parameters}}
@@ -374,7 +374,7 @@ public class {{classname}} {
 
         /**
          * Execute {{operationId}} request{{#returnType}}
-         * @return {{returnType}}{{/returnType}}
+         * @return {{.}}{{/returnType}}
          * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
          {{#responses.0}}
          * @http.response.details
@@ -393,7 +393,7 @@ public class {{classname}} {
         @Deprecated
         {{/isDeprecated}}
         public {{{returnType}}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
-            {{#returnType}}ApiResponse<{{{returnType}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+            {{#returnType}}ApiResponse<{{{.}}}> localVarResp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
             return localVarResp.getData();{{/returnType}}
         }
 

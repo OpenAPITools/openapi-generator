@@ -20,7 +20,7 @@ extension {{projectName}} {
 {{/swiftUseApiNamespace}}
 
 {{#description}}
-/** {{{description}}} */{{/description}}
+/** {{{.}}} */{{/description}}
 {{#objcCompatible}}@objc {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{#operation}}
 
@@ -46,7 +46,7 @@ extension {{projectName}} {
 {{^useCombine}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -79,7 +79,7 @@ extension {{projectName}} {
 {{#usePromiseKit}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -110,7 +110,7 @@ extension {{projectName}} {
 {{#useRxSwift}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -143,7 +143,7 @@ extension {{projectName}} {
 {{#useCombine}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -177,7 +177,7 @@ extension {{projectName}} {
 {{#useResult}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}{{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -206,12 +206,12 @@ extension {{projectName}} {
 {{#useVapor}}
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}
      {{httpMethod}} {{{path}}}{{#notes}}
-     {{{notes}}}{{/notes}}{{#subresourceOperation}}
-     subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
-     defaultResponse: {{defaultResponse}}{{/defaultResponse}}
+     {{{.}}}{{/notes}}{{#subresourceOperation}}
+     subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
+     defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
@@ -221,7 +221,7 @@ extension {{projectName}} {
      - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
      {{#externalDocs}}
-     - externalDocs: {{externalDocs}}
+     - externalDocs: {{.}}
      {{/externalDocs}}
      {{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{{description}}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
@@ -254,7 +254,7 @@ extension {{projectName}} {
 
                 enum CodingKeys: String, CodingKey {
                     {{#queryParams}}
-                    case {{paramName}}{{#baseName}} = "{{baseName}}"{{/baseName}}
+                    case {{paramName}}{{#baseName}} = "{{.}}"{{/baseName}}
                     {{/queryParams}}
                 }
             }
@@ -277,7 +277,7 @@ extension {{projectName}} {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {
         {{#responses}}
-        case http{{code}}({{#dataType}}value: {{{dataType}}}, {{/dataType}}raw: ClientResponse)
+        case http{{code}}({{#dataType}}value: {{{.}}}, {{/dataType}}raw: ClientResponse)
         {{/responses}}
         {{^hasDefaultResponse}}
         case http0(raw: ClientResponse)
@@ -286,12 +286,12 @@ extension {{projectName}} {
 
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}
      {{httpMethod}} {{{path}}}{{#notes}}
-     {{{notes}}}{{/notes}}{{#subresourceOperation}}
-     subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
-     defaultResponse: {{defaultResponse}}{{/defaultResponse}}
+     {{{.}}}{{/notes}}{{#subresourceOperation}}
+     subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
+     defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
@@ -301,7 +301,7 @@ extension {{projectName}} {
      - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
      {{#externalDocs}}
-     - externalDocs: {{externalDocs}}
+     - externalDocs: {{.}}
      {{/externalDocs}}
      {{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{{description}}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
@@ -331,12 +331,12 @@ extension {{projectName}} {
 
     /**
      {{#summary}}
-     {{{summary}}}
+     {{{.}}}
      {{/summary}}
      - {{httpMethod}} {{{path}}}{{#notes}}
-     - {{{notes}}}{{/notes}}{{#subresourceOperation}}
-     - subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
-     - defaultResponse: {{defaultResponse}}{{/defaultResponse}}
+     - {{{.}}}{{/notes}}{{#subresourceOperation}}
+     - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
+     - defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
      - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
@@ -346,7 +346,7 @@ extension {{projectName}} {
      - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
      {{/hasResponseHeaders}}
      {{#externalDocs}}
-     - externalDocs: {{externalDocs}}
+     - externalDocs: {{.}}
      {{/externalDocs}}
      {{#allParams}}
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}

@@ -3,7 +3,7 @@
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
         /// </summary>
         {{#description}}
-        /// <value>{{{description}}}</value>
+        /// <value>{{{.}}}</value>
         {{/description}}
         {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}[JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
         public enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}

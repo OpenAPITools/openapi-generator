@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  {{#appName}}
- * {{{appName}}} Test
+ * {{{.}}} Test
  *
  {{/appName}}
  * API tests for {{classname}}
@@ -53,7 +53,7 @@ public class {{classname}}Test {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      {{/summary}}
@@ -66,7 +66,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
         {{/allParams}}
-        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         //{{#returnType}}assertNotNull(response);{{/returnType}}
 
 

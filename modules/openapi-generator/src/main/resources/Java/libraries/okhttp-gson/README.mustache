@@ -114,7 +114,7 @@ public class Example {
     {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
     {{/allParams}}
     try {
-      {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}
+      {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}{{^vendorExtensions.x-group-parameters}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}
             .{{{paramName}}}({{{paramName}}}){{/optionalParams}}
             .execute();{{/vendorExtensions.x-group-parameters}}{{#returnType}}
       System.out.println(result);{{/returnType}}

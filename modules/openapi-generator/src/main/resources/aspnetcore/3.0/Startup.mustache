@@ -71,7 +71,7 @@ namespace {{packageName}}
                 })
                 {{#compatibilityVersion}}
                 // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
-                //.SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
+                //.SetCompatibilityVersion(CompatibilityVersion.{{.}})
                 {{/compatibilityVersion}}
                 .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
                 {
@@ -108,7 +108,7 @@ namespace {{packageName}}
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
                     {{#basePathWithoutHost}}
                     // Sets the basePath property in the OpenAPI document generated
-                    c.DocumentFilter<BasePathFilter>("{{{basePathWithoutHost}}}");
+                    c.DocumentFilter<BasePathFilter>("{{{.}}}");
                     {{/basePathWithoutHost}}
 
                     // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)

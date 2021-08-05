@@ -27,7 +27,7 @@ namespace {{this}} {
     auto reqObj = qobject_cast<{{classname}}Request*>(sender());
     if( reqObj != nullptr )
     {
-        {{#returnType}}{{{returnType}}} res;{{/returnType}}
+        {{#returnType}}{{{.}}} res;{{/returnType}}
         reqObj->{{nickname}}Response({{#returnType}}res{{/returnType}});
     }
 }

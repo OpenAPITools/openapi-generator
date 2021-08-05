@@ -16,13 +16,13 @@ namespace {{packageName}}.Controllers
     /// <summary>
     /// {{description}}
     /// </summary>{{#description}}
-    [Description("{{description}}")]{{/description}}
+    [Description("{{.}}")]{{/description}}
     public class {{classname}}Controller : Controller
     { {{#operation}}
         /// <summary>
         /// {{summary}}
         /// </summary>{{#notes}}
-        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]

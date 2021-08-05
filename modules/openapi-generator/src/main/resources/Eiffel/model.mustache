@@ -25,23 +25,23 @@ feature --Access
     {{#isPrimitiveType}}
     {{^isContainer}}
  	{{name}}: {{{dataType}}}
-    	 {{#description}}-- {{{description}}}{{/description}}
+    	 {{#description}}-- {{{.}}}{{/description}}
      {{/isContainer}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isContainer}}
  	{{name}}: detachable {{{datatypeWithEnum}}}
-    	 {{#description}}-- {{{description}}}{{/description}}
+    	 {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
     {{#isContainer}}
     {{name}}: detachable {{{datatypeWithEnum}}}
-      {{#description}}-- {{{description}}}{{/description}}
+      {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{^isContainer}}
     {{name}}: detachable {{{dataType}}}
-      {{#description}}-- {{{description}}}{{/description}}
+      {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{/isPrimitiveType}}
     {{/isInherited}}

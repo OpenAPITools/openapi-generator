@@ -62,7 +62,7 @@ namespace {{packageName}}
                     opts.InputFormatters.Insert(0, new InputFormatterStream());
                     })
                 {{#compatibilityVersion}}
-                .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
+                .SetCompatibilityVersion(CompatibilityVersion.{{.}})
                 {{/compatibilityVersion}}
                 .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
                 {
@@ -95,7 +95,7 @@ namespace {{packageName}}
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
                     {{#basePathWithoutHost}}
                     // Sets the basePath property in the Swagger document generated
-                    c.DocumentFilter<BasePathFilter>("{{{basePathWithoutHost}}}");
+                    c.DocumentFilter<BasePathFilter>("{{{.}}}");
                     {{/basePathWithoutHost}}
 
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)

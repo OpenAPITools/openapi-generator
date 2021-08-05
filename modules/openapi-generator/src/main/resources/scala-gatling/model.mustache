@@ -9,7 +9,7 @@ package {{package}}
 case class {{classname}} (
 {{#vars}}
 {{#description}}
-    /* {{{description}}} */
+    /* {{{.}}} */
 {{/description}}
     _{{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
 {{/vars}}

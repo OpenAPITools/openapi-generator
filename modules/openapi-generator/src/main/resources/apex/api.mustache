@@ -23,7 +23,7 @@ public class {{classname}} {
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
-     * @return {{{returnType}}}
+     * @return {{{.}}}
      {{/returnType}}
      * @throws OAS.ApiException if fails to make API call
      */
@@ -73,7 +73,7 @@ public class {{classname}} {
       {{/isArray}}
     {{/formParams}}
 
-        {{#returnType}}return ({{{returnType}}}) {{/returnType}}client.invoke(
+        {{#returnType}}return ({{{.}}}) {{/returnType}}client.invoke(
             '{{httpMethod}}', '{{path}}',{{#bodyParam}}
             ({{{dataType}}}) params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}} ''{{/bodyParam}},
             query, form,
@@ -106,7 +106,7 @@ public class {{classname}} {
             new List<String>(),
           {{/hasAuthMethods}}
           {{#returnType}}
-            {{{returnType}}}.class
+            {{{.}}}.class
           {{/returnType}}
           {{^returnType}}
             null

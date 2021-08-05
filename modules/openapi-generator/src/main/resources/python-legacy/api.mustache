@@ -34,7 +34,7 @@ class {{classname}}(object):
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -48,7 +48,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -73,7 +73,7 @@ class {{classname}}(object):
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -87,7 +87,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -110,7 +110,7 @@ class {{classname}}(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}tuple({{returnType}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
         {{#servers.0}}
@@ -260,7 +260,7 @@ class {{classname}}(object):
         response_types_map = {
         {{/-first}}
             {{^isWildcard}}
-            {{code}}: {{#dataType}}"{{dataType}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            {{code}}: {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
         {{#-last}}
         }

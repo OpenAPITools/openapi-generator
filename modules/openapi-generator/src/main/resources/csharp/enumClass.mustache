@@ -2,7 +2,7 @@
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{description}}
         /// </summary>
         {{#description}}
-        /// <value>{{description}}</value>
+        /// <value>{{.}}</value>
         {{/description}}
         [JsonConverter(typeof(StringEnumConverter))]
         {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}

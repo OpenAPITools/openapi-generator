@@ -34,7 +34,7 @@ public:
 	{{/operation}}{{/operations}}
     {{#operations}}{{#operation}}DECLARE_DELEGATE_OneParam(F{{operationIdCamelCase}}Delegate, const {{operationIdCamelCase}}Response&);
     {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}{{#description}}/* {{{description}}} */
+    {{#operations}}{{#operation}}{{#description}}/* {{{.}}} */
 	{{/description}}FHttpRequestPtr {{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate = F{{operationIdCamelCase}}Delegate()) const;
     {{/operation}}{{/operations}}
 private:

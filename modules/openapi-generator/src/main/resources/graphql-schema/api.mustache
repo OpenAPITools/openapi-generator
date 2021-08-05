@@ -8,10 +8,10 @@ type mutation {
 {{#operation}}
 {{#vendorExtensions.x-is-mutation}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}
@@ -29,10 +29,10 @@ type query {
 {{#operation}}
 {{^vendorExtensions.x-is-mutation}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}

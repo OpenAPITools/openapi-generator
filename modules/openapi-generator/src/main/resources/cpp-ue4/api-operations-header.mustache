@@ -16,7 +16,7 @@ namespace {{this}}
 {{#operation}}
 /* {{summary}}
 {{#notes}} *
- * {{notes}}{{/notes}}
+ * {{.}}{{/notes}}
 */
 class {{dllapi}} {{classname}}::{{operationIdCamelCase}}Request : public Request
 {
@@ -38,12 +38,12 @@ public:
 
 	static FString EnumToString(const {{{enumName}}}& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, {{{enumName}}}& EnumValue);
-	{{#description}}/* {{{description}}} */
-	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}
 	{{^isEnum}}
-	{{#description}}/* {{{description}}} */
-	{{/description}}{{^required}}TOptional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}
     {{/allParams}}
 };
@@ -57,7 +57,7 @@ public:
 	{{/responses.0}}
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 
-    {{#returnType}}{{{returnType}}} Content;{{/returnType}}
+    {{#returnType}}{{{.}}} Content;{{/returnType}}
 };
 
 {{/operation}}

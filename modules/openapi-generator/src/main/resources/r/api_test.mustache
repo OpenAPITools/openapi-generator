@@ -11,10 +11,10 @@ test_that("{{{operationId}}}", {
   # tests for {{operationId}}
   # base path: {{{basePath}}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
 {{#allParams}}
   # @param {{{paramName}}} {{{dataType}}} {{{description}}}{{^required}} (optional){{/required}}

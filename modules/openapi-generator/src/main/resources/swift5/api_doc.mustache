@@ -1,5 +1,5 @@
 # {{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{{basePath}}}*
 
@@ -32,7 +32,7 @@ Method | HTTP request | Description
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Example
 ```swift
@@ -103,7 +103,7 @@ import {{{projectName}}}
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type
@@ -114,10 +114,10 @@ Name | Type | Description  | Notes
 ```swift
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {
     {{#responses}}
-    case http{{code}}(value: {{#dataType}}{{dataType}}?{{/dataType}}{{^dataType}}Void?{{/dataType}}, raw: ClientResponse)
+    case http{{code}}(value: {{#dataType}}{{.}}?{{/dataType}}{{^dataType}}Void?{{/dataType}}, raw: ClientResponse)
     {{/responses}}
     {{^hasDefaultResponse}}
-    case http0(value: {{#returnType}}{{returnType}}?{{/returnType}}{{^returnType}}Void?{{/returnType}}, raw: ClientResponse)
+    case http0(value: {{#returnType}}{{.}}?{{/returnType}}{{^returnType}}Void?{{/returnType}}, raw: ClientResponse)
     {{/hasDefaultResponse}}
 }
 ```

@@ -25,7 +25,7 @@ type {{classname}} interface {
      * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
      *
     {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
     {{/notes}}
      * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -43,10 +43,10 @@ type {{classname}} interface {
     {{/allParams}}
     {{/hasOptionalParams}}
     {{#returnType}}
-     * @return {{{returnType}}}
+     * @return {{{.}}}
     {{/returnType}}
      */
-    {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error)
+    {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 {{/operation}}
 }
 
@@ -80,7 +80,7 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts struct {
  * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
  *
 {{#notes}}
- * {{notes}}
+ * {{.}}
  *
 {{/notes}}
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -98,10 +98,10 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts struct {
 {{/allParams}}
 {{/hasOptionalParams}}
 {{#returnType}}
- * @return {{{returnType}}}
+ * @return {{{.}}}
 {{/returnType}}
  */
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*_nethttp.Response, error) {
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{#structPrefix}}{{&classname}}{{/structPrefix}}{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
@@ -109,7 +109,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		localVarFileName     string
 		localVarFileBytes    []byte
 		{{#returnType}}
-		localVarReturnValue  {{{returnType}}}
+		localVarReturnValue  {{{.}}}
 		{{/returnType}}
 	)
 

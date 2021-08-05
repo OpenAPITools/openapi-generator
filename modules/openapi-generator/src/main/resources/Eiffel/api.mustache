@@ -13,14 +13,14 @@ feature -- API Access
 
 {{#operation}}
 
-	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{returnType}}}{{/returnType}}
+	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{.}}}{{/returnType}}
 			-- {{summary}}
 			-- {{notes}}
 			-- {{#allParams}}
 			-- argument: {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 			-- {{/allParams}}
 			-- {{#returnType}}
-			-- Result {{returnType}}{{/returnType}}
+			-- Result {{.}}{{/returnType}}
 		require
 		{{#allParams}}
 		{{#hasValidation}}

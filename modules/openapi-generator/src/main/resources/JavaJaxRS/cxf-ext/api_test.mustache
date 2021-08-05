@@ -61,11 +61,11 @@ import org.openapitools.codegen.utils.JsonCache;
 
 /**
  {{#appName}}
- * {{{appName}}}
+ * {{{.}}}
  *
  {{/appName}}
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  *
  {{/appDescription}}
  * API tests for {{classname}}.
@@ -147,7 +147,7 @@ public class {{classname}}Test {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      {{/summary}}

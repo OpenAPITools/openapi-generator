@@ -1,20 +1,20 @@
 {{#maxLength}}
-            'max_length': {{maxLength}},
+            'max_length': {{.}},
 {{/maxLength}}
 {{#minLength}}
-            'min_length': {{minLength}},
+            'min_length': {{.}},
 {{/minLength}}
 {{#maxItems}}
-            'max_items': {{maxItems}},
+            'max_items': {{.}},
 {{/maxItems}}
 {{#minProperties}}
-            'min_properties': {{minProperties}},
+            'min_properties': {{.}},
 {{/minProperties}}
 {{#maxProperties}}
-            'max_properties': {{maxProperties}},
+            'max_properties': {{.}},
 {{/maxProperties}}
 {{#minItems}}
-            'min_items': {{minItems}},
+            'min_items': {{.}},
 {{/minItems}}
 {{#maximum}}
             {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum': {{maximum}},
@@ -29,6 +29,6 @@
             },
 {{/pattern}}
 {{#multipleOf}}
-            'multiple_of': {{multipleOf}},
+            'multiple_of': {{.}},
 {{/multipleOf}}
         },

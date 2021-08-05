@@ -28,7 +28,7 @@ import {
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
 {{#allParams}}
-    {{#description}}/** {{description}} */
+    {{#description}}/** {{.}} */
     {{/description}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/allParams}}
 }
@@ -141,10 +141,10 @@ export class {{classname}} {
 {{#operation}}
     /**
 {{#summary}}
-     * {{summary}}
+     * {{.}}
 {{/summary}}
 {{#notes}}
-     * {{notes}}
+     * {{.}}
 {{/notes}}
      {{^useSingleRequestParameter}}
      {{#allParams}}

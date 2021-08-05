@@ -22,7 +22,7 @@ part '{{classFilename}}.g.dart';
 abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
 {{#vars}}
     {{#description}}
-    /// {{{description}}}
+    /// {{{.}}}
     {{/description}}
     @BuiltValueField(wireName: r'{{baseName}}')
     {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};

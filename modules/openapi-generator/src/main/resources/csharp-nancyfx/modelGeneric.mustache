@@ -1,7 +1,7 @@
     /// <summary>
     /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{.}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{^isInherited}}
         /// <summary>
         /// {{^description}}{{{name}}}{{/description}}{{description}}

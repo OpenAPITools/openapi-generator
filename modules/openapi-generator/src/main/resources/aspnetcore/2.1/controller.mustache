@@ -23,14 +23,14 @@ namespace {{apiPackage}}
     /// <summary>
     /// {{description}}
     /// </summary>{{#description}}
-    [Description("{{description}}")]{{/description}}
+    [Description("{{.}}")]{{/description}}
     [ApiController]
-    public {{#classModifier}}{{classModifier}} {{/classModifier}}class {{classname}}Controller : ControllerBase
+    public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     { {{#operation}}
         /// <summary>
         /// {{summary}}
         /// </summary>{{#notes}}
-        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]

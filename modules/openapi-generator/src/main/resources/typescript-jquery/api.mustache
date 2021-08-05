@@ -57,7 +57,7 @@ export class {{classname}} {
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
-    { response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+    { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
     { response: JQueryXHR; errorThrown: string }
     > {
         let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
@@ -234,7 +234,7 @@ export class {{classname}} {
         }
 
         let dfd = $.Deferred<
-            { response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+            { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
             { response: JQueryXHR; errorThrown: string }
         >();
         $.ajax(requestOptions).then(

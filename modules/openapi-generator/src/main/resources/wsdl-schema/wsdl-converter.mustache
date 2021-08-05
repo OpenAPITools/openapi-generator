@@ -34,7 +34,7 @@
       <xs:complexType name="{{classname}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:sequence>
@@ -44,21 +44,21 @@
             <xs:simpleType>
               {{#description}}
               <xs:annotation>
-                <xs:documentation>{{description}}</xs:documentation>
+                <xs:documentation>{{.}}</xs:documentation>
               </xs:annotation>
               {{/description}}
               <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
                 {{#maximum}}
-                <xs:maxInclusive value="{{maximum}}" />
+                <xs:maxInclusive value="{{.}}" />
                 {{/maximum}}
                 {{#minimum}}
-                <xs:minInclusive value="{{minimum}}" />
+                <xs:minInclusive value="{{.}}" />
                 {{/minimum}}
                 {{#maxLength}}
-                <xs:maxLength value="{{maxLength}}" />
+                <xs:maxLength value="{{.}}" />
                 {{/maxLength}}
                 {{#minLength}}
-                <xs:minLength value="{{minLength}}" />
+                <xs:minLength value="{{.}}" />
                 {{/minLength}}
               </xs:restriction>
             </xs:simpleType>
@@ -73,7 +73,7 @@
           {{/isContainer}}
           {{#description}}
             <xs:annotation>
-              <xs:documentation>{{description}}</xs:documentation>
+              <xs:documentation>{{.}}</xs:documentation>
             </xs:annotation>
           </xs:element>
           {{/description}}
@@ -93,7 +93,7 @@
       <xs:simpleType name="{{name}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:restriction base="xs:{{baseType}}">
@@ -116,7 +116,7 @@
       <xs:simpleType name="{{name}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:restriction base="xs:{{dataType}}">
@@ -164,21 +164,21 @@
             <xs:simpleType>
               {{#description}}
               <xs:annotation>
-                <xs:documentation>{{description}}</xs:documentation>
+                <xs:documentation>{{.}}</xs:documentation>
               </xs:annotation>
               {{/description}}
               <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
                 {{#maximum}}
-                <xs:maxInclusive value="{{maximum}}" />
+                <xs:maxInclusive value="{{.}}" />
                 {{/maximum}}
                 {{#minimum}}
-                <xs:minInclusive value="{{minimum}}" />
+                <xs:minInclusive value="{{.}}" />
                 {{/minimum}}
                 {{#maxLength}}
-                <xs:maxLength value="{{maxLength}}" />
+                <xs:maxLength value="{{.}}" />
                 {{/maxLength}}
                 {{#minLength}}
-                <xs:minLength value="{{minLength}}" />
+                <xs:minLength value="{{.}}" />
                 {{/minLength}}
               </xs:restriction>
             </xs:simpleType>
@@ -188,7 +188,7 @@
           <xs:element minOccurs="{{#isArray}}{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}{{/isArray}}{{^isArray}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/isArray}}"{{#isArray}} maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}"{{/isArray}}{{#vendorExtensions.x-param-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-param-has-defaultvalue}} name="{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}" type="{{#isBodyParam}}schemas:{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/isBodyParam}}{{^isBodyParam}}{{#isModel}}schemas:{{dataType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{baseName}}{{/isEnum}}{{^isEnum}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#isArray}}{{#isQueryParam}}{{#items}}xs:{{baseType}}{{/items}}{{/isQueryParam}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isByteArray}}{{/isFile}}{{/isEnum}}{{/isModel}}{{/isBodyParam}}"{{^description}} /{{/description}}>
           {{#description}}
             <xs:annotation>
-              <xs:documentation>{{description}}</xs:documentation>
+              <xs:documentation>{{.}}</xs:documentation>
             </xs:annotation>
           </xs:element>
           {{/description}}
@@ -266,11 +266,11 @@
   {{#operation}}
     <operation name="{{operationId}}">
       {{#notes}}
-      <documentation>{{notes}}</documentation>
+      <documentation>{{.}}</documentation>
       {{/notes}}
       {{^notes}}
       {{#summary}}
-      <documentation>{{summary}}</documentation>
+      <documentation>{{.}}</documentation>
       {{/summary}}
       {{/notes}}
       <input message="wsdl:{{operationId}}_RequestMessage" />
@@ -279,7 +279,7 @@
       {{^is5xx}}
       <output message="wsdl:{{operationId}}_ResponseMessage"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </output>
       {{/message}}
       {{/is5xx}}
@@ -287,14 +287,14 @@
       {{#is4xx}}
       <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </fault>
       {{/message}}
       {{/is4xx}}
       {{#is5xx}}
       <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </fault>
       {{/message}}
       {{/is5xx}}

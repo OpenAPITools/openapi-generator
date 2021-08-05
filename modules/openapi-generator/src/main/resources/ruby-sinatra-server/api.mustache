@@ -17,13 +17,13 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
       "description" => "{{description}}",
       "dataType" => "{{{dataType}}}",
       {{#collectionFormat}}
-      "collectionFormat" => "{{collectionFormat}}",
+      "collectionFormat" => "{{.}}",
       {{/collectionFormat}}
       {{^isContainer}}
       "allowableValues" => "{{{allowableValues.values}}}",
       {{/isContainer}}
       {{#defaultValue}}
-      "defaultValue" => "{{{defaultValue}}}",
+      "defaultValue" => "{{{.}}}",
       {{/defaultValue}}
       "paramType" => "query",
     },

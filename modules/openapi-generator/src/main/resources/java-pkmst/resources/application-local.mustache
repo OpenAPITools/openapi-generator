@@ -55,7 +55,7 @@ spring:
     port:
   {{#zipkinUri}}
   zipkin:
-    base-url: {{zipkinUri}}
+    base-url: {{.}}
   {{/zipkinUri}}
 
   {{#springBootAdminUri}}

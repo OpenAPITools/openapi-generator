@@ -12,10 +12,10 @@ module {{moduleName}}
     end
 {{#operation}}
     {{#summary}}
-    # {{{summary}}}
+    # {{{.}}}
     {{/summary}}
     {{#notes}}
-    # {{{notes}}}
+    # {{{.}}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
@@ -29,17 +29,17 @@ module {{moduleName}}
     end
 
     {{#summary}}
-    # {{summary}}
+    # {{.}}
     {{/summary}}
     {{#notes}}
-    # {{notes}}
+    # {{.}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}] {{description}}
     {{/required}}
     {{/allParams}}
-    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
       if @api_client.config.debugging
         Log.debug {"Calling API: {{classname}}.{{operationId}} ..."}

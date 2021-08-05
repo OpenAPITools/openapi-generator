@@ -18,10 +18,10 @@ require "time"
 {{#operation}}
   # unit tests for {{operationId}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
 {{#allParams}}{{#required}}  # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}  # @param [Hash] opts the optional parameters

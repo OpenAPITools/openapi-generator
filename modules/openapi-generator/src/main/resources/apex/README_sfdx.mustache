@@ -2,7 +2,7 @@
 
 {{#appDescription}}
 
-{{{appDescription}}}
+{{{.}}}
 {{/appDescription}}
 
 ## Requirements
@@ -63,7 +63,7 @@ Map<String, Object> params = new Map<String, Object>{
 
 try {
     // cross your fingers
-    {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
+    {{#returnType}}{{{.}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
   {{#returnType}}
     System.debug(result);
   {{/returnType}}

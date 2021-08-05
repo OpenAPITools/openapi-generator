@@ -14,10 +14,10 @@ module {{moduleName}}
     end
 {{#operation}}
     {{#summary}}
-    # {{{summary}}}
+    # {{{.}}}
     {{/summary}}
     {{#notes}}
-    # {{{notes}}}
+    # {{{.}}}
     {{/notes}}
 {{#allParams}}{{#required}}    # @param {{paramName}} [{{{dataType}}}] {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
@@ -29,15 +29,15 @@ module {{moduleName}}
     end
 
     {{#summary}}
-    # {{summary}}
+    # {{.}}
     {{/summary}}
     {{#notes}}
-    # {{notes}}
+    # {{.}}
     {{/notes}}
 {{#allParams}}{{#required}}    # @param {{paramName}} [{{{dataType}}}] {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
-{{/required}}{{/allParams}}    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+{{/required}}{{/allParams}}    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: {{classname}}.{{operationId}} ...'
@@ -176,7 +176,7 @@ module {{moduleName}}
       post_body = opts[:debug_body]{{#bodyParam}} || @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}){{/bodyParam}}
 
       # return_type
-      return_type = opts[:debug_return_type]{{#returnType}} || '{{{returnType}}}'{{/returnType}}
+      return_type = opts[:debug_return_type]{{#returnType}} || '{{{.}}}'{{/returnType}}
 
       # auth_names
       auth_names = opts[:debug_auth_names] || [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]

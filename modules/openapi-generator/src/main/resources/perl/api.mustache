@@ -57,7 +57,7 @@ sub new {
     __PACKAGE__->method_documentation->{ '{{operationId}}' } = {
         summary => '{{summary}}',
         params => $params,
-        returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
+        returns => {{#returnType}}'{{{.}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
         };
 }
 # @return {{{returnType}}}{{^returnType}}void{{/returnType}}
