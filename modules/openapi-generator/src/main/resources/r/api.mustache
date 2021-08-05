@@ -282,18 +282,23 @@
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
-          error = function(e){
-           {{#useDefaultExceptionHandling}}
-             stop("Failed to deserialize response")
-           {{/useDefaultExceptionHandling}}
-           {{#useRlangExceptionHandling}}
-             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
-           {{/useRlangExceptionHandling}}
-          }
-        )
-        ApiResponse$new(deserializedRespObj, resp)
+        if (httr::headers(resp)$'content-type' != 'application/json') {
+          ApiResponse$new(resp$content, resp)
+        }
+        else {
+          deserializedRespObj <- tryCatch(
+            self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
+            error = function(e){
+             {{#useDefaultExceptionHandling}}
+               stop("Failed to deserialize response")
+             {{/useDefaultExceptionHandling}}
+             {{#useRlangExceptionHandling}}
+               rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+             {{/useRlangExceptionHandling}}
+            }
+          )
+          ApiResponse$new(deserializedRespObj, resp)
+        }
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
