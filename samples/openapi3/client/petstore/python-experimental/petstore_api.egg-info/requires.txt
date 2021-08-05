@@ -1,5 +1,0 @@
-urllib3>=1.15
-certifi
-python-dateutil
-pem>=19.3.0
-pycryptodome>=3.9.0
