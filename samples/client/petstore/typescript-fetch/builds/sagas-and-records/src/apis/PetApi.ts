@@ -153,7 +153,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Deletes a pet
      */
-    async deletePet(petId: number, , apiKey?: string, initOverrides?: RequestInit): Promise<void> {
+    async deletePet(petId: number, apiKey?: string, initOverrides?: RequestInit): Promise<void> {
         await this.deletePetRaw({ petId: petId, apiKey: apiKey }, initOverrides);
     }
 
@@ -447,7 +447,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithForm(petId: number, , name?: string, , status?: string, initOverrides?: RequestInit): Promise<void> {
+    async updatePetWithForm(petId: number, name?: string, status?: string, initOverrides?: RequestInit): Promise<void> {
         await this.updatePetWithFormRaw({ petId: petId, name: name, status: status }, initOverrides);
     }
 
@@ -506,7 +506,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * uploads an image
      */
-    async uploadFile(petId: number, , additionalMetadata?: string, , file?: Blob, initOverrides?: RequestInit): Promise<ModelApiResponse> {
+    async uploadFile(petId: number, additionalMetadata?: string, file?: Blob, initOverrides?: RequestInit): Promise<ModelApiResponse> {
         const response = await this.uploadFileRaw({ petId: petId, additionalMetadata: additionalMetadata, file: file }, initOverrides);
         return await response.value();
     }
