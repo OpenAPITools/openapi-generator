@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Enum test
+servers:
+  - url: http://localhost:3000
+paths:
+  /fake/enum-request-ref:
+    get:
+      operationId: fake-enum-request-get-ref
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternObject'
+    post:
+      operationId: fake-enum-request-post-ref
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternObject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatternObject"
+components:
+  schemas:
+    PatternObject:
+      type: object
+      properties:
+        string:
+          type: string
+        nullable-string:
+          nullable: true
+          type: string
+        number-enum:
+          type: number
+    PatternObjectTwo:
+      type: object
+      properties:
+        boolean:
+          type: boolean
+    ObjectCombinedOneOf:
+      type: "object"
+      properties:
+        combined-string-enum:
+          oneOf:
+            - $ref: '#/components/schemas/PatternObject'
+            - $ref: '#/components/schemas/PatternObjectTwo'
