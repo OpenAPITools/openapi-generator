@@ -128,7 +128,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Get the matching parts for the given pet part.
      */
-    async getMatchingParts(fakePetPartId: number, , _long: boolean, , smooth: boolean, , _short: boolean, , name?: string, , connectedPart?: string, initOverrides?: RequestInit): Promise<GetMatchingPartsResponse> {
+    async getMatchingParts(fakePetPartId: number, _long: boolean, smooth: boolean, _short: boolean, name?: string, connectedPart?: string, initOverrides?: RequestInit): Promise<GetMatchingPartsResponse> {
         const response = await this.getMatchingPartsRaw({ fakePetPartId: fakePetPartId, _long: _long, smooth: smooth, _short: _short, name: name, connectedPart: connectedPart }, initOverrides);
         return await response.value();
     }

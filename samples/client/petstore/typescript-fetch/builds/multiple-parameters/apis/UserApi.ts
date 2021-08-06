@@ -251,7 +251,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Logs user into the system
      */
-    async loginUser(username: string, , password: string, initOverrides?: RequestInit): Promise<string> {
+    async loginUser(username: string, password: string, initOverrides?: RequestInit): Promise<string> {
         const response = await this.loginUserRaw({ username: username, password: password }, initOverrides);
         return await response.value();
     }
@@ -315,7 +315,7 @@ export class UserApi extends runtime.BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    async updateUser(username: string, , body: User, initOverrides?: RequestInit): Promise<void> {
+    async updateUser(username: string, body: User, initOverrides?: RequestInit): Promise<void> {
         await this.updateUserRaw({ username: username, body: body }, initOverrides);
     }
 
