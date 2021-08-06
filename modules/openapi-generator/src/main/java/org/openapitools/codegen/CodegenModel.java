@@ -80,7 +80,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation, hasDiscriminatorWithNonEmptyMapping;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
     /**
      * Indicates the OAS schema specifies "nullable: true".
      */
@@ -155,6 +155,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty additionalProperties;
     private boolean isModel;
     private boolean hasRequiredVars;
+    private boolean hasDiscriminatorWithNonEmptyMapping;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -809,7 +810,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
-                hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
+                hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
@@ -973,7 +974,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNull='").append(isNull);
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
-        sb.append(", hasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append('}');
         return sb.toString();
     }

@@ -190,7 +190,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
     private boolean hasRequired;
-    public boolean hasDiscriminatorWithNonEmptyMapping;
+    private boolean hasDiscriminatorWithNonEmptyMapping;
 
     public String getBaseName() {
         return baseName;
@@ -857,7 +857,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasVars=").append(getHasVars());
         sb.append(", getHasRequired=").append(getHasRequired());
-        sb.append(", hasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append('}');
         return sb.toString();
     }
