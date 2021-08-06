@@ -123,7 +123,9 @@ public interface IJsonSchemaValidationProperties {
 
     void setHasRequired(boolean hasRequired);
 
+    // discriminators are only supported in request bodies and response payloads per OpenApi
     boolean getHasDiscriminatorWithNonEmptyMapping();
 
+    // discriminators are only supported in request bodies and response payloads per OpenApi
     void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping);
 }
