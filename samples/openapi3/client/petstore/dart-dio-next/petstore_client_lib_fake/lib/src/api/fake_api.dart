@@ -61,13 +61,9 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -141,6 +137,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'signature',
             'name': 'http_signature_test',
           },
         ],
@@ -151,7 +148,7 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (query1 != null) r'query_1': query1,
+      if (query1 != null) r'query_1': encodeQueryParameter(_serializers, query1, const FullType(String)),
     };
 
     dynamic _bodyData;
@@ -222,9 +219,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -235,7 +229,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -246,7 +239,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -315,9 +307,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -329,7 +318,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -340,7 +328,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -413,9 +400,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -426,7 +410,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -437,7 +420,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -506,9 +488,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -519,7 +498,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -530,7 +508,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -599,9 +576,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -613,7 +587,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -624,7 +597,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -697,9 +669,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -710,7 +679,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -721,7 +689,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -767,9 +734,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -781,7 +745,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -792,7 +755,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -841,7 +803,7 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'query': query,
+      r'query': encodeQueryParameter(_serializers, query, const FullType(String)),
     };
 
     dynamic _bodyData;
@@ -912,9 +874,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -926,7 +885,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -937,7 +895,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -1032,6 +989,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'basic',
             'name': 'http_basic_test',
           },
         ],
@@ -1041,27 +999,24 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (integer != null) r'integer': encodeFormParameter(_serializers, integer, const FullType(int)),
-        if (int32 != null) r'int32': encodeFormParameter(_serializers, int32, const FullType(int)),
-        if (int64 != null) r'int64': encodeFormParameter(_serializers, int64, const FullType(int)),
-        r'number': encodeFormParameter(_serializers, number, const FullType(num)),
-        if (float != null) r'float': encodeFormParameter(_serializers, float, const FullType(double)),
-        r'double': encodeFormParameter(_serializers, double_, const FullType(double)),
-        if (string != null) r'string': encodeFormParameter(_serializers, string, const FullType(String)),
-        r'pattern_without_delimiter': encodeFormParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
-        r'byte': encodeFormParameter(_serializers, byte, const FullType(String)),
-        if (binary != null) r'binary': binary,
-        if (date != null) r'date': encodeFormParameter(_serializers, date, const FullType(Date)),
-        if (dateTime != null) r'dateTime': encodeFormParameter(_serializers, dateTime, const FullType(DateTime)),
-        if (password != null) r'password': encodeFormParameter(_serializers, password, const FullType(String)),
-        if (callback != null) r'callback': encodeFormParameter(_serializers, callback, const FullType(String)),
+        if (integer != null) r'integer': encodeQueryParameter(_serializers, integer, const FullType(int)),
+        if (int32 != null) r'int32': encodeQueryParameter(_serializers, int32, const FullType(int)),
+        if (int64 != null) r'int64': encodeQueryParameter(_serializers, int64, const FullType(int)),
+        r'number': encodeQueryParameter(_serializers, number, const FullType(num)),
+        if (float != null) r'float': encodeQueryParameter(_serializers, float, const FullType(double)),
+        r'double': encodeQueryParameter(_serializers, double_, const FullType(double)),
+        if (string != null) r'string': encodeQueryParameter(_serializers, string, const FullType(String)),
+        r'pattern_without_delimiter': encodeQueryParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
+        r'byte': encodeQueryParameter(_serializers, byte, const FullType(String)),
+        if (binary != null) r'binary': encodeQueryParameter(_serializers, binary, const FullType(Uint8List)),
+        if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
+        if (dateTime != null) r'dateTime': encodeQueryParameter(_serializers, dateTime, const FullType(DateTime)),
+        if (password != null) r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
+        if (callback != null) r'callback': encodeQueryParameter(_serializers, callback, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -1069,7 +1024,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -1080,7 +1034,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -1143,18 +1096,18 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enumQueryStringArray != null) r'enum_query_string_array': enumQueryStringArray,
-      if (enumQueryString != null) r'enum_query_string': enumQueryString,
-      if (enumQueryInteger != null) r'enum_query_integer': enumQueryInteger,
-      if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
+      if (enumQueryStringArray != null) r'enum_query_string_array': encodeCollectionQueryParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
+      if (enumQueryString != null) r'enum_query_string': encodeQueryParameter(_serializers, enumQueryString, const FullType(String)),
+      if (enumQueryInteger != null) r'enum_query_integer': encodeQueryParameter(_serializers, enumQueryInteger, const FullType(int)),
+      if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(double)),
     };
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (enumFormStringArray != null) r'enum_form_string_array': encodeFormParameter(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)])),
-        if (enumFormString != null) r'enum_form_string': encodeFormParameter(_serializers, enumFormString, const FullType(String)),
+        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+        if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -1227,6 +1180,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'bearer',
             'name': 'bearer_test',
           },
         ],
@@ -1236,10 +1190,10 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'required_string_group': requiredStringGroup,
-      r'required_int64_group': requiredInt64Group,
-      if (stringGroup != null) r'string_group': stringGroup,
-      if (int64Group != null) r'int64_group': int64Group,
+      r'required_string_group': encodeQueryParameter(_serializers, requiredStringGroup, const FullType(int)),
+      r'required_int64_group': encodeQueryParameter(_serializers, requiredInt64Group, const FullType(int)),
+      if (stringGroup != null) r'string_group': encodeQueryParameter(_serializers, stringGroup, const FullType(int)),
+      if (int64Group != null) r'int64_group': encodeQueryParameter(_serializers, int64Group, const FullType(int)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1291,9 +1245,6 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -1305,7 +1256,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -1316,7 +1266,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -1364,15 +1313,12 @@ class FakeApi {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        r'param': encodeFormParameter(_serializers, param, const FullType(String)),
-        r'param2': encodeFormParameter(_serializers, param2, const FullType(String)),
+        r'param': encodeQueryParameter(_serializers, param, const FullType(String)),
+        r'param2': encodeQueryParameter(_serializers, param2, const FullType(String)),
       };
 
     } catch(error, stackTrace) {
@@ -1380,7 +1326,6 @@ class FakeApi {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -1391,7 +1336,6 @@ class FakeApi {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -1445,11 +1389,11 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'pipe': pipe,
-      r'ioutil': ioutil,
-      r'http': http,
-      r'url': url,
-      r'context': context,
+      r'pipe': encodeCollectionQueryParameter<String>(_serializers, pipe, const FullType(BuiltList, [FullType(String)]), format: ListFormat.pipes),
+      r'ioutil': encodeCollectionQueryParameter<String>(_serializers, ioutil, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+      r'http': encodeCollectionQueryParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv),
+      r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+      r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
     };
 
     final _response = await _dio.request<Object>(

@@ -1,0 +1,12 @@
+generatorName: swift5
+outputDir: samples/client/petstore/swift5/vaporLibrary
+library: vapor
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift5
+generateAliasAsModel: true
+additionalProperties:
+  projectName: PetstoreClient
+  useSPMFileStructure: true
+  useClasses: true
+  useBacktickEscapes: true
+  mapFileBinaryToData: true

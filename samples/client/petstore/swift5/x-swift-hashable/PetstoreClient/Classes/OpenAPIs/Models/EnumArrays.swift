@@ -41,3 +41,4 @@ public struct EnumArrays: Codable {
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 }
+

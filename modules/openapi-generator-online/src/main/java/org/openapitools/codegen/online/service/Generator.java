@@ -153,7 +153,7 @@ public class Generator {
             List<File> files = new DefaultGenerator().opts(clientOptInput).generate();
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<>();
-                LOGGER.debug("adding to " + outputFolder);
+                LOGGER.debug("adding to {}", outputFolder);
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);

@@ -44,4 +44,5 @@ public final class DogAllOf: Codable, Hashable {
         
     }
 }
+
 }

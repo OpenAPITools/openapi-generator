@@ -58,3 +58,4 @@ public struct User: Codable {
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
 }
+

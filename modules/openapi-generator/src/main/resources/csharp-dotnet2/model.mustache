@@ -21,6 +21,9 @@ namespace {{modelPackage}} {
     /// <value>{{{description}}}</value>{{/description}}
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "{{baseName}}")]
+    {{#deprecated}}
+    [Obsolete]
+    {{/deprecated}}
     public {{{dataType}}} {{name}} { get; set; }
 
     {{/vars}}

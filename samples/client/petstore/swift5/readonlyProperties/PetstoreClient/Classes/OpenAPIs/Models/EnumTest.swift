@@ -63,3 +63,4 @@ public struct EnumTest: Codable, Hashable {
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 }
+

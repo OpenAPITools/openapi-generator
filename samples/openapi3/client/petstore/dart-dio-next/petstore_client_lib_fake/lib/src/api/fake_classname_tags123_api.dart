@@ -61,9 +61,6 @@ class FakeClassnameTags123Api {
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-    };
-
     dynamic _bodyData;
 
     try {
@@ -75,7 +72,6 @@ class FakeClassnameTags123Api {
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
@@ -86,7 +82,6 @@ class FakeClassnameTags123Api {
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

@@ -45,3 +45,4 @@ public struct TypeHolderExample: Codable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 }
+

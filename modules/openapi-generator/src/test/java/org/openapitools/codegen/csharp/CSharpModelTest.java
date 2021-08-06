@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -77,7 +78,7 @@ public class CSharpModelTest {
         final CodegenProperty property = generated.vars.get(1);
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.name, "Examples");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.dataType, "Collection<string>");
         Assert.assertEquals(property.baseType, "Collection");
         Assert.assertEquals(property.containerType, "array");
@@ -335,7 +336,7 @@ public class CSharpModelTest {
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetCoreServerCodegen();
-        codegen.additionalProperties().put(AspNetCoreServerCodegen.NULLABLE_REFERENCE_TYPES, true);
+        codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
         codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);

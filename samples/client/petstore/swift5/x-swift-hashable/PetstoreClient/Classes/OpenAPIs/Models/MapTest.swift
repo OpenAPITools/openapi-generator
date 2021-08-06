@@ -45,3 +45,4 @@ public struct MapTest: Codable {
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
 }
+

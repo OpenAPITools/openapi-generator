@@ -77,3 +77,4 @@ public struct FormatTest: Codable {
         try container.encode(password, forKey: .password)
     }
 }
+

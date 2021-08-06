@@ -41,3 +41,4 @@ internal struct EnumArrays: Codable, Hashable {
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 }
+

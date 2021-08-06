@@ -49,3 +49,4 @@ public struct StringBooleanMap: Codable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

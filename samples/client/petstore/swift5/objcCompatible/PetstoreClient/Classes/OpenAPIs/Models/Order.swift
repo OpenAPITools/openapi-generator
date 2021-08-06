@@ -75,3 +75,4 @@ import AnyCodable
         try container.encodeIfPresent(complete, forKey: .complete)
     }
 }
+

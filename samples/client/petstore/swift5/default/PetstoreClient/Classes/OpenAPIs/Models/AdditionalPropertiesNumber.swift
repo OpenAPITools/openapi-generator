@@ -58,3 +58,4 @@ public struct AdditionalPropertiesNumber: Codable, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Double.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 }
+

@@ -29,3 +29,4 @@ public struct DogAllOf: Codable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+

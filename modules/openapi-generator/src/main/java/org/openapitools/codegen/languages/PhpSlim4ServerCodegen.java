@@ -195,7 +195,9 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
                 additionalProperties.put("isZendDiactoros", Boolean.TRUE);
                 break;
             default:
-                LOGGER.warn("\"" + getPsr7Implementation() + "\" is invalid \"psr7Implementation\" codegen option. Default \"slim-psr7\" used instead.");
+                LOGGER.warn(
+                        "\"{}\" is invalid \"psr7Implementation\" codegen option. Default \"slim-psr7\" used instead.",
+                        getPsr7Implementation());
                 additionalProperties.put("isSlimPsr7", Boolean.TRUE);
         }
 
@@ -353,7 +355,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
                 break;
             default:
                 this.psr7Implementation = "slim-psr7";
-                LOGGER.warn("\"" + psr7Implementation + "\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.");
+                LOGGER.warn("\"{}\" is invalid \"psr7Implementation\" argument. Default \"slim-psr7\" used instead.",
+                        psr7Implementation);
         }
     }
 

@@ -31,3 +31,4 @@ public struct File: Codable {
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
 }
+

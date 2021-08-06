@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample to vet integer handling"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /dotDelimiter:
+    get:
+      summary: List all users
+      operationId: petstore.api.users.get_all
+      tags:
+        - users
+      responses:
+        '200':
+          description: A paged array of users
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: string
+  /underscoreDelimiter:
+    get:
+      summary: List all users
+      operationId: petstore_api_users_getAll
+      tags:
+        - users
+      responses:
+        '200':
+          description: A paged array of users
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: string

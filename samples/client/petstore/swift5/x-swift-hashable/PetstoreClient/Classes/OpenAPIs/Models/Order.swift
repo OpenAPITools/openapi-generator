@@ -55,3 +55,4 @@ public struct Order: Codable {
         try container.encodeIfPresent(complete, forKey: .complete)
     }
 }
+

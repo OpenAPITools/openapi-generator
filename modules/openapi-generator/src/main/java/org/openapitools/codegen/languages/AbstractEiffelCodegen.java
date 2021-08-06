@@ -192,22 +192,22 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after
             // camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
-                    + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
         // model name starts with _
         if (name.startsWith("_")) {
-            LOGGER.warn(name + " (model name starts with _) cannot be used as model name. Renamed to "
-                    + ("model" + name));
+            LOGGER.warn("{} (model name starts with _) cannot be used as model name. Renamed to {}", name,
+                    "model" + name);
             name = "model" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
@@ -344,8 +344,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -609,7 +608,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
         if (innerProperty == null) {
-            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+            LOGGER.warn("skipping invalid array property {}", Json.pretty(property));
             return;
         }
         property.dataFormat = innerProperty.dataFormat;

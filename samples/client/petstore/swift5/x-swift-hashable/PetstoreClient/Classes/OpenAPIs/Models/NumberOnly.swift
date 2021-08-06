@@ -29,3 +29,4 @@ public struct NumberOnly: Codable {
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
 }
+

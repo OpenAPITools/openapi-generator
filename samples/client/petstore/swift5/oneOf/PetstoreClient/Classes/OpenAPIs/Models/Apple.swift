@@ -29,3 +29,4 @@ public struct Apple: Codable, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
     }
 }
+

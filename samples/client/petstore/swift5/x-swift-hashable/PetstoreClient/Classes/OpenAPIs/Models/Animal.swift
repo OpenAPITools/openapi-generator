@@ -33,3 +33,4 @@ public struct Animal: Codable {
         try container.encodeIfPresent(color, forKey: .color)
     }
 }
+

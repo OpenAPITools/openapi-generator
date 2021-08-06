@@ -37,3 +37,4 @@ public struct Dog: Codable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+

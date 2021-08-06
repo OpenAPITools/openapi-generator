@@ -41,3 +41,4 @@ import AnyCodable
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 }
+

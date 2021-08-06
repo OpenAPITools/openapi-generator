@@ -33,3 +33,4 @@ public struct HasOnlyReadOnly: Codable {
         try container.encodeIfPresent(foo, forKey: .foo)
     }
 }
+

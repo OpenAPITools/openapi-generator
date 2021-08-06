@@ -31,3 +31,4 @@ import AnyCodable
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
 }
+

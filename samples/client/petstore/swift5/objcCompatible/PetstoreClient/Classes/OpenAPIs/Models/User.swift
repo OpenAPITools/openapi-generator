@@ -68,3 +68,4 @@ import AnyCodable
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
 }
+

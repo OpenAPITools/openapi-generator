@@ -1,4 +1,4 @@
-public enum {{classname}}: Codable {
+public enum {{classname}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{/useVapor}} {
     {{#oneOf}}
     case type{{.}}({{.}})
     {{/oneOf}}

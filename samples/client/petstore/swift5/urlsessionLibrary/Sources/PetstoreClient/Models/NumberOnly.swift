@@ -44,4 +44,5 @@ public final class NumberOnly: Codable, Hashable {
         
     }
 }
+
 }

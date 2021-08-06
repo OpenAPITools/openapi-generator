@@ -60,3 +60,4 @@ import AnyCodable
         try container.encodeIfPresent(status, forKey: .status)
     }
 }
+

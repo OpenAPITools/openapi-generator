@@ -34,3 +34,4 @@ public struct Model200Response: Codable {
         try container.encodeIfPresent(_class, forKey: ._class)
     }
 }
+

@@ -34,3 +34,4 @@ import AnyCodable
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
 }
+

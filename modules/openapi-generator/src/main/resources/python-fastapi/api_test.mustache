@@ -47,7 +47,8 @@ def test_{{operationId}}(client: TestClient):
         params=params,{{/-first}}{{/queryParams}}
     )
 
-    assert response.status_code == 200
+    # uncomment below to assert the status code of the HTTP response
+    #assert response.status_code == 200
 
 {{/operation}}
 {{/operations}}

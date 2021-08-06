@@ -29,3 +29,4 @@ import AnyCodable
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
 }
+

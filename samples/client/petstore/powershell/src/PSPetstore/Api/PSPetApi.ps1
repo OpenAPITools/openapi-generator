@@ -150,7 +150,7 @@ function Remove-Pet {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling deletePet."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($ApiKey) {
             $LocalVarHeaderParameters['api_key'] = $ApiKey
@@ -415,7 +415,7 @@ function Get-PSPetById {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling getPetById."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -596,7 +596,7 @@ function Update-PSPetWithForm {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling updatePetWithForm."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($Name) {
             $LocalVarFormParameters['name'] = $Name
@@ -693,7 +693,7 @@ function Invoke-PSUploadFile {
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling uploadFile."
         }
-        $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
+        $LocalVarUri = $LocalVarUri.replace('{petId}', [System.Web.HTTPUtility]::UrlEncode($PetId))
 
         if ($AdditionalMetadata) {
             $LocalVarFormParameters['additionalMetadata'] = $AdditionalMetadata

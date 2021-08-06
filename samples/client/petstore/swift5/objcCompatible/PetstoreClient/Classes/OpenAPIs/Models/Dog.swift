@@ -37,3 +37,4 @@ import AnyCodable
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+

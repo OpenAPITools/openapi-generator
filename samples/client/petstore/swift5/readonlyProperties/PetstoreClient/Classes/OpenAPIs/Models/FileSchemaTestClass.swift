@@ -33,3 +33,4 @@ public struct FileSchemaTestClass: Codable, Hashable {
         try container.encodeIfPresent(files, forKey: .files)
     }
 }
+

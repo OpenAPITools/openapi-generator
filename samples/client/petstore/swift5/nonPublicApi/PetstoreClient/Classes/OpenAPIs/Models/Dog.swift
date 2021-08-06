@@ -37,3 +37,4 @@ internal struct Dog: Codable, Hashable {
         try container.encodeIfPresent(breed, forKey: .breed)
     }
 }
+
