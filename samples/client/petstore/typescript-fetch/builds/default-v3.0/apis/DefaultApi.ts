@@ -27,7 +27,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async fooGetRaw(): Promise<runtime.ApiResponse<InlineResponseDefault>> {
+    async fooGetRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponseDefault>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -37,15 +37,15 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponseDefaultFromJSON(jsonValue));
     }
 
     /**
      */
-    async fooGet(): Promise<InlineResponseDefault> {
-        const response = await this.fooGetRaw();
+    async fooGet(initOverrides?: RequestInit): Promise<InlineResponseDefault> {
+        const response = await this.fooGetRaw(initOverrides);
         return await response.value();
     }
 

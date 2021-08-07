@@ -248,6 +248,12 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     }
     {{/isString}}
     {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isByteArray}}
     {{#isBinary}}
     if ({{{classname}}}->{{{name}}}) {
         free({{{classname}}}->{{{name}}}->data);
