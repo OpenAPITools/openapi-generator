@@ -61,7 +61,6 @@ interface StoreApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function deleteOrder($orderId, &$responseCode, array &$responseHeaders);
 
@@ -74,7 +73,6 @@ interface StoreApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \int
-     *
      */
     public function getInventory(&$responseCode, array &$responseHeaders);
 
@@ -88,7 +86,6 @@ interface StoreApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\Order
-     *
      */
     public function getOrderById($orderId, &$responseCode, array &$responseHeaders);
 
@@ -102,7 +99,6 @@ interface StoreApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\Order
-     *
      */
     public function placeOrder(Order $order, &$responseCode, array &$responseHeaders);
 }
