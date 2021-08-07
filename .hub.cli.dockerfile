@@ -10,7 +10,8 @@ WORKDIR ${GEN_DIR}
 COPY . ${GEN_DIR}
 
 # Pre-compile openapi-generator-cli
-RUN mvn -am -pl "modules/openapi-generator-cli" package
+RUN --mount=target=/root/.m2/repository,type=cache \
+    mvn -am -pl "modules/openapi-generator-cli" package
 
 ## The final (release) image
 ## The resulting container here only needs the target jar
