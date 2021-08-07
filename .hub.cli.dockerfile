@@ -3,7 +3,7 @@
 ##
 ## You can build _just_ this part with:
 ##     docker --target builder -t container-name:builder -f .hub.cli.dockerfile .
-FROM maven:3.6.3-jdk-11-openj9 as builder
+FROM --platform=$BUILDPLATFORM maven:3.6.3-jdk-11-openj9 as builder
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
