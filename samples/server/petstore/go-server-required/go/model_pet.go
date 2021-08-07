@@ -14,16 +14,15 @@ type Pet struct {
 
 	Id int64 `json:"id,omitempty"`
 
-	Category Category `json:"category,omitempty"`
+	Category *Category `json:"category,omitempty"`
 
 	Name string `json:"name"`
 
-	PhotoUrls []string `json:"photoUrls"`
+	PhotoUrls *[]string `json:"photoUrls"`
 
-	Tags []Tag `json:"tags,omitempty"`
+	Tags *[]Tag `json:"tags,omitempty"`
 
 	// pet status in the store
-	// Deprecated
 	Status string `json:"status,omitempty"`
 }
 
@@ -39,12 +38,16 @@ func AssertPetRequired(obj Pet) error {
 		}
 	}
 
-	if err := AssertCategoryRequired(obj.Category); err != nil {
-		return err
-	}
-	for _, el := range obj.Tags {
-		if err := AssertTagRequired(el); err != nil {
+	if obj.Category != nil {
+		if err := AssertCategoryRequired(*obj.Category); err != nil {
 			return err
+		}
+	}
+	if obj.Tags != nil {
+		for _, el := range *obj.Tags {
+			if err := AssertTagRequired(el); err != nil {
+				return err
+			}
 		}
 	}
 	return nil
