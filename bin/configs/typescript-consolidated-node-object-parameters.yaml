@@ -6,3 +6,5 @@ additionalProperties:
   platform: node
   npmName: ts-petstore-client
   useObjectParameters: true
+  projectName: ts-petstore-client
+  moduleName: petstore
