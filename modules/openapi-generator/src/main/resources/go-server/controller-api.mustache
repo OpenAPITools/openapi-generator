@@ -174,14 +174,36 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}} := r.Header.Get("{{baseName}}")
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}} := &{{dataType}}{}
-	if err := json.NewDecoder(r.Body).Decode(&{{paramName}}); err != nil {
+	{{paramName}} := {{dataType}}{}
+	d := json.NewDecoder(r.Body)
+	{{^isAdditionalPropertiesTrue}}
+	d.DisallowUnknownFields()
+	{{/isAdditionalPropertiesTrue}}
+	if err := d.Decode(&{{paramName}}); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{#isArray}}
+		{{#items.isModel}}
+	for _, el := range {{paramName}} {
+		if err := Assert{{baseType}}Required(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+		{{/items.isModel}}
+	{{/isArray}}
+	{{^isArray}}
+		{{#isModel}}
+	if err := Assert{{baseType}}Required({{paramName}}); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+		{{/isModel}}
+	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{paramName}}{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
