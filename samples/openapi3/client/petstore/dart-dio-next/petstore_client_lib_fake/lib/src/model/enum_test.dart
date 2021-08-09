@@ -103,7 +103,7 @@ class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
             result
                 ..add(r'outerEnum')
                 ..add(serializers.serialize(object.outerEnum,
-                    specifiedType: const FullType(OuterEnum)));
+                    specifiedType: const FullType.nullable(OuterEnum)));
         }
         if (object.outerEnumInteger != null) {
             result
@@ -155,7 +155,7 @@ class _$EnumTestSerializer implements StructuredSerializer<EnumTest> {
                     break;
                 case r'outerEnum':
                     result.outerEnum = serializers.deserialize(value,
-                        specifiedType: const FullType(OuterEnum)) as OuterEnum;
+                        specifiedType: const FullType.nullable(OuterEnum)) as OuterEnum;
                     break;
                 case r'outerEnumInteger':
                     result.outerEnumInteger = serializers.deserialize(value,

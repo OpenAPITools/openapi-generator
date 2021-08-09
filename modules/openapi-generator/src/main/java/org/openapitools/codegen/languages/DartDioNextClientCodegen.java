@@ -187,13 +187,13 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("map", "BuiltMap");
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
-        typeMapping.put("object", "JsonObject");
-        typeMapping.put("AnyType", "JsonObject");
+        typeMapping.put("object", "JsonObject?");
+        typeMapping.put("AnyType", "JsonObject?");
 
         imports.put("BuiltList", "package:built_collection/built_collection.dart");
         imports.put("BuiltSet", "package:built_collection/built_collection.dart");
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
-        imports.put("JsonObject", "package:built_value/json_object.dart");
+        imports.put("JsonObject?", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
     }
@@ -281,11 +281,15 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     }
 
     private String createBuiltValueSerializerType(CodegenProperty property) {
-        final StringBuilder sb = new StringBuilder("const FullType(");
+        final StringBuilder sb = new StringBuilder("const FullType");
+        if (property.isNullable) {
+            sb.append(".nullable");
+        }
+        sb.append("(");
         if (property.isContainer) {
             appendBuiltValueCollection(sb, property);
         } else {
-            sb.append(property.datatypeWithEnum);
+            sb.append(property.datatypeWithEnum.replace("?",""));
         }
         sb.append(")");
         return sb.toString();
@@ -293,15 +297,19 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private void appendBuiltValueCollection(StringBuilder sb, CodegenProperty property) {
         sb.append(property.baseType);
-        sb.append(", [FullType(");
+        sb.append(", [FullType");
         if (property.isMap) {
             // a map always has string keys
-            sb.append("String), FullType(");
+            sb.append("(String), FullType");
         }
+        if(property.items.isNullable) {
+            sb.append(".nullable");
+        }
+        sb.append("(");
         if (property.items.isContainer) {
             appendBuiltValueCollection(sb, property.items);
         } else {
-            sb.append(property.items.datatypeWithEnum);
+            sb.append(property.items.datatypeWithEnum.replace("?",""));            
         }
         sb.append(")]");
     }
