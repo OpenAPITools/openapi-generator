@@ -13,6 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 import com.google.gson.reflect.TypeToken;
 
 import {{packageName}}.infrastructure.ApiClient
+import {{packageName}}.request.IRequestFactory
 import {{packageName}}.request.RequestFactory
 
 import java.io.File;
@@ -26,7 +27,7 @@ class {{classname}} (
     val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
     }),
-    val requestFactory: RequestFactory = RequestFactory(),
+    val requestFactory: IRequestFactory = RequestFactory(),
     val basePath: String = "{{{basePath}}}") {
 
     {{#operation}}
@@ -59,7 +60,7 @@ class {{classname}} (
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", requestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
+        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", IRequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
         val formParams: Map<String, String> = HashMap()
@@ -67,13 +68,13 @@ class {{classname}} (
         // TODO: Cater for allowing empty values
         val queryParams = mapOf<String, String>(
             {{#queryParams}}
-            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
+            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
             {{/queryParams}}
         ).filter { it.value != ""}
 
         val headerParams: Map<String, String> = mapOf(
             {{#headerParams}}
-            "{{baseName}}" to requestFactory.parameterToString({{paramName}}),
+            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
             {{/headerParams}}
         )
 

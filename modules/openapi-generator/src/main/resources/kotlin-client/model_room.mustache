@@ -4,6 +4,7 @@ package {{roomModelPackage}}
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import androidx.annotation.Keep
 import {{modelPackage}}.*
 
 {{#models}}
@@ -16,8 +17,9 @@ import {{modelPackage}}.*
 * @param {{{name}}} {{{description}}}
 {{/allVars}}
 */
+@Keep
 data class {{classname}}RoomModel (
-    @PrimaryKey(autoGenerate = true) val {{classname}}Id: Int,
+    @PrimaryKey(autoGenerate = true) var roomTableId: Int,
     {{#allVars}}{{#items.isPrimitiveType}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}},
     {{/items.isPrimitiveType}}{{/allVars}}
     {{#allVars}}{{^isEnum}}{{^isArray}}var {{{name}}}: {{{dataType}}}{{>model_room_init_var}},
