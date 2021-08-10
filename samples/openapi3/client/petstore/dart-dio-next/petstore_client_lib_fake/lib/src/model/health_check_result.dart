@@ -17,7 +17,8 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
 
     HealthCheckResult._();
 
-    static void _initializeBuilder(HealthCheckResultBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(HealthCheckResultBuilder b) => b;
 
     factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 

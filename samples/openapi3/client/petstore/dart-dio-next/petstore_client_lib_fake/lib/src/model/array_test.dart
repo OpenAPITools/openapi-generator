@@ -27,7 +27,8 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 
     ArrayTest._();
 
-    static void _initializeBuilder(ArrayTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ArrayTestBuilder b) => b;
 
     factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
 

@@ -17,7 +17,8 @@ abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObj
 
     DeprecatedObject._();
 
-    static void _initializeBuilder(DeprecatedObjectBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DeprecatedObjectBuilder b) => b;
 
     factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) = _$DeprecatedObject;
 

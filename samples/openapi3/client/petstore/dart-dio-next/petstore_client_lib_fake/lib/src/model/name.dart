@@ -29,7 +29,8 @@ abstract class Name implements Built<Name, NameBuilder> {
 
     Name._();
 
-    static void _initializeBuilder(NameBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(NameBuilder b) => b;
 
     factory Name([void updates(NameBuilder b)]) = _$Name;
 

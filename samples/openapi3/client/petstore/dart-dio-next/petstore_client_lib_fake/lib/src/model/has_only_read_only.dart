@@ -21,7 +21,8 @@ abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnly
 
     HasOnlyReadOnly._();
 
-    static void _initializeBuilder(HasOnlyReadOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(HasOnlyReadOnlyBuilder b) => b;
 
     factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
 

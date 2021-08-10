@@ -19,7 +19,8 @@ abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumP
 
     OuterObjectWithEnumProperty._();
 
-    static void _initializeBuilder(OuterObjectWithEnumPropertyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(OuterObjectWithEnumPropertyBuilder b) => b;
 
     factory OuterObjectWithEnumProperty([void updates(OuterObjectWithEnumPropertyBuilder b)]) = _$OuterObjectWithEnumProperty;
 
