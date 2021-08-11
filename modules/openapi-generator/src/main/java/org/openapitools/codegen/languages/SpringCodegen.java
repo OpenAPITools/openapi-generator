@@ -356,7 +356,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "DependencyUtil.java"));
 
         if (!this.interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {
@@ -576,7 +575,26 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
+
+        if (openAPI.getPaths() != null){
+            for (String pathname : openAPI.getPaths().keySet()) {
+                boolean dependencies = false;
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for(Operation operation : path.readOperations()){
+                        if (operation.getExtensions()!=null && operation.getExtensions().containsKey("x-dependencies")){
+                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "DependencyUtil.java"));
+                            dependencies = true;
+                            break;
+                        }
+                    }
+                }
+                if (dependencies)
+                    break;
+            }
+        }
     }
+
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {

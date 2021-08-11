@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -348,7 +350,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (!(RESTTEMPLATE.equals(getLibrary()) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
-        supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + invokerPackage).replace(".", "/"), "DependencyUtil.java"));
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
         if (!(isLibrary(GOOGLE_API_CLIENT) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
@@ -600,6 +601,29 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (FEIGN.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
                 supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
+            }
+        }
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (openAPI.getPaths() != null){
+            for (String pathname : openAPI.getPaths().keySet()) {
+                boolean dependencies = false;
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() != null) {
+                    for(Operation operation : path.readOperations()){
+                        if (operation.getExtensions()!=null && operation.getExtensions().containsKey("x-dependencies")){
+                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + invokerPackage).replace(".", "/"), "DependencyUtil.java"));
+                            dependencies = true;
+                            break;
+                        }
+                    }
+                }
+                if (dependencies)
+                    break;
             }
         }
     }
