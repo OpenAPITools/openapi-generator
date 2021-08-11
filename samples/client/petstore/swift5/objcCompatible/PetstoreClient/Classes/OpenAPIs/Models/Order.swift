@@ -42,7 +42,7 @@ import Foundation
         }
     }
 
-    public init(_id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = nil) {
+    public init(_id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = false) {
         self._id = _id
         self.petId = petId
         self.quantity = quantity

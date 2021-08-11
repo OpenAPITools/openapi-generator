@@ -797,6 +797,8 @@ public class PythonLegacyClientCodegen extends DefaultCodegen implements Codegen
             if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
             if (StringUtils.isNotBlank(schema.getPattern())) {
                 String pattern = schema.getPattern();
+                while (pattern.startsWith("/")) pattern = pattern.substring(0, pattern.length()-1);
+                while (pattern.endsWith("/")) pattern = pattern.substring(1);
                 RgxGen rgxGen = new RgxGen(pattern);
                 // this seed makes it so if we have [a-z] we pick a
                 Random random = new Random(18);

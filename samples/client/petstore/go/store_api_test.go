@@ -20,7 +20,7 @@ func TestPlaceOrder(t *testing.T) {
 
 	_, r, err := client.StoreApi.PlaceOrder(context.Background()).Body(newOrder).Execute()
 
-	if err != nil {
+	if err.Error() != "" {
 		// Skip parsing time error due to error in Petstore Test Server
 		// https://github.com/OpenAPITools/openapi-generator/issues/1292
 		if regexp.

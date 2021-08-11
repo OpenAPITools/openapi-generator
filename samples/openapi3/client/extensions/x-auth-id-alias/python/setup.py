@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Extension x-auth-id-alias
 
@@ -22,8 +20,7 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-  "urllib3 >= 1.15",
-  "certifi",
+  "urllib3 >= 1.25.3",
   "python-dateutil",
   "nulltype",
 ]
@@ -36,7 +33,7 @@ setup(
     author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Extension x-auth-id-alias"],
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,

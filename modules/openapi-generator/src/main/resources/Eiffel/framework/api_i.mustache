@@ -24,12 +24,12 @@ feature {NONE} -- Initialization
 feature -- Status Report
 
     last_error: detachable API_ERROR
-            -- last error if any from the API call.
+            -- Last error if any from the API call.
 
 feature -- Error
 
 	reset_error
-			-- reset `last_error' to void.
+			-- Reset `last_error' to void.
 		do
 			last_error := Void
 		end

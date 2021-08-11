@@ -18,6 +18,7 @@ To test special tags and operation ID starting with number
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new

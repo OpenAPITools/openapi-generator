@@ -25,7 +25,7 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future deleteOrderWithHttpInfo(String orderId) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
@@ -76,7 +76,7 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future deleteOrder(String orderId) async {
+  Future<void> deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));

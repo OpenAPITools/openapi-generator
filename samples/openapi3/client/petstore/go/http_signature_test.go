@@ -282,11 +282,11 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 		authConfig.SigningScheme, authConfig.SigningAlgorithm, authConfig.SignatureMaxValidity, authConfig.SignedHeaders)
 
 	r, err2 := apiClient.PetApi.AddPet(authCtx).Pet(newPet).Execute()
-	if expectSuccess && err2 != nil {
+	if expectSuccess && err2.Error() != "" {
 		t.Fatalf("Error while adding pet: %v", err2)
 	}
 	if !expectSuccess {
-		if err2 == nil {
+		if err2.Error() == "" {
 			t.Fatalf("Error was expected, but no error was generated")
 		} else {
 			// Do not continue. Error is expected.
@@ -298,7 +298,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 	}
 
 	_, r, err = apiClient.PetApi.GetPetById(authCtx, 12992).Execute()
-	if expectSuccess && err != nil {
+	if expectSuccess && err.Error() != "" {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
 

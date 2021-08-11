@@ -47,7 +47,7 @@ import 'package:{{pubName}}/api.dart';
 
 var api_instance = new {{classname}}();
 {{#allParams}}
-var {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}new {{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
+var {{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}new {{{dataType}}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try { 
@@ -56,7 +56,7 @@ try {
     print(result);
     {{/returnType}}
 } catch (e) {
-    print("Exception when calling {{classname}}->{{operationId}}: $e\n");
+    print('Exception when calling {{classname}}->{{operationId}}: $e\n');
 }
 ```
 
@@ -64,7 +64,7 @@ try {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{baseType}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

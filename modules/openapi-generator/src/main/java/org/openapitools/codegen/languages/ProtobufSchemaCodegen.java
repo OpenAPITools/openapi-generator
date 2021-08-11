@@ -490,7 +490,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }

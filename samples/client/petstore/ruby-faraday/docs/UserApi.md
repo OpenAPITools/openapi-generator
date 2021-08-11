@@ -25,6 +25,7 @@ This can only be done by the logged in user.
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -85,6 +86,7 @@ Creates list of users with given input array
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -145,6 +147,7 @@ Creates list of users with given input array
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -207,6 +210,7 @@ This can only be done by the logged in user.
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -267,6 +271,7 @@ Get user by user name
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -328,6 +333,7 @@ Logs user into the system
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -391,6 +397,7 @@ Logs out current logged in user session
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
@@ -450,6 +457,7 @@ This can only be done by the logged in user.
 ### Examples
 
 ```ruby
+require 'time'
 require 'petstore'
 
 api_instance = Petstore::UserApi.new

@@ -5,6 +5,9 @@ package {{package}};
 import {{invokerPackage}}.ApiCallback;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
+{{#dynamicOperations}}
+import {{invokerPackage}}.ApiOperation;
+{{/dynamicOperations}}
 import {{invokerPackage}}.ApiResponse;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
@@ -15,6 +18,10 @@ import {{invokerPackage}}.BeanValidationException;
 {{/performBeanValidation}}
 
 import com.google.gson.reflect.TypeToken;
+{{#dynamicOperations}}
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
+{{/dynamicOperations}}
 
 import java.io.IOException;
 
@@ -93,38 +100,63 @@ public class {{classname}} {
         Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
         // create path and map variables
+        {{^dynamicOperations}}
         String localVarPath = "{{{path}}}"{{#pathParams}}
             .replaceAll("\\{" + "{{baseName}}" + "\\}", localVarApiClient.escapeString({{#collectionFormat}}localVarApiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.toString(){{/collectionFormat}})){{/pathParams}};
+        {{/dynamicOperations}}
+        {{#dynamicOperations}}
+        ApiOperation apiOperation = localVarApiClient.getOperationLookupMap().get("{{{operationId}}}");
+        if (apiOperation == null) {
+            throw new ApiException("Operation not found in OAS");
+        }
+        Operation operation = apiOperation.getOperation();
+        String localVarPath = apiOperation.getPath();
+        Map<String, Object> paramMap = new HashMap<>();
+        {{#allParams}}
+            {{^isFormParam}}
+            {{^isBodyParam}}
+        paramMap.put("{{baseName}}", {{paramName}});
+            {{/isBodyParam}}
+            {{/isFormParam}}
+        {{/allParams}}
+        {{/dynamicOperations}}
 
         {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
         {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-        {{#queryParams}}
-        if ({{paramName}} != null) {
-            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
-        }
-
-        {{/queryParams}}
         {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-        {{#headerParams}}
-        if ({{paramName}} != null) {
-            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
-        }
-
-        {{/headerParams}}
         {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-        {{#cookieParams}}
-        if ({{paramName}} != null) {
-            localVarCookieParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
-        }
-
-        {{/cookieParams}}
         {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+
         {{#formParams}}
         if ({{paramName}} != null) {
             localVarFormParams.put("{{baseName}}", {{paramName}});
         }
 
         {{/formParams}}
+        {{^dynamicOperations}}
+        {{#queryParams}}
+        if ({{paramName}} != null) {
+            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+        }
+
+        {{/queryParams}}
+        {{#headerParams}}
+        if ({{paramName}} != null) {
+            localVarHeaderParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+        }
+
+        {{/headerParams}}
+        {{#cookieParams}}
+        if ({{paramName}} != null) {
+            localVarCookieParams.put("{{baseName}}", localVarApiClient.parameterToString({{paramName}}));
+        }
+
+        {{/cookieParams}}
+        {{/dynamicOperations}}
+        {{#dynamicOperations}}
+        localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
+
+        {{/dynamicOperations}}
         final String[] localVarAccepts = {
             {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
         };
@@ -140,7 +172,7 @@ public class {{classname}} {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
-        return localVarApiClient.buildCall(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(localVarPath, {{^dynamicOperations}}"{{httpMethod}}"{{/dynamicOperations}}{{#dynamicOperations}}apiOperation.getMethod(){{/dynamicOperations}}, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     {{#isDeprecated}}

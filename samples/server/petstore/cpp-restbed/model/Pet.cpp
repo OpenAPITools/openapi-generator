@@ -161,6 +161,8 @@ void Pet::setStatus(std::string value)
 {
 	if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
 		m_Status = value;
+	} else {
+		throw std::runtime_error("Value " + value + " not allowed");
 	}
 }
 

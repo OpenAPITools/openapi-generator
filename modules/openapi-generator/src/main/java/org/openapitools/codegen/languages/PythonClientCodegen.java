@@ -450,7 +450,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (referencedSchema != null) {
             extensions = referencedSchema.getExtensions();
         }
-        updateEnumVarsWithExtensions(enumVars, extensions);
+        updateEnumVarsWithExtensions(enumVars, extensions, dataType);
         allowableValues.put("enumVars", enumVars);
         // overwriting defaultValue omitted from here
     }

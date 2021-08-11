@@ -19,6 +19,7 @@ Use custom server
 ### Examples
 
 ```ruby
+require 'time'
 require 'dynamic_servers'
 
 api_instance = DynamicServers::UsageApi.new
@@ -79,6 +80,7 @@ Use default server
 ### Examples
 
 ```ruby
+require 'time'
 require 'dynamic_servers'
 
 api_instance = DynamicServers::UsageApi.new

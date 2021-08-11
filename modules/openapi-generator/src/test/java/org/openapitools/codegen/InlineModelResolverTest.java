@@ -28,6 +28,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -927,7 +928,7 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/EmptyExampleOnStringTypeModels", schema.getItems().get$ref());
 
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
-        assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
+        Assert.assertSame(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample(), "");
     }
 
     @Test

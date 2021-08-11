@@ -34,7 +34,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.AnotherFakeApi.Call123TestSpecialTags(context.Background()).Client(client).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

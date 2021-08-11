@@ -472,12 +472,20 @@ public class InlineModelResolver {
      * @param m Schema implementation
      */
     private void fixStringModel(Schema m) {
-        if (m.getType() != null && m.getType().equals("string") && m.getExample() != null) {
+        if (schemaIsOfType(m, "string") && schemaContainsExample(m)) {
             String example = m.getExample().toString();
-            if (example.substring(0, 1).equals("\"") && example.substring(example.length() - 1).equals("\"")) {
+            if (example.startsWith("\"") && example.endsWith("\"")) {
                 m.setExample(example.substring(1, example.length() - 1));
             }
         }
+    }
+
+    private boolean schemaIsOfType(Schema m, String type) {
+        return m.getType() != null && m.getType().equals(type);
+    }
+
+    private boolean schemaContainsExample(Schema m) {
+        return m.getExample() != null && m.getExample() != "";
     }
 
     /**

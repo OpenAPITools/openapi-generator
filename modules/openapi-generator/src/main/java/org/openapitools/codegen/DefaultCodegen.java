@@ -628,7 +628,7 @@ public class DefaultCodegen implements CodegenConfig {
                 List<Object> values = (List<Object>) allowableValues.get("values");
                 List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
-                updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions());
+                updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions(), cm.dataType);
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
@@ -1315,7 +1315,7 @@ public class DefaultCodegen implements CodegenConfig {
     public String toVarName(final String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
@@ -1332,7 +1332,7 @@ public class DefaultCodegen implements CodegenConfig {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
@@ -1502,16 +1502,13 @@ public class DefaultCodegen implements CodegenConfig {
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "when the 'additionalProperties' keyword is not present in a schema, " +
-                "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
-                "Note: this mode is not compliant with the JSON schema specification. " +
-                "This is the original openapi-generator behavior.");
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
         // initialize special character mapping
-        initalizeSpecialCharacterMapping();
+        initializeSpecialCharacterMapping();
 
         // Register common Mustache lambdas.
         registerMustacheLambdas();
@@ -1520,7 +1517,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Initialize special character mapping
      */
-    protected void initalizeSpecialCharacterMapping() {
+    protected void initializeSpecialCharacterMapping() {
         // Initialize special characters
         specialCharReplacements.put("$", "Dollar");
         specialCharReplacements.put("^", "Caret");
@@ -5446,7 +5443,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.isPresent()) {
             extensions = referencedSchema.get().getExtensions();
         }
-        updateEnumVarsWithExtensions(enumVars, extensions);
+        updateEnumVarsWithExtensions(enumVars, extensions, dataType);
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
@@ -5499,7 +5496,7 @@ public class DefaultCodegen implements CodegenConfig {
         return enumVars;
     }
 
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");

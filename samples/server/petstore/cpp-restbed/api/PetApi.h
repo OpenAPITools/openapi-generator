@@ -38,23 +38,6 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-class  PetApi: public restbed::Service
-{
-public:
-	PetApi();
-	~PetApi();
-	void startService(int const& port);
-	void stopService();
-	
-protected:
-	std::shared_ptr<PetApiPetResource> m_spPetApiPetResource;
-	std::shared_ptr<PetApiPetPetIdResource> m_spPetApiPetPetIdResource;
-	std::shared_ptr<PetApiPetFindByStatusResource> m_spPetApiPetFindByStatusResource;
-	std::shared_ptr<PetApiPetFindByTagsResource> m_spPetApiPetFindByTagsResource;
-	std::shared_ptr<PetApiPetPetIdUploadImageResource> m_spPetApiPetPetIdUploadImageResource;
-};
-
-
 /// <summary>
 /// Add a new pet to the store
 /// </summary>
@@ -219,6 +202,26 @@ private:
 	int64_t petId{};
 	std::string additionalMetadata{};
 	std::string file{};
+};
+
+
+//
+// The restbed service to actually implement the REST server
+//
+class  PetApi: public restbed::Service
+{
+public:
+	PetApi();
+	~PetApi();
+	void startService(int const& port);
+	void stopService();
+	
+protected:
+	std::shared_ptr<PetApiPetResource> m_spPetApiPetResource;
+	std::shared_ptr<PetApiPetPetIdResource> m_spPetApiPetPetIdResource;
+	std::shared_ptr<PetApiPetFindByStatusResource> m_spPetApiPetFindByStatusResource;
+	std::shared_ptr<PetApiPetFindByTagsResource> m_spPetApiPetFindByTagsResource;
+	std::shared_ptr<PetApiPetPetIdUploadImageResource> m_spPetApiPetPetIdUploadImageResource;
 };
 
 

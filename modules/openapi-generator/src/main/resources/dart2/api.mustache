@@ -49,7 +49,7 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
   {{#hasParams}}
     // Verify required params are set.
     {{#allParams}}
@@ -85,11 +85,11 @@ class {{{classname}}} {
 
       {{#headerParams}}
         {{#required}}
-    headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+    headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
         {{/required}}
         {{^required}}
     if ({{{paramName}}} != null) {
-      headerParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+      headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
         {{/required}}
       {{/headerParams}}
@@ -109,13 +109,13 @@ class {{{classname}}} {
       {{^isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{#isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = {{{paramName}}}.field;
+        mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
         mp.files.add({{{paramName}}});
       }
       {{/isFile}}
@@ -127,7 +127,7 @@ class {{{classname}}} {
       {{#formParams}}
       {{^isFile}}
       if ({{{paramName}}} != null) {
-        formParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{/formParams}}
@@ -175,7 +175,7 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));

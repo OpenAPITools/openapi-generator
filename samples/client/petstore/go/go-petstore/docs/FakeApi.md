@@ -47,7 +47,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.CreateXmlItem(context.Background()).XmlItem(xmlItem).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.CreateXmlItem``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -111,7 +111,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterBooleanSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -177,7 +177,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterCompositeSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -243,7 +243,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterNumberSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -309,7 +309,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.FakeOuterStringSerialize(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -375,7 +375,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestBodyWithFileSchema(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -438,7 +438,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -503,7 +503,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestClientModel(context.Background()).Body(body).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -583,7 +583,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -667,7 +667,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -743,7 +743,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -810,7 +810,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestInlineAdditionalProperties(context.Background()).Param(param).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -873,7 +873,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -942,7 +942,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

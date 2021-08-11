@@ -2,12 +2,14 @@ class {{{classname}}} {
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
+    {{#required}}{{^defaultValue}}@required {{/defaultValue}}{{/required}}this.{{{name}}}{{^isNullable}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{classname}}}{{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/isNullable}},
   {{/vars}}
   });
 
   {{#vars}}
-  {{#description}}/// {{{description}}}{{/description}}
+  {{#description}}
+  /// {{{description}}}
+  {{/description}}
   {{^isEnum}}
     {{#minimum}}
   // minimum: {{{minimum}}}
@@ -15,23 +17,8 @@ class {{{classname}}} {
     {{#maximum}}
   // maximum: {{{maximum}}}
     {{/maximum}}
-  {{{dataType}}} {{{name}}};
   {{/isEnum}}
-  {{#isEnum}}
-    {{#isContainer}}
-      {{#isArray}}
-  List<{{{classname}}}{{{enumName}}}> {{{name}}};
-      {{/isArray}}
-      {{#isMap}}
-  Map<String, dynamic> {{{name}}};
-      {{/isMap}}
-    {{/isContainer}}
-    {{^isContainer}}
-      {{#allowableValues}}
-  {{{classname}}}{{{enumName}}} {{{name}}}{{#required}}{{#defaultValue}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/defaultValue}}{{/required}};
-      {{/allowableValues}}
-    {{/isContainer}}
-  {{/isEnum}}
+  {{{datatypeWithEnum}}} {{{name}}};
 
   {{/vars}}
   @override
@@ -55,27 +42,27 @@ class {{{classname}}} {
     if ({{{name}}} != null) {
     {{#isDateTime}}
       {{#pattern}}
-      json['{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : {{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
       {{^pattern}}
-      json['{{{baseName}}}'] = {{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = {{{name}}}.toUtc().toIso8601String();
       {{/pattern}}
     {{/isDateTime}}
     {{#isDate}}
       {{#pattern}}
-      json['{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
         ? {{{name}}}.millisecondsSinceEpoch
         : _dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
       {{^pattern}}
-      json['{{{baseName}}}'] = _dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateFormatter.format({{{name}}}.toUtc());
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json['{{{baseName}}}'] = {{{name}}};
+      json[r'{{{baseName}}}'] = {{{name}}};
       {{/isDate}}
     {{/isDateTime}}
     }
@@ -90,27 +77,27 @@ class {{{classname}}} {
     : {{{classname}}}(
   {{#vars}}
   {{#isDateTime}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
-            ? DateTime.fromMillisecondsSinceEpoch(json['{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json['{{{baseName}}}']),
+            ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
+            : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json['{{{baseName}}}']),
+          : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
   {{/isDateTime}}
   {{#isDate}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
-            ? DateTime.fromMillisecondsSinceEpoch(json['{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json['{{{baseName}}}']),
+            ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
+            : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json['{{{baseName}}}']),
+          : DateTime.parse(json[r'{{{baseName}}}']),
 	{{/pattern}}
   {{/isDate}}
   {{^isDateTime}}
@@ -118,11 +105,11 @@ class {{{classname}}} {
     {{#complexType}}
       {{#isArray}}
         {{#items.isArray}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : (json['{{{baseName}}}'] as List).map(
+          : (json[r'{{{baseName}}}'] as List).map(
       {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json['{{{baseName}}}'])
+              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'])
       {{/items.complexType}}
       {{^items.complexType}}
               (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
@@ -130,61 +117,66 @@ class {{{classname}}} {
             ).toList(growable: false),
         {{/items.isArray}}
         {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json['{{{baseName}}}']),
+        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']),
         {{/items.isArray}}
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}
           {{#items.isArray}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
               {{#items.complexType}}
-          : {{items.complexType}}.mapListFromJson(json['{{{baseName}}}']),
+          : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
               {{/items.complexType}}
               {{^items.complexType}}
-          : (json['{{{baseName}}}'] as Map).cast<String, List>(),
+          : (json[r'{{{baseName}}}'] as Map).cast<String, List>(),
   	          {{/items.complexType}}
           {{/items.isArray}}
           {{^items.isArray}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : {{{complexType}}}.mapFromJson(json['{{{baseName}}}']),
+          : {{{complexType}}}.mapFromJson(json[r'{{{baseName}}}']),
           {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
-        {{{name}}}: {{{complexType}}}.fromJson(json['{{{baseName}}}']),
+            {{#isBinary}}
+        {{{name}}}: null, // No support for decoding binary content from JSON
+            {{/isBinary}}
+            {{^isBinary}}
+        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
+            {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
     {{/complexType}}
     {{^complexType}}
       {{#isArray}}
         {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json['{{{baseName}}}']),
+        {{{name}}}: {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
         {{/isEnum}}
         {{^isEnum}}
-        {{{name}}}: json['{{{baseName}}}'] == null
+        {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : (json['{{{baseName}}}'] as List).cast<{{{items.datatype}}}>(),
+          : (json[r'{{{baseName}}}'] as List).cast<{{{items.datatype}}}>(),
         {{/isEnum}}
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}
-        {{{name}}}: json['{{{baseName}}}'] == null ?
+        {{{name}}}: json[r'{{{baseName}}}'] == null ?
           null :
-          (json['{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
+          (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
         {{/isMap}}
         {{^isMap}}
           {{#isNumber}}
-        {{{name}}}: json['{{{baseName}}}'] == null ?
+        {{{name}}}: json[r'{{{baseName}}}'] == null ?
           null :
-          json['{{{baseName}}}'].toDouble(),
+          json[r'{{{baseName}}}'].toDouble(),
           {{/isNumber}}
           {{^isNumber}}
     {{^isEnum}}
-        {{{name}}}: json['{{{baseName}}}'],
+        {{{name}}}: json[r'{{{baseName}}}'],
     {{/isEnum}}
     {{#isEnum}}
-        {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json['{{{baseName}}}']),
+        {{{name}}}: {{{classname}}}{{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
@@ -220,8 +212,16 @@ class {{{classname}}} {
   }
 }
 {{#vars}}
-{{#isEnum}}
+    {{#isEnum}}
+        {{^isContainer}}
 
 {{>enum_inline}}
-{{/isEnum}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
 {{/vars}}

@@ -88,7 +88,7 @@ class StoreAPITests: XCTestCase {
         let progressExpectation = self.expectation(description: "obtain progress")
         let requestBuilder = StoreAPI.getOrderByIdWithRequestBuilder(orderId: 1000)
 
-        requestBuilder.onProgressReady = { (progress) in
+        requestBuilder.onProgressReady = { (_) in
             progressExpectation.fulfill()
         }
 

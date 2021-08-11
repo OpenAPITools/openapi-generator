@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
-import play.api.libs.Files.TemporaryFile;
+import play.libs.Files.TemporaryFile;
 import java.io.IOException;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;

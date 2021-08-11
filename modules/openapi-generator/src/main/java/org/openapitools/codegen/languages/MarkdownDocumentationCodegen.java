@@ -48,7 +48,7 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    protected void initalizeSpecialCharacterMapping() {
+    protected void initializeSpecialCharacterMapping() {
         // escape only those symbols that can mess up markdown
         specialCharReplacements.put("\\", "\\\\");
         specialCharReplacements.put("/", "\\/");

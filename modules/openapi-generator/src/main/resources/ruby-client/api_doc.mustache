@@ -26,6 +26,7 @@ All URIs are relative to *{{basePath}}*
 ### Examples
 
 ```ruby
+require 'time'
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
@@ -38,7 +39,7 @@ require '{{{gemName}}}'
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
+  # config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
   # Configure OAuth2 access token for authorization: {{{name}}}
   config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
 {{/authMethods}}end
@@ -46,13 +47,13 @@ require '{{{gemName}}}'
 
 api_instance = {{{moduleName}}}::{{{classname}}}.new
 {{#requiredParams}}
-{{{paramName}}} = {{{example}}} # {{{dataType}}} | {{{description}}}
+{{{paramName}}} = {{{vendorExtensions.x-ruby-example}}} # {{{dataType}}} | {{{description}}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
 opts = {
 {{/-first}}
-  {{{paramName}}}: {{{example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
+  {{{paramName}}}: {{{vendorExtensions.x-ruby-example}}}{{^-last}},{{/-last}} # {{{dataType}}} | {{{description}}}
 {{#-last}}
 }
 {{/-last}}
