@@ -60,6 +60,9 @@ public class AnotherFakeApi {
         if (client == null) {
             throw new WebClientResponseException("Missing the required parameter 'client' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

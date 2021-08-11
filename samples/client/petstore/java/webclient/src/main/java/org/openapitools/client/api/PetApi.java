@@ -63,6 +63,9 @@ public class PetApi {
         if (pet == null) {
             throw new WebClientResponseException("Missing the required parameter 'pet' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -116,6 +119,9 @@ public class PetApi {
         if (petId == null) {
             throw new WebClientResponseException("Missing the required parameter 'petId' when calling deletePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -172,6 +178,9 @@ public class PetApi {
         if (status == null) {
             throw new WebClientResponseException("Missing the required parameter 'status' when calling findPetsByStatus", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -230,6 +239,9 @@ public class PetApi {
         if (tags == null) {
             throw new WebClientResponseException("Missing the required parameter 'tags' when calling findPetsByTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -287,6 +299,9 @@ public class PetApi {
         if (petId == null) {
             throw new WebClientResponseException("Missing the required parameter 'petId' when calling getPetById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -345,6 +360,9 @@ public class PetApi {
         if (pet == null) {
             throw new WebClientResponseException("Missing the required parameter 'pet' when calling updatePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -401,6 +419,9 @@ public class PetApi {
         if (petId == null) {
             throw new WebClientResponseException("Missing the required parameter 'petId' when calling updatePetWithForm", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -464,6 +485,9 @@ public class PetApi {
         if (petId == null) {
             throw new WebClientResponseException("Missing the required parameter 'petId' when calling uploadFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -533,6 +557,9 @@ public class PetApi {
         if (requiredFile == null) {
             throw new WebClientResponseException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

@@ -131,6 +131,8 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
     }
 
+    
+
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet";
@@ -211,6 +213,8 @@ public class PetApi {
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -302,6 +306,8 @@ public class PetApi {
     if (status == null) {
       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -403,6 +409,8 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
     }
 
+    
+
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet/findByTags";
@@ -499,6 +507,8 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
     }
 
+    
+
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet/{petId}"
@@ -572,6 +582,8 @@ public class PetApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -655,6 +667,8 @@ public class PetApi {
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -747,6 +761,8 @@ public class PetApi {
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -843,6 +859,8 @@ public class PetApi {
     if (requiredFile == null) {
       throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
     }
+
+    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

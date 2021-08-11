@@ -30,36 +30,54 @@ public class FakeApiServiceImpl extends FakeApiService {
     @Override
     public Response createXmlItem(XmlItem xmlItem
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response fakeOuterBooleanSerialize(Boolean body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response fakeOuterCompositeSerialize(OuterComposite body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response fakeOuterNumberSerialize(BigDecimal body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response fakeOuterStringSerialize(String body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response testBodyWithFileSchema(FileSchemaTestClass body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -67,12 +85,18 @@ public class FakeApiServiceImpl extends FakeApiService {
     public Response testBodyWithQueryParams(String query
 , User body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response testClientModel(Client body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -92,6 +116,9 @@ public class FakeApiServiceImpl extends FakeApiService {
 , String password
 , String paramCallback
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -105,6 +132,9 @@ public class FakeApiServiceImpl extends FakeApiService {
 , List<String> enumFormStringArray
 , String enumFormString
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -116,12 +146,18 @@ public class FakeApiServiceImpl extends FakeApiService {
 , Boolean booleanGroup
 , Long int64Group
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response testInlineAdditionalProperties(Map<String, String> param
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -129,6 +165,9 @@ public class FakeApiServiceImpl extends FakeApiService {
     public Response testJsonFormData(String param
 , String param2
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -139,6 +178,9 @@ public class FakeApiServiceImpl extends FakeApiService {
 , List<String> url
 , List<String> context
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -147,6 +189,9 @@ public class FakeApiServiceImpl extends FakeApiService {
 , InputStream requiredFileInputStream, FileInfo requiredFileDetail
 , String additionalMetadata
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

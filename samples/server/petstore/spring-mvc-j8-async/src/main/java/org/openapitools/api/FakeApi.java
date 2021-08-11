@@ -99,7 +99,8 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite body) {
         return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
+        
+        getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                         String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
@@ -216,7 +217,8 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
+        
+        getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                         String exampleString = "{ \"client\" : \"client\" }";
@@ -413,7 +415,8 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata) {
         return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
+        
+        getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                         String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";

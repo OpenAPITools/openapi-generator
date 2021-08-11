@@ -63,9 +63,11 @@ public class AnotherFakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();

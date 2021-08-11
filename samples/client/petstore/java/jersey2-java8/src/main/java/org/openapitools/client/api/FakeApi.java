@@ -88,6 +88,9 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/create_xml_item";
 
@@ -148,6 +151,9 @@ public class FakeApi {
   public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
     Object localVarPostBody = body;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/outer/boolean";
 
@@ -210,6 +216,9 @@ public class FakeApi {
   public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
     Object localVarPostBody = body;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
 
@@ -272,6 +281,9 @@ public class FakeApi {
   public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
     Object localVarPostBody = body;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/outer/number";
 
@@ -334,6 +346,9 @@ public class FakeApi {
   public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
     Object localVarPostBody = body;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/outer/string";
 
@@ -400,6 +415,9 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/body-with-file-schema";
 
@@ -471,6 +489,9 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/body-with-query-params";
 
@@ -537,6 +558,9 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake";
 
@@ -646,6 +670,9 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake";
 
@@ -749,6 +776,9 @@ if (paramCallback != null)
   public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
     Object localVarPostBody = null;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake";
 
@@ -809,6 +839,9 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
       throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake";
 
@@ -996,6 +1029,9 @@ if (booleanGroup != null)
       throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/inline-additionalProperties";
 
@@ -1067,6 +1103,9 @@ if (booleanGroup != null)
       throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/jsonFormData";
 
@@ -1163,6 +1202,9 @@ if (param2 != null)
       throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/fake/test-query-paramters";
 

@@ -67,6 +67,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -142,6 +143,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testClientModel
      */
     default ResponseEntity<Client> testClientModel(Client body) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -305,6 +307,7 @@ public interface FakeApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

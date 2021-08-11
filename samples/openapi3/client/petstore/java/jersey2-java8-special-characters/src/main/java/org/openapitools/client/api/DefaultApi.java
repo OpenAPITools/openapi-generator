@@ -76,6 +76,9 @@ public class DefaultApi {
   public ApiResponse<MySchemaNameCharacters> testPostWithHttpInfo(MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
     Object localVarPostBody = mySchemaNameCharacters;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/test";
 

@@ -74,6 +74,9 @@ public class DefaultApi {
   public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/foo";
 

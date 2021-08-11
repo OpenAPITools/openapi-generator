@@ -59,6 +59,9 @@ public class UserApi {
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -109,6 +112,9 @@ public class UserApi {
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithArrayInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -159,6 +165,9 @@ public class UserApi {
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling createUsersWithListInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -210,6 +219,9 @@ public class UserApi {
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling deleteUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -264,6 +276,9 @@ public class UserApi {
         if (username == null) {
             throw new WebClientResponseException("Missing the required parameter 'username' when calling getUserByName", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -326,6 +341,9 @@ public class UserApi {
         if (password == null) {
             throw new WebClientResponseException("Missing the required parameter 'password' when calling loginUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -377,6 +395,9 @@ public class UserApi {
      */
     private ResponseSpec logoutUserRequestCreation() throws WebClientResponseException {
         Object postBody = null;
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -430,6 +451,9 @@ public class UserApi {
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
+
+        
+
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

@@ -62,9 +62,11 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -105,9 +107,11 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/createWithArray";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -148,9 +152,11 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/createWithList";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -191,10 +197,12 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -236,10 +244,12 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -287,9 +297,11 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/login";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -326,9 +338,11 @@ public class UserApi {
   public void logoutUser() throws ApiException {
     Object localVarPostBody = null;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/logout";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -375,10 +389,12 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
