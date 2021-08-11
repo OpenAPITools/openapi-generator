@@ -577,17 +577,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-
-    @Override
-    protected String getCodegenModelName(CodegenProperty codegenProperty) {
-        return codegenProperty.getComplexType();
-    }
-
-    @Override
-    protected void addAdditionalImports(Set<String> imports, String complexType) {
-        //nothing to do for spring
-    }
-
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
