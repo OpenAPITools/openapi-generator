@@ -169,6 +169,7 @@ public class Pet implements Parcelable {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -196,6 +197,7 @@ public class Pet implements Parcelable {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Set<String> getPhotoUrls() {

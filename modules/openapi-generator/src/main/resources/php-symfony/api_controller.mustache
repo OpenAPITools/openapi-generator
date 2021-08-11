@@ -54,6 +54,9 @@ class {{controllerName}} extends Controller
 {{/description}}
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
     public function {{operationId}}Action(Request $request{{#hasPathParams}}{{#pathParams}}, ${{paramName}}{{/pathParams}}{{/hasPathParams}})
     {

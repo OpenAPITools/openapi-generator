@@ -61,6 +61,7 @@ public class Name implements Parcelable {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {

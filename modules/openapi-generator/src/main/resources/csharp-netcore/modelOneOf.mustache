@@ -100,7 +100,7 @@
         {
             {{classname}} new{{classname}} = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return new{{classname}};
             }
