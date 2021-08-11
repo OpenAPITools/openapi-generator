@@ -2,6 +2,7 @@
 
 # TypeHolderExample
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -13,5 +14,9 @@ Name | Type | Description | Notes
 **boolItem** | **Boolean** |  | 
 **arrayItem** | **List&lt;Integer&gt;** |  | 
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

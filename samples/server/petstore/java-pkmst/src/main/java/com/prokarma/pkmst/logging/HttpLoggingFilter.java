@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpLoggingFilter implements Filter {
 
-  private static final Logger log = LoggerFactory.getLogger(HttpLoggingFilter.class);
+  private final Logger log = LoggerFactory.getLogger(HttpLoggingFilter.class);
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {

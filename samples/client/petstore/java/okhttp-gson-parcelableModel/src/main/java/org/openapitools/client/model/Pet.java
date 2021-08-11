@@ -36,7 +36,7 @@ import android.os.Parcel;
  * Pet
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Pet {
+public class Pet implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -169,6 +169,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -196,6 +197,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Set<String> getPhotoUrls() {
@@ -283,7 +285,6 @@ public class Pet {
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
-
 
   @Override
   public String toString() {

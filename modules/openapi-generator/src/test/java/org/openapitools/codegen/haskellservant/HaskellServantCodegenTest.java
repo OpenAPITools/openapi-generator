@@ -16,18 +16,12 @@
 
 package org.openapitools.codegen.haskellservant;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.testng.annotations.Test;

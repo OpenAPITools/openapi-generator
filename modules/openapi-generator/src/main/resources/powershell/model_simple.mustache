@@ -73,7 +73,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#vars}}
         {{^isNullable}}
         {{#required}}
-        if (!${{{name}}}) {
+        if (${{{name}}} -eq $null) {
             throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 
@@ -246,12 +246,12 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         {{#requiredVars}}
         {{#-first}}
         If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
-            throw "Error! Empty JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
+            throw "Error! Empty JSON cannot be serialized due to the required property '{{{baseName}}}' missing."
         }
 
         {{/-first}}
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) {
-            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
+            throw "Error! JSON cannot be serialized due to the required property '{{{baseName}}}' missing."
         } else {
             ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
         }

@@ -1,6 +1,8 @@
 {{>licenseInfo}}
+pragma Warnings (Off, "*is not referenced");
 with Swagger.Streams;
 package body {{package}}.Clients is
+   pragma Style_Checks ("-mr");
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}

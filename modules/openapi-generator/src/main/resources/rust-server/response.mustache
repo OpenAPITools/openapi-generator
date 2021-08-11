@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 {{#vendorExtensions.x-must-use-response}}
 #[must_use]
 {{/vendorExtensions.x-must-use-response}}
@@ -42,7 +42,7 @@ pub enum {{{operationId}}}Response {
       {{^required}}
         Option<
       {{/required}}
-        {{{datatype}}}
+        {{{dataType}}}
       {{^required}}
         >
       {{/required}}

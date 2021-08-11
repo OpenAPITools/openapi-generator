@@ -29,7 +29,7 @@ class OPENAPI_API OpenAPIPetApi::AddPetRequest : public Request
 {
 public:
     virtual ~AddPetRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Pet object that needs to be added to the store */
@@ -53,7 +53,7 @@ class OPENAPI_API OpenAPIPetApi::DeletePetRequest : public Request
 {
 public:
     virtual ~DeletePetRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Pet id to delete */
@@ -79,7 +79,7 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByStatusRequest : public Request
 {
 public:
     virtual ~FindPetsByStatusRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	enum class StatusEnum
@@ -88,6 +88,9 @@ public:
 		Pending,
 		Sold,
   	};
+
+	static FString EnumToString(const StatusEnum& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, StatusEnum& EnumValue);
 	/* Status values that need to be considered for filter */
 	TArray<StatusEnum> Status;
 };
@@ -110,7 +113,7 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByTagsRequest : public Request
 {
 public:
     virtual ~FindPetsByTagsRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Tags to filter by */
@@ -135,7 +138,7 @@ class OPENAPI_API OpenAPIPetApi::GetPetByIdRequest : public Request
 {
 public:
     virtual ~GetPetByIdRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of pet to return */
@@ -159,7 +162,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetRequest : public Request
 {
 public:
     virtual ~UpdatePetRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Pet object that needs to be added to the store */
@@ -183,7 +186,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetWithFormRequest : public Request
 {
 public:
     virtual ~UpdatePetWithFormRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of pet that needs to be updated */
@@ -211,7 +214,7 @@ class OPENAPI_API OpenAPIPetApi::UploadFileRequest : public Request
 {
 public:
     virtual ~UploadFileRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of pet to update */

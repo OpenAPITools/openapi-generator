@@ -33,11 +33,6 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -46,7 +41,6 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
-            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -91,11 +85,6 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
 
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -104,7 +93,6 @@ if(hasProperty('target') && target == 'android') {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
-    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -122,8 +110,8 @@ ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.3.0"
     {{#usePlayWS}}
-    jackson_version = "2.10.4"
-    jackson_databind_version = "2.10.4"
+    jackson_version = "2.10.5"
+    jackson_databind_version = "2.10.5.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
@@ -158,50 +146,50 @@ ext {
 }
 
 dependencies {
-    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     {{#useRxJava}}
-    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    compile "io.reactivex:rxjava:$rx_java_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    implementation "io.reactivex:rxjava:$rx_java_version"
     {{/useRxJava}}
     {{#useRxJava2}}
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    compile "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
     {{/useRxJava2}}
     {{#useRxJava3}}
-    compile 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
-    compile "io.reactivex.rxjava3:rxjava:$rx_java_version"
+    implementation 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
+    implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
     {{/useRxJava3}}
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'
     }
-    compile "io.gsonfire:gson-fire:$json_fire_version"
+    implementation "io.gsonfire:gson-fire:$json_fire_version"
     {{#joda}}
-    compile "joda-time:joda-time:$jodatime_version"
+    implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
     {{#threetenbp}}
-    compile "org.threeten:threetenbp:$threetenbp_version"
+    implementation "org.threeten:threetenbp:$threetenbp_version"
     {{/threetenbp}}
     {{#usePlayWS}}
     {{#play26}}
-    compile "com.typesafe.play:play-ahc-ws_2.12:$play_version"
-    compile "javax.validation:validation-api:1.1.0.Final"
+    implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
+    implementation "javax.validation:validation-api:1.1.0.Final"
     {{/play26}}
     {{^play26}}
-    compile "com.typesafe.play:play-java-ws_2.11:$play_version"
+    implementation "com.typesafe.play:play-java-ws_2.11:$play_version"
     {{/play26}}
-    compile "com.squareup.retrofit2:converter-jackson:$retrofit_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#openApiNullable}}
-    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
     {{/usePlayWS}}
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile "junit:junit:$junit_version"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation "junit:junit:$junit_version"
 }

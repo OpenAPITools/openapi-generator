@@ -44,7 +44,7 @@ public class ApiClient {
 
     public ApiClient() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<{{#supportJava6}}String, Authentication{{/supportJava6}}>();{{#authMethods}}{{#isBasic}}
+        authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}
         // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"query"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         // authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
@@ -61,9 +61,9 @@ public class ApiClient {
             basePath = basePath + "/";
         }
 
-        Map<String, String> extraHeaders = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
-        Map<String, String> extraCookies = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
-        List<Pair> extraQueryParams = new ArrayList<{{#supportJava6}}Pair{{/supportJava6}}>();
+        Map<String, String> extraHeaders = new HashMap<>();
+        Map<String, String> extraCookies = new HashMap<>();
+        List<Pair> extraQueryParams = new ArrayList<>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);

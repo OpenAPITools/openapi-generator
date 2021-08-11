@@ -12,6 +12,7 @@ src/Org.OpenAPITools/Converters/CustomEnumConverter.cs
 src/Org.OpenAPITools/Dockerfile
 src/Org.OpenAPITools/Filters/BasePathFilter.cs
 src/Org.OpenAPITools/Filters/GeneratePathParamsValidationFilter.cs
+src/Org.OpenAPITools/Formatters/InputFormatterStream.cs
 src/Org.OpenAPITools/Models/ApiResponse.cs
 src/Org.OpenAPITools/Models/Category.cs
 src/Org.OpenAPITools/Models/Order.cs
@@ -19,7 +20,6 @@ src/Org.OpenAPITools/Models/Pet.cs
 src/Org.OpenAPITools/Models/Tag.cs
 src/Org.OpenAPITools/Models/User.cs
 src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
-src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/Program.cs
 src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/Startup.cs

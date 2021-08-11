@@ -2,6 +2,7 @@
 
 # Order
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -23,5 +24,9 @@ PLACED | &quot;placed&quot;
 APPROVED | &quot;approved&quot;
 DELIVERED | &quot;delivered&quot;
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

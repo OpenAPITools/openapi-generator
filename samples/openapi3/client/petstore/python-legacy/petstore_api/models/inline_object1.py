@@ -45,7 +45,7 @@ class InlineObject1(object):
     def __init__(self, additional_metadata=None, file=None, local_vars_configuration=None):  # noqa: E501
         """InlineObject1 - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
-            local_vars_configuration = Configuration()
+            local_vars_configuration = Configuration.get_default_copy()
         self.local_vars_configuration = local_vars_configuration
 
         self._additional_metadata = None

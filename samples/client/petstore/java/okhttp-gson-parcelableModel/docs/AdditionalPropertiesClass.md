@@ -2,6 +2,7 @@
 
 # AdditionalPropertiesClass
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -18,5 +19,9 @@ Name | Type | Description | Notes
 **anytype2** | **Object** |  |  [optional]
 **anytype3** | **Object** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

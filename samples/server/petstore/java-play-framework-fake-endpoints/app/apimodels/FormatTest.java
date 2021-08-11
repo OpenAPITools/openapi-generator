@@ -17,45 +17,82 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
+  @Min(10)
+@Max(100)
+
   private Integer integer;
 
   @JsonProperty("int32")
+  @Min(20)
+@Max(200)
+
   private Integer int32;
 
   @JsonProperty("int64")
+  
   private Long int64;
 
   @JsonProperty("number")
+  @NotNull
+@DecimalMin("32.1")
+@DecimalMax("543.2")
+@Valid
+
   private BigDecimal number;
 
   @JsonProperty("float")
+  @DecimalMin("54.3")
+@DecimalMax("987.6")
+
   private Float _float;
 
   @JsonProperty("double")
+  @DecimalMin("67.8")
+@DecimalMax("123.4")
+
   private Double _double;
 
   @JsonProperty("string")
+  @Pattern(regexp="/[a-z]/i")
+
   private String string;
 
   @JsonProperty("byte")
+  @NotNull
+@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+
   private byte[] _byte;
 
   @JsonProperty("binary")
+  @Valid
+
   private InputStream binary;
 
   @JsonProperty("date")
+  @NotNull
+@Valid
+
   private LocalDate date;
 
   @JsonProperty("dateTime")
+  @Valid
+
   private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
+  @Valid
+
   private UUID uuid;
 
   @JsonProperty("password")
+  @NotNull
+@Size(min=10,max=64)
+
   private String password;
 
   @JsonProperty("BigDecimal")
+  @Valid
+
   private BigDecimal bigDecimal;
 
   public FormatTest integer(Integer integer) {
@@ -69,8 +106,6 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   **/
-  @Min(10)
-@Max(100)
   public Integer getInteger() {
     return integer;
   }
@@ -90,8 +125,6 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   **/
-  @Min(20)
-@Max(200)
   public Integer getInt32() {
     return int32;
   }
@@ -109,7 +142,7 @@ public class FormatTest   {
    * Get int64
    * @return int64
   **/
-    public Long getInt64() {
+  public Long getInt64() {
     return int64;
   }
 
@@ -128,10 +161,6 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
   **/
-  @NotNull
-@DecimalMin("32.1")
-@DecimalMax("543.2")
-@Valid
   public BigDecimal getNumber() {
     return number;
   }
@@ -151,8 +180,6 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   **/
-  @DecimalMin("54.3")
-@DecimalMax("987.6")
   public Float getFloat() {
     return _float;
   }
@@ -172,8 +199,6 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   **/
-  @DecimalMin("67.8")
-@DecimalMax("123.4")
   public Double getDouble() {
     return _double;
   }
@@ -191,7 +216,6 @@ public class FormatTest   {
    * Get string
    * @return string
   **/
-  @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
   }
@@ -209,8 +233,6 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
   **/
-  @NotNull
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
   public byte[] getByte() {
     return _byte;
   }
@@ -228,7 +250,6 @@ public class FormatTest   {
    * Get binary
    * @return binary
   **/
-  @Valid
   public InputStream getBinary() {
     return binary;
   }
@@ -246,8 +267,6 @@ public class FormatTest   {
    * Get date
    * @return date
   **/
-  @NotNull
-@Valid
   public LocalDate getDate() {
     return date;
   }
@@ -265,7 +284,6 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   **/
-  @Valid
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -283,7 +301,6 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   **/
-  @Valid
   public UUID getUuid() {
     return uuid;
   }
@@ -301,8 +318,6 @@ public class FormatTest   {
    * Get password
    * @return password
   **/
-  @NotNull
-@Size(min=10,max=64)
   public String getPassword() {
     return password;
   }
@@ -320,7 +335,6 @@ public class FormatTest   {
    * Get bigDecimal
    * @return bigDecimal
   **/
-  @Valid
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

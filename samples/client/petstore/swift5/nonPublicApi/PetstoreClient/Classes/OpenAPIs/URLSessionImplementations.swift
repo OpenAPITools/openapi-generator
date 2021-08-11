@@ -24,15 +24,6 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
-    private var observation: NSKeyValueObservation?
-
-    deinit {
-        observation?.invalidate()
-    }
-
-    // swiftlint:disable:next weak_delegate
-    fileprivate let sessionDelegate = SessionDelegate()
-
     /**
      May be assigned if you want to control the authentication challenges.
      */
@@ -44,10 +35,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      - intercept and handle errors like authorization
      - retry the request.
      */
+    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     internal var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
     }
 
     /**
@@ -57,6 +49,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     internal func createURLSession() -> URLSession {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
+        let sessionDelegate = SessionDelegate()
         sessionDelegate.credential = credential
         sessionDelegate.taskDidReceiveChallenge = taskDidReceiveChallenge
         return URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: nil)
@@ -100,47 +93,49 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let urlSessionId: String = UUID().uuidString
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+        let urlSessionId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
         urlSessionStore[urlSessionId] = urlSession
 
-        let parameters: [String: Any] = self.parameters ?? [:]
-
-        let fileKeys = parameters.filter { $1 is URL }
-            .map { $0.0 }
-
-        let encoding: ParameterEncoding
-        if fileKeys.count > 0 {
-            encoding = FileUploadEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-        } else if isBody {
-            encoding = JSONDataEncoding()
-        } else {
-            encoding = URLEncoding()
+        guard let xMethod = HTTPMethod(rawValue: method) else {
+            fatalError("Unsupported Http method - \(method)")
         }
 
-        guard let xMethod = HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+        let encoding: ParameterEncoding
+
+        switch xMethod {
+        case .get, .head:
+            encoding = URLEncoding()
+
+        case .options, .post, .put, .patch, .delete, .trace, .connect:
+            let contentType = headers["Content-Type"] ?? "application/json"
+
+            if contentType == "application/json" {
+                encoding = JSONDataEncoding()
+            } else if contentType == "multipart/form-data" {
+                encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
+            } else if contentType == "application/x-www-form-urlencoded" {
+                encoding = FormURLEncoding()
+            } else {
+                fatalError("Unsupported Media Type - \(contentType)")
+            }
         }
 
         let cleanupRequest = {
+            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
             urlSessionStore[urlSessionId] = nil
-            self.observation?.invalidate()
         }
 
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
-
-                guard let self = self else { return }
+            let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
                 if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
 
-                    taskCompletionShouldRetry(data, response, error) { [weak self] shouldRetry in
-
-                        guard let self = self else { return }
+                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
 
                         if shouldRetry {
                             cleanupRequest()
@@ -148,12 +143,14 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                         } else {
                             apiResponseQueue.async {
                                 self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                                cleanupRequest()
                             }
                         }
                     }
                 } else {
                     apiResponseQueue.async {
                         self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                        cleanupRequest()
                     }
                 }
             }
@@ -167,26 +164,25 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         } catch {
             apiResponseQueue.async {
                 cleanupRequest()
-                completion(.failure(ErrorResponse.error(415, nil, error)))
+                completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
-
     }
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, error)))
+            completion(.failure(ErrorResponse.error(-1, data, response, error)))
             return
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 
@@ -209,16 +205,18 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 }
 
                 let fileManager = FileManager.default
-                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let requestURL = try self.getURL(from: urlRequest)
+                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                let requestURL = try getURL(from: urlRequest)
 
-                var requestPath = try self.getPath(from: requestURL)
+                var requestPath = try getPath(from: requestURL)
 
-                if let headerFileName = self.getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
                     requestPath = requestPath.appending("/\(headerFileName)")
+                } else {
+                    requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
                 }
 
-                let filePath = documentsDirectory.appendingPathComponent(requestPath)
+                let filePath = cachesDirectory.appendingPathComponent(requestPath)
                 let directoryPath = filePath.deletingLastPathComponent().path
 
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
@@ -227,14 +225,18 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 completion(.success(Response(response: httpResponse, body: filePath as? T)))
 
             } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, requestParserError)))
-            } catch let error {
-                completion(.failure(ErrorResponse.error(400, data, error)))
+                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+            } catch {
+                completion(.failure(ErrorResponse.error(400, data, response, error)))
             }
 
         case is Void.Type:
 
             completion(.success(Response(response: httpResponse, body: nil)))
+
+        case is Data.Type:
+
+            completion(.success(Response(response: httpResponse, body: data as? T)))
 
         default:
 
@@ -245,10 +247,10 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     internal func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in PetstoreClient.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -268,7 +270,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             let filenameKey = "filename="
             guard let range = contentItem.range(of: filenameKey) else {
-                break
+                continue
             }
 
             filename = contentItem
@@ -311,17 +313,17 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, error)))
+            completion(.failure(ErrorResponse.error(-1, data, response, error)))
             return
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 
@@ -331,6 +333,43 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
             completion(.success(Response<T>(response: httpResponse, body: body as? T)))
+
+        case is URL.Type:
+            do {
+
+                guard error == nil else {
+                    throw DownloadException.responseFailed
+                }
+
+                guard let data = data else {
+                    throw DownloadException.responseDataMissing
+                }
+
+                let fileManager = FileManager.default
+                let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                let requestURL = try getURL(from: urlRequest)
+
+                var requestPath = try getPath(from: requestURL)
+
+                if let headerFileName = getFileName(fromContentDisposition: httpResponse.allHeaderFields["Content-Disposition"] as? String) {
+                    requestPath = requestPath.appending("/\(headerFileName)")
+                } else {
+                    requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
+                }
+
+                let filePath = cachesDirectory.appendingPathComponent(requestPath)
+                let directoryPath = filePath.deletingLastPathComponent().path
+
+                try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
+                try data.write(to: filePath, options: .atomic)
+
+                completion(.success(Response(response: httpResponse, body: filePath as? T)))
+
+            } catch let requestParserError as DownloadException {
+                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+            } catch {
+                completion(.failure(ErrorResponse.error(400, data, response, error)))
+            }
 
         case is Void.Type:
 
@@ -343,7 +382,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
         default:
 
             guard let data = data, !data.isEmpty else {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, DecodableRequestBuilderError.emptyDataResponse)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 return
             }
 
@@ -353,7 +392,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, error)))
             }
         }
     }
@@ -391,13 +430,13 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
 internal enum HTTPMethod: String {
     case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    case trace = "TRACE"
     case connect = "CONNECT"
 }
 
@@ -425,7 +464,7 @@ private class URLEncoding: ParameterEncoding {
     }
 }
 
-private class FileUploadEncoding: ParameterEncoding {
+private class FormDataEncoding: ParameterEncoding {
 
     let contentTypeForFormPart: (_ fileURL: URL) -> String?
 
@@ -500,7 +539,7 @@ private class FileUploadEncoding: ParameterEncoding {
 
         let fileData = try Data(contentsOf: fileURL)
 
-        let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
+        let mimetype = contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
 
         let fileName = fileURL.lastPathComponent
 
@@ -569,7 +608,25 @@ private class FileUploadEncoding: ParameterEncoding {
 
 }
 
-fileprivate extension Data {
+private class FormURLEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private extension Data {
     /// Append string to Data
     ///
     /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to Data, and then add that data to the Data, this wraps it in a nice convenient little extension to Data. This converts using UTF-8.
@@ -583,7 +640,7 @@ fileprivate extension Data {
     }
 }
 
-fileprivate extension Optional where Wrapped == Data {
+private extension Optional where Wrapped == Data {
     var orEmpty: Data {
         self ?? Data()
     }

@@ -96,6 +96,7 @@ impl<C> Server<C> {
 
 use openapi_v3::{
     Api,
+    AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
     EnumInPathPathParamGetResponse,
@@ -104,6 +105,7 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
     ReadonlyAuthSchemeGetResponse,
@@ -128,6 +130,16 @@ use swagger::ApiError;
 #[async_trait]
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 {
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        context: &C) -> Result<AnyOfGetResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("any_of_get({:?}) - X-Span-ID: {:?}", any_of, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -203,6 +215,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    async fn one_of_get(
+        &self,
+        context: &C) -> Result<OneOfGetResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("one_of_get() - X-Span-ID: {:?}", context.get().0.clone());
         Err("Generic failuare".into())
     }
 

@@ -64,6 +64,9 @@ public class CatAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
@@ -85,7 +88,6 @@ public class CatAllOf {
   public int hashCode() {
     return Objects.hash(declawed);
   }
-
 
   @Override
   public String toString() {

@@ -190,7 +190,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **placeOrder**
-> OpenAPI\Server\Model\Order placeOrder($body)
+> OpenAPI\Server\Model\Order placeOrder($order)
 
 Place an order for a pet
 
@@ -211,7 +211,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder(Order $body)
+    public function placeOrder(Order $order)
     {
         // Implement the operation ...
     }
@@ -224,7 +224,7 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**OpenAPI\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -236,7 +236,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

@@ -5,11 +5,15 @@ project.version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
+        mavenLocal()
+        google()
+        maven {
+            url 'https://dl.google.com/dl/android/maven2'
+        }
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.+'
+        classpath 'com.android.tools.build:gradle:3.2.+'
         {{#useAndroidMavenGradlePlugin}}
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         {{/useAndroidMavenGradlePlugin}}
@@ -18,6 +22,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
@@ -30,7 +35,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
@@ -51,14 +56,15 @@ android {
         {{/java8}}
         {{/supportJava6}}
     }
+    lintOptions {
+        abortOnError false
+    }
 
     // Rename the aar correctly
     libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
-                output.outputFile = new File(outputFile.parent, fileName)
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${version}.aar"
             }
         }
     }
@@ -68,29 +74,24 @@ android {
     }
 }
 
-
 ext {
-    swagger_annotations_version = "1.5.0"
-    gson_version = "2.3.1"
-    httpmime_version = "4.5.2"
-    httpcore_version = "4.4.4"
-    httpclient_version = "4.3.3"
-    volley_version = "1.0.0"
-    junit_version = "4.13"
-    robolectric_version = "3.0"
-    concurrent_unit_version = "0.4.2"
+    swagger_annotations_version = "1.6.2"
+    gson_version = "2.8.6"
+    httpmime_version = "4.5.13"
+    volley_version = "1.2.0"
+    junit_version = "4.13.2"
+    robolectric_version = "4.5.1"
+    concurrent_unit_version = "0.4.6"
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.gson:gson:$gson_version"
-    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
-    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
-    compile "com.android.volley:volley:${volley_version}"
-    testCompile "junit:junit:$junit_version"
-    testCompile "org.robolectric:robolectric:${robolectric_version}"
-    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
+    implementation "com.android.volley:volley:${volley_version}"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.robolectric:robolectric:${robolectric_version}"
+    testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 afterEvaluate {

@@ -32,6 +32,42 @@ defmodule OpenapiPetstore.Connection do
       {Tesla.Middleware.BasicAuth, %{username: username, password: password}}
     ])
   end
+  @doc """
+  Configure a client connection using Basic authentication.
+
+  ## Parameters
+
+  - username (String): Username used for authentication
+  - password (String): Password used for authentication
+
+  # Returns
+
+  Tesla.Env.client
+  """
+  @spec new(String.t, String.t) :: Tesla.Env.client
+  def new(username, password) do
+    Tesla.client([
+      {Tesla.Middleware.BasicAuth, %{username: username, password: password}}
+    ])
+  end
+  @doc """
+  Configure a client connection using Basic authentication.
+
+  ## Parameters
+
+  - username (String): Username used for authentication
+  - password (String): Password used for authentication
+
+  # Returns
+
+  Tesla.Env.client
+  """
+  @spec new(String.t, String.t) :: Tesla.Env.client
+  def new(username, password) do
+    Tesla.client([
+      {Tesla.Middleware.BasicAuth, %{username: username, password: password}}
+    ])
+  end
   @scopes [
     "write:pets", # modify pets in your account
     "read:pets" # read your pets

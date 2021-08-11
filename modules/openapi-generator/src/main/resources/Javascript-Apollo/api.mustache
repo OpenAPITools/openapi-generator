@@ -53,7 +53,8 @@ export default class <&classname> extends ApiClient {
       let queryParams = {<#queryParams>
         '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><^-last>,</-last></queryParams>
       };
-      let headerParams = {<#headerParams>
+      let headerParams = {
+        'User-Agent': '<#httpUserAgent><.></httpUserAgent><^httpUserAgent>OpenAPI-Generator/<&projectVersion>/Javascript</httpUserAgent>',<#headerParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><^-last>,</-last></headerParams>
       };
       let formParams = {<#formParams>

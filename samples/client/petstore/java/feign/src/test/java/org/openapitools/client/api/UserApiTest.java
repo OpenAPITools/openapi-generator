@@ -1,24 +1,21 @@
 package org.openapitools.client.api;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.User;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for UserApi
  */
-public class UserApiTest {
+class UserApiTest {
 
     private UserApi api;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         api = new ApiClient().buildClient(UserApi.class);
     }
 
@@ -29,7 +26,7 @@ public class UserApiTest {
      * This can only be done by the logged in user.
      */
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         User body = null;
         // api.createUser(body);
 
@@ -43,7 +40,7 @@ public class UserApiTest {
      * 
      */
     @Test
-    public void createUsersWithArrayInputTest() {
+    void createUsersWithArrayInputTest() {
         List<User> body = null;
         // api.createUsersWithArrayInput(body);
 
@@ -57,7 +54,7 @@ public class UserApiTest {
      * 
      */
     @Test
-    public void createUsersWithListInputTest() {
+    void createUsersWithListInputTest() {
         List<User> body = null;
         // api.createUsersWithListInput(body);
 
@@ -71,7 +68,7 @@ public class UserApiTest {
      * This can only be done by the logged in user.
      */
     @Test
-    public void deleteUserTest() {
+    void deleteUserTest() {
         String username = null;
         // api.deleteUser(username);
 
@@ -85,7 +82,7 @@ public class UserApiTest {
      * 
      */
     @Test
-    public void getUserByNameTest() {
+    void getUserByNameTest() {
         String username = null;
         // User response = api.getUserByName(username);
 
@@ -99,7 +96,7 @@ public class UserApiTest {
      * 
      */
     @Test
-    public void loginUserTest() {
+    void loginUserTest() {
         String username = null;
         String password = null;
         // String response = api.loginUser(username, password);
@@ -116,7 +113,7 @@ public class UserApiTest {
      * listing them out individually.
      */
     @Test
-    public void loginUserTestQueryMap() {
+    void loginUserTestQueryMap() {
         UserApi.LoginUserQueryParams queryParams = new UserApi.LoginUserQueryParams()
             .username(null)
             .password(null);
@@ -131,7 +128,7 @@ public class UserApiTest {
      * 
      */
     @Test
-    public void logoutUserTest() {
+    void logoutUserTest() {
         // api.logoutUser();
 
         // TODO: test validations
@@ -144,7 +141,7 @@ public class UserApiTest {
      * This can only be done by the logged in user.
      */
     @Test
-    public void updateUserTest() {
+    void updateUserTest() {
         String username = null;
         User body = null;
         // api.updateUser(username, body);

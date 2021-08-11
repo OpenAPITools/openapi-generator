@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Mealy
         /// </summary>
-        [DataMember(Name = "mealy", EmitDefaultValue = false)]
+        [DataMember(Name = "mealy", EmitDefaultValue = true)]
         public bool Mealy { get; set; }
 
         /// <summary>

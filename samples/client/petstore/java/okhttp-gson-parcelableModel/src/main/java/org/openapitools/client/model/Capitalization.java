@@ -30,7 +30,7 @@ import android.os.Parcel;
  * Capitalization
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Capitalization {
+public class Capitalization implements Parcelable {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
   private String smallCamel;
@@ -217,7 +217,6 @@ public class Capitalization {
   public int hashCode() {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
-
 
   @Override
   public String toString() {

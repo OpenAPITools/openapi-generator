@@ -54,6 +54,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {
@@ -106,7 +107,6 @@ public class Animal {
   public int hashCode() {
     return Objects.hash(className, color);
   }
-
 
   @Override
   public String toString() {

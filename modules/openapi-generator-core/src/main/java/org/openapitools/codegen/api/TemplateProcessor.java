@@ -53,5 +53,5 @@ public interface TemplateProcessor {
      * @param path The path which has caused an error
      * @param context The reason for the error
      */
-    default void error(Path path, String context) { };
+    default void error(Path path, String context) { }
 }

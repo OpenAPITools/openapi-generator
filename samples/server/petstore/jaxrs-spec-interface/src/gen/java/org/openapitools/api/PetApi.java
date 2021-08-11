@@ -30,7 +30,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    void addPet(@Valid Pet body);
+    void addPet(@Valid @NotNull Pet body);
 
     @DELETE
     @Path("/{petId}")
@@ -95,7 +95,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    void updatePet(@Valid Pet body);
+    void updatePet(@Valid @NotNull Pet body);
 
     @POST
     @Path("/{petId}")

@@ -1,0 +1,124 @@
+openapi: 3.0.1
+info:
+  title: toto
+  version: 1.0.0
+  description: desc
+servers:
+  - url: "/"
+    description: "/"
+tags:
+  - name: verify-default-value
+    description: verify-default-value
+paths:
+  /test-headers:
+    get:
+      tags:
+        - verify-default-value
+      summary: test headers
+      description: desc
+      operationId: headersTest
+      parameters:
+        - name: headerNumber
+          in: header
+          schema:
+            type: number
+            default: 11.2
+        - name: headerString
+          in: header
+          schema:
+            type: string
+            default: qwerty
+        - name: headerStringWrapped
+          in: header
+          schema:
+            type: string
+            default: 'qwerty'
+        - name: headerStringQuotes
+          in: header
+          schema:
+            type: string
+            default: qwerty"with quotes" test
+        - name: headerStringQuotesWrapped
+          in: header
+          schema:
+            type: string
+            default: 'qwerty"with quotes" test'
+        - name: headerBoolean
+          in: header
+          schema:
+            type: boolean
+            default: true
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+  /test-query-params:
+    get:
+      tags:
+        - verify-default-value
+      summary: test query params
+      description: desc
+      operationId: queryParamsTest
+      parameters:
+        - name: queryNumber
+          in: query
+          schema:
+            type: number
+            default: 11.2
+        - name: queryString
+          in: query
+          schema:
+            type: string
+            default: qwerty
+        - name: queryStringWrapped
+          in: query
+          schema:
+            type: string
+            default: 'qwerty'
+        - name: queryStringQuotes
+          in: query
+          schema:
+            type: string
+            default: qwerty"with quotes" test
+        - name: queryStringQuotesWrapped
+          in: query
+          schema:
+            type: string
+            default: 'qwerty"with quotes" test'
+        - name: queryBoolean
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+
+components:
+  schemas:
+    TestResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        stringField:
+          type: string
+          default: asd
+        numberField:
+          type: number
+          default: 11
+        booleanField:
+          type: boolean
+          default: true
+      required:
+        - id
+        - stringField
+        - numberField
+        - booleanField

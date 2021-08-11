@@ -16,25 +16,24 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for ReadOnlyFirst
  */
-public class ReadOnlyFirstTest {
+class ReadOnlyFirstTest {
     private final ReadOnlyFirst model = new ReadOnlyFirst();
 
     /**
      * Model tests for ReadOnlyFirst
      */
     @Test
-    public void testReadOnlyFirst() {
+    void testReadOnlyFirst() {
         // TODO: test ReadOnlyFirst
     }
 
@@ -42,7 +41,7 @@ public class ReadOnlyFirstTest {
      * Test the property 'bar'
      */
     @Test
-    public void barTest() {
+    void barTest() {
         // TODO: test bar
     }
 
@@ -50,7 +49,7 @@ public class ReadOnlyFirstTest {
      * Test the property 'baz'
      */
     @Test
-    public void bazTest() {
+    void bazTest() {
         // TODO: test baz
     }
 

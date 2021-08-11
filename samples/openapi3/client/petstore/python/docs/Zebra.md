@@ -1,5 +1,6 @@
 # Zebra
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

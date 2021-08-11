@@ -69,6 +69,8 @@ public class Cat extends Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
@@ -132,7 +134,6 @@ public class Cat extends Animal {
   public int hashCode() {
     return Objects.hash(declawed, super.hashCode(), additionalProperties);
   }
-
 
   @Override
   public String toString() {

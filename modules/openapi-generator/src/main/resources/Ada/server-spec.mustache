@@ -15,6 +15,7 @@ with Swagger.Servers;
 with {{package}}.Models;
 with {{package}}.Skeletons;
 package {{package}}.Servers is
+   pragma Warnings (Off, "*use clause for package*");
    use {{package}}.Models;
    type Server_Type is limited new {{package}}.Skeletons.Server_Type with null record;
 

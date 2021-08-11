@@ -31,7 +31,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
-    public Response addPet(@Valid Pet body) {
+    public Response addPet(@Valid @NotNull Pet body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -111,7 +111,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class)
     })
-    public Response updatePet(@Valid Pet body) {
+    public Response updatePet(@Valid @NotNull Pet body) {
         return Response.ok().entity("magic!").build();
     }
 

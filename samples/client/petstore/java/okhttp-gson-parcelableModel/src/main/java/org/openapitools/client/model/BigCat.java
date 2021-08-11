@@ -32,7 +32,7 @@ import android.os.Parcel;
  * BigCat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class BigCat extends Cat {
+public class BigCat extends Cat implements Parcelable {
   /**
    * Gets or Sets kind
    */
@@ -133,7 +133,6 @@ public class BigCat extends Cat {
   public int hashCode() {
     return Objects.hash(kind, super.hashCode());
   }
-
 
   @Override
   public String toString() {

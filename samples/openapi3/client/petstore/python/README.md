@@ -88,10 +88,14 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**array_of_enums**](docs/FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 *FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 *FakeApi* | [**composed_one_of_number_with_validations**](docs/FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
+*FakeApi* | [**download_attachment**](docs/FakeApi.md#download_attachment) | **GET** /{fileName} | downloads a file using Content-Disposition
+*FakeApi* | [**enum_test**](docs/FakeApi.md#enum_test) | **POST** /fake/refs/enum-test | Object contains enum properties and array properties containing enums
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**post_inline_additional_properties_payload**](docs/FakeApi.md#post_inline_additional_properties_payload) | **POST** /fake/postInlineAdditionalPropertiesPayload | 
+*FakeApi* | [**post_inline_additional_properties_ref_payload**](docs/FakeApi.md#post_inline_additional_properties_ref_payload) | **POST** /fake/postInlineAdditionalPropertiesRefPayload | 
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
 *FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -103,6 +107,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
+*FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
+*FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -111,8 +118,6 @@ Class | Method | HTTP request | Description
 *PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | [**upload_file_with_required_file**](docs/PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -144,6 +149,7 @@ Class | Method | HTTP request | Description
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
  - [BasquePig](docs/BasquePig.md)
+ - [BooleanEnum](docs/BooleanEnum.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -154,6 +160,7 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [ComposedOneOfNumberWithValidations](docs/ComposedOneOfNumberWithValidations.md)
+ - [ComposedSchemaWithPropsAndNoAddProps](docs/ComposedSchemaWithPropsAndNoAddProps.md)
  - [DanishPig](docs/DanishPig.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
@@ -162,6 +169,7 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakePostInlineAdditionalPropertiesPayloadArrayData](docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
@@ -172,12 +180,8 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineObject1](docs/InlineObject1.md)
- - [InlineObject2](docs/InlineObject2.md)
- - [InlineObject3](docs/InlineObject3.md)
- - [InlineObject4](docs/InlineObject4.md)
- - [InlineObject5](docs/InlineObject5.md)
+ - [InlineAdditionalPropertiesRefPayload](docs/InlineAdditionalPropertiesRefPayload.md)
+ - [InlineObject6](docs/InlineObject6.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IntegerEnum](docs/IntegerEnum.md)
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
@@ -189,6 +193,7 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [Mole](docs/Mole.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)
  - [NullableShape](docs/NullableShape.md)
@@ -204,12 +209,14 @@ Class | Method | HTTP request | Description
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Readonly](docs/Readonly.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SomeObject](docs/SomeObject.md)
+ - [SomeObjectWithSelfAttr](docs/SomeObjectWithSelfAttr.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [StringBooleanMap](docs/StringBooleanMap.md)
  - [StringEnum](docs/StringEnum.md)
@@ -278,7 +285,7 @@ Use specific imports for apis and models like:
 - `from petstore_api.api.default_api import DefaultApi`
 - `from petstore_api.model.pet import Pet`
 
-Solution 1:
+Solution 2:
 Before importing the package, adjust the maximum recursion limit as shown below:
 ```
 import sys

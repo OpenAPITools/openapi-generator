@@ -1373,8 +1373,6 @@ definitions:
         properties:
           breed:
             type: string
-        additionalProperties: false
-    additionalProperties: false
   Cat:
     allOf:
       - $ref: '#/definitions/Animal'
@@ -1523,8 +1521,7 @@ definitions:
         type: object
         additionalProperties:
           type: array
-          items:
-            type: object
+          items: {}
       map_map_string:
         type: object
         additionalProperties:
@@ -1535,14 +1532,15 @@ definitions:
         type: object
         additionalProperties:
           type: object
-          additionalProperties:
-            type: object
-      anytype_1:
-        type: object
-      anytype_2: {}
+          additionalProperties: {}
+      anytype_1: {}
+      anytype_2:
+        description: no type is set for this
       anytype_3:
         type: object
         properties: {}
+        description: 'because of a bug in swagger-parser, this should have values {str: (str, int, float...)}
+          but instead we get any type. See https://github.com/swagger-api/swagger-parser/issues/1378'
   AdditionalPropertiesString:
     type: object
     properties:
@@ -2091,7 +2089,6 @@ definitions:
         properties:
           interNet:
             type: boolean
-    additionalProperties: false
   GrandparentAnimal:
     type: object
     required:

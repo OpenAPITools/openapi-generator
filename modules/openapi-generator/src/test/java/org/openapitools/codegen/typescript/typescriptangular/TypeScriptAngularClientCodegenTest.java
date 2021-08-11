@@ -231,4 +231,31 @@ public class TypeScriptAngularClientCodegenTest {
         Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
     }
+
+    @Test
+    public void testToParamNaming() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        // unspecified option should default to camelcase
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "validId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegalId");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.original.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.snake_case.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_ID"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("Illegal-Id+"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.PascalCase.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "ValidId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
+    }
 }

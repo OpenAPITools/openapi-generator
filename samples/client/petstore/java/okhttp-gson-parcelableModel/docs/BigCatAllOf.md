@@ -2,6 +2,7 @@
 
 # BigCatAllOf
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -19,5 +20,9 @@ TIGERS | &quot;tigers&quot;
 LEOPARDS | &quot;leopards&quot;
 JAGUARS | &quot;jaguars&quot;
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

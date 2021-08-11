@@ -64,6 +64,8 @@ public class Dog extends Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;
   }
@@ -86,7 +88,6 @@ public class Dog extends Animal {
   public int hashCode() {
     return Objects.hash(breed, super.hashCode());
   }
-
 
   @Override
   public String toString() {

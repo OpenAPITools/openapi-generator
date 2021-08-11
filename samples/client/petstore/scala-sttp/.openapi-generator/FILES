@@ -8,8 +8,6 @@ src/main/scala/org/openapitools/client/core/DateSerializers.scala
 src/main/scala/org/openapitools/client/core/JsonSupport.scala
 src/main/scala/org/openapitools/client/model/ApiResponse.scala
 src/main/scala/org/openapitools/client/model/Category.scala
-src/main/scala/org/openapitools/client/model/InlineObject.scala
-src/main/scala/org/openapitools/client/model/InlineObject1.scala
 src/main/scala/org/openapitools/client/model/Order.scala
 src/main/scala/org/openapitools/client/model/Pet.scala
 src/main/scala/org/openapitools/client/model/Tag.scala

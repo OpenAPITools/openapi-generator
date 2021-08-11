@@ -7,5 +7,5 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.12.6"
 
 libraryDependencies += "org.webjars" % "swagger-ui" % "3.32.5"
-libraryDependencies += "javax.validation" % "validation-api" % "1.1.0.Final"
+libraryDependencies += "javax.validation" % "validation-api" % "2.0.1.Final"
 libraryDependencies += guice

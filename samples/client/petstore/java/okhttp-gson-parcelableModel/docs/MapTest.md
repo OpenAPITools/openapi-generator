@@ -2,6 +2,7 @@
 
 # MapTest
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -20,5 +21,9 @@ Name | Value
 UPPER | &quot;UPPER&quot;
 LOWER | &quot;lower&quot;
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

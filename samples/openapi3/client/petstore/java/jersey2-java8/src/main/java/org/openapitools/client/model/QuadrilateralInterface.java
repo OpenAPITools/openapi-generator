@@ -49,6 +49,7 @@ public class QuadrilateralInterface {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -58,6 +59,8 @@ public class QuadrilateralInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
@@ -82,7 +85,6 @@ public class QuadrilateralInterface {
   public int hashCode() {
     return Objects.hash(quadrilateralType);
   }
-
 
   @Override
   public String toString() {

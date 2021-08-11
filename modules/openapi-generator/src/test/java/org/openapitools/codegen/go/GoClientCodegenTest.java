@@ -24,6 +24,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
+import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,7 +36,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -45,7 +46,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -55,7 +56,7 @@ public class GoClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test(description = "test example value for body parameter")
@@ -69,6 +70,27 @@ public class GoClientCodegenTest {
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);
+    }
+
+    @Test(description = "test to ensrue the paramter names are unique")
+    public void ensureParameterNameUniqueTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/conflictingParameter.yaml");
+        final GoClientCodegen codegen = new GoClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final String path = "/pet/{id}";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.size(), 9);
+        CodegenParameter cp = op.allParams.get(0);
+        Assert.assertEquals(cp.paramName, "id");
+        CodegenParameter cp2 = op.allParams.get(1);
+        Assert.assertEquals(cp2.paramName, "id2");
+        CodegenParameter cp3 = op.allParams.get(2);
+        Assert.assertEquals(cp3.paramName, "id3");
+        CodegenParameter cp4 = op.allParams.get(3);
+        Assert.assertEquals(cp4.paramName, "id4");
+        CodegenParameter cp5 = op.allParams.get(4);
+        Assert.assertEquals(cp5.paramName, "id5");
     }
 
     @Test

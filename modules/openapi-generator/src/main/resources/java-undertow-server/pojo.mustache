@@ -4,23 +4,23 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
- 
+
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+  private {{{datatypeWithEnum}}} {{{name}}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
-   **/
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    this.{{name}} = {{name}};
+   * minimum: {{{minimum}}}{{/minimum}}{{#maximum}}
+   * maximum: {{{maximum}}}{{/maximum}}
+   */
+  public {{{classname}}} {{{name}}}({{{datatypeWithEnum}}} {{{name}}}) {
+    this.{{{name}}} = {{{name}}};
     return this;
   }
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{{required}}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
@@ -39,23 +39,23 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    {{{classname}}} {{{classVarName}}} = ({{{classname}}}) o;{{#hasVars}}
+    return {{#vars}}Objects.equals({{{name}}}, {{{classVarName}}}.{{{name}}}){{^-last}} &&
         {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    return Objects.hash({{#vars}}{{{name}}}{{^-last}}, {{/-last}}{{/vars}});
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class {{classname}} {\n");
+    sb.append("class {{{classname}}} {\n");
     {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{#vars}}sb.append("    {{{name}}}: ").append(toIndentedString({{{name}}})).append("\n");
     {{/vars}}sb.append("}");
     return sb.toString();
   }

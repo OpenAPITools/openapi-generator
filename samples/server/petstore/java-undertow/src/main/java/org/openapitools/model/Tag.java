@@ -1,3 +1,13 @@
+/*
+ * OpenAPI Petstore
+ *
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ * OpenAPI document version: 1.0.0
+ * 
+ *
+ * AUTO-GENERATED FILE, DO NOT MODIFY!
+ */
 package org.openapitools.model;
 
 import java.util.Objects;
@@ -10,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A tag for a pet
- **/
+ */
 
 @ApiModel(description = "A tag for a pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
@@ -20,7 +30,7 @@ public class Tag   {
   private String name;
 
   /**
-   **/
+   */
   public Tag id(Long id) {
     this.id = id;
     return this;
@@ -37,7 +47,7 @@ public class Tag   {
   }
 
   /**
-   **/
+   */
   public Tag name(String name) {
     this.name = name;
     return this;

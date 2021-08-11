@@ -131,7 +131,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "invalidPackageName");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "invalidPackageName");
         Assert.assertEquals(codegen.apiPackage(), "invalidPackageName");
@@ -160,7 +160,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
@@ -188,7 +188,7 @@ public class AbstractJavaCodegenTest {
 
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.model.oooooo");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.model.oooooo");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.api.oooooo");
@@ -440,7 +440,7 @@ public class AbstractJavaCodegenTest {
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
-        
+
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019,2,15);

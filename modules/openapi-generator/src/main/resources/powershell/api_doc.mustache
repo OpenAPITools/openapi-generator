@@ -23,27 +23,25 @@ Method | HTTP request | Description
 
 ### Example
 ```powershell
-Import-Module -Name {{{packageName}}}
-
 {{#hasAuthMethods}}
-$Configuration = Get-{{{packageName}}}Configuration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 {{#authMethods}}
 {{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-$Configuration["Username"] = "YOUR_USERNAME";
-$Configuration["Password"] = "YOUR_PASSWORD";
+$Configuration.Username = "YOUR_USERNAME"
+$Configuration.Password = "YOUR_PASSWORD"
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-$Configuration["ApiKey"]["{{{keyParamName}}}"] = "YOUR_API_KEY"
+$Configuration.ApiKey.{{{keyParamName}}} = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["{{{keyParamName}}}"] = "Bearer"
+#$Configuration.ApiKeyPrefix.{{{keyParamName}}} = "Bearer"
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+$Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 {{/isOAuth}}
-
 {{#isHttpSignature}}
 # Configure HttpSignature for authorization :{{name}}
 $httpSigningParams = @{
@@ -52,21 +50,35 @@ $httpSigningParams = @{
     HttpSigningHeader = @("(request-target)","Host","Date","Digest")
     HashAlgorithm = "sha256"
 }
-Set-{{{packageName}}}ConfigurationHttpSigning @httpSigningParams
-
+Set-ConfigurationHttpSigning $httpSigningParams
 {{/isHttpSignature}}
-{{/authMethods}}
 
+{{/authMethods}}
 {{/hasAuthMethods}}
 {{#allParams}}
+{{^isArray}}
+{{#isModel}}
+{{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/isModel}}
+{{^isModel}}
 ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/isModel}}
+{{/isArray}}
+{{#isArray}}
+{{#items.isModel}}
+{{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/items.isModel}}
+{{^items.isModel}}
+${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/items.isModel}}
+{{/isArray}}
 {{/allParams}}
 
 {{#summary}}
 # {{{.}}}
 {{/summary}}
 try {
-     $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+    $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 } catch {
     Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -81,8 +93,8 @@ Name | Type | Description  | Notes
 {{/allParams}}
 
 ### Return type
-# cmdlet returns PSCustomObject, the return object contains the properties of below type
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md) (PSCustomObject){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 

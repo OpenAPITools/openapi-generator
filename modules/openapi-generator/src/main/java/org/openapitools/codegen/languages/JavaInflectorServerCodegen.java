@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
     protected String title = "OpenAPI Inflector";
     protected String implFolder = "src/main/java";
@@ -69,7 +69,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
     }
 
     @Override

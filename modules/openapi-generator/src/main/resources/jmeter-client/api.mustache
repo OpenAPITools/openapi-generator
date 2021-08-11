@@ -83,7 +83,7 @@
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">{{#headerParams}}
             <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">{{paramName}}</stringProp>
+              <stringProp name="Header.name">{{baseName}}</stringProp>
               <stringProp name="Header.value">${__RandomString(10,qwertyuiopasdfghjklzxcvbnm)}</stringProp>
             </elementProp>{{/headerParams}}{{#consumes.0}}
             <elementProp name="" elementType="Header">
@@ -93,7 +93,23 @@
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">accept</stringProp>
               <stringProp name="Header.value">{{{mediaType}}}</stringProp>
-            </elementProp>{{/produces.0}}
+            </elementProp>{{/produces.0}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">Basic ${__P(basicBasicToken,token)}</stringProp>
+            </elementProp>{{/isBasicBasic}}{{#isBasicBearer}}
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">Bearer ${__P(basicBearerToken,token)}</stringProp>
+            </elementProp>{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">{{keyParamName}}</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>{{/isKeyInHeader}}{{/isApiKey}}{{#isOAuth}}
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">{{keyParamName}}</stringProp>
+              <stringProp name="Header.value">Bearer ${__P(oathToken,token)}</stringProp>
+            </elementProp>{{/isOAuth}}{{/authMethods}}
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -110,9 +126,16 @@
               </elementProp>{{/queryParams}}{{#bodyParam}}
               <elementProp name="{{paramName}}" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                {{=<% %>=}}<stringProp name="Argument.value">${<% paramName %>}</stringProp><%={{ }}=%>
+                {{=<% %>=}}<stringProp name="Argument.value">${__javaScript("${<% paramName %>}".replace(/'/g\, '"'),)}</stringProp><%={{ }}=%>
                 <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>{{/bodyParam}}
+              </elementProp>{{/bodyParam}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+              <elementProp name="{{keyParamName}}" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__P(apiKey,key)}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">{{keyParamName}}</stringProp>
+              </elementProp>{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain"></stringProp>

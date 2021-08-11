@@ -22,8 +22,8 @@ defmodule OpenapiPetstore.Api.Store do
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %{}} on success
-  {:error, info} on failure
+  {:ok, nil} on success
+  {:error, Tesla.Env.t} on failure
   """
   @spec delete_order(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def delete_order(connection, order_id, _opts \\ []) do
@@ -49,7 +49,7 @@ defmodule OpenapiPetstore.Api.Store do
   ## Returns
 
   {:ok, %{}} on success
-  {:error, info} on failure
+  {:error, Tesla.Env.t} on failure
   """
   @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, map()} | {:error, Tesla.Env.t}
   def get_inventory(connection, _opts \\ []) do
@@ -74,8 +74,8 @@ defmodule OpenapiPetstore.Api.Store do
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Order{}} on success
-  {:error, info} on failure
+  {:ok, OpenapiPetstore.Model.Order.t} on success
+  {:error, Tesla.Env.t} on failure
   """
   @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
   def get_order_by_id(connection, order_id, _opts \\ []) do
@@ -97,19 +97,19 @@ defmodule OpenapiPetstore.Api.Store do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Order): order placed for purchasing the pet
+  - order (Order): order placed for purchasing the pet
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Order{}} on success
-  {:error, info} on failure
+  {:ok, OpenapiPetstore.Model.Order.t} on success
+  {:error, Tesla.Env.t} on failure
   """
   @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
-  def place_order(connection, body, _opts \\ []) do
+  def place_order(connection, order, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/store/order")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, order)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Serialization;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
+using {{packageName}}.Formatters;
 
 namespace {{packageName}}
 {
@@ -40,7 +41,9 @@ namespace {{packageName}}
         {
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc(options => {
+                    options.InputFormatters.Insert(0, new InputFormatterStream());
+                })
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

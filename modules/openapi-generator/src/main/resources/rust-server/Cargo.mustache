@@ -7,6 +7,18 @@ description = "{{{appDescription}}}"
 {{/appDescription}}
 license = "Unlicense"
 edition = "2018"
+{{#publishRustRegistry}}
+publish = ["{{publishRustRegistry}}"]
+{{/publishRustRegistry}}
+{{#repositoryUrl}}
+repository = "{{repositoryUrl}}"
+{{/repositoryUrl}}
+{{#documentationUrl}}
+documentation = "{{documentationUrl}}"
+{{/documentationUrl}}
+{{#homePageUrl}}
+homepage = "{{homePageUrl}}
+{{/homePageUrl}}
 
 [features]
 default = ["client", "server"]
@@ -15,7 +27,7 @@ client = [
     "mime_0_2",
 {{/apiUsesMultipart}}
 {{#apiUsesMultipartFormData}}
-    "multipart", "multipart/client", "swagger/multipart",
+    "multipart", "multipart/client", "swagger/multipart_form",
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
     "hyper_0_10", "mime_multipart",
@@ -60,7 +72,7 @@ openssl = {version = "0.10", optional = true }
 async-trait = "0.1.24"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = "5.0.0-alpha-1"
+swagger = "5.0.2"
 log = "0.4.0"
 mime = "0.3"
 

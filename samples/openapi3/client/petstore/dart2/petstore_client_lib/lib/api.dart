@@ -32,17 +32,17 @@ part 'api/user_api.dart';
 
 part 'model/api_response.dart';
 part 'model/category.dart';
-part 'model/inline_object.dart';
-part 'model/inline_object1.dart';
 part 'model/order.dart';
 part 'model/pet.dart';
 part 'model/tag.dart';
 part 'model/user.dart';
 
+
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
 final _dateFormatter = DateFormat('yyyy-MM-dd');
 final _regList = RegExp(r'^List<(.*)>$');
+final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();

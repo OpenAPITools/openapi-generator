@@ -59,6 +59,8 @@ public class MySchemaNameCharactersAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROP2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProp2(String prop2) {
     this.prop2 = prop2;
   }
@@ -83,7 +85,6 @@ public class MySchemaNameCharactersAllOf {
   public int hashCode() {
     return Objects.hash(prop2);
   }
-
 
   @Override
   public String toString() {

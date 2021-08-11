@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/api.dart';
 import 'package:openapi/api/pet_api.dart';
 import 'package:test/test.dart';
@@ -35,7 +42,7 @@ void main() {
     //
     // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     //
-    //Future<BuiltList<Pet>> findPetsByTags(BuiltList<String> tags) async
+    //Future<BuiltSet<Pet>> findPetsByTags(BuiltSet<String> tags) async
     test('test findPetsByTags', () async {
       // TODO
     });

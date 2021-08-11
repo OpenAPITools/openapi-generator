@@ -95,12 +95,12 @@ class Order {
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Order>[]
-      : json.map((v) => Order.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Order>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Order.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Order.fromJson(value));
     }
     return map;
   }
@@ -108,9 +108,9 @@ class Order {
   // maps a json object with a list of Order-objects as value to a dart map
   static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Order>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Order.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Order.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -124,13 +124,6 @@ class OrderStatusEnum {
 
   /// The underlying value of this enum member.
   final String value;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OrderStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
 
   @override
   String toString() => value;

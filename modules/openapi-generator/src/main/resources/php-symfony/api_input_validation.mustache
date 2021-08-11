@@ -19,11 +19,11 @@
     {{#items}}
         $asserts[] = new Assert\All([
             new Assert\Type("{{dataType}}"),
-            {{^isPrimitiveType}}
-            new Assert\Valid(),
-            {{/isPrimitiveType}}
         ]);
     {{/items}}
+    {{^isPrimitiveType}}
+        $asserts[] = new Assert\Valid();
+    {{/isPrimitiveType}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}

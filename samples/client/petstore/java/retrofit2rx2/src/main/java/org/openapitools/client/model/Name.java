@@ -57,6 +57,7 @@ public class Name {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
@@ -139,7 +140,6 @@ public class Name {
   public int hashCode() {
     return Objects.hash(name, snakeCase, property, _123number);
   }
-
 
   @Override
   public String toString() {

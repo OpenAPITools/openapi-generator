@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -35,6 +36,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -47,7 +50,7 @@ import java.util.regex.Matcher;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class PythonClientCodegen extends PythonLegacyClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
 
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
@@ -63,10 +66,6 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // In principle, this should be enabled by default for all code generators. However due to limitations
         // in other code generators, support needs to be enabled on a case-by-case basis.
         supportsAdditionalPropertiesWithComposedSchema = true;
-
-        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
-        // undeclared properties. This is compliant with the JSON schema specification.
-        this.setDisallowAdditionalPropertiesIfNotPresent(false);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -92,10 +91,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-         );
-
-        // this may set datatype right for additional properties
-        instantiationTypes.put("map", "dict");
+        );
+        // needed for type object with additionalProperties: false
+        typeMapping.put("object", "dict");
 
         languageSpecificPrimitives.add("file_type");
         languageSpecificPrimitives.add("none_type");
@@ -109,6 +107,20 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
+
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.FALSE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default. NOTE: "+
+                "this option breaks composition and will be removed in 6.0.0"
+        );
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
@@ -124,13 +136,21 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         supportingFiles.add(new SupportingFile("model_utils.mustache", packagePath(), "model_utils.py"));
 
+
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        SupportingFile originalInitModel = supportingFiles.stream()
+                .filter(sf -> sf.getTemplateFile().equals("__init__model.mustache"))
+                .reduce((a, b) -> {
+                    throw new IllegalStateException("Multiple elements: " + a + ", " + b);
+                })
+                .get();
+        supportingFiles.remove(originalInitModel);
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
-
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
-           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", packagePath(), "signing.py"));
@@ -143,13 +163,27 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
-        LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+        LOGGER.info(
+                "{} is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums",
+                CodegenConstants.GENERATE_ALIAS_AS_MODEL);
 
         Boolean attrNoneIfUnset = false;
         if (additionalProperties.containsKey(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET)) {
             attrNoneIfUnset = Boolean.valueOf(additionalProperties.get(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET).toString());
         }
         additionalProperties.put("attrNoneIfUnset", attrNoneIfUnset);
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
+        // setting this to false is required to have composed schemas work because:
+        // anyOf SchemaA + SchemaB, requires that props present only in A are accepted in B because in B
+        // they are additional properties
+        Boolean disallowAddProps = false;
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            disallowAddProps = Boolean.valueOf(additionalProperties.get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString());
+        }
+        this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
+
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
@@ -218,11 +252,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     // free form object (type: object)
                     if (ModelUtils.hasValidation(ref)) {
                         return schema;
-                    } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
+                    } else if (!getAllOfDescendants(simpleRef, openAPI).isEmpty()) {
                         return schema;
+                    } else {
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                                usedImportMappings);
                     }
-                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
                 }
             } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
@@ -245,7 +280,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 date = (OffsetDateTime) dateValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+                LOGGER.warn("Invalid `date` format for value {}", dateValue);
                 date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = date.format(iso8601Date);
@@ -262,7 +297,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             try {
                 dateTime = (OffsetDateTime) dateTimeValue;
             } catch (ClassCastException e) {
-                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue);
                 dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
             }
             strValue = dateTime.format(iso8601DateTime);
@@ -285,10 +320,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // python servers: should only use default values for optional params
         // python clients: should only use default values for required params
         Object defaultObject = null;
-        Boolean enumLengthOne = (p.getEnum() != null && p.getEnum().size() == 1);
         if (p.getDefault() != null) {
             defaultObject = p.getDefault();
-        } else if (enumLengthOne) {
+        } else if (p.getEnum() != null && p.getEnum().size() == 1) {
             defaultObject = p.getEnum().get(0);
         }
 
@@ -302,9 +336,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         } else if (ModelUtils.isDateTimeSchema(p)) {
             defaultValue = pythonDateTime(defaultObject);
         } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
-            defaultValue =  ensureQuotes(defaultValue);
+            defaultValue = ensureQuotes(defaultValue);
         } else if (ModelUtils.isBooleanSchema(p)) {
-            if (Boolean.valueOf(defaultValue) == false) {
+            if (!Boolean.valueOf(defaultValue)) {
                 defaultValue = "False";
             } else {
                 defaultValue = "True";
@@ -316,7 +350,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     @Override
     public String toModelImport(String name) {
         // name looks like Cat
-        return "from " + modelPackage() + "." + toModelFilename(name) + " import "+ toModelName(name);
+        return "from " + modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
     }
 
     @Override
@@ -326,11 +360,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
 
-        HashMap<String, Object> val = (HashMap<String, Object>)objs.get("operations");
+        HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
         ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>)objs.get("imports");
         for (CodegenOperation operation : operations) {
-            if (operation.imports.size() == 0) {
+            if (operation.imports.isEmpty()) {
                 continue;
             }
             String[] modelNames = operation.imports.toArray(new String[0]);
@@ -356,27 +389,29 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      */
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-         super.postProcessAllModels(objs);
+        super.postProcessAllModels(objs);
 
         List<String> modelsToRemove = new ArrayList<>();
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        for (String schemaName: allDefinitions.keySet()) {
-            Schema refSchema = new Schema().$ref("#/components/schemas/"+schemaName);
+        for (String schemaName : allDefinitions.keySet()) {
+            Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
             Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
             String modelName = toModelName(schemaName);
             if (unaliasedSchema.get$ref() == null) {
                 modelsToRemove.add(modelName);
             } else {
                 HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
-                List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                for (Map<String, Object> model : models) {
-                    CodegenModel cm = (CodegenModel) model.get("model");
-                    String[] importModelNames = cm.imports.toArray(new String[0]);
-                    cm.imports.clear();
-                    for (String importModelName : importModelNames) {
-                        cm.imports.add(toModelImport(importModelName));
-                        String globalImportFixer = "globals()['" + importModelName + "'] = " + importModelName;
-                        cm.imports.add(globalImportFixer);
+                if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
+                    List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
+                    for (Map<String, Object> model : models) {
+                        CodegenModel cm = (CodegenModel) model.get("model");
+                        String[] importModelNames = cm.imports.toArray(new String[0]);
+                        cm.imports.clear();
+                        for (String importModelName : importModelNames) {
+                            cm.imports.add(toModelImport(importModelName));
+                            String globalImportFixer = "globals()['" + importModelName + "'] = " + importModelName;
+                            cm.imports.add(globalImportFixer);
+                        }
                     }
                 }
             }
@@ -511,13 +546,13 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
 
-        /**
-         * Return the sanitized variable name for enum
-         *
-         * @param value    enum variable name
-         * @param datatype data type
-         * @return the sanitized variable name for enum
-         */
+    /**
+     * Return the sanitized variable name for enum
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
     public String toEnumVarName(String value, String datatype) {
         // our enum var names are keys in a python dict, so change spaces to underscores
         if (value.length() == 0) {
@@ -537,8 +572,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
-        if (datatype.equals("int") || datatype.equals("float")) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
+        } else if ("bool".equals(datatype)) {
+            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
             return ensureQuotes(value);
         }
@@ -557,15 +594,20 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     @Override
     public void postProcessParameter(CodegenParameter p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
-        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)){
+        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)) {
             // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
             p.baseType = null;
         }
     }
 
-    private void addNullDefaultToOneOfAnyOfReqProps(Schema schema, CodegenModel result){
+    private void fixComposedSchemaRequiredVars(Schema schema, CodegenModel result) {
         // for composed schema models, if the required properties are only from oneOf or anyOf models
-        // give them a nulltype.Null so the user can omit including them in python
+        // remove them from the composed schema's required vars
+        // for composed schemas our code adds oneOf and anyOf required properties to
+        // the composed schema's required properties
+        // but they should not be required because if we have ComposedSchema: oneOf -schemaA -schemaB
+        // and the required props are only in schemaB, we do not need to use them when making an instance of
+        // ComposedSchema + schemaA
         ComposedSchema cs = (ComposedSchema) schema;
 
         // these are the properties that are from properties in self cs or cs allOf
@@ -585,7 +627,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (anyOf != null) {
             oneOfanyOfSchemas.addAll(anyOf);
         }
-        for (Schema sc: oneOfanyOfSchemas) {
+        for (Schema sc : oneOfanyOfSchemas) {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
             addProperties(otherProperties, otherRequired, refSchema);
         }
@@ -593,7 +635,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         List<Schema> allOf = cs.getAllOf();
         if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
-            // NOTE: this function also adds the allOf propesrties inside schema
+            // NOTE: this function also adds the allOf properties inside schema
             addProperties(selfProperties, selfRequired, schema);
         }
         if (result.discriminator != null) {
@@ -602,22 +644,26 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         Set<String> selfRequiredSet = new HashSet<String>(selfRequired);
 
         List<CodegenProperty> reqVars = result.getRequiredVars();
+        List<CodegenProperty> reqVarsThatMustBeOptional = new ArrayList<>();
         if (reqVars != null) {
-            for (CodegenProperty cp: reqVars) {
+            for (CodegenProperty cp : reqVars) {
                 String propName = cp.baseName;
                 if (otherRequiredSet.contains(propName) && !selfRequiredSet.contains(propName)) {
-                    // if var is in otherRequiredSet and is not in selfRequiredSet and is in result.requiredVars
-                    // then set it to nullable because the user doesn't have to give a value for it
-                    cp.setDefaultValue("nulltype.Null");
+                    cp.required = false;
+                    reqVarsThatMustBeOptional.add(cp);
                 }
             }
+        }
+        for (CodegenProperty cp : reqVarsThatMustBeOptional) {
+            result.getRequiredVars().remove(cp);
+            result.getOptionalVars().add(cp);
         }
     }
 
     /**
      * Sets the value of the 'model.parent' property in CodegenModel
      * We have a custom version of this function so we can add the dataType on the ArrayModel
-    */
+     */
     @Override
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         super.addParentContainer(model, name, schema);
@@ -632,15 +678,15 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * - set the correct regex values for requiredVars + optionalVars
      * - set model.defaultValue and model.hasRequired per the three use cases defined in this method
      *
-     * @param name   the name of the model
-     * @param sc OAS Model object
+     * @param name the name of the model
+     * @param sc   OAS Model object
      * @return Codegen Model object
      */
     @Override
     public CodegenModel fromModel(String name, Schema sc) {
         CodegenModel cm = super.fromModel(name, sc);
         if (cm.requiredVars.size() > 0 && (cm.oneOf.size() > 0 || cm.anyOf.size() > 0)) {
-            addNullDefaultToOneOfAnyOfReqProps(sc, cm);
+            fixComposedSchemaRequiredVars(sc, cm);
         }
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
         listOfLists.add(cm.requiredVars);
@@ -709,25 +755,81 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return null;
     }
 
+    @Override
+    protected Schema getAdditionalProperties(Schema schema) {
+        /*
+        Use cases:
+        1. addProps set to schema in spec: return that schema
+        2. addProps unset w/ getDisallowAdditionalPropertiesIfNotPresent -> null
+        3. addProps unset w/ getDisallowAdditionalPropertiesIfNotPresent=False -> new Schema()
+        4. addProps true -> new Schema() NOTE: v3 only
+        5. addprops false -> null NOTE: v3 only
+         */
+        Object addProps = schema.getAdditionalProperties();
+        if (addProps instanceof Schema) {
+            return (Schema) addProps;
+        }
+        if (addProps == null) {
+            // When reaching this code path, this should indicate the 'additionalProperties' keyword is
+            // not present in the OAS schema. This is true for OAS 3.0 documents.
+            // However, the parsing logic is broken for OAS 2.0 documents because of the
+            // https://github.com/swagger-api/swagger-parser/issues/1369 issue.
+            // When OAS 2.0 documents are parsed, the swagger-v2-converter ignores the 'additionalProperties'
+            // keyword if the value is boolean. That means codegen is unable to determine whether
+            // additional properties are allowed or not.
+            //
+            // The original behavior was to assume additionalProperties had been set to false.
+            if (getDisallowAdditionalPropertiesIfNotPresent()) {
+                // If the 'additionalProperties' keyword is not present in a OAS schema,
+                // interpret as if the 'additionalProperties' keyword had been set to false.
+                // This is NOT compliant with the JSON schema specification. It is the original
+                // 'openapi-generator' behavior.
+                return null;
+            }
+            /*
+            // The disallowAdditionalPropertiesIfNotPresent CLI option has been set to true,
+            // but for now that only works with OAS 3.0 documents.
+            // The new behavior does not work with OAS 2.0 documents.
+            if (extensions == null || !extensions.containsKey(EXTENSION_OPENAPI_DOC_VERSION)) {
+                // Fallback to the legacy behavior.
+                return null;
+            }
+            // Get original swagger version from OAS extension.
+            // Note openAPI.getOpenapi() is always set to 3.x even when the document
+            // is converted from a OAS/Swagger 2.0 document.
+            // https://github.com/swagger-api/swagger-parser/pull/1374
+            SemVer version = new SemVer((String)extensions.get(EXTENSION_OPENAPI_DOC_VERSION));
+            if (version.major != 3) {
+                return null;
+            }
+            */
+        }
+        if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
+            // Return empty schema to allow any type
+            return new Schema();
+        }
+        return null;
+    }
+
     /**
      * Return a string representation of the Python types for the specified OAS schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
-     *
+     * <p>
      * The caller should set the prefix and suffix arguments to empty string, except when
      * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
      * to wrap the return value in a python dict, list or tuple.
-     *
+     * <p>
      * Examples:
      * - "bool, date, float"  The data must be a bool, date or float.
      * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
      *
-     * @param p The OAS schema.
-     * @param prefix prepended to the returned value.
-     * @param suffix appended to the returned value.
+     * @param p                    The OAS schema.
+     * @param prefix               prepended to the returned value.
+     * @param suffix               appended to the returned value.
      * @param referencedModelNames a list of models that are being referenced while generating the types,
-     *          may be used to generate imports.
+     *                             may be used to generate imports.
      * @return a comma-separated string representation of the Python types
      */
     private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
@@ -748,16 +850,39 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
         }
         if (isAnyTypeSchema(p)) {
+            // for v2 specs only, swagger-parser never generates an AnyType schemas even though it should generate them
+            // https://github.com/swagger-api/swagger-parser/issues/1378
+            // switch to v3 if you need AnyType to work
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
+        }
+        String originalSpecVersion = "X";
+        if (this.openAPI.getExtensions() != null && this.openAPI.getExtensions().containsKey("x-original-swagger-version")) {
+            originalSpecVersion = (String) this.openAPI.getExtensions().get("x-original-swagger-version");
+            originalSpecVersion = originalSpecVersion.substring(0, 1);
+
+        }
+        Boolean v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase = (getAdditionalProperties(p) == null && this.getDisallowAdditionalPropertiesIfNotPresent() && originalSpecVersion.equals("2"));
+        Schema emptySchema = new Schema();
+        Boolean v2WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("2"));
+        if (isFreeFormObject(p) && (v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase || v2WithCompositionAddPropsAnyTypeSchemaCase)) {
+            // for v2 specs only, input AnyType schemas (type unset) or schema {} results in FreeFromObject schemas
+            // per https://github.com/swagger-api/swagger-parser/issues/1378
+            // v2 spec uses cases
+            // 1. AnyType schemas
+            // 2. type object schema with no other info
+            // use case 1 + 2 -> both become use case 1
+            // switch to v3 if you need use cases 1 + 2 to work correctly
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSuffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
-        }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+        Boolean v3WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("3"));
+        if (isFreeFormObject(p) && v3WithCompositionAddPropsAnyTypeSchemaCase) {
+            // v3 code path, use case: type object schema with no other schema info
+            return prefix + "{str: (bool, date, datetime, dict, float, int, list, str, none_type)}" + fullSuffix;
+        } else if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
             Schema inner = getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
@@ -816,7 +941,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // The 'addProps' may be a reference, getTypeDeclaration will resolve
             // the reference.
             List<String> referencedModelNames = new ArrayList<String>();
-            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
+            getTypeString(addProps, "", "", referencedModelNames);
             if (referencedModelNames.size() != 0) {
                 // Models that are referenced in the 'additionalPropertiesType' keyword
                 // must be added to the imports.
@@ -846,7 +971,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         if (schema.getExample() != null) {
             return schema.getExample();
-        } if (schema.getDefault() != null) {
+        }
+        if (schema.getDefault() != null) {
             return schema.getDefault();
         } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             return schema.getEnum().get(0);
@@ -874,9 +1000,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         return "\"" + in + "\"";
     }
 
+    @Override
+    public String toExampleValue(Schema schema) {
+        Object objExample = getObjectExample(schema);
+        String modelName = getModelName(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
+    }
+
     public String toExampleValue(Schema schema, Object objExample) {
         String modelName = getModelName(schema);
-        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0, Sets.newHashSet());
     }
 
     private Boolean simpleStringSchema(Schema schema) {
@@ -892,7 +1025,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
     private MappedModel getDiscriminatorMappedModel(CodegenDiscriminator disc) {
-        for ( MappedModel mm : disc.getMappedModels() ) {
+        for (MappedModel mm : disc.getMappedModels()) {
             String modelName = mm.getModelName();
             Schema modelSchema = getModelNameToSchemaCache().get(modelName);
             if (ModelUtils.isObjectSchema(modelSchema)) {
@@ -922,13 +1055,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      *                    ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
+     * @param seenSchemas This set contains all the schemas passed into the recursive function. It is used to check
+     *                    if a schema was already passed into the function and breaks the infinite recursive loop. The
+     *                    only schemas that are not added are ones that contain $ref != null
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
         final String indentionConst = "    ";
         String currentIndentation = "";
         String closingIndentation = "";
-        for (int i=0 ; i < indentationLevel ; i++) currentIndentation += indentionConst;
+        for (int i = 0; i < indentationLevel; i++) currentIndentation += indentionConst;
         if (exampleLine.equals(0)) {
             closingIndentation = currentIndentation;
             currentIndentation = "";
@@ -938,7 +1074,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         String openChars = "";
         String closeChars = "";
         if (modelName != null) {
-            openChars = modelName+"(";
+            openChars = modelName + "(";
             closeChars = ")";
         }
 
@@ -948,16 +1084,37 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (objExample != null) {
             example = objExample.toString();
         }
+        // checks if the current schema has already been passed in. If so, breaks the current recursive pass
+        if (seenSchemas.contains(schema)) {
+            if (modelName != null) {
+                return fullPrefix + closeChars;
+            } else {
+                // this is a recursive schema
+                // need to add a reasonable example to avoid
+                // infinite recursion
+                if (ModelUtils.isNullable(schema)) {
+                    // if the schema is nullable, then 'None' is a valid value
+                    return fullPrefix + "None" + closeChars;
+                } else if (ModelUtils.isArraySchema(schema)) {
+                    // the schema is an array, add an empty array
+                    return fullPrefix + "[]" + closeChars;
+                } else {
+                    // the schema is an object, make an empty object
+                    return fullPrefix + "{}" + closeChars;
+                }
+            }
+        }
+
         if (null != schema.get$ref()) {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
             Schema refSchema = allDefinitions.get(ref);
             if (null == refSchema) {
-                LOGGER.warn("Unable to find referenced schema "+schema.get$ref()+"\n");
+                LOGGER.warn("Unable to find referenced schema {}\n", schema.get$ref());
                 return fullPrefix + "None" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1003,32 +1160,53 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // a BigDecimal:
                 if ("Number".equalsIgnoreCase(schema.getFormat())) {
                     example = "2";
-                    return  fullPrefix + example + closeChars;
+                    return fullPrefix + example + closeChars;
                 } else if (StringUtils.isNotBlank(schema.getPattern())) {
                     String pattern = schema.getPattern();
-                    RgxGen rgxGen = new RgxGen(pattern);
+                    /*
+                    RxGen does not support our ECMA dialect https://github.com/curious-odd-man/RgxGen/issues/56
+                    So strip off the leading / and trailing / and turn on ignore case if we have it
+                     */
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?(.?)$");
+                    Matcher m = valueExtractor.matcher(pattern);
+                    RgxGen rgxGen = null;
+                    if (m.find()) {
+                        int groupCount = m.groupCount();
+                        if (groupCount == 1) {
+                            // only pattern found
+                            String isolatedPattern = m.group(1);
+                            rgxGen = new RgxGen(isolatedPattern);
+                        } else if (groupCount == 2) {
+                            // patterns and flag found
+                            String isolatedPattern = m.group(1);
+                            String flags = m.group(2);
+                            if (flags.contains("i")) {
+                                rgxGen = new RgxGen(isolatedPattern);
+                                RgxGenProperties properties = new RgxGenProperties();
+                                RgxGenOption.CASE_INSENSITIVE.setInProperties(properties, true);
+                                rgxGen.setProperties(properties);
+                            } else {
+                                rgxGen = new RgxGen(isolatedPattern);
+                            }
+                        }
+                    } else {
+                        rgxGen = new RgxGen(pattern);
+                    }
+
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    String sample = rgxGen.generate(random);
-                    // omit leading / and trailing /, omit trailing /i
-                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
-                    Matcher m = valueExtractor.matcher(sample);
-                    if (m.find()) {
-                        example = m.group(m.groupCount());
-                    } else {
-                        example = "";
-                    }
+                    example = rgxGen.generate(random);
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();
-                    for (int i=0;i<len;i++) example += "a";
+                    for (int i = 0; i < len; i++) example += "a";
                 } else if (ModelUtils.isUUIDSchema(schema)) {
                     example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
                 } else {
                     example = "string_example";
                 }
             }
-            return  fullPrefix + ensureQuotes(example) + closeChars;
+            return fullPrefix + ensureQuotes(example) + closeChars;
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (objExample == null) {
                 if (schema.getMinimum() != null) {
@@ -1048,14 +1226,16 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            if (objExample instanceof Iterable) {
-                // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString();
-            }
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1) + ",\n" + closingIndentation + "]" + closeChars;
+            if (objExample instanceof Iterable && itemModelName == null) {
+                // If the example is already a list, return it directly instead of wrongly wrap it in another list
+                return fullPrefix + objExample.toString() + closeChars;
+            }
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -1074,10 +1254,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
                 String addPropPrefix = key + "=";
                 if (modelName == null) {
-                        addPropPrefix = ensureQuotes(key) + ": ";
+                    addPropPrefix = ensureQuotes(key) + ": ";
                 }
                 String addPropsModelName = getModelName(addPropsSchema);
-                example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
+                Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                newSeenSchemas.add(schema);
+                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -1100,7 +1282,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return fullPrefix + closeChars;
                 }
             }
-            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
+            Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+            newSeenSchemas.add(schema);
+            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
+            return exampleForObjectModel;
         } else if (ModelUtils.isComposedSchema(schema)) {
             // TODO add examples for composed schema models without discriminators
 
@@ -1114,20 +1299,25 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
+                    // Adds schema to seenSchemas before running example model function. romoves schema after running
+                    // the function. It also doesnt keep track of any schemas within the ObjectModel.
+                    Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
+                    newSeenSchemas.add(schema);
+                    String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
+                    return exampleForObjectModel;
                 } else {
                     return fullPrefix + closeChars;
                 }
             }
             return fullPrefix + closeChars;
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, Set<Schema> seenSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -1137,6 +1327,23 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
             String propName = entry.getKey();
             Schema propSchema = entry.getValue();
+            boolean readOnly = false;
+            if (propSchema.getReadOnly() != null) {
+                readOnly = propSchema.getReadOnly();
+            }
+            if (readOnly) {
+                continue;
+            }
+            String ref = propSchema.get$ref();
+            if (ref != null) {
+                Schema refSchema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+                if (refSchema.getReadOnly() != null) {
+                    readOnly = refSchema.getReadOnly();
+                }
+                if (readOnly) {
+                    continue;
+                }
+            }
             propName = toVarName(propName);
             String propModelName = null;
             Object propExample = null;
@@ -1147,7 +1354,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1, seenSchemas) + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
@@ -1172,7 +1379,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             ArraySchema arraySchema = (ArraySchema) schema;
             Schema itemSchema = arraySchema.getItems();
             example = getObjectExample(itemSchema);
-            if (example != null ) {
+            if (example != null) {
                 return example;
             } else if (simpleStringSchema(itemSchema)) {
                 return propName + "_example";
@@ -1259,9 +1466,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * This ensures that all of our samples are generated in
      * toExampleValueRecursive
      *
-     * @param name the property name
+     * @param name           the property name
      * @param propertySchema the property schema
-     * @param imports our import set
+     * @param imports        our import set
      * @return the resultant CodegenParameter
      */
     @Override

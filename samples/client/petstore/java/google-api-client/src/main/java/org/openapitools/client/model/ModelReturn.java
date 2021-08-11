@@ -58,6 +58,8 @@ public class ModelReturn {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(Integer _return) {
     this._return = _return;
   }
@@ -79,7 +81,6 @@ public class ModelReturn {
   public int hashCode() {
     return Objects.hash(_return);
   }
-
 
   @Override
   public String toString() {

@@ -45,6 +45,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -63,6 +64,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -118,6 +120,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -133,6 +136,7 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -178,6 +182,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -196,6 +201,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -248,6 +254,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -266,6 +273,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

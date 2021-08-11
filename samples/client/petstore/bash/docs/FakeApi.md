@@ -4,7 +4,7 @@ All URIs are relative to */v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -13,9 +13,9 @@ Method | HTTP request | Description
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -24,23 +24,28 @@ Method | HTTP request | Description
 
 
 
-## fakeHealthGet
+## createXmlItem
 
-Health check endpoint
+creates an XmlItem
+
+this route creates an XmlItem
 
 ### Example
 
 ```bash
-petstore-cli fakeHealthGet
+petstore-cli createXmlItem
 ```
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body |
 
 ### Return type
 
-[**HealthCheckResult**](HealthCheckResult.md)
+(empty response body)
 
 ### Authorization
 
@@ -48,8 +53,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not Applicable
-- **Accept**: application/json
+- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -83,7 +88,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -106,7 +111,7 @@ petstore-cli fakeOuterCompositeSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
+ **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional]
 
 ### Return type
 
@@ -118,7 +123,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -153,7 +158,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -188,7 +193,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -211,7 +216,7 @@ petstore-cli testBodyWithFileSchema
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  |
 
 ### Return type
 
@@ -245,7 +250,7 @@ petstore-cli testBodyWithQueryParams  query=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string** |  | [default to null]
- **user** | [**User**](User.md) |  |
+ **body** | [**User**](User.md) |  |
 
 ### Return type
 
@@ -280,7 +285,7 @@ petstore-cli testClientModel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md) | client model |
+ **body** | [**Client**](Client.md) | client model |
 
 ### Return type
 
@@ -301,14 +306,14 @@ No authorization required
 ## testEndpointParameters
 
 Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
 
 Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
 
 ### Example
 
@@ -361,7 +366,7 @@ To test enum parameters
 ### Example
 
 ```bash
-petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array=value1 enum_query_string_array=value2 enum_query_string_array=...  enum_query_string=value  enum_query_integer=value  enum_query_double=value
+petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array="value1,value2,..."  enum_query_string=value  enum_query_integer=value  enum_query_double=value
 ```
 
 ### Parameters
@@ -424,7 +429,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearer_test](../README.md#bearer_test)
+No authorization required
 
 ### HTTP request headers
 
@@ -449,7 +454,7 @@ petstore-cli testInlineAdditionalProperties
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**map[String, string]**](string.md) | request body |
+ **param** | [**map[String, string]**](string.md) | request body |
 
 ### Return type
 
@@ -510,7 +515,7 @@ To test the collection format in query parameters
 ### Example
 
 ```bash
-petstore-cli testQueryParameterCollectionFormat  Specify as:  pipe=value1 pipe=value2 pipe=...  Specify as:  ioutil="value1,value2,..."  Specify as:   Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
+petstore-cli testQueryParameterCollectionFormat  Specify as:  pipe="value1,value2,..."  Specify as:  ioutil="value1,value2,..."  Specify as:  http="value1 value2 ..."  Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
 ```
 
 ### Parameters

@@ -62,7 +62,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(completion: @escaping (_ data: [String:Int]?, _ error: Error?) -> Void)
+    open class func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
 ```
 
 Returns pet inventories by status
@@ -93,7 +93,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**[String:Int]**
+**[String: Int]**
 
 ### Authorization
 

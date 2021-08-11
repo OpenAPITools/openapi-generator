@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 library serializers;
 
 import 'package:built_value/iso_8601_date_time_serializer.dart';
@@ -17,6 +24,7 @@ import 'package:openapi/model/cat.dart';
 import 'package:openapi/model/cat_all_of.dart';
 import 'package:openapi/model/category.dart';
 import 'package:openapi/model/class_model.dart';
+import 'package:openapi/model/deprecated_object.dart';
 import 'package:openapi/model/dog.dart';
 import 'package:openapi/model/dog_all_of.dart';
 import 'package:openapi/model/enum_arrays.dart';
@@ -26,12 +34,6 @@ import 'package:openapi/model/foo.dart';
 import 'package:openapi/model/format_test.dart';
 import 'package:openapi/model/has_only_read_only.dart';
 import 'package:openapi/model/health_check_result.dart';
-import 'package:openapi/model/inline_object.dart';
-import 'package:openapi/model/inline_object1.dart';
-import 'package:openapi/model/inline_object2.dart';
-import 'package:openapi/model/inline_object3.dart';
-import 'package:openapi/model/inline_object4.dart';
-import 'package:openapi/model/inline_object5.dart';
 import 'package:openapi/model/inline_response_default.dart';
 import 'package:openapi/model/map_test.dart';
 import 'package:openapi/model/mixed_properties_and_additional_properties_class.dart';
@@ -44,227 +46,93 @@ import 'package:openapi/model/model_return.dart';
 import 'package:openapi/model/name.dart';
 import 'package:openapi/model/nullable_class.dart';
 import 'package:openapi/model/number_only.dart';
+import 'package:openapi/model/object_with_deprecated_fields.dart';
 import 'package:openapi/model/order.dart';
 import 'package:openapi/model/outer_composite.dart';
 import 'package:openapi/model/outer_enum.dart';
 import 'package:openapi/model/outer_enum_default_value.dart';
 import 'package:openapi/model/outer_enum_integer.dart';
 import 'package:openapi/model/outer_enum_integer_default_value.dart';
+import 'package:openapi/model/outer_object_with_enum_property.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/read_only_first.dart';
 import 'package:openapi/model/special_model_name.dart';
 import 'package:openapi/model/tag.dart';
 import 'package:openapi/model/user.dart';
 
-
 part 'serializers.g.dart';
 
 @SerializersFor(const [
-AdditionalPropertiesClass,
-Animal,
-ApiResponse,
-ArrayOfArrayOfNumberOnly,
-ArrayOfNumberOnly,
-ArrayTest,
-Capitalization,
-Cat,
-CatAllOf,
-Category,
-ClassModel,
-Dog,
-DogAllOf,
-EnumArrays,
-EnumTest,
-FileSchemaTestClass,
-Foo,
-FormatTest,
-HasOnlyReadOnly,
-HealthCheckResult,
-InlineObject,
-InlineObject1,
-InlineObject2,
-InlineObject3,
-InlineObject4,
-InlineObject5,
-InlineResponseDefault,
-MapTest,
-MixedPropertiesAndAdditionalPropertiesClass,
-Model200Response,
-ModelClient,
-ModelEnumClass,
-ModelFile,
-ModelList,
-ModelReturn,
-Name,
-NullableClass,
-NumberOnly,
-Order,
-OuterComposite,
-OuterEnum,
-OuterEnumDefaultValue,
-OuterEnumInteger,
-OuterEnumIntegerDefaultValue,
-Pet,
-ReadOnlyFirst,
-SpecialModelName,
-Tag,
-User,
-
+  AdditionalPropertiesClass,
+  Animal,
+  ApiResponse,
+  ArrayOfArrayOfNumberOnly,
+  ArrayOfNumberOnly,
+  ArrayTest,
+  Capitalization,
+  Cat,
+  CatAllOf,
+  Category,
+  ClassModel,
+  DeprecatedObject,
+  Dog,
+  DogAllOf,
+  EnumArrays,
+  EnumTest,
+  FileSchemaTestClass,
+  Foo,
+  FormatTest,
+  HasOnlyReadOnly,
+  HealthCheckResult,
+  InlineResponseDefault,
+  MapTest,
+  MixedPropertiesAndAdditionalPropertiesClass,
+  Model200Response,
+  ModelClient,
+  ModelEnumClass,
+  ModelFile,
+  ModelList,
+  ModelReturn,
+  Name,
+  NullableClass,
+  NumberOnly,
+  ObjectWithDeprecatedFields,
+  Order,
+  OuterComposite,
+  OuterEnum,
+  OuterEnumDefaultValue,
+  OuterEnumInteger,
+  OuterEnumIntegerDefaultValue,
+  OuterObjectWithEnumProperty,
+  Pet,
+  ReadOnlyFirst,
+  SpecialModelName,
+  Tag,
+  User,
 ])
-
-//allow all models to be serialized within a list
 Serializers serializers = (_$serializers.toBuilder()
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(AdditionalPropertiesClass)]),
-() => new ListBuilder<AdditionalPropertiesClass>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Animal)]),
-() => new ListBuilder<Animal>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ApiResponse)]),
-() => new ListBuilder<ApiResponse>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ArrayOfArrayOfNumberOnly)]),
-() => new ListBuilder<ArrayOfArrayOfNumberOnly>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ArrayOfNumberOnly)]),
-() => new ListBuilder<ArrayOfNumberOnly>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ArrayTest)]),
-() => new ListBuilder<ArrayTest>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Capitalization)]),
-() => new ListBuilder<Capitalization>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Cat)]),
-() => new ListBuilder<Cat>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(CatAllOf)]),
-() => new ListBuilder<CatAllOf>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Category)]),
-() => new ListBuilder<Category>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ClassModel)]),
-() => new ListBuilder<ClassModel>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Dog)]),
-() => new ListBuilder<Dog>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(DogAllOf)]),
-() => new ListBuilder<DogAllOf>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(EnumArrays)]),
-() => new ListBuilder<EnumArrays>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(EnumTest)]),
-() => new ListBuilder<EnumTest>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(FileSchemaTestClass)]),
-() => new ListBuilder<FileSchemaTestClass>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Foo)]),
-() => new ListBuilder<Foo>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(FormatTest)]),
-() => new ListBuilder<FormatTest>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(HasOnlyReadOnly)]),
-() => new ListBuilder<HasOnlyReadOnly>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(HealthCheckResult)]),
-() => new ListBuilder<HealthCheckResult>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject)]),
-() => new ListBuilder<InlineObject>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject1)]),
-() => new ListBuilder<InlineObject1>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject2)]),
-() => new ListBuilder<InlineObject2>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject3)]),
-() => new ListBuilder<InlineObject3>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject4)]),
-() => new ListBuilder<InlineObject4>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineObject5)]),
-() => new ListBuilder<InlineObject5>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(InlineResponseDefault)]),
-() => new ListBuilder<InlineResponseDefault>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(MapTest)]),
-() => new ListBuilder<MapTest>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(MixedPropertiesAndAdditionalPropertiesClass)]),
-() => new ListBuilder<MixedPropertiesAndAdditionalPropertiesClass>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Model200Response)]),
-() => new ListBuilder<Model200Response>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ModelClient)]),
-() => new ListBuilder<ModelClient>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ModelEnumClass)]),
-() => new ListBuilder<ModelEnumClass>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ModelFile)]),
-() => new ListBuilder<ModelFile>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ModelList)]),
-() => new ListBuilder<ModelList>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ModelReturn)]),
-() => new ListBuilder<ModelReturn>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Name)]),
-() => new ListBuilder<Name>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(NullableClass)]),
-() => new ListBuilder<NullableClass>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(NumberOnly)]),
-() => new ListBuilder<NumberOnly>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Order)]),
-() => new ListBuilder<Order>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(OuterComposite)]),
-() => new ListBuilder<OuterComposite>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(OuterEnum)]),
-() => new ListBuilder<OuterEnum>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(OuterEnumDefaultValue)]),
-() => new ListBuilder<OuterEnumDefaultValue>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(OuterEnumInteger)]),
-() => new ListBuilder<OuterEnumInteger>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(OuterEnumIntegerDefaultValue)]),
-() => new ListBuilder<OuterEnumIntegerDefaultValue>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Pet)]),
-() => new ListBuilder<Pet>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(ReadOnlyFirst)]),
-() => new ListBuilder<ReadOnlyFirst>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(SpecialModelName)]),
-() => new ListBuilder<SpecialModelName>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(Tag)]),
-() => new ListBuilder<Tag>())
-..addBuilderFactory(
-const FullType(BuiltList, const [const FullType(User)]),
-() => new ListBuilder<User>())
-
-..add(Iso8601DateTimeSerializer())
-).build();
+      ..addBuilderFactory(
+        const FullType(BuiltMap, [FullType(String), FullType(String)]),
+        () => MapBuilder<String, String>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltSet, [FullType(Pet)]),
+        () => SetBuilder<Pet>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(Pet)]),
+        () => ListBuilder<Pet>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltMap, [FullType(String), FullType(int)]),
+        () => MapBuilder<String, int>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(User)]),
+        () => ListBuilder<User>(),
+      )
+      ..add(Iso8601DateTimeSerializer()))
+    .build();
 
 Serializers standardSerializers =
-(serializers.toBuilder()
-..addPlugin(StandardJsonPlugin())).build();
+    (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

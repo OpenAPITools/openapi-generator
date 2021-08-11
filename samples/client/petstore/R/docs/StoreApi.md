@@ -148,7 +148,7 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.body <- Order$new(123, 123, 123, "shipDate_example", "status_example", "complete_example") # Order | order placed for purchasing the pet
+var.body <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 
 #Place an order for a pet
 api.instance <- StoreApi$new()

@@ -32,11 +32,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
     protected Boolean serializableModel = false;
 
@@ -163,14 +162,15 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -189,7 +189,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined");
+                LOGGER.warn("{}(array property) does not have a proper inner type defined", ap.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -198,7 +198,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
-                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
+                LOGGER.warn("{}(map property) does not have a proper inner type defined", p.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -409,7 +409,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (null == schemaType) {
-            LOGGER.error("No Type defined for Property " + p);
+            LOGGER.error("No Type defined for Property {}", p);
         }
         return toModelName(schemaType);
     }
@@ -426,7 +426,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -643,6 +643,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return p.replaceAll("\"", "%22");
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }

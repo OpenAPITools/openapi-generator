@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::FormatTest');
 
-my $instance = WWW::OpenAPIClient::Object::FormatTest->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::FormatTest');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::FormatTest->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::FormatTest');
 

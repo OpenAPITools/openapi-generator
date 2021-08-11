@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/api.dart';
 import 'package:openapi/api/another_fake_api.dart';
 import 'package:test/test.dart';
@@ -12,7 +19,7 @@ void main() {
     //
     // To test special tags and operation ID starting with number
     //
-    //Future<Client> call123testSpecialTags(Client client) async
+    //Future<ModelClient> call123testSpecialTags(ModelClient modelClient) async
     test('test call123testSpecialTags', () async {
       // TODO
     });

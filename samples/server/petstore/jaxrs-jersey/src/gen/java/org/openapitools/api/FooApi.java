@@ -60,8 +60,9 @@ public class FooApi  {
     
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "", response = InlineResponseDefault.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class) })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class)
+    })
     public Response fooGet(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fooGet(securityContext);

@@ -16,26 +16,26 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
         Object.assign(this.variableConfiguration, variableConfiguration);
     }
 
-	public getConfiguration(): T {
-		return this.variableConfiguration
-	}
+    public getConfiguration(): T {
+        return this.variableConfiguration
+    }
 
-	public getDescription(): string {
-		return this.description
-	}
+    public getDescription(): string {
+        return this.description
+    }
 
-	/**
-	 * Constructions the URL this server using the url with variables
-	 * replaced with their respective values
-	 */	
-	public getUrl(): string {
-		let replacedUrl = this.url;
-		for (const key in this.variableConfiguration) {
-			var re = new RegExp("{" + key + "}","g");
-			replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
-		}
-		return replacedUrl
-	}
+    /**
+     * Constructions the URL this server using the url with variables
+     * replaced with their respective values
+     */
+    public getUrl(): string {
+        let replacedUrl = this.url;
+        for (const key in this.variableConfiguration) {
+            var re = new RegExp("{" + key + "}","g");
+            replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+        }
+        return replacedUrl
+    }
 }
 
 const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  }, "")

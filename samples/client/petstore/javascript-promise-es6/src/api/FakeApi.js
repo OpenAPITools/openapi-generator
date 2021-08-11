@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
+import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
 import User from '../model/User';
 
@@ -310,7 +311,97 @@ export default class FakeApi {
 
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterObjectWithEnumProperty} and HTTP response
+     */
+    fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty) {
+      let postBody = outerObjectWithEnumProperty;
+      // verify the required parameter 'outerObjectWithEnumProperty' is set
+      if (outerObjectWithEnumProperty === undefined || outerObjectWithEnumProperty === null) {
+        throw new Error("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = OuterObjectWithEnumProperty;
+      return this.apiClient.callApi(
+        '/fake/property/enum-int', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * Test serialization of enum (int) properties with examples
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterObjectWithEnumProperty}
+     */
+    fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty) {
+      return this.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * For this test, the body has to be a binary file.
+     * @param {File} body image to upload
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testBodyWithBinaryWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithBinary");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['image/png'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/body-with-binary', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * For this test, the body has to be a binary file.
+     * @param {File} body image to upload
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testBodyWithBinary(body) {
+      return this.testBodyWithBinaryWithHttpInfo(body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * For this test, the body for this request must reference a schema named `File`.
      * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -342,7 +433,7 @@ export default class FakeApi {
     }
 
     /**
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body for this request must reference a schema named `File`.
      * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -454,7 +545,7 @@ export default class FakeApi {
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * @param {Number} _number None
+     * @param {Number} number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
      * @param {Blob} _byte None
@@ -463,20 +554,20 @@ export default class FakeApi {
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
-     * @param {String} opts._string None
+     * @param {String} opts.string None
      * @param {File} opts.binary None
-     * @param {Date} opts._date None
+     * @param {Date} opts.date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
      * @param {String} opts.callback None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testEndpointParametersWithHttpInfo(_number, _double, patternWithoutDelimiter, _byte, opts) {
+    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, opts) {
       opts = opts || {};
       let postBody = null;
-      // verify the required parameter '_number' is set
-      if (_number === undefined || _number === null) {
-        throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
+      // verify the required parameter 'number' is set
+      if (number === undefined || number === null) {
+        throw new Error("Missing the required parameter 'number' when calling testEndpointParameters");
       }
       // verify the required parameter '_double' is set
       if (_double === undefined || _double === null) {
@@ -501,14 +592,14 @@ export default class FakeApi {
         'integer': opts['integer'],
         'int32': opts['int32'],
         'int64': opts['int64'],
-        'number': _number,
+        'number': number,
         'float': opts['_float'],
         'double': _double,
-        'string': opts['_string'],
+        'string': opts['string'],
         'pattern_without_delimiter': patternWithoutDelimiter,
         'byte': _byte,
         'binary': opts['binary'],
-        'date': opts['_date'],
+        'date': opts['date'],
         'dateTime': opts['dateTime'],
         'password': opts['password'],
         'callback': opts['callback']
@@ -528,7 +619,7 @@ export default class FakeApi {
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * @param {Number} _number None
+     * @param {Number} number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
      * @param {Blob} _byte None
@@ -537,16 +628,16 @@ export default class FakeApi {
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
-     * @param {String} opts._string None
+     * @param {String} opts.string None
      * @param {File} opts.binary None
-     * @param {Date} opts._date None
+     * @param {Date} opts.date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
      * @param {String} opts.callback None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts) {
-      return this.testEndpointParametersWithHttpInfo(_number, _double, patternWithoutDelimiter, _byte, opts)
+    testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, opts) {
+      return this.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -828,7 +919,7 @@ export default class FakeApi {
       let pathParams = {
       };
       let queryParams = {
-        'pipe': this.apiClient.buildCollectionParam(pipe, 'multi'),
+        'pipe': this.apiClient.buildCollectionParam(pipe, 'pipes'),
         'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
         'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),

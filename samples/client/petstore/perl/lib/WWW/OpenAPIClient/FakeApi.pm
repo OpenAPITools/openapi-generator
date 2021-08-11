@@ -421,6 +421,127 @@ sub fake_outer_string_serialize {
 }
 
 #
+# fake_property_enum_integer_serialize
+#
+# 
+# 
+# @param OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
+{
+    my $params = {
+    'outer_object_with_enum_property' => {
+        data_type => 'OuterObjectWithEnumProperty',
+        description => 'Input enum (int) as post body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_property_enum_integer_serialize' } = { 
+        summary => '',
+        params => $params,
+        returns => 'OuterObjectWithEnumProperty',
+        };
+}
+# @return OuterObjectWithEnumProperty
+#
+sub fake_property_enum_integer_serialize {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'outer_object_with_enum_property' is set
+    unless (exists $args{'outer_object_with_enum_property'}) {
+      croak("Missing the required parameter 'outer_object_with_enum_property' when calling fake_property_enum_integer_serialize");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/property/enum-int';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'outer_object_with_enum_property'}) {
+        $_body_data = $args{'outer_object_with_enum_property'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('OuterObjectWithEnumProperty', $response);
+    return $_response_object;
+}
+
+#
+# test_body_with_binary
+#
+# 
+# 
+# @param string $body image to upload (required)
+{
+    my $params = {
+    'body' => {
+        data_type => 'string',
+        description => 'image to upload',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_body_with_binary' } = { 
+        summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_body_with_binary {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/body-with-binary';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('image/png');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_body_with_file_schema
 #
 # 

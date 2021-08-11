@@ -30,7 +30,7 @@ import android.os.Parcel;
  * Category
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Category {
+public class Category implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -75,6 +75,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getName() {
@@ -104,7 +105,6 @@ public class Category {
   public int hashCode() {
     return Objects.hash(id, name);
   }
-
 
   @Override
   public String toString() {

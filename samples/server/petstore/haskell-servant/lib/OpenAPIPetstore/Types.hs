@@ -194,6 +194,7 @@ removeFieldLabelPrefix forParsing prefix =
       , ("~", "'Tilde")
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
+      , ("~=", "'Tilde_Equal")
       ]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer =

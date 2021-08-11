@@ -1,5 +1,6 @@
 README.md
 pom.xml
+src/main/java/org/openapitools/handler/PathHandlerInterface.java
 src/main/java/org/openapitools/handler/PathHandlerProvider.java
 src/main/java/org/openapitools/model/Category.java
 src/main/java/org/openapitools/model/ModelApiResponse.java

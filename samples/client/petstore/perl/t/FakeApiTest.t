@@ -32,154 +32,144 @@ isa_ok($api, 'WWW::OpenAPIClient::FakeApi');
 #
 # fake_health_get test
 #
-{
-    my $result = $api->fake_health_get();
-}
+# uncomment below and update the test
+#my $fake_health_get_result = $api->fake_health_get();
 
 #
 # fake_http_signature_test test
 #
-{
-    my $pet = undef; # replace NULL with a proper value
-    my $query_1 = undef; # replace NULL with a proper value
-    my $header_1 = undef; # replace NULL with a proper value
-    my $result = $api->fake_http_signature_test(pet => $pet, query_1 => $query_1, header_1 => $header_1);
-}
+# uncomment below and update the test
+#my $fake_http_signature_test_pet = undef; # replace NULL with a proper value
+#my $fake_http_signature_test_query_1 = undef; # replace NULL with a proper value
+#my $fake_http_signature_test_header_1 = undef; # replace NULL with a proper value
+#my $fake_http_signature_test_result = $api->fake_http_signature_test(pet => $fake_http_signature_test_pet, query_1 => $fake_http_signature_test_query_1, header_1 => $fake_http_signature_test_header_1);
 
 #
 # fake_outer_boolean_serialize test
 #
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->fake_outer_boolean_serialize(body => $body);
-}
+# uncomment below and update the test
+#my $fake_outer_boolean_serialize_body = undef; # replace NULL with a proper value
+#my $fake_outer_boolean_serialize_result = $api->fake_outer_boolean_serialize(body => $fake_outer_boolean_serialize_body);
 
 #
 # fake_outer_composite_serialize test
 #
-{
-    my $outer_composite = undef; # replace NULL with a proper value
-    my $result = $api->fake_outer_composite_serialize(outer_composite => $outer_composite);
-}
+# uncomment below and update the test
+#my $fake_outer_composite_serialize_outer_composite = undef; # replace NULL with a proper value
+#my $fake_outer_composite_serialize_result = $api->fake_outer_composite_serialize(outer_composite => $fake_outer_composite_serialize_outer_composite);
 
 #
 # fake_outer_number_serialize test
 #
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->fake_outer_number_serialize(body => $body);
-}
+# uncomment below and update the test
+#my $fake_outer_number_serialize_body = undef; # replace NULL with a proper value
+#my $fake_outer_number_serialize_result = $api->fake_outer_number_serialize(body => $fake_outer_number_serialize_body);
 
 #
 # fake_outer_string_serialize test
 #
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->fake_outer_string_serialize(body => $body);
-}
+# uncomment below and update the test
+#my $fake_outer_string_serialize_body = undef; # replace NULL with a proper value
+#my $fake_outer_string_serialize_result = $api->fake_outer_string_serialize(body => $fake_outer_string_serialize_body);
+
+#
+# fake_property_enum_integer_serialize test
+#
+# uncomment below and update the test
+#my $fake_property_enum_integer_serialize_outer_object_with_enum_property = undef; # replace NULL with a proper value
+#my $fake_property_enum_integer_serialize_result = $api->fake_property_enum_integer_serialize(outer_object_with_enum_property => $fake_property_enum_integer_serialize_outer_object_with_enum_property);
 
 #
 # test_body_with_file_schema test
 #
-{
-    my $file_schema_test_class = undef; # replace NULL with a proper value
-    my $result = $api->test_body_with_file_schema(file_schema_test_class => $file_schema_test_class);
-}
+# uncomment below and update the test
+#my $test_body_with_file_schema_file_schema_test_class = undef; # replace NULL with a proper value
+#my $test_body_with_file_schema_result = $api->test_body_with_file_schema(file_schema_test_class => $test_body_with_file_schema_file_schema_test_class);
 
 #
 # test_body_with_query_params test
 #
-{
-    my $query = undef; # replace NULL with a proper value
-    my $user = undef; # replace NULL with a proper value
-    my $result = $api->test_body_with_query_params(query => $query, user => $user);
-}
+# uncomment below and update the test
+#my $test_body_with_query_params_query = undef; # replace NULL with a proper value
+#my $test_body_with_query_params_user = undef; # replace NULL with a proper value
+#my $test_body_with_query_params_result = $api->test_body_with_query_params(query => $test_body_with_query_params_query, user => $test_body_with_query_params_user);
 
 #
 # test_client_model test
 #
-{
-    my $client = undef; # replace NULL with a proper value
-    my $result = $api->test_client_model(client => $client);
-}
+# uncomment below and update the test
+#my $test_client_model_client = undef; # replace NULL with a proper value
+#my $test_client_model_result = $api->test_client_model(client => $test_client_model_client);
 
 #
 # test_endpoint_parameters test
 #
-{
-    my $number = undef; # replace NULL with a proper value
-    my $double = undef; # replace NULL with a proper value
-    my $pattern_without_delimiter = undef; # replace NULL with a proper value
-    my $byte = undef; # replace NULL with a proper value
-    my $integer = undef; # replace NULL with a proper value
-    my $int32 = undef; # replace NULL with a proper value
-    my $int64 = undef; # replace NULL with a proper value
-    my $float = undef; # replace NULL with a proper value
-    my $string = undef; # replace NULL with a proper value
-    my $binary = undef; # replace NULL with a proper value
-    my $date = undef; # replace NULL with a proper value
-    my $date_time = undef; # replace NULL with a proper value
-    my $password = undef; # replace NULL with a proper value
-    my $callback = undef; # replace NULL with a proper value
-    my $result = $api->test_endpoint_parameters(number => $number, double => $double, pattern_without_delimiter => $pattern_without_delimiter, byte => $byte, integer => $integer, int32 => $int32, int64 => $int64, float => $float, string => $string, binary => $binary, date => $date, date_time => $date_time, password => $password, callback => $callback);
-}
+# uncomment below and update the test
+#my $test_endpoint_parameters_number = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_double = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_pattern_without_delimiter = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_byte = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_integer = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_int32 = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_int64 = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_float = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_string = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_binary = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_date = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_date_time = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_password = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_callback = undef; # replace NULL with a proper value
+#my $test_endpoint_parameters_result = $api->test_endpoint_parameters(number => $test_endpoint_parameters_number, double => $test_endpoint_parameters_double, pattern_without_delimiter => $test_endpoint_parameters_pattern_without_delimiter, byte => $test_endpoint_parameters_byte, integer => $test_endpoint_parameters_integer, int32 => $test_endpoint_parameters_int32, int64 => $test_endpoint_parameters_int64, float => $test_endpoint_parameters_float, string => $test_endpoint_parameters_string, binary => $test_endpoint_parameters_binary, date => $test_endpoint_parameters_date, date_time => $test_endpoint_parameters_date_time, password => $test_endpoint_parameters_password, callback => $test_endpoint_parameters_callback);
 
 #
 # test_enum_parameters test
 #
-{
-    my $enum_header_string_array = undef; # replace NULL with a proper value
-    my $enum_header_string = undef; # replace NULL with a proper value
-    my $enum_query_string_array = undef; # replace NULL with a proper value
-    my $enum_query_string = undef; # replace NULL with a proper value
-    my $enum_query_integer = undef; # replace NULL with a proper value
-    my $enum_query_double = undef; # replace NULL with a proper value
-    my $enum_form_string_array = undef; # replace NULL with a proper value
-    my $enum_form_string = undef; # replace NULL with a proper value
-    my $result = $api->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);
-}
+# uncomment below and update the test
+#my $test_enum_parameters_enum_header_string_array = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_header_string = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_query_string_array = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_query_string = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_query_integer = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_query_double = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_form_string_array = undef; # replace NULL with a proper value
+#my $test_enum_parameters_enum_form_string = undef; # replace NULL with a proper value
+#my $test_enum_parameters_result = $api->test_enum_parameters(enum_header_string_array => $test_enum_parameters_enum_header_string_array, enum_header_string => $test_enum_parameters_enum_header_string, enum_query_string_array => $test_enum_parameters_enum_query_string_array, enum_query_string => $test_enum_parameters_enum_query_string, enum_query_integer => $test_enum_parameters_enum_query_integer, enum_query_double => $test_enum_parameters_enum_query_double, enum_form_string_array => $test_enum_parameters_enum_form_string_array, enum_form_string => $test_enum_parameters_enum_form_string);
 
 #
 # test_group_parameters test
 #
-{
-    my $required_string_group = undef; # replace NULL with a proper value
-    my $required_boolean_group = undef; # replace NULL with a proper value
-    my $required_int64_group = undef; # replace NULL with a proper value
-    my $string_group = undef; # replace NULL with a proper value
-    my $boolean_group = undef; # replace NULL with a proper value
-    my $int64_group = undef; # replace NULL with a proper value
-    my $result = $api->test_group_parameters(required_string_group => $required_string_group, required_boolean_group => $required_boolean_group, required_int64_group => $required_int64_group, string_group => $string_group, boolean_group => $boolean_group, int64_group => $int64_group);
-}
+# uncomment below and update the test
+#my $test_group_parameters_required_string_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_required_boolean_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_required_int64_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_string_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_boolean_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_int64_group = undef; # replace NULL with a proper value
+#my $test_group_parameters_result = $api->test_group_parameters(required_string_group => $test_group_parameters_required_string_group, required_boolean_group => $test_group_parameters_required_boolean_group, required_int64_group => $test_group_parameters_required_int64_group, string_group => $test_group_parameters_string_group, boolean_group => $test_group_parameters_boolean_group, int64_group => $test_group_parameters_int64_group);
 
 #
 # test_inline_additional_properties test
 #
-{
-    my $request_body = undef; # replace NULL with a proper value
-    my $result = $api->test_inline_additional_properties(request_body => $request_body);
-}
+# uncomment below and update the test
+#my $test_inline_additional_properties_request_body = undef; # replace NULL with a proper value
+#my $test_inline_additional_properties_result = $api->test_inline_additional_properties(request_body => $test_inline_additional_properties_request_body);
 
 #
 # test_json_form_data test
 #
-{
-    my $param = undef; # replace NULL with a proper value
-    my $param2 = undef; # replace NULL with a proper value
-    my $result = $api->test_json_form_data(param => $param, param2 => $param2);
-}
+# uncomment below and update the test
+#my $test_json_form_data_param = undef; # replace NULL with a proper value
+#my $test_json_form_data_param2 = undef; # replace NULL with a proper value
+#my $test_json_form_data_result = $api->test_json_form_data(param => $test_json_form_data_param, param2 => $test_json_form_data_param2);
 
 #
 # test_query_parameter_collection_format test
 #
-{
-    my $pipe = undef; # replace NULL with a proper value
-    my $ioutil = undef; # replace NULL with a proper value
-    my $http = undef; # replace NULL with a proper value
-    my $url = undef; # replace NULL with a proper value
-    my $context = undef; # replace NULL with a proper value
-    my $result = $api->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context);
-}
+# uncomment below and update the test
+#my $test_query_parameter_collection_format_pipe = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_ioutil = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_http = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_url = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_context = undef; # replace NULL with a proper value
+#my $test_query_parameter_collection_format_result = $api->test_query_parameter_collection_format(pipe => $test_query_parameter_collection_format_pipe, ioutil => $test_query_parameter_collection_format_ioutil, http => $test_query_parameter_collection_format_http, url => $test_query_parameter_collection_format_url, context => $test_query_parameter_collection_format_context);
 
-
-1;

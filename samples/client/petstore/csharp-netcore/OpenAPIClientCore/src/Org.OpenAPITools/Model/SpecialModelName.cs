@@ -36,9 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
-        public SpecialModelName(long specialPropertyName = default(long))
+        /// <param name="specialModelName">specialModelName.</param>
+        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
         {
             this.SpecialPropertyName = specialPropertyName;
+            this._SpecialModelName = specialModelName;
         }
 
         /// <summary>
@@ -46,6 +48,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
         public long SpecialPropertyName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets _SpecialModelName
+        /// </summary>
+        [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
+        public string _SpecialModelName { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +64,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
+            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +108,8 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = hashCode * 59 + this.SpecialPropertyName.GetHashCode();
+                if (this._SpecialModelName != null)
+                    hashCode = hashCode * 59 + this._SpecialModelName.GetHashCode();
                 return hashCode;
             }
         }

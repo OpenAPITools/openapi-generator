@@ -34,7 +34,7 @@ class OpenApiParameterValidations extends GenericValidator<ParameterWrapper> {
      */
     private static ValidationRule.Result apacheNginxHeaderCheck(ParameterWrapper parameterWrapper) {
         Parameter parameter = parameterWrapper.getParameter();
-        if (parameter == null || !parameter.getIn().equals("header")) return ValidationRule.Pass.empty();
+        if (parameter == null || !"header".equals(parameter.getIn())) return ValidationRule.Pass.empty();
         ValidationRule.Result result = ValidationRule.Pass.empty();
 
         String headerName = parameter.getName();

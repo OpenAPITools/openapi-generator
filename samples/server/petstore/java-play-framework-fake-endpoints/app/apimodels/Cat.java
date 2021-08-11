@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")
+  
   private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
@@ -25,7 +26,7 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

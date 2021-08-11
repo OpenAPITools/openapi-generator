@@ -407,6 +407,54 @@ paths:
           description: Success
       tags:
       - Repo
+  /one-of:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: integer
+                - items:
+                    type: string
+                  type: array
+          description: Success
+  /any-of:
+    get:
+      parameters:
+      - description: list of any of objects
+        explode: true
+        in: query
+        name: any-of
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/AnyOfObject'
+          minItems: 1
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfObject'
+          description: Success
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/12345AnyOfObject'
+          description: AlternateSuccess
+        "202":
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/StringObject'
+                - $ref: '#/components/schemas/UuidObject'
+          description: AnyOfSuccess
   /json-complex-query-param:
     get:
       parameters:
@@ -426,6 +474,27 @@ paths:
           description: Success
 components:
   schemas:
+    AnyOfProperty:
+      description: Test containing an anyOf object
+      properties:
+        requiredAnyOf:
+          $ref: '#/components/schemas/AnyOfObject'
+        optionalAnyOf:
+          $ref: '#/components/schemas/12345AnyOfObject'
+      required:
+      - requiredAnyOf
+    AnyOfObject:
+      anyOf:
+      - $ref: '#/components/schemas/AnyOfObject_anyOf'
+      - description: Alternate option
+        type: string
+      description: Test a model containing an anyOf
+    "12345AnyOfObject":
+      anyOf:
+      - $ref: '#/components/schemas/_12345AnyOfObject_anyOf'
+      - description: Alternate option
+        type: string
+      description: Test a model containing an anyOf that starts with a number
     EnumWithStarObject:
       description: Test a model containing a special character in the enum
       enum:
@@ -607,6 +676,17 @@ components:
         foo:
           type: string
       type: object
+    AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    _12345AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
   securitySchemes:
     authScheme:
       flows:

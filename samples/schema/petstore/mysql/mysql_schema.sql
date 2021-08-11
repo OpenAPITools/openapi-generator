@@ -127,6 +127,14 @@ CREATE TABLE IF NOT EXISTS `Client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `DeprecatedObject` generated from model 'DeprecatedObject'
+--
+
+CREATE TABLE IF NOT EXISTS `DeprecatedObject` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Dog` generated from model 'Dog'
 --
 
@@ -236,72 +244,6 @@ CREATE TABLE IF NOT EXISTS `HealthCheckResult` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.';
 
 --
--- Table structure for table `inline_object` generated from model 'inlineUnderscoreobject'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object` (
-  `name` TEXT DEFAULT NULL COMMENT 'Updated name of the pet',
-  `status` TEXT DEFAULT NULL COMMENT 'Updated status of the pet'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `inline_object_1` generated from model 'inlineUnderscoreobjectUnderscore1'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object_1` (
-  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
-  `file` MEDIUMBLOB DEFAULT NULL COMMENT 'file to upload'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `inline_object_2` generated from model 'inlineUnderscoreobjectUnderscore2'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object_2` (
-  `enum_form_string_array` JSON DEFAULT NULL COMMENT 'Form parameter enum test (string array)',
-  `enum_form_string` ENUM('_abc', '-efg', '(xyz)') DEFAULT '-efg' COMMENT 'Form parameter enum test (string)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `inline_object_3` generated from model 'inlineUnderscoreobjectUnderscore3'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object_3` (
-  `integer` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
-  `int32` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
-  `int64` BIGINT DEFAULT NULL COMMENT 'None',
-  `number` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
-  `float` DECIMAL(20, 9) DEFAULT NULL COMMENT 'None',
-  `double` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
-  `string` TEXT DEFAULT NULL COMMENT 'None',
-  `pattern_without_delimiter` TEXT NOT NULL COMMENT 'None',
-  `byte` MEDIUMBLOB NOT NULL COMMENT 'None',
-  `binary` MEDIUMBLOB DEFAULT NULL COMMENT 'None',
-  `date` DATE DEFAULT NULL COMMENT 'None',
-  `dateTime` DATETIME DEFAULT NULL COMMENT 'None',
-  `password` VARCHAR(64) DEFAULT NULL COMMENT 'None',
-  `callback` TEXT DEFAULT NULL COMMENT 'None'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `inline_object_4` generated from model 'inlineUnderscoreobjectUnderscore4'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object_4` (
-  `param` TEXT NOT NULL COMMENT 'field1',
-  `param2` TEXT NOT NULL COMMENT 'field2'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `inline_object_5` generated from model 'inlineUnderscoreobjectUnderscore5'
---
-
-CREATE TABLE IF NOT EXISTS `inline_object_5` (
-  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
-  `requiredFile` MEDIUMBLOB NOT NULL COMMENT 'file to upload'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `inline_response_default` generated from model 'inlineUnderscoreresponseUnderscoredefault'
 --
 
@@ -378,6 +320,17 @@ CREATE TABLE IF NOT EXISTS `NumberOnly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `ObjectWithDeprecatedFields` generated from model 'ObjectWithDeprecatedFields'
+--
+
+CREATE TABLE IF NOT EXISTS `ObjectWithDeprecatedFields` (
+  `uuid` TEXT DEFAULT NULL,
+  `id` DECIMAL(20, 9) DEFAULT NULL,
+  `deprecatedRef` TEXT DEFAULT NULL,
+  `bars` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Order` generated from model 'Order'
 --
 
@@ -398,6 +351,14 @@ CREATE TABLE IF NOT EXISTS `OuterComposite` (
   `my_number` DECIMAL(20, 9) DEFAULT NULL,
   `my_string` TEXT DEFAULT NULL,
   `my_boolean` TINYINT(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `OuterObjectWithEnumProperty` generated from model 'OuterObjectWithEnumProperty'
+--
+
+CREATE TABLE IF NOT EXISTS `OuterObjectWithEnumProperty` (
+  `value` TEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

@@ -68,12 +68,74 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>dartanalyzer</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>dartanalyzer</executable>
+                            <arguments>
+                                <argument>--fatal-infos</argument>
+                                <argument>--options</argument>
+                                <argument>analysis_options.yaml</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>pub-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <executable>pub</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>test</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tests-pub-get</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
+                            <executable>pub</executable>
+                            <arguments>
+                                <argument>get</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tests-dartanalyzer</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
+                            <executable>dartanalyzer</executable>
+                            <arguments>
+                                <argument>--fatal-infos</argument>
+                                <argument>--options</argument>
+                                <argument>analysis_options.yaml</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tests-pub-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
                             <executable>pub</executable>
                             <arguments>
                                 <argument>run</argument>

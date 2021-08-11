@@ -24,19 +24,19 @@ import java.io.Serializable
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet (
+data class Pet(
     val name: kotlin.String,
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     val id: kotlin.Long? = null,
     val category: Category? = null,
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
 ) : Serializable 
 {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
     /**
     * pet status in the store
     * Values: available,pending,sold

@@ -64,6 +64,55 @@ Once compiled, you can run it with ``` ./main ```
 
 Note: You don't need to specify includes for models and include folder seperately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
 
+## Documentation for API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+Category | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{classname}}_{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{classname}}_{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Documentation for Models
+
+{{#models}}{{#model}} - [{{classname}}_t]({{modelDocPath}}{{classname}}.md)
+{{/model}}{{/models}}
+
+## Documentation for Authorization
+
+{{^authMethods}}
+All endpoints do not require authorization.
+{{/authMethods}}
+{{#authMethods}}
+{{#last}}
+Authentication schemes defined for the API:
+{{/last}}
+{{/authMethods}}
+{{#authMethods}}
+
+### {{name}}
+
+{{#isApiKey}}- **Type**: API key
+
+- **API key parameter name**: {{keyParamName}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+{{/isApiKey}}
+{{#isBasic}}
+
+- **Type**: HTTP basic authentication
+{{/isBasic}}
+{{#isOAuth}}
+
+- **Type**: OAuth
+- **Flow**: {{flow}}
+- **Authorization URL**: {{authorizationUrl}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}
+{{#scopes}}  - {{scope}}: {{description}}
+{{/scopes}}
+{{/isOAuth}}
+
+{{/authMethods}}
+
 ## Author
 
 {{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}

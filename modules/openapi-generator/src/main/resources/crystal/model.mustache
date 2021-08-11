@@ -1,0 +1,24 @@
+# {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
+
+require "json"
+require "time"
+
+module {{moduleName}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>partial_model_enum_class}}
+{{/isEnum}}
+{{^isEnum}}
+{{#oneOf}}
+{{#-first}}
+{{>partial_oneof_module}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
+{{>partial_model_generic}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+end

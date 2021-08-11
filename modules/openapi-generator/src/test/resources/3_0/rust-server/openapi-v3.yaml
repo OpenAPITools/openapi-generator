@@ -357,7 +357,6 @@ paths:
       responses:
         '200':
           description: Success
-
   /repos/{repoId}:
     parameters:
       - in: path
@@ -391,6 +390,51 @@ paths:
       responses:
         '200':
           description: Success
+  /one-of:
+    get:
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: integer
+                  - type: array
+                    items:
+                      type: string
+  /any-of:
+    get:
+      parameters:
+        - name: any-of
+          in: query
+          description: list of any of objects
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AnyOfObject'
+            minItems: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfObject"
+        '201':
+          description: AlternateSuccess
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/12345AnyOfObject"
+        '202':
+          description: AnyOfSuccess
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/StringObject"
+                  - $ref: "#/components/schemas/UuidObject"
   /json-complex-query-param:
     get:
       parameters:
@@ -418,6 +462,34 @@ components:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
   schemas:
+    AnyOfProperty:
+      description: Test containing an anyOf object
+      properties:
+        requiredAnyOf:
+          $ref: '#/components/schemas/AnyOfObject'
+        optionalAnyOf:
+          $ref: '#/components/schemas/12345AnyOfObject'
+      required:
+      - requiredAnyOf
+    AnyOfObject:
+      description: Test a model containing an anyOf
+      anyOf:
+      - type: string
+        enum:
+        - FOO
+        - BAR
+      - type: string
+        description: Alternate option
+    12345AnyOfObject:
+      description: Test a model containing an anyOf that starts with a number
+      anyOf:
+      - type: string
+        enum:
+        - FOO
+        - BAR
+        - "*"
+      - type: string
+        description: Alternate option
     EnumWithStarObject:
       description: Test a model containing a special character in the enum
       type: string

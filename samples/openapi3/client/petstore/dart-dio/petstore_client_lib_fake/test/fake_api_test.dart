@@ -1,3 +1,10 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/api.dart';
 import 'package:openapi/api/fake_api.dart';
 import 'package:test/test.dart';
@@ -50,6 +57,13 @@ void main() {
       // TODO
     });
 
+    // Test serialization of enum (int) properties with examples
+    //
+    //Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async
+    test('test fakePropertyEnumIntegerSerialize', () async {
+      // TODO
+    });
+
     // For this test, the body for this request much reference a schema named `File`.
     //
     //Future testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async
@@ -66,7 +80,7 @@ void main() {
     //
     // To test \"client\" model
     //
-    //Future<Client> testClientModel(Client client) async
+    //Future<ModelClient> testClientModel(ModelClient modelClient) async
     test('test testClientModel', () async {
       // TODO
     });

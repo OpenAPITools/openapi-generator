@@ -102,6 +102,8 @@ public class BigCat extends Cat {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
@@ -124,7 +126,6 @@ public class BigCat extends Cat {
   public int hashCode() {
     return Objects.hash(kind, super.hashCode());
   }
-
 
   @Override
   public String toString() {

@@ -1,6 +1,5 @@
 package org.openapitools.codegen.utils;
 
-import com.google.common.base.Ticker;
 import com.google.common.testing.FakeTicker;
 import org.mockito.Mockito;
 import org.openapitools.codegen.config.GlobalSettings;

@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected String moduleName;
@@ -168,6 +168,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 Arrays.asList(
                         "Integer",
                         "Float",
+                        "Decimal",
                         "Boolean",
                         "String",
                         "List",
@@ -175,7 +176,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Map",
                         "Tuple",
                         "PID",
-                        "DateTime"
+                        "DateTime",
+                        "map()" // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
                 )
         );
 
@@ -447,13 +449,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -469,13 +472,13 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             return underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -510,8 +513,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
         } else if (ModelUtils.isObjectSchema(p)) {
-            // TODO How to map it?
-            return super.getTypeDeclaration(p);
+            return "map()";
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
         } else if (ModelUtils.isNumberSchema(p)) {
@@ -520,9 +522,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             return "String.t";
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            // How to map it?
-            return super.getTypeDeclaration(p);
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
         } else if (ModelUtils.isFileSchema(p)) {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
@@ -593,16 +594,16 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
         }
 
-        public String codeMappingKey(){
-            if(this.isDefinedDefault) {
+        public String codeMappingKey() {
+            if (this.isDefinedDefault) {
                 return ":default";
             }
 
-            if(code.matches("^\\d{3}$")){
+            if (code.matches("^\\d{3}$")) {
                 return code;
             }
 
-            LOGGER.warn("Unknown HTTP status code: " + this.code);
+            LOGGER.warn("Unknown HTTP status code: {}", this.code);
             return "\"" + code + "\"";
         }
 
@@ -817,6 +818,23 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             }
+        }
+
+        private boolean getRequiresHttpcWorkaround() {
+            // Only POST/PATCH/PUT are affected from the httpc bug
+            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+                return false;
+            }
+
+            // If theres something required for the body, the workaround is not required
+            for (CodegenParameter requiredParam : this.requiredParams) {
+                if (requiredParam.isBodyParam || requiredParam.isFormParam) {
+                    return false;
+                }
+            }
+
+            // In case there is nothing for the body, the operation requires the workaround
+            return true;
         }
     }
 

@@ -26,7 +26,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -60,6 +59,8 @@ public class Banana {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }

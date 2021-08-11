@@ -64,7 +64,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class)
     })
-    public Response placeOrder(@Valid Order body) {
+    public Response placeOrder(@Valid @NotNull Order body) {
         return Response.ok().entity("magic!").build();
     }
 }

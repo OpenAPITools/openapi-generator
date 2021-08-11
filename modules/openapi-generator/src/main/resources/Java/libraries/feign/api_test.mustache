@@ -3,8 +3,8 @@ package {{package}};
 import {{invokerPackage}}.ApiClient;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -16,11 +16,11 @@ import java.util.Map;
 /**
  * API tests for {{classname}}
  */
-public class {{classname}}Test {
+class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient({{classname}}.class);
     }
@@ -32,7 +32,7 @@ public class {{classname}}Test {
      * {{notes}}
      */
     @Test
-    public void {{operationId}}Test() {
+    void {{operationId}}Test() {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
@@ -51,7 +51,7 @@ public class {{classname}}Test {
      * listing them out individually.
      */
     @Test
-    public void {{operationId}}TestQueryMap() {
+    void {{operationId}}TestQueryMap() {
           {{#allParams}}
             {{^isQueryParam}}
         {{{dataType}}} {{paramName}} = null;

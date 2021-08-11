@@ -17,12 +17,12 @@ import java.io.Serializable
 
 /**
  * 
- * @param dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket 
+ * @param dollarSpecialPropertyName 
  */
 
 data class SpecialModelname (
     @SerializedName("\$special[property.name]")
-    val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
+    val dollarSpecialPropertyName: kotlin.Long? = null
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 123

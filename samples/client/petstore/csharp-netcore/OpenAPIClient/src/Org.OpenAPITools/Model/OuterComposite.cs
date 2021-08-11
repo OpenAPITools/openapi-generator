@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name = "my_boolean", EmitDefaultValue = false)]
+        [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
         public bool MyBoolean { get; set; }
 
         /// <summary>

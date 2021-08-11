@@ -31,7 +31,7 @@ import android.os.Parcel;
  */
 @ApiModel(description = "Model for testing model name same as property name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Name {
+public class Name implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private Integer name;
@@ -61,6 +61,7 @@ public class Name {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
@@ -143,7 +144,6 @@ public class Name {
   public int hashCode() {
     return Objects.hash(name, snakeCase, property, _123number);
   }
-
 
   @Override
   public String toString() {

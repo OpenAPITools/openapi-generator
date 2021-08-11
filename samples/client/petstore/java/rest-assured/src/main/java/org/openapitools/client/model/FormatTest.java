@@ -179,6 +179,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "")
@@ -276,6 +277,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
@@ -323,6 +325,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
   @ApiModelProperty(required = true, value = "")
@@ -395,6 +398,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)  @ApiModelProperty(required = true, value = "")
 
@@ -461,7 +465,6 @@ public class FormatTest {
   public int hashCode() {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
-
 
   @Override
   public String toString() {

@@ -40,11 +40,12 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-    static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = new String[]{"handlebars", "hbs"};
 
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
     private final String[] canCompileFromExtensions = new String[]{".handlebars",".hbs",".mustache"};
+    private boolean infiniteLoops = false;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -82,6 +83,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         StringHelpers.register(handlebars);
         handlebars.registerHelpers(ConditionalHelpers.class);
         handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
+        handlebars.setInfiniteLoops(infiniteLoops);
         Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
     }
@@ -120,6 +122,17 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     public boolean handlesFile(String filename) {
         // disallow any extension-only files like ".hbs" or ".mustache", and only consider a file compilable if it's handlebars or mustache (from which we later infer the handlebars filename)
         return Arrays.stream(canCompileFromExtensions).anyMatch(suffix -> !suffix.equalsIgnoreCase(filename) && filename.endsWith(suffix));
+    }
+
+    /**
+     * Enable/disable infiniteLoops setting for the Handlebars engine. Enabling this allows for recursive partial inclusion.
+     *
+     * @param infiniteLoops Whether to enable (true) or disable (false)
+     * @return this object
+     */
+    public HandlebarsEngineAdapter infiniteLoops(boolean infiniteLoops) {
+        this.infiniteLoops = infiniteLoops;
+        return this;
     }
 }
 

@@ -18,13 +18,6 @@ class OuterEnumInteger {
   final int value;
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-      other is OuterEnumInteger && other.value == value;
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
   String toString() => value.toString();
 
   int toJson() => value;

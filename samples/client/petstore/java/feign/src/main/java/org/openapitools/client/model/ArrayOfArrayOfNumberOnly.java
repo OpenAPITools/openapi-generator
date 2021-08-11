@@ -68,6 +68,8 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
@@ -89,7 +91,6 @@ public class ArrayOfArrayOfNumberOnly {
   public int hashCode() {
     return Objects.hash(arrayArrayNumber);
   }
-
 
   @Override
   public String toString() {

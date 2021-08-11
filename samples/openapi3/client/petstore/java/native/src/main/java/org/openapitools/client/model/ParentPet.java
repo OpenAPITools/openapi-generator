@@ -29,9 +29,9 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ChildCat;
 import org.openapitools.client.model.GrandparentAnimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
 import org.openapitools.client.JSON;
-
-
 /**
  * ParentPet
  */

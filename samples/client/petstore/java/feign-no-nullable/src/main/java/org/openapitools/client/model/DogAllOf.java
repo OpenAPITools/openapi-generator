@@ -58,6 +58,8 @@ public class DogAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;
   }
@@ -79,7 +81,6 @@ public class DogAllOf {
   public int hashCode() {
     return Objects.hash(breed);
   }
-
 
   @Override
   public String toString() {

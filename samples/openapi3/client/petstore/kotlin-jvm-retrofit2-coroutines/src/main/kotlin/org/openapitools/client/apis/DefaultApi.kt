@@ -14,7 +14,7 @@ interface DefaultApi {
      * Responses:
      *  - 0: response
      * 
-    * @return [InlineResponseDefault]
+     * @return [InlineResponseDefault]
      */
     @GET("foo")
     suspend fun fooGet(): Response<InlineResponseDefault>

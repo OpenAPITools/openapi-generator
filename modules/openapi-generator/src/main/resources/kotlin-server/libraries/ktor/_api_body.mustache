@@ -1,17 +1,13 @@
 {{#hasAuthMethods}}
 {{>libraries/ktor/_principal}}
-if (principal == null) {
-    call.respond(HttpStatusCode.Unauthorized)
-} else {
-    {{#examples}}
-    {{#-first}}
-    {{#lambda.indented}}{{>_response}}{{/lambda.indented}}
-    {{/-first}}
-    {{/examples}}
-    {{^examples}}
-    call.respond(HttpStatusCode.NotImplemented)
-    {{/examples}}
-}
+{{#examples}}
+{{#-first}}
+{{#lambda.indented}}{{>_response}}{{/lambda.indented}}
+{{/-first}}
+{{/examples}}
+{{^examples}}
+call.respond(HttpStatusCode.NotImplemented)
+{{/examples}}
 {{/hasAuthMethods}}
 {{^hasAuthMethods}}
 {{#examples}}

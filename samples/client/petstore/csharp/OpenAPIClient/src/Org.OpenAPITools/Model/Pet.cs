@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
-            
+
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
@@ -98,13 +98,13 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
-            
+
             this.Id = id;
             this.Category = category;
             this.Tags = tags;
             this.Status = status;
         }
-        
+
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -250,6 +250,8 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+
+ 
             yield break;
         }
     }

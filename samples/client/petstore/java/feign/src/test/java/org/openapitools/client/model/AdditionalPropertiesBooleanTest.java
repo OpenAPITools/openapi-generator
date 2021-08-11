@@ -16,27 +16,26 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for AdditionalPropertiesBoolean
  */
-public class AdditionalPropertiesBooleanTest {
+class AdditionalPropertiesBooleanTest {
     private final AdditionalPropertiesBoolean model = new AdditionalPropertiesBoolean();
 
     /**
      * Model tests for AdditionalPropertiesBoolean
      */
     @Test
-    public void testAdditionalPropertiesBoolean() {
+    void testAdditionalPropertiesBoolean() {
         // TODO: test AdditionalPropertiesBoolean
     }
 
@@ -44,7 +43,7 @@ public class AdditionalPropertiesBooleanTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

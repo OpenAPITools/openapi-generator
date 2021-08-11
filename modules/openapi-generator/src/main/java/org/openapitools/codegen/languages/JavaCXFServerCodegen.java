@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -27,12 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
 
     protected boolean addConsumesProducesJson = true;
 
@@ -245,7 +242,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ToStringSerializer");
 
         //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey("jackson")) {
+        if (additionalProperties.containsKey(JACKSON)) {
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");

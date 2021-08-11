@@ -26,6 +26,7 @@ from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
+from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog
 from petstore_api.models.dog_all_of import DogAllOf
 from petstore_api.models.enum_arrays import EnumArrays
@@ -37,12 +38,6 @@ from petstore_api.models.foo import Foo
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
-from petstore_api.models.inline_object import InlineObject
-from petstore_api.models.inline_object1 import InlineObject1
-from petstore_api.models.inline_object2 import InlineObject2
-from petstore_api.models.inline_object3 import InlineObject3
-from petstore_api.models.inline_object4 import InlineObject4
-from petstore_api.models.inline_object5 import InlineObject5
 from petstore_api.models.inline_response_default import InlineResponseDefault
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
@@ -52,12 +47,14 @@ from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
+from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName

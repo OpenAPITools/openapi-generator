@@ -63,6 +63,7 @@ public class Name {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -73,6 +74,8 @@ public class Name {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(Integer name) {
     this.name = name;
   }
@@ -114,6 +117,8 @@ public class Name {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(String property) {
     this.property = property;
   }
@@ -154,7 +159,6 @@ public class Name {
   public int hashCode() {
     return Objects.hash(name, snakeCase, property, _123number);
   }
-
 
   @Override
   public String toString() {

@@ -15,18 +15,29 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
+  @NotNull
+
   private String stringItem = "what";
 
   @JsonProperty("number_item")
+  @NotNull
+@Valid
+
   private BigDecimal numberItem;
 
   @JsonProperty("integer_item")
+  @NotNull
+
   private Integer integerItem;
 
   @JsonProperty("bool_item")
+  @NotNull
+
   private Boolean boolItem = true;
 
   @JsonProperty("array_item")
+  @NotNull
+
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {
@@ -38,7 +49,6 @@ public class TypeHolderDefault   {
    * Get stringItem
    * @return stringItem
   **/
-  @NotNull
   public String getStringItem() {
     return stringItem;
   }
@@ -56,8 +66,6 @@ public class TypeHolderDefault   {
    * Get numberItem
    * @return numberItem
   **/
-  @NotNull
-@Valid
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -75,7 +83,6 @@ public class TypeHolderDefault   {
    * Get integerItem
    * @return integerItem
   **/
-  @NotNull
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -93,7 +100,6 @@ public class TypeHolderDefault   {
    * Get boolItem
    * @return boolItem
   **/
-  @NotNull
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -116,7 +122,6 @@ public class TypeHolderDefault   {
    * Get arrayItem
    * @return arrayItem
   **/
-  @NotNull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

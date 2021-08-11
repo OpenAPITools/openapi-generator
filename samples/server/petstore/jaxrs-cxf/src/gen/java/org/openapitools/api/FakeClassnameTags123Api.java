@@ -42,6 +42,6 @@ public interface FakeClassnameTags123Api  {
     @ApiOperation(value = "To test class name in snake case", tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClassname(@Valid Client body);
+    public Client testClassname(@Valid @NotNull Client body);
 }
 

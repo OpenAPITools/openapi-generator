@@ -4,6 +4,7 @@
 with {{package}}.Models;
 with Swagger.Clients;
 package {{package}}.Clients is
+   pragma Style_Checks ("-mr");
 
    type Client_Type is new Swagger.Clients.Client_Type with null record;
 

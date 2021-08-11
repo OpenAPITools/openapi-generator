@@ -1,6 +1,9 @@
 {{>licenseInfo}}
 
 package body {{package}}.Models is
+   pragma Style_Checks ("-mr");
+
+   pragma Warnings (Off, "*use clause for package*");
 
    use Swagger.Streams;
 

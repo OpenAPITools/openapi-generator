@@ -47,6 +47,9 @@
         {{#isString}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isBoolean}}
         {{#isDate}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isDate}}
@@ -88,6 +91,9 @@
         {{#isString}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isBoolean}}
         {{#isDate}}
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isDate}}
@@ -185,7 +191,7 @@
         {{/isArray}}
         {{#isMap}}
         {{#isPrimitiveType}}
-          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}%s
         {{/isPrimitiveType}}
@@ -193,7 +199,7 @@
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}%s
         {{/isPrimitiveType}}
@@ -218,7 +224,7 @@
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
-        self$`{{baseName}}`
+        {{#isBoolean}}tolower({{/isBoolean}}self$`{{baseName}}`{{#isBoolean}}){{/isBoolean}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE, digits = NA)
@@ -253,4 +259,3 @@
 {{/isEnum}}
 {{/model}}
 {{/models}}
-

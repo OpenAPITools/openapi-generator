@@ -6,7 +6,7 @@ import org.openapitools.vertxweb.server.model.Pet;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;
-import io.vertx.ext.web.openapi.RouterFactory;
+import io.vertx.ext.web.openapi.RouterBuilder;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -22,21 +22,26 @@ public class PetApiHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(PetApiHandler.class);
 
-    private final PetApi apiImpl;
+    private final PetApi api;
 
-    public PetApiHandler() {
-        this.apiImpl = new PetApiImpl();
+    public PetApiHandler(PetApi api) {
+        this.api = api;
     }
 
-    public void mount(RouterFactory factory) {
-        factory.operation("addPet").handler(this::addPet);
-        factory.operation("deletePet").handler(this::deletePet);
-        factory.operation("findPetsByStatus").handler(this::findPetsByStatus);
-        factory.operation("findPetsByTags").handler(this::findPetsByTags);
-        factory.operation("getPetById").handler(this::getPetById);
-        factory.operation("updatePet").handler(this::updatePet);
-        factory.operation("updatePetWithForm").handler(this::updatePetWithForm);
-        factory.operation("uploadFile").handler(this::uploadFile);
+    @Deprecated
+    public PetApiHandler() {
+        this(new PetApiImpl());
+    }
+
+    public void mount(RouterBuilder builder) {
+        builder.operation("addPet").handler(this::addPet);
+        builder.operation("deletePet").handler(this::deletePet);
+        builder.operation("findPetsByStatus").handler(this::findPetsByStatus);
+        builder.operation("findPetsByTags").handler(this::findPetsByTags);
+        builder.operation("getPetById").handler(this::getPetById);
+        builder.operation("updatePet").handler(this::updatePet);
+        builder.operation("updatePetWithForm").handler(this::updatePetWithForm);
+        builder.operation("uploadFile").handler(this::uploadFile);
     }
 
     private void addPet(RoutingContext routingContext) {
@@ -50,7 +55,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter pet is {}", pet);
 
-        apiImpl.addPet(pet)
+        api.addPet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -74,7 +79,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter apiKey is {}", apiKey);
 
-        apiImpl.deletePet(petId, apiKey)
+        api.deletePet(petId, apiKey)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -96,7 +101,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter status is {}", status);
 
-        apiImpl.findPetsByStatus(status)
+        api.findPetsByStatus(status)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -118,7 +123,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter tags is {}", tags);
 
-        apiImpl.findPetsByTags(tags)
+        api.findPetsByTags(tags)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -140,7 +145,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter petId is {}", petId);
 
-        apiImpl.getPetById(petId)
+        api.getPetById(petId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -163,7 +168,7 @@ public class PetApiHandler {
 
         logger.debug("Parameter pet is {}", pet);
 
-        apiImpl.updatePet(pet)
+        api.updatePet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -188,7 +193,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter formBody is {}", formBody);
 
-        apiImpl.updatePetWithForm(petId, formBody)
+        api.updatePetWithForm(petId, formBody)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -212,7 +217,7 @@ public class PetApiHandler {
         logger.debug("Parameter petId is {}", petId);
         logger.debug("Parameter file is {}", file);
 
-        apiImpl.uploadFile(petId, file)
+        api.uploadFile(petId, file)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

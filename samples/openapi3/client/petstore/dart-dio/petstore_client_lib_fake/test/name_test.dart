@@ -1,27 +1,35 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/name.dart';
 import 'package:test/test.dart';
 
 // tests for Name
 void main() {
-  final instance = Name();
+  final instance = NameBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Name, () {
-    // int name (default value: null)
+    // int name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // int snakeCase (default value: null)
+    // int snakeCase
     test('to test the property `snakeCase`', () async {
       // TODO
     });
 
-    // String property (default value: null)
+    // String property
     test('to test the property `property`', () async {
       // TODO
     });
 
-    // int n123number (default value: null)
+    // int n123number
     test('to test the property `n123number`', () async {
       // TODO
     });

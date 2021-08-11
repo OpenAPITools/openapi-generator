@@ -16,36 +16,52 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
+  
   private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
+  @Valid
+
   private Map<String, BigDecimal> mapNumber = null;
 
   @JsonProperty("map_integer")
+  
   private Map<String, Integer> mapInteger = null;
 
   @JsonProperty("map_boolean")
+  
   private Map<String, Boolean> mapBoolean = null;
 
   @JsonProperty("map_array_integer")
+  @Valid
+
   private Map<String, List<Integer>> mapArrayInteger = null;
 
   @JsonProperty("map_array_anytype")
+  @Valid
+
   private Map<String, List<Object>> mapArrayAnytype = null;
 
   @JsonProperty("map_map_string")
+  @Valid
+
   private Map<String, Map<String, String>> mapMapString = null;
 
   @JsonProperty("map_map_anytype")
+  @Valid
+
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
+  
   private Object anytype1;
 
   @JsonProperty("anytype_2")
+  
   private Object anytype2;
 
   @JsonProperty("anytype_3")
+  
   private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -65,7 +81,7 @@ public class AdditionalPropertiesClass   {
    * Get mapString
    * @return mapString
   **/
-    public Map<String, String> getMapString() {
+  public Map<String, String> getMapString() {
     return mapString;
   }
 
@@ -90,7 +106,6 @@ public class AdditionalPropertiesClass   {
    * Get mapNumber
    * @return mapNumber
   **/
-  @Valid
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -116,7 +131,7 @@ public class AdditionalPropertiesClass   {
    * Get mapInteger
    * @return mapInteger
   **/
-    public Map<String, Integer> getMapInteger() {
+  public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
 
@@ -141,7 +156,7 @@ public class AdditionalPropertiesClass   {
    * Get mapBoolean
    * @return mapBoolean
   **/
-    public Map<String, Boolean> getMapBoolean() {
+  public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
 
@@ -166,7 +181,6 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
-  @Valid
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -192,7 +206,6 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
-  @Valid
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -218,7 +231,6 @@ public class AdditionalPropertiesClass   {
    * Get mapMapString
    * @return mapMapString
   **/
-  @Valid
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -244,7 +256,6 @@ public class AdditionalPropertiesClass   {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
-  @Valid
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -262,7 +273,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype1
    * @return anytype1
   **/
-    public Object getAnytype1() {
+  public Object getAnytype1() {
     return anytype1;
   }
 
@@ -279,7 +290,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype2
    * @return anytype2
   **/
-    public Object getAnytype2() {
+  public Object getAnytype2() {
     return anytype2;
   }
 
@@ -296,7 +307,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype3
    * @return anytype3
   **/
-    public Object getAnytype3() {
+  public Object getAnytype3() {
     return anytype3;
   }
 

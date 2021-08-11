@@ -228,7 +228,7 @@ For this test, the body for this request much reference a schema named `File`.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
+let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [nil]) // FileSchemaTestClass | 
 
 FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
     guard error == nil else {
@@ -379,7 +379,7 @@ import PetstoreClient
 let number = 987 // Double | None
 let double = 987 // Double | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = 987 // Data | None
+let byte = Data([9, 8, 7]) // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
@@ -564,7 +564,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties(param: [String:String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testInlineAdditionalProperties(param: [String: String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 test inline additionalProperties
@@ -574,7 +574,7 @@ test inline additionalProperties
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let param = "TODO" // [String:String] | request body
+let param = "TODO" // [String: String] | request body
 
 // test inline additionalProperties
 FakeAPI.testInlineAdditionalProperties(param: param) { (response, error) in
@@ -593,7 +593,7 @@ FakeAPI.testInlineAdditionalProperties(param: param) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**[String:String]**](String.md) | request body | 
+ **param** | [**[String: String]**](String.md) | request body | 
 
 ### Return type
 

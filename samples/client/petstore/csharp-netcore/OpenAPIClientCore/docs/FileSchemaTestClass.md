@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.FileSchemaTestClass
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -2,6 +2,7 @@
 
 # ArrayTest
 
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,5 +11,9 @@ Name | Type | Description | Notes
 **arrayArrayOfInteger** | **List&lt;List&lt;Long&gt;&gt;** |  |  [optional]
 **arrayArrayOfModel** | **List&lt;List&lt;ReadOnlyFirst&gt;&gt;** |  |  [optional]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

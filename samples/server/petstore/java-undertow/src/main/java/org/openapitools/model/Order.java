@@ -1,3 +1,13 @@
+/*
+ * OpenAPI Petstore
+ *
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ * OpenAPI document version: 1.0.0
+ * 
+ *
+ * AUTO-GENERATED FILE, DO NOT MODIFY!
+ */
 package org.openapitools.model;
 
 import java.util.Objects;
@@ -12,7 +22,7 @@ import java.util.Date;
 
 /**
  * An order for a pets from the pet store
- **/
+ */
 
 @ApiModel(description = "An order for a pets from the pet store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
@@ -46,7 +56,7 @@ public class Order   {
   private Boolean complete = false;
 
   /**
-   **/
+   */
   public Order id(Long id) {
     this.id = id;
     return this;
@@ -63,7 +73,7 @@ public class Order   {
   }
 
   /**
-   **/
+   */
   public Order petId(Long petId) {
     this.petId = petId;
     return this;
@@ -80,7 +90,7 @@ public class Order   {
   }
 
   /**
-   **/
+   */
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
@@ -97,7 +107,7 @@ public class Order   {
   }
 
   /**
-   **/
+   */
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
     return this;
@@ -115,7 +125,7 @@ public class Order   {
 
   /**
    * Order Status
-   **/
+   */
   public Order status(StatusEnum status) {
     this.status = status;
     return this;
@@ -132,7 +142,7 @@ public class Order   {
   }
 
   /**
-   **/
+   */
   public Order complete(Boolean complete) {
     this.complete = complete;
     return this;

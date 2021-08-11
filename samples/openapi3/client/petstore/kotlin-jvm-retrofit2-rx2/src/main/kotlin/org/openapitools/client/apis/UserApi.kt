@@ -16,7 +16,7 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user Created user object 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @POST("user")
     fun createUser(@Body user: User): Completable
@@ -28,10 +28,10 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user List of user object 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @POST("user/createWithArray")
-    fun createUsersWithArrayInput(@Body user: kotlin.Array<User>): Completable
+    fun createUsersWithArrayInput(@Body user: kotlin.collections.List<User>): Completable
 
     /**
      * Creates list of users with given input array
@@ -40,10 +40,10 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user List of user object 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @POST("user/createWithList")
-    fun createUsersWithListInput(@Body user: kotlin.Array<User>): Completable
+    fun createUsersWithListInput(@Body user: kotlin.collections.List<User>): Completable
 
     /**
      * Delete user
@@ -53,7 +53,7 @@ interface UserApi {
      *  - 404: User not found
      * 
      * @param username The name that needs to be deleted 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @DELETE("user/{username}")
     fun deleteUser(@Path("username") username: kotlin.String): Completable
@@ -67,7 +67,7 @@ interface UserApi {
      *  - 404: User not found
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return [Call]<[User]>
+     * @return [Call]<[User]>
      */
     @GET("user/{username}")
     fun getUserByName(@Path("username") username: kotlin.String): Single<User>
@@ -81,7 +81,7 @@ interface UserApi {
      * 
      * @param username The user name for login 
      * @param password The password for login in clear text 
-    * @return [Call]<[kotlin.String]>
+     * @return [Call]<[kotlin.String]>
      */
     @GET("user/login")
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Single<kotlin.String>
@@ -92,7 +92,7 @@ interface UserApi {
      * Responses:
      *  - 0: successful operation
      * 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @GET("user/logout")
     fun logoutUser(): Completable
@@ -106,7 +106,7 @@ interface UserApi {
      * 
      * @param username name that need to be deleted 
      * @param user Updated user object 
-    * @return [Call]<[Unit]>
+     * @return [Call]<[Unit]>
      */
     @PUT("user/{username}")
     fun updateUser(@Path("username") username: kotlin.String, @Body user: User): Completable

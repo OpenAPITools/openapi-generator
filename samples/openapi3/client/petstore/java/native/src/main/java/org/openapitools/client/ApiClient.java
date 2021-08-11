@@ -25,14 +25,17 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
 import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Configuration and utility class for API clients.
@@ -50,8 +53,6 @@ import java.util.stream.Collectors;
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
 
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   private HttpClient.Builder builder;
   private ObjectMapper mapper;
   private String scheme;
@@ -65,6 +66,9 @@ public class ApiClient {
   private static String valueToString(Object value) {
     if (value == null) {
       return "";
+    }
+    if (value instanceof OffsetDateTime) {
+      return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
     return value.toString();
   }
@@ -96,7 +100,7 @@ public class ApiClient {
     if (name == null || name.isEmpty() || value == null) {
       return Collections.emptyList();
     }
-    return Collections.singletonList(new Pair(urlEncode(name), urlEncode(value.toString())));
+    return Collections.singletonList(new Pair(urlEncode(name), urlEncode(valueToString(value))));
   }
 
   /**
@@ -157,25 +161,54 @@ public class ApiClient {
    * Ctor.
    */
   public ApiClient() {
-    builder = HttpClient.newBuilder();
-    mapper = new ObjectMapper();
+    this.builder = createDefaultHttpClientBuilder();
+    this.mapper = createDefaultObjectMapper();
+    updateBaseUri(getDefaultBaseUri());
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  /**
+   * Ctor.
+   */
+  public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
+    this.builder = builder;
+    this.mapper = mapper;
+    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
+    interceptor = null;
+    readTimeout = null;
+    responseInterceptor = null;
+  }
+
+  protected ObjectMapper createDefaultObjectMapper() {
+    ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
-    JsonNullableModule jnm = new JsonNullableModule();
-    mapper.registerModule(jnm);
-    URI baseURI = URI.create("http://petstore.swagger.io:80/v2");
-    scheme = baseURI.getScheme();
-    host = baseURI.getHost();
-    port = baseURI.getPort();
-    basePath = baseURI.getRawPath();
-    interceptor = null;
-    readTimeout = null;
-    responseInterceptor = null;
+    mapper.registerModule(new JsonNullableModule());
+    return mapper;
+  }
+
+  protected String getDefaultBaseUri() {
+    return "http://petstore.swagger.io:80/v2";
+  }
+
+  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+    return HttpClient.newBuilder();
+  }
+
+  public void updateBaseUri(String baseUri) {
+    URI uri = URI.create(baseUri);
+    scheme = uri.getScheme();
+    host = uri.getHost();
+    port = uri.getPort();
+    basePath = uri.getRawPath();
   }
 
   /**

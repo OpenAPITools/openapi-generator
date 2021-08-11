@@ -31,12 +31,11 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -91,7 +90,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "ARRAYED_LIST");
         instantiationTypes.put("list", "ARRAYED_LIST");
         instantiationTypes.put("map", "STRING_TABLE");
-        
+
         importMapping.put("List", "LIST");
         importMapping.put("Set", "SET");
         importMapping.put("file", "FILE");
@@ -153,7 +152,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             name = escapeReservedWord(name);
         }
 
-        // for reserved word or word starting with number, append 
+        // for reserved word or word starting with number, append
         if (name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
@@ -193,22 +192,22 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after
             // camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
-                    + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
         // model name starts with _
         if (name.startsWith("_")) {
-            LOGGER.warn(name + " (model name starts with _) cannot be used as model name. Renamed to "
-                    + ("model" + name));
+            LOGGER.warn("{} (model name starts with _) cannot be used as model name. Renamed to {}", name,
+                    "model" + name);
             name = "model" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
@@ -345,11 +344,10 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
-        
+
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
@@ -610,7 +608,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
         if (innerProperty == null) {
-            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+            LOGGER.warn("skipping invalid array property {}", Json.pretty(property));
             return;
         }
         property.dataFormat = innerProperty.dataFormat;

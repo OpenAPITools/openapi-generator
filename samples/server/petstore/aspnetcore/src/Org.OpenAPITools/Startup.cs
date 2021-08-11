@@ -22,6 +22,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.Authentication;
+using Org.OpenAPITools.Formatters;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Org.OpenAPITools
@@ -61,7 +62,10 @@ namespace Org.OpenAPITools
 
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc(opts => {
+                    
+                    opts.InputFormatters.Insert(0, new InputFormatterStream());
+                    })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opts =>
                 {

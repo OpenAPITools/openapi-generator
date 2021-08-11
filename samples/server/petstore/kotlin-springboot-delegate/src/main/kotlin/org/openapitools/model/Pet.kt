@@ -26,13 +26,11 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Pet(
 
-    @get:NotNull  
     @ApiModelProperty(example = "doggie", required = true, value = "")
-    @field:JsonProperty("name") val name: kotlin.String,
+    @field:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @get:NotNull  
     @ApiModelProperty(example = "null", required = true, value = "")
-    @field:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>,
+    @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonProperty("id") val id: kotlin.Long? = null,
@@ -46,6 +44,7 @@ data class Pet(
     @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
+    @Deprecated(message = "")
     @field:JsonProperty("status") val status: Pet.Status? = null
 ) {
 

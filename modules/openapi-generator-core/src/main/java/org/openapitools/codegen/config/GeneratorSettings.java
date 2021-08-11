@@ -30,10 +30,10 @@ import java.util.*;
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
-    private static String DEFAULT_GIT_HOST = "github.com";
-    private static String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
-    private static String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
-    private static String DEFAULT_RELEASE_NOTE = "Minor update";
+    private static final String DEFAULT_GIT_HOST = "github.com";
+    private static final String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
+    private static final String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
+    private static final String DEFAULT_RELEASE_NOTE = "Minor update";
 
     private String generatorName;
     private String apiPackage;
@@ -48,13 +48,13 @@ public final class GeneratorSettings implements Serializable {
     private String artifactVersion;
     private String library;
 
-    private ImmutableMap<String, String> instantiationTypes;
-    private ImmutableMap<String, String> typeMappings;
-    private ImmutableMap<String, Object> additionalProperties;
-    private ImmutableMap<String, String> importMappings;
-    private ImmutableSet<String> languageSpecificPrimitives;
-    private ImmutableMap<String, String> reservedWordMappings;
-    private ImmutableMap<String, String> serverVariables;
+    private final ImmutableMap<String, String> instantiationTypes;
+    private final ImmutableMap<String, String> typeMappings;
+    private final ImmutableMap<String, Object> additionalProperties;
+    private final ImmutableMap<String, String> importMappings;
+    private final ImmutableSet<String> languageSpecificPrimitives;
+    private final ImmutableMap<String, String> reservedWordMappings;
+    private final ImmutableMap<String, String> serverVariables;
 
     private String gitHost;
     private String gitUserId;

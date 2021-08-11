@@ -306,7 +306,10 @@ public class PetApi {
     * @param tags Tags to filter by
     * @return Set&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
+    * @deprecated
+
     **/
+    @Deprecated
     public Set<Pet> findPetsByTags(Set<String> tags) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags);
         TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
@@ -322,13 +325,17 @@ public class PetApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return Set&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
+    * @deprecated
+
     **/
+    @Deprecated
     public Set<Pet> findPetsByTags(Set<String> tags, Map<String, Object> params) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags, params);
         TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
+    @Deprecated
     public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -354,6 +361,7 @@ public class PetApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
+    @Deprecated
     public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags, Map<String, Object> params) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {

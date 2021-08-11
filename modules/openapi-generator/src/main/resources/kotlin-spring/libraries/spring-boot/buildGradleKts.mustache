@@ -32,16 +32,16 @@ plugins {
 }
 
 dependencies {
-	val kotlinxCoroutinesVersion="1.2.0"
+    val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
 {{^reactive}}
     compile("org.springframework.boot:spring-boot-starter-web")
 {{/reactive}}
 {{#reactive}}
-	compile("org.springframework.boot:spring-boot-starter-webflux")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
+    compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
 {{/reactive}}
 {{#swaggerAnnotations}}
     compile("io.swagger:swagger-annotations:1.5.21")
@@ -55,12 +55,12 @@ dependencies {
         exclude(module = "junit")
     }
 {{#reactive}}
-	testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+    testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 {{/reactive}}
 }
 
 repositories {
-	maven { url = uri("https://repo1.maven.org/maven2") }
-	maven { url = uri("https://repo.spring.io/snapshot") }
-	maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo1.maven.org/maven2") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
 }

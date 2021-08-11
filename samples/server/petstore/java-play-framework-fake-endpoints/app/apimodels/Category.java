@@ -12,9 +12,12 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("name")
+  @NotNull
+
   private String name = "default-name";
 
   public Category id(Long id) {
@@ -26,7 +29,7 @@ public class Category   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -43,7 +46,6 @@ public class Category   {
    * Get name
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }

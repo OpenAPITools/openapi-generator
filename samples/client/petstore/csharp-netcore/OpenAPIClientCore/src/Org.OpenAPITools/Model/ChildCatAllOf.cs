@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
 
         }
 
+
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>

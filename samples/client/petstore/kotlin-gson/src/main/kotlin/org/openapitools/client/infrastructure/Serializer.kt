@@ -6,12 +6,10 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.util.UUID
-import java.util.Date
 
 object Serializer {
     @JvmStatic
     val gsonBuilder: GsonBuilder = GsonBuilder()
-        .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())

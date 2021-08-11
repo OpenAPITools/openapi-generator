@@ -11,7 +11,7 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-from petstore_api.api_client import ApiClient, Endpoint
+from petstore_api.api_client import ApiClient, Endpoint as _Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
     check_validations,
@@ -59,8 +59,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -102,7 +102,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_user = Endpoint(
+        self.create_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -174,8 +174,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -217,7 +217,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_users_with_array_input = Endpoint(
+        self.create_users_with_array_input = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -289,8 +289,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -332,7 +332,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.create_users_with_list_input = Endpoint(
+        self.create_users_with_list_input = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -405,8 +405,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -448,7 +448,7 @@ class UserApi(object):
                 username
             return self.call_with_http_info(**kwargs)
 
-        self.delete_user = Endpoint(
+        self.delete_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -519,8 +519,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -562,7 +562,7 @@ class UserApi(object):
                 username
             return self.call_with_http_info(**kwargs)
 
-        self.get_user_by_name = Endpoint(
+        self.get_user_by_name = _Endpoint(
             settings={
                 'response_type': (User,),
                 'auth': [],
@@ -638,8 +638,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -683,7 +683,7 @@ class UserApi(object):
                 password
             return self.call_with_http_info(**kwargs)
 
-        self.login_user = Endpoint(
+        self.login_user = _Endpoint(
             settings={
                 'response_type': (str,),
                 'auth': [],
@@ -760,8 +760,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -801,7 +801,7 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.logout_user = Endpoint(
+        self.logout_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],
@@ -868,8 +868,8 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (float/tuple): timeout setting for this request. If one
-                    number provided, it will be total request timeout. It can also
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
                 _check_input_type (bool): specifies if type checking
@@ -913,7 +913,7 @@ class UserApi(object):
                 user
             return self.call_with_http_info(**kwargs)
 
-        self.update_user = Endpoint(
+        self.update_user = _Endpoint(
             settings={
                 'response_type': None,
                 'auth': [],

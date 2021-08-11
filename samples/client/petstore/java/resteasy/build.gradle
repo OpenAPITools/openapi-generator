@@ -33,8 +33,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 23
         }
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
 
         // Rename the aar correctly
@@ -78,8 +78,8 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     install {
         repositories.mavenInstaller {
@@ -95,29 +95,26 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.10.4"
-    jackson_databind_version = "2.10.4"
+    jackson_version = "2.10.5"
+    jackson_databind_version = "2.10.5.1"
     jackson_databind_nullable_version = "0.2.1"
     threetenbp_version = "2.9.10"
-    resteasy_version = "3.1.3.Final"
-    jodatime_version = "2.9.9"
+    resteasy_version = "4.5.11.Final"
     junit_version = "4.13"
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "org.jboss.resteasy:resteasy-client:$resteasy_version"
-    compile "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
-    compile "org.jboss.resteasy:resteasy-jackson2-provider:$resteasy_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
-    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
-    compile "com.brsanthu:migbase64:2.2"
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile "junit:junit:$junit_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "org.jboss.resteasy:resteasy-client:$resteasy_version"
+    implementation "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
+    implementation "org.jboss.resteasy:resteasy-jackson2-provider:$resteasy_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation "junit:junit:$junit_version"
 }

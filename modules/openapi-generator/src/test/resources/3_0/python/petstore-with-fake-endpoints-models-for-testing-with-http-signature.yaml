@@ -16,6 +16,8 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+  - name: fake
+    description: Fake api used for feature testing
 paths:
   /foo:
     get:
@@ -246,45 +248,6 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/uploadImage':
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  type: string
-                  format: binary
   /store/inventory:
     get:
       tags:
@@ -729,12 +692,14 @@ paths:
                   type: number
                   format: float
                   maximum: 987.6
+                  exclusiveMaximum: true
                 double:
                   description: None
                   type: number
                   format: double
                   minimum: 67.8
                   maximum: 123.4
+                  exclusiveMaximum: true
                 string:
                   description: None
                   type: string
@@ -917,6 +882,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AnimalFarm'
+            examples:
+              simple-list:
+                 summary: Simple list example
+                 description: Should not get into code examples
+                 value:
+                    - className: foo
+                      color: yellow
+                    - className: bar
+                      color: green
         required: false
       responses:
         '200':
@@ -1008,6 +982,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/refs/enum-test:
+    post:
+      tags:
+        - fake
+      summary: Object contains enum properties and array properties containing enums
+      operationId: EnumTest
+      requestBody:
+        description: Input object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enum_Test'
+        required: false
+      responses:
+        200:
+          description: Got object containing enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enum_Test'
   /fake/additional-properties-with-array-of-enums:
     get:
       tags:
@@ -1176,21 +1170,41 @@ paths:
       responses:
         "200":
           description: Success
-  '/fake/{petId}/uploadImageWithRequiredFile':
-    post:
+  /{fileName}:
+    get:
+      servers:
+        - url: http://www.jtricks.com
       tags:
-        - pet
-      summary: uploads an image (required)
-      description: ''
-      operationId: uploadFileWithRequiredFile
+        - fake
+      summary: downloads a file using Content-Disposition
+      operationId: downloadAttachment
       parameters:
-        - name: petId
+        - name: fileName
           in: path
-          description: ID of pet to update
+          description: file name
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            'text/plain':
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: "describes the received file. Looks like: 'attachment; filename=fileName.txt'"
+  /fake/uploadFile:
+    post:
+      tags:
+        - fake
+      summary: uploads a file using multipart/form-data
+      description: ''
+      operationId: uploadFile
       responses:
         '200':
           description: successful operation
@@ -1198,10 +1212,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
       requestBody:
         content:
           multipart/form-data:
@@ -1211,12 +1221,61 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                requiredFile:
+                file:
                   description: file to upload
                   type: string
                   format: binary
               required:
-                - requiredFile
+                - file
+  /fake/uploadFiles:
+    post:
+      tags:
+        - fake
+      summary: uploads files using multipart/form-data
+      description: ''
+      operationId: uploadFiles
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+  /fake/uploadDownloadFile:
+    post:
+      tags:
+        - fake
+      summary: uploads a file and downloads a file using application/octet-stream
+      description: ''
+      operationId: uploadDownloadFile
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                description: file to download
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: file to upload
   /fake/health:
     get:
       tags:
@@ -1229,6 +1288,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/postInlineAdditionalPropertiesRefPayload:
+    post:
+      tags:
+        - fake
+      operationId: postInlineAdditionalPropertiesRefPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesRefPayload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+  /fake/postInlineAdditionalPropertiesPayload:
+    post:
+      tags:
+        - fake
+      operationId: postInlineAdditionalPropertiesPayload
+      responses:
+        200:
+          description: InlineAdditionalPropertiesPayload
+          content:
+            application/json:
+              schema:
+                description: this payload is used for verification that some model_to_dict issues are fixed
+                type: object
+                properties:
+                  arrayData:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        labels:
+                          type: array
+                          items:
+                            type: string
+                            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: this payload is used for verification that some model_to_dict issues are fixed
+              type: object
+              properties:
+                arrayData:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      labels:
+                        type: array
+                        items:
+                          type: string
+                          nullable: true
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1527,7 +1646,6 @@ components:
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
-        - $ref: '#/components/schemas/Address'
         - type: object
           properties:
             declawed:
@@ -1661,6 +1779,12 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_bool:
+          type: boolean
+          enum:
+            - false
+        boolEnum:
+          $ref: '#/components/schemas/BooleanEnum'
         stringEnum:
           $ref: '#/components/schemas/StringEnum'
         IntegerEnum:
@@ -1671,6 +1795,12 @@ components:
           $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
         IntegerEnumOneValue:
           $ref: '#/components/schemas/IntegerEnumOneValue'
+        InlineArrayOfStrEnum:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringEnum'
+        ArrayOfStrEnum:
+          $ref: '#/components/schemas/ArrayOfEnums'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1879,6 +2009,8 @@ components:
       properties:
         my_number:
           $ref: '#/definitions/NumberWithValidations'
+        my_readonly:
+          $ref: '#/definitions/Readonly'
         my_string:
           $ref: '#/definitions/String'
         my_boolean:
@@ -1887,6 +2019,12 @@ components:
       type: number
       minimum: 10
       maximum: 20
+    Readonly:
+      type: object
+      readOnly: true
+      properties:
+         name:
+            type: string
     ComposedOneOfNumberWithValidations:
       description: this is a model that allows payloads of type object or number
       oneOf:
@@ -1974,6 +2112,9 @@ components:
           items:
             type: object
             nullable: true
+        object_nullable:
+          type: object
+          nullable: true
         object_nullable_prop:
           type: object
           nullable: true
@@ -1991,18 +2132,27 @@ components:
             type: object
             nullable: true
       additionalProperties:
-        type: object
         nullable: true
+    ComposedSchemaWithPropsAndNoAddProps:
+      properties:
+        color:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      # This definition will only allow in object payloads that set color and no other properties because
+      # additionalProperties are evaluated at the schema level and do not include composed schema
+      # properties. Only color is defined here, all others are additional
+      additionalProperties: false
     fruit:
+      description: a schema that tests oneOf and includes a schema level property
       properties:
         color:
           type: string
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      # Below additionalProperties is set to false to validate the use
-      # case when a composed schema has additionalProperties set to false.
-      additionalProperties: false
     apple:
       type: object
       properties:
@@ -2012,12 +2162,16 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+      required:
+        - cultivar
       nullable: true
     banana:
       type: object
       properties:
         lengthCm:
           type: number
+      required:
+        - lengthCm
     mammal:
       oneOf:
         - $ref: '#/components/schemas/whale'
@@ -2077,13 +2231,13 @@ components:
       anyOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
-      additionalProperties: false
     fruitReq:
+      description: a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas
+        also, this schem accepts null as a value
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'
         - $ref: '#/components/schemas/bananaReq'
-      additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -2187,7 +2341,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
-      additionalProperties: false
     ScaleneTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -2255,3 +2408,50 @@ components:
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
+    SomeObjectWithSelfAttr:
+      type: object
+      properties:
+        self:
+          type: string
+    InlineAdditionalPropertiesRefPayload:
+      description: this payload is used for verification that some model_to_dict issues are fixed
+      type: object
+      properties:
+        arrayData:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              labels:
+                type: array
+                items:
+                  type: string
+                  nullable: true
+    Mole:
+      type: object
+      required:
+        - blind
+        - smell
+        - hearing
+      properties:
+        blind:
+          type: boolean
+          readOnly: true
+        smell:
+          type: string
+          readOnly: false
+        touch:
+          type: boolean
+          readOnly: true
+        taste:
+          type: string
+          readOnly: false
+        hearing:
+          type: boolean
+        seeingGhosts:
+          type: boolean
+    BooleanEnum:
+      type: boolean
+      enum:
+        - true

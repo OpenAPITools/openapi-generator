@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -53,6 +52,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -62,6 +62,8 @@ public class AppleReq {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCultivar(String cultivar) {
     this.cultivar = cultivar;
   }
@@ -86,6 +88,8 @@ public class AppleReq {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMealy(Boolean mealy) {
     this.mealy = mealy;
   }

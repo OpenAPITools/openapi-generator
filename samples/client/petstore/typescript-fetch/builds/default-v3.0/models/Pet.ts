@@ -50,10 +50,10 @@ export interface Pet {
     name: string;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Set<string>}
      * @memberof Pet
      */
-    photoUrls: Array<string>;
+    photoUrls: Set<string>;
     /**
      * 
      * @type {Array<Tag>}
