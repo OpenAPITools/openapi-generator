@@ -118,6 +118,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         // supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
         supportingFiles.add(new SupportingFile("Application.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "Application.java"));
+        supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "DependencyUtil.java"));
     }
 
     @Override

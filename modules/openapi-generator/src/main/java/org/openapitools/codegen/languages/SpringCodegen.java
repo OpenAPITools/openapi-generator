@@ -356,6 +356,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "DependencyUtil.java"));
 
         if (!this.interfaceOnly) {
             if (SPRING_BOOT.equals(library)) {

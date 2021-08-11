@@ -106,14 +106,14 @@ public class {{classname}} {
         if ({{paramName}} == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }
-        {{/required}}{{/allParams}}{{#hasPathParams}}
+        {{/required}}{{/allParams}}
 
         {{#vendorExtensions}}{{#x-dependencies}}
         // Check dependency: {{& idlDependency}}
         if(!{{& assertOperation}}){
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Dependency not satisfied: {{& idlDependency}}");
         }
-        {{/x-dependencies}}{{/vendorExtensions}}
+        {{/x-dependencies}}{{/vendorExtensions}}{{#hasPathParams}}
 
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}

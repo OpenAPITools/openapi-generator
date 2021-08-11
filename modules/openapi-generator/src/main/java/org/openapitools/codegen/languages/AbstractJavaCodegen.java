@@ -1447,7 +1447,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if(operation.getExtensions() != null && operation.getExtensions().containsKey("x-dependencies")){
             List<String> dependencies =(List<String>) operation.getExtensions().get("x-dependencies");
             List<CodegenDependency> dependencyList = new ArrayList<>();
-//          List<Map<String,String>> dependencyList = new ArrayList<>();
             try {
                 Injector injector = new IDLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
                 XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
