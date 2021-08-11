@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         {
             Quadrilateral newQuadrilateral = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newQuadrilateral;
             }

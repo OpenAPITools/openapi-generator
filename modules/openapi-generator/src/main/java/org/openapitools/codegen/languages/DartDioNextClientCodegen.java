@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
@@ -157,6 +158,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         final String authFolder = srcFolder + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
@@ -316,14 +318,38 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         for (CodegenOperation op : operationList) {
             for (CodegenParameter param : op.allParams) {
                 if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
-                    param.baseType = "MultipartFile";
-                    param.dataType = "MultipartFile";
+                    param.dataType = param.dataType.replace("Uint8List", "MultipartFile");
+                    param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
                     op.imports.add("MultipartFile");
+
+                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                        boolean skipFormModel = Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
+                        if (param.isFormParam && param.isContainer && !skipFormModel) {
+                            // Because of skipFormModel=false, there is a model class generated which has
+                            // "BuiltList<Uint8List>" as property and it requires the correct
+                            // serializer imports to be added in order to compile.
+                            addBuiltValueSerializerImport("Uint8List");
+                        }
+                    }
                 }
             }
 
-            for (CodegenParameter param : op.bodyParams) {
-                if (param.isContainer) {
+            // The MultipartFile handling above changes the type of some parameters from
+            // `UInt8List`, the default for files, to `MultipartFile`.
+            //
+            // The following block removes the required import for Uint8List if it is no
+            // longer in use.
+            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
+                    && op.responses.stream().filter(response -> response.dataType != null)
+                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                // Remove unused imports after processing
+                op.imports.remove("Uint8List");
+            }
+
+            for (CodegenParameter param : op.allParams) {
+                // Generate serializer factories for all container type parameters.
+                // But skip binary and file parameters, JSON serializers don't make sense there.
+                if (param.isContainer && !(param.isBinary || param.isFile )) {
                     final Map<String, Object> serializer = new HashMap<>();
                     serializer.put("isArray", param.isArray);
                     serializer.put("uniqueItems", param.uniqueItems);
@@ -333,17 +359,14 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))) {
-                // Remove unused imports after processing
-                op.imports.remove("Uint8List");
-            }
-
             resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams() || op.getHasQueryParams()) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
 
-            if (op.returnContainer != null) {
+            // Generate serializer factories for response types.
+            // But skip binary and file response, JSON serializers don't make sense there.
+            if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
                 final Map<String, Object> serializer = new HashMap<>();
                 serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
                 serializer.put("uniqueItems", op.uniqueItems);
@@ -357,6 +380,14 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         objs.put("serializers", serializers);
 
         return objs;
+    }
+
+    private void addBuiltValueSerializerImport(String type) {
+        additionalProperties.compute("builtValueSerializerImports", (k, v) -> {
+            Set<String> imports = v == null ? Sets.newHashSet() : ((Set<String>) v);
+            imports.addAll(rewriteImports(Sets.newHashSet(type), true));
+            return imports;
+        });
     }
 
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {

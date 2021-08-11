@@ -65,6 +65,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
+        [Obsolete]
         public StatusEnum? Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.

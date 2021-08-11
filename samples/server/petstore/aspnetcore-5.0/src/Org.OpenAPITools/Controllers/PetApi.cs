@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Controllers
         /// Finds Pets by status
         /// </summary>
         /// <remarks>Multiple status values can be provided with comma separated strings</remarks>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid status value</response>
         [HttpGet]
@@ -119,6 +119,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
+        [Obsolete]
         public virtual IActionResult FindPetsByTags([FromQuery (Name = "tags")][Required()]List<string> tags)
         { 
 

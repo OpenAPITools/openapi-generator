@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         {
             Shape newShape = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newShape;
             }

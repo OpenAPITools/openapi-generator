@@ -3,11 +3,6 @@ package {{packageName}}.infrastructure
 {{#supportAndroidApiLevel25AndBelow}}
 import android.os.Build
 {{/supportAndroidApiLevel25AndBelow}}
-{{#hasAuthMethods}}
-{{#isBasicBasic}}
-import okhttp3.Credentials
-{{/isBasicBasic}}
-{{/hasAuthMethods}}
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 {{#jvm-okhttp3}}
@@ -55,6 +50,15 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 {{/threetenbp}}
+{{#gson}}
+import com.google.gson.reflect.TypeToken
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.core.type.TypeReference
+{{/jackson}}
+{{#moshi}}
+import com.squareup.moshi.adapter
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -173,6 +177,9 @@ import org.threeten.bp.OffsetTime
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
+    {{#moshi}}
+    @OptIn(ExperimentalStdlibApi::class)
+    {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
@@ -201,7 +208,7 @@ import org.threeten.bp.OffsetTime
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, T::class.java){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -240,7 +247,7 @@ import org.threeten.bp.OffsetTime
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
-                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                    requestConfig.headers[Authorization] = okhttp3.Credentials.basic(username, password)
                 }
             }
         }

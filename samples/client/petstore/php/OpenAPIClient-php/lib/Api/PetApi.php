@@ -1,7 +1,7 @@
 <?php
 /**
  * PetApi
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -598,7 +598,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param  string[] $status Status values that need to be considered for filter (required)
+     * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -615,7 +615,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param  string[] $status Status values that need to be considered for filter (required)
+     * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -701,7 +701,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param  string[] $status Status values that need to be considered for filter (required)
+     * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -721,7 +721,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param  string[] $status Status values that need to be considered for filter (required)
+     * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -767,7 +767,7 @@ class PetApi
     /**
      * Create request for operation 'findPetsByStatus'
      *
-     * @param  string[] $status Status values that need to be considered for filter (required)
+     * @param  string[] $status Status values that need to be considered for filter (required) (deprecated)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -870,6 +870,7 @@ class PetApi
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Pet[]
+     * @deprecated
      */
     public function findPetsByTags($tags)
     {
@@ -887,6 +888,7 @@ class PetApi
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
+     * @deprecated
      */
     public function findPetsByTagsWithHttpInfo($tags)
     {
@@ -972,6 +974,7 @@ class PetApi
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
+     * @deprecated
      */
     public function findPetsByTagsAsync($tags)
     {
@@ -992,6 +995,7 @@ class PetApi
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
+     * @deprecated
      */
     public function findPetsByTagsAsyncWithHttpInfo($tags)
     {
@@ -1038,6 +1042,7 @@ class PetApi
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
+     * @deprecated
      */
     public function findPetsByTagsRequest($tags)
     {

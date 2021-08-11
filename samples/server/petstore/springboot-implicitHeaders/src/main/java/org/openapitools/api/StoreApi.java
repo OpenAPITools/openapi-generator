@@ -45,7 +45,8 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Order not found") })
     @ApiImplicitParams({
     })
-    @DeleteMapping(
+    @RequestMapping(
+        method = RequestMethod.DELETE,
         value = "/store/order/{order_id}"
     )
     default ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
@@ -68,7 +69,8 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     @ApiImplicitParams({
     })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/store/inventory",
         produces = { "application/json" }
     )
@@ -94,7 +96,8 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Order not found") })
     @ApiImplicitParams({
     })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
@@ -131,7 +134,8 @@ public interface StoreApi {
         @ApiResponse(code = 400, message = "Invalid Order") })
     @ApiImplicitParams({
     })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )

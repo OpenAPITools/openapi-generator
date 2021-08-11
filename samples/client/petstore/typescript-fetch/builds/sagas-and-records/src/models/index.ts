@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './BehaviorType';
 export * from './Category';
 export * from './CategoryRecord';

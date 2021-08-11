@@ -27,6 +27,9 @@ class {{classname}}
     {{#vars}}
     
     /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
+{{#deprecated}}
+    /** @deprecated */
+{{/deprecated}}
     private ${{name}};
     {{/vars}}
 }
