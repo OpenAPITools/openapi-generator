@@ -16,7 +16,7 @@
       {{/hasFormParams}}
       {{#bodyParam}}
       {{#isPrimitiveType}}
-      _bodyData = {{paramName}}{{#isFile}}.finalize(){{/isFile}};
+      _bodyData = {{paramName}}{{#isFile}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize(){{/isFile}};
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       {{#isContainer}}
