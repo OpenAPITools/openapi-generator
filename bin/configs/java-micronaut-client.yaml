@@ -6,3 +6,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   configureAuth: "false"
   build: "all"
+  test: "spock"

@@ -230,7 +230,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
 
         if (buildTool.equals(OPT_BUILD_MAVEN) || buildTool.equals(OPT_BUILD_ALL)) {
             // Maven files
-            supportingFiles.add(new SupportingFile("configuration/pom.xml.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("configuration/pom.xml.mustache", "", "pom.xml").doNotOverwrite());
 
             // Maven wrapper files
             supportingFiles.add(new SupportingFile("configuration/mavenw/mvnw.mustache", "", "mvnw"));
@@ -274,17 +274,17 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
     @Override
     public String apiTestFileFolder() {
         if (testTool.equals(OPT_TEST_SPOCK)) {
-            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/api";
+            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage().replaceAll("\\.", "/") + "/api";
         }
-        return getOutputDir() + "/src/test/java/" + getInvokerPackage() + "/api";
+        return getOutputDir() + "/src/test/java/" + getInvokerPackage().replaceAll("\\.", "/") + "/api";
     }
 
     @Override
     public String modelTestFileFolder() {
         if (testTool.equals(OPT_TEST_SPOCK)) {
-            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/model";
+            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage().replaceAll("\\.", "/") + "/model";
         }
-        return getOutputDir() + "/src/test/java/" + getInvokerPackage() + "/model";
+        return getOutputDir() + "/src/test/java/" + getInvokerPackage().replaceAll("\\.", "/") + "/model";
     }
 
     @Override

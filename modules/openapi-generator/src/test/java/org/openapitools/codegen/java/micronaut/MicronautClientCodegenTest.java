@@ -94,6 +94,74 @@ public class MicronautClientCodegenTest {
         assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@NotNull");
     }
 
+    @Test
+    public void doGenerateForMaven() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_BUILD,
+                JavaMicronautClientCodegen.OPT_BUILD_MAVEN);
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES);
+
+        // Files are not generated
+        assertFileExists(outputPath + "/pom.xml");
+        assertFileNotExists(outputPath + "/build.gradle");
+    }
+
+    @Test
+    public void doGenerateForGradle() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_BUILD,
+                JavaMicronautClientCodegen.OPT_BUILD_GRADLE);
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES);
+
+        // Files are not generated
+        assertFileExists(outputPath + "/build.gradle");
+        assertFileNotExists(outputPath + "/pom.xml");
+    }
+
+    @Test
+    public void doGenerateForTestJUnit() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_BUILD,
+                JavaMicronautClientCodegen.OPT_BUILD_ALL);
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_TEST,
+                JavaMicronautClientCodegen.OPT_TEST_JUNIT);
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES,
+                CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        // Files are not generated
+        assertFileContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
+        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
+        assertFileExists(outputPath + "src/test/java/");
+        assertFileExists(outputPath + "src/test/java/org/openapitools/api/PetApiTest.java");
+        assertFileContains(outputPath + "src/test/java/org/openapitools/api/PetApiTest.java", "PetApiTest", "@MicronautTest");
+    }
+
+    @Test
+    public void doGenerateForTestSpock() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_BUILD,
+                JavaMicronautClientCodegen.OPT_BUILD_ALL);
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_TEST,
+                JavaMicronautClientCodegen.OPT_TEST_SPOCK);
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES,
+                CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        // Files are not generated
+        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
+        assertFileContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
+        assertFileExists(outputPath + "src/test/groovy");
+        assertFileExists(outputPath + "src/test/groovy/org/openapitools/api/PetApiSpec.groovy");
+        assertFileContains(outputPath + "src/test/groovy/org/openapitools/api/PetApiSpec.groovy", "PetApiSpec", "@MicronautTest");
+    }
+
     /**
      *
      * @param codegen - the code generator
@@ -140,7 +208,7 @@ public class MicronautClientCodegenTest {
 
         generator.opts(input).generate();
 
-        return outputPath;
+        return outputPath + "/";
     }
 
     public static void assertFileContains(String path, String... lines) {

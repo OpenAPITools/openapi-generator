@@ -1,4 +1,5 @@
 plugins {
+    id("groovy")
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("io.micronaut.application") version "2.0.3"
 }
@@ -12,7 +13,7 @@ repositories {
 
 micronaut {
     runtime("netty")
-    testRuntime("junit5")
+    testRuntime("spock2")
     processing {
         incremental(true)
         annotations("org.openapitools.*")
