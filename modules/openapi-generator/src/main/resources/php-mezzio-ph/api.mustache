@@ -57,6 +57,9 @@ class {{classname}}
      *
      * @return {{returnType}}
 {{/returnType}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
     public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{returnType}}{{/returnType}}
     {

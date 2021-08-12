@@ -123,7 +123,7 @@ class ApiClient {
       switch(method) {
         case 'POST': return await _client.post(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'PUT': return await _client.put(uri, headers: nullableHeaderParams, body: msgBody,);
-        case 'DELETE': return await _client.delete(uri, headers: nullableHeaderParams,);
+        case 'DELETE': return await _client.delete(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'PATCH': return await _client.patch(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'HEAD': return await _client.head(uri, headers: nullableHeaderParams,);
         case 'GET': return await _client.get(uri, headers: nullableHeaderParams,);
@@ -218,6 +218,8 @@ class ApiClient {
           return Category.fromJson(value);
         case 'ClassModel':
           return ClassModel.fromJson(value);
+        case 'DeprecatedObject':
+          return DeprecatedObject.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
         case 'DogAllOf':
@@ -261,6 +263,8 @@ class ApiClient {
           return NullableClass.fromJson(value);
         case 'NumberOnly':
           return NumberOnly.fromJson(value);
+        case 'ObjectWithDeprecatedFields':
+          return ObjectWithDeprecatedFields.fromJson(value);
         case 'Order':
           return Order.fromJson(value);
         case 'OuterComposite':

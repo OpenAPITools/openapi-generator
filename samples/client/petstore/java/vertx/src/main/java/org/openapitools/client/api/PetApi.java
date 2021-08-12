@@ -25,8 +25,10 @@ public interface PetApi {
 
     void findPetsByStatus(List<String> status, ApiClient.AuthInfo authInfo, Handler<AsyncResult<List<Pet>>> handler);
 
+    @Deprecated
     void findPetsByTags(Set<String> tags, Handler<AsyncResult<Set<Pet>>> handler);
 
+    @Deprecated
     void findPetsByTags(Set<String> tags, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Set<Pet>>> handler);
 
     void getPetById(Long petId, Handler<AsyncResult<Pet>> handler);

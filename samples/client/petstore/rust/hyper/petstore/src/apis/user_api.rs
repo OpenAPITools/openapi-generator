@@ -33,39 +33,54 @@ impl<C: hyper::client::Connect> UserApiClient<C> {
 }
 
 pub trait UserApi {
-    fn create_user(&self, body: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_user(&self, user: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_array_input(&self, user: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn create_users_with_list_input(&self, user: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn delete_user(&self, username: &str) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn get_user_by_name(&self, username: &str) -> Box<dyn Future<Item = crate::models::User, Error = Error<serde_json::Value>>>;
     fn login_user(&self, username: &str, password: &str) -> Box<dyn Future<Item = String, Error = Error<serde_json::Value>>>;
     fn logout_user(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn update_user(&self, username: &str, body: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_user(&self, username: &str, user: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
 impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
-    fn create_user(&self, body: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_user(&self, user: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
-        req = req.with_body_param(body);
+        req = req.with_body_param(user);
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
     }
 
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_users_with_array_input(&self, user: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user/createWithArray".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
-        req = req.with_body_param(body);
+        req = req.with_body_param(user);
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
     }
 
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn create_users_with_list_input(&self, user: Vec<crate::models::User>) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/user/createWithList".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
-        req = req.with_body_param(body);
+        req = req.with_body_param(user);
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
@@ -73,6 +88,11 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
     fn delete_user(&self, username: &str) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Delete, "/user/{username}".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
         req = req.returns_nothing();
@@ -99,17 +119,27 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
 
     fn logout_user(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Get, "/user/logout".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
     }
 
-    fn update_user(&self, username: &str, body: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_user(&self, username: &str, user: crate::models::User) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Put, "/user/{username}".to_string())
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: true,
+                in_query: false,
+                param_name: "api_key".to_owned(),
+            }))
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
-        req = req.with_body_param(body);
+        req = req.with_body_param(user);
         req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())

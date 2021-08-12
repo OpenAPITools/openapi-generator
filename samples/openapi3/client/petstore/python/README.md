@@ -149,6 +149,7 @@ Class | Method | HTTP request | Description
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
  - [BasquePig](docs/BasquePig.md)
+ - [BooleanEnum](docs/BooleanEnum.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)

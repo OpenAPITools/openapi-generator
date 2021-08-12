@@ -61,12 +61,17 @@ public class PetApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
-  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
-    if (body != null) {
-      msgPrefix += ": " + body;
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
     }
-    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -96,7 +101,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "addPet call received non-success response");
+        throw getApiException("addPet", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -170,7 +175,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "deletePet call received non-success response");
+        throw getApiException("deletePet", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -242,7 +247,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "findPetsByStatus call received non-success response");
+        throw getApiException("findPetsByStatus", localVarResponse);
       }
       return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
@@ -323,7 +328,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "findPetsByTags call received non-success response");
+        throw getApiException("findPetsByTags", localVarResponse);
       }
       return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
@@ -400,7 +405,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "getPetById call received non-success response");
+        throw getApiException("getPetById", localVarResponse);
       }
       return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
@@ -467,7 +472,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "updatePet call received non-success response");
+        throw getApiException("updatePet", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -543,7 +548,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "updatePetWithForm call received non-success response");
+        throw getApiException("updatePetWithForm", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -616,7 +621,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "uploadFile call received non-success response");
+        throw getApiException("uploadFile", localVarResponse);
       }
       return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
@@ -689,7 +694,7 @@ public class PetApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "uploadFileWithRequiredFile call received non-success response");
+        throw getApiException("uploadFileWithRequiredFile", localVarResponse);
       }
       return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
