@@ -181,7 +181,6 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    **/
-  @Valid
   @NotNull
   @DecimalMin("32.1")
   @DecimalMax("543.2")
@@ -308,7 +307,6 @@ public class FormatTest {
    * Get binary
    * @return binary
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BINARY)
@@ -332,17 +330,18 @@ public class FormatTest {
    * Get date
    * @return date
    **/
-  @Valid
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   public LocalDate getDate() {
     return date;
   }
 
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -356,17 +355,18 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public LocalDateTime getDateTime() {
     return dateTime;
   }
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public void setDateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -380,7 +380,6 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -428,7 +427,6 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)

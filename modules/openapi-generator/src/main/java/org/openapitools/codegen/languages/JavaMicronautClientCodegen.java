@@ -18,6 +18,10 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String CONFIGURE_AUTH = "configureAuth";
+    public static final String BUILD = "build";
+    public static final String BUILD_GRADLE = "gradle";
+    public static final String BUILD_MAVEN = "maven";
+    public static final String BUILD_ALL = "all";
 
     public static final String NAME = "micronaut-client";
 
@@ -25,6 +29,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
     protected String configPackage;
     protected boolean useBeanValidation;
     protected boolean configureAuthorization;
+    protected String build;
 
     public JavaMicronautClientCodegen() {
         super();
@@ -33,7 +38,8 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         invokerPackage = "org.openapitools";
         configPackage = "org.openapitools.configuration";
         useBeanValidation = true;
-        configureAuthorization = true;
+        configureAuthorization = false;
+        build = BUILD_ALL;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
@@ -73,6 +79,14 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         cliOptions.add(CliOption.newBoolean(CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
 
+        CliOption buildToolsOption = new CliOption(BUILD, "Specify for which build tool to generate files").defaultValue(build);
+        buildToolsOption.setEnum(new HashMap<String, String>(){{
+            put(BUILD_GRADLE, "Gradle configuration is generated for the project");
+            put(BUILD_MAVEN, "Maven configuration is generated for the project");
+            put(BUILD_ALL, "Both Gradle and Maven configurations are generated");
+        }});
+        cliOptions.add(buildToolsOption);
+
         // Remove the date library option
         cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
                 .ifPresent(v -> cliOptions.remove(v));
@@ -80,7 +94,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         // Add reserved words
         String[] reservedWordsArray = new String[]{
                 "client", "format", "queryvalue", "queryparam", "pathvariable", "header", "cookie",
-                "authorization", "body"
+                "authorization", "body", "application"
         };
         reservedWords.addAll(Arrays.asList(reservedWordsArray));
     }
@@ -132,6 +146,18 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         }
         writePropertyBack(CONFIGURE_AUTH, configureAuthorization);
 
+        if (additionalProperties.containsKey(BUILD)) {
+            switch ((String) additionalProperties.get(BUILD)) {
+                case BUILD_GRADLE:
+                case BUILD_MAVEN:
+                case BUILD_ALL:
+                    this.build = (String) additionalProperties.get(BUILD);
+                    break;
+                default:
+                    throw new RuntimeException("Build tool \"" + additionalProperties.get(BUILD) + "\" is not supported or misspelled.");
+            }
+        }
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
 
@@ -157,17 +183,31 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         supportingFiles.add(new SupportingFile("query/QueryParam.mustache", queryFolder, "QueryParam.java"));
         supportingFiles.add(new SupportingFile("query/QueryParamBinder.mustache", queryFolder, "QueryParamBinder.java"));
 
-        // Gradle files
-        supportingFiles.add(new SupportingFile("configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration/gradle/gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
+        if (build.equals(BUILD_GRADLE) || build.equals(BUILD_ALL)) {
+            // Gradle files
+            supportingFiles.add(new SupportingFile("configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("configuration/gradle/gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
 
-        // Gradlew files
-        final String gradleWrapperFolder = "gradle/wrapper";
-        supportingFiles.add(new SupportingFile("configuration/gradlew/gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("configuration/gradlew/gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("configuration/gradlew/gradle-wrapper.properties.mustache", gradleWrapperFolder, "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("configuration/gradlew/gradle-wrapper.jar", gradleWrapperFolder, "gradle-wrapper.jar"));
+            // Gradlew files
+            final String gradleWrapperFolder = "gradle/wrapper";
+            supportingFiles.add(new SupportingFile("configuration/gradlew/gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("configuration/gradlew/gradlew.bat.mustache", "", "gradlew.bat"));
+            supportingFiles.add(new SupportingFile("configuration/gradlew/gradle-wrapper.properties.mustache", gradleWrapperFolder, "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile("configuration/gradlew/gradle-wrapper.jar", gradleWrapperFolder, "gradle-wrapper.jar"));
+        }
+
+        if (build.equals(BUILD_MAVEN) || build.equals(BUILD_ALL)) {
+            // Maven files
+            supportingFiles.add(new SupportingFile("configuration/pom.xml.mustache", "", "pom.xml"));
+
+            // Maven wrapper files
+            supportingFiles.add(new SupportingFile("configuration/mavenw/mvnw.mustache", "", "mvnw"));
+            supportingFiles.add(new SupportingFile("configuration/mavenw/mvnw.bat.mustache", "", "mvnw.bat"));
+            supportingFiles.add(new SupportingFile("configuration/mavenw/MavenWrapperDownloader.java.mustache", ".mvn/wrapper", "MavenWrapperDownloader.java"));
+            supportingFiles.add(new SupportingFile("configuration/mavenw/maven-wrapper.jar.mustache", ".mvn/wrapper", "maven-wrapper.jar"));
+            supportingFiles.add(new SupportingFile("configuration/mavenw/maven-wrapper.properties.mustache", ".mvn/wrapper", "maren-wrapper.properties"));
+        }
 
         // Git files
         supportingFiles.add(new SupportingFile("configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
@@ -191,10 +231,31 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         modelTemplateFiles.put("model/model.mustache", ".java");
 
         // Add test files
-        apiTestTemplateFiles.put("api_test.mustache", ".java");
-        modelTestTemplateFiles.put("model_test.mustache", ".java");
+//        apiTestTemplateFiles.put("api_test.mustache", ".java");
+//        modelTestTemplateFiles.put("model_test.mustache", ".java");
+        apiTestTemplateFiles.put("api_test.groovy.mustache", ".groovy");
+        modelTestTemplateFiles.put("model_test.groovy.mustache", ".groovy");
     }
 
+    @Override
+    public String apiTestFileFolder() {
+        return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/api";
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/model";
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Spec";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelName(name) + "Spec";
+    }
 
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {

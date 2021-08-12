@@ -46,7 +46,6 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)

@@ -4,7 +4,9 @@ package {{package}};
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
+{{#configureAuth}}
 import {{invokerPackage}}.auth.Authorization;
+{{/configureAuth}}
 import {{invokerPackage}}.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -50,10 +52,17 @@ public interface {{classname}} {
 {{/externalDocs}}
    */
   @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-  {{#vendorExtensions.x-contentType}}@Produces(value={"{{vendorExtensions.x-contentType}}"})
-  {{/vendorExtensions.x-contentType}}@Consumes(value={"{{vendorExtensions.x-accepts}}"}){{!auth methods}}{{#configureAuth}}{{#authMethods}}
-  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}}){{/authMethods}}{{/configureAuth}}
-  {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Void>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
+  {{#vendorExtensions.x-contentType}}
+  @Produces(value={"{{vendorExtensions.x-contentType}}"})
+  {{/vendorExtensions.x-contentType}}
+  @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+  {{!auth methods}}
+  {{#configureAuth}}
+      {{#authMethods}}
+  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}})
+      {{/authMethods}}
+  {{/configureAuth}}
+  {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
         {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
   {{/operation}}

@@ -59,7 +59,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -83,17 +82,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public LocalDateTime getDateTime() {
     return dateTime;
   }
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public void setDateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
   }

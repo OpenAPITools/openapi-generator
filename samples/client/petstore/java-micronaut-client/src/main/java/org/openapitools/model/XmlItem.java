@@ -183,7 +183,6 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
@@ -307,7 +306,6 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
@@ -462,7 +460,6 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
@@ -617,7 +614,6 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
@@ -772,7 +768,6 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)

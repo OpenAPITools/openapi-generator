@@ -87,7 +87,6 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
    **/
-  @Valid
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)

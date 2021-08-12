@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.auth.Authorization;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -42,7 +41,7 @@ public interface UserApi {
   @Post(uri="/user")
   @Produces(value={"*/*"})
   @Consumes(value={"application/json"})
-  Mono<Void> createUser(
+  Mono<Object> createUser(
         @Body @Valid @NotNull User _body
   );
 
@@ -54,7 +53,7 @@ public interface UserApi {
   @Post(uri="/user/createWithArray")
   @Produces(value={"*/*"})
   @Consumes(value={"application/json"})
-  Mono<Void> createUsersWithArrayInput(
+  Mono<Object> createUsersWithArrayInput(
         @Body @NotNull List<User> _body
   );
 
@@ -66,7 +65,7 @@ public interface UserApi {
   @Post(uri="/user/createWithList")
   @Produces(value={"*/*"})
   @Consumes(value={"application/json"})
-  Mono<Void> createUsersWithListInput(
+  Mono<Object> createUsersWithListInput(
         @Body @NotNull List<User> _body
   );
 
@@ -78,7 +77,7 @@ public interface UserApi {
    */
   @Delete(uri="/user/{username}")
   @Consumes(value={"application/json"})
-  Mono<Void> deleteUser(
+  Mono<Object> deleteUser(
         @PathVariable(name="username") @NotNull String username
   );
 
@@ -114,7 +113,7 @@ public interface UserApi {
    */
   @Get(uri="/user/logout")
   @Consumes(value={"application/json"})
-  Mono<Void> logoutUser();
+  Mono<Object> logoutUser();
 
   /**
    * Updated user
@@ -126,7 +125,7 @@ public interface UserApi {
   @Put(uri="/user/{username}")
   @Produces(value={"*/*"})
   @Consumes(value={"application/json"})
-  Mono<Void> updateUser(
+  Mono<Object> updateUser(
         @PathVariable(name="username") @NotNull String username, 
         @Body @Valid @NotNull User _body
   );

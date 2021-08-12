@@ -4,3 +4,5 @@ inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-e
 additionalProperties:
   artifactId: petstore-micronaut
   hideGenerationTimestamp: "true"
+  configureAuth: "false"
+  build: "all"

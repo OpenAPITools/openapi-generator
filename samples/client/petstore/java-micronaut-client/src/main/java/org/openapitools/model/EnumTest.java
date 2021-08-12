@@ -288,7 +288,6 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)

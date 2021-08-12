@@ -4,38 +4,23 @@ context-path: "/v2"
 micronaut:
     application:
         name: petstore-micronaut
+    # TODO configure security features
     security:
         oauth2:
             clients:
-                petstore_auth:
-                    grant-type: implicit
-                    scopes: ["write:pets", "read:pets"]
-                    authorization:
-                        url: "http://petstore.swagger.io/api/oauth/dialog"
-                    # TODO Fill in the parameters for petstore_auth authorization if needed
-                    # client-id:
-                    # client-secret:
+                # An example of how oauth client is filled
+                # name:
+                #     grant-type: authorization_code | client_credentials
+                #     scopes: []
+                # token:
+                #     auth-method: client_secret_basic
+                #     url: "https://"
+                # client-id:
+                # client-secret
+        # An example of how to apply other authorization methods
+        # authentication: bearer | cookie | session
 
-security:
-    api-key-auth:
-        api_key:
-            location: header
-            param-name: "api_key"
-            # TODO fill in api key for api_key authorization
-            api-key:
-    
-        api_key_query:
-            location: query
-            param-name: "api_key_query"
-            # TODO fill in api key for api_key_query authorization
-            api-key:
-    
-    basic-auth:
-        http_basic_test:
-            # TODO fill in credentials for http_basic_test authorization
-            username:
-            password:
-    
+
 
 jackson:
     serialization:

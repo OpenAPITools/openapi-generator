@@ -17,8 +17,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|build|Specify for which build tool to generate files|<dl><dt>**gradle**</dt><dd>Gradle configuration is generated for the project</dd><dt>**all**</dt><dd>Both Gradle and Maven configurations are generated</dd><dt>**maven**</dt><dd>Maven configuration is generated for the project</dd></dl>|all|
 |configPackage|Configuration package for generated code| |org.openapitools.configuration|
-|configureAuth|Configure all the authorization methods as specified in the file| |true|
+|configureAuth|Configure all the authorization methods as specified in the file| |false|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|

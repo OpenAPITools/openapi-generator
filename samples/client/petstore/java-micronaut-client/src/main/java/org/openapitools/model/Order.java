@@ -169,17 +169,18 @@ public class Order {
    * Get shipDate
    * @return shipDate
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public LocalDateTime getShipDate() {
     return shipDate;
   }
 
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXX")
   public void setShipDate(LocalDateTime shipDate) {
     this.shipDate = shipDate;
   }

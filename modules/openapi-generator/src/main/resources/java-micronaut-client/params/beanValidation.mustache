@@ -1,6 +1,6 @@
 {{#useBeanValidation}}{{!
 validate all pojos and enums
-}}{{^isContainer}}{{^isPrimitiveType}}@Valid {{/isPrimitiveType}}{{/isContainer}}{{!
+}}{{^isContainer}}{{#isModel}}@Valid {{/isModel}}{{/isContainer}}{{!
 nullable & nonnull
 }}{{#required}}@NotNull {{/required}}{{#isNullable}}@Nullable {{/isNullable}}{{!
 pattern

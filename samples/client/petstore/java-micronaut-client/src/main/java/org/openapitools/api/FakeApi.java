@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.auth.Authorization;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -50,7 +49,7 @@ public interface FakeApi {
   @Post(uri="/fake/create_xml_item")
   @Produces(value={"application/xml"})
   @Consumes(value={"application/json"})
-  Mono<Void> createXmlItem(
+  Mono<Object> createXmlItem(
         @Body @Valid @NotNull XmlItem xmlItem
   );
 
@@ -114,7 +113,7 @@ public interface FakeApi {
   @Put(uri="/fake/body-with-file-schema")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  Mono<Void> testBodyWithFileSchema(
+  Mono<Object> testBodyWithFileSchema(
         @Body @Valid @NotNull FileSchemaTestClass _body
   );
 
@@ -127,7 +126,7 @@ public interface FakeApi {
   @Put(uri="/fake/body-with-query-params")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  Mono<Void> testBodyWithQueryParams(
+  Mono<Object> testBodyWithQueryParams(
         @QueryParam(name="query") @NotNull String query, 
         @Body @Valid @NotNull User _body
   );
@@ -168,8 +167,7 @@ public interface FakeApi {
   @Post(uri="/fake")
   @Produces(value={"application/x-www-form-urlencoded"})
   @Consumes(value={"application/json"})
-  @Authorization(name="http_basic_test")
-  Mono<Void> testEndpointParameters(
+  Mono<Object> testEndpointParameters(
         @NotNull @DecimalMin("32.1") @DecimalMax("543.2") BigDecimal number, 
         @NotNull @DecimalMin("67.8") @DecimalMax("123.4") Double _double, 
         @NotNull @Pattern(regexp="^[A-Z].*") String patternWithoutDelimiter, 
@@ -181,7 +179,7 @@ public interface FakeApi {
         @Pattern(regexp="/[a-z]/i") String string, 
         File binary, 
         @Format("yyyy-MM-dd") LocalDate date, 
-        @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX") LocalDateTime dateTime, 
+        @Format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXX") LocalDateTime dateTime, 
         @Size(min=10, max=64) String password, 
         String paramCallback
   );
@@ -202,7 +200,7 @@ public interface FakeApi {
   @Get(uri="/fake")
   @Produces(value={"application/x-www-form-urlencoded"})
   @Consumes(value={"application/json"})
-  Mono<Void> testEnumParameters(
+  Mono<Object> testEnumParameters(
         @Header(name="enum_header_string_array") List<String> enumHeaderStringArray, 
         @Header(name="enum_header_string", defaultValue="-efg") String enumHeaderString, 
         @QueryParam(name="enum_query_string_array", format=QueryParam.Format.CSV) List<String> enumQueryStringArray, 
@@ -226,7 +224,7 @@ public interface FakeApi {
    */
   @Delete(uri="/fake")
   @Consumes(value={"application/json"})
-  Mono<Void> testGroupParameters(
+  Mono<Object> testGroupParameters(
         @QueryParam(name="required_string_group") @NotNull Integer requiredStringGroup, 
         @Header(name="required_boolean_group") @NotNull Boolean requiredBooleanGroup, 
         @QueryParam(name="required_int64_group") @NotNull Long requiredInt64Group, 
@@ -243,7 +241,7 @@ public interface FakeApi {
   @Post(uri="/fake/inline-additionalProperties")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  Mono<Void> testInlineAdditionalProperties(
+  Mono<Object> testInlineAdditionalProperties(
         @Body @NotNull Map<String, String> param
   );
 
@@ -256,7 +254,7 @@ public interface FakeApi {
   @Get(uri="/fake/jsonFormData")
   @Produces(value={"application/x-www-form-urlencoded"})
   @Consumes(value={"application/json"})
-  Mono<Void> testJsonFormData(
+  Mono<Object> testJsonFormData(
         @NotNull String param, 
         @NotNull String param2
   );
@@ -272,7 +270,7 @@ public interface FakeApi {
    */
   @Put(uri="/fake/test-query-paramters")
   @Consumes(value={"application/json"})
-  Mono<Void> testQueryParameterCollectionFormat(
+  Mono<Object> testQueryParameterCollectionFormat(
         @QueryParam(name="pipe", format=QueryParam.Format.CSV) @NotNull List<String> pipe, 
         @QueryParam(name="ioutil", format=QueryParam.Format.CSV) @NotNull List<String> ioutil, 
         @QueryParam(name="http", format=QueryParam.Format.SSV) @NotNull List<String> http, 

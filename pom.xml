@@ -776,6 +776,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-micronaut-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-micronaut-client</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>

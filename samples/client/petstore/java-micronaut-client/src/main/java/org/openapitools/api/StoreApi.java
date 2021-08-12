@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.auth.Authorization;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -41,7 +40,7 @@ public interface StoreApi {
    */
   @Delete(uri="/store/order/{order_id}")
   @Consumes(value={"application/json"})
-  Mono<Void> deleteOrder(
+  Mono<Object> deleteOrder(
         @PathVariable(name="order_id") @NotNull String orderId
   );
 
@@ -53,7 +52,6 @@ public interface StoreApi {
    */
   @Get(uri="/store/inventory")
   @Consumes(value={"application/json"})
-  @Authorization(name="api_key")
   Mono<Map<String, Integer>> getInventory();
 
   /**

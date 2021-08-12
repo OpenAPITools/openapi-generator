@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.auth.Authorization;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -44,8 +43,7 @@ public interface PetApi {
   @Post(uri="/pet")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
-  Mono<Void> addPet(
+  Mono<Object> addPet(
         @Body @Valid @NotNull Pet _body
   );
 
@@ -57,8 +55,7 @@ public interface PetApi {
    */
   @Delete(uri="/pet/{petId}")
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
-  Mono<Void> deletePet(
+  Mono<Object> deletePet(
         @PathVariable(name="petId") @NotNull Long petId, 
         @Header(name="api_key") String apiKey
   );
@@ -72,7 +69,6 @@ public interface PetApi {
    */
   @Get(uri="/pet/findByStatus")
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
   Mono<List<Pet>> findPetsByStatus(
         @QueryParam(name="status", format=QueryParam.Format.CSV) @NotNull List<String> status
   );
@@ -86,7 +82,6 @@ public interface PetApi {
    */
   @Get(uri="/pet/findByTags")
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
   Mono<Set<Pet>> findPetsByTags(
         @QueryParam(name="tags", format=QueryParam.Format.CSV) @NotNull Set<String> tags
   );
@@ -100,7 +95,6 @@ public interface PetApi {
    */
   @Get(uri="/pet/{petId}")
   @Consumes(value={"application/json"})
-  @Authorization(name="api_key")
   Mono<Pet> getPetById(
         @PathVariable(name="petId") @NotNull Long petId
   );
@@ -113,8 +107,7 @@ public interface PetApi {
   @Put(uri="/pet")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
-  Mono<Void> updatePet(
+  Mono<Object> updatePet(
         @Body @Valid @NotNull Pet _body
   );
 
@@ -128,8 +121,7 @@ public interface PetApi {
   @Post(uri="/pet/{petId}")
   @Produces(value={"application/x-www-form-urlencoded"})
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
-  Mono<Void> updatePetWithForm(
+  Mono<Object> updatePetWithForm(
         @PathVariable(name="petId") @NotNull Long petId, 
         String name, 
         String status
@@ -146,7 +138,6 @@ public interface PetApi {
   @Post(uri="/pet/{petId}/uploadImage")
   @Produces(value={"multipart/form-data"})
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
   Mono<ModelApiResponse> uploadFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         String additionalMetadata, 
@@ -164,7 +155,6 @@ public interface PetApi {
   @Post(uri="/fake/{petId}/uploadImageWithRequiredFile")
   @Produces(value={"multipart/form-data"})
   @Consumes(value={"application/json"})
-  @Authorization(name="petstore_auth", scopes={"write:pets", "read:pets"})
   Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @PathVariable(name="petId") @NotNull Long petId, 
         @NotNull File requiredFile, 

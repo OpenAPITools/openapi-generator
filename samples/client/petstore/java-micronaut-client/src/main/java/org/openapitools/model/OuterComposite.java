@@ -54,7 +54,6 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    **/
-  @Valid
   @Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)

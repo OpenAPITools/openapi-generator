@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.auth.Authorization;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
@@ -43,7 +42,6 @@ public interface FakeClassnameTags123Api {
   @Patch(uri="/fake_classname_test")
   @Produces(value={"application/json"})
   @Consumes(value={"application/json"})
-  @Authorization(name="api_key_query")
   Mono<ModelClient> testClassname(
         @Body @Valid @NotNull ModelClient _body
   );
