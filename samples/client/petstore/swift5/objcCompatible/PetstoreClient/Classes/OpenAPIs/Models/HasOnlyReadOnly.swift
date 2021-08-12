@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class HasOnlyReadOnly: NSObject, Codable {
 
@@ -17,6 +19,7 @@ import AnyCodable
         self.bar = bar
         self.foo = foo
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case foo
@@ -29,7 +32,5 @@ import AnyCodable
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(foo, forKey: .foo)
     }
-
-
-
 }
+

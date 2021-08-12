@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** Must be named &#x60;File&#x60; for test. */
 @objc public class File: NSObject, Codable {
@@ -17,6 +19,7 @@ import AnyCodable
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -27,7 +30,5 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
-
-
-
 }
+

@@ -146,7 +146,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
 
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.client.model");
@@ -168,7 +168,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
@@ -190,7 +190,7 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
@@ -526,10 +526,10 @@ public class JavaClientCodegenTest {
         ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
         CodegenResponse response = codegen.fromResponse("200", ok_200);
 
-        Assert.assertEquals(1, response.headers.size());
+        Assert.assertEquals(response.headers.size(), 1);
         CodegenProperty header = response.headers.get(0);
-        Assert.assertEquals("UUID", header.dataType);
-        Assert.assertEquals("Request", header.baseName);
+        Assert.assertEquals(header.dataType, "UUID");
+        Assert.assertEquals(header.baseName, "Request");
     }
 
     @Test
@@ -746,9 +746,9 @@ public class JavaClientCodegenTest {
     @Test
     public void escapeName() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        assertEquals("_default", codegen.toApiVarName("Default"));
-        assertEquals("_int", codegen.toApiVarName("int"));
-        assertEquals("pony", codegen.toApiVarName("pony"));
+        assertEquals(codegen.toApiVarName("Default"), "_default");
+        assertEquals(codegen.toApiVarName("int"), "_int");
+        assertEquals(codegen.toApiVarName("pony"), "pony");
     }
 
     @Test
@@ -1028,18 +1028,18 @@ public class JavaClientCodegenTest {
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
-                "multipartArray(java.util.Collection<org.springframework.web.multipart.MultipartFile> files)",
-                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.web.multipart.MultipartFile> files)",
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixed(org.springframework.web.multipart.MultipartFile file, MultipartMixedMarker marker)",
-                "multipartMixedWithHttpInfo(org.springframework.web.multipart.MultipartFile file, MultipartMixedMarker marker)",
+                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
                 "formParams.add(\"file\", file);",
 
                 //single file
-                "multipartSingle(org.springframework.web.multipart.MultipartFile file)",
-                "multipartSingleWithHttpInfo(org.springframework.web.multipart.MultipartFile file)",
+                "multipartSingle(org.springframework.core.io.Resource file)",
+                "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
                 "formParams.add(\"file\", file);"
         );
     }

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")
@@ -33,6 +35,7 @@ public struct Order: Codable, Hashable {
         self.status = status
         self.complete = complete
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId
@@ -53,7 +56,5 @@ public struct Order: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(complete, forKey: .complete)
     }
-
-
-
 }
+

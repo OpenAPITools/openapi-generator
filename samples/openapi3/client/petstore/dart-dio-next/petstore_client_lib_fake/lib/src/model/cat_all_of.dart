@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'cat_all_of.g.dart';
 
-
-
+/// CatAllOf
+///
+/// Properties:
+/// * [declawed] 
 abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
     @BuiltValueField(wireName: r'declawed')
     bool? get declawed;

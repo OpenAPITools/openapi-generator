@@ -9,10 +9,11 @@
 #  router:
 #    cache:
 #      directory: ./data/cache/PathHandler
-#  #Enable handler metadata cache
-#  metadata:
-#    cache:
-#      directory: ./data/cache/PathHandler
+
+#Enable handler metadata cache
+#Articus\PathHandler\MetadataProvider\Annotation:
+#  cache:
+#    directory: ./data/cache/PathHandler
 
 #Enable data transfer metadata cache for DTOs
 #Articus\DataTransfer\MetadataProvider\Annotation:

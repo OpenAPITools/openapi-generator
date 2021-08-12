@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'model200_response.g.dart';
 
-
-
+/// Model for testing model name starting with number
+///
+/// Properties:
+/// * [name] 
+/// * [class_] 
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
     @BuiltValueField(wireName: r'name')
     int? get name;

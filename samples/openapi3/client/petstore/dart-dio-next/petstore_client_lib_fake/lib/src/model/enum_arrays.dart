@@ -8,8 +8,11 @@ import 'package:built_value/serializer.dart';
 
 part 'enum_arrays.g.dart';
 
-
-
+/// EnumArrays
+///
+/// Properties:
+/// * [justSymbol] 
+/// * [arrayEnum] 
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     @BuiltValueField(wireName: r'just_symbol')
     EnumArraysJustSymbolEnum? get justSymbol;

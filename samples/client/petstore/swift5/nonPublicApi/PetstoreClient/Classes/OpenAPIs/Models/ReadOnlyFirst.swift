@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct ReadOnlyFirst: Codable, Hashable {
 
@@ -17,6 +19,7 @@ internal struct ReadOnlyFirst: Codable, Hashable {
         self.bar = bar
         self.baz = baz
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case baz
@@ -29,7 +32,5 @@ internal struct ReadOnlyFirst: Codable, Hashable {
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(baz, forKey: .baz)
     }
-
-
-
 }
+

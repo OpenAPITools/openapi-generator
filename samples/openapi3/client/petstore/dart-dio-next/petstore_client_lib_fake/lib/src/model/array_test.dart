@@ -9,8 +9,12 @@ import 'package:built_value/serializer.dart';
 
 part 'array_test.g.dart';
 
-
-
+/// ArrayTest
+///
+/// Properties:
+/// * [arrayOfString] 
+/// * [arrayArrayOfInteger] 
+/// * [arrayArrayOfModel] 
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     @BuiltValueField(wireName: r'array_of_string')
     BuiltList<String>? get arrayOfString;

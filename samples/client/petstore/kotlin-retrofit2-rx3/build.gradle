@@ -7,9 +7,9 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.4.30'
-    ext.retrofitVersion = '2.7.2'
-    ext.rxJava3Version = '3.0.10'
+    ext.kotlin_version = '1.5.10'
+    ext.retrofitVersion = '2.9.0'
+    ext.rxJava3Version = '3.0.12'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -30,15 +30,16 @@ test {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "com.squareup.moshi:moshi-kotlin:1.11.0"
-    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
-    compile "com.squareup.okhttp3:logging-interceptor:4.9.0"
-    compile "io.reactivex.rxjava3:rxjava:$rxJava3Version"
-    compile "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.12.0"
+    implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "io.reactivex.rxjava3:rxjava:$rxJava3Version"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

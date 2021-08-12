@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.File")
+public typealias File = PetstoreClient.File
+
+extension PetstoreClient {
 
 /** Must be named &#x60;File&#x60; for test. */
 public final class File: Codable, Hashable {
@@ -17,6 +24,7 @@ public final class File: Codable, Hashable {
     public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceURI
     }
@@ -28,8 +36,6 @@ public final class File: Codable, Hashable {
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
 
-
-
     public static func == (lhs: File, rhs: File) -> Bool {
         lhs.sourceURI == rhs.sourceURI
         
@@ -39,5 +45,6 @@ public final class File: Codable, Hashable {
         hasher.combine(sourceURI?.hashValue)
         
     }
+}
 
 }

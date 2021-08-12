@@ -324,6 +324,7 @@ class PetController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     * @deprecated
      */
     public function findPetsByTagsAction(Request $request)
     {

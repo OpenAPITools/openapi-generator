@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class Pet: NSObject, Codable {
 
@@ -36,6 +38,7 @@ import AnyCodable
         self.tags = tags
         self.status = status
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case category
@@ -56,7 +59,5 @@ import AnyCodable
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
     }
-
-
-
 }
+

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class EnumTest: NSObject, Codable {
 
@@ -41,6 +43,7 @@ import AnyCodable
         self.enumNumber = enumNumber
         self.outerEnum = outerEnum
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
@@ -59,7 +62,5 @@ import AnyCodable
         try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
-
-
-
 }
+

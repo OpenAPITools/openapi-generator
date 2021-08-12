@@ -46,6 +46,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * {{{description}}}
   **/
 {{/description}}
+  {{^withXml}}
+  @JsonbProperty("{{baseName}}")
+  {{/withXml}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
@@ -69,10 +72,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * maximum: {{maximum}}
   {{/maximum}}
    * @return {{name}}
+  {{#deprecated}}
+   * @deprecated
+  {{/deprecated}}
   **/
-  {{^withXml}}
-  @JsonbProperty("{{baseName}}")
-  {{/withXml}}
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}

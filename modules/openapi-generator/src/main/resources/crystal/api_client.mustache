@@ -163,7 +163,7 @@ module {{moduleName}}
     # @param [Hash] query_params Query parameters
     # @param [String] auth_names Authentication scheme name
     def update_params_for_auth!(header_params, query_params, auth_names)
-      Array{auth_names}.each do |auth_name|
+      auth_names.each do |auth_name|
         auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
         case auth_setting[:in]
@@ -256,7 +256,7 @@ module {{moduleName}}
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of Symbol => String, form_params = {} of Symbol => String)
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => String)
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,
@@ -273,6 +273,8 @@ module {{moduleName}}
       #  end
       #  conn.adapter(Faraday.default_adapter)
       #end
+
+      update_params_for_auth! header_params, query_params, auth_names
 
       if !post_body.nil? && !post_body.empty?
         # use JSON string in the payload

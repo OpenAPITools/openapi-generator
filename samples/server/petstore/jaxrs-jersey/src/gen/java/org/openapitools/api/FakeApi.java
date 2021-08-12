@@ -153,10 +153,22 @@ public class FakeApi  {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
     @PUT
+    @Path("/body-with-binary")
+    @Consumes({ "image/png" })
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testBodyWithBinary(@ApiParam(value = "image to upload", required = true) @NotNull  File body,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testBodyWithBinary(body, securityContext);
+    }
+    @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })

@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'model_client.g.dart';
 
-
-
+/// ModelClient
+///
+/// Properties:
+/// * [client] 
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     @BuiltValueField(wireName: r'client')
     String? get client;

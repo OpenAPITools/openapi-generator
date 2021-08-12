@@ -8,8 +8,11 @@ import 'package:built_value/serializer.dart';
 
 part 'additional_properties_class.g.dart';
 
-
-
+/// AdditionalPropertiesClass
+///
+/// Properties:
+/// * [mapProperty] 
+/// * [mapOfMapProperty] 
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
     @BuiltValueField(wireName: r'map_property')
     BuiltMap<String, String>? get mapProperty;

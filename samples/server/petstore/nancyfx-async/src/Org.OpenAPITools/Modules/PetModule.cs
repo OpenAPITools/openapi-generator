@@ -143,6 +143,7 @@ namespace Org.OpenAPITools._v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
+        [Obsolete]
         Task<List<Pet>> FindPetsByTags(NancyContext context, List<string> tags);
 
         /// <summary>
@@ -202,6 +203,7 @@ namespace Org.OpenAPITools._v2.Modules
             return FindPetsByStatus(status);
         }
 
+        [Obsolete]
         public virtual Task<List<Pet>> FindPetsByTags(NancyContext context, List<string> tags)
         {
             return FindPetsByTags(tags);
@@ -233,6 +235,7 @@ namespace Org.OpenAPITools._v2.Modules
 
         protected abstract Task<List<Pet>> FindPetsByStatus(FindPetsByStatusStatusEnum? status);
 
+        [Obsolete]
         protected abstract Task<List<Pet>> FindPetsByTags(List<string> tags);
 
         protected abstract Task<Pet> GetPetById(long? petId);

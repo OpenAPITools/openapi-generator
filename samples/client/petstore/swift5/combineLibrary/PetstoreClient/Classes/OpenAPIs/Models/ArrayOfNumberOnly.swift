@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct ArrayOfNumberOnly: Codable, Hashable {
 
@@ -15,6 +17,7 @@ public struct ArrayOfNumberOnly: Codable, Hashable {
     public init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
@@ -25,7 +28,5 @@ public struct ArrayOfNumberOnly: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
-
-
-
 }
+

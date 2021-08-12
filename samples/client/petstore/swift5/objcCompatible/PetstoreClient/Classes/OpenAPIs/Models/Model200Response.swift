@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 /** Model for testing model name starting with number */
 @objc public class Model200Response: NSObject, Codable {
@@ -23,6 +25,7 @@ import AnyCodable
         self.name = name
         self._class = _class
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _class = "class"
@@ -35,7 +38,5 @@ import AnyCodable
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(_class, forKey: ._class)
     }
-
-
-
 }
+

@@ -13,10 +13,10 @@ class FindPetsByTagsQueryData
     /**
      * Tags to filter by
      * @DTA\Data(field="tags")
-     * TODO check validator and strategy are correct and can handle container item type
      * @DTA\Strategy(name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
      * @DTA\Validator(name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
      * @var string[]|null
      */
     public $tags;
+
 }

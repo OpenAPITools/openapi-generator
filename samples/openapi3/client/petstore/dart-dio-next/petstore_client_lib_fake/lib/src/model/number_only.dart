@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'number_only.g.dart';
 
-
-
+/// NumberOnly
+///
+/// Properties:
+/// * [justNumber] 
 abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
     @BuiltValueField(wireName: r'JustNumber')
     num? get justNumber;

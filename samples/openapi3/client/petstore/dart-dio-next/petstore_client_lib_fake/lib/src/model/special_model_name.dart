@@ -7,8 +7,10 @@ import 'package:built_value/serializer.dart';
 
 part 'special_model_name.g.dart';
 
-
-
+/// SpecialModelName
+///
+/// Properties:
+/// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
 abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
     @BuiltValueField(wireName: r'$special[property.name]')
     int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;

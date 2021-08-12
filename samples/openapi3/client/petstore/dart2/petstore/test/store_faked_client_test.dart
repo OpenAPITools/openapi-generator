@@ -21,62 +21,56 @@ void main() {
 
   group('Store API with faked client', () {
     test('places an order and gets it by id', () async {
-      // TODO: Please uncomment this after a content type of the petstore order in petstore.yaml is fixed.
-      // final id = newId();
-      // final newOrder = makeOrder(id: id);
+      final id = newId();
+      final newOrder = makeOrder(id: id);
 
-      // // use the store api to add an order
-      // storeApi.apiClient.client = FakeClient(
-      //   expectedUrl: 'http://petstore.swagger.io/v2/store/order',
-      //   expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
-      //   postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
-      //   expectedHeaders: {"Content-Type": "application/json"}
-      // );
-      // await storeApi.placeOrder(newOrder);
+      // use the store api to add an order
+      storeApi.apiClient.client = FakeClient(
+          expectedUrl: 'http://petstore.swagger.io/v2/store/order',
+          expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
+          postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
+          expectedHeaders: {"Content-Type": "application/json"});
+      await storeApi.placeOrder(newOrder);
 
-      // // retrieve the same order by id
-      // storeApi.apiClient.client = FakeClient(
-      //   expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
-      //   getResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
-      // );
-      // final placedOrder = await storeApi.getOrderById(id);
-      // expect(placedOrder.id, equals(id));
+      // retrieve the same order by id
+      storeApi.apiClient.client = FakeClient(
+        expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
+        getResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
+      );
+      final placedOrder = await storeApi.getOrderById(id);
+      expect(placedOrder.id, equals(id));
     });
 
     test('deletes an order', () async {
-      // TODO: Please uncomment this after a content type of the petstore order in petstore.yaml is fixed.
-      // final id = newId();
-      // final newOrder = makeOrder(id: id);
+      final id = newId();
+      final newOrder = makeOrder(id: id);
 
-      // // use the store api to add an order
-      // storeApi.apiClient.client = FakeClient(
-      //   expectedUrl: 'http://petstore.swagger.io/v2/store/order',
-      //   expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
-      //   postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
-      //   expectedHeaders: {"Content-Type": "application/json"}
-      // );
-      // await storeApi.placeOrder(newOrder);
+      // use the store api to add an order
+      storeApi.apiClient.client = FakeClient(
+          expectedUrl: 'http://petstore.swagger.io/v2/store/order',
+          expectedPostRequestBody: await storeApi.apiClient.serializeAsync(newOrder),
+          postResponseBody: await storeApi.apiClient.serializeAsync(newOrder),
+          expectedHeaders: {"Content-Type": "application/json"});
+      await storeApi.placeOrder(newOrder);
 
-      // // delete the same order
-      // storeApi.apiClient.client = FakeClient(
-      //   expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
-      //   deleteResponseBody: '',
-      // );
-      // await storeApi.deleteOrder(id.toString());
+      // delete the same order
+      storeApi.apiClient.client = FakeClient(
+        expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
+        deleteResponseBody: '',
+      );
+      await storeApi.deleteOrder(id.toString());
 
-      // // try and retrieve the order
-      // storeApi.apiClient.client = FakeClient(
-      //   expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
-      //   throwException: ApiException(400, 'Not found'),
-      // );
-      // expect(storeApi.getOrderById(id),
-      //     throwsA(equals(TypeMatcher<ApiException>())));
+      // try and retrieve the order
+      storeApi.apiClient.client = FakeClient(
+        expectedUrl: 'http://petstore.swagger.io/v2/store/order/$id',
+        throwException: ApiException(400, 'Not found'),
+      );
+      expect(storeApi.getOrderById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('gets the store inventory', () async {
       // get some test data (recorded from live response)
-      final inventoryResponse =
-          await File('test/inventory_response.json').readAsString();
+      final inventoryResponse = await File('test/inventory_response.json').readAsString();
       // use the store api to get the inventory
       storeApi.apiClient.client = FakeClient(
         expectedUrl: 'http://petstore.swagger.io/v2/store/inventory',

@@ -11,6 +11,12 @@ part 'dog.g.dart';
 
 // ignore_for_file: unused_import
 
+/// Dog
+///
+/// Properties:
+/// * [className] 
+/// * [color] 
+/// * [breed] 
 abstract class Dog implements Built<Dog, DogBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;

@@ -93,12 +93,12 @@ class Capitalization {
   static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Capitalization>[]
-      : json.map((v) => Capitalization.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => Capitalization.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, Capitalization> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Capitalization>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = Capitalization.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = Capitalization.fromJson(value));
     }
     return map;
   }
@@ -106,9 +106,9 @@ class Capitalization {
   // maps a json object with a list of Capitalization-objects as value to a dart map
   static Map<String, List<Capitalization>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Capitalization>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = Capitalization.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = Capitalization.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -7,8 +7,12 @@ import 'package:built_value/serializer.dart';
 
 part 'outer_composite.g.dart';
 
-
-
+/// OuterComposite
+///
+/// Properties:
+/// * [myNumber] 
+/// * [myString] 
+/// * [myBoolean] 
 abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
     @BuiltValueField(wireName: r'my_number')
     num? get myNumber;

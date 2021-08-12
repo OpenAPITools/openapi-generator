@@ -46,6 +46,12 @@ public:
     /// </summary>
     bool validate(std::stringstream& msg) const;
 
+    /// <summary>
+    /// Helper overload for validate. Used when one model stores another model and calls it's validate.
+    /// Not meant to be called outside that case.
+    /// </summary>
+    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
+
     bool operator==(const ApiResponse& rhs) const;
     bool operator!=(const ApiResponse& rhs) const;
 
@@ -83,9 +89,7 @@ protected:
     bool m_TypeIsSet;
     std::string m_Message;
     bool m_MessageIsSet;
-
-    // Helper overload for validate. Used when one model stores another model and calls it's validate.
-    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
+    
 };
 
 } // namespace org::openapitools::server::model

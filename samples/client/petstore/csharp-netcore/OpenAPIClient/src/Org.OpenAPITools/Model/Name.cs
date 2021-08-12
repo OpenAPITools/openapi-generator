@@ -72,7 +72,6 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
-
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
@@ -93,7 +92,6 @@ namespace Org.OpenAPITools.Model
         {
             return false;
         }
-
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>

@@ -7,8 +7,13 @@ import 'package:built_value/serializer.dart';
 
 part 'name.g.dart';
 
-
-
+/// Model for testing model name same as property name
+///
+/// Properties:
+/// * [name] 
+/// * [snakeCase] 
+/// * [property] 
+/// * [n123number] 
 abstract class Name implements Built<Name, NameBuilder> {
     @BuiltValueField(wireName: r'name')
     int get name;

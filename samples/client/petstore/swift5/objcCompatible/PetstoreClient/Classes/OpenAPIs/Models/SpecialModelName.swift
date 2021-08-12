@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class SpecialModelName: NSObject, Codable {
 
@@ -20,6 +22,7 @@ import AnyCodable
     public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case specialPropertyName = "$special[property.name]"
     }
@@ -30,7 +33,5 @@ import AnyCodable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
-
-
-
 }
+

@@ -22,10 +22,8 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -79,7 +77,7 @@ public class JavaCXFClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
 
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
@@ -97,7 +95,7 @@ public class JavaCXFClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
@@ -114,7 +112,7 @@ public class JavaCXFClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
@@ -179,4 +177,121 @@ public class JavaCXFClientCodegenTest {
         Assert.assertTrue(codegen.isUseGzipFeatureForTests());
     }
 
+    @Test
+    public void testOpenApiNullableAdditionalProperty() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNotNull(codegen.additionalProperties().get(AbstractJavaCodegen.OPENAPI_NULLABLE));
+        Assert.assertTrue(codegen.isOpenApiNullable());
+
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, false);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.OPENAPI_NULLABLE), Boolean.FALSE);
+        Assert.assertFalse(codegen.isOpenApiNullable());
+    }
+
+    @Test
+    public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabled() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
+        codegen.processOpts();
+
+        CodegenModel codegenModel = new CodegenModel();
+        CodegenProperty codegenProperty = new CodegenProperty();
+        codegenProperty.required = false;
+        codegenProperty.isNullable = true;
+
+        codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        Assert.assertTrue(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertTrue(codegenModel.imports.contains("JsonIgnore"));
+        Assert.assertEquals(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"), Boolean.TRUE);
+    }
+
+    @Test
+    public void testPostProcessNullableModelPropertyWithOpenApiNullableDisabled() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, false);
+        codegen.processOpts();
+
+        CodegenModel codegenModel = new CodegenModel();
+        CodegenProperty codegenProperty = new CodegenProperty();
+        codegenProperty.required = false;
+        codegenProperty.isNullable = true;
+
+        codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        Assert.assertFalse(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertFalse(codegenModel.imports.contains("JsonIgnore"));
+        Assert.assertNull(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"));
+    }
+
+    @Test
+    public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabledForRequiredProperties() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
+        codegen.processOpts();
+
+        CodegenModel codegenModel = new CodegenModel();
+        CodegenProperty codegenProperty = new CodegenProperty();
+        codegenProperty.required = true;
+        codegenProperty.isNullable = true;
+
+        codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        Assert.assertFalse(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertFalse(codegenModel.imports.contains("JsonIgnore"));
+        Assert.assertNull(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"));
+    }
+
+    @Test
+    public void testPostProcessNotNullableModelPropertyWithOpenApiNullableEnabled() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
+        codegen.processOpts();
+
+        CodegenModel codegenModel = new CodegenModel();
+        CodegenProperty codegenProperty = new CodegenProperty();
+        codegenProperty.required = false;
+        codegenProperty.isNullable = false;
+
+        codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        Assert.assertFalse(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertFalse(codegenModel.imports.contains("JsonIgnore"));
+        Assert.assertNull(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"));
+    }
+
+    @Test
+    public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabledButJacksonDisabled() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, false);
+        codegen.additionalProperties().put(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
+        codegen.processOpts();
+
+        CodegenModel codegenModel = new CodegenModel();
+        CodegenProperty codegenProperty = new CodegenProperty();
+        codegenProperty.required = false;
+        codegenProperty.isNullable = true;
+
+        codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        Assert.assertTrue(codegenModel.imports.contains("JsonNullable"));
+        Assert.assertFalse(codegenModel.imports.contains("JsonIgnore"));
+        Assert.assertNull(codegenProperty.getVendorExtensions().get("x-is-jackson-optional-nullable"));
+    }
+
+    @Test
+    public void testUseJackson() throws Exception {
+        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
+
+        codegen.processOpts();
+        Assert.assertNull(codegen.additionalProperties().get(AbstractJavaCodegen.JACKSON));
+        Assert.assertFalse(codegen.isUseJackson());
+
+        codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.JACKSON), Boolean.TRUE);
+        Assert.assertTrue(codegen.isUseJackson());
+    }
 }

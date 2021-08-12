@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 public struct TypeHolderDefault: Codable, Hashable {
 
@@ -23,6 +25,7 @@ public struct TypeHolderDefault: Codable, Hashable {
         self.boolItem = boolItem
         self.arrayItem = arrayItem
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case stringItem = "string_item"
         case numberItem = "number_item"
@@ -41,7 +44,5 @@ public struct TypeHolderDefault: Codable, Hashable {
         try container.encode(boolItem, forKey: .boolItem)
         try container.encode(arrayItem, forKey: .arrayItem)
     }
-
-
-
 }
+

@@ -24,9 +24,10 @@ class Date implements Comparable<Date> {
   /// Convert to a [DateTime].
   DateTime toDateTime({bool utc = false}) {
     if (utc) {
-      DateTime.utc(year, month, day);
+      return DateTime.utc(year, month, day);
+    } else {
+      return DateTime(year, month, day);
     }
-    return DateTime(year, month, day);
   }
 
   @override

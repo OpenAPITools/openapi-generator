@@ -7,8 +7,12 @@ import 'package:built_value/serializer.dart';
 
 part 'api_response.g.dart';
 
-
-
+/// ApiResponse
+///
+/// Properties:
+/// * [code] 
+/// * [type] 
+/// * [message] 
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     @BuiltValueField(wireName: r'code')
     int? get code;

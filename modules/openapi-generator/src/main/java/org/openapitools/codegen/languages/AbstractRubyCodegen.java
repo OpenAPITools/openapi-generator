@@ -191,6 +191,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }

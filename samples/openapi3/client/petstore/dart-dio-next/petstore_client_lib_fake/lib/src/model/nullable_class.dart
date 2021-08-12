@@ -10,8 +10,21 @@ import 'package:built_value/serializer.dart';
 
 part 'nullable_class.g.dart';
 
-
-
+/// NullableClass
+///
+/// Properties:
+/// * [integerProp] 
+/// * [numberProp] 
+/// * [booleanProp] 
+/// * [stringProp] 
+/// * [dateProp] 
+/// * [datetimeProp] 
+/// * [arrayNullableProp] 
+/// * [arrayAndItemsNullableProp] 
+/// * [arrayItemsNullable] 
+/// * [objectNullableProp] 
+/// * [objectAndItemsNullableProp] 
+/// * [objectItemsNullable] 
 abstract class NullableClass implements Built<NullableClass, NullableClassBuilder> {
     @BuiltValueField(wireName: r'integer_prop')
     int? get integerProp;

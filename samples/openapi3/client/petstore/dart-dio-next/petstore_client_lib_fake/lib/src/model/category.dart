@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'category.g.dart';
 
-
-
+/// Category
+///
+/// Properties:
+/// * [id] 
+/// * [name] 
 abstract class Category implements Built<Category, CategoryBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;

@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.HasOnlyReadOnly")
+public typealias HasOnlyReadOnly = PetstoreClient.HasOnlyReadOnly
+
+extension PetstoreClient {
 
 public final class HasOnlyReadOnly: Codable, Hashable {
 
@@ -17,6 +24,7 @@ public final class HasOnlyReadOnly: Codable, Hashable {
         self.bar = bar
         self.foo = foo
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bar
         case foo
@@ -30,8 +38,6 @@ public final class HasOnlyReadOnly: Codable, Hashable {
         try container.encodeIfPresent(foo, forKey: .foo)
     }
 
-
-
     public static func == (lhs: HasOnlyReadOnly, rhs: HasOnlyReadOnly) -> Bool {
         lhs.bar == rhs.bar &&
         lhs.foo == rhs.foo
@@ -43,5 +49,6 @@ public final class HasOnlyReadOnly: Codable, Hashable {
         hasher.combine(foo?.hashValue)
         
     }
+}
 
 }

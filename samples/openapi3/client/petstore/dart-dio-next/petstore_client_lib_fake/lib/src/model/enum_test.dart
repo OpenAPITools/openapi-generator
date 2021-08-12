@@ -12,8 +12,17 @@ import 'package:built_value/serializer.dart';
 
 part 'enum_test.g.dart';
 
-
-
+/// EnumTest
+///
+/// Properties:
+/// * [enumString] 
+/// * [enumStringRequired] 
+/// * [enumInteger] 
+/// * [enumNumber] 
+/// * [outerEnum] 
+/// * [outerEnumInteger] 
+/// * [outerEnumDefaultValue] 
+/// * [outerEnumIntegerDefaultValue] 
 abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
     @BuiltValueField(wireName: r'enum_string')
     EnumTestEnumStringEnum? get enumString;

@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.Order")
+public typealias Order = PetstoreClient.Order
+
+extension PetstoreClient {
 
 public final class Order: Codable, Hashable {
 
@@ -31,6 +38,7 @@ public final class Order: Codable, Hashable {
         self.status = status
         self.complete = complete
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId
@@ -52,8 +60,6 @@ public final class Order: Codable, Hashable {
         try container.encodeIfPresent(complete, forKey: .complete)
     }
 
-
-
     public static func == (lhs: Order, rhs: Order) -> Bool {
         lhs.id == rhs.id &&
         lhs.petId == rhs.petId &&
@@ -73,5 +79,6 @@ public final class Order: Codable, Hashable {
         hasher.combine(complete?.hashValue)
         
     }
+}
 
 }

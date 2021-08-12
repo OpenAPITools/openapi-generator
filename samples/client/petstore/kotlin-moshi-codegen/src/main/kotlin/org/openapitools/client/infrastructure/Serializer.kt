@@ -1,7 +1,6 @@
 package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.Moshi
-import java.util.Date
 
 object Serializer {
     @JvmStatic
@@ -11,6 +10,7 @@ object Serializer {
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        .add(URIAdapter())
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
 

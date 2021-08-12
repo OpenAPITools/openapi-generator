@@ -40,7 +40,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      */
     open func createURLRequest() -> URLRequest? {
         guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding
@@ -76,14 +76,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
         managerStore[managerId] = manager
 
         guard let xMethod = Alamofire.HTTPMethod(rawValue: method) else {
-            fatalError("Unsuported Http method - \(method)")
+            fatalError("Unsupported Http method - \(method)")
         }
 
         let encoding: ParameterEncoding?
@@ -133,7 +133,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
-                fatalError("Unsuported Media Type - \(contentType)")
+                fatalError("Unsupported Media Type - \(contentType)")
             }
         }
 
@@ -190,16 +190,18 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
                     let fileManager = FileManager.default
                     let urlRequest = try request.asURLRequest()
-                    let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
                     let requestURL = try self.getURL(from: urlRequest)
 
                     var requestPath = try self.getPath(from: requestURL)
 
                     if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
                         requestPath = requestPath.appending("/\(headerFileName)")
+                    } else {
+                        requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
                     }
 
-                    let filePath = documentsDirectory.appendingPathComponent(requestPath)
+                    let filePath = cachesDirectory.appendingPathComponent(requestPath)
                     let directoryPath = filePath.deletingLastPathComponent().path
 
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
@@ -223,6 +225,18 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     completion(.success(Response(response: voidResponse.response!, body: nil)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
+                }
+
+            })
+        case is Data.Type:
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+                cleanupRequest()
+
+                switch dataResponse.result {
+                case .success:
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }
 
             })
@@ -263,7 +277,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             let filenameKey = "filename="
             guard let range = contentItem.range(of: filenameKey) else {
-                break
+                continue
             }
 
             filename = contentItem
@@ -327,6 +341,52 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
                 }
 
+            })
+        case is URL.Type:
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { dataResponse in
+                cleanupRequest()
+
+                do {
+
+                    guard !dataResponse.result.isFailure else {
+                        throw DownloadException.responseFailed
+                    }
+
+                    guard let data = dataResponse.data else {
+                        throw DownloadException.responseDataMissing
+                    }
+
+                    guard let request = request.request else {
+                        throw DownloadException.requestMissing
+                    }
+
+                    let fileManager = FileManager.default
+                    let urlRequest = try request.asURLRequest()
+                    let cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                    let requestURL = try self.getURL(from: urlRequest)
+
+                    var requestPath = try self.getPath(from: requestURL)
+
+                    if let headerFileName = self.getFileName(fromContentDisposition: dataResponse.response?.allHeaderFields["Content-Disposition"] as? String) {
+                        requestPath = requestPath.appending("/\(headerFileName)")
+                    } else {
+                        requestPath = requestPath.appending("/tmp.PetstoreClient.\(UUID().uuidString)")
+                    }
+
+                    let filePath = cachesDirectory.appendingPathComponent(requestPath)
+                    let directoryPath = filePath.deletingLastPathComponent().path
+
+                    try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
+                    try data.write(to: filePath, options: .atomic)
+
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as? T)))
+
+                } catch let requestParserError as DownloadException {
+                    completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
+                } catch {
+                    completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, error)))
+                }
+                return
             })
         case is Void.Type:
             validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { voidResponse in

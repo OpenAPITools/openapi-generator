@@ -9,8 +9,11 @@ import 'package:built_value/serializer.dart';
 
 part 'file_schema_test_class.g.dart';
 
-
-
+/// FileSchemaTestClass
+///
+/// Properties:
+/// * [file] 
+/// * [files] 
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
     @BuiltValueField(wireName: r'file')
     ModelFile? get file;

@@ -24,6 +24,7 @@ from petstore_api.model.array_test import ArrayTest
 from petstore_api.model.banana import Banana
 from petstore_api.model.banana_req import BananaReq
 from petstore_api.model.basque_pig import BasquePig
+from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.capitalization import Capitalization
 from petstore_api.model.cat import Cat
 from petstore_api.model.cat_all_of import CatAllOf
@@ -43,7 +44,7 @@ from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
-from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
+from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
