@@ -28,8 +28,9 @@ data class {{classname}}RoomModel (
     @Ignore
     {{^isNullable}}{{#required}}lateinit {{/required}}{{/isNullable}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{^items.isPrimitiveType}}{{^items.isModel}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}}
 {{/items.isPrimitiveType}}{{/isList}}{{/isArray}}{{/allVars}}
+    {{^discriminator}}companion object { }
 
-    {{^discriminator}}fun toApiModel(): {{classname}} = {{classname}}(
+        fun toApiModel(): {{classname}} = {{classname}}(
         {{#allVars}}{{name}} = this.{{name}},
         {{/allVars}}){{/discriminator}}
 }
