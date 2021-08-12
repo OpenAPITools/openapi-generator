@@ -23,14 +23,13 @@ import (
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Name		string
 	Method	  string
 	Pattern	 string
 	HandlerFunc http.HandlerFunc
 }
 
-// Routes are a collection of defined api endpoints
-type Routes []Route
+// Routes is a map of defined api endpoints
+type Routes map[string]Route
 
 // Router defines the required methods for retrieving api routes
 type Router interface {
@@ -43,15 +42,15 @@ const errMsgRequiredMissing = "required parameter is missing"
 func NewRouter(routers ...Router) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, api := range routers {
-		for _, route := range api.Routes() {
+		for name, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
-			handler = Logger(handler, route.Name)
+			handler = Logger(handler, name)
 
 			router.
 				Methods(route.Method).
 				Path(route.Pattern).
-				Name(route.Name).
+				Name(name).
 				Handler(handler)
 		}
 	}
@@ -62,11 +61,9 @@ func NewRouter(routers ...Router) *mux.Router {
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
 func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string, w http.ResponseWriter) error {
 	wHeader := w.Header()
-	if headers != nil {
-		for key, values := range headers {
-			for _, value := range values {
-				wHeader.Add(key, value)
-			}
+	for key, values := range headers {
+		for _, value := range values {
+			wHeader.Add(key, value)
 		}
 	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")

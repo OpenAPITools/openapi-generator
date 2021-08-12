@@ -32,11 +32,11 @@ func (s *PetApiService) AddPet(ctx context.Context, pet Pet) (ImplResponse, erro
 	// TODO - update AddPet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
-	//return Response(200, Pet{}), nil
+	// TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
+	// return Response(200, Pet{}), nil
 
-	//TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
-	//return Response(405, nil),nil
+	// TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
+	// return Response(405, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("AddPet method not implemented")
 }
@@ -46,8 +46,8 @@ func (s *PetApiService) DeletePet(ctx context.Context, petId int64, apiKey strin
 	// TODO - update DeletePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("DeletePet method not implemented")
 }
@@ -57,11 +57,11 @@ func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
-	//return Response(200, []Pet{}), nil
+	// TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
+	// return Response(200, []Pet{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("FindPetsByStatus method not implemented")
 }
@@ -72,11 +72,11 @@ func (s *PetApiService) FindPetsByTags(ctx context.Context, tags []string) (Impl
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
-	//return Response(200, []Pet{}), nil
+	// TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
+	// return Response(200, []Pet{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("FindPetsByTags method not implemented")
 }
@@ -86,14 +86,14 @@ func (s *PetApiService) GetPetById(ctx context.Context, petId int64) (ImplRespon
 	// TODO - update GetPetById with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
-	//return Response(200, Pet{}), nil
+	// TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
+	// return Response(200, Pet{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
-	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
+	// return Response(404, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("GetPetById method not implemented")
 }
@@ -103,17 +103,17 @@ func (s *PetApiService) UpdatePet(ctx context.Context, pet Pet) (ImplResponse, e
 	// TODO - update UpdatePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
-	//return Response(200, Pet{}), nil
+	// TODO: Uncomment the next line to return response Response(200, Pet{}) or use other options such as http.Ok ...
+	// return Response(200, Pet{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
-	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
+	// return Response(404, nil),nil
 
-	//TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
-	//return Response(405, nil),nil
+	// TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
+	// return Response(405, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UpdatePet method not implemented")
 }
@@ -123,8 +123,8 @@ func (s *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, name
 	// TODO - update UpdatePetWithForm with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
-	//return Response(405, nil),nil
+	// TODO: Uncomment the next line to return response Response(405, {}) or use other options such as http.Ok ...
+	// return Response(405, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UpdatePetWithForm method not implemented")
 }
@@ -134,8 +134,8 @@ func (s *PetApiService) UploadFile(ctx context.Context, petId int64, additionalM
 	// TODO - update UploadFile with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, ApiResponse{}) or use other options such as http.Ok ...
-	//return Response(200, ApiResponse{}), nil
+	// TODO: Uncomment the next line to return response Response(200, ApiResponse{}) or use other options such as http.Ok ...
+	// return Response(200, ApiResponse{}), nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UploadFile method not implemented")
 }

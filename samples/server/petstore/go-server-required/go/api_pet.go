@@ -49,51 +49,43 @@ func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
 
 // Routes returns all of the api route for the PetApiController
 func (c *PetApiController) Routes() Routes {
-	return Routes{ 
-		{
-			"AddPet",
+	return Routes{
+		"AddPet": Route{
 			strings.ToUpper("Post"),
 			"/v2/pet",
 			c.AddPet,
 		},
-		{
-			"DeletePet",
+		"DeletePet": Route{
 			strings.ToUpper("Delete"),
 			"/v2/pet/{petId}",
 			c.DeletePet,
 		},
-		{
-			"FindPetsByStatus",
+		"FindPetsByStatus": Route{
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
 			c.FindPetsByStatus,
 		},
-		{
-			"FindPetsByTags",
+		"FindPetsByTags": Route{
 			strings.ToUpper("Get"),
 			"/v2/pet/findByTags",
 			c.FindPetsByTags,
 		},
-		{
-			"GetPetById",
+		"GetPetById": Route{
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}",
 			c.GetPetById,
 		},
-		{
-			"UpdatePet",
+		"UpdatePet": Route{
 			strings.ToUpper("Put"),
 			"/v2/pet",
 			c.UpdatePet,
 		},
-		{
-			"UpdatePetWithForm",
+		"UpdatePetWithForm": Route{
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}",
 			c.UpdatePetWithForm,
 		},
-		{
-			"UploadFile",
+		"UploadFile": Route{
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}/uploadImage",
 			c.UploadFile,
@@ -122,7 +114,6 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // DeletePet - Deletes a pet
@@ -142,7 +133,6 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // FindPetsByStatus - Finds Pets by status
@@ -157,7 +147,6 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // FindPetsByTags - Finds Pets by tags
@@ -173,7 +162,6 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetPetById - Find pet by ID
@@ -192,7 +180,6 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // UpdatePet - Update an existing pet
@@ -216,7 +203,6 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
@@ -241,7 +227,6 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // UploadFile - uploads an image
@@ -271,5 +256,4 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }

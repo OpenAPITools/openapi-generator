@@ -49,51 +49,43 @@ func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
 
 // Routes returns all of the api route for the UserApiController
 func (c *UserApiController) Routes() Routes {
-	return Routes{ 
-		{
-			"CreateUser",
+	return Routes{
+		"CreateUser": Route{
 			strings.ToUpper("Post"),
 			"/v2/user",
 			c.CreateUser,
 		},
-		{
-			"CreateUsersWithArrayInput",
+		"CreateUsersWithArrayInput": Route{
 			strings.ToUpper("Post"),
 			"/v2/user/createWithArray",
 			c.CreateUsersWithArrayInput,
 		},
-		{
-			"CreateUsersWithListInput",
+		"CreateUsersWithListInput": Route{
 			strings.ToUpper("Post"),
 			"/v2/user/createWithList",
 			c.CreateUsersWithListInput,
 		},
-		{
-			"DeleteUser",
+		"DeleteUser": Route{
 			strings.ToUpper("Delete"),
 			"/v2/user/{username}",
 			c.DeleteUser,
 		},
-		{
-			"GetUserByName",
+		"GetUserByName": Route{
 			strings.ToUpper("Get"),
 			"/v2/user/{username}",
 			c.GetUserByName,
 		},
-		{
-			"LoginUser",
+		"LoginUser": Route{
 			strings.ToUpper("Get"),
 			"/v2/user/login",
 			c.LoginUser,
 		},
-		{
-			"LogoutUser",
+		"LogoutUser": Route{
 			strings.ToUpper("Get"),
 			"/v2/user/logout",
 			c.LogoutUser,
 		},
-		{
-			"UpdateUser",
+		"UpdateUser": Route{
 			strings.ToUpper("Put"),
 			"/v2/user/{username}",
 			c.UpdateUser,
@@ -122,7 +114,6 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -148,7 +139,6 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -174,7 +164,6 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // DeleteUser - Delete user
@@ -190,7 +179,6 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetUserByName - Get user by user name
@@ -206,7 +194,6 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // LoginUser - Logs user into the system
@@ -222,7 +209,6 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // LogoutUser - Logs out current logged in user session
@@ -235,7 +221,6 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // UpdateUser - Updated user
@@ -262,5 +247,4 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
