@@ -29,14 +29,13 @@ import (
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Name		string
 	Method	  string
 	Pattern	 string
 	HandlerFunc http.HandlerFunc
 }
 
-// Routes are a collection of defined api endpoints
-type Routes []Route
+// Routes is a map of defined api endpoints
+type Routes map[string]Route
 
 // Router defines the required methods for retrieving api routes
 type Router interface {
@@ -60,12 +59,12 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 	{{/chi}}
 {{/routers}}
 	for _, api := range routers {
-		for _, route := range api.Routes() {
+		for name, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
 {{#routers}}
 	{{#mux}}
-			handler = Logger(handler, route.Name)
+			handler = Logger(handler, name)
 			{{#featureCORS}}
 			handler = handlers.CORS()(handler)
 			{{/featureCORS}}
@@ -73,7 +72,7 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 			router.
 				Methods(route.Method).
 				Path(route.Pattern).
-				Name(route.Name).
+				Name(name).
 				Handler(handler)
 	{{/mux}}
 	{{#chi}}
@@ -90,11 +89,9 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 func EncodeJSONResponse(i interface{}, status *int,{{#addResponseHeaders}} headers map[string][]string,{{/addResponseHeaders}} w http.ResponseWriter) error {
 	{{#addResponseHeaders}}
 	wHeader := w.Header()
-	if headers != nil {
-		for key, values := range headers {
-			for _, value := range values {
-				wHeader.Add(key, value)
-			}
+	for key, values := range headers {
+		for _, value := range values {
+			wHeader.Add(key, value)
 		}
 	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")

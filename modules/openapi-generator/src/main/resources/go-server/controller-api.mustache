@@ -48,13 +48,16 @@ func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Op
 
 // Routes returns all of the api route for the {{classname}}Controller
 func (c *{{classname}}Controller) Routes() Routes {
-	return Routes{ {{#operations}}{{#operation}}
-		{
-			"{{operationId}}",
+	return Routes{
+{{#operations}}
+	{{#operation}}
+		"{{operationId}}": Route{
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
-		},{{/operation}}{{/operations}}
+		},
+	{{/operation}}
+{{/operations}}
 	}
 }{{#operations}}{{#operation}}
 
@@ -211,5 +214,4 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
-
 }{{/operation}}{{/operations}}
