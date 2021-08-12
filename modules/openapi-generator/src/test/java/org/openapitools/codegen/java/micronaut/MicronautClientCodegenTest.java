@@ -10,7 +10,6 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
-import org.openapitools.codegen.languages.SpringCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -59,7 +58,7 @@ public class MicronautClientCodegenTest {
     @Test
     public void doConfigureAuthParam() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
-        codegen.additionalProperties().put(JavaMicronautClientCodegen.CONFIGURE_AUTH, "true");
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_CONFIGURE_AUTH, "true");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.SUPPORTING_FILES,
                 CodegenConstants.APIS);
@@ -73,7 +72,7 @@ public class MicronautClientCodegenTest {
     @Test
     public void doNotConfigureAuthParam() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
-        codegen.additionalProperties().put(JavaMicronautClientCodegen.CONFIGURE_AUTH, "false");
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_CONFIGURE_AUTH, "false");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.SUPPORTING_FILES,
                 CodegenConstants.APIS);
@@ -86,7 +85,7 @@ public class MicronautClientCodegenTest {
     @Test
     public void doUseValidationParam() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
-        codegen.additionalProperties().put(JavaMicronautClientCodegen.CONFIGURE_AUTH, "false");
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.OPT_CONFIGURE_AUTH, "false");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.APIS);
 

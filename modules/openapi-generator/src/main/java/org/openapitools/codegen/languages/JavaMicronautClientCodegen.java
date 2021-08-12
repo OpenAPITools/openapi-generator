@@ -15,13 +15,16 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
-    public static final String TITLE = "title";
-    public static final String CONFIG_PACKAGE = "configPackage";
-    public static final String CONFIGURE_AUTH = "configureAuth";
-    public static final String BUILD = "build";
-    public static final String BUILD_GRADLE = "gradle";
-    public static final String BUILD_MAVEN = "maven";
-    public static final String BUILD_ALL = "all";
+    public static final String OPT_TITLE = "title";
+    public static final String OPT_CONFIG_PACKAGE = "configPackage";
+    public static final String OPT_CONFIGURE_AUTH = "configureAuth";
+    public static final String OPT_BUILD = "build";
+    public static final String OPT_BUILD_GRADLE = "gradle";
+    public static final String OPT_BUILD_MAVEN = "maven";
+    public static final String OPT_BUILD_ALL = "all";
+    public static final String OPT_TEST = "test";
+    public static final String OPT_TEST_JUNIT = "junit";
+    public static final String OPT_TEST_SPOCK = "spock";
 
     public static final String NAME = "micronaut-client";
 
@@ -29,7 +32,8 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
     protected String configPackage;
     protected boolean useBeanValidation;
     protected boolean configureAuthorization;
-    protected String build;
+    protected String buildTool;
+    protected String testTool;
 
     public JavaMicronautClientCodegen() {
         super();
@@ -39,7 +43,8 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         configPackage = "org.openapitools.configuration";
         useBeanValidation = true;
         configureAuthorization = false;
-        build = BUILD_ALL;
+        buildTool = OPT_BUILD_ALL;
+        testTool = OPT_TEST_JUNIT;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
@@ -74,18 +79,25 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         additionalProperties.put("openbrace", "{");
         additionalProperties.put("closebrace", "}");
 
-        cliOptions.add(new CliOption(TITLE, "Client service name").defaultValue(title));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "Configuration package for generated code").defaultValue(configPackage));
-        cliOptions.add(CliOption.newBoolean(CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
+        cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
+        cliOptions.add(new CliOption(OPT_CONFIG_PACKAGE, "Configuration package for generated code").defaultValue(configPackage));
+        cliOptions.add(CliOption.newBoolean(OPT_CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
 
-        CliOption buildToolsOption = new CliOption(BUILD, "Specify for which build tool to generate files").defaultValue(build);
-        buildToolsOption.setEnum(new HashMap<String, String>(){{
-            put(BUILD_GRADLE, "Gradle configuration is generated for the project");
-            put(BUILD_MAVEN, "Maven configuration is generated for the project");
-            put(BUILD_ALL, "Both Gradle and Maven configurations are generated");
+        CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
+        buildToolOption.setEnum(new HashMap<String, String>(){{
+            put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
+            put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
+            put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
         }});
-        cliOptions.add(buildToolsOption);
+        cliOptions.add(buildToolOption);
+
+        CliOption testToolOption = new CliOption(OPT_TEST, "Specify which test tool to generate files for").defaultValue(testTool);
+        testToolOption.setEnum(new HashMap<String, String>(){{
+            put(OPT_TEST_JUNIT, "Use JUnit as test tool");
+            put(OPT_TEST_SPOCK, "Use Spock as test tool");
+        }});
+        cliOptions.add(testToolOption);
 
         // Remove the date library option
         cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
@@ -119,14 +131,14 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         super.processOpts();
 
         // Get properties
-        if (additionalProperties.containsKey(TITLE)) {
-            this.title = (String) additionalProperties.get(TITLE);
+        if (additionalProperties.containsKey(OPT_TITLE)) {
+            this.title = (String) additionalProperties.get(OPT_TITLE);
         }
 
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            configPackage = (String) additionalProperties.get(CONFIG_PACKAGE);
+        if (additionalProperties.containsKey(OPT_CONFIG_PACKAGE)) {
+            configPackage = (String) additionalProperties.get(OPT_CONFIG_PACKAGE);
         } else {
-            additionalProperties.put(CONFIG_PACKAGE, configPackage);
+            additionalProperties.put(OPT_CONFIG_PACKAGE, configPackage);
         }
 
         if (additionalProperties.containsKey(INVOKER_PACKAGE)) {
@@ -141,21 +153,40 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
-        if (additionalProperties.containsKey(CONFIGURE_AUTH)) {
-            this.configureAuthorization = convertPropertyToBoolean(CONFIGURE_AUTH);
+        if (additionalProperties.containsKey(OPT_CONFIGURE_AUTH)) {
+            this.configureAuthorization = convertPropertyToBoolean(OPT_CONFIGURE_AUTH);
         }
-        writePropertyBack(CONFIGURE_AUTH, configureAuthorization);
+        writePropertyBack(OPT_CONFIGURE_AUTH, configureAuthorization);
 
-        if (additionalProperties.containsKey(BUILD)) {
-            switch ((String) additionalProperties.get(BUILD)) {
-                case BUILD_GRADLE:
-                case BUILD_MAVEN:
-                case BUILD_ALL:
-                    this.build = (String) additionalProperties.get(BUILD);
+        // Get enum properties
+        if (additionalProperties.containsKey(OPT_BUILD)) {
+            switch ((String) additionalProperties.get(OPT_BUILD)) {
+                case OPT_BUILD_GRADLE:
+                case OPT_BUILD_MAVEN:
+                case OPT_BUILD_ALL:
+                    this.buildTool = (String) additionalProperties.get(OPT_BUILD);
                     break;
                 default:
-                    throw new RuntimeException("Build tool \"" + additionalProperties.get(BUILD) + "\" is not supported or misspelled.");
+                    throw new RuntimeException("Build tool \"" + additionalProperties.get(OPT_BUILD) + "\" is not supported or misspelled.");
             }
+        }
+        additionalProperties.put(OPT_BUILD, buildTool);
+
+        if (additionalProperties.containsKey(OPT_TEST)) {
+            switch((String) additionalProperties.get(OPT_TEST)) {
+                case OPT_TEST_JUNIT:
+                case OPT_TEST_SPOCK:
+                    this.testTool = (String) additionalProperties.get(OPT_TEST);
+                    break;
+                default:
+                    throw new RuntimeException("Test tool \"" + additionalProperties.get(OPT_TEST) + "\" is not supported or misspelled.");
+            }
+        }
+        additionalProperties.put(OPT_TEST, testTool);
+        if (testTool.equals(OPT_TEST_JUNIT)) {
+            additionalProperties.put("isTestJunit", true);
+        } else if (testTool.equals(OPT_TEST_SPOCK)) {
+            additionalProperties.put("isTestSpock", true);
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -183,7 +214,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         supportingFiles.add(new SupportingFile("query/QueryParam.mustache", queryFolder, "QueryParam.java"));
         supportingFiles.add(new SupportingFile("query/QueryParamBinder.mustache", queryFolder, "QueryParamBinder.java"));
 
-        if (build.equals(BUILD_GRADLE) || build.equals(BUILD_ALL)) {
+        if (buildTool.equals(OPT_BUILD_GRADLE) || buildTool.equals(OPT_BUILD_ALL)) {
             // Gradle files
             supportingFiles.add(new SupportingFile("configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
             supportingFiles.add(new SupportingFile("configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
@@ -197,7 +228,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
             supportingFiles.add(new SupportingFile("configuration/gradlew/gradle-wrapper.jar", gradleWrapperFolder, "gradle-wrapper.jar"));
         }
 
-        if (build.equals(BUILD_MAVEN) || build.equals(BUILD_ALL)) {
+        if (buildTool.equals(OPT_BUILD_MAVEN) || buildTool.equals(OPT_BUILD_ALL)) {
             // Maven files
             supportingFiles.add(new SupportingFile("configuration/pom.xml.mustache", "", "pom.xml"));
 
@@ -231,30 +262,45 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         modelTemplateFiles.put("model/model.mustache", ".java");
 
         // Add test files
-//        apiTestTemplateFiles.put("api_test.mustache", ".java");
-//        modelTestTemplateFiles.put("model_test.mustache", ".java");
-        apiTestTemplateFiles.put("api_test.groovy.mustache", ".groovy");
-        modelTestTemplateFiles.put("model_test.groovy.mustache", ".groovy");
+        if (testTool.equals(OPT_TEST_JUNIT)) {
+            apiTestTemplateFiles.put("api_test.mustache", ".java");
+            modelTestTemplateFiles.put("model_test.mustache", ".java");
+        } else if (testTool.equals(OPT_TEST_SPOCK)) {
+            apiTestTemplateFiles.put("api_test.groovy.mustache", ".groovy");
+            modelTestTemplateFiles.put("model_test.groovy.mustache", ".groovy");
+        }
     }
 
     @Override
     public String apiTestFileFolder() {
-        return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/api";
+        if (testTool.equals(OPT_TEST_SPOCK)) {
+            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/api";
+        }
+        return getOutputDir() + "/src/test/java/" + getInvokerPackage() + "/api";
     }
 
     @Override
     public String modelTestFileFolder() {
-        return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/model";
+        if (testTool.equals(OPT_TEST_SPOCK)) {
+            return getOutputDir() + "/src/test/groovy/" + getInvokerPackage() + "/model";
+        }
+        return getOutputDir() + "/src/test/java/" + getInvokerPackage() + "/model";
     }
 
     @Override
     public String toApiTestFilename(String name) {
-        return toApiName(name) + "Spec";
+        if (testTool.equals(OPT_TEST_SPOCK)) {
+            return toApiName(name) + "Spec";
+        }
+        return toApiName(name) + "Test";
     }
 
     @Override
     public String toModelTestFilename(String name) {
-        return toModelName(name) + "Spec";
+        if (testTool.equals(OPT_TEST_SPOCK)) {
+            return toModelName(name) + "Spec";
+        }
+        return toModelName(name) + "Test";
     }
 
     @Override

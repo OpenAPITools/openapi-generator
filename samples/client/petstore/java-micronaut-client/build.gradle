@@ -1,9 +1,9 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "1.5.0"
+    id("io.micronaut.application") version "2.0.3"
 }
 
-version = "0.1"
+version = "1.0.0"
 group = "org.openapitools"
 
 repositories {
@@ -21,22 +21,23 @@ micronaut {
 
 
 dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-oauth2")
     implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("javax.annotation:javax.annotation-api")
     implementation("io.swagger:swagger-annotations:1.5.9")
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
 // TODO Set the main class
 application {
-    mainClass.set("")
+    mainClass.set("org.openapitools.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("11")
-    targetCompatibility = JavaVersion.toVersion("11")
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
 }
