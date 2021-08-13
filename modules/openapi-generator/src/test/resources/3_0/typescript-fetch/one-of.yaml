@@ -46,10 +46,14 @@ components:
       properties:
         boolean:
           type: boolean
-    ObjectCombinedOneOf:
+    PropertyCombinedOneOf:
       type: "object"
       properties:
         combined-string-enum:
           oneOf:
             - $ref: '#/components/schemas/PatternObject'
             - $ref: '#/components/schemas/PatternObjectTwo'
+    ObjectCombinedOneOf:
+      oneOf:
+      - $ref: '#/components/schemas/PatternObject'
+      - $ref: '#/components/schemas/PatternObjectTwo'
