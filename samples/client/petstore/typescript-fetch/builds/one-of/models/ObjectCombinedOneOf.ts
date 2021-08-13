@@ -12,31 +12,21 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
     PatternObject,
-    PatternObjectFromJSON,
+    PatternObjectTwo,
     PatternObjectFromJSONTyped,
     PatternObjectToJSON,
-    PatternObjectTwo,
-    PatternObjectTwoFromJSON,
     PatternObjectTwoFromJSONTyped,
     PatternObjectTwoToJSON,
 } from './';
 
 /**
+ * @type ObjectCombinedOneOf
  * 
  * @export
- * @interface ObjectCombinedOneOf
  */
-export interface ObjectCombinedOneOf {
-    /**
-     * 
-     * @type {PatternObject | PatternObjectTwo}
-     * @memberof ObjectCombinedOneOf
-     */
-    combinedStringEnum?: PatternObject | PatternObjectTwo;
-}
+export type ObjectCombinedOneOf = PatternObject | PatternObjectTwo;
 
 export function ObjectCombinedOneOfFromJSON(json: any): ObjectCombinedOneOf {
     return ObjectCombinedOneOfFromJSONTyped(json, false);
@@ -46,10 +36,7 @@ export function ObjectCombinedOneOfFromJSONTyped(json: any, ignoreDiscriminator:
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return {
-        
-        'combinedStringEnum': !exists(json, 'combined-string-enum') ? undefined : PatternObject | PatternObjectTwoFromJSON(json['combined-string-enum']),
-    };
+    return PatternObjectFromJSONTyped(json, true) || PatternObjectTwoFromJSONTyped(json, true);
 }
 
 export function ObjectCombinedOneOfToJSON(value?: ObjectCombinedOneOf | null): any {
@@ -59,10 +46,6 @@ export function ObjectCombinedOneOfToJSON(value?: ObjectCombinedOneOf | null): a
     if (value === null) {
         return null;
     }
-    return {
-        
-        'combined-string-enum': PatternObject | PatternObjectTwoToJSON(value.combinedStringEnum),
-    };
+    return PatternObjectToJSON(value as PatternObject) ?? PatternObjectTwoToJSON(value as PatternObjectTwo);
 }
-
 
