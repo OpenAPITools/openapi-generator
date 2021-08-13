@@ -358,7 +358,7 @@ import PetstoreClient
 let number = 987 // Double | None
 let double = 987 // Double | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = 987 // Data | None
+let byte = Data([9, 8, 7]) // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)

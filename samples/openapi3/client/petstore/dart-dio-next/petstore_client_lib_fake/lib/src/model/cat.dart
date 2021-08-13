@@ -11,6 +11,12 @@ part 'cat.g.dart';
 
 // ignore_for_file: unused_import
 
+/// Cat
+///
+/// Properties:
+/// * [className] 
+/// * [color] 
+/// * [declawed] 
 abstract class Cat implements Built<Cat, CatBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
@@ -23,7 +29,8 @@ abstract class Cat implements Built<Cat, CatBuilder> {
 
     Cat._();
 
-    static void _initializeBuilder(CatBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CatBuilder b) => b
         ..color = 'red';
 
     factory Cat([void updates(CatBuilder b)]) = _$Cat;

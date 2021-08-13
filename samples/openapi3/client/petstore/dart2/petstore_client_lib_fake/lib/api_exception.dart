@@ -19,6 +19,7 @@ class ApiException implements Exception {
   Exception innerException;
   StackTrace stackTrace;
 
+  @override
   String toString() {
     if (message == null) {
       return 'ApiException';

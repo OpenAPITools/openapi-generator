@@ -565,7 +565,7 @@ void (empty response body)
 
 <a name="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long petId, string additionalMetadata = null, FileParameter file = null)
 
 uploads an image
 
@@ -595,7 +595,7 @@ namespace Example
             var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
+            var file = BINARY_DATA_HERE;  // FileParameter | file to upload (optional) 
 
             try
             {
@@ -620,7 +620,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **System.IO.Stream****System.IO.Stream**| file to upload | [optional] 
+ **file** | **FileParameter****FileParameter**| file to upload | [optional] 
 
 ### Return type
 
@@ -645,7 +645,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (long petId, FileParameter requiredFile, string additionalMetadata = null)
 
 uploads an image (required)
 
@@ -674,7 +674,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new PetApi(httpClient, config, httpClientHandler);
             var petId = 789;  // long | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
+            var requiredFile = BINARY_DATA_HERE;  // FileParameter | file to upload
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
 
             try
@@ -699,7 +699,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long**| ID of pet to update | 
- **requiredFile** | **System.IO.Stream****System.IO.Stream**| file to upload | 
+ **requiredFile** | **FileParameter****FileParameter**| file to upload | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type

@@ -1,6 +1,6 @@
 package org.openapitools.client.infrastructure
 
-import kotlinx.io.core.*
+import io.ktor.utils.io.core.*
 import kotlin.experimental.and
 
 private val digits = "0123456789abcdef".toCharArray()
@@ -32,7 +32,7 @@ internal fun hex(bytes: ByteArray): String {
         result[resultIndex++] = digits[b and 0x0f]
     }
 
-    return String(result)
+    return result.concatToString()
 }
 
 /**

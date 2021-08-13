@@ -75,7 +75,9 @@ public enum InnerEnum {
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
-  }/**
+  }
+
+/**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -93,7 +95,9 @@ public enum InnerEnum {
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
-  }/**
+  }
+
+/**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -111,7 +115,9 @@ public enum InnerEnum {
 
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
-  }/**
+  }
+
+/**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -130,6 +136,7 @@ public enum InnerEnum {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
+
 
   @Override
   public boolean equals(Object o) {

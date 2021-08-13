@@ -36,7 +36,7 @@ pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
     fn get_inventory(&self, ) -> Box<dyn Future<Item = ::std::collections::HashMap<String, i32>, Error = Error<serde_json::Value>>>;
     fn get_order_by_id(&self, order_id: i64) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>>;
-    fn place_order(&self, body: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>>;
+    fn place_order(&self, order: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>>;
 }
 
 impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
@@ -69,10 +69,10 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         req.execute(self.configuration.borrow())
     }
 
-    fn place_order(&self, body: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
+    fn place_order(&self, order: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
         let mut req = __internal_request::Request::new(hyper::Method::Post, "/store/order".to_string())
         ;
-        req = req.with_body_param(body);
+        req = req.with_body_param(order);
 
         req.execute(self.configuration.borrow())
     }

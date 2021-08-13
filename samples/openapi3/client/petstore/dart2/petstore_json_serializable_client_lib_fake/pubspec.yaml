@@ -5,8 +5,6 @@
 name: 'openapi'
 version: '1.0.0'
 description: 'OpenAPI API client'
-authors:
-  - 'Author <author@homepage>'
 homepage: 'homepage'
 environment:
   sdk: '>=2.12.0 <3.0.0'

@@ -982,10 +982,139 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    def test_body_with_binary(self, body, **kwargs):  # noqa: E501
+        """test_body_with_binary  # noqa: E501
+
+        For this test, the body has to be a binary file.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_body_with_binary(body, async_req=True)
+        >>> result = thread.get()
+
+        :param body: image to upload (required)
+        :type body: file
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
+
+    def test_body_with_binary_with_http_info(self, body, **kwargs):  # noqa: E501
+        """test_body_with_binary  # noqa: E501
+
+        For this test, the body has to be a binary file.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.test_body_with_binary_with_http_info(body, async_req=True)
+        >>> result = thread.get()
+
+        :param body: image to upload (required)
+        :type body: file
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: None
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'body'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_body_with_binary" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['image/png'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+        
+        response_types_map = {}
+
+        return self.api_client.call_api(
+            '/fake/body-with-binary', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_types_map=response_types_map,
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))
+
     def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
+        For this test, the body for this request must reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -1015,7 +1144,7 @@ class FakeApi(object):
     def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
-        For this test, the body for this request much reference a schema named `File`.  # noqa: E501
+        For this test, the body for this request must reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -2422,7 +2551,7 @@ class FakeApi(object):
         query_params = []
         if 'pipe' in local_var_params and local_var_params['pipe'] is not None:  # noqa: E501
             query_params.append(('pipe', local_var_params['pipe']))  # noqa: E501
-            collection_formats['pipe'] = 'multi'  # noqa: E501
+            collection_formats['pipe'] = 'pipes'  # noqa: E501
         if 'ioutil' in local_var_params and local_var_params['ioutil'] is not None:  # noqa: E501
             query_params.append(('ioutil', local_var_params['ioutil']))  # noqa: E501
             collection_formats['ioutil'] = 'csv'  # noqa: E501

@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'model_list.g.dart';
 
-
-
+/// ModelList
+///
+/// Properties:
+/// * [n123list] 
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
     @BuiltValueField(wireName: r'123-list')
     String? get n123list;
 
     ModelList._();
 
-    static void _initializeBuilder(ModelListBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelListBuilder b) => b;
 
     factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 

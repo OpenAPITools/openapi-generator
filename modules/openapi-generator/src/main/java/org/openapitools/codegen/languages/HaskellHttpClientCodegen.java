@@ -655,8 +655,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
-                        + "\tIn Schema: " + p);
+                LOGGER.error("No Type defined for Additional Schema {}\n\tIn Schema: {}", additionalProperties2, p);
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
@@ -693,7 +692,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             counter++;
         }
         if (!op.operationId.equals(uniqueName)) {
-            LOGGER.warn("generated unique operationId `" + uniqueName + "`");
+            LOGGER.warn("generated unique operationId `{}`", uniqueName);
         }
         op.operationId = uniqueName;
         op.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
@@ -880,15 +879,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private void processReturnType(CodegenOperation op) {
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            if (op.hasProduces) {
-                returnType = "res";
-                op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_UNKNOWN_RETURN, true);
-            } else {
-                returnType = "NoContent";
-                if (!op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
-                    SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
-                }
-            }
+            returnType = "NoContent";
+            SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
         }
         if (returnType.contains(" ")) {
             returnType = "(" + returnType + ")";
@@ -1455,7 +1447,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

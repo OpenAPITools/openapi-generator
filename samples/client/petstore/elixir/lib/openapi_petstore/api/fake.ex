@@ -215,7 +215,33 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
-  For this test, the body for this request much reference a schema named `File`.
+  For this test, the body has to be a binary file.
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - body (String.t): image to upload
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, nil} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_binary(connection, body, _opts \\ []) do
+    %{}
+    |> method(:put)
+    |> url("/fake/body-with-binary")
+    |> add_param(:body, :body, body)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, false}
+    ])
+  end
+
+  @doc """
+  For this test, the body for this request must reference a schema named `File`.
 
   ## Parameters
 

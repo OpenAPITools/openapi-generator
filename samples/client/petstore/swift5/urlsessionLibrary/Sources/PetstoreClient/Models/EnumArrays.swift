@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.EnumArrays")
+public typealias EnumArrays = PetstoreClient.EnumArrays
+
+extension PetstoreClient {
 
 public final class EnumArrays: Codable, Hashable {
 
@@ -25,6 +32,7 @@ public final class EnumArrays: Codable, Hashable {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
@@ -38,8 +46,6 @@ public final class EnumArrays: Codable, Hashable {
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 
-
-
     public static func == (lhs: EnumArrays, rhs: EnumArrays) -> Bool {
         lhs.justSymbol == rhs.justSymbol &&
         lhs.arrayEnum == rhs.arrayEnum
@@ -51,5 +57,6 @@ public final class EnumArrays: Codable, Hashable {
         hasher.combine(arrayEnum?.hashValue)
         
     }
+}
 
 }

@@ -18,7 +18,7 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
-    pub body: crate::models::Pet
+    pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method `delete_pet`
@@ -54,7 +54,7 @@ pub struct GetPetByIdParams {
 #[derive(Clone, Debug)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
-    pub body: crate::models::Pet
+    pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method `update_pet_with_form`
@@ -84,6 +84,7 @@ pub struct UploadFileParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
+    Status200(crate::models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -122,6 +123,7 @@ pub enum GetPetByIdSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
+    Status200(crate::models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -209,13 +211,13 @@ pub enum UploadFileError {
 
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
     // unbox the parameters
-    let body = params.body;
+    let pet = params.pet;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -223,7 +225,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -251,7 +253,7 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -289,7 +291,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/findByStatus", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
     if let Some(ref local_var_user_agent) = configuration.user_agent {
@@ -325,7 +327,7 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/findByTags", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
     if let Some(ref local_var_user_agent) = configuration.user_agent {
@@ -361,7 +363,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -394,13 +396,13 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
 
 pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
     // unbox the parameters
-    let body = params.body;
+    let pet = params.pet;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.put(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -408,7 +410,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -437,7 +439,7 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -481,7 +483,7 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());

@@ -10,8 +10,15 @@ import 'package:built_value/serializer.dart';
 
 part 'pet.g.dart';
 
-
-
+/// Pet
+///
+/// Properties:
+/// * [id] 
+/// * [category] 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
+/// * [status] - pet status in the store
 abstract class Pet implements Built<Pet, PetBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
@@ -35,7 +42,8 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     Pet._();
 
-    static void _initializeBuilder(PetBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(PetBuilder b) => b;
 
     factory Pet([void updates(PetBuilder b)]) = _$Pet;
 

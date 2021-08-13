@@ -132,9 +132,19 @@ class {{{classname}}} {
               {{/items.complexType}}
           {{/items.isArray}}
           {{^items.isArray}}
+              {{#items.isMap}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : {{{complexType}}}.mapFromJson(json[r'{{{baseName}}}']),
+            {{#items.complexType}}
+          : {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
+            {{/items.complexType}}
+            {{^items.complexType}}
+          : (json[r'{{{baseName}}}'] as Map).cast<String, Map>(),
+            {{/items.complexType}}
+          {{/items.isMap}}
+          {{^items.isMap}}
+            {{{name}}}: json[r'{{{baseName}}}']
+          {{/items.isMap}}
           {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
@@ -189,12 +199,12 @@ class {{{classname}}} {
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : json.map((v) => {{{classname}}}.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, {{{classname}}}> mapFromJson(Map<String, dynamic> json) {
     final map = <String, {{{classname}}}>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = {{{classname}}}.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = {{{classname}}}.fromJson(value));
     }
     return map;
   }
@@ -202,9 +212,9 @@ class {{{classname}}} {
   // maps a json object with a list of {{{classname}}}-objects as value to a dart map
   static Map<String, List<{{{classname}}}>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<{{{classname}}}>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = {{{classname}}}.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = {{{classname}}}.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

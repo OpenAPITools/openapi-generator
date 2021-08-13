@@ -7,8 +7,17 @@ import 'package:built_value/serializer.dart';
 
 part 'user.g.dart';
 
-
-
+/// User
+///
+/// Properties:
+/// * [id] 
+/// * [username] 
+/// * [firstName] 
+/// * [lastName] 
+/// * [email] 
+/// * [password] 
+/// * [phone] 
+/// * [userStatus] - User Status
 abstract class User implements Built<User, UserBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
@@ -37,7 +46,8 @@ abstract class User implements Built<User, UserBuilder> {
 
     User._();
 
-    static void _initializeBuilder(UserBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(UserBuilder b) => b;
 
     factory User([void updates(UserBuilder b)]) = _$User;
 

@@ -8,15 +8,18 @@ import 'package:built_value/serializer.dart';
 
 part 'array_of_number_only.g.dart';
 
-
-
+/// ArrayOfNumberOnly
+///
+/// Properties:
+/// * [arrayNumber] 
 abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
     @BuiltValueField(wireName: r'ArrayNumber')
     BuiltList<num>? get arrayNumber;
 
     ArrayOfNumberOnly._();
 
-    static void _initializeBuilder(ArrayOfNumberOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ArrayOfNumberOnlyBuilder b) => b;
 
     factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
 

@@ -209,6 +209,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         cliOptions.add(swashbuckleVersion);
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
+                this.nullReferenceTypesFlag);
+
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 sortParamsByRequiredFlag);
@@ -261,7 +265,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
         classModifier.setOptValue(classModifier.getDefault());
-        cliOptions.add(classModifier);
+        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
 
         operationModifier.addEnum("virtual", "Keep method virtual");
         operationModifier.addEnum("abstract", "Make method abstract");
@@ -292,7 +296,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.addEnum("partial", "Make model class partial");
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
-        cliOptions.add(modelClassModifier);
+        addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
 
     @Override
@@ -435,7 +439,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized " + original + " to " + operation.path + ". Please verify generated source.");
+                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
             }
         }
 
@@ -520,7 +524,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
                 return type + "?";
             } else {
                 return type;
@@ -559,7 +563,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(classModifier.getOptValue())) {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to " + operationModifier.getOptValue());
+            LOGGER.warn("classModifier is {} so forcing operatonModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
         }
     }
 
@@ -570,7 +574,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(operationModifier.getOptValue())) {
             generateBody = false;
             additionalProperties.put(GENERATE_BODY, generateBody);
-            LOGGER.warn("operationModifier is " + operationModifier.getOptValue() + " so forcing generateBody to " + generateBody);
+            LOGGER.warn("operationModifier is {} so forcing generateBody to {}", operationModifier.getOptValue(), generateBody);
         } else if (additionalProperties.containsKey(GENERATE_BODY)) {
             generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
@@ -585,7 +589,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (isLibrary) {
             modelClassModifier.setOptValue("");
             additionalProperties.put(MODEL_CLASS_MODIFIER, modelClassModifier.getOptValue());
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so removing any modelClassModifier ");
+            LOGGER.warn("buildTarget is {} so removing any modelClassModifier ", buildTarget.getOptValue());
         }
     }
 
@@ -614,7 +618,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             // default, do nothing
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
-        LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+        LOGGER.info("ASP.NET core version: {}", aspnetCoreVersion.getOptValue());
         if(!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)){
             templateDir = embeddedTemplateDir = "aspnetcore" + File.separator + determineTemplateVersion(aspnetCoreVersion.getOptValue());
         }
@@ -662,12 +666,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setIsFramework() {
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {// default, do nothing
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion.getOptValue());
         } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {// default, do nothing
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net5.0");
@@ -684,7 +692,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setUseNewtonsoft() {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
             LOGGER.warn("ASP.NET core version 2.X support has been deprecated. Please use ASP.NET core version 3.1 instead");
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default json library.");
+            LOGGER.warn("ASP.NET core version is {} so staying on default json library.", aspnetCoreVersion.getOptValue());
             useNewtonsoft = false;
             additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
         } else {
@@ -698,7 +706,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseEndpointRouting() {
         if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so switching to old style endpoint routing.");
+            LOGGER.warn("ASP.NET core version is {} so switching to old style endpoint routing.", aspnetCoreVersion.getOptValue());
             useDefaultRouting = false;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRouting);
         } else {
@@ -714,12 +722,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setCliOption(swashbuckleVersion);
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing default Swashbuckle version to 5.0.0.");
+            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 5.0.0.", aspnetCoreVersion.getOptValue());
             swashbuckleVersion.setOptValue("5.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else {
             // default, do nothing
-            LOGGER.info("Swashbuckle version: " + swashbuckleVersion.getOptValue());
+            LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
         }
     }
 }

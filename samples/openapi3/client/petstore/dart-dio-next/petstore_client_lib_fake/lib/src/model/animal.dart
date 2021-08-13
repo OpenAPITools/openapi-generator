@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'animal.g.dart';
 
-
-
+/// Animal
+///
+/// Properties:
+/// * [className] 
+/// * [color] 
 abstract class Animal implements Built<Animal, AnimalBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
@@ -18,7 +21,8 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
 
     Animal._();
 
-    static void _initializeBuilder(AnimalBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(AnimalBuilder b) => b
         ..color = 'red';
 
     factory Animal([void updates(AnimalBuilder b)]) = _$Animal;

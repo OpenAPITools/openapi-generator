@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'class_model.g.dart';
 
-
-
+/// Model for testing model with \"_class\" property
+///
+/// Properties:
+/// * [class_] 
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
     @BuiltValueField(wireName: r'_class')
     String? get class_;
 
     ClassModel._();
 
-    static void _initializeBuilder(ClassModelBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ClassModelBuilder b) => b;
 
     factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 

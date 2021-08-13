@@ -11,6 +11,12 @@ part 'dog.g.dart';
 
 // ignore_for_file: unused_import
 
+/// Dog
+///
+/// Properties:
+/// * [className] 
+/// * [color] 
+/// * [breed] 
 abstract class Dog implements Built<Dog, DogBuilder> {
     @BuiltValueField(wireName: r'className')
     String get className;
@@ -23,7 +29,8 @@ abstract class Dog implements Built<Dog, DogBuilder> {
 
     Dog._();
 
-    static void _initializeBuilder(DogBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DogBuilder b) => b
         ..color = 'red';
 
     factory Dog([void updates(DogBuilder b)]) = _$Dog;

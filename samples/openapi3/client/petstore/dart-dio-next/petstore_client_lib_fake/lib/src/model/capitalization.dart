@@ -7,8 +7,15 @@ import 'package:built_value/serializer.dart';
 
 part 'capitalization.g.dart';
 
-
-
+/// Capitalization
+///
+/// Properties:
+/// * [smallCamel] 
+/// * [capitalCamel] 
+/// * [smallSnake] 
+/// * [capitalSnake] 
+/// * [sCAETHFlowPoints] 
+/// * [ATT_NAME] - Name of the pet 
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
     @BuiltValueField(wireName: r'smallCamel')
     String? get smallCamel;
@@ -31,7 +38,8 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
 
     Capitalization._();
 
-    static void _initializeBuilder(CapitalizationBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CapitalizationBuilder b) => b;
 
     factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
 

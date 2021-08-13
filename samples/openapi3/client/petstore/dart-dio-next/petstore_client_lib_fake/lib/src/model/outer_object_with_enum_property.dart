@@ -8,8 +8,10 @@ import 'package:built_value/serializer.dart';
 
 part 'outer_object_with_enum_property.g.dart';
 
-
-
+/// OuterObjectWithEnumProperty
+///
+/// Properties:
+/// * [value] 
 abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilder> {
     @BuiltValueField(wireName: r'value')
     OuterEnumInteger get value;
@@ -17,7 +19,8 @@ abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumP
 
     OuterObjectWithEnumProperty._();
 
-    static void _initializeBuilder(OuterObjectWithEnumPropertyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(OuterObjectWithEnumPropertyBuilder b) => b;
 
     factory OuterObjectWithEnumProperty([void updates(OuterObjectWithEnumPropertyBuilder b)]) = _$OuterObjectWithEnumProperty;
 

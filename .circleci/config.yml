@@ -82,7 +82,6 @@ jobs:
         - ~/.bundle
         - ~/.go_workspace
         - ~/.gradle
-        - ~/.pub-cache
         - ~/.cache/bower
         - ".git"
         - ~/.stack

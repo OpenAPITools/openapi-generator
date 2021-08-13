@@ -13,13 +13,12 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class OAuthOkHttpClient(
-        private var client: OkHttpClient
+        private var client: OkHttpClient = OkHttpClient()
 ) : HttpClient {
-
-    constructor() : this(OkHttpClient())
 
     @Throws(OAuthSystemException::class, OAuthProblemException::class)
     override fun <T : OAuthClientResponse?> execute(
@@ -39,7 +38,7 @@ class OAuthOkHttpClient(
             }
         }
 
-        val body: RequestBody? = if (request.body != null) RequestBody.create(mediaType, request.body) else null
+        val body: RequestBody? = if (request.body != null) request.body.toRequestBody(mediaType) else null
         requestBuilder.method(requestMethod, body)
 
         try {
@@ -48,6 +47,7 @@ class OAuthOkHttpClient(
                     response.body?.string(), 
                     response.body?.contentType()?.toString(),
                     response.code,
+                    response.headers.toMultimap(),
                     responseClass)
         } catch (e: IOException) {
             throw OAuthSystemException(e)

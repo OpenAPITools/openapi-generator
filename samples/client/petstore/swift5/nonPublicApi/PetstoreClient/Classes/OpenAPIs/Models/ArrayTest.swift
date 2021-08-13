@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 internal struct ArrayTest: Codable, Hashable {
 
@@ -19,6 +21,7 @@ internal struct ArrayTest: Codable, Hashable {
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
+
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
@@ -33,7 +36,5 @@ internal struct ArrayTest: Codable, Hashable {
         try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
-
-
-
 }
+

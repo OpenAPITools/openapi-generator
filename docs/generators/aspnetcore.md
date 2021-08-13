@@ -9,7 +9,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd></dl>|3.1|
 |buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
-|classModifier|Class Modifier for controller classes: Empty string or abstract.|<dl><dt>****</dt><dd>Keep class default with no modifier</dd><dt>**abstract**</dt><dd>Make class abstract</dd></dl>||
+|classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumValueSuffix|Suffix that will be appended to all enum values.| |Enum|
@@ -17,8 +17,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |isLibrary|Is the build a library| |false|
 |licenseName|The name of the license| |NoLicense|
 |licenseUrl|The URL of the license| |http://localhost|
-|modelClassModifier|Model Class Modifier can be nothing or partial|<dl><dt>****</dt><dd>Keep model class default with no modifier</dd><dt>**partial**</dt><dd>Make model class partial</dd></dl>|partial|
+|modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
+|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
@@ -97,6 +98,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Client</li>
+<li>Configuration</li>
+<li>Version</li>
 <li>abstract</li>
 <li>as</li>
 <li>async</li>

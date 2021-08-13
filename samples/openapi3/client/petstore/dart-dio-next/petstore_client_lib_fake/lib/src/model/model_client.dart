@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'model_client.g.dart';
 
-
-
+/// ModelClient
+///
+/// Properties:
+/// * [client] 
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     @BuiltValueField(wireName: r'client')
     String? get client;
 
     ModelClient._();
 
-    static void _initializeBuilder(ModelClientBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelClientBuilder b) => b;
 
     factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 

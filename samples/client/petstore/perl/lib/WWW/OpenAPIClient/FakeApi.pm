@@ -486,6 +486,62 @@ sub fake_property_enum_integer_serialize {
 }
 
 #
+# test_body_with_binary
+#
+# 
+# 
+# @param string $body image to upload (required)
+{
+    my $params = {
+    'body' => {
+        data_type => 'string',
+        description => 'image to upload',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_body_with_binary' } = { 
+        summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_body_with_binary {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/body-with-binary';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('image/png');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_body_with_file_schema
 #
 # 

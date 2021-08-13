@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'model_return.g.dart';
 
-
-
+/// Model for testing reserved words
+///
+/// Properties:
+/// * [return_] 
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
     @BuiltValueField(wireName: r'return')
     int? get return_;
 
     ModelReturn._();
 
-    static void _initializeBuilder(ModelReturnBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelReturnBuilder b) => b;
 
     factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 

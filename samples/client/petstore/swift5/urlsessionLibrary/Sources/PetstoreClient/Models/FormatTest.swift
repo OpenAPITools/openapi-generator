@@ -6,7 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
+
+@available(*, deprecated, renamed: "PetstoreClient.FormatTest")
+public typealias FormatTest = PetstoreClient.FormatTest
+
+extension PetstoreClient {
 
 public final class FormatTest: Codable, Hashable {
 
@@ -39,6 +46,7 @@ public final class FormatTest: Codable, Hashable {
         self.uuid = uuid
         self.password = password
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32
@@ -74,8 +82,6 @@ public final class FormatTest: Codable, Hashable {
         try container.encode(password, forKey: .password)
     }
 
-
-
     public static func == (lhs: FormatTest, rhs: FormatTest) -> Bool {
         lhs.integer == rhs.integer &&
         lhs.int32 == rhs.int32 &&
@@ -109,5 +115,6 @@ public final class FormatTest: Codable, Hashable {
         hasher.combine(password.hashValue)
         
     }
+}
 
 }

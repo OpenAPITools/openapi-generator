@@ -9,8 +9,25 @@ import 'package:built_value/serializer.dart';
 
 part 'format_test.g.dart';
 
-
-
+/// FormatTest
+///
+/// Properties:
+/// * [integer] 
+/// * [int32] 
+/// * [int64] 
+/// * [number] 
+/// * [float] 
+/// * [double_] 
+/// * [decimal] 
+/// * [string] 
+/// * [byte] 
+/// * [binary] 
+/// * [date] 
+/// * [dateTime] 
+/// * [uuid] 
+/// * [password] 
+/// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
+/// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     @BuiltValueField(wireName: r'integer')
     int? get integer;
@@ -64,7 +81,8 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
 
     FormatTest._();
 
-    static void _initializeBuilder(FormatTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FormatTestBuilder b) => b;
 
     factory FormatTest([void updates(FormatTestBuilder b)]) = _$FormatTest;
 

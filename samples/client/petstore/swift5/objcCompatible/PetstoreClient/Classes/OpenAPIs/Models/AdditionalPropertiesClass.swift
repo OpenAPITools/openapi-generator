@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class AdditionalPropertiesClass: NSObject, Codable {
 
@@ -17,6 +19,7 @@ import AnyCodable
         self.mapString = mapString
         self.mapMapString = mapMapString
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapMapString = "map_map_string"
@@ -29,7 +32,5 @@ import AnyCodable
         try container.encodeIfPresent(mapString, forKey: .mapString)
         try container.encodeIfPresent(mapMapString, forKey: .mapMapString)
     }
-
-
-
 }
+

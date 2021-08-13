@@ -8,8 +8,13 @@ import 'package:built_value/serializer.dart';
 
 part 'map_test.g.dart';
 
-
-
+/// MapTest
+///
+/// Properties:
+/// * [mapMapOfString] 
+/// * [mapOfEnumString] 
+/// * [directMap] 
+/// * [indirectMap] 
 abstract class MapTest implements Built<MapTest, MapTestBuilder> {
     @BuiltValueField(wireName: r'map_map_of_string')
     BuiltMap<String, BuiltMap<String, String>>? get mapMapOfString;
@@ -26,7 +31,8 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
     MapTest._();
 
-    static void _initializeBuilder(MapTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(MapTestBuilder b) => b;
 
     factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
 

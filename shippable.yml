@@ -21,7 +21,6 @@ build:
     - export PATH=/opt/gradle/gradle-5.6.4/bin:$PATH 
     - gradle -v
     - java -version
-    - mvn --no-snapshot-updates --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
@@ -49,12 +48,3 @@ build:
     - mix --version
     # test samples defined in pom.xml
     - mvn --no-snapshot-updates --quiet verify -P samples.shippable -Dmaven.javadoc.skip=true
-    # test maven plugin
-    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-    - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-    # test gradle plugin
-    - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
-    - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
-

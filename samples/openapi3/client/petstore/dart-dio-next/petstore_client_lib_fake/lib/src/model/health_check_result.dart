@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'health_check_result.g.dart';
 
-
-
+/// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+///
+/// Properties:
+/// * [nullableMessage] 
 abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
     @BuiltValueField(wireName: r'NullableMessage')
     String? get nullableMessage;
 
     HealthCheckResult._();
 
-    static void _initializeBuilder(HealthCheckResultBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(HealthCheckResultBuilder b) => b;
 
     factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 

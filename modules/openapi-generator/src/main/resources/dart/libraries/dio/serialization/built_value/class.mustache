@@ -7,8 +7,18 @@ part '{{classFilename}}.g.dart';
     Classes with polymorphism or composition may generate unused imports,
     these need to be ignored for said classes so that there are no lint errors.
 }}
-{{#parentModel}}// ignore_for_file: unused_import{{/parentModel}}
+{{#parentModel}}
+// ignore_for_file: unused_import
 
+{{/parentModel}}
+/// {{#description}}{{{.}}}{{/description}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
 abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
 {{#vars}}
     {{#description}}
@@ -23,7 +33,8 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 {{/vars}}
     {{classname}}._();
 
-    static void _initializeBuilder({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
         ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
 
     factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};

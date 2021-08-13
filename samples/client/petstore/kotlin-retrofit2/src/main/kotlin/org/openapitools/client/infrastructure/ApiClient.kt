@@ -7,6 +7,7 @@ import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
 
+import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,7 +22,7 @@ class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
-    private val okHttpClient : OkHttpClient? = null,
+    private val callFactory : Call.Factory? = null,
     private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
@@ -180,8 +181,8 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        val usedClient = this.okHttpClient ?: clientBuilder.build()
-        return retrofitBuilder.client(usedClient).build().create(serviceClass)
+        val usedCallFactory = this.callFactory ?: clientBuilder.build()
+        return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {

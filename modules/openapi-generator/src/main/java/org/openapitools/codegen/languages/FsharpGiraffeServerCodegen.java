@@ -262,7 +262,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized " + original + " to " + operation.path + ". Please verify generated source.");
+                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
             }
         }
 

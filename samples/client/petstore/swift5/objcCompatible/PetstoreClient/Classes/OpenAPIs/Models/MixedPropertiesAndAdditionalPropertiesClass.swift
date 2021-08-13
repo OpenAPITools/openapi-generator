@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
 import AnyCodable
+#endif
 
 @objc public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
@@ -19,6 +21,7 @@ import AnyCodable
         self.dateTime = dateTime
         self.map = map
     }
+
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case uuid
         case dateTime
@@ -33,7 +36,5 @@ import AnyCodable
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(map, forKey: .map)
     }
-
-
-
 }
+
