@@ -259,6 +259,7 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -490,6 +491,21 @@ public class DefaultCodegen implements CodegenConfig {
             modelNameToSchemaCache = Collections.unmodifiableMap(m);
         }
         return modelNameToSchemaCache;
+    }
+
+    /**
+     * Return a map from model key to toModelName(key) for efficient lookup.
+     *
+     * @return map from model key to toModelName(key).
+     */
+    protected Map<String, String> getSchemaKeyToModelNameCache() {
+        if (schemaKeyToModelNameCache == null) {
+            // Create a cache to efficiently lookup toModelName() based on model name.
+            Map<String, String> m = new HashMap<>();
+            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> m.put(key, toModelName(key)));
+            schemaKeyToModelNameCache = Collections.unmodifiableMap(m);
+        }
+        return schemaKeyToModelNameCache;
     }
 
     /**
@@ -5640,7 +5656,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
         Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
-                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
+                .filter(entry -> Objects.equals(varDataType, getSchemaKeyToModelNameCache().get(entry.getKey())))
                 .map(Map.Entry::getValue)
                 .findFirst();
         String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
