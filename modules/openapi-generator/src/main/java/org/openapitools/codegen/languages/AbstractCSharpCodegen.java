@@ -1068,11 +1068,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        schemaKeyToModelNameCache.put(origName, camelize(name));
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelizedName;
     }
 
     @Override

@@ -2329,9 +2329,9 @@ public class DefaultCodegen implements CodegenConfig {
             return schemaKeyToModelNameCache.get(name);
         }
 
-        schemaKeyToModelNameCache.put(name, camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix));
-
-        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        String camelizedName = camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     private static class NamedSchema {
