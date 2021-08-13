@@ -487,6 +487,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("request/IRequestFactory.mustache", requestFolder, "IRequestFactory.kt"));
         supportingFiles.add(new SupportingFile("request/RequestFactory.mustache", requestFolder, "RequestFactory.kt"));
 
+//        KotlinClientCodegen kotlinConfig = (KotlinClientCodegen) config;
+//        if (kotlinConfig.getGenerateRoomModels()) {
+            supportingFiles.add(new SupportingFile("IStorable.mustache", infrastructureFolder, "IStorable.kt"));
+
+ //       }
+
+
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 

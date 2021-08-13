@@ -1,0 +1,9 @@
+{{>licenseInfo}}
+package {{modelPackage}}.infrastructure
+
+import {{roomModelPackage}}.*
+
+// TODO ITransformForStorage
+interface ITransformForStorage<T> {
+    fun toRoomModel(): T
+}
