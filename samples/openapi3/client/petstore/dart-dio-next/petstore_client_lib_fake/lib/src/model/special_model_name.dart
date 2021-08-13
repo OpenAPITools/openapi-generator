@@ -17,7 +17,8 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
 
     SpecialModelName._();
 
-    static void _initializeBuilder(SpecialModelNameBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(SpecialModelNameBuilder b) => b;
 
     factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
 

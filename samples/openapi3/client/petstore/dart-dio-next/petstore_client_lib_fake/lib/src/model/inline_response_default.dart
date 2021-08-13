@@ -18,7 +18,8 @@ abstract class InlineResponseDefault implements Built<InlineResponseDefault, Inl
 
     InlineResponseDefault._();
 
-    static void _initializeBuilder(InlineResponseDefaultBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(InlineResponseDefaultBuilder b) => b;
 
     factory InlineResponseDefault([void updates(InlineResponseDefaultBuilder b)]) = _$InlineResponseDefault;
 

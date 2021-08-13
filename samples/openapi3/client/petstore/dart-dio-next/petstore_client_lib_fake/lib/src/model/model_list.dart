@@ -17,7 +17,8 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 
     ModelList._();
 
-    static void _initializeBuilder(ModelListBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelListBuilder b) => b;
 
     factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 
