@@ -23,7 +23,6 @@ import org.openapitools.codegen.languages.RubySinatraServerCodegen;
 import org.openapitools.codegen.options.RubySinatraServerOptionsProvider;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
     private RubySinatraServerCodegen clientCodegen = mock(RubySinatraServerCodegen.class, mockSettings);

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.EnumArrays
+
 ## Properties
 
 Name | Type | Description | Notes

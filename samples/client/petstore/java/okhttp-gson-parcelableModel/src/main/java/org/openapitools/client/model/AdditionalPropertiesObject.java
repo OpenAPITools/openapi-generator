@@ -32,7 +32,7 @@ import android.os.Parcel;
  * AdditionalPropertiesObject
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesObject extends HashMap<String, Map> {
+public class AdditionalPropertiesObject extends HashMap<String, Map> implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
@@ -81,7 +81,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public int hashCode() {
     return Objects.hash(name, super.hashCode());
   }
-
 
   @Override
   public String toString() {

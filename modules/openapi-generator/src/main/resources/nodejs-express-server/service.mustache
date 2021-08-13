@@ -21,7 +21,7 @@ const Service = require('./Service');
 * returns {{{returnType}}}
 {{/returnType}}
 * */
-const {{{operationId}}} = ({{#allParams}}{{#-first}}{ {{/-first}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{#-last}} }{{/-last}}{{/allParams}}) => new Promise(
+const {{{operationId}}} = ({{#allParams}}{{#-first}}{ {{/-first}}{{paramName}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/allParams}}) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({

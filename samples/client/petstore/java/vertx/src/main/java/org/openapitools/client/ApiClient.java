@@ -115,10 +115,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     public synchronized WebClient getWebClient() {
         String webClientIdentifier = "web-client-" + identifier;
-        WebClient webClient = Vertx.currentContext().get(webClientIdentifier);
+        WebClient webClient = this.vertx.getOrCreateContext().get(webClientIdentifier);
         if (webClient == null) {
             webClient = buildWebClient(vertx, config);
-            Vertx.currentContext().put(webClientIdentifier, webClient);
+            this.vertx.getOrCreateContext().put(webClientIdentifier, webClient);
         }
         return webClient;
     }

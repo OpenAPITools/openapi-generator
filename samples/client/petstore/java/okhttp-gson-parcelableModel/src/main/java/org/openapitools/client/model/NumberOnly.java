@@ -31,7 +31,7 @@ import android.os.Parcel;
  * NumberOnly
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class NumberOnly {
+public class NumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
@@ -78,7 +78,6 @@ public class NumberOnly {
   public int hashCode() {
     return Objects.hash(justNumber);
   }
-
 
   @Override
   public String toString() {

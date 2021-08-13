@@ -54,6 +54,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -63,6 +64,8 @@ public class BananaReq {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
@@ -87,6 +90,8 @@ public class BananaReq {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSweet(Boolean sweet) {
     this.sweet = sweet;
   }
@@ -112,7 +117,6 @@ public class BananaReq {
   public int hashCode() {
     return Objects.hash(lengthCm, sweet);
   }
-
 
   @Override
   public String toString() {

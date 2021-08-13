@@ -137,6 +137,11 @@ namespace Org.OpenAPITools.Model
         {
             GmFruit newGmFruit = null;
 
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return newGmFruit;
+            }
+
             try
             {
                 newGmFruit = new GmFruit(JsonConvert.DeserializeObject<Apple>(jsonString, GmFruit.SerializerSettings));
@@ -146,7 +151,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -158,7 +163,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             // no match found, throw an exception
@@ -224,7 +229,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(GmFruit).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(GmFruit).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -237,7 +242,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return GmFruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return GmFruit.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

@@ -459,7 +459,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
             System.out.println(result);
@@ -525,7 +525,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             ApiResponse<BigDecimal> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
@@ -1131,7 +1131,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1142,7 +1142,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -1229,7 +1229,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1240,7 +1240,7 @@ public class Example {
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
         LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {

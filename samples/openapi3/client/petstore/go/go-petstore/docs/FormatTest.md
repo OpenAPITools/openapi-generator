@@ -12,9 +12,9 @@ Name | Type | Description | Notes
 **Double** | Pointer to **float64** |  | [optional] 
 **String** | Pointer to **string** |  | [optional] 
 **Byte** | **string** |  | 
-**Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional] 
+**Binary** | Pointer to ***os.File** |  | [optional] 
 **Date** | **string** |  | 
-**DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**DateTime** | Pointer to **time.Time** |  | [optional] 
 **Uuid** | Pointer to **string** |  | [optional] 
 **Password** | **string** |  | 
 **PatternWithDigits** | Pointer to **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

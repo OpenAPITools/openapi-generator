@@ -67,7 +67,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get stringItem
    * @return stringItem
    **/
-  @JsonProperty("string_item")
+  @JsonProperty(value = "string_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getStringItem() {
@@ -87,7 +87,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get numberItem
    * @return numberItem
    **/
-  @JsonProperty("number_item")
+  @JsonProperty(value = "number_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid 
   public BigDecimal getNumberItem() {
@@ -107,7 +107,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get integerItem
    * @return integerItem
    **/
-  @JsonProperty("integer_item")
+  @JsonProperty(value = "integer_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getIntegerItem() {
@@ -127,7 +127,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get boolItem
    * @return boolItem
    **/
-  @JsonProperty("bool_item")
+  @JsonProperty(value = "bool_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Boolean getBoolItem() {
@@ -152,7 +152,7 @@ public class TypeHolderDefault  implements Serializable {
    * Get arrayItem
    * @return arrayItem
    **/
-  @JsonProperty("array_item")
+  @JsonProperty(value = "array_item")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public List<Integer> getArrayItem() {

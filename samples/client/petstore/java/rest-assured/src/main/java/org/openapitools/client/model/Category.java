@@ -74,6 +74,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
 
@@ -104,7 +105,6 @@ public class Category {
   public int hashCode() {
     return Objects.hash(id, name);
   }
-
 
   @Override
   public String toString() {

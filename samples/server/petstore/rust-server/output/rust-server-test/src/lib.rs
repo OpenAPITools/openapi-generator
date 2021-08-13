@@ -5,66 +5,67 @@ use futures::Stream;
 use std::error::Error;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
+use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "2.3.4";
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum AllOfGetResponse {
     /// OK
     OK
     (models::AllOfObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum DummyGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum DummyPutResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FileResponseGetResponse {
     /// Success
     Success
     (swagger::ByteArray)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetStructuredYamlResponse {
     /// OK
     OK
     (String)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum HtmlPostResponse {
     /// Success
     Success
     (String)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum PostYamlResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RawJsonGetResponse {
     /// Success
     Success
     (serde_json::Value)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum SoloObjectPostResponse {
     /// OK
     OK

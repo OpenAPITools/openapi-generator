@@ -48,7 +48,7 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      {{/notes}}
      */
     {{/summary}}
-    public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{^-last}}, {{/-last}}{{/allParams}}) {
         // TODO: Implement...
         
         {{#useGenericResponse}}return Response.ok().entity("magic!").build();{{/useGenericResponse}}{{^useGenericResponse}}{{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}{{/useGenericResponse}}

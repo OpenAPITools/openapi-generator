@@ -2,6 +2,14 @@
 
 package {{invokerPackage}};
 
+{{#dynamicOperations}}
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.Parameter.StyleEnum;
+import io.swagger.v3.parser.OpenAPIV3Parser;
+{{/dynamicOperations}}
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
 import okhttp3.internal.tls.OkHostnameVerifier;
@@ -33,6 +41,8 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -86,6 +96,10 @@ public class ApiClient {
 
     private HttpLoggingInterceptor loggingInterceptor;
 
+    {{#dynamicOperations}}
+    private Map<String, ApiOperation> operationLookupMap = new HashMap<>();
+
+    {{/dynamicOperations}}
     /*
      * Basic constructor for ApiClient
      */
@@ -209,6 +223,11 @@ public class ApiClient {
         setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
         authentications = new HashMap<String, Authentication>();
+        {{#dynamicOperations}}
+
+        OpenAPI openAPI = new OpenAPIV3Parser().read("openapi/openapi.yaml");
+        createOperationLookupMap(openAPI);
+        {{/dynamicOperations}}
     }
 
     /**
@@ -396,6 +415,22 @@ public class ApiClient {
         return authentications.get(authName);
     }
 
+    {{#hasHttpBearerMethods}}
+        /**
+        * Helper method to set access token for the first Bearer authentication.
+        * @param bearerToken Bearer token
+        */
+    public void setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
+    }
+    {{/hasHttpBearerMethods}}
+
     /**
      * Helper method to set username for the first HTTP basic authentication.
      *
@@ -545,7 +580,7 @@ public class ApiClient {
      * with file response. The default value is <code>null</code>, i.e. using
      * the system's default tempopary folder.
      *
-     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile">createTempFile</a>
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempFile(java.lang.String,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)">createTempFile</a>
      * @return Temporary folder path
      */
     public String getTempFolderPath() {
@@ -694,6 +729,7 @@ public class ApiClient {
         return params;
     }
 
+    {{^dynamicOperations}}
     /**
      * Formats the specified collection query parameters to a list of {@code Pair} objects.
      *
@@ -743,6 +779,46 @@ public class ApiClient {
 
         return params;
     }
+    {{/dynamicOperations}}
+    {{#dynamicOperations}}
+    public List<Pair> parameterToPairs(Parameter param, Collection value) {
+        List<Pair> params = new ArrayList<Pair>();
+
+        // preconditions
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
+            return params;
+        }
+
+        // create the params based on the collection format
+        if (StyleEnum.FORM.equals(param.getStyle()) && Boolean.TRUE.equals(param.getExplode())) {
+            for (Object item : value) {
+                params.add(new Pair(param.getName(), escapeString(parameterToString(item))));
+            }
+            return params;
+        }
+
+        // collectionFormat is assumed to be "csv" by default
+        String delimiter = ",";
+
+        // escape all delimiters except commas, which are URI reserved
+        // characters
+        if (StyleEnum.SPACEDELIMITED.equals(param.getStyle())) {
+            delimiter = escapeString(" ");
+        } else if (StyleEnum.PIPEDELIMITED.equals(param.getStyle())) {
+            delimiter = escapeString("|");
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Object item : value) {
+            sb.append(delimiter);
+            sb.append(escapeString(parameterToString(item)));
+        }
+
+        params.add(new Pair(param.getName(), sb.substring(delimiter.length())));
+
+        return params;
+    }
+    {{/dynamicOperations}}
 
     /**
      * Formats the specified collection path parameter to a string value.
@@ -935,10 +1011,10 @@ public class ApiClient {
     public RequestBody serialize(Object obj, String contentType) throws ApiException {
         if (obj instanceof byte[]) {
             // Binary (byte array) body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (byte[]) obj);
+            return RequestBody.create((byte[]) obj, MediaType.parse(contentType));
         } else if (obj instanceof File) {
             // File body parameter support.
-            return RequestBody.create(MediaType.parse(contentType), (File) obj);
+            return RequestBody.create((File) obj, MediaType.parse(contentType));
         } else if (isJsonMime(contentType)) {
             String content;
             if (obj != null) {
@@ -946,7 +1022,7 @@ public class ApiClient {
             } else {
                 content = null;
             }
-            return RequestBody.create(MediaType.parse(contentType), content);
+            return RequestBody.create(content, MediaType.parse(contentType));
         } else {
             throw new ApiException("Content type \"" + contentType + "\" is not supported");
         }
@@ -1003,15 +1079,15 @@ public class ApiClient {
                 prefix = filename.substring(0, pos) + "-";
                 suffix = filename.substring(pos);
             }
-            // File.createTempFile requires the prefix to be at least three characters long
+            // Files.createTempFile requires the prefix to be at least three characters long
             if (prefix.length() < 3)
                 prefix = "download-";
         }
 
         if (tempFolderPath == null)
-            return File.createTempFile(prefix, suffix);
+            return Files.createTempFile(prefix, suffix).toFile();
         else
-            return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+            return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
     }
 
     /**
@@ -1196,7 +1272,7 @@ public class ApiClient {
                 reqBody = null;
             } else {
                 // use an empty request body (for POST, PUT and PATCH)
-                reqBody = RequestBody.create(MediaType.parse(contentType), "");
+                reqBody = RequestBody.create("", MediaType.parse(contentType));
             }
         } else {
             reqBody = serialize(body, contentType);
@@ -1347,10 +1423,10 @@ public class ApiClient {
                 File file = (File) param.getValue();
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"; filename=\"" + file.getName() + "\"");
                 MediaType mediaType = MediaType.parse(guessContentTypeFromFile(file));
-                mpBuilder.addPart(partHeaders, RequestBody.create(mediaType, file));
+                mpBuilder.addPart(partHeaders, RequestBody.create(file, mediaType));
             } else {
                 Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"");
-                mpBuilder.addPart(partHeaders, RequestBody.create(null, parameterToString(param.getValue())));
+                mpBuilder.addPart(partHeaders, RequestBody.create(parameterToString(param.getValue()), null));
             }
         }
         return mpBuilder.build();
@@ -1467,4 +1543,75 @@ public class ApiClient {
             throw new AssertionError(e);
         }
     }
+    {{#dynamicOperations}}
+
+    public ApiClient createOperationLookupMap(OpenAPI openAPI) {
+        operationLookupMap = new HashMap<>();
+        for (Map.Entry<String, PathItem> pathItemEntry : openAPI.getPaths().entrySet()) {
+            String path = pathItemEntry.getKey();
+            PathItem pathItem = pathItemEntry.getValue();
+            addOperationLookupEntry(path, "GET", pathItem.getGet());
+            addOperationLookupEntry(path, "PUT", pathItem.getPut());
+            addOperationLookupEntry(path, "POST", pathItem.getPost());
+            addOperationLookupEntry(path, "DELETE", pathItem.getDelete());
+            addOperationLookupEntry(path, "OPTIONS", pathItem.getOptions());
+            addOperationLookupEntry(path, "HEAD", pathItem.getHead());
+            addOperationLookupEntry(path, "PATCH", pathItem.getPatch());
+            addOperationLookupEntry(path, "TRACE", pathItem.getTrace());
+        }
+        return this;
+    }
+
+    private void addOperationLookupEntry(String path, String method, Operation operation) {
+        if ( operation != null && operation.getOperationId() != null) {
+            operationLookupMap.put(
+                    operation.getOperationId(),
+                    new ApiOperation(path, method, operation));
+        }
+    }
+
+    public Map<String, ApiOperation> getOperationLookupMap() {
+        return operationLookupMap;
+    }
+
+    public String fillParametersFromOperation(
+            Operation operation,
+            Map<String, Object> paramMap,
+            String path,
+            List<Pair> queryParams,
+            List<Pair> collectionQueryParams,
+            Map<String, String> headerParams,
+            Map<String, String> cookieParams
+    ) {
+        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+            Object value = entry.getValue();
+            for (Parameter param : operation.getParameters()) {
+                if (entry.getKey().equals(param.getName())) {
+                    switch (param.getIn()) {
+                        case "path":
+                            path = path.replaceAll("\\{" + param.getName() + "\\}", escapeString(value.toString()));
+                            break;
+                        case "query":
+                            if (value instanceof Collection<?>) {
+                                collectionQueryParams.addAll(parameterToPairs(param, (Collection) value));
+                            } else {
+                                queryParams.addAll(parameterToPair(param.getName(), value));
+                            }
+                            break;
+                        case "header":
+                            headerParams.put(param.getName(), parameterToString(value));
+                            break;
+                        case "cookie":
+                            cookieParams.put(param.getName(), parameterToString(value));
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected param in: " + param.getIn());
+                    }
+
+                }
+            }
+        }
+        return path;
+    }
+    {{/dynamicOperations}}
 }

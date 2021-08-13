@@ -27,10 +27,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum OuterEnum {
   
+  @XmlEnumValue("placed")
   PLACED("placed"),
   
+  @XmlEnumValue("approved")
   APPROVED("approved"),
   
+  @XmlEnumValue("delivered")
   DELIVERED("delivered");
 
   private String value;

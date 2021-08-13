@@ -11,13 +11,22 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
-import datetime
 
 import petstore_api
-from petstore_api.models.pet import Pet  # noqa: E501
-from petstore_api.rest import ApiException
+try:
+    from petstore_api.model import category
+except ImportError:
+    category = sys.modules[
+        'petstore_api.model.category']
+try:
+    from petstore_api.models import tag
+except ImportError:
+    tag = sys.modules[
+        'petstore_api.model.tag']
+from petstore_api.model.pet import Pet
+
 
 class TestPet(unittest.TestCase):
     """Pet unit test stubs"""
@@ -28,41 +37,52 @@ class TestPet(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test Pet
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = petstore_api.models.pet.Pet()  # noqa: E501
-        if include_optional :
-            return Pet(
-                id = 56, 
-                category = petstore_api.models.category.Category(
-                    id = 56, 
-                    name = 'default-name', ), 
-                name = 'doggie', 
-                photo_urls = [
-                    '0'
-                    ], 
-                tags = [
-                    petstore_api.models.tag.Tag(
-                        id = 56, 
-                        name = '0', )
-                    ], 
-                status = 'available'
-            )
-        else :
-            return Pet(
-                name = 'doggie',
-                photo_urls = [
-                    '0'
-                    ],
-        )
+    def test_to_str(self):
+        pet = Pet(name="test name", photo_urls=["string"])
+        pet.id = 1
+        pet.status = "available"
+        cate = category.Category()
+        cate.id = 1
+        cate.name = "dog"
+        pet.category = cate
+        tag1 = tag.Tag()
+        tag1.id = 1
+        pet.tags = [tag1]
 
-    def testPet(self):
-        """Test Pet"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        data = ("{'category': {'id': 1, 'name': 'dog'},\n"
+                " 'id': 1,\n"
+                " 'name': 'test name',\n"
+                " 'photo_urls': ['string'],\n"
+                " 'status': 'available',\n"
+                " 'tags': [{'id': 1}]}")
+        self.assertEqual(data, pet.to_str())
+
+    def test_equal(self):
+        pet1 = Pet(name="test name", photo_urls=["string"])
+        pet1.id = 1
+        pet1.status = "available"
+        cate1 = category.Category()
+        cate1.id = 1
+        cate1.name = "dog"
+        tag1 = tag.Tag()
+        tag1.id = 1
+        pet1.tags = [tag1]
+
+        pet2 = Pet(name="test name", photo_urls=["string"])
+        pet2.id = 1
+        pet2.status = "available"
+        cate2 = category.Category()
+        cate2.id = 1
+        cate2.name = "dog"
+        tag2 = tag.Tag()
+        tag2.id = 1
+        pet2.tags = [tag2]
+
+        self.assertTrue(pet1 == pet2)
+
+        # reset pet1 tags to empty array so that object comparison returns false
+        pet1.tags = []
+        self.assertFalse(pet1 == pet2)
 
 
 if __name__ == '__main__':

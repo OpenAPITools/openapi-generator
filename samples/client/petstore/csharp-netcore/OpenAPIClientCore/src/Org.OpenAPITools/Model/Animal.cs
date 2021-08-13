@@ -32,8 +32,6 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract(Name = "Animal")]
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
-    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     public partial class Animal : IEquatable<Animal>, IValidatableObject
@@ -88,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

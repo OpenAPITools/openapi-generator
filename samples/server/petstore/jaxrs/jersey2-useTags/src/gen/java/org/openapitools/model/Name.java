@@ -59,7 +59,7 @@ public class Name   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getName() {
@@ -79,7 +79,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
    **/
-  @JsonProperty("snake_case")
+  @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer getSnakeCase() {
@@ -99,7 +99,7 @@ public class Name   {
    * Get property
    * @return property
    **/
-  @JsonProperty("property")
+  @JsonProperty(value = "property")
   @ApiModelProperty(value = "")
   
   public String getProperty() {
@@ -119,7 +119,7 @@ public class Name   {
    * Get _123number
    * @return _123number
    **/
-  @JsonProperty("123Number")
+  @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer get123number() {

@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class {{classname}}Verticle extends AbstractVerticle {
-    final static Logger LOGGER = LoggerFactory.getLogger({{classname}}Verticle.class); 
+    static final Logger LOGGER = LoggerFactory.getLogger({{classname}}Verticle.class);
     
-    {{#operations}}{{#operation}}{{#vendorExtensions}}final static String {{x-serviceid-varname}} = "{{x-serviceid}}";
+    {{#operations}}{{#operation}}{{#vendorExtensions}}static final String {{x-serviceid-varname}} = "{{x-serviceid}}";
     {{/vendorExtensions}}{{/operation}}{{/operations}}
     final {{classname}} service;
 
@@ -52,7 +52,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param.encode(),
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, {{{baseType}}}.class));
                 {{/required}}
                         {{/isArray}}
@@ -81,7 +81,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                                 {{/isString}}
                             {{/isPrimitiveType}}

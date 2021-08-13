@@ -12,9 +12,9 @@ import { {{classname}} } from './{{importPath}}';
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [{{^providedInRoot}}
-    {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
-    {{/hasMore}}{{/apis}}{{/apiInfo}} {{/providedInRoot}}]
+  providers: [{{#isProvidedInNone}}
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}} {{/isProvidedInNone}}]
 })
 export class {{apiModuleClassName}} {
     public static forRoot(configurationFactory: () => {{configurationClassName}}): ModuleWithProviders{{#enforceGenericModuleWithProviders}}<{{apiModuleClassName}}>{{/enforceGenericModuleWithProviders}} {

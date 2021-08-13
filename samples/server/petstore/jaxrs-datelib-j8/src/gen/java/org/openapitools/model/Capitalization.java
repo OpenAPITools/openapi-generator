@@ -69,7 +69,7 @@ public class Capitalization  implements Serializable {
    * Get smallCamel
    * @return smallCamel
    **/
-  @JsonProperty("smallCamel")
+  @JsonProperty(value = "smallCamel")
   @ApiModelProperty(value = "")
   
   public String getSmallCamel() {
@@ -89,7 +89,7 @@ public class Capitalization  implements Serializable {
    * Get capitalCamel
    * @return capitalCamel
    **/
-  @JsonProperty("CapitalCamel")
+  @JsonProperty(value = "CapitalCamel")
   @ApiModelProperty(value = "")
   
   public String getCapitalCamel() {
@@ -109,7 +109,7 @@ public class Capitalization  implements Serializable {
    * Get smallSnake
    * @return smallSnake
    **/
-  @JsonProperty("small_Snake")
+  @JsonProperty(value = "small_Snake")
   @ApiModelProperty(value = "")
   
   public String getSmallSnake() {
@@ -129,7 +129,7 @@ public class Capitalization  implements Serializable {
    * Get capitalSnake
    * @return capitalSnake
    **/
-  @JsonProperty("Capital_Snake")
+  @JsonProperty(value = "Capital_Snake")
   @ApiModelProperty(value = "")
   
   public String getCapitalSnake() {
@@ -149,7 +149,7 @@ public class Capitalization  implements Serializable {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    **/
-  @JsonProperty("SCA_ETH_Flow_Points")
+  @JsonProperty(value = "SCA_ETH_Flow_Points")
   @ApiModelProperty(value = "")
   
   public String getScAETHFlowPoints() {
@@ -169,7 +169,7 @@ public class Capitalization  implements Serializable {
    * Name of the pet 
    * @return ATT_NAME
    **/
-  @JsonProperty("ATT_NAME")
+  @JsonProperty(value = "ATT_NAME")
   @ApiModelProperty(value = "Name of the pet ")
   
   public String getATTNAME() {

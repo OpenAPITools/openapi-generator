@@ -50,9 +50,9 @@ public class {{classname}} {
       {{^isArray}}
         query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
       {{/isArray}}
-      {{^hasMore}}
+      {{#-last}}
 
-      {{/hasMore}}
+      {{/-last}}
     {{/queryParams}}
         List<OAS.Param> form = new List<OAS.Param>();
     {{#hasFormParams}}
@@ -79,28 +79,28 @@ public class {{classname}} {
             query, form,
             new Map<String, Object>{{#hasPathParams}}{
               {{#pathParams}}
-                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{^-last}},{{/-last}}
               {{/pathParams}}
             }{{/hasPathParams}}{{^hasPathParams}}(){{/hasPathParams}},
             new Map<String, Object>{{#hasHeaderParams}}{
               {{#headerParams}}
-                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{^-last}},{{/-last}}
               {{/headerParams}}
             }{{/hasHeaderParams}}{{^hasHeaderParams}}(){{/hasHeaderParams}},
           {{#hasProduces}}
-            new List<String>{ {{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}} },
+            new List<String>{ {{#produces}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/produces}} },
           {{/hasProduces}}
           {{^hasProduces}}
             new List<String>(),
           {{/hasProduces}}
           {{#hasConsumes}}
-            new List<String>{ {{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}} },
+            new List<String>{ {{#consumes}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/consumes}} },
           {{/hasConsumes}}
           {{^hasConsumes}}
             new List<String>(),
           {{/hasConsumes}}
           {{#hasAuthMethods}}
-            new List<String> { {{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}} },
+            new List<String> { {{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}} },
           {{/hasAuthMethods}}
           {{^hasAuthMethods}}
             new List<String>(),

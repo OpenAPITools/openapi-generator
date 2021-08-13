@@ -58,7 +58,7 @@ public class {{classname}} {
     {{/allParams}}
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public Single<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut)
         ));

@@ -1,3 +1,13 @@
+/*
+ * OpenAPI Petstore
+ *
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ *
+ * OpenAPI document version: 1.0.0
+ * 
+ *
+ * AUTO-GENERATED FILE, DO NOT MODIFY!
+ */
 package org.openapitools.model;
 
 import java.util.Objects;
@@ -10,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Describes the result of uploading an image resource
- **/
+ */
 
 @ApiModel(description = "Describes the result of uploading an image resource")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
@@ -21,7 +31,7 @@ public class ModelApiResponse   {
   private String message;
 
   /**
-   **/
+   */
   public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;
@@ -38,7 +48,7 @@ public class ModelApiResponse   {
   }
 
   /**
-   **/
+   */
   public ModelApiResponse type(String type) {
     this.type = type;
     return this;
@@ -55,7 +65,7 @@ public class ModelApiResponse   {
   }
 
   /**
-   **/
+   */
   public ModelApiResponse message(String message) {
     this.message = message;
     return this;

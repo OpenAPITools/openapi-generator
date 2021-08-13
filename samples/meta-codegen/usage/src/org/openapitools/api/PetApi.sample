@@ -16,7 +16,7 @@ classname: PetApi
 operationId: addPet
 
 # and parameters:
-body: Pet
+pet: Pet
 
 
 # each operation has an `operationId`:
@@ -52,7 +52,7 @@ petId: Long
 operationId: updatePet
 
 # and parameters:
-body: Pet
+pet: Pet
 
 
 # each operation has an `operationId`:

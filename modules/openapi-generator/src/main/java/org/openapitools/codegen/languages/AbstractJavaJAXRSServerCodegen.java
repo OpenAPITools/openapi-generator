@@ -49,7 +49,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected boolean useBeanValidation = true;
     protected boolean useTags = false;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
     public AbstractJavaJAXRSServerCodegen() {
         super();
@@ -70,7 +70,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
@@ -151,11 +151,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                             for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
                                 value.put("tag", tag);
-                                value.put("hasMore", "true");
                                 tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
@@ -309,6 +305,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
+    @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }

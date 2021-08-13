@@ -99,6 +99,11 @@
         public static {{classname}} FromJson(string jsonString)
         {
             {{classname}} new{{classname}} = null;
+
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return new{{classname}};
+            }
             {{#anyOf}}
 
             try
@@ -110,7 +115,7 @@
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
             }
             {{/anyOf}}
 
@@ -190,7 +195,7 @@
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -203,7 +208,11 @@
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

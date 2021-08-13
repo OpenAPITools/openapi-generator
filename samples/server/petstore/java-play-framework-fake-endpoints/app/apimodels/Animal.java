@@ -14,9 +14,12 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Animal   {
   @JsonProperty("className")
+  @NotNull
+
   private String className;
 
   @JsonProperty("color")
+  
   private String color = "red";
 
   public Animal className(String className) {
@@ -28,7 +31,6 @@ public class Animal   {
    * Get className
    * @return className
   **/
-  @NotNull
   public String getClassName() {
     return className;
   }
@@ -46,7 +48,7 @@ public class Animal   {
    * Get color
    * @return color
   **/
-    public String getColor() {
+  public String getColor() {
     return color;
   }
 

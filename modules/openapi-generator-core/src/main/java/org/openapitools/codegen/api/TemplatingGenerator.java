@@ -24,7 +24,7 @@ package org.openapitools.codegen.api;
  *
  * @deprecated as of 5.0, replaced by {@link TemplatingExecutor}.
  */
-@Deprecated()
+@Deprecated
 public interface TemplatingGenerator extends TemplatingExecutor {
 
 }

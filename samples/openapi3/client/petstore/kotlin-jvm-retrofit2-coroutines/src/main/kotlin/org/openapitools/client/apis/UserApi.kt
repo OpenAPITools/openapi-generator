@@ -15,7 +15,7 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user Created user object 
-    * @return [Unit]
+     * @return [Unit]
      */
     @POST("user")
     suspend fun createUser(@Body user: User): Response<Unit>
@@ -27,10 +27,10 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user List of user object 
-    * @return [Unit]
+     * @return [Unit]
      */
     @POST("user/createWithArray")
-    suspend fun createUsersWithArrayInput(@Body user: kotlin.Array<User>): Response<Unit>
+    suspend fun createUsersWithArrayInput(@Body user: kotlin.collections.List<User>): Response<Unit>
 
     /**
      * Creates list of users with given input array
@@ -39,10 +39,10 @@ interface UserApi {
      *  - 0: successful operation
      * 
      * @param user List of user object 
-    * @return [Unit]
+     * @return [Unit]
      */
     @POST("user/createWithList")
-    suspend fun createUsersWithListInput(@Body user: kotlin.Array<User>): Response<Unit>
+    suspend fun createUsersWithListInput(@Body user: kotlin.collections.List<User>): Response<Unit>
 
     /**
      * Delete user
@@ -52,7 +52,7 @@ interface UserApi {
      *  - 404: User not found
      * 
      * @param username The name that needs to be deleted 
-    * @return [Unit]
+     * @return [Unit]
      */
     @DELETE("user/{username}")
     suspend fun deleteUser(@Path("username") username: kotlin.String): Response<Unit>
@@ -66,7 +66,7 @@ interface UserApi {
      *  - 404: User not found
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return [User]
+     * @return [User]
      */
     @GET("user/{username}")
     suspend fun getUserByName(@Path("username") username: kotlin.String): Response<User>
@@ -80,7 +80,7 @@ interface UserApi {
      * 
      * @param username The user name for login 
      * @param password The password for login in clear text 
-    * @return [kotlin.String]
+     * @return [kotlin.String]
      */
     @GET("user/login")
     suspend fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Response<kotlin.String>
@@ -91,7 +91,7 @@ interface UserApi {
      * Responses:
      *  - 0: successful operation
      * 
-    * @return [Unit]
+     * @return [Unit]
      */
     @GET("user/logout")
     suspend fun logoutUser(): Response<Unit>
@@ -105,7 +105,7 @@ interface UserApi {
      * 
      * @param username name that need to be deleted 
      * @param user Updated user object 
-    * @return [Unit]
+     * @return [Unit]
      */
     @PUT("user/{username}")
     suspend fun updateUser(@Path("username") username: kotlin.String, @Body user: User): Response<Unit>

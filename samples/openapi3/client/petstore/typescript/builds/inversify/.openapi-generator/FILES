@@ -1,5 +1,8 @@
 .gitignore
+PetApi.md
 README.md
+StoreApi.md
+UserApi.md
 apis/PetApi.service.ts
 apis/PetApi.ts
 apis/StoreApi.service.ts
@@ -17,8 +20,6 @@ index.ts
 middleware.ts
 models/ApiResponse.ts
 models/Category.ts
-models/InlineObject.ts
-models/InlineObject1.ts
 models/ObjectSerializer.ts
 models/Order.ts
 models/Pet.ts

@@ -16,28 +16,27 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for ArrayOfNumberOnly
  */
-public class ArrayOfNumberOnlyTest {
+class ArrayOfNumberOnlyTest {
     private final ArrayOfNumberOnly model = new ArrayOfNumberOnly();
 
     /**
      * Model tests for ArrayOfNumberOnly
      */
     @Test
-    public void testArrayOfNumberOnly() {
+    void testArrayOfNumberOnly() {
         // TODO: test ArrayOfNumberOnly
     }
 
@@ -45,7 +44,7 @@ public class ArrayOfNumberOnlyTest {
      * Test the property 'arrayNumber'
      */
     @Test
-    public void arrayNumberTest() {
+    void arrayNumberTest() {
         // TODO: test arrayNumber
     }
 

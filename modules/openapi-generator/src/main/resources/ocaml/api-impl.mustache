@@ -10,7 +10,7 @@
 
 {{#operations}}
 {{#operation}}
-let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{#hasMore}} {{/hasMore}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
+let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{^-last}} {{/-last}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
     let open Lwt in
     let uri = Request.build_uri "{{{path}}}" in
     let headers = Request.default_headers in

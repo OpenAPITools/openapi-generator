@@ -79,7 +79,6 @@ module CustomHandlers =
         body [] [
             h1 [] [ str "Welcome" ]
             a [_href "/login-with-api_key"] [ str "Login with api_key" ]
-            a [_href "/login-with-auth_cookie"] [ str "Login with auth_cookie" ]
             a [_href "/login-with-petstore_auth"] [ str "Login with petstore_auth" ]
         ]
     ]
@@ -93,7 +92,6 @@ module CustomHandlers =
       choose [
         route "/login" >=> redirectToLogin
         route "/login-with-api_key" >=> challenge "api_key"
-        route "/login-with-auth_cookie" >=> challenge "auth_cookie"
         route "/login-with-petstore_auth" >=> challenge "petstore_auth"
         route "/logout" >=> logout
       ]

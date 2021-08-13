@@ -98,7 +98,7 @@ import (
 )
 
 func main() {
-    body := []User{*openapiclient.NewUser()} // []User | List of user object
+    body := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -160,7 +160,7 @@ import (
 )
 
 func main() {
-    body := []User{} // []User | List of user object
+    body := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -484,7 +484,7 @@ import (
 
 func main() {
     username := "username_example" // string | name that need to be deleted
-    body :=  // User | Updated user object
+    body := *openapiclient.NewUser() // User | Updated user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

@@ -1,0 +1,9 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-delegate
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  delegatePattern: "true"
+  swaggerAnnotations: "true"
+  beanValidations: "true"

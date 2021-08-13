@@ -19,28 +19,28 @@ import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface UserApi {
 
     @POST
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user",  })
+    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUser(@Valid User body);
+    Response createUser(@Valid @NotNull User body);
 
     @POST
     @Path("/createWithArray")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithArrayInput(@Valid List<User> body);
+    Response createUsersWithArrayInput(@Valid @NotNull List<User> body);
 
     @POST
     @Path("/createWithList")
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithListInput(@Valid List<User> body);
+    Response createUsersWithListInput(@Valid @NotNull List<User> body);
 
     @DELETE
     @Path("/{username}")
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user",  })
+    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
@@ -49,7 +49,7 @@ import javax.validation.Valid;
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Get user by user name", notes = "", tags={ "user",  })
+    @ApiOperation(value = "Get user by user name", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
@@ -59,7 +59,7 @@ import javax.validation.Valid;
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Logs user into the system", notes = "", tags={ "user",  })
+    @ApiOperation(value = "Logs user into the system", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
@@ -67,7 +67,7 @@ import javax.validation.Valid;
 
     @GET
     @Path("/logout")
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user",  })
+    @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     Response logoutUser();
@@ -78,5 +78,5 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body);
+    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid @NotNull User body);
 }

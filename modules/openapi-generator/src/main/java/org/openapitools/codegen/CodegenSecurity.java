@@ -20,7 +20,6 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,7 +27,7 @@ public class CodegenSecurity {
     public String name;
     public String type;
     public String scheme;
-    public Boolean hasMore, isBasic, isOAuth, isApiKey;
+    public Boolean isBasic, isOAuth, isApiKey;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -40,7 +39,7 @@ public class CodegenSecurity {
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
     // Oauth specific
-    public String flow, authorizationUrl, tokenUrl;
+    public String flow, authorizationUrl, tokenUrl, refreshUrl;
     public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
@@ -50,7 +49,6 @@ public class CodegenSecurity {
         // Copy all fields except the scopes.
         filteredSecurity.name = name;
         filteredSecurity.type = type;
-        filteredSecurity.hasMore = false;
         filteredSecurity.isBasic = isBasic;
         filteredSecurity.isBasicBasic = isBasicBasic;
         filteredSecurity.isHttpSignature = isHttpSignature;
@@ -68,6 +66,7 @@ public class CodegenSecurity {
         filteredSecurity.flow = flow;
         filteredSecurity.tokenUrl = tokenUrl;
         filteredSecurity.authorizationUrl = authorizationUrl;
+        filteredSecurity.refreshUrl = refreshUrl;
         // It is not possible to deep copy the extensions, as we have no idea what types they are.
         // So the filtered method *will* refer to the original extensions, if any.
         filteredSecurity.vendorExtensions = new HashMap<String, Object>(vendorExtensions);
@@ -96,7 +95,6 @@ public class CodegenSecurity {
         return Objects.equals(name, that.name) &&
                 Objects.equals(type, that.type) &&
                 Objects.equals(scheme, that.scheme) &&
-                Objects.equals(hasMore, that.hasMore) &&
                 Objects.equals(isBasic, that.isBasic) &&
                 Objects.equals(isOAuth, that.isOAuth) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
@@ -112,6 +110,7 @@ public class CodegenSecurity {
                 Objects.equals(flow, that.flow) &&
                 Objects.equals(authorizationUrl, that.authorizationUrl) &&
                 Objects.equals(tokenUrl, that.tokenUrl) &&
+                Objects.equals(refreshUrl, that.refreshUrl) &&
                 Objects.equals(scopes, that.scopes) &&
                 Objects.equals(isCode, that.isCode) &&
                 Objects.equals(isPassword, that.isPassword) &&
@@ -122,10 +121,10 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey,
+        return Objects.hash(name, type, scheme, isBasic, isOAuth, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
-                authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
+                authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit);
     }
 
     @Override
@@ -134,7 +133,6 @@ public class CodegenSecurity {
         sb.append("name='").append(name).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", scheme='").append(scheme).append('\'');
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isBasic=").append(isBasic);
         sb.append(", isOAuth=").append(isOAuth);
         sb.append(", isApiKey=").append(isApiKey);
@@ -150,6 +148,7 @@ public class CodegenSecurity {
         sb.append(", flow='").append(flow).append('\'');
         sb.append(", authorizationUrl='").append(authorizationUrl).append('\'');
         sb.append(", tokenUrl='").append(tokenUrl).append('\'');
+        sb.append(", refreshUrl='").append(refreshUrl).append('\'');
         sb.append(", scopes=").append(scopes);
         sb.append(", isCode=").append(isCode);
         sb.append(", isPassword=").append(isPassword);

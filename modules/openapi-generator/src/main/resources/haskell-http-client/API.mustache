@@ -56,7 +56,7 @@ import qualified Prelude as P
 -- {{/summary}}{{#notes}}
 -- {{{.}}}
 -- {{/notes}}{{#hasAuthMethods}}
--- AuthMethod: {{#authMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}
+-- AuthMethod: {{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}
 -- {{/hasAuthMethods}}{{#vendorExtensions.x-has-unknown-return}}
 -- Note: Has 'Produces' instances, but no response schema
 -- {{/vendorExtensions.x-has-unknown-return}}

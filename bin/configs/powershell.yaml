@@ -10,3 +10,7 @@ additionalProperties:
   powershellGalleryUrl: https://www.powershellgallery.com/packages/PSPetstore
   apiNamePrefix: PS
   powershellVersion: "5.0"
+  licenseUri: https://www.apache.org/licenses/LICENSE-2.0.txt
+  projectUri: https://github.com/OpenAPITools/openapi-generator
+  releaseNotes: 'This is a sample project'
+  tags: 'PetStore,powershell,sdk'

@@ -104,6 +104,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(TypeEnum type) {
     this.type = type;
   }
@@ -118,6 +120,7 @@ public class Zebra {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -127,6 +130,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -190,7 +195,6 @@ public class Zebra {
   public int hashCode() {
     return Objects.hash(type, className, additionalProperties);
   }
-
 
   @Override
   public String toString() {

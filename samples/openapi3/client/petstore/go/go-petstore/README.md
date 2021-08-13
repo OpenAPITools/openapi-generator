@@ -94,6 +94,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-paramters | 
+*FakeApi* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeApi.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-paramters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
@@ -150,12 +151,6 @@ Class | Method | HTTP request | Description
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineObject1](docs/InlineObject1.md)
- - [InlineObject2](docs/InlineObject2.md)
- - [InlineObject3](docs/InlineObject3.md)
- - [InlineObject4](docs/InlineObject4.md)
- - [InlineObject5](docs/InlineObject5.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)

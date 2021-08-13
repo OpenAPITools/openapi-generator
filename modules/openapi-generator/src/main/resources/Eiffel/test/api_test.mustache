@@ -42,10 +42,10 @@ feature -- Test routines
             {{/allParams}}
                       
             {{#returnType}}
-            -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}
+            -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
             {{/returnType}}
             {{^returnType}}
-            -- api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}
+            -- api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
             {{/returnType}}
             assert ("not_implemented", False)
         end

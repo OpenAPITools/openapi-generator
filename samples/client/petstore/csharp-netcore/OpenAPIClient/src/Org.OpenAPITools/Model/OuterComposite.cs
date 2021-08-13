@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name = "my_boolean", EmitDefaultValue = false)]
+        [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
         public bool MyBoolean { get; set; }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

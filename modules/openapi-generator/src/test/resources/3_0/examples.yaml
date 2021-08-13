@@ -118,3 +118,15 @@ components:
           properties:
             city:
               type: string
+    DummyUser:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: '/^[a-z\s]+$/'
+        number:
+          type: string
+          pattern: '/[0-9]{10}/g'
+        address:
+          type: string
+          pattern: '/^[a-z0-9\s]+$/i'

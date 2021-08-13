@@ -301,7 +301,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
         if (StringUtils.isNotEmpty(gitUserId)) {
-            addAdditionalProperty(CodegenConstants.GIT_HOST, gitUserId);
+            addAdditionalProperty(CodegenConstants.GIT_USER_ID, gitUserId);
         }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
@@ -426,6 +426,11 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
         workflowSettingsBuilder.withRemoveOperationIdPrefix(removeOperationIdPrefix);
+        return this;
+    }
+
+    public CodegenConfigurator setSkipOperationExample(boolean skipOperationExample) {
+        workflowSettingsBuilder.withSkipOperationExample(skipOperationExample);
         return this;
     }
 
@@ -583,6 +588,7 @@ public class CodegenConfigurator {
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
         config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
         config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());
+        config.setSkipOperationExample(workflowSettings.isSkipOperationExample());
         config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());

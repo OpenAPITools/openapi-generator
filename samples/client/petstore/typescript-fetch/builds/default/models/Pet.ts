@@ -68,6 +68,16 @@ export interface Pet {
     status?: PetStatusEnum;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
+
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }
@@ -103,16 +113,6 @@ export function PetToJSON(value?: Pet | null): any {
         'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
         'status': value.status,
     };
-}
-
-/**
-* @export
-* @enum {string}
-*/
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
 }
 
 

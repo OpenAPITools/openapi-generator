@@ -16,26 +16,25 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Model tests for OuterComposite
  */
-public class OuterCompositeTest {
+class OuterCompositeTest {
     private final OuterComposite model = new OuterComposite();
 
     /**
      * Model tests for OuterComposite
      */
     @Test
-    public void testOuterComposite() {
+    void testOuterComposite() {
         // TODO: test OuterComposite
     }
 
@@ -43,7 +42,7 @@ public class OuterCompositeTest {
      * Test the property 'myNumber'
      */
     @Test
-    public void myNumberTest() {
+    void myNumberTest() {
         // TODO: test myNumber
     }
 
@@ -51,7 +50,7 @@ public class OuterCompositeTest {
      * Test the property 'myString'
      */
     @Test
-    public void myStringTest() {
+    void myStringTest() {
         // TODO: test myString
     }
 
@@ -59,7 +58,7 @@ public class OuterCompositeTest {
      * Test the property 'myBoolean'
      */
     @Test
-    public void myBooleanTest() {
+    void myBooleanTest() {
         // TODO: test myBoolean
     }
 

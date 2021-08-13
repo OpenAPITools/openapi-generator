@@ -1,1 +1,1 @@
-{{#isBodyParam}}[FromBody]{{&dataType}} {{paramName}}{{/isBodyParam}}
+{{#isBodyParam}}{{^isBinary}}[FromBody]{{/isBinary}}{{&dataType}} {{paramName}}{{/isBodyParam}}

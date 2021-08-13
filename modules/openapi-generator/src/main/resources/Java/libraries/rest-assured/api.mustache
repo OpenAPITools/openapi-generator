@@ -73,7 +73,7 @@ public class {{classname}} {
             nickname = "{{{operationId}}}",
             tags = { {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
     @ApiResponses(value = { {{#responses}}
-            @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{#hasMore}},{{/hasMore}}{{/responses}} })
+            @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}

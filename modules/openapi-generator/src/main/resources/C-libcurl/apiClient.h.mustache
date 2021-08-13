@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <curl/curl.h>
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
@@ -24,6 +25,8 @@ typedef struct apiClient_t {
     void *dataReceived;
     long dataReceivedLen;
     void (*data_callback_func)(void **, long *);
+    int (*progress_func)(void *, curl_off_t, curl_off_t, curl_off_t, curl_off_t);
+    void *progress_data;
     long response_code;
     {{#hasAuthMethods}}
     {{#authMethods}}

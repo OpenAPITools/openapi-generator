@@ -29,7 +29,7 @@ FString OpenAPIPetApi::AddPetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::AddPetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::AddPetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -89,7 +89,7 @@ FString OpenAPIPetApi::DeletePetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::DeletePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::DeletePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -150,6 +150,30 @@ inline FString ToString(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum
 	return TEXT("");
 }
 
+FString OpenAPIPetApi::FindPetsByStatusRequest::EnumToString(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Available },
+		{ TEXT("pending"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Pending },
+		{ TEXT("sold"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;	
+}
+
+bool OpenAPIPetApi::FindPetsByStatusRequest::EnumFromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -165,17 +189,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIPetA
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Available },
-			{ TEXT("pending"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Pending },
-			{ TEXT("sold"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }
@@ -191,7 +206,7 @@ FString OpenAPIPetApi::FindPetsByStatusRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::FindPetsByStatusRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::FindPetsByStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -244,7 +259,7 @@ FString OpenAPIPetApi::FindPetsByTagsRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::FindPetsByTagsRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::FindPetsByTagsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -296,7 +311,7 @@ FString OpenAPIPetApi::GetPetByIdRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::GetPetByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::GetPetByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -347,7 +362,7 @@ FString OpenAPIPetApi::UpdatePetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -413,7 +428,7 @@ FString OpenAPIPetApi::UpdatePetWithFormRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/x-www-form-urlencoded") };
 	//static const TArray<FString> Produces = {  };
@@ -487,7 +502,7 @@ FString OpenAPIPetApi::UploadFileRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("multipart/form-data") };
 	//static const TArray<FString> Produces = { TEXT("application/json") };

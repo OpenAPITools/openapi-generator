@@ -6,13 +6,16 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 @objc public class Animal: NSObject, Codable {
 
     public var _className: String
     public var color: String? = "red"
 
-    public init(_className: String, color: String? = nil) {
+    public init(_className: String, color: String? = "red") {
         self._className = _className
         self.color = color
     }
@@ -22,4 +25,12 @@ import Foundation
         case color
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(_className, forKey: ._className)
+        try container.encodeIfPresent(color, forKey: .color)
+    }
 }
+

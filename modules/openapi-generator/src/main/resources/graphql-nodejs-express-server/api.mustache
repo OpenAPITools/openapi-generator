@@ -10,7 +10,7 @@
 input {{operationId}}Input {
     {{#allParams}}
     {{#description}}# {{description}}{{/description}}
-    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isArray}}Input{{/isArray}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{#hasMore}}, {{/hasMore}}
+    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isArray}}Input{{/isArray}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{^-last}}, {{/-last}}
     {{/allParams}}
 }{{/hasParams}}{{/vendorExtensions.x-is-mutation}}{{/operation}}
 
@@ -47,7 +47,7 @@ type Query {
   # @param {{dataType}} {{paramName}} {{description}}
   {{/allParams}}
   # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
-  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
 }

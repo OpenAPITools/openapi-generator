@@ -35,11 +35,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
 
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
     protected String phpInvokerPackage = "OpenAPITools\\Client"; // default for PHP
@@ -230,7 +229,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Markdown markInstance = new Markdown();
             openAPI.getInfo().setDescription(markInstance.toHtml(currentDescription));
         } else {
-            LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
+            LOGGER.error("OpenAPI object description is empty [{}]", openAPI.getInfo().getTitle());
         }
     }
 

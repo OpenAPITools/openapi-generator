@@ -36,7 +36,7 @@ import java.util.Locale;
  */
 public class CodegenIgnoreProcessor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessor.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessor.class);
 
     private File ignoreFile = null;
 
@@ -65,7 +65,7 @@ public class CodegenIgnoreProcessor {
         if (directory.exists() && directory.isDirectory()) {
             loadFromFile(targetIgnoreFile);
         } else {
-            LOGGER.warn("Output directory does not exist, or is inaccessible. No file (.openapi-generator-ignore) will be evaluated.");
+            LOGGER.info("Output directory ({}) does not exist, or is inaccessible. No file (.openapi-generator-ignore) will be evaluated.", baseDirectory);
         }
     }
 
@@ -142,7 +142,7 @@ public class CodegenIgnoreProcessor {
     public boolean allowsFile(final File targetFile) {
         if(this.ignoreFile == null) return true;
 
-        File file = new File(this.ignoreFile.getParentFile().toURI().relativize(targetFile.toURI()).getPath());
+        File file = new File(this.ignoreFile.getAbsoluteFile().getParentFile().toURI().relativize(targetFile.toURI()).getPath());
         Boolean directoryExcluded = false;
         Boolean exclude = false;
         if(exclusionRules.size() == 0 && inclusionRules.size() == 0) {

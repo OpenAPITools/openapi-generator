@@ -58,6 +58,19 @@ public class UserApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -85,10 +98,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "createUser call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("createUser", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -160,10 +170,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "createUsersWithArrayInput call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("createUsersWithArrayInput", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -235,10 +242,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "createUsersWithListInput call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("createUsersWithListInput", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -310,10 +314,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "deleteUser call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("deleteUser", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -382,10 +383,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "getUserByName call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("getUserByName", localVarResponse);
       }
       return new ApiResponse<User>(
           localVarResponse.statusCode(),
@@ -456,10 +454,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "loginUser call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("loginUser", localVarResponse);
       }
       return new ApiResponse<String>(
           localVarResponse.statusCode(),
@@ -537,10 +532,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "logoutUser call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("logoutUser", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -604,10 +596,7 @@ public class UserApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "updateUser call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("updateUser", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),

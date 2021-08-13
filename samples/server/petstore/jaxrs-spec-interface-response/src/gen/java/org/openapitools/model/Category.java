@@ -37,7 +37,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Category name(String name) {
     this.name = name;
@@ -57,6 +59,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

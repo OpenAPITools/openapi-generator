@@ -173,7 +173,7 @@ index 49b17c7..16ee191 100644
    @Deprecated
    {{/isDeprecated}}
 +  @Loggable(Loggable.INFO)
-   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
      Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
      {{#allParams}}{{#required}}
 
@@ -610,9 +610,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"integer\",\n  \"format\" : \"int64\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -662,9 +660,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : true,
       "required" : true,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : true,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -714,9 +710,7 @@ A `Pet` model with three properties will provide a _lot_ of information about th
       "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
       "exclusiveMinimum" : false,
       "exclusiveMaximum" : false,
-      "hasMore" : false,
       "required" : false,
-      "secondaryParam" : false,
       "hasMoreNonReadOnly" : false,
       "isPrimitiveType" : true,
       "isModel" : false,
@@ -916,9 +910,9 @@ x-content-type: application/json
 
 ### Rust-server
 
-#### x-responseId
+#### x-response-id
 
-Each response may specify a unique `x-responseId`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
+Each response may specify a unique `x-response-id`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
 
 ```yaml
 paths:
@@ -927,7 +921,7 @@ paths:
       responses:
         200:
           description: OK
-          x-responseId: Pong
+          x-response-id: Pong
 ```
 
 ### MySQL Schema
@@ -954,10 +948,8 @@ definitions:
             colDataTypeArguments:
               - argumentValue: 16
                 isString: false
-                hasMore: true
               - argumentValue: 4
                 isString: false
-                hasMore: false
             colUnsigned: true
             colNotNull: true
             colDefault:

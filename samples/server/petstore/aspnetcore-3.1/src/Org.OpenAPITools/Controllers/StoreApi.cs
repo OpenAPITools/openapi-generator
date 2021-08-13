@@ -11,9 +11,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteOrder")]
-        public virtual IActionResult DeleteOrder([FromRoute][Required]string orderId)
+        public virtual IActionResult DeleteOrder([FromRoute (Name = "orderId")][Required]string orderId)
         { 
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -87,7 +88,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetOrderById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
-        public virtual IActionResult GetOrderById([FromRoute][Required][Range(1, 5)]long orderId)
+        public virtual IActionResult GetOrderById([FromRoute (Name = "orderId")][Required][Range(1, 5)]long orderId)
         { 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

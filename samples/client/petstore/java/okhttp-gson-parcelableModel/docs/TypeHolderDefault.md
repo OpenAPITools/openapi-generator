@@ -2,15 +2,20 @@
 
 # TypeHolderDefault
 
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stringItem** | **String** |  | 
-**numberItem** | [**BigDecimal**](BigDecimal.md) |  | 
+**numberItem** | **BigDecimal** |  | 
 **integerItem** | **Integer** |  | 
 **boolItem** | **Boolean** |  | 
 **arrayItem** | **List&lt;Integer&gt;** |  | 
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

@@ -43,7 +43,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp extends OpenApiGeneratorCommand {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigHelp.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ConfigHelp.class);
 
     private static final String FORMAT_TEXT = "text";
     private static final String FORMAT_MARKDOWN = "markdown";

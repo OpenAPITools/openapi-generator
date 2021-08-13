@@ -35,7 +35,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapiclient";
@@ -281,13 +281,14 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -409,7 +410,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -428,16 +429,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             String luaPath = "";
             int pathParamIndex = 0;
 
-            for (int i = 0; i < items.length; ++i) {
-                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+            for (String item : items) {
+                if (item.matches("^\\{(.*)\\}$")) { // wrap in {}
                     // find the datatype of the parameter
                     //final CodegenParameter cp = op.pathParams.get(pathParamIndex);
                     // TODO: Handle non-primitives…
                     //luaPath = luaPath + cp.dataType.toLowerCase(Locale.ROOT);
                     luaPath = luaPath + "/%s";
                     pathParamIndex++;
-                } else if (items[i].length() != 0) {
-                    luaPath = luaPath + "/" + items[i];
+                } else if (item.length() != 0) {
+                    luaPath = luaPath + "/" + item;
                 } else {
                     //luaPath = luaPath + "/";
                 }
@@ -580,5 +581,17 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return name;
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
+        System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
+        System.out.println("################################################################################");
     }
 }

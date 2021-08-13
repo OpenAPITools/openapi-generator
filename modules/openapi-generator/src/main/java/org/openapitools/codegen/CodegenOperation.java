@@ -26,12 +26,12 @@ public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-            isArray, isMultipart, hasMore = true,
+            isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -115,6 +115,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one body parameter or at least one form parameter
+     *
+     * @return true if body or form parameter exists, false otherwise
+     */
+    public boolean getHasBodyOrFormParams() {
+        return getHasBodyParam() || getHasFormParams();
+    }
+
+    /**
      * Check if there's at least one form parameter
      *
      * @return true if any cookie parameter exists, false otherwise
@@ -157,6 +166,15 @@ public class CodegenOperation {
      */
     public boolean getHasExamples() {
         return nonempty(examples);
+    }
+
+    /**
+     * Check if there's a default response
+     *
+     * @return true if responses contain a default response, false otherwise
+     */
+    public boolean getHasDefaultResponse() {
+        return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
     }
 
     /**
@@ -258,10 +276,10 @@ public class CodegenOperation {
         sb.append(", isMap=").append(isMap);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
-        sb.append(", hasMore=").append(hasMore);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
+        sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
         sb.append(", isRestfulShow=").append(isRestfulShow);
         sb.append(", isRestfulCreate=").append(isRestfulCreate);
@@ -332,10 +350,10 @@ public class CodegenOperation {
                 isMap == that.isMap &&
                 isArray == that.isArray &&
                 isMultipart == that.isMultipart &&
-                hasMore == that.hasMore &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
+                hasDefaultResponse == that.hasDefaultResponse &&
                 isRestfulIndex == that.isRestfulIndex &&
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
@@ -393,7 +411,7 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
+                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, hasDefaultResponse, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,

@@ -43,13 +43,13 @@ module {{classname}}HandlerParams =
     {{#-first}}
     //#region Body parameters
     [<CLIMutable>]
-    {{^hasMore}}
+    {{#-last}}
     type {{operationId}}BodyParams = {{dataType}} 
-    {{/hasMore}}
-    {{#hasMore}}
+    {{/-last}}
+    {{^-last}}
     type {{operationId}}BodyParams = { 
       {{paramName}} : {{dataType}};
-    {{/hasMore}}
+    {{/-last}}
     {{/-first}}
     {{^-first}}
       {{paramName}} : {{dataType}};
@@ -107,7 +107,7 @@ module {{classname}}HandlerParams =
       {{^code}}code:int{{/code}}
     }
     {{/responses}}
-    type {{operationId}}Result = {{#responses}}{{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} of {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response{{#hasMore}}|{{/hasMore}}{{/responses}}
+    type {{operationId}}Result = {{#responses}}{{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} of {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response{{^-last}}|{{/-last}}{{/responses}}
 
     {{#allParams}}
     {{#-first}}

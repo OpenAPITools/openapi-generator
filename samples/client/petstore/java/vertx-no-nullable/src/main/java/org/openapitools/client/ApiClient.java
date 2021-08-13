@@ -28,7 +28,7 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 
-import java.time.OffsetDateTime;
+import org.threeten.bp.OffsetDateTime;
 import java.text.DateFormat;
 import java.util.*;
 import java.util.function.Consumer;
@@ -112,10 +112,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     public synchronized WebClient getWebClient() {
         String webClientIdentifier = "web-client-" + identifier;
-        WebClient webClient = Vertx.currentContext().get(webClientIdentifier);
+        WebClient webClient = this.vertx.getOrCreateContext().get(webClientIdentifier);
         if (webClient == null) {
             webClient = buildWebClient(vertx, config);
-            Vertx.currentContext().put(webClientIdentifier, webClient);
+            this.vertx.getOrCreateContext().put(webClientIdentifier, webClient);
         }
         return webClient;
     }

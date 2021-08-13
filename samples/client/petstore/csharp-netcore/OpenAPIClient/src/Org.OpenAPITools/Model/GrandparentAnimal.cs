@@ -32,8 +32,6 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract(Name = "GrandparentAnimal")]
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
-    [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
-    [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     public partial class GrandparentAnimal : IEquatable<GrandparentAnimal>, IValidatableObject
@@ -89,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

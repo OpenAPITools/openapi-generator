@@ -2,12 +2,13 @@
 
 # AdditionalPropertiesClass
 
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapProperty** | **Map&lt;String, String&gt;** |  |  [optional]
-**mapOfMapProperty** | [**Map&lt;String, Map&lt;String, String&gt;&gt;**](Map.md) |  |  [optional]
+**mapOfMapProperty** | **Map&lt;String, Map&lt;String, String&gt;&gt;** |  |  [optional]
 **anytype1** | **Object** |  |  [optional]
 **mapWithUndeclaredPropertiesAnytype1** | **Object** |  |  [optional]
 **mapWithUndeclaredPropertiesAnytype2** | **Object** |  |  [optional]

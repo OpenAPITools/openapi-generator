@@ -20,14 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -108,6 +102,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
+        supportingFiles.add(new SupportingFile("common.mustache", "", "common.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -146,13 +141,16 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> {
                     op.vendorExtensions.putIfAbsent("multipartFormData", true);
-                    op.allParams.stream()
-                            .filter(param -> param.isFormParam)
-                            .filter(param -> param.isArray)
-                            .filter(param -> param.dataFormat.equals("binary"))
-                            .forEach(param -> param.isCollectionFormatMulti = true);
                 });
         return objs;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
     }
 
     @Override

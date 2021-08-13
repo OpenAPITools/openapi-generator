@@ -74,7 +74,7 @@ public class Pet   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -91,7 +91,7 @@ public class Pet   {
    * Get category
    * @return category
   **/
-    public Category getCategory() {
+  public Category getCategory() {
     return category;
   }
 
@@ -108,7 +108,7 @@ public class Pet   {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 
@@ -130,7 +130,7 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-    public List<String> getPhotoUrls() {
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -155,7 +155,7 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-    public List<Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
@@ -172,7 +172,7 @@ public class Pet   {
    * pet status in the store
    * @return status
   **/
-    public StatusEnum getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 

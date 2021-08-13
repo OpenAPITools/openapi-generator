@@ -59,11 +59,11 @@ function Initialize-PSPet {
         'Creating PSCustomObject: PSPetstore => PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        if (!$Name) {
+        if ($Name -eq $null) {
             throw "invalid value for 'Name', 'Name' cannot be null."
         }
 
-        if (!$PhotoUrls) {
+        if ($PhotoUrls -eq $null) {
             throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
         }
 
@@ -120,17 +120,17 @@ function ConvertFrom-PSJsonToPet {
         }
 
         If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
-            throw "Error! Empty JSON cannot be serialized due to the required property `name` missing."
+            throw "Error! Empty JSON cannot be serialized due to the required property 'name' missing."
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
-            throw "Error! JSON cannot be serialized due to the required property `name` missing."
+            throw "Error! JSON cannot be serialized due to the required property 'name' missing."
         } else {
             $Name = $JsonParameters.PSobject.Properties["name"].value
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "photoUrls"))) {
-            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing."
+            throw "Error! JSON cannot be serialized due to the required property 'photoUrls' missing."
         } else {
             $PhotoUrls = $JsonParameters.PSobject.Properties["photoUrls"].value
         }

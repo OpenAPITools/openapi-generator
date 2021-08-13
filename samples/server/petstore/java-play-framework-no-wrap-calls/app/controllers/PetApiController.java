@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -25,7 +26,6 @@ import com.typesafe.config.Config;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
-
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -36,7 +36,6 @@ public class PetApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     
     public Result addPet(Http.Request request) throws Exception {
@@ -50,8 +49,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.addPet(request, body);
-        return ok();
+        return imp.addPetHttp(request, body);
     }
 
     
@@ -63,8 +61,7 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        imp.deletePet(request, petId, apiKey);
-        return ok();
+        return imp.deletePetHttp(request, petId, apiKey);
     }
 
     
@@ -81,14 +78,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        List<Pet> obj = imp.findPetsByStatus(request, status);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.findPetsByStatusHttp(request, status);
     }
 
     
@@ -105,24 +95,12 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        List<Pet> obj = imp.findPetsByTags(request, tags);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Pet curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.findPetsByTagsHttp(request, tags);
     }
 
     
     public Result getPetById(Http.Request request, Long petId) throws Exception {
-        Pet obj = imp.getPetById(request, petId);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.getPetByIdHttp(request, petId);
     }
 
     
@@ -137,8 +115,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updatePet(request, body);
-        return ok();
+        return imp.updatePetHttp(request, body);
     }
 
     
@@ -157,8 +134,7 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-        imp.updatePetWithForm(request, petId, name, status);
-        return ok();
+        return imp.updatePetWithFormHttp(request, petId, name, status);
     }
 
     
@@ -170,12 +146,9 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
-        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, file);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
+        return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
+
 }

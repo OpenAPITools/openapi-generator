@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.DanishPig
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::Capitalization');
 
-my $instance = WWW::OpenAPIClient::Object::Capitalization->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::Capitalization');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::Capitalization->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::Capitalization');
 

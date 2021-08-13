@@ -182,6 +182,69 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+  /object_with_optional_and_required_props/{objectData}:
+    post:
+      tags:
+        - vars
+      operationId: objectWithOptionalAndRequiredProps
+      parameters:
+        - name: objectData
+          in: path
+          required: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+                minLength: 1
+              b:
+                type: string
+                minLength: 1
+              c:
+                type: string
+                minLength: 1
+            required:
+              - a
+              - b
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                a:
+                  type: string
+                  minLength: 1
+                b:
+                  type: string
+                  minLength: 1
+                c:
+                  type: string
+                  minLength: 1
+              required:
+                - a
+                - b
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  a:
+                    type: string
+                    minLength: 1
+                  b:
+                    type: string
+                    minLength: 1
+                  c:
+                    type: string
+                    minLength: 1
+                required:
+                  - a
+                  - b
 components:
   schemas:
     ArrayWithValidationsInItems:
@@ -258,4 +321,59 @@ components:
           type: object
           additionalProperties:
             type: string
+    ObjectWithOptionalAndRequiredProps:
+      type: object
+      properties:
+        a:
+          type: string
+          minLength: 1
+        b:
+          type: string
+          minLength: 1
+        c:
+          type: string
+          minLength: 1
+      required:
+        - a
+        - b
+    ObjectPropContainsProps:
+      type: object
+      properties:
+        a:
+          type: object
+          properties:
+            a:
+              type: string
+              minLength: 1
+            b:
+              type: string
+              minLength: 1
+            c:
+              type: string
+              minLength: 1
+          required:
+            - a
+            - b
+    ArrayWithObjectWithPropsInItems:
+      type: array
+      items:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
+    ObjectWithObjectWithPropsInAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
   securitySchemes: {}

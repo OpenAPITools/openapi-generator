@@ -1,0 +1,586 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "for schemas with properties and required ensure correct hasVars, hasRequired, vars, and requiredVars"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /schemasInQueryParamsAndResponses:
+    post:
+      operationId: schemasInQueryParams
+      parameters:
+        - name: AnyTypeNoPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            description: "NoPropertiesNoRequired"
+        - name: AnyTypeHasPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            properties:
+              a:
+                type: string
+        - name: AnyTypeNoPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            required:
+              - a
+        - name: AnyTypeHasPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ObjectNoPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            type: object
+        - name: ObjectHasPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              a:
+                type: string
+        - name: ObjectNoPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            type: object
+            required:
+              - a
+        - name: ObjectHasPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            type: object
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedNoAllofPropsNoPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+        - name: ComposedNoAllofPropsHasPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            properties:
+              a:
+                type: string
+        - name: ComposedNoAllofPropsNoPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            required:
+              - a
+        - name: ComposedNoAllofPropsHasPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/EmptyObject'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofOptPropNoPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+        - name: ComposedHasAllofOptPropHasPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofOptPropNoPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            required:
+              - a
+        - name: ComposedHasAllofOptPropHasPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithOptionalB'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofReqPropNoPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+        - name: ComposedHasAllofReqPropHasPropertiesNoRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            properties:
+              a:
+                type: string
+        - name: ComposedHasAllofReqPropNoPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            required:
+              - a
+        - name: ComposedHasAllofReqPropHasPropertiesHasRequired
+          in: query
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ObjectWithRequiredB'
+            required:
+              - a
+            properties:
+              a:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: AnyTypeNoPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                description: "NoPropertiesNoRequired"
+        201:
+          description: AnyTypeHasPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                properties:
+                  a:
+                    type: string
+        202:
+          description: AnyTypeNoPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                required:
+                  - a
+        203:
+          description: AnyTypeHasPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                required:
+                  - a
+                properties:
+                  a:
+                    type: string
+        210:
+          description: ObjectNoPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                type: object
+        211:
+          description: ObjectHasPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  a:
+                    type: string
+        212:
+          description: ObjectNoPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - a
+        213:
+          description: ObjectHasPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - a
+                properties:
+                  a:
+                    type: string
+        220:
+          description: ComposedNoAllofPropsNoPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/EmptyObject'
+        221:
+          description: ComposedNoAllofPropsHasPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/EmptyObject'
+                properties:
+                  a:
+                    type: string
+        222:
+          description: ComposedNoAllofPropsNoPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/EmptyObject'
+                required:
+                  - a
+        223:
+          description: ComposedNoAllofPropsHasPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/EmptyObject'
+                required:
+                  - a
+                properties:
+                  a:
+                    type: string
+        230:
+          description: ComposedHasAllofOptPropNoPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithOptionalB'
+        231:
+          description: ComposedHasAllofOptPropHasPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithOptionalB'
+                properties:
+                  a:
+                    type: string
+        232:
+          description: ComposedHasAllofOptPropNoPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithOptionalB'
+                required:
+                  - a
+        233:
+          description: ComposedHasAllofOptPropHasPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithOptionalB'
+                required:
+                  - a
+                properties:
+                  a:
+                    type: string
+        240:
+          description: ComposedHasAllofReqPropNoPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithRequiredB'
+        241:
+          description: ComposedHasAllofReqPropHasPropertiesNoRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithRequiredB'
+                properties:
+                  a:
+                    type: string
+        242:
+          description: ComposedHasAllofReqPropNoPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithRequiredB'
+                required:
+                  - a
+        243:
+          description: ComposedHasAllofReqPropHasPropertiesHasRequired
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectWithRequiredB'
+                required:
+                  - a
+                properties:
+                  a:
+                    type: string
+components:
+  schemas:
+    EmptyObject:
+      type: object
+    ObjectWithOptionalB:
+      type: object
+      properties:
+        b:
+          type: string
+    ObjectWithRequiredB:
+      type: object
+      properties:
+        b:
+          type: string
+      required:
+        - b
+    AnyTypeNoPropertiesNoRequired:
+      description: "NoPropertiesNoRequired"
+    AnyTypeHasPropertiesNoRequired:
+      properties:
+        a:
+          type: string
+    AnyTypeNoPropertiesHasRequired:
+      required:
+        - a
+    AnyTypeHasPropertiesHasRequired:
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ObjectNoPropertiesNoRequired:
+      type: object
+    ObjectHasPropertiesNoRequired:
+      type: object
+      properties:
+        a:
+          type: string
+    ObjectNoPropertiesHasRequired:
+      type: object
+      required:
+        - a
+    ObjectHasPropertiesHasRequired:
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedNoAllofPropsNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+    ComposedNoAllofPropsHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      properties:
+        a:
+          type: string
+    ComposedNoAllofPropsNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      required:
+        - a
+    ComposedNoAllofPropsHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/EmptyObject'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedHasAllofOptPropNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+    ComposedHasAllofOptPropHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      properties:
+        a:
+          type: string
+    ComposedHasAllofOptPropNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      required:
+        - a
+    ComposedHasAllofOptPropHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalB'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ComposedHasAllofReqPropNoPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+    ComposedHasAllofReqPropHasPropertiesNoRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+      properties:
+        a:
+          type: string
+    ComposedHasAllofReqPropNoPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+      required:
+        - a
+    ComposedHasAllofReqPropHasPropertiesHasRequired:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredB'
+      type: object
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    CodegenPropertiesModel:
+      description: "this model lets us check CodegenProperty.vars/requiredVars/hasVars/hasRequired"
+      type: object
+      properties:
+        AnyTypeNoPropertiesNoRequired:
+          description: "NoPropertiesNoRequired"
+        AnyTypeHasPropertiesNoRequired:
+          properties:
+            a:
+              type: string
+        AnyTypeNoPropertiesHasRequired:
+          required:
+            - a
+        AnyTypeHasPropertiesHasRequired:
+          required:
+            - a
+          properties:
+            a:
+              type: string
+        ObjectNoPropertiesNoRequired:
+          type: object
+        ObjectHasPropertiesNoRequired:
+          type: object
+          properties:
+            a:
+              type: string
+        ObjectNoPropertiesHasRequired:
+          type: object
+          required:
+            - a
+        ObjectHasPropertiesHasRequired:
+          type: object
+          required:
+            - a
+          properties:
+            a:
+              type: string
+        ComposedNoAllofPropsNoPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/EmptyObject'
+        ComposedNoAllofPropsHasPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/EmptyObject'
+          properties:
+            a:
+              type: string
+        ComposedNoAllofPropsNoPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/EmptyObject'
+          required:
+            - a
+        ComposedNoAllofPropsHasPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/EmptyObject'
+          type: object
+          required:
+            - a
+          properties:
+            a:
+              type: string
+        ComposedHasAllofOptPropNoPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithOptionalB'
+        ComposedHasAllofOptPropHasPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithOptionalB'
+          properties:
+            a:
+              type: string
+        ComposedHasAllofOptPropNoPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithOptionalB'
+          required:
+            - a
+        ComposedHasAllofOptPropHasPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithOptionalB'
+          type: object
+          required:
+            - a
+          properties:
+            a:
+              type: string
+        ComposedHasAllofReqPropNoPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithRequiredB'
+        ComposedHasAllofReqPropHasPropertiesNoRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithRequiredB'
+          properties:
+            a:
+              type: string
+        ComposedHasAllofReqPropNoPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithRequiredB'
+          required:
+            - a
+        ComposedHasAllofReqPropHasPropertiesHasRequired:
+          allOf:
+            - $ref: '#/components/schemas/ObjectWithRequiredB'
+          type: object
+          required:
+            - a
+          properties:
+            a:
+              type: string
+  securitySchemes: {}

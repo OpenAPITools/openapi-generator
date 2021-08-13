@@ -24,8 +24,13 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -37,6 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
 
     protected String resourceFolder = "src/main/resources";
     protected String rootPackage = "org.openapitools.server.api";
@@ -60,6 +66,10 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         super();
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.DEPRECATED)
+            .build();
 
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "javaVertXServer";
@@ -133,6 +143,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        LOGGER.warn("IMPORTANT: This generator has been deprecated. Please use `java-vertx-web` instead");
 
         apiTestTemplateFiles.clear();
 

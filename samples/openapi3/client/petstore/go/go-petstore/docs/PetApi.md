@@ -35,7 +35,7 @@ import (
 )
 
 func main() {
-    pet := *openapiclient.NewPet("Name_example", []string{"PhotoUrls_example")) // Pet | Pet object that needs to be added to the store
+    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -97,7 +97,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | Pet id to delete
+    petId := int64(789) // int64 | Pet id to delete
     apiKey := "apiKey_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -192,7 +192,7 @@ Other parameters are passed through a pointer to a apiFindPetsByStatusRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[]string**](string.md) | Status values that need to be considered for filter | 
+ **status** | **[]string** | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -258,7 +258,7 @@ Other parameters are passed through a pointer to a apiFindPetsByTagsRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[]string**](string.md) | Tags to filter by | 
+ **tags** | **[]string** | Tags to filter by | 
 
 ### Return type
 
@@ -299,7 +299,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to return
+    petId := int64(789) // int64 | ID of pet to return
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -367,7 +367,7 @@ import (
 )
 
 func main() {
-    pet := *openapiclient.NewPet("Name_example", []string{"PhotoUrls_example")) // Pet | Pet object that needs to be added to the store
+    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -429,7 +429,7 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet that needs to be updated
+    petId := int64(789) // int64 | ID of pet that needs to be updated
     name := "name_example" // string | Updated name of the pet (optional)
     status := "status_example" // string | Updated status of the pet (optional)
 
@@ -499,9 +499,9 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
+    petId := int64(789) // int64 | ID of pet to update
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
-    file := 987 // *os.File | file to upload (optional)
+    file := os.NewFile(1234, "some_file") // *os.File | file to upload (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -571,8 +571,8 @@ import (
 )
 
 func main() {
-    petId := 987 // int64 | ID of pet to update
-    requiredFile := 987 // *os.File | file to upload
+    petId := int64(789) // int64 | ID of pet to update
+    requiredFile := os.NewFile(1234, "some_file") // *os.File | file to upload
     additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
 
     configuration := openapiclient.NewConfiguration()

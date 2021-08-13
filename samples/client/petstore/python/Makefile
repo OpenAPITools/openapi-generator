@@ -3,7 +3,7 @@
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
 SETUP_OUT=*.egg-info
-VENV=.venv
+VENV=venv
 
 clean:
 		rm -rf $(REQUIREMENTS_OUT)
@@ -15,7 +15,4 @@ clean:
 		find . -name "__pycache__" -delete
 
 test: clean
-		bash ./test_python2.sh
-
-test-all: clean
-		bash ./test_python2_and_3.sh
+		bash ./test_python.sh

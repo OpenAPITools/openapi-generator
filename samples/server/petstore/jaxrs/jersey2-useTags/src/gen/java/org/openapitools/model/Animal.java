@@ -33,9 +33,9 @@ import javax.validation.Valid;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 public class Animal   {
@@ -56,7 +56,7 @@ public class Animal   {
    * Get className
    * @return className
    **/
-  @JsonProperty("className")
+  @JsonProperty(value = "className")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getClassName() {
@@ -76,7 +76,7 @@ public class Animal   {
    * Get color
    * @return color
    **/
-  @JsonProperty("color")
+  @JsonProperty(value = "color")
   @ApiModelProperty(value = "")
   
   public String getColor() {

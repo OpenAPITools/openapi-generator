@@ -59,6 +59,7 @@ public class ComplexQuadrilateral {
    * Get shapeType
    * @return shapeType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -68,6 +69,8 @@ public class ComplexQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -82,6 +85,7 @@ public class ComplexQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -91,6 +95,8 @@ public class ComplexQuadrilateral {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
@@ -154,7 +160,6 @@ public class ComplexQuadrilateral {
   public int hashCode() {
     return Objects.hash(shapeType, quadrilateralType, additionalProperties);
   }
-
 
   @Override
   public String toString() {

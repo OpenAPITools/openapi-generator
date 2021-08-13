@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) const
+pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set
@@ -224,6 +224,10 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
         {{/bodyParam}}
     }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
     else
     {
         throw ApiException(415, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not consume any supported media type"));
@@ -296,7 +300,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     })
     .then([=](std::vector<unsigned char> localVarResponse)
     {
-        {{{returnType}}} localVarResult;
+        {{{returnType}}} localVarResult = std::make_shared<HttpContent>();
         std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(localVarResponse.begin(), localVarResponse.end()));
         localVarResult->setData(stream);
         return localVarResult;

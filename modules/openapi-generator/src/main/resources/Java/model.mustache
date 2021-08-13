@@ -6,13 +6,8 @@ package {{package}};
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 {{/useReflectionEqualsHashCode}}
-{{^supportJava6}}
 import java.util.Objects;
 import java.util.Arrays;
-{{/supportJava6}}
-{{#supportJava6}}
-import org.apache.commons.lang3.ObjectUtils;
-{{/supportJava6}}
 {{#imports}}
 import {{import}};
 {{/imports}}
@@ -28,6 +23,18 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 {{#withXml}}
 import javax.xml.bind.annotation.*;
 {{/withXml}}
+{{#jsonb}}
+import java.lang.reflect.Type;
+import javax.json.bind.annotation.JsonbTypeDeserializer;
+import javax.json.bind.annotation.JsonbTypeSerializer;
+import javax.json.bind.serializer.DeserializationContext;
+import javax.json.bind.serializer.JsonbDeserializer;
+import javax.json.bind.serializer.JsonbSerializer;
+import javax.json.bind.serializer.SerializationContext;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
+import javax.json.bind.annotation.JsonbProperty;
+{{/jsonb}}
 {{#parcelableModel}}
 import android.os.Parcelable;
 import android.os.Parcel;

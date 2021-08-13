@@ -49,6 +49,7 @@ public class DanishPig {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -58,6 +59,8 @@ public class DanishPig {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -82,7 +85,6 @@ public class DanishPig {
   public int hashCode() {
     return Objects.hash(className);
   }
-
 
   @Override
   public String toString() {

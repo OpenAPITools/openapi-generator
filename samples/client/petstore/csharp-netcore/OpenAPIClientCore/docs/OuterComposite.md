@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.OuterComposite
+
 ## Properties
 
 Name | Type | Description | Notes

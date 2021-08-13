@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -24,7 +25,6 @@ import com.typesafe.config.Config;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
-
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -36,28 +36,19 @@ public class StoreApiController extends Controller {
         this.configuration = configuration;
     }
 
-
     
     public Result deleteOrder(Http.Request request, String orderId) throws Exception {
-        imp.deleteOrder(request, orderId);
-        return ok();
+        return imp.deleteOrderHttp(request, orderId);
     }
 
     
     public Result getInventory(Http.Request request) throws Exception {
-        Map<String, Integer> obj = imp.getInventory(request);
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.getInventoryHttp(request);
     }
 
     
     public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-        Order obj = imp.getOrderById(request, orderId);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.getOrderByIdHttp(request, orderId);
     }
 
     
@@ -72,11 +63,7 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Order obj = imp.placeOrder(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.placeOrderHttp(request, body);
     }
+
 }

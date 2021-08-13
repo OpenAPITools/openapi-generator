@@ -45,7 +45,7 @@ feature -- Change Element
 
 feature -- Access
 
-   apply_to_params(a_query_params: LIST [TUPLE [name:STRING; value:STRING]]; a_header_params: STRING_TABLE [STRING])
+   apply_to_params(a_query_params: LIST [TUPLE [name:READABLE_STRING_8; value:READABLE_STRING_8]]; a_header_params: STRING_TABLE [READABLE_STRING_8])
    			-- <Precursor>.
    		local
    			l_value: STRING_32

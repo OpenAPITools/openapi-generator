@@ -80,9 +80,16 @@ $router->get('/v2/fake', 'FakeApi@testEnumParameters');
 $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 
 /**
+ * put testBodyWithBinary
+ * Summary: 
+ * Notes: For this test, the body has to be a binary file.
+ */
+$router->put('/v2/fake/body-with-binary', 'FakeApi@testBodyWithBinary');
+
+/**
  * put testBodyWithFileSchema
  * Summary: 
- * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * Notes: For this test, the body for this request must reference a schema named &#x60;File&#x60;.
  */
 $router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
 
@@ -148,6 +155,13 @@ $router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
  * Notes: Test serialization of outer string types
  */
 $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+
+/**
+ * post fakePropertyEnumIntegerSerialize
+ * Summary: 
+ * Notes: Test serialization of enum (int) properties with examples
+ */
+$router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSerialize');
 
 /**
  * put testQueryParameterCollectionFormat

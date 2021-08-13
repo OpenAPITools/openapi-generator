@@ -34,7 +34,7 @@ import java.util.List;
 
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
     public PhpClientCodegen() {
         super();

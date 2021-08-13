@@ -38,10 +38,10 @@ public interface PetApi  {
     @POST
     
     @Consumes({ "application/json", "application/xml" })
-    @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
+    @ApiOperation(value = "Add a new pet to the store", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(@Valid Pet body);
+    public void addPet(@Valid @NotNull Pet body);
 
     /**
      * Deletes a pet
@@ -49,7 +49,7 @@ public interface PetApi  {
      */
     @DELETE
     @Path("/{petId}")
-    @ApiOperation(value = "Deletes a pet", tags={ "pet",  })
+    @ApiOperation(value = "Deletes a pet", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
     public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")   String apiKey);
@@ -63,7 +63,7 @@ public interface PetApi  {
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Finds Pets by status", tags={ "pet",  })
+    @ApiOperation(value = "Finds Pets by status", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
@@ -78,7 +78,7 @@ public interface PetApi  {
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Finds Pets by tags", tags={ "pet",  })
+    @ApiOperation(value = "Finds Pets by tags", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
@@ -93,7 +93,7 @@ public interface PetApi  {
     @GET
     @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Find pet by ID", tags={ "pet",  })
+    @ApiOperation(value = "Find pet by ID", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -107,12 +107,12 @@ public interface PetApi  {
     @PUT
     
     @Consumes({ "application/json", "application/xml" })
-    @ApiOperation(value = "Update an existing pet", tags={ "pet",  })
+    @ApiOperation(value = "Update an existing pet", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(@Valid Pet body);
+    public void updatePet(@Valid @NotNull Pet body);
 
     /**
      * Updates a pet in the store with form data
@@ -121,7 +121,7 @@ public interface PetApi  {
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Updates a pet in the store with form data", tags={ "pet",  })
+    @ApiOperation(value = "Updates a pet in the store with form data", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
     public void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status);

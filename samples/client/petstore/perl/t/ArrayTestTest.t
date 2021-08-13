@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::ArrayTest');
 
-my $instance = WWW::OpenAPIClient::Object::ArrayTest->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::ArrayTest');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::ArrayTest->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::ArrayTest');
 

@@ -49,6 +49,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -58,6 +59,8 @@ public class TriangleInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }
@@ -82,7 +85,6 @@ public class TriangleInterface {
   public int hashCode() {
     return Objects.hash(triangleType);
   }
-
 
   @Override
   public String toString() {

@@ -16,7 +16,7 @@ import static org.openapitools.codegen.utils.StringUtils.escape;
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
@@ -48,7 +48,7 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    protected void initalizeSpecialCharacterMapping() {
+    protected void initializeSpecialCharacterMapping() {
         // escape only those symbols that can mess up markdown
         specialCharReplacements.put("\\", "\\\\");
         specialCharReplacements.put("/", "\\/");

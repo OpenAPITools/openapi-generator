@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CatAllOf   {
   @JsonProperty("declawed")
+  
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -23,7 +24,7 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

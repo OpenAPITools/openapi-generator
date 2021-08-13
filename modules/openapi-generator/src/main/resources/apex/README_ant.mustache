@@ -124,7 +124,7 @@ OAS.OAuth {{{name}}} = (OAS.OAuth) client.getAuthentication('{{{name}}}');
 
 Map<String, Object> params = new Map<String, Object>{
   {{#allParams}}
-    '{{{paramName}}}' => {{{example}}}{{#hasMore}},{{/hasMore}}
+    '{{{paramName}}}' => {{{example}}}{{^-last}},{{/-last}}
   {{/allParams}}
 };
 {{/hasParams}}
@@ -180,5 +180,5 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

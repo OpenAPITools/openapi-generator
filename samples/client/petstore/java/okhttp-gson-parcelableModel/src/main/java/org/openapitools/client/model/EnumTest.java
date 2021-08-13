@@ -31,7 +31,7 @@ import android.os.Parcel;
  * EnumTest
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class EnumTest {
+public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
    */
@@ -280,6 +280,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -381,7 +382,6 @@ public class EnumTest {
   public int hashCode() {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
-
 
   @Override
   public String toString() {

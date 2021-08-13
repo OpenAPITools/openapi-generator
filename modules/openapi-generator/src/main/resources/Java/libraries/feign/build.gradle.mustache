@@ -33,20 +33,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#supportJava6}}
-            sourceCompatibility JavaVersion.VERSION_1_6
-            targetCompatibility JavaVersion.VERSION_1_6
-            {{/supportJava6}}
-            {{^supportJava6}}
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
-            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -91,20 +79,8 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
 
-    {{#supportJava6}}
-    sourceCompatibility = JavaVersion.VERSION_1_6
-    targetCompatibility = JavaVersion.VERSION_1_6
-    {{/supportJava6}}
-    {{^supportJava6}}
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
-    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -116,6 +92,10 @@ if(hasProperty('target') && target == 'android') {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
+}
+
+test {
+    useJUnitPlatform()
 }
 
 ext {
@@ -130,34 +110,42 @@ ext {
     {{/threetenbp}}
     feign_version = "10.11"
     feign_form_version = "3.8.0"
-    junit_version = "4.13.1"
-    oltu_version = "1.0.1"
+    junit_version = "5.7.0"
+    scribejava_version = "8.0.0"
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "io.github.openfeign:feign-core:$feign_version"
-    compile "io.github.openfeign:feign-jackson:$feign_version"
-    compile "io.github.openfeign:feign-slf4j:$feign_version"
-    compile "io.github.openfeign.form:feign-form:$feign_form_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "io.github.openfeign:feign-core:$feign_version"
+    implementation "io.github.openfeign:feign-jackson:$feign_version"
+    implementation "io.github.openfeign:feign-slf4j:$feign_version"
+    implementation "io.github.openfeign:feign-okhttp:$feign_version"
+    implementation "io.github.openfeign.form:feign-form:$feign_form_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#openApiNullable}}
-    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     {{#joda}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
+    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
     {{/threetenbp}}
-    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
-    compile "com.brsanthu:migbase64:2.2"
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile "junit:junit:$junit_version"
+    implementation "com.brsanthu:migbase64:2.2"
+    implementation "com.github.scribejava:scribejava-core:$scribejava_version"
+    implementation "com.brsanthu:migbase64:2.2"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.2"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "commons-io:commons-io:2.8.0"
+    testImplementation "ch.qos.logback:logback-classic:1.2.3"
 }

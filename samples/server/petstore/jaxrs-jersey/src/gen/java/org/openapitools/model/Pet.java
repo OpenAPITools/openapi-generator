@@ -20,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -54,7 +56,7 @@ public class Pet   {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<String>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
@@ -106,7 +108,7 @@ public class Pet   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -126,7 +128,7 @@ public class Pet   {
    * Get category
    * @return category
    **/
-  @JsonProperty("category")
+  @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
   @Valid 
   public Category getCategory() {
@@ -146,7 +148,7 @@ public class Pet   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull 
   public String getName() {
@@ -157,7 +159,7 @@ public class Pet   {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -171,14 +173,14 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
    **/
-  @JsonProperty("photoUrls")
+  @JsonProperty(value = "photoUrls")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -199,7 +201,7 @@ public class Pet   {
    * Get tags
    * @return tags
    **/
-  @JsonProperty("tags")
+  @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
   @Valid 
   public List<Tag> getTags() {
@@ -219,7 +221,7 @@ public class Pet   {
    * pet status in the store
    * @return status
    **/
-  @JsonProperty("status")
+  @JsonProperty(value = "status")
   @ApiModelProperty(value = "pet status in the store")
   
   public StatusEnum getStatus() {

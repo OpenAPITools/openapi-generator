@@ -8,9 +8,9 @@ import akka.http.scaladsl.server.Directives._
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 
-class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{#hasMore}}, {{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: ActorMaterializer) {
+class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{^-last}}, {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: ActorMaterializer) {
 
-    lazy val routes: Route = {{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}.route {{#hasMore}}~ {{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}}
+    lazy val routes: Route = {{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}.route {{^-last}}~ {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}}
 
     Http().bindAndHandle(routes, "0.0.0.0", 9000)
 }

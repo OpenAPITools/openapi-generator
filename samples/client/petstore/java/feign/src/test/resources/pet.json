@@ -1,0 +1,18 @@
+{
+  "id": 85,
+  "category": {
+    "id": 1,
+    "name": "Dogs"
+  },
+  "name": "LvRcat",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 10,
+      "name": "tag"
+    }
+  ],
+  "status": "available"
+}

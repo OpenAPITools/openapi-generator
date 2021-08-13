@@ -58,6 +58,8 @@ public class ClassModel {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -79,7 +81,6 @@ public class ClassModel {
   public int hashCode() {
     return Objects.hash(propertyClass);
   }
-
 
   @Override
   public String toString() {

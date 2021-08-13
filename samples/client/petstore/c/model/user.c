@@ -37,12 +37,30 @@ void user_free(user_t *user) {
         return ;
     }
     listEntry_t *listEntry;
-    free(user->username);
-    free(user->first_name);
-    free(user->last_name);
-    free(user->email);
-    free(user->password);
-    free(user->phone);
+    if (user->username) {
+        free(user->username);
+        user->username = NULL;
+    }
+    if (user->first_name) {
+        free(user->first_name);
+        user->first_name = NULL;
+    }
+    if (user->last_name) {
+        free(user->last_name);
+        user->last_name = NULL;
+    }
+    if (user->email) {
+        free(user->email);
+        user->email = NULL;
+    }
+    if (user->password) {
+        free(user->password);
+        user->password = NULL;
+    }
+    if (user->phone) {
+        free(user->phone);
+        user->phone = NULL;
+    }
     free(user);
 }
 

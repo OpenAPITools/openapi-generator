@@ -1,194 +1,210 @@
 package org.openapitools.client.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.matching.MultipartValuePatternBuilder;
+import com.google.common.collect.Sets;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
-import java.io.File;
-import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * API tests for PetApi
+ * API tests for PetAp
  */
-public class PetApiTest {
+class PetApiTest {
 
-    private PetApi api;
+  private static PetApi api;
 
-    @Before
-    public void setup() {
-        api = new ApiClient().buildClient(PetApi.class);
-    }
+  private static WireMockServer wm = new WireMockServer(options().dynamicPort());
+  private static String petJson;
+  private static String petListJson;
 
-    
-    /**
-     * Add a new pet to the store
-     *
-     * 
-     */
-    @Test
-    public void addPetTest() {
-        Pet body = null;
-        // api.addPet(body);
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-        // TODO: test validations
-    }
+  @BeforeAll
+  static void setup() throws IOException {
+    wm.start();
 
-    
-    /**
-     * Deletes a pet
-     *
-     * 
-     */
-    @Test
-    public void deletePetTest() {
-        Long petId = null;
-        String apiKey = null;
-        // api.deletePet(petId, apiKey);
+    ApiClient apiClient = new ApiClient();
+    apiClient.setBasePath(wm.baseUrl());
+    api = apiClient.buildClient(PetApi.class);
 
-        // TODO: test validations
-    }
+    petJson = IOUtils.toString(PetApiTest.class.getResourceAsStream("/pet.json"), "UTF-8");
+    petListJson = IOUtils.toString(PetApiTest.class.getResourceAsStream("/pet_list.json"), "UTF-8");
+  }
 
-    
-    /**
-     * Finds Pets by status
-     *
-     * Multiple status values can be provided with comma separated strings
-     */
-    @Test
-    public void findPetsByStatusTest() {
-        List<String> status = null;
-        // List<Pet> response = api.findPetsByStatus(status);
+  @AfterAll
+  static void shutdown() {
+    wm.shutdown();
+  }
 
-        // TODO: test validations
-    }
+  @Test
+  void addPet() throws JsonProcessingException {
+    wm.stubFor(post(urlEqualTo("/pet"))
+            .willReturn(aResponse().withBody(petJson)));
 
-    /**
-     * Finds Pets by status
-     *
-     * Multiple status values can be provided with comma separated strings
-     *
-     * This tests the overload of the method that uses a Map for query parameters instead of
-     * listing them out individually.
-     */
-    @Test
-    public void findPetsByStatusTestQueryMap() {
-        PetApi.FindPetsByStatusQueryParams queryParams = new PetApi.FindPetsByStatusQueryParams()
-            .status(null);
-        // List<Pet> response = api.findPetsByStatus(queryParams);
+    Pet pet = objectMapper.readValue(petJson, Pet.class);
 
-    // TODO: test validations
-    }
-    
-    /**
-     * Finds Pets by tags
-     *
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     */
-    @Test
-    public void findPetsByTagsTest() {
-        Set<String> tags = null;
-        // Set<Pet> response = api.findPetsByTags(tags);
+    api.addPet(pet);
 
-        // TODO: test validations
-    }
+    wm.verify(postRequestedFor(urlEqualTo("/pet"))
+            .withHeader("Content-Type", equalTo("application/json"))
+            .withHeader("Accept", equalTo("application/json"))
+            .withRequestBody(equalToJson(petJson)));
+  }
 
-    /**
-     * Finds Pets by tags
-     *
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     *
-     * This tests the overload of the method that uses a Map for query parameters instead of
-     * listing them out individually.
-     */
-    @Test
-    public void findPetsByTagsTestQueryMap() {
-        PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
-            .tags(null);
-        // Set<Pet> response = api.findPetsByTags(queryParams);
+  @Test
+  void deletedPet() {
+    wm.stubFor(delete(urlEqualTo("/pet/85"))
+            .willReturn(aResponse()));
 
-    // TODO: test validations
-    }
-    
-    /**
-     * Find pet by ID
-     *
-     * Returns a single pet
-     */
-    @Test
-    public void getPetByIdTest() {
-        Long petId = null;
-        // Pet response = api.getPetById(petId);
+    api.deletePet(85L, "API_KEY");
 
-        // TODO: test validations
-    }
+    wm.verify(deleteRequestedFor(urlEqualTo("/pet/85"))
+            .withHeader("api_key", equalTo("API_KEY"))
+            .withHeader("Accept", equalTo("application/json")));
+  }
 
-    
-    /**
-     * Update an existing pet
-     *
-     * 
-     */
-    @Test
-    public void updatePetTest() {
-        Pet body = null;
-        // api.updatePet(body);
+  @Test
+  void findPetsByStatus() {
+    wm.stubFor(get(urlEqualTo("/pet/findByStatus?status=available&status=sold"))
+            .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(petListJson)));
 
-        // TODO: test validations
-    }
+    List<Pet> petList = api.findPetsByStatus(Arrays.asList("available", "sold"));
+    assertThat(petList.size(), is(2));
 
-    
-    /**
-     * Updates a pet in the store with form data
-     *
-     * 
-     */
-    @Test
-    public void updatePetWithFormTest() {
-        Long petId = null;
-        String name = null;
-        String status = null;
-        // api.updatePetWithForm(petId, name, status);
+    validatePet1(petList.get(0));
+    validatePet2(petList.get(1));
+  }
 
-        // TODO: test validations
-    }
+  @Test
+  void findPetsByStatusQueryMap() {
+    wm.stubFor(get(urlEqualTo("/pet/findByStatus?status=available,sold"))
+            .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(petListJson)));
 
-    
-    /**
-     * uploads an image
-     *
-     * 
-     */
-    @Test
-    public void uploadFileTest() {
-        Long petId = null;
-        String additionalMetadata = null;
-        File file = null;
-        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+    PetApi.FindPetsByStatusQueryParams findPetsByStatusQueryParams = new PetApi.FindPetsByStatusQueryParams();
+    findPetsByStatusQueryParams.status(Arrays.asList("available", "sold"));
 
-        // TODO: test validations
-    }
+    List<Pet> petList = api.findPetsByStatus(findPetsByStatusQueryParams);
+    assertThat(petList.size(), is(2));
 
-    
-    /**
-     * uploads an image (required)
-     *
-     * 
-     */
-    @Test
-    public void uploadFileWithRequiredFileTest() {
-        Long petId = null;
-        File requiredFile = null;
-        String additionalMetadata = null;
-        // ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+    validatePet1(petList.get(0));
+    validatePet2(petList.get(1));
+  }
 
-        // TODO: test validations
-    }
+  @Test
+  void findPetsByTags() {
+    wm.stubFor(get(urlEqualTo("/pet/findByTags?tags=tag1&tags=tag2"))
+            .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(petListJson)));
 
-    
+    Set<Pet> petList = api.findPetsByTags(Sets.newHashSet("tag1", "tag2"));
+    assertThat(petList.size(), is(2));
+  }
+
+  @Test
+  void getPetById() {
+    wm.stubFor(get(urlEqualTo("/pet/85"))
+            .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(petJson)));
+
+    Pet pet = api.getPetById(85L);
+
+    validatePet1(pet);
+  }
+
+  @Test
+  void updatePet() throws JsonProcessingException {
+    wm.stubFor(put(urlEqualTo("/pet"))
+            .willReturn(aResponse()
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(petJson)));
+
+    Pet pet = objectMapper.readValue(petJson, Pet.class);
+    api.updatePet(pet);
+
+    wm.verify(putRequestedFor(urlEqualTo("/pet"))
+            .withHeader("Accept", equalTo("application/json"))
+            .withHeader("Content-Type", equalTo("application/json"))
+            .withRequestBody(equalToJson(petJson)));
+  }
+
+  @Test
+  void updatePetWithForm() {
+    wm.stubFor(post(anyUrl()).willReturn(aResponse()));
+
+    api.updatePetWithForm(85L, "Rex", "sold");
+
+    wm.verify(postRequestedFor(urlEqualTo("/pet/85"))
+            .withHeader("Accept", equalTo("application/json"))
+            .withHeader("Content-Type", containing("application/x-www-form-urlencoded"))
+            .withRequestBody(containing("name=Rex"))
+            .withRequestBody(containing("status=sold")));
+  }
+
+  @Test
+  void uploadFile() throws IOException {
+    wm.stubFor(post("/pet/85/uploadImage").willReturn(aResponse()));
+    File file = File.createTempFile("test", ".tmp");
+    IOUtils.write("ABCD".getBytes(), new FileOutputStream(file));
+
+    api.uploadFile(85L, "metadata", file);
+
+    wm.verify(postRequestedFor(urlEqualTo("/pet/85/uploadImage"))
+            .withHeader("Content-Type", containing("multipart/form-data"))
+            .withHeader("Accept", containing("application/json"))
+            .withRequestBodyPart(new MultipartValuePatternBuilder()
+                    .withName("additionalMetadata").build())
+            .withRequestBodyPart(new MultipartValuePatternBuilder()
+                    .withName("file").withBody(binaryEqualTo("ABCD".getBytes())).build())
+    );
+  }
+
+  private void validatePet1(Pet pet) {
+    assertThat(pet.getId(), is(85L));
+    assertThat(pet.getCategory().getName(), is("Dogs"));
+    assertThat(pet.getCategory().getId(), is(1L));
+    assertThat(pet.getName(), is("LvRcat"));
+    assertThat(pet.getPhotoUrls().size(), is(1));
+    assertThat(pet.getPhotoUrls().stream().findAny().get(), is("string"));
+    assertThat(pet.getTags().size(), is(1));
+    assertThat(pet.getTags().get(0).getId(), is(10L));
+    assertThat(pet.getTags().get(0).getName(), is("tag"));
+    assertThat(pet.getStatus(), is(Pet.StatusEnum.AVAILABLE));
+  }
+
+  private void validatePet2(Pet pet) {
+    assertThat(pet.getId(), is(42L));
+    assertThat(pet.getCategory().getName(), is("Dogs"));
+    assertThat(pet.getCategory().getId(), is(1L));
+    assertThat(pet.getName(), is("Louise"));
+    assertThat(pet.getPhotoUrls().size(), is(1));
+    assertThat(pet.getPhotoUrls().stream().findAny().get(), is("photo"));
+    assertThat(pet.getTags().size(), is(1));
+    assertThat(pet.getTags().get(0).getId(), is(0L));
+    assertThat(pet.getTags().get(0).getName(), is("obedient"));
+    assertThat(pet.getStatus(), is(Pet.StatusEnum.SOLD));
+  }
 }

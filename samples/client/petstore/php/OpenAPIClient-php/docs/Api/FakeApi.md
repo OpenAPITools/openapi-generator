@@ -10,6 +10,8 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize()**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+[**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel()**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -355,6 +357,117 @@ No authorization required
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `fakePropertyEnumIntegerSerialize()`
+
+```php
+fakePropertyEnumIntegerSerialize($outer_object_with_enum_property): \OpenAPI\Client\Model\OuterObjectWithEnumProperty
+```
+
+
+
+Test serialization of enum (int) properties with examples
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$outer_object_with_enum_property = new \OpenAPI\Client\Model\OuterObjectWithEnumProperty(); // \OpenAPI\Client\Model\OuterObjectWithEnumProperty | Input enum (int) as post body
+
+try {
+    $result = $apiInstance->fakePropertyEnumIntegerSerialize($outer_object_with_enum_property);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakePropertyEnumIntegerSerialize: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **outer_object_with_enum_property** | [**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)| Input enum (int) as post body |
+
+### Return type
+
+[**\OpenAPI\Client\Model\OuterObjectWithEnumProperty**](../Model/OuterObjectWithEnumProperty.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testBodyWithBinary()`
+
+```php
+testBodyWithBinary($body)
+```
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$body = "/path/to/file.txt"; // \SplFileObject | image to upload
+
+try {
+    $apiInstance->testBodyWithBinary($body);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testBodyWithBinary: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **\SplFileObject****\SplFileObject**| image to upload |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `image/png`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `testBodyWithFileSchema()`
 
 ```php
@@ -363,7 +476,7 @@ testBodyWithFileSchema($file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 
@@ -769,7 +882,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
+$request_body = array('key' => 'request_body_example'); // array<string,string> | request body
 
 try {
     $apiInstance->testInlineAdditionalProperties($request_body);
@@ -782,7 +895,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**map[string,string]**](../Model/string.md)| request body |
+ **request_body** | [**array<string,string>**](../Model/string.md)| request body |
 
 ### Return type
 

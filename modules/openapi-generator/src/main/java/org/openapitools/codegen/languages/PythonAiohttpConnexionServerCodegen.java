@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.util.EnumSet;
 
 public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {
         super("python-aiohttp", true);

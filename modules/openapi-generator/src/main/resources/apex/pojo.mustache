@@ -68,8 +68,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     public Boolean equals(Object obj) {
         if (obj instanceof {{classname}}) {           {{#hasVars}}
             {{classname}} {{classVarName}} = ({{classname}}) obj;
-            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{#hasMore}}
-                && {{/hasMore}}{{/vars}};{{/hasVars}}{{^hasVars}}
+            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{^-last}}
+                && {{/-last}}{{/vars}};{{/hasVars}}{{^hasVars}}
                 return true;{{/hasVars}}
         }
         return false;

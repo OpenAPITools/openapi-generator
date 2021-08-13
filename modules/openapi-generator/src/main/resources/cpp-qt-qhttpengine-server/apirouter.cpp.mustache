@@ -1,0 +1,85 @@
+{{>licenseInfo}}
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariantMap>
+
+
+#include "{{prefix}}ApiRouter.h"
+{{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}Request.h"
+{{/operations}}{{/apis}}{{/apiInfo}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{prefix}}ApiRouter::{{prefix}}ApiRouter() {
+    createApiHandlers();
+}
+
+{{prefix}}ApiRouter::~{{prefix}}ApiRouter(){
+
+}
+
+void {{prefix}}ApiRouter::createApiHandlers() { {{#apiInfo}}{{#apis}}
+    m{{classname}}Handler = QSharedPointer<{{classname}}Handler>::create();{{/apis}}{{/apiInfo}}
+}
+
+{{#apiInfo}}{{#apis}}
+void {{prefix}}ApiRouter::set{{classname}}Handler(QSharedPointer<{{classname}}Handler> handler){
+    m{{classname}}Handler = handler;
+}{{/apis}}{{/apiInfo}}
+
+void {{prefix}}ApiRouter::setUpRoutes() {
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^hasPathParams}}
+    Routes.insert(QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower(), [this](QHttpEngine::Socket *socket) {
+            auto reqObj = new {{classname}}Request(socket, m{{classname}}Handler);
+            reqObj->{{nickname}}Request();
+    });{{/hasPathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
+
+void {{prefix}}ApiRouter::processRequest(QHttpEngine::Socket *socket){
+    if( handleRequest(socket) ){
+        return;
+    }
+    if( handleRequestAndExtractPathParam(socket) ){
+        return;
+    }
+    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    if(socket->isOpen()){
+        socket->writeHeaders();
+        socket->close();
+    }
+}
+
+bool {{prefix}}ApiRouter::handleRequest(QHttpEngine::Socket *socket){
+    auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();
+    if ( Routes.contains(reqPath) ) {
+        Routes.value(reqPath).operator()(socket);
+        return true;
+    }
+    return false;
+}
+
+bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket){
+    auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasPathParams}}
+    {
+        auto completePath = QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
+            if ( match.hasMatch() ){
+                {{#pathParams}}
+                QString {{baseName}} = match.captured(QString("{{baseName}}").toLower());
+                {{/pathParams}}
+                auto reqObj = new {{classname}}Request(socket, m{{classname}}Handler);
+                reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{^-last}}, {{/-last}}{{/pathParams}});
+                return true;
+            }
+        }
+    }{{/hasPathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    return false;
+}
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

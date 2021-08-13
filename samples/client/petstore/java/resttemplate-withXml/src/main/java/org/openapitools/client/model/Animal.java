@@ -70,6 +70,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -80,6 +81,9 @@ public class Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -106,6 +110,9 @@ public class Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "color")
   public void setColor(String color) {
     this.color = color;
   }
@@ -128,7 +135,6 @@ public class Animal {
   public int hashCode() {
     return Objects.hash(className, color);
   }
-
 
   @Override
   public String toString() {

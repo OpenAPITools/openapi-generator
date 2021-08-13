@@ -125,7 +125,6 @@ public class BigCatAllOf {
     return Objects.hash(kind);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -22,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: GsonBuilder = Serializer.gsonBuilder
+    private val serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
+    private val okHttpClient : OkHttpClient? = null
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -33,7 +34,7 @@ class ApiClient(
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(serializerBuilder.create()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-    }
+                }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {
         okHttpClientBuilder ?: defaultClientBuilder
@@ -74,7 +75,7 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
-        authName: String, 
+        authName: String,
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         setBearerToken(bearerToken)
@@ -84,8 +85,8 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
-        authName: String, 
-        username: String, 
+        authName: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         setCredentials(username, password)
@@ -95,10 +96,10 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         getTokenEndPoint()
@@ -226,7 +227,8 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        val usedClient = this.okHttpClient ?: clientBuilder.build()
+        return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
@@ -244,7 +246,7 @@ class ApiClient(
         }
     }
 
-    companion object {        
+    companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io:80/v2")

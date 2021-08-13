@@ -105,15 +105,15 @@ ext {
 }
 
 dependencies {
-    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "io.rest-assured:rest-assured:$rest_assured_version"
-    compile "io.gsonfire:gson-fire:$gson_fire_version"
-    compile 'com.google.code.gson:gson:$gson_version'
-    compile "org.threeten:threetenbp:$threetenbp_version"
-    compile "com.squareup.okio:okio:$okio_version"
-    compile "javax.validation:validation-api:2.0.1.Final"
-    compile "org.hibernate:hibernate-validator:6.0.19.Final"
-    compile 'javax.annotation:javax.annotation-api:1.3.2'
-    testCompile "junit:junit:$junit_version"
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "io.rest-assured:rest-assured:$rest_assured_version"
+    implementation "io.gsonfire:gson-fire:$gson_fire_version"
+    implementation 'com.google.code.gson:gson:$gson_version'
+    implementation "org.threeten:threetenbp:$threetenbp_version"
+    implementation "com.squareup.okio:okio:$okio_version"
+    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation "org.hibernate:hibernate-validator:6.0.19.Final"
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation "junit:junit:$junit_version"
 }

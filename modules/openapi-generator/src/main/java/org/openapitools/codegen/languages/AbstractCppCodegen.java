@@ -19,8 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariables;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.CodegenServer;
+import org.openapitools.codegen.CodegenServerVariable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
@@ -34,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +49,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
@@ -189,6 +196,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String toEnumValue(String value, String datatype) {
+        return escapeText(value);
+    }
+
+    @Override
     public String toVarName(String name) {
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
@@ -225,7 +237,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toOperationId(String operationId) {
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + escapeReservedWord(operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, escapeReservedWord(operationId));
             return escapeReservedWord(operationId);
         }
         return sanitizeName(super.toOperationId(operationId));
@@ -263,6 +275,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
@@ -272,6 +285,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return "std::shared_ptr<" + toModelName(str) + ">";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -317,16 +331,20 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        List<Server> serverList = openAPI.getServers();
+        List<CodegenServer> CodegenServerList = new ArrayList<CodegenServer>();
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
@@ -340,6 +358,28 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         if (!scheme.isEmpty()) {
             this.additionalProperties.put("scheme", scheme);
+        }
+        if (!serverList.isEmpty()) {
+            for (Server server : serverList) {
+                CodegenServer s = new CodegenServer();
+                s.description = server.getDescription();
+                s.url = server.getUrl();
+                s.variables = new ArrayList<CodegenServerVariable>();
+                ServerVariables serverVars = server.getVariables();
+                if(serverVars != null){
+                serverVars.forEach((key,value) -> {
+                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
+                    ServerVariable ServerVar = value;
+                    codegenServerVar.name = key;
+                    codegenServerVar.description = ServerVar.getDescription();
+                    codegenServerVar.defaultValue = ServerVar.getDefault();
+                    codegenServerVar.enumValues = ServerVar.getEnum();
+                    s.variables.add(codegenServerVar);
+                    });
+                }
+                CodegenServerList.add(s);
+            }
+            this.vendorExtensions.put("x-cpp-global-server-list", CodegenServerList);
         }
     }
 

@@ -29,7 +29,6 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
@@ -176,6 +175,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -186,6 +186,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "cpp-restbed-server";
     }
@@ -196,6 +197,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a C++ API Server with Restbed (https://github.com/Corvusoft/restbed).";
     }
@@ -229,6 +231,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }

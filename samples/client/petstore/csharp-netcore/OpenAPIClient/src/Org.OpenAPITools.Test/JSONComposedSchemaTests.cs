@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Test
         /// Test GetServerUrl
         /// </summary>
         [Fact]
-        public void testOneOfSchemaAdditionalProperties()
+        public void TestOneOfSchemaAdditionalProperties()
         {
             // TODO
         }
@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Test
         /// Test GetServerUrl
         /// </summary>
         [Fact]
-        public void testOneOfSchemaWithDiscriminator()
+        public void TestOneOfSchemaWithDiscriminator()
         {
             // Mammal can be one of whale, pig and zebra.
             // pig has sub-classes.
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Test
             Mammal m = Mammal.FromJson(str);
             Assert.NotNull(m);
             Assert.IsType<Whale>(m.ActualInstance);
-            
+
             String str2 = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
             Mammal m2 = Mammal.FromJson(str2);
             Assert.NotNull(m2);
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Test
         /// Test Fruit
         /// </summary>
         [Fact]
-        public void testFruit()
+        public void TestFruit()
         {
             Apple a = new Apple();
             a.Origin = "Japan";
@@ -81,19 +81,107 @@ namespace Org.OpenAPITools.Test
 
             Assert.Equal("{\"lengthCm\":13.0}", f1.ToJson());
             Assert.Equal("{\"origin\":\"Japan\"}", f2.ToJson());
+        }
 
-            Fruit f3 = Fruit.FromJson("{\"lengthCm\":98}");
-            Assert.IsType<Banana>(f3.ActualInstance);
+        /// <summary>
+        /// Test Fruit with JSON payload matching both Apple and Banana
+        /// </summary>
+        [Fact]
+        public void TestFruitWithPayloadMatchingMoreThanOne()
+        {
+            // more than 1 match
+            Assert.Throws<InvalidDataException>(() => Fruit.FromJson("{\"origin\":\"Japan\"}"));
+            Assert.Throws<InvalidDataException>(() => Fruit.FromJson("{\"lengthCm\":98}"));
+        }
 
-            Fruit f4 = Fruit.FromJson("{\"origin\":\"Japan\"}");
-            Assert.IsType<Apple>(f4.ActualInstance);
+        /// <summary>
+        /// Apple Properties tests
+        /// </summary>
+        [Fact]
+        public void TestAppleProperties()
+        {
+            Assert.NotNull(typeof(Apple).GetProperty("Origin"));
+            Assert.NotNull(typeof(Apple).GetProperty("AdditionalProperties"));
+        }
 
-            // test custom deserializer
-            Fruit f5 = JsonConvert.DeserializeObject<Fruit>("{\"lengthCm\":98}");
-            Assert.IsType<Banana>(f5.ActualInstance);
+        /// <summary>
+        /// Apple tests
+        /// </summary>
+        [Fact]
+        public void TestApple()
+        {
+            Apple a = JsonConvert.DeserializeObject<Apple>("{\"origin\":\"Japan\"}", Fruit.AdditionalPropertiesSerializerSettings);
+            Assert.Equal("{\"origin\":\"Japan\"}", JsonConvert.SerializeObject(a));
+        }
 
-            // test custom serializer
-            Assert.Equal("{\"lengthCm\":98.0}", JsonConvert.SerializeObject(f5));
+        /// <summary>
+        /// Banana tests
+        /// </summary>
+        [Fact]
+        public void TestBanana()
+        {
+            Banana a = JsonConvert.DeserializeObject<Banana>("{\"lengthCm\":98}", Fruit.AdditionalPropertiesSerializerSettings);
+            Assert.Equal("{\"lengthCm\":98.0}", JsonConvert.SerializeObject(a));
+        }
+
+        /// <summary>
+        /// ReadOnly property tests
+        /// </summary>
+        [Fact]
+        public void TestReadOnlyFruit()
+        {
+            ReadOnlyFirst r = JsonConvert.DeserializeObject<ReadOnlyFirst>("{\"baz\":\"from json gaz\",\"bar\":\"from json bar\"}");
+            Assert.Equal("from json bar", r.Bar);
+            Assert.Equal("{\"baz\":\"from json gaz\"}", JsonConvert.SerializeObject(r));
+        }
+
+        /// <summary>
+        /// Cat property tests
+        /// </summary>
+        [Fact]
+        public void TestCat()
+        {
+            // test to ensure both Cat and Animal (parent) can have "AdditionalProperties", which result in warnings
+            Cat c = JsonConvert.DeserializeObject<Cat>("{\"className\":\"cat\",\"bar\":\"from json bar\"}");
+            Assert.Equal("from json bar", c.AdditionalProperties["bar"]);
+
+            Cat c2 = new Cat();
+            c2.Color = "red";
+            c2.Declawed = false;
+            Assert.Equal("{\"declawed\":false,\"className\":\"Cat\",\"color\":\"red\"}", JsonConvert.SerializeObject(c2));
+        }
+
+        /// <summary>
+        /// Test additonal properties
+        /// </summary>
+        [Fact]
+        public void TestAdditionalProperties()
+        {
+            Foo f = new Foo();
+            Assert.NotNull(f.GetType().GetProperty("AdditionalProperties"));
+            Assert.Null(f.GetType().GetProperty("unknown_property"));
+        }
+
+        /// <summary>
+        /// Test OuterEnumInteger
+        /// </summary>
+        [Fact]
+        public void OuterEnumIntegerInstanceTest()
+        {
+            OuterEnumInteger instance = OuterEnumInteger.NUMBER_1;
+            Assert.Equal(1, (int)instance);
+        }
+
+        /// <summary>
+        /// Test inner enum integer
+        /// </summary>
+        [Fact]
+        public void InnerEnumIntegerInstanceTest()
+        {
+            EnumTest enumTest = new EnumTest();
+            enumTest.EnumIntegerOnly = EnumTest.EnumIntegerOnlyEnum.NUMBER_2;
+            enumTest.EnumInteger = EnumTest.EnumIntegerEnum.NUMBER_MINUS_1;
+            Assert.Equal("{\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
         }
     }
 }

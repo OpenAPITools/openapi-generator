@@ -138,31 +138,52 @@ namespace Org.OpenAPITools.Model
         public static Pig FromJson(string jsonString)
         {
             Pig newPig = null;
+
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return newPig;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(BasquePig).GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<BasquePig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("BasquePig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BasquePig: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into BasquePig: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(DanishPig).GetProperty("AdditionalProperties") == null)
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.SerializerSettings));
+                }
+                else
+                {
+                    newPig = new Pig(JsonConvert.DeserializeObject<DanishPig>(jsonString, Pig.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("DanishPig");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into DanishPig: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into DanishPig: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -173,7 +194,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newPig;
         }
@@ -237,7 +258,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Pig).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Pig).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -250,7 +271,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Pig.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

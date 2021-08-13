@@ -184,6 +184,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
 
+    public static final String OPTIONAL_CONDITIONAL_SERIALIZATION = "conditionalSerialization";
+    public static final String OPTIONAL_CONDITIONAL_SERIALIZATION_DESC = "Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.";
+
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
@@ -205,11 +208,19 @@ public class CodegenConstants {
     public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
     public static final String MODEL_PROPERTY_NAMING_DESC = "Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
 
+    public static final String PARAM_NAMING = "paramNaming";
+    public static final String PARAM_NAMING_DESC = "Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
+
     public static final String DOTNET_FRAMEWORK = "targetFramework";
-    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
+    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`";
+
+    public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
+    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.";
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
+    public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
@@ -226,7 +237,7 @@ public class CodegenConstants {
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
 
     public static final String API_NAME_SUFFIX = "apiNameSuffix";
-    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators suppport this feature at the moment.";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators support this feature at the moment.";
 
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
     public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
@@ -309,6 +320,15 @@ public class CodegenConstants {
     public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
     public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER = "removeOperationIdPrefixDelimiter";
+    public static final String REMOVE_OPERATION_ID_PREFIX_DELIMITER_DESC = "Character to use as a delimiter for the prefix. Default: '_'";
+
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT = "removeOperationIdPrefixCount";
+    public static final String REMOVE_OPERATION_ID_PREFIX_COUNT_DESC = "Count of delimiter for the prefix. Use -1 for last Default: 1";
+
+    public static final String SKIP_OPERATION_EXAMPLE = "skipOperationExample";
+    public static final String SKIP_OPERATION_EXAMPLE_DESC = "Skip examples defined in operations to avoid out of memory errors.";
+
     public static final String STRIP_PACKAGE_NAME = "stripPackageName";
     public static final String STRIP_PACKAGE_NAME_DESC = "Whether to strip leading dot-separated packages from generated model classes";
 
@@ -357,28 +377,15 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
-    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. " +
-            "Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.";
+    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
 
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-        "Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. " +
-        
-        "If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
-
-        "If true: when the 'additionalProperties' keyword is not present in a schema, " +
-        "the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. " +
-        "Note: this mode is not compliant with the JSON schema specification. " +
-        "This is the original openapi-generator behavior." +
-
-        "This setting is currently ignored for OAS 2.0 documents: " +
-        " 1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed. " +
-        " 2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed." +
-        "Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.";
-
+        "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
+        "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
-    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.";
+    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
 }

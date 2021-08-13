@@ -67,6 +67,8 @@ public class Whale {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
@@ -91,6 +93,8 @@ public class Whale {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasTeeth(Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
@@ -105,6 +109,7 @@ public class Whale {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -114,6 +119,8 @@ public class Whale {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -140,7 +147,6 @@ public class Whale {
   public int hashCode() {
     return Objects.hash(hasBaleen, hasTeeth, className);
   }
-
 
   @Override
   public String toString() {

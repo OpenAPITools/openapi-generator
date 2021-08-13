@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
@@ -38,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -49,7 +51,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
@@ -93,17 +95,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.ApiKey,
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union,
-                        SchemaSupportFeature.Composite
+                        SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
@@ -396,14 +396,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             camelizedName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + camelizedName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, camelizedName);
         }
 
         // model name starts with number
-        else if (name.matches("^\\d.*")) {
+        else if (camelizedName.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             camelizedName = "Model" + camelizedName;
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelizedName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelizedName);
         }
 
         return camelizedName;
@@ -435,10 +436,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
             operationId = "call_" + operationId;
         } else if (operationId.matches("\\d.*")) {
-            LOGGER.warn(operationId + " cannot be used as method name because it starts with a digit. Renamed to " + camelize("call_" + operationId));
+            LOGGER.warn("{} cannot be used as method name because it starts with a digit. Renamed to {}", operationId,
+                    camelize("call_" + operationId));
             operationId = "call_" + operationId;
         }
 
@@ -459,7 +461,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -584,7 +586,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypeUnknown(String mimetype) {
-        return mimetype.equals("*/*");
+        return "*/*".equals(mimetype);
     }
 
     /**
@@ -864,7 +866,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     if (producesXml) {
                         outputMime = xmlMimeType;
                     } else if (producesPlainText) {
-                        if (rsp.dataType.equals(bytesType)) {
+                        if (bytesType.equals(rsp.dataType)) {
                             outputMime = octetMimeType;
                         } else {
                             outputMime = plainTextMimeType;
@@ -907,7 +909,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // and string/bytes - that is we don't auto-detect whether
                     // base64 encoding should be done. They both look like
                     // 'producesBytes'.
-                    if (rsp.dataType.equals(bytesType)) {
+                    if (bytesType.equals(rsp.dataType)) {
                         rsp.vendorExtensions.put("x-produces-bytes", true);
                     } else {
                         rsp.vendorExtensions.put("x-produces-plain-text", true);
@@ -917,7 +919,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // If the data type is just "object", then ensure that the
                     // Rust data type is "serde_json::Value".  This allows us
                     // to define APIs that can return arbitrary JSON bodies.
-                    if (rsp.dataType.equals("object")) {
+                    if ("object".equals(rsp.dataType)) {
                         rsp.dataType = "serde_json::Value";
                     }
                 }
@@ -935,7 +937,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
             for (CodegenProperty header : rsp.headers) {
-                if (header.dataType.equals(uuidType)) {
+                if (uuidType.equals(header.dataType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
@@ -948,7 +950,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         for (CodegenProperty header : op.responseHeaders) {
-            if (header.dataType.equals(uuidType)) {
+            if (uuidType.equals(header.dataType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
@@ -1043,7 +1045,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         for (CodegenProperty header : op.responseHeaders) {
-            if (header.dataType.equals(uuidType)) {
+            if (uuidType.equals(header.dataType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
@@ -1098,7 +1100,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             co, Map<String, List<CodegenOperation>> operations) {
         // only generate operation for the first tag of the tags
         if (tag != null && co.tags.size() > 1 && !tag.equals(co.tags.get(0).getName())) {
-            LOGGER.info("generated skip additional tag `" + tag + "` with operationId=" + co.operationId);
+            LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
             return;
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
@@ -1163,7 +1165,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     datatype = "models::" + datatype;
                 }
             } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):" + p + ". Datatype default to Object");
+                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
                 LOGGER.error(e.getMessage(), e);
             }
@@ -1191,8 +1193,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        LOGGER.trace("Creating model from schema: {}", model);
+
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
+
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
             Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
@@ -1233,6 +1238,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
+        } else if ((mdl.anyOf.size() > 0) || (mdl.oneOf.size() > 0)) {
+            mdl.dataType = getSchemaType(model);
         }
 
         if (mdl.xmlNamespace != null) {
@@ -1244,6 +1251,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
+
+        LOGGER.trace("Created model: {}", mdl);
 
         return mdl;
     }
@@ -1273,7 +1282,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenProperty prop : model.vars) {
-                if (prop.dataType.equals(uuidType)) {
+                if (uuidType.equals(prop.dataType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
 
@@ -1282,7 +1291,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     prop.vendorExtensions.put("x-item-xml-name", xmlName);
                 }
 
-                if (prop.dataType.equals(uuidType)) {
+                if (uuidType.equals(prop.dataType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
             }
@@ -1376,11 +1385,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema p) {
         String defaultValue = null;
-        if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && (p.getDefault().toString().equalsIgnoreCase("null")))
+        if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && ("null".equalsIgnoreCase(p.getDefault().toString())))
             return "swagger::Nullable::Null";
         else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if ("false".equalsIgnoreCase(p.getDefault().toString()))
                     defaultValue = "false";
                 else
                     defaultValue = "true";
@@ -1401,6 +1410,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))
             defaultValue = "swagger::Nullable::Present(" + defaultValue + ")";
         return defaultValue;
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::OneOf" + types.size() + "<" + String.join(",", types) + ">";
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
     }
 
     @Override
@@ -1529,12 +1560,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            if (cm.dataType != null && cm.dataType.equals("object")) {
+            LOGGER.trace("Post processing model: {}", cm);
+
+            if ("object".equals(cm.dataType)) {
                 // Object isn't a sensible default. Instead, we set it to
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
-            } else if (cm.dataType != null && cm.dataType.equals("map")) {
+            } else if ("map".equals(cm.dataType)) {
                 if (!cm.allVars.isEmpty() || cm.additionalPropertiesType == null) {
                     // We don't yet support `additionalProperties` that also have
                     // properties. If we see variables, we ignore the
@@ -1608,7 +1641,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 param.vendorExtensions.put("x-example", "???");
                 op.vendorExtensions.put("x-no-client-example", Boolean.TRUE);
             }
-        } else if ((param.dataFormat != null) && ((param.dataFormat.equals("date-time")) || (param.dataFormat.equals("date")))) {
+        } else if ((param.dataFormat != null) && (("date-time".equals(param.dataFormat)) || ("date".equals(param.dataFormat)))) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             param.vendorExtensions.put("x-example", "None");
         } else {
@@ -1640,8 +1673,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

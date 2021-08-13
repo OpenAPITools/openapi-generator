@@ -45,24 +45,24 @@ export class RequestContext {
     private body: RequestBody = undefined;
     private url: URLParse;
 
-	/**
-	 * Creates the request context using a http method and request resource url
-	 *
-	 * @param url url of the requested resource
-	 * @param httpMethod http method
-	 */
+    /**
+     * Creates the request context using a http method and request resource url
+     *
+     * @param url url of the requested resource
+     * @param httpMethod http method
+     */
     public constructor(url: string, private httpMethod: HttpMethod) {
         this.url = new URLParse(url, true);
     }
-    
+
     /*
      * Returns the url set in the constructor including the query string
      *
      */
     public getUrl(): string {
-    	return this.url.toString();
+        return this.url.toString();
     }
-    
+
     /**
      * Replaces the url set in the constructor with this url.
      *
@@ -85,27 +85,27 @@ export class RequestContext {
     }
 
     public getHttpMethod(): HttpMethod {
-    	return this.httpMethod;
+        return this.httpMethod;
     }
-    
+
     public getHeaders(): { [key: string]: string } {
-    	return this.headers;
+        return this.headers;
     }
 
     public getBody(): RequestBody {
         return this.body;
     }
 
-	public setQueryParam(name: string, value: string) {
+    public setQueryParam(name: string, value: string) {
         let queryObj = this.url.query;
         queryObj[name] = value;
         this.url.set("query", queryObj);
     }
 
-	/**
-	 *	Sets a cookie with the name and value. NO check  for duplicate cookies is performed
-	 *
-	 */
+    /**
+     * Sets a cookie with the name and value. NO check  for duplicate cookies is performed
+     *
+     */
     public addCookie(name: string, value: string): void {
         if (!this.headers["Cookie"]) {
             this.headers["Cookie"] = "";
@@ -122,7 +122,6 @@ export interface ResponseBody {
     text(): Promise<string>;
     binary(): Promise<Blob>;
 }
-
 
 /**
  * Helper class to generate a `ResponseBody` from binary data

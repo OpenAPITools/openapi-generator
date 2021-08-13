@@ -18,10 +18,10 @@ To test class name in snake case
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import fake_classname_tags_123_api
+from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -43,22 +43,26 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeClassnameTags123Api(api_client)
-    client = petstore_api.Client() # Client | client model
+    api_instance = fake_classname_tags_123_api.FakeClassnameTags123Api(api_client)
+    client = Client(
+        client="client_example",
+    ) # Client | client model
 
+    # example passing only required values which don't have defaults set
     try:
         # To test class name in snake case
         api_response = api_instance.test_classname(client)
         pprint(api_response)
-    except ApiException as e:
+    except petstore_api.ApiException as e:
         print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -72,6 +76,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -17,7 +17,7 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @type t :: %__MODULE__{
     :"uuid" => String.t | nil,
     :"dateTime" => DateTime.t | nil,
-    :"map" => %{optional(String.t) => Animal} | nil
+    :"map" => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
   }
 end
 

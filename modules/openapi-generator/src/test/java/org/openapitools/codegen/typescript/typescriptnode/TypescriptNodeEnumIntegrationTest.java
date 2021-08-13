@@ -18,7 +18,6 @@ package org.openapitools.codegen.typescript.typescriptnode;
 
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 

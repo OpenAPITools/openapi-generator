@@ -31,13 +31,19 @@ public interface {{classname}} {
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{{path}}}")
   {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}} {{operationId}}({{^allParams}});{{/allParams}}
-    {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
-  );{{/hasMore}}{{/allParams}}
+    {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}{{^-last}}, {{/-last}}{{#-last}}
+  );{{/-last}}{{/allParams}}
 
   /**
    * {{summary}}
@@ -50,7 +56,13 @@ public interface {{classname}} {
    * {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
    */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{{path}}}")

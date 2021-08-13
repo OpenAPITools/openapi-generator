@@ -19,7 +19,8 @@
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib"
   },
   "dependencies": {
-    "portable-fetch": "^3.0.0"
+    "portable-fetch": "^3.0.0",
+    "node-fetch": ">=2.6.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

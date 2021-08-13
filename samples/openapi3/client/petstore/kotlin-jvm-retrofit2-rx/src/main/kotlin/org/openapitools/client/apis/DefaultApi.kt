@@ -14,7 +14,7 @@ interface DefaultApi {
      * Responses:
      *  - 0: response
      * 
-    * @return [Call]<[InlineResponseDefault]>
+     * @return [Call]<[InlineResponseDefault]>
      */
     @GET("foo")
     fun fooGet(): Observable<InlineResponseDefault>

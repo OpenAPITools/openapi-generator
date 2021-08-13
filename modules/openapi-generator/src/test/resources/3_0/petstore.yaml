@@ -85,6 +85,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -716,6 +717,7 @@ components:
         status:
           type: string
           description: pet status in the store
+          deprecated: true
           enum:
             - available
             - pending

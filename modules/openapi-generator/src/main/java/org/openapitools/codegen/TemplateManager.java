@@ -25,7 +25,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     private final TemplatingEngineAdapter engineAdapter;
     private final TemplatePathLocator[] templateLoaders;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
 
     /**
      * Constructs a new instance of a {@link TemplateManager}
@@ -109,15 +109,15 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         if (name == null || name.contains("..")) {
             throw new IllegalArgumentException("Template location must be constrained to template directory.");
         }
-        try {
-            Reader reader = getTemplateReader(name);
+        try (Reader reader = getTemplateReader(name)) {
             if (reader == null) {
                 throw new RuntimeException("no file found");
             }
-            Scanner s = new Scanner(reader).useDelimiter("\\A");
-            return s.hasNext() ? s.next() : "";
+            try (Scanner s = new Scanner(reader).useDelimiter("\\A")) {
+                return s.hasNext() ? s.next() : "";
+            }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("{}", e.getMessage(), e);
         }
         throw new RuntimeException("can't load template " + name);
     }
@@ -142,7 +142,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             if (name == null || name.contains("..")) {
                 throw new IllegalArgumentException("Template location must be constrained to template directory.");
             }
-            is = new FileInputStream(new File(name)); // May throw but never return a null value
+            is = new FileInputStream(name); // May throw but never return a null value
         }
         return is;
     }
@@ -206,6 +206,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
+    @Override
     public File writeToFile(String filename, byte[] contents) throws IOException {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File outputFile = Paths.get(filename).toFile();

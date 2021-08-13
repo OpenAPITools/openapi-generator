@@ -113,4 +113,18 @@ public class JavascriptClientCodegenTest {
 
     }
 
+    @Test(description = "test multiple file upload collection is correct")
+    public void testMultipleFileUpload() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String requestPath = "/multipart-array";
+        Operation textOperation = openAPI.getPaths().get(requestPath).getPost();
+        CodegenOperation operation = codegen.fromOperation(requestPath, "post", textOperation, null);
+        CodegenParameter codegenParameter = operation.allParams.get(0);
+
+        Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
+    }
+
 }

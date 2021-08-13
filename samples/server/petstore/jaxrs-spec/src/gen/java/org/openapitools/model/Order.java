@@ -75,7 +75,9 @@ public enum StatusEnum {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
@@ -93,7 +95,9 @@ public enum StatusEnum {
 
   public void setPetId(Long petId) {
     this.petId = petId;
-  }/**
+  }
+
+/**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
@@ -111,7 +115,9 @@ public enum StatusEnum {
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
-  }/**
+  }
+
+/**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -129,7 +135,9 @@ public enum StatusEnum {
 
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
-  }/**
+  }
+
+/**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -148,7 +156,9 @@ public enum StatusEnum {
 
   public void setStatus(StatusEnum status) {
     this.status = status;
-  }/**
+  }
+
+/**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;
@@ -167,6 +177,7 @@ public enum StatusEnum {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
+
 
   @Override
   public boolean equals(Object o) {

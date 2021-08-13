@@ -114,7 +114,7 @@ typedef struct {{classname}}_t {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}; //Byte
+    {{datatype}} *{{name}}; //ByteArray
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}; //binary
@@ -150,64 +150,64 @@ typedef struct {{classname}}_t {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}

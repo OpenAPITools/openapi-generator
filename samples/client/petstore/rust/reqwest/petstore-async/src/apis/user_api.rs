@@ -18,21 +18,21 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct CreateUserParams {
     /// Created user object
-    pub body: crate::models::User
+    pub user: crate::models::User
 }
 
 /// struct for passing parameters to the method `create_users_with_array_input`
 #[derive(Clone, Debug)]
 pub struct CreateUsersWithArrayInputParams {
     /// List of user object
-    pub body: Vec<crate::models::User>
+    pub user: Vec<crate::models::User>
 }
 
 /// struct for passing parameters to the method `create_users_with_list_input`
 #[derive(Clone, Debug)]
 pub struct CreateUsersWithListInputParams {
     /// List of user object
-    pub body: Vec<crate::models::User>
+    pub user: Vec<crate::models::User>
 }
 
 /// struct for passing parameters to the method `delete_user`
@@ -64,7 +64,7 @@ pub struct UpdateUserParams {
     /// name that need to be deleted
     pub username: String,
     /// Updated user object
-    pub body: crate::models::User
+    pub user: crate::models::User
 }
 
 
@@ -197,18 +197,26 @@ pub enum UpdateUserError {
 /// This can only be done by the logged in user.
 pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
     // unbox the parameters
-    let body = params.body;
+    let user = params.user;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -216,7 +224,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<CreateUserSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -229,18 +237,26 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
 
 pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
     // unbox the parameters
-    let body = params.body;
+    let user = params.user;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/createWithArray", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -248,7 +264,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -261,18 +277,26 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
 
 pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
     // unbox the parameters
-    let body = params.body;
+    let user = params.user;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/createWithList", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -280,7 +304,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -300,11 +324,19 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -312,7 +344,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<DeleteUserSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -331,7 +363,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -343,7 +375,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<GetUserByNameSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -363,7 +395,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/login", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
     local_var_req_builder = local_var_req_builder.query(&[("password", &password.to_string())]);
@@ -377,7 +409,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<LoginUserSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -395,11 +427,19 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/logout", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -407,7 +447,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<LogoutUserSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
@@ -422,18 +462,26 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
 pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
     // unbox the parameters
     let username = params.username;
-    let body = params.body;
+    let user = params.user;
 
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.put(local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -441,7 +489,7 @@ pub async fn update_user(configuration: &configuration::Configuration, params: U
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text().await?;
 
-    if local_var_status.is_success() {
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         let local_var_entity: Option<UpdateUserSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)

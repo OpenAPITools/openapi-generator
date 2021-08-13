@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**class_name** | **String** |  | 
-**color** | **String** |  | [optional] [default to &#39;red&#39;]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **class_name** | **String** |  |  |
+| **color** | **String** |  | [optional][default to &#39;red&#39;] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::Animal.new(class_name: null,
-                                 color: null)
+instance = Petstore::Animal.new(
+  class_name: null,
+  color: null
+)
 ```
-
 

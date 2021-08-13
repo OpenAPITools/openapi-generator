@@ -8,7 +8,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> web.Response:
+async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> web.Response:
     """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{#notes}}{{.}}{{/notes}}

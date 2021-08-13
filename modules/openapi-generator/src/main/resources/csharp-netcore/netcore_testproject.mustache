@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>{{testPackageName}}</AssemblyName>
     <RootNamespace>{{testPackageName}}</RootNamespace>
-    <TargetFramework>{{testTargetFramework}}</TargetFramework>
+    <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

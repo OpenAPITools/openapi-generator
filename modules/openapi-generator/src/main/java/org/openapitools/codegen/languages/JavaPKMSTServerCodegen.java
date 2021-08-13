@@ -70,7 +70,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         this.cliOptions.add(new CliOption("basePackage", "base package for java source code"));
         this.cliOptions.add(new CliOption("serviceName", "Service Name"));
@@ -145,7 +145,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
 
         if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.valueOf(
+            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(
                     this.additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
         }
         if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
@@ -157,7 +157,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
         this.additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         if (this.additionalProperties.containsKey(FULL_JAVA_UTIL)) {
-            this.setFullJavaUtil(Boolean.valueOf(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
+            this.setFullJavaUtil(Boolean.parseBoolean(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
 
         if (this.additionalProperties.containsKey(EUREKA_URI)) {
@@ -178,7 +178,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("java8", true);
 
         if (this.additionalProperties.containsKey(WITH_XML)) {
-            this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
+            this.setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
         }
         this.additionalProperties.put(WITH_XML, withXml);
 
@@ -357,8 +357,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     }
 
     /**
-     * This method removes header parameters from the list of parameters and
-     * also corrects last allParams hasMore state.
+     * This method removes header parameters from the list of parameters
      *
      * @param allParams list of all parameters
      */
@@ -374,7 +373,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                 allParams.add(p);
             }
         }
-        allParams.get(allParams.size() - 1).hasMore = false;
     }
 
     /**
@@ -424,7 +422,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             }
         } else { // enum class
             // Needed imports for Jackson's JsonCreator
-            if (this.additionalProperties.containsKey("jackson")) {
+            if (this.additionalProperties.containsKey(JACKSON)) {
                 model.imports.add("JsonCreator");
             }
         }
@@ -554,11 +552,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                             for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
                                 value.put("tag", tag);
-                                value.put("hasMore", "true");
                                 tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
@@ -664,7 +658,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    private class ResourcePath {
+    private static class ResourcePath {
 
         private String path;
 

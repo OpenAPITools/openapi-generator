@@ -154,7 +154,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.7</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -240,6 +240,11 @@
             <artifactId>feign-form</artifactId>
             <version>${feign-form-version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+            <version>${feign-version}</version>
+        </dependency>
 
         <!-- JSON processing: jackson -->
         <dependency>
@@ -257,15 +262,15 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
-            <dependency>
-                <groupId>com.github.joschi.jackson</groupId>
-                <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-threetenbp-version}</version>
-            </dependency>
         <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>${oltu-version}</version>
+          <groupId>com.github.joschi.jackson</groupId>
+          <artifactId>jackson-datatype-threetenbp</artifactId>
+          <version>${jackson-threetenbp-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>${scribejava-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -276,27 +281,45 @@
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>3.6.0</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>1.7.1</version>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.27.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.8.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.24</swagger-annotations-version>
@@ -306,8 +329,8 @@
         <jackson-databind-version>2.10.3</jackson-databind-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <javax-annotation-version>1.3.2</javax-annotation-version>
-        <junit-version>4.13.1</junit-version>
+        <junit-version>5.7.0</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <oltu-version>1.0.1</oltu-version>
+        <scribejava-version>8.0.0</scribejava-version>
     </properties>
 </project>

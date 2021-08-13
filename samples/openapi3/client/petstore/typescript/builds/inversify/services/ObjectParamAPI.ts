@@ -4,8 +4,6 @@ import type * as req from "../types/ObjectParamAPI";
 
 import type { ApiResponse } from '../models/ApiResponse';
 import type { Category } from '../models/Category';
-import type { InlineObject } from '../models/InlineObject';
-import type { InlineObject1 } from '../models/InlineObject1';
 import type { Order } from '../models/Order';
 import type { Pet } from '../models/Pet';
 import type { Tag } from '../models/Tag';

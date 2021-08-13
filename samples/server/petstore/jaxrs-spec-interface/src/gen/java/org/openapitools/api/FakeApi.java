@@ -30,15 +30,15 @@ import javax.validation.Valid;
     @POST
     @Path("/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
-    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake",  })
+    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createXmlItem(@Valid XmlItem xmlItem);
+    void createXmlItem(@Valid @NotNull XmlItem xmlItem);
 
     @POST
     @Path("/outer/boolean")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
     Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
@@ -46,7 +46,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/composite")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
     OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
@@ -54,7 +54,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/number")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
     BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
@@ -62,7 +62,7 @@ import javax.validation.Valid;
     @POST
     @Path("/outer/string")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     String fakeOuterStringSerialize(@Valid String body);
@@ -70,33 +70,33 @@ import javax.validation.Valid;
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
+    void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body);
 
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body);
+    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid @NotNull User body);
 
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake",  })
+    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClientModel(@Valid Client body);
+    Client testClientModel(@Valid @NotNull Client body);
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
         
         @Authorization(value = "http_basic_test")
-         }, tags={ "fake",  })
+         }, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
@@ -104,14 +104,14 @@ import javax.validation.Valid;
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", tags={ "fake",  })
+    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
-    void testEnumParameters(@HeaderParam("enum_header_string_array")   @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")   @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")   @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
+    void testEnumParameters(@HeaderParam("enum_header_string_array")    @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")   @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")   @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
 
     @DELETE
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
     void testGroupParameters(@QueryParam("required_string_group") @NotNull   @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull    @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")    @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group);
@@ -119,22 +119,22 @@ import javax.validation.Valid;
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake",  })
+    @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void testInlineAdditionalProperties(@Valid Map<String, String> param);
+    void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
 
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake",  })
+    @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
 
     @PUT
     @Path("/test-query-paramters")
-    @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake",  })
+    @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull    List<String> pipe,@QueryParam("ioutil") @NotNull    List<String> ioutil,@QueryParam("http") @NotNull    List<String> http,@QueryParam("url") @NotNull    List<String> url,@QueryParam("context") @NotNull    List<String> context);

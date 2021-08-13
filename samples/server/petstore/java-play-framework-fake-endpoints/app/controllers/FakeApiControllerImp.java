@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
-public class FakeApiControllerImp implements FakeApiControllerImpInterface {
+public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     @Override
     public void createXmlItem(Http.Request request, XmlItem xmlItem) throws Exception {
         //Do your magic!!!
@@ -66,7 +67,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(Http.Request request, BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, Http.MultipartFormData.FilePart<TemporaryFile> binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
         //Do your magic!!!
     }
 

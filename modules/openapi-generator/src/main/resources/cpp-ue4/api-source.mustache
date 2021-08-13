@@ -45,6 +45,40 @@ bool {{classname}}::IsValid() const
 	return true;
 }
 
+void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
+{
+	if(RetryManager != &GetHttpRetryManager())
+	{
+		DefaultRetryManager.Reset();
+		RetryManager = &InRetryManager;
+	}
+}
+
+FHttpRetrySystem::FManager& {{classname}}::GetHttpRetryManager()
+{
+	return *RetryManager;
+}
+
+FHttpRequestRef {{classname}}::CreateHttpRequest(const Request& Request) const
+{
+	if (!Request.GetRetryParams().IsSet())
+	{
+		return FHttpModule::Get().CreateRequest();
+	}
+	else
+	{
+		if (!RetryManager)
+		{
+			// Create default retry manager if none was specified
+			DefaultRetryManager = MakeUnique<HttpRetryManager>(6, 60);
+			RetryManager = DefaultRetryManager.Get();
+		}
+
+		const HttpRetryParams& Params = Request.GetRetryParams().GetValue();
+		return RetryManager->CreateRequest(Params.RetryLimitCountOverride, Params.RetryTimeoutRelativeSecondsOverride, Params.RetryResponseCodes, Params.RetryVerbs, Params.RetryDomains);
+	}
+}
+
 void {{classname}}::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
 {
 	InOutResponse.SetHttpResponse(HttpResponse);
@@ -91,12 +125,12 @@ void {{classname}}::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 
 {{#operations}}
 {{#operation}}
-bool {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate /*= F{{operationIdCamelCase}}Delegate()*/) const
+FHttpRequestPtr {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate /*= F{{operationIdCamelCase}}Delegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -107,7 +141,8 @@ bool {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Reque
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void {{classname}}::On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate) const

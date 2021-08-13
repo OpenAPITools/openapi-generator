@@ -188,7 +188,7 @@ The default is generate *everything* supported by the specific library. Once you
 To control the specific files being generated, you can pass a CSV list of what you want:
 ```sh
 # generate the User and Pet models only
---global-property models="User,Pet"
+--global-property models="User:Pet"
 
 # generate the User model and the supportingFile `StringUtil.java`:
 --global-property models=User,supportingFiles=StringUtil.java
@@ -205,7 +205,7 @@ These options default to true and don't limit the generation of the feature opti
 --global-property models,modelDocs=false
 
 # generate only User and Pet models (no tests and no documentation)
---global-property models="User,Pet",modelTests=false
+--global-property models="User:Pet",modelTests=false
 
 # generate only apis (without tests)
 --global-property apis,apiTests=false
@@ -216,7 +216,7 @@ These options default to true and don't limit the generation of the feature opti
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
-To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.2)
+To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to `true`) (this option is introduced at v3.2.2 and `true` by default starting from v5.x).
 
 ```sh
 --global-property skipFormModel=true
@@ -339,7 +339,7 @@ Your config file for Java can look like
 }
 ```
 
-Or if you preffer yaml format it can look like
+Or if you prefer yaml format it can look like
 
 ```yaml
 groupId: "com.my.company"

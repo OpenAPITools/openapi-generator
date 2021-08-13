@@ -39,7 +39,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{order_id}")
-    @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
+    @ApiOperation(value = "Delete purchase order by ID", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
@@ -54,7 +54,7 @@ public interface StoreApi  {
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Returns pet inventories by status", tags={ "store",  })
+    @ApiOperation(value = "Returns pet inventories by status", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     public Map<String, Integer> getInventory();
@@ -68,7 +68,7 @@ public interface StoreApi  {
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Find purchase order by ID", tags={ "store",  })
+    @ApiOperation(value = "Find purchase order by ID", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),

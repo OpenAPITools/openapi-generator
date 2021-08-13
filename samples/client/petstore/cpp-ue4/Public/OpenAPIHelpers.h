@@ -31,8 +31,8 @@ typedef TSharedRef<TJsonWriter<>> JsonWriter;
 class OPENAPI_API HttpFileInput
 {
 public:
-	HttpFileInput(const TCHAR* InFilePath);
-	HttpFileInput(const FString& InFilePath);
+	explicit HttpFileInput(const TCHAR* InFilePath);
+	explicit HttpFileInput(const FString& InFilePath);
 
 	// This will automatically set the content type if not already set
     void SetFilePath(const TCHAR* InFilePath);
@@ -62,7 +62,7 @@ class HttpMultipartFormData
 {
 public:
 	void SetBoundary(const TCHAR* InBoundary);
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest);
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest);
 
 	void AddStringPart(const TCHAR* Name, const TCHAR* Data);
 	void AddJsonPart(const TCHAR* Name, const FString& JsonString);
@@ -114,6 +114,11 @@ inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)
 	return FStringFormatArg(Value.ToIso8601());
 }
 
+inline FStringFormatArg ToStringFormatArg(const FGuid& Value)
+{
+	return FStringFormatArg(Value.ToString(EGuidFormats::DigitsWithHyphens));
+}
+
 inline FStringFormatArg ToStringFormatArg(const TArray<uint8>& Value)
 {
 	return FStringFormatArg(Base64UrlEncode(Value));
@@ -128,6 +133,16 @@ inline FString ToString(const T& Value)
 inline FString ToString(const FString& Value)
 {
 	return Value;
+}
+
+inline FString ToString(bool Value)
+{
+	return Value ? TEXT("true") : TEXT("false");
+}
+
+inline FStringFormatArg ToStringFormatArg(bool Value)
+{
+	return FStringFormatArg(ToString(Value));
 }
 
 inline FString ToString(const TArray<uint8>& Value)
@@ -229,6 +244,11 @@ inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
 	Writer->WriteValue(Value.ToIso8601());
 }
 
+inline void WriteJsonValue(JsonWriter& Writer, const FGuid& Value)
+{
+	Writer->WriteValue(Value.ToString(EGuidFormats::DigitsWithHyphens));
+}
+
 inline void WriteJsonValue(JsonWriter& Writer, const Model& Value)
 {
 	Value.WriteJson(Writer);
@@ -277,11 +297,26 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Va
 		return false;
 }
 
+OPENAPI_API bool ParseDateTime(const FString& DateTimeString, FDateTime& OutDateTime);
+
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
-		return FDateTime::Parse(TmpValue, Value);
+	{
+		return ParseDateTime(TmpValue, Value);
+	}
+	else
+		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FGuid& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		return FGuid::Parse(TmpValue, Value);
+	}
 	else
 		return false;
 }

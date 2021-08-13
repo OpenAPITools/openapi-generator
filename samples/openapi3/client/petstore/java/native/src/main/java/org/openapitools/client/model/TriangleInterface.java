@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
@@ -49,6 +48,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -58,6 +58,8 @@ public class TriangleInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }

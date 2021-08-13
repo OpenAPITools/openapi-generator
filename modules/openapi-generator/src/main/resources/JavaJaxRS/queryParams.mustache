@@ -4,25 +4,13 @@
         }}{{#required}}, required = true{{/required}}{{!
         }}{{^isContainer}}{{!
             }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
-            }}{{#defaultValue}}, defaultValue = {{!
-            }}{{^isString}}"{{/isString}}{{!
-            }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
-            }}{{{defaultValue}}}{{!
-            }}{{^isString}}"{{/isString}}{{!
-            }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
-            }}{{/defaultValue}}{{!
+            }}{{#defaultValue}}, defaultValue = "{{{defaultValue}}}"{{/defaultValue}}{{!
         }}{{/isContainer}}{{!
     }}){{!
 
     }}{{^isContainer}}{{!
         }}{{#defaultValue}}{{!
-            }} @DefaultValue({{!
-                }}{{^isString}}"{{/isString}}{{!
-                }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
-                }}{{{defaultValue}}}{{!
-                }}{{^isString}}"{{/isString}}{{!
-                }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
-            }}){{!
+            }} @DefaultValue("{{{defaultValue}}}"){{!
         }}{{/defaultValue}}{{!
     }}{{/isContainer}}{{!
 

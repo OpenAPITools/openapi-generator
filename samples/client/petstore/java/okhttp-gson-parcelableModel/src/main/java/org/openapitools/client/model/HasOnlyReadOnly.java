@@ -30,7 +30,7 @@ import android.os.Parcel;
  * HasOnlyReadOnly
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class HasOnlyReadOnly {
+public class HasOnlyReadOnly implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
   private String bar;
@@ -87,7 +87,6 @@ public class HasOnlyReadOnly {
   public int hashCode() {
     return Objects.hash(bar, foo);
   }
-
 
   @Override
   public String toString() {

@@ -150,7 +150,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return Objects.hash(uuid, dateTime, map);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

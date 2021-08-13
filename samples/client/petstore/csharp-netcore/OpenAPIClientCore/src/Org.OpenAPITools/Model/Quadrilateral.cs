@@ -138,31 +138,52 @@ namespace Org.OpenAPITools.Model
         public static Quadrilateral FromJson(string jsonString)
         {
             Quadrilateral newQuadrilateral = null;
+
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return newQuadrilateral;
+            }
             int match = 0;
             List<string> matchedTypes = new List<string>();
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(ComplexQuadrilateral).GetProperty("AdditionalProperties") == null)
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
+                else
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("ComplexQuadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into ComplexQuadrilateral: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into ComplexQuadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
+                if (typeof(SimpleQuadrilateral).GetProperty("AdditionalProperties") == null)
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.SerializerSettings));
+                }
+                else
+                {
+                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                }
                 matchedTypes.Add("SimpleQuadrilateral");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into SimpleQuadrilateral: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into SimpleQuadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -173,7 +194,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newQuadrilateral;
         }
@@ -237,7 +258,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Quadrilateral).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Quadrilateral).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
@@ -250,7 +271,11 @@ namespace Org.OpenAPITools.Model
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Quadrilateral.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return Quadrilateral.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
         }
 
         /// <summary>

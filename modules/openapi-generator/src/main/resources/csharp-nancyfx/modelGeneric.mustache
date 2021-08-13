@@ -14,11 +14,11 @@
         /// Use {{classname}}.Builder() for instance creation instead.
         /// </summary>
         [Obsolete]
-        public {{classname}}(){{#parent}} : base({{/parent}}{{#parentVars}}null{{#hasMore}}, {{/hasMore}}{{/parentVars}}{{#parent}}){{/parent}}
+        public {{classname}}(){{#parent}} : base({{/parent}}{{#parentVars}}null{{^-last}}, {{/-last}}{{/parentVars}}{{#parent}}){{/parent}}
         {
         }
 
-        {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{^-last}}, {{/-last}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}{{^isInherited}}
             this.{{name}} = {{name}};
@@ -43,8 +43,8 @@
         {
             return Builder()
             {{#vars}}
-                .{{name}}({{name}}){{#hasMore}}
-{{/hasMore}}{{/vars}};
+                .{{name}}({{name}}){{^-last}}
+{{/-last}}{{/vars}};
         }
 
         public override string ToString()
@@ -136,7 +136,7 @@
                 Validate();
                 return new {{classname}}(
                     {{#vars}}
-                    {{name}}: _{{name}}{{#hasMore}},{{/hasMore}}
+                    {{name}}: _{{name}}{{^-last}},{{/-last}}
                     {{/vars}}
                 );
             }

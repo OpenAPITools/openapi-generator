@@ -135,7 +135,7 @@ static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* error
 }
 
 static bool {{nickname}}Helper(char * accessToken,
-	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData, bool isAsync)
 {
@@ -328,22 +328,22 @@ static bool {{nickname}}Helper(char * accessToken,
 
 
 bool {{classname}}::{{nickname}}Async(char * accessToken,
-	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
 {
 	return {{nickname}}Helper(accessToken,
-	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	handler, userData, true);
 }
 
 bool {{classname}}::{{nickname}}Sync(char * accessToken,
-	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isArray}}{{returnType}}<{{returnBaseType}}>{{/isArray}}{{#isMap}}{{returnType}}<string,string>{{/isMap}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
 {
 	return {{nickname}}Helper(accessToken,
-	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	handler, userData, false);
 }
 

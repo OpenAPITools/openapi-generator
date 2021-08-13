@@ -9,13 +9,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |emitJSDoc|generate JSDoc comments| |true|
 |emitModelMethods|generate getters and setters for model properties| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |invokerPackage|root package for generated code| |null|
-|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|name of the license the project uses (Default: using info.license.name)| |null|
 |modelPackage|package for generated models| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
@@ -64,9 +64,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>Array</li>
+<li>Date</li>
+<li>Infinity</li>
+<li>Math</li>
+<li>NaN</li>
+<li>Number</li>
+<li>Object</li>
+<li>String</li>
 <li>abstract</li>
 <li>arguments</li>
-<li>array</li>
 <li>boolean</li>
 <li>break</li>
 <li>byte</li>
@@ -76,7 +83,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>class</li>
 <li>const</li>
 <li>continue</li>
-<li>date</li>
 <li>debugger</li>
 <li>default</li>
 <li>delete</li>
@@ -94,27 +100,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>for</li>
 <li>function</li>
 <li>goto</li>
-<li>hasownproperty</li>
+<li>hasOwnProperty</li>
 <li>if</li>
 <li>implements</li>
 <li>import</li>
 <li>in</li>
-<li>infinity</li>
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
-<li>isfinite</li>
-<li>isnan</li>
-<li>isprototypeof</li>
+<li>isFinite</li>
+<li>isNaN</li>
+<li>isPrototypeOf</li>
 <li>let</li>
 <li>long</li>
-<li>math</li>
-<li>nan</li>
 <li>native</li>
 <li>new</li>
 <li>null</li>
-<li>number</li>
-<li>object</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -123,20 +124,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>return</li>
 <li>short</li>
 <li>static</li>
-<li>string</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
 <li>this</li>
 <li>throw</li>
 <li>throws</li>
-<li>tostring</li>
+<li>toString</li>
 <li>transient</li>
 <li>true</li>
 <li>try</li>
 <li>typeof</li>
 <li>undefined</li>
-<li>valueof</li>
+<li>valueOf</li>
 <li>var</li>
 <li>void</li>
 <li>volatile</li>

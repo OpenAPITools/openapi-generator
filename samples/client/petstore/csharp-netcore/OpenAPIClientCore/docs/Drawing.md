@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Drawing
+
 ## Properties
 
 Name | Type | Description | Notes

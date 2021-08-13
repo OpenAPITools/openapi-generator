@@ -1,26 +1,21 @@
 class {{classname}} 
 
+{{#parent}}
 inherit
+{{/parent}}
 
-  ANY
-      redefine
-          out 
-      {{#parent}}    
-      select
-          out  
-      {{/parent}}      
-      end
 
 {{#parent}}
-  {{{parent}}} 
+  {{{parent}}}
+     {{^isPrimitiveType}} 
+      {{^isMap}}
+      {{^isArray}}
       rename
-          out as out_{{{parentSchema}}},
-          is_equal as is_equal_{{{parentSchema}}},
-          copy as copy_{{{parentSchema}}}
-      select
-          is_equal_{{{parentSchema}}},
-          copy_{{{parentSchema}}}     
-      end   
+          output as out_{{{parentSchema}}}     
+      end
+     {{/isArray}}
+     {{/isMap}}
+     {{/isPrimitiveType}}    
 {{/parent}}
 
 feature --Access
@@ -28,8 +23,16 @@ feature --Access
 {{#vars}}
     {{^isInherited}}
     {{#isPrimitiveType}}
-    {{name}}: {{{dataType}}} 
-      {{#description}}-- {{{description}}}{{/description}}
+    {{^isContainer}}
+ 	{{name}}: {{{dataType}}} 
+    	 {{#description}}-- {{{description}}}{{/description}}
+     {{/isContainer}}  
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isContainer}}
+ 	{{name}}: detachable {{{datatypeWithEnum}}} 
+    	 {{#description}}-- {{{description}}}{{/description}}
+    {{/isContainer}}  
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
     {{#isContainer}}
@@ -61,7 +64,7 @@ feature -- Change Element
 
  feature -- Status Report
 
-    out: STRING
+    output: STRING
           -- <Precursor>
       do
         create Result.make_empty

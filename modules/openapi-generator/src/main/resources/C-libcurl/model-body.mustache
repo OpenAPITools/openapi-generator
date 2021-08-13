@@ -8,13 +8,13 @@
 
 {{#isEnum}}
 char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     return {{classname}}Array[{{classname}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
     int stringToReturn = 0;
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{classname}}Array) / sizeof({{classname}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{classname}}, {{classname}}Array[stringToReturn]) == 0) {
@@ -78,13 +78,13 @@ end:
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -102,13 +102,13 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}} - 1];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -130,64 +130,64 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}
@@ -214,58 +214,98 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{^isEnum}}
-    {{{complexType}}}_free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        {{{complexType}}}_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isUuid}}
     {{#isEmail}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isEmail}}
     {{#isFreeFormObject}}
-    object_free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        object_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{^isEnum}}
     {{#isString}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isString}}
     {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isByteArray}}
     {{#isBinary}}
-    free({{{classname}}}->{{{name}}}->data);
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}}->data);
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isBinary}}
     {{#isDate}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isDate}}
     {{#isDateTime}}
-    free({{{classname}}}->{{{name}}});
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        free(listEntry->data);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            free(listEntry->data);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        {{complexType}}_free(listEntry->data);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            {{complexType}}_free(listEntry->data);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    list_ForEach(listEntry, {{classname}}->{{name}}) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
-        free (localKeyValue->key);
-        free (localKeyValue->value);
+    if ({{{classname}}}->{{{name}}}) {
+        list_ForEach(listEntry, {{classname}}->{{name}}) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free (localKeyValue->key);
+            free (localKeyValue->value);
+            keyValuePair_free(localKeyValue);
+        }
+        list_free({{classname}}->{{name}});
+        {{classname}}->{{name}} = NULL;
     }
-    list_free({{classname}}->{{name}});
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}
@@ -313,8 +353,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
-    goto fail; //Byte
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    goto fail; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -447,6 +487,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
+        {{#isByteArray}}
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isByteArray}}
         {{#isNumeric}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
@@ -528,9 +574,9 @@ fail:
     {{/isEnum}}
     {{#isByteArray}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{name}}}))
+    if(!cJSON_IsString({{{name}}}))
     {
-    goto end; //Byte
+    goto end; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -620,7 +666,13 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
+        double *{{{name}}}_local_value = (double *)calloc(1, sizeof(double));
+        if(!{{{name}}}_local_value)
+        {
+            goto end;
+        }
+        *{{{name}}}_local_value = {{{name}}}_local->valuedouble;
+        list_addElement({{{name}}}List , {{{name}}}_local_value);
         {{/isNumeric}}
         {{#isBoolean}}
         if(!cJSON_IsBool({{{name}}}_local))
@@ -673,6 +725,13 @@ fail:
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
+        {{#isByteArray}}
+        if(!cJSON_IsString(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isByteArray}}
         {{#isBoolean}}
         if(!cJSON_IsBool(localMapObject))
         {
@@ -704,64 +763,64 @@ fail:
         {{^isPrimitiveType}}
         {{#isModel}}
         {{#isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{^isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{/isModel}}
         {{#isUuid}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isUuid}}
         {{#isEmail}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEmail}}
         {{#isFreeFormObject}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isFreeFormObject}}
         {{/isPrimitiveType}}
         {{#isPrimitiveType}}
         {{#isNumeric}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
-        {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isBinary}}
         {{#isDate}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{#isContainer}}
         {{#isArray}}
         {{#isPrimitiveType}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isPrimitiveType}}
         {{/isArray}}
         {{#isMap}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isMap}}
         {{/isContainer}}
         {{/vars}}
@@ -769,6 +828,20 @@ fail:
 
     return {{classname}}_local_var;
 end:
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{^isEnum}}
+    if ({{{name}}}_local_nonprim) {
+        {{complexType}}_free({{{name}}}_local_nonprim);
+        {{{name}}}_local_nonprim = NULL;
+    }
+    {{/isEnum}}
+    {{/isModel}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{/vars}}
     return NULL;
 
 }

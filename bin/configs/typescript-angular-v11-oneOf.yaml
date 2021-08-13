@@ -1,0 +1,6 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v11-oneOf/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOfArrayMapImport.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 11.0.0

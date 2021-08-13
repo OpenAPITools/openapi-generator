@@ -48,6 +48,14 @@ namespace Org.OpenAPITools.Model
         public string Bar { get; private set; }
 
         /// <summary>
+        /// Returns false as Bar should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeBar()
+        {
+            return false;
+        }
+        /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
@@ -73,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

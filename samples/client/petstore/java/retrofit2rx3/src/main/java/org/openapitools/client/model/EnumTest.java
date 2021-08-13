@@ -276,6 +276,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -377,7 +378,6 @@ public class EnumTest {
   public int hashCode() {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
-
 
   @Override
   public String toString() {

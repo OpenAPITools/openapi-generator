@@ -11,13 +11,17 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
-import datetime
 
 import petstore_api
-from petstore_api.models.map_test import MapTest  # noqa: E501
-from petstore_api.rest import ApiException
+try:
+    from petstore_api.model import string_boolean_map
+except ImportError:
+    string_boolean_map = sys.modules[
+        'petstore_api.model.string_boolean_map']
+from petstore_api.model.map_test import MapTest
+
 
 class TestMapTest(unittest.TestCase):
     """MapTest unit test stubs"""
@@ -28,38 +32,94 @@ class TestMapTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test MapTest
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = petstore_api.models.map_test.MapTest()  # noqa: E501
-        if include_optional :
-            return MapTest(
-                map_map_of_string = {
-                    'key' : {
-                        'key' : '0'
-                        }
-                    }, 
-                map_of_enum_string = {
-                    'UPPER' : 'UPPER'
-                    }, 
-                direct_map = {
-                    'key' : True
-                    }, 
-                indirect_map = {
-                    'key' : True
-                    }
-            )
-        else :
-            return MapTest(
-        )
+    def test_maptest_init(self):
+        #
+        # Test MapTest construction with valid values
+        #
+        up_or_low_dict = {
+            'UPPER': "UP",
+            'lower': "low"
+        }
+        map_enum_test = MapTest(map_of_enum_string=up_or_low_dict)
 
-    def testMapTest(self):
-        """Test MapTest"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        self.assertEqual(map_enum_test.map_of_enum_string, up_or_low_dict)
 
+        map_of_map_of_strings = {
+            'valueDict': up_or_low_dict
+        }
+        map_enum_test = MapTest(map_map_of_string=map_of_map_of_strings)
+
+        self.assertEqual(map_enum_test.map_map_of_string, map_of_map_of_strings)
+
+        #
+        # Make sure that the init fails for invalid enum values
+        #
+        black_or_white_dict = {
+            'black': "UP",
+            'white': "low"
+        }
+        with self.assertRaises(petstore_api.ApiValueError):
+            MapTest(map_of_enum_string=black_or_white_dict)
+
+    def test_maptest_setter(self):
+        #
+        # Check with some valid values
+        #
+        map_enum_test = MapTest()
+        up_or_low_dict = {
+            'UPPER': "UP",
+            'lower': "low"
+        }
+        map_enum_test.map_of_enum_string = up_or_low_dict
+        self.assertEqual(map_enum_test.map_of_enum_string, up_or_low_dict)
+
+        #
+        # Check if the setter fails for invalid enum values
+        #
+        map_enum_test = MapTest()
+        black_or_white_dict = {
+            'black': "UP",
+            'white': "low"
+        }
+        with self.assertRaises(petstore_api.ApiValueError):
+            map_enum_test.map_of_enum_string = black_or_white_dict
+
+    def test_todict(self):
+        #
+        # Check dictionary serialization
+        #
+        map_enum_test = MapTest()
+        up_or_low_dict = {
+            'UPPER': "UP",
+            'lower': "low"
+        }
+        map_of_map_of_strings = {
+            'valueDict': up_or_low_dict
+        }
+        indirect_map = string_boolean_map.StringBooleanMap(**{
+            'option1': True
+        })
+        direct_map = {
+            'option2': False
+        }
+        map_enum_test.map_of_enum_string = up_or_low_dict
+        map_enum_test.map_map_of_string = map_of_map_of_strings
+        map_enum_test.indirect_map = indirect_map
+        map_enum_test.direct_map = direct_map
+
+        self.assertEqual(map_enum_test.map_of_enum_string, up_or_low_dict)
+        self.assertEqual(map_enum_test.map_map_of_string, map_of_map_of_strings)
+        self.assertEqual(map_enum_test.indirect_map, indirect_map)
+        self.assertEqual(map_enum_test.direct_map, direct_map)
+
+        expected_dict = {
+            'map_of_enum_string': up_or_low_dict,
+            'map_map_of_string': map_of_map_of_strings,
+            'indirect_map': indirect_map.to_dict(),
+            'direct_map': direct_map
+        }
+
+        self.assertEqual(map_enum_test.to_dict(), expected_dict)
 
 if __name__ == '__main__':
     unittest.main()

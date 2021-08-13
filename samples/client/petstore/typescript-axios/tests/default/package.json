@@ -2,28 +2,22 @@
   "private": true,
   "dependencies": {
     "@openapitools/typescript-axios-petstore": "file:../../builds/with-npm-version",
-    "axios": "0.19.2",
-    "chai": "^4.1.0",
-    "ts-node": "^3.3.0"
+    "chai": "^4.2.0",
+    "ts-node": "^9.1.1"
   },
   "scripts": {
-    "prepublish": "npm install ../../builds/with-npm-version && npm run build",
-    "test": "mocha test/*.ts --compilers ts:ts-node/register --timeout 10000",
+    "preinstall": "npm install ../../builds/with-npm-version && npm run build",
+    "test": "mocha test/*.ts --require ts-node/register --timeout 10000",
     "build": "tsc",
-    "webpack": "webpack",
     "browserify": "browserify test -p [ tsify ] > ./dist/test.browserify-bundle.js"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.1",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.14",
-    "browserify": "^14.4.0",
-    "mocha": "^3.4.2",
-    "ts-loader": "^5.1.0",
-    "tsify": "^3.0.1",
-    "typescript": "^2.4.1",
-    "typings": "^2.1.1",
-    "webpack": "^1.13.0"
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.2.0",
+    "@types/node": "^14.14.14",
+    "browserify": "^17.0.0",
+    "mocha": "^8.2.1",
+    "typescript": "^4.1.2"
   },
   "name": "typescript-fetch-test",
   "version": "1.0.0",

@@ -8,7 +8,7 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):  # noqa: E501
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
     """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
 
     {{#notes}}{{.}}{{/notes}} # noqa: E501

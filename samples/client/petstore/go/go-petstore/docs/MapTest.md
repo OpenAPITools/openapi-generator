@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MapMapOfString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
+**MapMapOfString** | Pointer to **map[string]map[string]string** |  | [optional] 
 **MapOfEnumString** | Pointer to **map[string]string** |  | [optional] 
 **DirectMap** | Pointer to **map[string]bool** |  | [optional] 
 **IndirectMap** | Pointer to **map[string]bool** |  | [optional] 

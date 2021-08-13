@@ -65,6 +65,14 @@ namespace Org.OpenAPITools.Model
         public int SnakeCase { get; private set; }
 
         /// <summary>
+        /// Returns false as SnakeCase should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeSnakeCase()
+        {
+            return false;
+        }
+        /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
@@ -76,6 +84,14 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
         public int _123Number { get; private set; }
 
+        /// <summary>
+        /// Returns false as _123Number should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerialize_123Number()
+        {
+            return false;
+        }
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
@@ -105,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>

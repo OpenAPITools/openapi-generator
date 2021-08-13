@@ -1,0 +1,38 @@
+package {{packageName}}.infrastructure
+
+{{#kotlinx_serialization}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
+{{/kotlinx_serialization}}
+{{#moshi}}
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+{{/moshi}}
+import java.math.BigInteger
+
+{{#kotlinx_serialization}}@Serializer(forClass = BigInteger::class)
+object BigIntegerAdapter : KSerializer<BigInteger> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
+    override fun deserialize(decoder: Decoder): BigInteger {
+        return BigInteger(decoder.decodeString())
+    }
+
+    override fun serialize(encoder: Encoder, value: BigInteger) {
+        encoder.encodeString(value.toString())
+    }
+}{{/kotlinx_serialization}}{{#moshi}}{{#nonPublicApi}}internal {{/nonPublicApi}}class BigIntegerAdapter {
+    @ToJson
+    fun toJson(value: BigInteger): String {
+        return value.toString()
+    }
+
+    @FromJson
+    fun fromJson(value: String): BigInteger {
+        return BigInteger(value)
+    }
+}{{/moshi}}

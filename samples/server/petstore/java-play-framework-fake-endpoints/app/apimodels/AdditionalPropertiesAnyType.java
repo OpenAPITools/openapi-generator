@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
   @JsonProperty("name")
+  
   private String name;
 
   public AdditionalPropertiesAnyType name(String name) {
@@ -25,7 +26,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 

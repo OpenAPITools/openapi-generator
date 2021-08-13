@@ -107,10 +107,10 @@ Multiple status values can be provided with comma separated strings
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val status : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Status values that need to be considered for filter
+val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
 
 launch(Dispatchers.IO) {
-    val result : kotlin.Array<Pet> = webService.findPetsByStatus(status)
+    val result : kotlin.collections.List<Pet> = webService.findPetsByStatus(status)
 }
 ```
 
@@ -118,11 +118,11 @@ launch(Dispatchers.IO) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -147,10 +147,10 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(PetApi::class.java)
-val tags : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Tags to filter by
+val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
 
 launch(Dispatchers.IO) {
-    val result : kotlin.Array<Pet> = webService.findPetsByTags(tags)
+    val result : kotlin.collections.List<Pet> = webService.findPetsByTags(tags)
 }
 ```
 
@@ -158,11 +158,11 @@ launch(Dispatchers.IO) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 

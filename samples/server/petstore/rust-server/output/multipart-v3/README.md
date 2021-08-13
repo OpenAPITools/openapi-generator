@@ -106,7 +106,6 @@ Method | HTTP request | Description
 
  - [InlineObject](docs/InlineObject.md)
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
- - [MultipartRequest](docs/MultipartRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
 
 

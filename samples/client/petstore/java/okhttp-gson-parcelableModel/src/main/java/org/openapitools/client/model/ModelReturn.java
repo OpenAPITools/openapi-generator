@@ -31,7 +31,7 @@ import android.os.Parcel;
  */
 @ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ModelReturn {
+public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
@@ -78,7 +78,6 @@ public class ModelReturn {
   public int hashCode() {
     return Objects.hash(_return);
   }
-
 
   @Override
   public String toString() {

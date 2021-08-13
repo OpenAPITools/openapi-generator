@@ -71,6 +71,7 @@ public enum KindEnum {
     this.kind = kind;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
