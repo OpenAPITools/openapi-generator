@@ -90,6 +90,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     // special property keywords not allowed as these are the function names in the model files
     protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractCSharpCodegen() {
         super();
 
@@ -1030,11 +1033,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         // We need to check if import-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (importMapping.containsKey(name)) {
+            schemaKeyToModelNameCache.put(origName, importMapping.get(name));
             return importMapping.get(name);
         }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -1058,6 +1069,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        schemaKeyToModelNameCache.put(origName, camelize(name));
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);
