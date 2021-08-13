@@ -494,21 +494,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return a map from model key to toModelName(key) for efficient lookup.
-     *
-     * @return map from model key to toModelName(key).
-     */
-    protected Map<String, String> getSchemaKeyToModelNameCache() {
-        if (schemaKeyToModelNameCache == null) {
-            // Create a cache to efficiently lookup toModelName() based on model name.
-            Map<String, String> m = new HashMap<>();
-            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> m.put(key, toModelName(key)));
-            schemaKeyToModelNameCache = Collections.unmodifiableMap(m);
-        }
-        return schemaKeyToModelNameCache;
-    }
-
-    /**
      * Index all CodegenModels by model name.
      *
      * @param objs Map of models
