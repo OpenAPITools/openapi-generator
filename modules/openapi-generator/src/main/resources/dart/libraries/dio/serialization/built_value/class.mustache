@@ -24,8 +24,8 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     {{#description}}
     /// {{{description}}}
     {{/description}}
-    @BuiltValueField(wireName: r'{{baseName}}')
-    {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+    @BuiltValueField(wireName: r'{{baseName}}')    
+    {{>serialization/built_value/variable_type}} get {{name}};
     {{#allowableValues}}
     // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
     {{/allowableValues}}
@@ -67,7 +67,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
         result
             ..add(r'{{baseName}}')
             ..add({{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(object.{{{name}}},
-                specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+                specifiedType: {{>serialization/built_value/variable_serializer_type}} ,),);
         {{/required}}
         {{^required}}
         if (object.{{{name}}} != null) {
@@ -75,7 +75,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             result
                 ..add(r'{{baseName}}')
                 ..add(serializers.serialize(object.{{{name}}},
-                    specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+                    specifiedType: {{>serialization/built_value/variable_serializer_type}} ,),);                
         }
         {{/required}}
         {{/vars}}
@@ -92,21 +92,25 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 {{#vars}}
-                case r'{{baseName}}':
+                case r'{{baseName}}':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: {{>serialization/built_value/variable_serializer_type}} ,) as {{>serialization/built_value/variable_type}};
+                    {{#isNullable}}
+                        if (valueDes == null) continue;
+                    {{/isNullable}}
+                                        
                     {{#isContainer}}
-                    result.{{{name}}}.replace(serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    result.{{{name}}}.replace(valueDes);
                     {{/isContainer}}
                     {{#isModel}}
-                    result.{{{name}}}.replace(serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    result.{{{name}}}.replace(valueDes);
                     {{/isModel}}
                     {{^isContainer}}
                     {{^isModel}}
-                    result.{{{name}}} = serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    result.{{{name}}} = valueDes;
                     {{/isModel}}
                     {{/isContainer}}
                     break;

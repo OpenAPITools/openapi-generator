@@ -276,43 +276,43 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 model.imports.add("BuiltSet");
             }
 
-            property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
+            // property.getVendorExtensions().put("x-built-value-serializer-type", createBuiltValueSerializerType(property));
         }
     }
 
-    private String createBuiltValueSerializerType(CodegenProperty property) {
-        final StringBuilder sb = new StringBuilder("const FullType");
-        if (property.isNullable) {
-            sb.append(".nullable");
-        }
-        sb.append("(");
-        if (property.isContainer) {
-            appendBuiltValueCollection(sb, property);
-        } else {
-            sb.append(property.datatypeWithEnum);
-        }
-        sb.append(")");
-        return sb.toString();
-    }
+    // private String createBuiltValueSerializerType(CodegenProperty property) {
+    //     final StringBuilder sb = new StringBuilder("const FullType");
+    //     if (property.isNullable) {
+    //         sb.append(".nullable");
+    //     }
+    //     sb.append("(");
+    //     if (property.isContainer) {
+    //         appendBuiltValueCollection(sb, property);
+    //     } else {
+    //         sb.append(property.datatypeWithEnum);
+    //     }
+    //     sb.append(")");
+    //     return sb.toString();
+    // }
 
-    private void appendBuiltValueCollection(StringBuilder sb, CodegenProperty property) {
-        sb.append(property.baseType);
-        sb.append(", [FullType");
-        if (property.isMap) {
-            // a map always has string keys
-            sb.append("(String), FullType");
-        }
-        if(property.items.isNullable) {
-            sb.append(".nullable");
-        }
-        sb.append("(");
-        if (property.items.isContainer) {
-            appendBuiltValueCollection(sb, property.items);
-        } else {
-            sb.append(property.items.datatypeWithEnum);
-        }
-        sb.append(")]");
-    }
+    // private void appendBuiltValueCollection(StringBuilder sb, CodegenProperty property) {
+    //     sb.append(property.baseType);
+    //     sb.append(", [FullType");
+    //     if (property.isMap) {
+    //         // a map always has string keys
+    //         sb.append("(String), FullType");
+    //     }
+    //     if(property.items.isNullable) {
+    //         sb.append(".nullable");
+    //     }
+    //     sb.append("(");
+    //     if (property.items.isContainer) {
+    //         appendBuiltValueCollection(sb, property.items);
+    //     } else {
+    //         sb.append(property.items.datatypeWithEnum);
+    //     }
+    //     sb.append(")]");
+    // }
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
