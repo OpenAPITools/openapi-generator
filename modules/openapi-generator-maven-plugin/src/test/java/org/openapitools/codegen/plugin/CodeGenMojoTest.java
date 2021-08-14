@@ -24,7 +24,11 @@ import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.impl.DefaultServiceLocator;
+import org.eclipse.aether.repository.LocalRepository;
 import org.openapitools.codegen.plugin.stubs.StubUtility;
 
 import java.io.File;
@@ -38,10 +42,22 @@ public class CodeGenMojoTest extends BaseTestCase {
         super.setUp();
     }
 
+    public void testCommonConfigurationWithFileInputSpec() throws Exception {
+        testCommonConfiguration("file");
+    }
+
+    public void testCommonConfigurationWithResourceInputSpec() throws Exception {
+        testCommonConfiguration("resource");
+    }
+
+    public void testCommonConfigurationWithURLInputSpec() throws Exception {
+        testCommonConfiguration("url");
+    }
+
     @SuppressWarnings("unchecked")
-    public void testCommonConfiguration() throws Exception {
+    private void testCommonConfiguration(String profile) throws Exception {
         File folder = Files.createTempDirectory("test").toFile();
-        CodeGenMojo mojo = loadMojo(folder, "src/test/resources/default");
+        CodeGenMojo mojo = loadMojo(folder, "src/test/resources/default", profile);
         mojo.execute();
         assertEquals("java", getVariableValueFromObject(mojo, "generatorName"));
         assertEquals("jersey2", getVariableValueFromObject(mojo, "library"));
@@ -57,7 +73,7 @@ public class CodeGenMojoTest extends BaseTestCase {
     public void testHashGenerationFileContainsExecutionId() throws Exception {
         // GIVEN
         Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
 
         // WHEN
         mojo.execute();
@@ -67,14 +83,14 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue(hashFolder.resolve("petstore.yaml-executionId.sha256").toFile().exists());
     }
 
-    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot) throws Exception {
-        return loadMojo(temporaryFolder, projectRoot, "default");
+    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String profile) throws Exception {
+        return loadMojo(temporaryFolder, projectRoot, profile, "default");
     }
 
-    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String executionId) throws Exception {
+    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String profile, String executionId) throws Exception {
         File file = new File(projectRoot);
         FileUtils.copyDirectory(file, temporaryFolder);
-        MavenProject project = readMavenProject(temporaryFolder);
+        MavenProject project = readMavenProject(temporaryFolder, profile);
         MavenSession session = newMavenSession(project);
         MojoExecution execution = newMojoExecution("generate");
         MojoExecution executionWithId = copyWithExecutionId(executionId, execution);
@@ -87,13 +103,22 @@ public class CodeGenMojoTest extends BaseTestCase {
         return executionWithId;
     }
 
-    protected MavenProject readMavenProject(File basedir)
+    protected MavenProject readMavenProject(File basedir, String profile)
             throws Exception {
         File pom = new File(basedir, "pom.xml");
+        LocalRepository localRepo = new LocalRepository(new File(basedir, "local-repo"));
+        DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
+        RepositorySystem system = locator.getService(RepositorySystem.class);
+        DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
+        session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         request.setBaseDirectory(basedir);
+        if (profile != null) {
+            request.addActiveProfile(profile);
+        }
         ProjectBuildingRequest configuration = request.getProjectBuildingRequest();
-        configuration.setRepositorySession(new DefaultRepositorySystemSession());
+        configuration.setRepositorySession(session);
+        configuration.setResolveDependencies(true);
         MavenProject project = lookup(ProjectBuilder.class).build(pom, configuration).getProject();
         assertNotNull(project);
         return project;
