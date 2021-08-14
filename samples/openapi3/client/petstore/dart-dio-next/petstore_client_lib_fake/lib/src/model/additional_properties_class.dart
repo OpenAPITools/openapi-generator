@@ -22,7 +22,8 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
 
     AdditionalPropertiesClass._();
 
-    static void _initializeBuilder(AdditionalPropertiesClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(AdditionalPropertiesClassBuilder b) => b;
 
     factory AdditionalPropertiesClass([void updates(AdditionalPropertiesClassBuilder b)]) = _$AdditionalPropertiesClass;
 

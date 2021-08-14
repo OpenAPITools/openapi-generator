@@ -17,7 +17,8 @@ abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
 
     ModelClient._();
 
-    static void _initializeBuilder(ModelClientBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelClientBuilder b) => b;
 
     factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 

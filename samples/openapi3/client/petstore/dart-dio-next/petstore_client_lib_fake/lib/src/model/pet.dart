@@ -42,7 +42,8 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     Pet._();
 
-    static void _initializeBuilder(PetBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(PetBuilder b) => b;
 
     factory Pet([void updates(PetBuilder b)]) = _$Pet;
 

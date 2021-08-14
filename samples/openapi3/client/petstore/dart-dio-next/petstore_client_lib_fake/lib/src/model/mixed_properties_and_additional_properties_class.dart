@@ -27,7 +27,8 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
 
     MixedPropertiesAndAdditionalPropertiesClass._();
 
-    static void _initializeBuilder(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
 
     factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
 

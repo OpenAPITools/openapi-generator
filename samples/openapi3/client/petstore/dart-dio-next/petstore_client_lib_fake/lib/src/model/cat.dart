@@ -29,7 +29,8 @@ abstract class Cat implements Built<Cat, CatBuilder> {
 
     Cat._();
 
-    static void _initializeBuilder(CatBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CatBuilder b) => b
         ..color = 'red';
 
     factory Cat([void updates(CatBuilder b)]) = _$Cat;
