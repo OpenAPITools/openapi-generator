@@ -17,7 +17,8 @@ abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
 
     DogAllOf._();
 
-    static void _initializeBuilder(DogAllOfBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DogAllOfBuilder b) => b;
 
     factory DogAllOf([void updates(DogAllOfBuilder b)]) = _$DogAllOf;
 

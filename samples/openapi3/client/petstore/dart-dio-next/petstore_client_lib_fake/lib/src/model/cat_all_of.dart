@@ -17,7 +17,8 @@ abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
 
     CatAllOf._();
 
-    static void _initializeBuilder(CatAllOfBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CatAllOfBuilder b) => b;
 
     factory CatAllOf([void updates(CatAllOfBuilder b)]) = _$CatAllOf;
 

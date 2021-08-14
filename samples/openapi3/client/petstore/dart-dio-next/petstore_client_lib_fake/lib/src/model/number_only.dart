@@ -17,7 +17,8 @@ abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
 
     NumberOnly._();
 
-    static void _initializeBuilder(NumberOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(NumberOnlyBuilder b) => b;
 
     factory NumberOnly([void updates(NumberOnlyBuilder b)]) = _$NumberOnly;
 

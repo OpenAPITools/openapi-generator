@@ -64,7 +64,8 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
 
     NullableClass._();
 
-    static void _initializeBuilder(NullableClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(NullableClassBuilder b) => b;
 
     factory NullableClass([void updates(NullableClassBuilder b)]) = _$NullableClass;
 

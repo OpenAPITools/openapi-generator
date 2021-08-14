@@ -18,7 +18,8 @@ abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumb
 
     ArrayOfNumberOnly._();
 
-    static void _initializeBuilder(ArrayOfNumberOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ArrayOfNumberOnlyBuilder b) => b;
 
     factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
 

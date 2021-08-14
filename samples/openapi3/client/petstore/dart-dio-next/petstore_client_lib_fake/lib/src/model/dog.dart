@@ -29,7 +29,8 @@ abstract class Dog implements Built<Dog, DogBuilder> {
 
     Dog._();
 
-    static void _initializeBuilder(DogBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DogBuilder b) => b
         ..color = 'red';
 
     factory Dog([void updates(DogBuilder b)]) = _$Dog;

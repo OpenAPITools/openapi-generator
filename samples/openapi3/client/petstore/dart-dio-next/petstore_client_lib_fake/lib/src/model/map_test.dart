@@ -31,7 +31,8 @@ abstract class MapTest implements Built<MapTest, MapTestBuilder> {
 
     MapTest._();
 
-    static void _initializeBuilder(MapTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(MapTestBuilder b) => b;
 
     factory MapTest([void updates(MapTestBuilder b)]) = _$MapTest;
 

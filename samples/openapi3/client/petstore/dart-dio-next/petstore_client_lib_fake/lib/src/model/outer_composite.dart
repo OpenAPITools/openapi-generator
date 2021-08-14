@@ -25,7 +25,8 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
 
     OuterComposite._();
 
-    static void _initializeBuilder(OuterCompositeBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(OuterCompositeBuilder b) => b;
 
     factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
