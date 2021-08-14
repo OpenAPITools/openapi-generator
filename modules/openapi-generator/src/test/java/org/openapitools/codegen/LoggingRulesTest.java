@@ -28,7 +28,7 @@ public class LoggingRulesTest  {
             .andShould().notBeStatic()
             .andShould().beFinal()
             .because("Code generators are most often used once per program lifetime, " +
-                    "so making them all static will cause higher memory consumption, " +
-                    "see #8799");
+                    "so making them all static will cause higher memory consumption. " +
+                    "See PR #8799");
 
 }
