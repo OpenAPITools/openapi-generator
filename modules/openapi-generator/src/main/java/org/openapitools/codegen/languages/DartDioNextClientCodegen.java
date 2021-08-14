@@ -37,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String DATE_LIBRARY_CORE = "core";
