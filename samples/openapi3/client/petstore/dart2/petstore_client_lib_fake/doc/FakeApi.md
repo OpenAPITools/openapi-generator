@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
 
 
 
@@ -777,9 +777,10 @@ final ioutil = []; // List<String> |
 final http = []; // List<String> | 
 final url = []; // List<String> | 
 final context = []; // List<String> | 
+final language = ; // Map<String, String> | 
 
 try { 
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -794,6 +795,7 @@ Name | Type | Description  | Notes
  **http** | [**List<String>**](String.md)|  | [default to const []]
  **url** | [**List<String>**](String.md)|  | [default to const []]
  **context** | [**List<String>**](String.md)|  | [default to const []]
+ **language** | [**Map<String, String>**](String.md)|  | [optional] [default to const {}]
 
 ### Return type
 

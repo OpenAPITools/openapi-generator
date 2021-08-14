@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
 
 
 
@@ -777,9 +777,10 @@ var ioutil = []; // BuiltList<String> |
 var http = []; // BuiltList<String> | 
 var url = []; // BuiltList<String> | 
 var context = []; // BuiltList<String> | 
+var language = ; // BuiltMap<String, String> | 
 
 try { 
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -794,6 +795,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList<String>**](String.md)|  | 
  **url** | [**BuiltList<String>**](String.md)|  | 
  **context** | [**BuiltList<String>**](String.md)|  | 
+ **language** | [**BuiltMap<String, String>**](String.md)|  | [optional] 
 
 ### Return type
 
