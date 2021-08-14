@@ -1747,7 +1747,7 @@ def get_allof_instances(self, model_args, constant_args):
     for allof_class in self._composed_schemas['allOf']:
 
         try:
-            allof_instance = allof_class(**model_args, **constant_args)
+            allof_instance = allof_class._new_from_openapi_data(**model_args, **constant_args)
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(
