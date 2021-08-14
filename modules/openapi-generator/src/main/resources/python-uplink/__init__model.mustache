@@ -1,0 +1,15 @@
+# flake8: noqa
+
+{{#models}}
+{{#model}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}
+{{/model}}
+{{/models}}
+
+__all__ = [
+{{#models}}
+{{#model}}
+    {{classname}},
+{{/model}}
+{{/models}}
+]

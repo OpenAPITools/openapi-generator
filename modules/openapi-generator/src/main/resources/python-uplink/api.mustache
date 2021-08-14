@@ -1,4 +1,19 @@
-from uplink import Consumer, get, Path, Query
+from uplink import (
+    Consumer,
+    get,
+    Path,
+    Query,
+    Body,
+    post,
+    get,
+    patch,
+    put,
+    delete,
+    Header,
+    Form,
+    returns,
+    json,
+)
 
 from __future__ import annotations
 from datetime import date, datetime  # noqa: F401
@@ -6,29 +21,22 @@ from datetime import date, datetime  # noqa: F401
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
-{{#models}}
-{{#model}}
-{{#pyImports}}
-{{import}}
-{{/pyImports}}
-{{/model}}
-{{/models}}
-
-{{>all_model}}
-
-
-{{#apiInfo}}{{#apis}}
+{{#imports}}
+{{{import}}}
+{{/imports}}
 
 {{#operations}}
 class {{classname}}(Consumer):
 {{#operation}}
 
+{{#vendorExtensions.x-operation-produces}}
+    @returns.{{.}}
+{{/vendorExtensions.x-operation-produces}}
+{{#vendorExtensions.x-operation-consumes}}
+    @{{.}}
+{{/vendorExtensions.x-operation-consumes}}
     @{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
     def {{operationId}}(self, {{#allParams}}{{>endpoint_argument_definition}}, {{/allParams}}) {{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
        """{{{summary}}}"""
 {{/operation}}
 {{/operations}}
-
-{{/apis}}{{/apiInfo}}
-
