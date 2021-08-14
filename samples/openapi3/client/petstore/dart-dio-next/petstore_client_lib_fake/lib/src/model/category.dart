@@ -21,7 +21,8 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
     Category._();
 
-    static void _initializeBuilder(CategoryBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CategoryBuilder b) => b
         ..name = 'default-name';
 
     factory Category([void updates(CategoryBuilder b)]) = _$Category;

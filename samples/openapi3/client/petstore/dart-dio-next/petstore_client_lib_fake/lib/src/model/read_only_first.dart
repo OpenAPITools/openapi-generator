@@ -21,7 +21,8 @@ abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilde
 
     ReadOnlyFirst._();
 
-    static void _initializeBuilder(ReadOnlyFirstBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ReadOnlyFirstBuilder b) => b;
 
     factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
 

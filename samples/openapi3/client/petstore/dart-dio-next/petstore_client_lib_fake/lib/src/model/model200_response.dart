@@ -21,7 +21,8 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
 
     Model200Response._();
 
-    static void _initializeBuilder(Model200ResponseBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(Model200ResponseBuilder b) => b;
 
     factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
 

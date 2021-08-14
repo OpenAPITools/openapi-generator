@@ -21,7 +21,8 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 
     Tag._();
 
-    static void _initializeBuilder(TagBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(TagBuilder b) => b;
 
     factory Tag([void updates(TagBuilder b)]) = _$Tag;
 

@@ -23,7 +23,8 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
 
     FileSchemaTestClass._();
 
-    static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FileSchemaTestClassBuilder b) => b;
 
     factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 

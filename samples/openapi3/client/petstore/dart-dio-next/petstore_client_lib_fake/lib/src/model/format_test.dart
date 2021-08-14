@@ -81,7 +81,8 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
 
     FormatTest._();
 
-    static void _initializeBuilder(FormatTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FormatTestBuilder b) => b;
 
     factory FormatTest([void updates(FormatTestBuilder b)]) = _$FormatTest;
 

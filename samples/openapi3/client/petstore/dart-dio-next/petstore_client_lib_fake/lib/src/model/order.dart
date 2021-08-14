@@ -40,7 +40,8 @@ abstract class Order implements Built<Order, OrderBuilder> {
 
     Order._();
 
-    static void _initializeBuilder(OrderBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(OrderBuilder b) => b
         ..complete = false;
 
     factory Order([void updates(OrderBuilder b)]) = _$Order;
