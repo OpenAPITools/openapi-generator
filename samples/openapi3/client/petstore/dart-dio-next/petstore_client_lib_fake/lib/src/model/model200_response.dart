@@ -13,10 +13,10 @@ part 'model200_response.g.dart';
 /// * [name] 
 /// * [class_] 
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
-    @BuiltValueField(wireName: r'name')
+    @BuiltValueField(wireName: r'name')    
     int? get name;
 
-    @BuiltValueField(wireName: r'class')
+    @BuiltValueField(wireName: r'class')    
     String? get class_;
 
     Model200Response._();
@@ -45,13 +45,13 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         if (object.class_ != null) {
             result
                 ..add(r'class')
                 ..add(serializers.serialize(object.class_,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -66,14 +66,19 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'name':
-                    result.name = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'name':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.name = valueDes;
                     break;
-                case r'class':
-                    result.class_ = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'class':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.class_ = valueDes;
                     break;
             }
         }

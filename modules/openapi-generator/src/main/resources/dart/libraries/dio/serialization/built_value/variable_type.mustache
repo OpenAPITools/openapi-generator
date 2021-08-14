@@ -1,1 +1,1 @@
-{{#isContainer}}{{baseType}}<{{#isMap}}String,{{/isMap}}{{#items}}{{>serialization/built_value/variable_type_with_nullable}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}
+{{#isContainer}}{{baseType}}<{{#isMap}}String,{{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}

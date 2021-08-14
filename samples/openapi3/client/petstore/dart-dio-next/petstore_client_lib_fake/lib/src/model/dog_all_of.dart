@@ -12,7 +12,7 @@ part 'dog_all_of.g.dart';
 /// Properties:
 /// * [breed] 
 abstract class DogAllOf implements Built<DogAllOf, DogAllOfBuilder> {
-    @BuiltValueField(wireName: r'breed')
+    @BuiltValueField(wireName: r'breed')    
     String? get breed;
 
     DogAllOf._();
@@ -41,7 +41,7 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
             result
                 ..add(r'breed')
                 ..add(serializers.serialize(object.breed,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -56,10 +56,13 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'breed':
-                    result.breed = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'breed':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.breed = valueDes;
                     break;
             }
         }

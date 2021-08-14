@@ -14,11 +14,11 @@ part 'additional_properties_class.g.dart';
 /// * [mapProperty] 
 /// * [mapOfMapProperty] 
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
-    @BuiltValueField(wireName: r'map_property')
-    BuiltMap<String, String>? get mapProperty;
+    @BuiltValueField(wireName: r'map_property')    
+    BuiltMap<String,String>? get mapProperty;
 
-    @BuiltValueField(wireName: r'map_of_map_property')
-    BuiltMap<String, BuiltMap<String, String>>? get mapOfMapProperty;
+    @BuiltValueField(wireName: r'map_of_map_property')    
+    BuiltMap<String,BuiltMap<String,String>>? get mapOfMapProperty;
 
     AdditionalPropertiesClass._();
 
@@ -46,13 +46,13 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             result
                 ..add(r'map_property')
                 ..add(serializers.serialize(object.mapProperty,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(String)]) ,),);                
         }
         if (object.mapOfMapProperty != null) {
             result
                 ..add(r'map_of_map_property')
                 ..add(serializers.serialize(object.mapOfMapProperty,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(BuiltMap, [const FullType(String), const FullType(String)])]) ,),);                
         }
         return result;
     }
@@ -67,14 +67,19 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'map_property':
-                    result.mapProperty.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>);
+                case r'map_property':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(String)]) ,) as BuiltMap<String,String>;
+
+                    result.mapProperty.replace(valueDes);
                     break;
-                case r'map_of_map_property':
-                    result.mapOfMapProperty.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>);
+                case r'map_of_map_property':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(BuiltMap, [const FullType(String), const FullType(String)])]) ,) as BuiltMap<String,BuiltMap<String,String>>;
+
+                    result.mapOfMapProperty.replace(valueDes);
                     break;
             }
         }

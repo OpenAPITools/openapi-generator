@@ -18,13 +18,13 @@ part 'cat.g.dart';
 /// * [color] 
 /// * [declawed] 
 abstract class Cat implements Built<Cat, CatBuilder> {
-    @BuiltValueField(wireName: r'className')
+    @BuiltValueField(wireName: r'className')    
     String get className;
 
-    @BuiltValueField(wireName: r'color')
+    @BuiltValueField(wireName: r'color')    
     String? get color;
 
-    @BuiltValueField(wireName: r'declawed')
+    @BuiltValueField(wireName: r'declawed')    
     bool? get declawed;
 
     Cat._();
@@ -53,18 +53,18 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
         result
             ..add(r'className')
             ..add(serializers.serialize(object.className,
-                specifiedType: const FullType(String)));
+                specifiedType: const FullType(String) ,),);
         if (object.color != null) {
             result
                 ..add(r'color')
                 ..add(serializers.serialize(object.color,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.declawed != null) {
             result
                 ..add(r'declawed')
                 ..add(serializers.serialize(object.declawed,
-                    specifiedType: const FullType(bool)));
+                    specifiedType: const FullType(bool) ,),);                
         }
         return result;
     }
@@ -79,18 +79,25 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'className':
-                    result.className = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'className':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.className = valueDes;
                     break;
-                case r'color':
-                    result.color = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'color':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.color = valueDes;
                     break;
-                case r'declawed':
-                    result.declawed = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
+                case r'declawed':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(bool) ,) as bool;
+
+                    result.declawed = valueDes;
                     break;
             }
         }

@@ -14,13 +14,13 @@ part 'outer_composite.g.dart';
 /// * [myString] 
 /// * [myBoolean] 
 abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
-    @BuiltValueField(wireName: r'my_number')
+    @BuiltValueField(wireName: r'my_number')    
     num? get myNumber;
 
-    @BuiltValueField(wireName: r'my_string')
+    @BuiltValueField(wireName: r'my_string')    
     String? get myString;
 
-    @BuiltValueField(wireName: r'my_boolean')
+    @BuiltValueField(wireName: r'my_boolean')    
     bool? get myBoolean;
 
     OuterComposite._();
@@ -49,19 +49,19 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             result
                 ..add(r'my_number')
                 ..add(serializers.serialize(object.myNumber,
-                    specifiedType: const FullType(num)));
+                    specifiedType: const FullType(num) ,),);                
         }
         if (object.myString != null) {
             result
                 ..add(r'my_string')
                 ..add(serializers.serialize(object.myString,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.myBoolean != null) {
             result
                 ..add(r'my_boolean')
                 ..add(serializers.serialize(object.myBoolean,
-                    specifiedType: const FullType(bool)));
+                    specifiedType: const FullType(bool) ,),);                
         }
         return result;
     }
@@ -76,18 +76,25 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'my_number':
-                    result.myNumber = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
+                case r'my_number':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(num) ,) as num;
+
+                    result.myNumber = valueDes;
                     break;
-                case r'my_string':
-                    result.myString = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'my_string':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.myString = valueDes;
                     break;
-                case r'my_boolean':
-                    result.myBoolean = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
+                case r'my_boolean':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(bool) ,) as bool;
+
+                    result.myBoolean = valueDes;
                     break;
             }
         }

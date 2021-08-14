@@ -17,16 +17,16 @@ part 'object_with_deprecated_fields.g.dart';
 /// * [deprecatedRef] 
 /// * [bars] 
 abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilder> {
-    @BuiltValueField(wireName: r'uuid')
+    @BuiltValueField(wireName: r'uuid')    
     String? get uuid;
 
-    @BuiltValueField(wireName: r'id')
+    @BuiltValueField(wireName: r'id')    
     num? get id;
 
-    @BuiltValueField(wireName: r'deprecatedRef')
+    @BuiltValueField(wireName: r'deprecatedRef')    
     DeprecatedObject? get deprecatedRef;
 
-    @BuiltValueField(wireName: r'bars')
+    @BuiltValueField(wireName: r'bars')    
     BuiltList<String>? get bars;
 
     ObjectWithDeprecatedFields._();
@@ -55,25 +55,25 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
             result
                 ..add(r'uuid')
                 ..add(serializers.serialize(object.uuid,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.id != null) {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(num)));
+                    specifiedType: const FullType(num) ,),);                
         }
         if (object.deprecatedRef != null) {
             result
                 ..add(r'deprecatedRef')
                 ..add(serializers.serialize(object.deprecatedRef,
-                    specifiedType: const FullType(DeprecatedObject)));
+                    specifiedType: const FullType(DeprecatedObject) ,),);                
         }
         if (object.bars != null) {
             result
                 ..add(r'bars')
                 ..add(serializers.serialize(object.bars,
-                    specifiedType: const FullType(BuiltList, [FullType(String)])));
+                    specifiedType: const FullType(BuiltList, [const FullType(String)]) ,),);                
         }
         return result;
     }
@@ -88,22 +88,31 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'uuid':
-                    result.uuid = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'uuid':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.uuid = valueDes;
                     break;
-                case r'id':
-                    result.id = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
+                case r'id':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(num) ,) as num;
+
+                    result.id = valueDes;
                     break;
-                case r'deprecatedRef':
-                    result.deprecatedRef.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject);
+                case r'deprecatedRef':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(DeprecatedObject) ,) as DeprecatedObject;
+
+                    result.deprecatedRef.replace(valueDes);
                     break;
-                case r'bars':
-                    result.bars.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>);
+                case r'bars':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [const FullType(String)]) ,) as BuiltList<String>;
+
+                    result.bars.replace(valueDes);
                     break;
             }
         }

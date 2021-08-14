@@ -12,7 +12,7 @@ part 'class_model.g.dart';
 /// Properties:
 /// * [class_] 
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
-    @BuiltValueField(wireName: r'_class')
+    @BuiltValueField(wireName: r'_class')    
     String? get class_;
 
     ClassModel._();
@@ -41,7 +41,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             result
                 ..add(r'_class')
                 ..add(serializers.serialize(object.class_,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -56,10 +56,13 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'_class':
-                    result.class_ = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'_class':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.class_ = valueDes;
                     break;
             }
         }

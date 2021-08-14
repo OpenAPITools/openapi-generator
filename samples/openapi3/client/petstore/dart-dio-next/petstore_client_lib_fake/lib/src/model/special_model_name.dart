@@ -12,7 +12,7 @@ part 'special_model_name.g.dart';
 /// Properties:
 /// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
 abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
-    @BuiltValueField(wireName: r'$special[property.name]')
+    @BuiltValueField(wireName: r'$special[property.name]')    
     int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
     SpecialModelName._();
@@ -41,7 +41,7 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
             result
                 ..add(r'$special[property.name]')
                 ..add(serializers.serialize(object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         return result;
     }
@@ -56,10 +56,13 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'$special[property.name]':
-                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'$special[property.name]':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
                     break;
             }
         }

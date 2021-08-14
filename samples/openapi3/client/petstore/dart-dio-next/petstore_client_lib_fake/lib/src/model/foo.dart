@@ -12,7 +12,7 @@ part 'foo.g.dart';
 /// Properties:
 /// * [bar] 
 abstract class Foo implements Built<Foo, FooBuilder> {
-    @BuiltValueField(wireName: r'bar')
+    @BuiltValueField(wireName: r'bar')    
     String? get bar;
 
     Foo._();
@@ -42,7 +42,7 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
             result
                 ..add(r'bar')
                 ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -57,10 +57,13 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'bar':
-                    result.bar = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'bar':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.bar = valueDes;
                     break;
             }
         }

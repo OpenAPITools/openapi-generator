@@ -16,18 +16,18 @@ part 'map_test.g.dart';
 /// * [directMap] 
 /// * [indirectMap] 
 abstract class MapTest implements Built<MapTest, MapTestBuilder> {
-    @BuiltValueField(wireName: r'map_map_of_string')
-    BuiltMap<String, BuiltMap<String, String>>? get mapMapOfString;
+    @BuiltValueField(wireName: r'map_map_of_string')    
+    BuiltMap<String,BuiltMap<String,String>>? get mapMapOfString;
 
-    @BuiltValueField(wireName: r'map_of_enum_string')
-    BuiltMap<String, MapTestMapOfEnumStringEnum>? get mapOfEnumString;
+    @BuiltValueField(wireName: r'map_of_enum_string')    
+    BuiltMap<String,MapTestMapOfEnumStringEnum>? get mapOfEnumString;
     // enum mapOfEnumStringEnum {  UPPER,  lower,  };
 
-    @BuiltValueField(wireName: r'direct_map')
-    BuiltMap<String, bool>? get directMap;
+    @BuiltValueField(wireName: r'direct_map')    
+    BuiltMap<String,bool>? get directMap;
 
-    @BuiltValueField(wireName: r'indirect_map')
-    BuiltMap<String, bool>? get indirectMap;
+    @BuiltValueField(wireName: r'indirect_map')    
+    BuiltMap<String,bool>? get indirectMap;
 
     MapTest._();
 
@@ -55,25 +55,25 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
             result
                 ..add(r'map_map_of_string')
                 ..add(serializers.serialize(object.mapMapOfString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(BuiltMap, [const FullType(String), const FullType(String)])]) ,),);                
         }
         if (object.mapOfEnumString != null) {
             result
                 ..add(r'map_of_enum_string')
                 ..add(serializers.serialize(object.mapOfEnumString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(MapTestMapOfEnumStringEnum)]) ,),);                
         }
         if (object.directMap != null) {
             result
                 ..add(r'direct_map')
                 ..add(serializers.serialize(object.directMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(bool)]) ,),);                
         }
         if (object.indirectMap != null) {
             result
                 ..add(r'indirect_map')
                 ..add(serializers.serialize(object.indirectMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));
+                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(bool)]) ,),);                
         }
         return result;
     }
@@ -88,22 +88,31 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'map_map_of_string':
-                    result.mapMapOfString.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>);
+                case r'map_map_of_string':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(BuiltMap, [const FullType(String), const FullType(String)])]) ,) as BuiltMap<String,BuiltMap<String,String>>;
+
+                    result.mapMapOfString.replace(valueDes);
                     break;
-                case r'map_of_enum_string':
-                    result.mapOfEnumString.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])) as BuiltMap<String, MapTestMapOfEnumStringEnum>);
+                case r'map_of_enum_string':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(MapTestMapOfEnumStringEnum)]) ,) as BuiltMap<String,MapTestMapOfEnumStringEnum>;
+
+                    result.mapOfEnumString.replace(valueDes);
                     break;
-                case r'direct_map':
-                    result.directMap.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>);
+                case r'direct_map':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(bool)]) ,) as BuiltMap<String,bool>;
+
+                    result.directMap.replace(valueDes);
                     break;
-                case r'indirect_map':
-                    result.indirectMap.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>);
+                case r'indirect_map':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(bool)]) ,) as BuiltMap<String,bool>;
+
+                    result.indirectMap.replace(valueDes);
                     break;
             }
         }

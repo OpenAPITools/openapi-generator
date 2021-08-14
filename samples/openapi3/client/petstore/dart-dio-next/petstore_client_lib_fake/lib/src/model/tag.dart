@@ -13,10 +13,10 @@ part 'tag.g.dart';
 /// * [id] 
 /// * [name] 
 abstract class Tag implements Built<Tag, TagBuilder> {
-    @BuiltValueField(wireName: r'id')
+    @BuiltValueField(wireName: r'id')    
     int? get id;
 
-    @BuiltValueField(wireName: r'name')
+    @BuiltValueField(wireName: r'name')    
     String? get name;
 
     Tag._();
@@ -45,13 +45,13 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         if (object.name != null) {
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -66,14 +66,19 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'id':
-                    result.id = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'id':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.id = valueDes;
                     break;
-                case r'name':
-                    result.name = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'name':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.name = valueDes;
                     break;
             }
         }

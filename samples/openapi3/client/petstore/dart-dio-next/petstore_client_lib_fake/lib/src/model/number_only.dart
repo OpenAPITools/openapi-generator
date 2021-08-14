@@ -12,7 +12,7 @@ part 'number_only.g.dart';
 /// Properties:
 /// * [justNumber] 
 abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
-    @BuiltValueField(wireName: r'JustNumber')
+    @BuiltValueField(wireName: r'JustNumber')    
     num? get justNumber;
 
     NumberOnly._();
@@ -41,7 +41,7 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
             result
                 ..add(r'JustNumber')
                 ..add(serializers.serialize(object.justNumber,
-                    specifiedType: const FullType(num)));
+                    specifiedType: const FullType(num) ,),);                
         }
         return result;
     }
@@ -56,10 +56,13 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'JustNumber':
-                    result.justNumber = serializers.deserialize(value,
-                        specifiedType: const FullType(num)) as num;
+                case r'JustNumber':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(num) ,) as num;
+
+                    result.justNumber = valueDes;
                     break;
             }
         }

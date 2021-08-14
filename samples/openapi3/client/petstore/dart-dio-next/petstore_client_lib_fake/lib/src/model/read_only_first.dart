@@ -13,10 +13,10 @@ part 'read_only_first.g.dart';
 /// * [bar] 
 /// * [baz] 
 abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
-    @BuiltValueField(wireName: r'bar')
+    @BuiltValueField(wireName: r'bar')    
     String? get bar;
 
-    @BuiltValueField(wireName: r'baz')
+    @BuiltValueField(wireName: r'baz')    
     String? get baz;
 
     ReadOnlyFirst._();
@@ -45,13 +45,13 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             result
                 ..add(r'bar')
                 ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.baz != null) {
             result
                 ..add(r'baz')
                 ..add(serializers.serialize(object.baz,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -66,14 +66,19 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'bar':
-                    result.bar = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'bar':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.bar = valueDes;
                     break;
-                case r'baz':
-                    result.baz = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'baz':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.baz = valueDes;
                     break;
             }
         }

@@ -15,10 +15,10 @@ part 'file_schema_test_class.g.dart';
 /// * [file] 
 /// * [files] 
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
-    @BuiltValueField(wireName: r'file')
+    @BuiltValueField(wireName: r'file')    
     ModelFile? get file;
 
-    @BuiltValueField(wireName: r'files')
+    @BuiltValueField(wireName: r'files')    
     BuiltList<ModelFile>? get files;
 
     FileSchemaTestClass._();
@@ -47,13 +47,13 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             result
                 ..add(r'file')
                 ..add(serializers.serialize(object.file,
-                    specifiedType: const FullType(ModelFile)));
+                    specifiedType: const FullType(ModelFile) ,),);                
         }
         if (object.files != null) {
             result
                 ..add(r'files')
                 ..add(serializers.serialize(object.files,
-                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));
+                    specifiedType: const FullType(BuiltList, [const FullType(ModelFile)]) ,),);                
         }
         return result;
     }
@@ -68,14 +68,19 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'file':
-                    result.file.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(ModelFile)) as ModelFile);
+                case r'file':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(ModelFile) ,) as ModelFile;
+
+                    result.file.replace(valueDes);
                     break;
-                case r'files':
-                    result.files.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>);
+                case r'files':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [const FullType(ModelFile)]) ,) as BuiltList<ModelFile>;
+
+                    result.files.replace(valueDes);
                     break;
             }
         }

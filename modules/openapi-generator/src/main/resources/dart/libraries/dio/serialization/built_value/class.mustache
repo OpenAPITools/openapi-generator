@@ -25,7 +25,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     /// {{{description}}}
     {{/description}}
     @BuiltValueField(wireName: r'{{baseName}}')    
-    {{>serialization/built_value/variable_type}} get {{name}};
+    {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
     {{#allowableValues}}
     // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
     {{/allowableValues}}
@@ -101,7 +101,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                     {{#isNullable}}
                         if (valueDes == null) continue;
                     {{/isNullable}}
-                                        
+
                     {{#isContainer}}
                     result.{{{name}}}.replace(valueDes);
                     {{/isContainer}}

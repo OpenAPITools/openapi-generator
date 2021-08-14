@@ -12,7 +12,7 @@ part 'health_check_result.g.dart';
 /// Properties:
 /// * [nullableMessage] 
 abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
-    @BuiltValueField(wireName: r'NullableMessage')
+    @BuiltValueField(wireName: r'NullableMessage')    
     String? get nullableMessage;
 
     HealthCheckResult._();
@@ -41,7 +41,7 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             result
                 ..add(r'NullableMessage')
                 ..add(serializers.serialize(object.nullableMessage,
-                    specifiedType: const FullType.nullable(String)));
+                    specifiedType: const FullType.nullable(String) ,),);                
         }
         return result;
     }
@@ -56,10 +56,14 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'NullableMessage':
-                    result.nullableMessage = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(String)) as String;
+                case r'NullableMessage':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType.nullable(String) ,) as String?;
+                        if (valueDes == null) continue;
+
+                    result.nullableMessage = valueDes;
                     break;
             }
         }

@@ -14,13 +14,13 @@ part 'api_response.g.dart';
 /// * [type] 
 /// * [message] 
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
-    @BuiltValueField(wireName: r'code')
+    @BuiltValueField(wireName: r'code')    
     int? get code;
 
-    @BuiltValueField(wireName: r'type')
+    @BuiltValueField(wireName: r'type')    
     String? get type;
 
-    @BuiltValueField(wireName: r'message')
+    @BuiltValueField(wireName: r'message')    
     String? get message;
 
     ApiResponse._();
@@ -49,19 +49,19 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             result
                 ..add(r'code')
                 ..add(serializers.serialize(object.code,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         if (object.type != null) {
             result
                 ..add(r'type')
                 ..add(serializers.serialize(object.type,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.message != null) {
             result
                 ..add(r'message')
                 ..add(serializers.serialize(object.message,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         return result;
     }
@@ -76,18 +76,25 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'code':
-                    result.code = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'code':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.code = valueDes;
                     break;
-                case r'type':
-                    result.type = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'type':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.type = valueDes;
                     break;
-                case r'message':
-                    result.message = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'message':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.message = valueDes;
                     break;
             }
         }

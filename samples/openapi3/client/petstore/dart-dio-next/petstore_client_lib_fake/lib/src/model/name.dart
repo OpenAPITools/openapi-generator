@@ -15,16 +15,16 @@ part 'name.g.dart';
 /// * [property] 
 /// * [n123number] 
 abstract class Name implements Built<Name, NameBuilder> {
-    @BuiltValueField(wireName: r'name')
+    @BuiltValueField(wireName: r'name')    
     int get name;
 
-    @BuiltValueField(wireName: r'snake_case')
+    @BuiltValueField(wireName: r'snake_case')    
     int? get snakeCase;
 
-    @BuiltValueField(wireName: r'property')
+    @BuiltValueField(wireName: r'property')    
     String? get property;
 
-    @BuiltValueField(wireName: r'123Number')
+    @BuiltValueField(wireName: r'123Number')    
     int? get n123number;
 
     Name._();
@@ -52,24 +52,24 @@ class _$NameSerializer implements StructuredSerializer<Name> {
         result
             ..add(r'name')
             ..add(serializers.serialize(object.name,
-                specifiedType: const FullType(int)));
+                specifiedType: const FullType(int) ,),);
         if (object.snakeCase != null) {
             result
                 ..add(r'snake_case')
                 ..add(serializers.serialize(object.snakeCase,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         if (object.property != null) {
             result
                 ..add(r'property')
                 ..add(serializers.serialize(object.property,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType(String) ,),);                
         }
         if (object.n123number != null) {
             result
                 ..add(r'123Number')
                 ..add(serializers.serialize(object.n123number,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(int) ,),);                
         }
         return result;
     }
@@ -84,22 +84,31 @@ class _$NameSerializer implements StructuredSerializer<Name> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
-                case r'name':
-                    result.name = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'name':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.name = valueDes;
                     break;
-                case r'snake_case':
-                    result.snakeCase = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'snake_case':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.snakeCase = valueDes;
                     break;
-                case r'property':
-                    result.property = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                case r'property':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(String) ,) as String;
+
+                    result.property = valueDes;
                     break;
-                case r'123Number':
-                    result.n123number = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                case r'123Number':                                  
+                    final valueDes=serializers.deserialize(value,
+                        specifiedType: const FullType(int) ,) as int;
+
+                    result.n123number = valueDes;
                     break;
             }
         }
