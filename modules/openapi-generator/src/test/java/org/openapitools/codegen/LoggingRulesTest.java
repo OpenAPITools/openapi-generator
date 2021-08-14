@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
-public class LoggingRulesTest  {
+public class LoggingRulesTest {
 
     @Test
     public void testLoggersAreNotPublicFinalAndNotStatic() {
@@ -31,7 +31,9 @@ public class LoggingRulesTest  {
      * Making loggers not static decreases memory consumption when running generator:
      * https://github.com/OpenAPITools/openapi-generator/pull/8799
      */
-    public static final ArchRule LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL = fields().that()
+    public static final ArchRule LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL =
+            fields()
+            .that()
             .haveRawType(Logger.class)
             .should().notBePublic()
             .andShould().notBeStatic()
@@ -43,9 +45,8 @@ public class LoggingRulesTest  {
 
     public static final ArchRule ABSTRACT_CLASS_MUST_BE_ABSTRACT =
             classes()
-                    .that()
-                    .haveModifier(JavaModifier.ABSTRACT)
-                    .should()
-                    .haveNameMatching(".*Abstract.*");
-
+            .that()
+            .haveSimpleNameContaining("Abstract").or().haveSimpleNameContaining("abstract")
+            .should()
+            .haveModifier(JavaModifier.ABSTRACT);
 }
