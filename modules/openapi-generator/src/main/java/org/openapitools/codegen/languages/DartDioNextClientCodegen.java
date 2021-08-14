@@ -187,13 +187,13 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("map", "BuiltMap");
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
-        typeMapping.put("object", "JsonObject?");
-        typeMapping.put("AnyType", "JsonObject?");
+        typeMapping.put("object", "JsonObject");
+        typeMapping.put("AnyType", "JsonObject");
 
         imports.put("BuiltList", "package:built_collection/built_collection.dart");
         imports.put("BuiltSet", "package:built_collection/built_collection.dart");
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
-        imports.put("JsonObject?", "package:built_value/json_object.dart");
+        imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
     }
@@ -289,7 +289,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         if (property.isContainer) {
             appendBuiltValueCollection(sb, property);
         } else {
-            sb.append(property.datatypeWithEnum.replace("?",""));
+            sb.append(property.datatypeWithEnum);
         }
         sb.append(")");
         return sb.toString();
@@ -309,7 +309,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         if (property.items.isContainer) {
             appendBuiltValueCollection(sb, property.items);
         } else {
-            sb.append(property.items.datatypeWithEnum.replace("?",""));            
+            sb.append(property.items.datatypeWithEnum);
         }
         sb.append(")]");
     }
