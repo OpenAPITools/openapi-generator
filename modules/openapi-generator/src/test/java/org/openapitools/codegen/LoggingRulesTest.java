@@ -1,12 +1,13 @@
 package org.openapitools.codegen;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
+import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
 public class LoggingRulesTest  {
 
@@ -16,6 +17,14 @@ public class LoggingRulesTest  {
                 .importPackages("org.openapitools.codegen.languages");
 
         LoggingRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL.check(importedClasses);
+    }
+
+    @Test
+    public void abstractClassesAreAbstract() {
+        final JavaClasses importedClasses = new ClassFileImporter()
+                .importPackages("org.openapitools.codegen.languages");
+
+        LoggingRulesTest.ABSTRACT_CLASS_MUST_BE_ABSTRACT.check(importedClasses);
     }
 
     /**
@@ -30,5 +39,13 @@ public class LoggingRulesTest  {
             .because("Code generators are most often used once per program lifetime, " +
                     "so making them all static will cause higher memory consumption. " +
                     "See PR #8799");
+
+
+    public static final ArchRule ABSTRACT_CLASS_MUST_BE_ABSTRACT =
+            classes()
+                    .that()
+                    .haveModifier(JavaModifier.ABSTRACT)
+                    .should()
+                    .haveNameMatching(".*Abstract.*");
 
 }
