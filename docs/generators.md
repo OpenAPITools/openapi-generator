@@ -36,6 +36,7 @@ The following generators are available:
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  
+* [java-micronaut-client (beta)](generators/java-micronaut-client.md)  
 * [javascript](generators/javascript.md)  
 * [javascript-apollo (beta)](generators/javascript-apollo.md)  
 * [javascript-closure-angular](generators/javascript-closure-angular.md)  

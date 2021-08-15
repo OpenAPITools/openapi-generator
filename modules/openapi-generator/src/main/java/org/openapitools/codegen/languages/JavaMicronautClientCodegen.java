@@ -1,12 +1,20 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
@@ -26,7 +34,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
     public static final String OPT_TEST_JUNIT = "junit";
     public static final String OPT_TEST_SPOCK = "spock";
 
-    public static final String NAME = "micronaut-client";
+    public static final String NAME = "java-micronaut-client";
 
     protected String title;
     protected String configPackage;
@@ -61,7 +69,11 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
                 ))
         );
 
-        outputFolder = "generated-code/javaMicronaut";
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
+        outputFolder = "generated-code/java-micronaut-client";
         embeddedTemplateDir = templateDir = "java-micronaut-client";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
@@ -85,7 +97,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
-        buildToolOption.setEnum(new HashMap<String, String>(){{
+        buildToolOption.setEnum(new HashMap<String, String>() {{
             put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
             put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
             put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
@@ -93,7 +105,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         cliOptions.add(buildToolOption);
 
         CliOption testToolOption = new CliOption(OPT_TEST, "Specify which test tool to generate files for").defaultValue(testTool);
-        testToolOption.setEnum(new HashMap<String, String>(){{
+        testToolOption.setEnum(new HashMap<String, String>() {{
             put(OPT_TEST_JUNIT, "Use JUnit as test tool");
             put(OPT_TEST_SPOCK, "Use Spock as test tool");
         }});
@@ -173,7 +185,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         additionalProperties.put(OPT_BUILD, buildTool);
 
         if (additionalProperties.containsKey(OPT_TEST)) {
-            switch((String) additionalProperties.get(OPT_TEST)) {
+            switch ((String) additionalProperties.get(OPT_TEST)) {
                 case OPT_TEST_JUNIT:
                 case OPT_TEST_SPOCK:
                     this.testTool = (String) additionalProperties.get(OPT_TEST);
