@@ -39,6 +39,8 @@ public class ChildSchemaAllOf {
   public static final String JSON_PROPERTY_PROP1 = "prop1";
   private String prop1;
 
+  public ChildSchemaAllOf() { 
+  }
 
   public ChildSchemaAllOf prop1(String prop1) {
     this.prop1 = prop1;

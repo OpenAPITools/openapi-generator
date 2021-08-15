@@ -42,6 +42,8 @@ public class CatAllOf {
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+  public CatAllOf() { 
+  }
 
   public CatAllOf declawed(Boolean declawed) {
     

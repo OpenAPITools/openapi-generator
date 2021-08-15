@@ -47,6 +47,8 @@ public class Tag {
   @XmlElement(name = "name")
   private String name;
 
+  public Tag() { 
+  }
 
   public Tag id(Long id) {
     

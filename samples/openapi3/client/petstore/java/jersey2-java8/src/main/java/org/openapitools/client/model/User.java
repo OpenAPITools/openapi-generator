@@ -87,6 +87,8 @@ public class User {
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
   private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
 
+  public User() { 
+  }
 
   public User id(Long id) {
     this.id = id;

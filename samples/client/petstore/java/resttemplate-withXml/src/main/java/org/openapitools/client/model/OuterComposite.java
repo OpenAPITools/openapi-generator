@@ -53,6 +53,8 @@ public class OuterComposite {
   @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
+  public OuterComposite() { 
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     

@@ -47,6 +47,8 @@ public class HasOnlyReadOnly {
   @XmlElement(name = "foo")
   private String foo;
 
+  public HasOnlyReadOnly() { 
+  }
 
    /**
    * Get bar

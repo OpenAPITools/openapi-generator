@@ -123,6 +123,8 @@ public class Pet {
   @XmlElement(name = "status")
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     

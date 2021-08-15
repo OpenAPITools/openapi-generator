@@ -44,6 +44,8 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesInteger() { 
+  }
 
   public AdditionalPropertiesInteger name(String name) {
     

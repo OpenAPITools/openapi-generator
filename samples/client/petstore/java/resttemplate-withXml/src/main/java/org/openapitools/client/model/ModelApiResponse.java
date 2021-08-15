@@ -52,6 +52,8 @@ public class ModelApiResponse {
   @XmlElement(name = "message")
   private String message;
 
+  public ModelApiResponse() { 
+  }
 
   public ModelApiResponse code(Integer code) {
     

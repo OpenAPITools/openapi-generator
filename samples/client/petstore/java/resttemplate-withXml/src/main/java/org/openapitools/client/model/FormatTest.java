@@ -112,6 +112,8 @@ public class FormatTest {
   @XmlElement(name = "BigDecimal")
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     

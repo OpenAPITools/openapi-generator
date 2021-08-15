@@ -48,6 +48,8 @@ public class Dog extends Animal {
   @XmlElement(name = "breed")
   private String breed;
 
+  public Dog() { 
+  }
 
   public Dog breed(String breed) {
     

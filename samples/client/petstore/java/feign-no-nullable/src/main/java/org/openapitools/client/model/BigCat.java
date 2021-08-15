@@ -82,6 +82,8 @@ public class BigCat extends Cat {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     

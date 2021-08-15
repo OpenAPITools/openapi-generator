@@ -67,6 +67,8 @@ public class Capitalization {
   @XmlElement(name = "ATT_NAME")
   private String ATT_NAME;
 
+  public Capitalization() { 
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     

@@ -47,6 +47,8 @@ public class Category {
   @XmlElement(name = "name")
   private String name = "default-name";
 
+  public Category() { 
+  }
 
   public Category id(Long id) {
     

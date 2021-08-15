@@ -58,6 +58,8 @@ public class Name {
   @XmlElement(name = "123Number")
   private Integer _123number;
 
+  public Name() { 
+  }
 
   public Name name(Integer name) {
     

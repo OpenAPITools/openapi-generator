@@ -44,6 +44,8 @@ public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+  public Dog() { 
+  }
 
   public Dog breed(String breed) {
     
