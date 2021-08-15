@@ -12,7 +12,7 @@ part 'model_return.g.dart';
 /// Properties:
 /// * [return_] 
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
-    @BuiltValueField(wireName: r'return')    
+    @BuiltValueField(wireName: r'return')
     int? get return_;
 
     ModelReturn._();
@@ -59,9 +59,8 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
             
             switch (key) {
                 case r'return':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.return_ = valueDes;
                     break;
             }

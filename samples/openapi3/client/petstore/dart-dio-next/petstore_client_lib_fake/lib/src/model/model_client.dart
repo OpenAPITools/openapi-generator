@@ -12,7 +12,7 @@ part 'model_client.g.dart';
 /// Properties:
 /// * [client] 
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
-    @BuiltValueField(wireName: r'client')    
+    @BuiltValueField(wireName: r'client')
     String? get client;
 
     ModelClient._();
@@ -59,9 +59,8 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
             
             switch (key) {
                 case r'client':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.client = valueDes;
                     break;
             }

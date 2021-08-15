@@ -19,29 +19,29 @@ part 'user.g.dart';
 /// * [phone] 
 /// * [userStatus] - User Status
 abstract class User implements Built<User, UserBuilder> {
-    @BuiltValueField(wireName: r'id')    
+    @BuiltValueField(wireName: r'id')
     int? get id;
 
-    @BuiltValueField(wireName: r'username')    
+    @BuiltValueField(wireName: r'username')
     String? get username;
 
-    @BuiltValueField(wireName: r'firstName')    
+    @BuiltValueField(wireName: r'firstName')
     String? get firstName;
 
-    @BuiltValueField(wireName: r'lastName')    
+    @BuiltValueField(wireName: r'lastName')
     String? get lastName;
 
-    @BuiltValueField(wireName: r'email')    
+    @BuiltValueField(wireName: r'email')
     String? get email;
 
-    @BuiltValueField(wireName: r'password')    
+    @BuiltValueField(wireName: r'password')
     String? get password;
 
-    @BuiltValueField(wireName: r'phone')    
+    @BuiltValueField(wireName: r'phone')
     String? get phone;
 
     /// User Status
-    @BuiltValueField(wireName: r'userStatus')    
+    @BuiltValueField(wireName: r'userStatus')
     int? get userStatus;
 
     User._();
@@ -130,51 +130,43 @@ class _$UserSerializer implements StructuredSerializer<User> {
             
             switch (key) {
                 case r'id':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.id = valueDes;
                     break;
                 case r'username':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.username = valueDes;
                     break;
                 case r'firstName':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.firstName = valueDes;
                     break;
                 case r'lastName':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.lastName = valueDes;
                     break;
                 case r'email':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.email = valueDes;
                     break;
                 case r'password':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.password = valueDes;
                     break;
                 case r'phone':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.phone = valueDes;
                     break;
                 case r'userStatus':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.userStatus = valueDes;
                     break;
             }

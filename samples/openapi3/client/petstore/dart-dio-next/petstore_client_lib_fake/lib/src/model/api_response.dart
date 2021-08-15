@@ -14,13 +14,13 @@ part 'api_response.g.dart';
 /// * [type] 
 /// * [message] 
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
-    @BuiltValueField(wireName: r'code')    
+    @BuiltValueField(wireName: r'code')
     int? get code;
 
-    @BuiltValueField(wireName: r'type')    
+    @BuiltValueField(wireName: r'type')
     String? get type;
 
-    @BuiltValueField(wireName: r'message')    
+    @BuiltValueField(wireName: r'message')
     String? get message;
 
     ApiResponse._();
@@ -79,21 +79,18 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             
             switch (key) {
                 case r'code':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.code = valueDes;
                     break;
                 case r'type':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.type = valueDes;
                     break;
                 case r'message':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.message = valueDes;
                     break;
             }

@@ -12,7 +12,7 @@ part 'cat_all_of.g.dart';
 /// Properties:
 /// * [declawed] 
 abstract class CatAllOf implements Built<CatAllOf, CatAllOfBuilder> {
-    @BuiltValueField(wireName: r'declawed')    
+    @BuiltValueField(wireName: r'declawed')
     bool? get declawed;
 
     CatAllOf._();
@@ -59,9 +59,8 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
             
             switch (key) {
                 case r'declawed':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool) ,) as bool;
-
                     result.declawed = valueDes;
                     break;
             }

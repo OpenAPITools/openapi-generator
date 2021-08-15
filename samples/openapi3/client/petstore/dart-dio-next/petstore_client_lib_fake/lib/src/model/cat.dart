@@ -18,13 +18,13 @@ part 'cat.g.dart';
 /// * [color] 
 /// * [declawed] 
 abstract class Cat implements Built<Cat, CatBuilder> {
-    @BuiltValueField(wireName: r'className')    
+    @BuiltValueField(wireName: r'className')
     String get className;
 
-    @BuiltValueField(wireName: r'color')    
+    @BuiltValueField(wireName: r'color')
     String? get color;
 
-    @BuiltValueField(wireName: r'declawed')    
+    @BuiltValueField(wireName: r'declawed')
     bool? get declawed;
 
     Cat._();
@@ -82,21 +82,18 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
             
             switch (key) {
                 case r'className':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.className = valueDes;
                     break;
                 case r'color':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.color = valueDes;
                     break;
                 case r'declawed':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool) ,) as bool;
-
                     result.declawed = valueDes;
                     break;
             }

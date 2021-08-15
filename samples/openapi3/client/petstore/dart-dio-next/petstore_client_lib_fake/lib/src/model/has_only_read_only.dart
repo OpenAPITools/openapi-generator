@@ -13,10 +13,10 @@ part 'has_only_read_only.g.dart';
 /// * [bar] 
 /// * [foo] 
 abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
-    @BuiltValueField(wireName: r'bar')    
+    @BuiltValueField(wireName: r'bar')
     String? get bar;
 
-    @BuiltValueField(wireName: r'foo')    
+    @BuiltValueField(wireName: r'foo')
     String? get foo;
 
     HasOnlyReadOnly._();
@@ -69,15 +69,13 @@ class _$HasOnlyReadOnlySerializer implements StructuredSerializer<HasOnlyReadOnl
             
             switch (key) {
                 case r'bar':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.bar = valueDes;
                     break;
                 case r'foo':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.foo = valueDes;
                     break;
             }

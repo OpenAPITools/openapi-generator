@@ -12,7 +12,7 @@ part 'deprecated_object.g.dart';
 /// Properties:
 /// * [name] 
 abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObjectBuilder> {
-    @BuiltValueField(wireName: r'name')    
+    @BuiltValueField(wireName: r'name')
     String? get name;
 
     DeprecatedObject._();
@@ -59,9 +59,8 @@ class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObj
             
             switch (key) {
                 case r'name':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.name = valueDes;
                     break;
             }

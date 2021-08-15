@@ -14,13 +14,13 @@ part 'outer_composite.g.dart';
 /// * [myString] 
 /// * [myBoolean] 
 abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
-    @BuiltValueField(wireName: r'my_number')    
+    @BuiltValueField(wireName: r'my_number')
     num? get myNumber;
 
-    @BuiltValueField(wireName: r'my_string')    
+    @BuiltValueField(wireName: r'my_string')
     String? get myString;
 
-    @BuiltValueField(wireName: r'my_boolean')    
+    @BuiltValueField(wireName: r'my_boolean')
     bool? get myBoolean;
 
     OuterComposite._();
@@ -79,21 +79,18 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             
             switch (key) {
                 case r'my_number':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num) ,) as num;
-
                     result.myNumber = valueDes;
                     break;
                 case r'my_string':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.myString = valueDes;
                     break;
                 case r'my_boolean':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool) ,) as bool;
-
                     result.myBoolean = valueDes;
                     break;
             }

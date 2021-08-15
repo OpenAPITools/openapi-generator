@@ -18,24 +18,24 @@ part 'order.g.dart';
 /// * [status] - Order Status
 /// * [complete] 
 abstract class Order implements Built<Order, OrderBuilder> {
-    @BuiltValueField(wireName: r'id')    
+    @BuiltValueField(wireName: r'id')
     int? get id;
 
-    @BuiltValueField(wireName: r'petId')    
+    @BuiltValueField(wireName: r'petId')
     int? get petId;
 
-    @BuiltValueField(wireName: r'quantity')    
+    @BuiltValueField(wireName: r'quantity')
     int? get quantity;
 
-    @BuiltValueField(wireName: r'shipDate')    
+    @BuiltValueField(wireName: r'shipDate')
     DateTime? get shipDate;
 
     /// Order Status
-    @BuiltValueField(wireName: r'status')    
+    @BuiltValueField(wireName: r'status')
     OrderStatusEnum? get status;
     // enum statusEnum {  placed,  approved,  delivered,  };
 
-    @BuiltValueField(wireName: r'complete')    
+    @BuiltValueField(wireName: r'complete')
     bool? get complete;
 
     Order._();
@@ -113,39 +113,33 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
             
             switch (key) {
                 case r'id':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.id = valueDes;
                     break;
                 case r'petId':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.petId = valueDes;
                     break;
                 case r'quantity':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.quantity = valueDes;
                     break;
                 case r'shipDate':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime) ,) as DateTime;
-
                     result.shipDate = valueDes;
                     break;
                 case r'status':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OrderStatusEnum) ,) as OrderStatusEnum;
-
                     result.status = valueDes;
                     break;
                 case r'complete':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool) ,) as bool;
-
                     result.complete = valueDes;
                     break;
             }

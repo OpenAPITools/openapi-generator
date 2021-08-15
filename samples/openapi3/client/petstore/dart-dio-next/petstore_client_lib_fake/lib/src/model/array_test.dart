@@ -16,13 +16,13 @@ part 'array_test.g.dart';
 /// * [arrayArrayOfInteger] 
 /// * [arrayArrayOfModel] 
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
-    @BuiltValueField(wireName: r'array_of_string')    
+    @BuiltValueField(wireName: r'array_of_string')
     BuiltList<String>? get arrayOfString;
 
-    @BuiltValueField(wireName: r'array_array_of_integer')    
+    @BuiltValueField(wireName: r'array_array_of_integer')
     BuiltList<BuiltList<int>>? get arrayArrayOfInteger;
 
-    @BuiltValueField(wireName: r'array_array_of_model')    
+    @BuiltValueField(wireName: r'array_array_of_model')
     BuiltList<BuiltList<ReadOnlyFirst>>? get arrayArrayOfModel;
 
     ArrayTest._();
@@ -81,21 +81,18 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
             
             switch (key) {
                 case r'array_of_string':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(String)]) ,) as BuiltList<String>;
-
                     result.arrayOfString.replace(valueDes);
                     break;
                 case r'array_array_of_integer':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(BuiltList, [const FullType(int)])]) ,) as BuiltList<BuiltList<int>>;
-
                     result.arrayArrayOfInteger.replace(valueDes);
                     break;
                 case r'array_array_of_model':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(BuiltList, [const FullType(ReadOnlyFirst)])]) ,) as BuiltList<BuiltList<ReadOnlyFirst>>;
-
                     result.arrayArrayOfModel.replace(valueDes);
                     break;
             }

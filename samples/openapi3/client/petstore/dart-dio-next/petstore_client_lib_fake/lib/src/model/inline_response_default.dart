@@ -13,7 +13,7 @@ part 'inline_response_default.g.dart';
 /// Properties:
 /// * [string] 
 abstract class InlineResponseDefault implements Built<InlineResponseDefault, InlineResponseDefaultBuilder> {
-    @BuiltValueField(wireName: r'string')    
+    @BuiltValueField(wireName: r'string')
     Foo? get string;
 
     InlineResponseDefault._();
@@ -60,9 +60,8 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
             
             switch (key) {
                 case r'string':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Foo) ,) as Foo;
-
                     result.string.replace(valueDes);
                     break;
             }

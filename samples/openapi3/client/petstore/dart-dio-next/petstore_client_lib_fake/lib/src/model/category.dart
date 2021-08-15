@@ -13,10 +13,10 @@ part 'category.g.dart';
 /// * [id] 
 /// * [name] 
 abstract class Category implements Built<Category, CategoryBuilder> {
-    @BuiltValueField(wireName: r'id')    
+    @BuiltValueField(wireName: r'id')
     int? get id;
 
-    @BuiltValueField(wireName: r'name')    
+    @BuiltValueField(wireName: r'name')
     String get name;
 
     Category._();
@@ -68,15 +68,13 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
             
             switch (key) {
                 case r'id':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.id = valueDes;
                     break;
                 case r'name':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.name = valueDes;
                     break;
             }

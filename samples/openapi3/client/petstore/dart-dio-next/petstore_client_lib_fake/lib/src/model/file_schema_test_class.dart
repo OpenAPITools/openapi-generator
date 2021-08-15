@@ -15,10 +15,10 @@ part 'file_schema_test_class.g.dart';
 /// * [file] 
 /// * [files] 
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
-    @BuiltValueField(wireName: r'file')    
+    @BuiltValueField(wireName: r'file')
     ModelFile? get file;
 
-    @BuiltValueField(wireName: r'files')    
+    @BuiltValueField(wireName: r'files')
     BuiltList<ModelFile>? get files;
 
     FileSchemaTestClass._();
@@ -71,15 +71,13 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             
             switch (key) {
                 case r'file':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(ModelFile) ,) as ModelFile;
-
                     result.file.replace(valueDes);
                     break;
                 case r'files':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(ModelFile)]) ,) as BuiltList<ModelFile>;
-
                     result.files.replace(valueDes);
                     break;
             }

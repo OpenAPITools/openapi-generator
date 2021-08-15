@@ -13,7 +13,7 @@ part 'array_of_number_only.g.dart';
 /// Properties:
 /// * [arrayNumber] 
 abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
-    @BuiltValueField(wireName: r'ArrayNumber')    
+    @BuiltValueField(wireName: r'ArrayNumber')
     BuiltList<num>? get arrayNumber;
 
     ArrayOfNumberOnly._();
@@ -60,9 +60,8 @@ class _$ArrayOfNumberOnlySerializer implements StructuredSerializer<ArrayOfNumbe
             
             switch (key) {
                 case r'ArrayNumber':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(num)]) ,) as BuiltList<num>;
-
                     result.arrayNumber.replace(valueDes);
                     break;
             }

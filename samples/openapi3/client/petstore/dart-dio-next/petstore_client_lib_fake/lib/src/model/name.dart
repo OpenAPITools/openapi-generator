@@ -15,16 +15,16 @@ part 'name.g.dart';
 /// * [property] 
 /// * [n123number] 
 abstract class Name implements Built<Name, NameBuilder> {
-    @BuiltValueField(wireName: r'name')    
+    @BuiltValueField(wireName: r'name')
     int get name;
 
-    @BuiltValueField(wireName: r'snake_case')    
+    @BuiltValueField(wireName: r'snake_case')
     int? get snakeCase;
 
-    @BuiltValueField(wireName: r'property')    
+    @BuiltValueField(wireName: r'property')
     String? get property;
 
-    @BuiltValueField(wireName: r'123Number')    
+    @BuiltValueField(wireName: r'123Number')
     int? get n123number;
 
     Name._();
@@ -87,27 +87,23 @@ class _$NameSerializer implements StructuredSerializer<Name> {
             
             switch (key) {
                 case r'name':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.name = valueDes;
                     break;
                 case r'snake_case':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.snakeCase = valueDes;
                     break;
                 case r'property':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.property = valueDes;
                     break;
                 case r'123Number':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.n123number = valueDes;
                     break;
             }

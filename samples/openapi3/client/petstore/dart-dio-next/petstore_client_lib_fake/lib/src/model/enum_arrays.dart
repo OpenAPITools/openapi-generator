@@ -14,11 +14,11 @@ part 'enum_arrays.g.dart';
 /// * [justSymbol] 
 /// * [arrayEnum] 
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
-    @BuiltValueField(wireName: r'just_symbol')    
+    @BuiltValueField(wireName: r'just_symbol')
     EnumArraysJustSymbolEnum? get justSymbol;
     // enum justSymbolEnum {  >=,  $,  };
 
-    @BuiltValueField(wireName: r'array_enum')    
+    @BuiltValueField(wireName: r'array_enum')
     BuiltList<EnumArraysArrayEnumEnum>? get arrayEnum;
     // enum arrayEnumEnum {  fish,  crab,  };
 
@@ -72,15 +72,13 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             
             switch (key) {
                 case r'just_symbol':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumArraysJustSymbolEnum) ,) as EnumArraysJustSymbolEnum;
-
                     result.justSymbol = valueDes;
                     break;
                 case r'array_enum':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(EnumArraysArrayEnumEnum)]) ,) as BuiltList<EnumArraysArrayEnumEnum>;
-
                     result.arrayEnum.replace(valueDes);
                     break;
             }

@@ -13,7 +13,7 @@ part 'model_file.g.dart';
 /// * [sourceURI] - Test capitalization
 abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
     /// Test capitalization
-    @BuiltValueField(wireName: r'sourceURI')    
+    @BuiltValueField(wireName: r'sourceURI')
     String? get sourceURI;
 
     ModelFile._();
@@ -60,9 +60,8 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
             
             switch (key) {
                 case r'sourceURI':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.sourceURI = valueDes;
                     break;
             }

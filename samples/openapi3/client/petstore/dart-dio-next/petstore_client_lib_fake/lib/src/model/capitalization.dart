@@ -17,23 +17,23 @@ part 'capitalization.g.dart';
 /// * [sCAETHFlowPoints] 
 /// * [ATT_NAME] - Name of the pet 
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
-    @BuiltValueField(wireName: r'smallCamel')    
+    @BuiltValueField(wireName: r'smallCamel')
     String? get smallCamel;
 
-    @BuiltValueField(wireName: r'CapitalCamel')    
+    @BuiltValueField(wireName: r'CapitalCamel')
     String? get capitalCamel;
 
-    @BuiltValueField(wireName: r'small_Snake')    
+    @BuiltValueField(wireName: r'small_Snake')
     String? get smallSnake;
 
-    @BuiltValueField(wireName: r'Capital_Snake')    
+    @BuiltValueField(wireName: r'Capital_Snake')
     String? get capitalSnake;
 
-    @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')    
+    @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
     String? get sCAETHFlowPoints;
 
     /// Name of the pet 
-    @BuiltValueField(wireName: r'ATT_NAME')    
+    @BuiltValueField(wireName: r'ATT_NAME')
     String? get ATT_NAME;
 
     Capitalization._();
@@ -110,39 +110,33 @@ class _$CapitalizationSerializer implements StructuredSerializer<Capitalization>
             
             switch (key) {
                 case r'smallCamel':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.smallCamel = valueDes;
                     break;
                 case r'CapitalCamel':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.capitalCamel = valueDes;
                     break;
                 case r'small_Snake':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.smallSnake = valueDes;
                     break;
                 case r'Capital_Snake':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.capitalSnake = valueDes;
                     break;
                 case r'SCA_ETH_Flow_Points':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.sCAETHFlowPoints = valueDes;
                     break;
                 case r'ATT_NAME':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.ATT_NAME = valueDes;
                     break;
             }

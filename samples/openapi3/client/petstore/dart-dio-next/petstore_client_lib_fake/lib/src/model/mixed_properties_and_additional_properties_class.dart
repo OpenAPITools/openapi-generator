@@ -16,13 +16,13 @@ part 'mixed_properties_and_additional_properties_class.g.dart';
 /// * [dateTime] 
 /// * [map] 
 abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
-    @BuiltValueField(wireName: r'uuid')    
+    @BuiltValueField(wireName: r'uuid')
     String? get uuid;
 
-    @BuiltValueField(wireName: r'dateTime')    
+    @BuiltValueField(wireName: r'dateTime')
     DateTime? get dateTime;
 
-    @BuiltValueField(wireName: r'map')    
+    @BuiltValueField(wireName: r'map')
     BuiltMap<String,Animal>? get map;
 
     MixedPropertiesAndAdditionalPropertiesClass._();
@@ -81,21 +81,18 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             
             switch (key) {
                 case r'uuid':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.uuid = valueDes;
                     break;
                 case r'dateTime':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime) ,) as DateTime;
-
                     result.dateTime = valueDes;
                     break;
                 case r'map':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(Animal)]) ,) as BuiltMap<String,Animal>;
-
                     result.map.replace(valueDes);
                     break;
             }

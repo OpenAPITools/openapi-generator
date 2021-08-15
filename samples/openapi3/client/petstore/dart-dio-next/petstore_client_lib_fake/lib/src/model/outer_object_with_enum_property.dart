@@ -13,7 +13,7 @@ part 'outer_object_with_enum_property.g.dart';
 /// Properties:
 /// * [value] 
 abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilder> {
-    @BuiltValueField(wireName: r'value')    
+    @BuiltValueField(wireName: r'value')
     OuterEnumInteger get value;
     // enum valueEnum {  0,  1,  2,  };
 
@@ -59,9 +59,8 @@ class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<Ou
             
             switch (key) {
                 case r'value':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OuterEnumInteger) ,) as OuterEnumInteger;
-
                     result.value = valueDes;
                     break;
             }

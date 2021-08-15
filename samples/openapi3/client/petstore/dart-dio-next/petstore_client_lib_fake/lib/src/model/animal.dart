@@ -13,10 +13,10 @@ part 'animal.g.dart';
 /// * [className] 
 /// * [color] 
 abstract class Animal implements Built<Animal, AnimalBuilder> {
-    @BuiltValueField(wireName: r'className')    
+    @BuiltValueField(wireName: r'className')
     String get className;
 
-    @BuiltValueField(wireName: r'color')    
+    @BuiltValueField(wireName: r'color')
     String? get color;
 
     Animal._();
@@ -68,15 +68,13 @@ class _$AnimalSerializer implements StructuredSerializer<Animal> {
             
             switch (key) {
                 case r'className':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.className = valueDes;
                     break;
                 case r'color':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.color = valueDes;
                     break;
             }

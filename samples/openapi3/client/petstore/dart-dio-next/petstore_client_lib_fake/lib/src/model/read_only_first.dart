@@ -13,10 +13,10 @@ part 'read_only_first.g.dart';
 /// * [bar] 
 /// * [baz] 
 abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
-    @BuiltValueField(wireName: r'bar')    
+    @BuiltValueField(wireName: r'bar')
     String? get bar;
 
-    @BuiltValueField(wireName: r'baz')    
+    @BuiltValueField(wireName: r'baz')
     String? get baz;
 
     ReadOnlyFirst._();
@@ -69,15 +69,13 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             
             switch (key) {
                 case r'bar':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.bar = valueDes;
                     break;
                 case r'baz':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.baz = valueDes;
                     break;
             }

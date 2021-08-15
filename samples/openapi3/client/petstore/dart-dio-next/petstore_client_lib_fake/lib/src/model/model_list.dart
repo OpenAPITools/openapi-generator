@@ -12,7 +12,7 @@ part 'model_list.g.dart';
 /// Properties:
 /// * [n123list] 
 abstract class ModelList implements Built<ModelList, ModelListBuilder> {
-    @BuiltValueField(wireName: r'123-list')    
+    @BuiltValueField(wireName: r'123-list')
     String? get n123list;
 
     ModelList._();
@@ -59,9 +59,8 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
             
             switch (key) {
                 case r'123-list':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.n123list = valueDes;
                     break;
             }

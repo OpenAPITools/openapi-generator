@@ -20,23 +20,23 @@ part 'pet.g.dart';
 /// * [tags] 
 /// * [status] - pet status in the store
 abstract class Pet implements Built<Pet, PetBuilder> {
-    @BuiltValueField(wireName: r'id')    
+    @BuiltValueField(wireName: r'id')
     int? get id;
 
-    @BuiltValueField(wireName: r'category')    
+    @BuiltValueField(wireName: r'category')
     Category? get category;
 
-    @BuiltValueField(wireName: r'name')    
+    @BuiltValueField(wireName: r'name')
     String get name;
 
-    @BuiltValueField(wireName: r'photoUrls')    
+    @BuiltValueField(wireName: r'photoUrls')
     BuiltSet<String> get photoUrls;
 
-    @BuiltValueField(wireName: r'tags')    
+    @BuiltValueField(wireName: r'tags')
     BuiltList<Tag>? get tags;
 
     /// pet status in the store
-    @BuiltValueField(wireName: r'status')    
+    @BuiltValueField(wireName: r'status')
     PetStatusEnum? get status;
     // enum statusEnum {  available,  pending,  sold,  };
 
@@ -110,39 +110,33 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
             
             switch (key) {
                 case r'id':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int) ,) as int;
-
                     result.id = valueDes;
                     break;
                 case r'category':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Category) ,) as Category;
-
                     result.category.replace(valueDes);
                     break;
                 case r'name':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.name = valueDes;
                     break;
                 case r'photoUrls':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltSet, [const FullType(String)]) ,) as BuiltSet<String>;
-
                     result.photoUrls.replace(valueDes);
                     break;
                 case r'tags':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [const FullType(Tag)]) ,) as BuiltList<Tag>;
-
                     result.tags.replace(valueDes);
                     break;
                 case r'status':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(PetStatusEnum) ,) as PetStatusEnum;
-
                     result.status = valueDes;
                     break;
             }

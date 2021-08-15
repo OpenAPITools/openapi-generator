@@ -12,7 +12,7 @@ part 'foo.g.dart';
 /// Properties:
 /// * [bar] 
 abstract class Foo implements Built<Foo, FooBuilder> {
-    @BuiltValueField(wireName: r'bar')    
+    @BuiltValueField(wireName: r'bar')
     String? get bar;
 
     Foo._();
@@ -60,9 +60,8 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
             
             switch (key) {
                 case r'bar':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String) ,) as String;
-
                     result.bar = valueDes;
                     break;
             }

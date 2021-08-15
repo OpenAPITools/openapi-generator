@@ -14,10 +14,10 @@ part 'additional_properties_class.g.dart';
 /// * [mapProperty] 
 /// * [mapOfMapProperty] 
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
-    @BuiltValueField(wireName: r'map_property')    
+    @BuiltValueField(wireName: r'map_property')
     BuiltMap<String,String>? get mapProperty;
 
-    @BuiltValueField(wireName: r'map_of_map_property')    
+    @BuiltValueField(wireName: r'map_of_map_property')
     BuiltMap<String,BuiltMap<String,String>>? get mapOfMapProperty;
 
     AdditionalPropertiesClass._();
@@ -70,15 +70,13 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             
             switch (key) {
                 case r'map_property':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(String)]) ,) as BuiltMap<String,String>;
-
                     result.mapProperty.replace(valueDes);
                     break;
                 case r'map_of_map_property':                                  
-                    final valueDes=serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(BuiltMap, [const FullType(String), const FullType(String)])]) ,) as BuiltMap<String,BuiltMap<String,String>>;
-
                     result.mapOfMapProperty.replace(valueDes);
                     break;
             }
