@@ -647,7 +647,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testBodyWithBinary({ 
-    required MultipartFile body,
+    MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -672,7 +672,7 @@ class FakeApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = body.finalize();
+      _bodyData = body?.finalize();
 
     } catch(error, stackTrace) {
       throw DioError(
@@ -1065,9 +1065,9 @@ class FakeApi {
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
-    String? enumHeaderString,
+    String? enumHeaderString = '-efg',
     BuiltList<String>? enumQueryStringArray,
-    String? enumQueryString,
+    String? enumQueryString = '-efg',
     int? enumQueryInteger,
     double? enumQueryDouble,
     BuiltList<String>? enumFormStringArray,
