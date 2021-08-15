@@ -27,7 +27,12 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -63,7 +68,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates PHP client relying on Data Transfer ( https://github.com/Articus/DataTransfer ) and compliant with PSR-7, PSR-11, PSR-17 and PSR-18.";
+        return "Generates a PHP client relying on Data Transfer ( https://github.com/Articus/DataTransfer ) and compliant with PSR-7, PSR-11, PSR-17 and PSR-18.";
     }
 
     public PhpDataTransferClientCodegen() {
@@ -82,6 +87,10 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                         SchemaSupportFeature.Polymorphism
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
         typeMapping.put("double", "float");
@@ -359,7 +368,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
      * Generate additional model definitions for containers in specified schema
      *
      * @param openAPI OpenAPI object
-     * @param schema OAS schema to process
+     * @param schema  OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Schema schema) {
         if (schema != null) {
@@ -371,7 +380,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 //Recursively process all schemas of object properties
                 Map<String, Schema> properties = schema.getProperties();
                 if (properties != null) {
-                    for (String propertyName: properties.keySet()) {
+                    for (String propertyName : properties.keySet()) {
                         generateContainerSchemas(openAPI, properties.get(propertyName));
                     }
                 }
@@ -415,7 +424,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 PathItem path = paths.get(pathname);
                 List<Operation> operations = path.readOperations();
                 if (operations != null) {
-                    for (Operation operation: operations) {
+                    for (Operation operation : operations) {
                         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                         if (requestBody != null) {
                             requestBody.setContent(copyWithQuotedMediaTypes(requestBody.getContent()));
@@ -435,7 +444,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         Content result = null;
         if (content != null) {
             result = new Content();
-            for (String mediaType: content.keySet()) {
+            for (String mediaType : content.keySet()) {
                 result.addMediaType("'" + mediaType + "'", content.get(mediaType));
             }
         }
