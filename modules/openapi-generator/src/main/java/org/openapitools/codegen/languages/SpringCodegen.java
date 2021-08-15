@@ -61,7 +61,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
-    public static final String USE_TAGS = "useTags";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
@@ -87,7 +86,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean reactive = false;
     protected String responseWrapper = "";
     protected boolean skipDefaultInterface = false;
-    protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
@@ -161,7 +159,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki"));
-        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
@@ -291,10 +288,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
             this.setResponseWrapper((String) additionalProperties.get(RESPONSE_WRAPPER));
-        }
-
-        if (additionalProperties.containsKey(USE_TAGS)) {
-            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
@@ -782,10 +775,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setResponseWrapper(String responseWrapper) {
         this.responseWrapper = responseWrapper;
-    }
-
-    public void setUseTags(boolean useTags) {
-        this.useTags = useTags;
     }
 
     public void setImplicitHeaders(boolean implicitHeaders) {

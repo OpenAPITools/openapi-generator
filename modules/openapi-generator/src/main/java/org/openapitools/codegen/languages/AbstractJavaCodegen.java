@@ -71,6 +71,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
     public static final String JACKSON = "jackson";
+    public static final String USE_TAGS = "useTags";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -114,6 +115,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
+    protected boolean useTags = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -223,6 +225,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.getLicenseName()));
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC).defaultValue(this.getLicenseUrl()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(this.getSourceFolder()));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC, this.getSerializableModel()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING_DESC, serializeBigDecimalAsString));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client", fullJavaUtil));
@@ -377,6 +380,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setScmUrl((String) additionalProperties.get(CodegenConstants.SCM_URL));
         } else {
             additionalProperties.put(CodegenConstants.SCM_URL, scmUrl);
+        }
+
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_NAME)) {
@@ -582,6 +589,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
+        }
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (!useTags) {
+            String basePath = resourcePath;
+            if (basePath.startsWith("/")) {
+                basePath = basePath.substring(1);
+            }
+            int pos = basePath.indexOf("/");
+            if (pos > 0) {
+                basePath = basePath.substring(0, pos);
+            }
+
+            if ("".equals(basePath)) {
+                basePath = "default";
+            } else {
+                co.subresourceOperation = !co.path.isEmpty();
+            }
+            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
+            opList.add(co);
+            co.baseName = basePath;
+        } else {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
     }
 
@@ -1731,6 +1763,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setOpenApiNullable(final boolean openApiNullable) {
         this.openApiNullable = openApiNullable;
+    }
+
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
     }
 
     @Override
