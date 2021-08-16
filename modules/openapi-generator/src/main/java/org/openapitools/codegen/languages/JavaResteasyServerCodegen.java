@@ -17,19 +17,27 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
     protected boolean generateJbossDeploymentDescriptor = true;
+
+    private static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
+
+    private boolean swaggerAnnotations = true;
 
     public JavaResteasyServerCodegen() {
         super();
@@ -56,6 +64,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         cliOptions.add(
                 CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));
+        cliOptions.add(CliOption.newBoolean(SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", swaggerAnnotations));
     }
 
     @Override
@@ -73,10 +82,15 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         super.processOpts();
 
         if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
+            final boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
                     GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
+
+        if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
+            swaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(SWAGGER_ANNOTATIONS).toString());
+        }
+        writePropertyBack(SWAGGER_ANNOTATIONS, swaggerAnnotations);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());
@@ -129,12 +143,12 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public Map<String, Object> postProcessOperationsWithModels(final Map<String, Object> objs, final List<Object> allModels) {
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+    public void postProcessModelProperty(final CodegenModel model, final CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         //Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
@@ -151,15 +165,15 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        final List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        final List<Object> models = (List<Object>) objs.get("models");
+        for (final Object _mo : models) {
+            final Map<String, Object> mo = (Map<String, Object>) _mo;
+            final CodegenModel cm = (CodegenModel) mo.get("model");
             // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            if (Boolean.TRUE.equals(cm.isEnum) && (cm.allowableValues != null)) {
                 cm.imports.add(importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                final Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
             }
@@ -168,7 +182,8 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         return objs;
     }
 
-    public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
+    @Override
+    public void setGenerateJbossDeploymentDescriptor(final boolean generateJbossDeploymentDescriptor) {
         this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
     }
 }
