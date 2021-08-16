@@ -256,6 +256,9 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -2322,7 +2325,13 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(final String name) {
-        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
+        String camelizedName = camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     private static class NamedSchema {
