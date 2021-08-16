@@ -1,0 +1,27 @@
+{
+    "name": "git_user_id/git_repo_id",
+    "description": "",
+    "license": "unlicense",
+    "version": "1.0.0",
+    "type": "library",
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "articus/data-transfer": "^0.5",
+        "articus/openapi-generator-common": "^0.2",
+        "articus/openapi-generator-apiclient": "^0.1",
+        "doctrine/annotations": "^1.10",
+        "psr/simple-cache": "^1.0",
+        "laminas/laminas-stdlib": "^3.2",
+        "laminas/laminas-validator": "^2.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "require-dev": {
+        "laminas/laminas-servicemanager": "^3.6",
+        "laminas/laminas-diactoros": "^2.6",
+        "symfony/http-client": "^5.3"
+    }
+}

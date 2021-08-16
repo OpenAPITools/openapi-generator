@@ -21,7 +21,8 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
 
     Animal._();
 
-    static void _initializeBuilder(AnimalBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(AnimalBuilder b) => b
         ..color = 'red';
 
     factory Animal([void updates(AnimalBuilder b)]) = _$Animal;

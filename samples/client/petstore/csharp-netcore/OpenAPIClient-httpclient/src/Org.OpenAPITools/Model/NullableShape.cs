@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         {
             NullableShape newNullableShape = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newNullableShape;
             }

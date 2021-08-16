@@ -1,0 +1,79 @@
+{{>licenseInfo}}
+package {{invokerPackage}}.auth.configuration;
+
+import io.micronaut.context.annotation.ConfigurationInject;
+import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.cookie.Cookie;
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+@EachProperty("security.api-key-auth")
+public class ApiKeyAuthConfiguration implements ConfigurableAuthorization {
+    private final String name;
+    private AuthKeyLocation location;
+    private String paramName;
+    private String apiKey;
+
+    @ConfigurationInject
+    public ApiKeyAuthConfiguration(
+            @Parameter String name,
+            @NonNull AuthKeyLocation location,
+            @NonNull String paramName,
+            @NonNull String apiKey
+    ) {
+        this.name = name;
+        this.location = location;
+        this.paramName = paramName;
+        this.apiKey = apiKey;
+    }
+
+    @Override
+    public void applyAuthorization(@NonNull MutableHttpRequest<?> request) {
+        if (this.location == AuthKeyLocation.HEADER) {
+            request.header(this.paramName, this.apiKey);
+        } else if (this.location == AuthKeyLocation.QUERY) {
+            request.getParameters().add(this.paramName, this.apiKey);
+        } else if (this.location == AuthKeyLocation.COOKIE) {
+            request.cookie(Cookie.of(this.paramName, this.apiKey));
+        }
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public AuthKeyLocation getLocation() {
+        return location;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setLocation(AuthKeyLocation location) {
+        this.location = location;
+    }
+
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public enum AuthKeyLocation {
+        HEADER,
+        QUERY,
+        COOKIE;
+    }
+}

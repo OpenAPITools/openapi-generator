@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
         {
             Pig newPig = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newPig;
             }

@@ -25,7 +25,8 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
 
     ApiResponse._();
 
-    static void _initializeBuilder(ApiResponseBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ApiResponseBuilder b) => b;
 
     factory ApiResponse([void updates(ApiResponseBuilder b)]) = _$ApiResponse;
 

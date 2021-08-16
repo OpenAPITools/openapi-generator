@@ -17,7 +17,8 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 
     ModelReturn._();
 
-    static void _initializeBuilder(ModelReturnBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelReturnBuilder b) => b;
 
     factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 
