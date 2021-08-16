@@ -1218,7 +1218,8 @@
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!-- commented out due to php ^7.3 || ^8.0 not in travis
+                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
