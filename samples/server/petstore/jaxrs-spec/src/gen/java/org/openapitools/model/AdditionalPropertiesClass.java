@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesClass implements Serializable {
   
   private @Valid Map<String, String> mapString = new HashMap<String, String>();
   private @Valid Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
@@ -313,4 +313,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 

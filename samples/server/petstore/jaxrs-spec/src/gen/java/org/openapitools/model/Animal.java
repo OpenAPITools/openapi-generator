@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 })
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal implements Serializable {
   
   private @Valid String className;
   private @Valid String color = "red";
@@ -111,4 +111,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 

@@ -213,6 +213,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         } else if(KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
+
+        if(useJackson) {
+            useOneOfInterfaces = true;
+            addOneOfInterfaceImports = true;
+        }
     }
 
     @Override
