@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.2.1-SNAPSHOT</version>
+    <version>5.2.1</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -776,6 +776,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-micronaut-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-micronaut-client</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -1206,7 +1218,8 @@
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!-- commented out due to php ^7.3 || ^8.0 not in travis
+                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
