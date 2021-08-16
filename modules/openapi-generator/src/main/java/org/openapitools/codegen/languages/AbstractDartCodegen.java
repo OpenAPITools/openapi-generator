@@ -491,8 +491,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema p) {
 		if (p instanceof ComposedSchema) {
-            if (((ComposedSchema) p).getOneOf() != null) {
-                return "dynamic";
+			ComposedSchema cs = (ComposedSchema) p;
+            if (cs.getOneOf() != null) {
+				List<Schema> schemas = ModelUtils.getInterfaces(cs);
+				if(schemas.size() != 1) {
+					return "dynamic";
+				}
+				p = schemas.get(0);
             }
         }
         String openAPIType = super.getSchemaType(p);
