@@ -175,11 +175,28 @@ module {{moduleName}}
       # http body (model)
       post_body = opts[:debug_body]{{#bodyParam}} || @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}){{/bodyParam}}
 
-      # return_type
-      return_type = opts[:debug_return_type]{{#returnType}} || '{{{returnType}}}'{{/returnType}}
-
       # auth_names
       auth_names = opts[:debug_auth_names] || [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      {{#returnType}}
+      {{#responses}}
+      {{#-first}}
+      return_types_map = {
+      {{/-first}}
+        {{^isWildcard}}
+        {{code}} => '{{dataType}}',
+        {{/isWildcard}}
+      {{#-last}}
+      }
+      {{/-last}}
+      {{/responses}}
+      {{/returnType}}
+      {{^returnType}}
+      return_types_map = {}
+      {{/returnType}}
 
       new_options = opts.merge(
         :operation => :"{{classname}}.{{operationId}}",
@@ -188,7 +205,8 @@ module {{moduleName}}
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path, new_options)

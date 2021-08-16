@@ -49,11 +49,14 @@ module Petstore
       # http body (model)
       post_body = opts[:debug_body]
 
-      # return_type
-      return_type = opts[:debug_return_type] || 'InlineResponseDefault'
-
       # auth_names
       auth_names = opts[:debug_auth_names] || []
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      return_types_map = {
+      }
 
       new_options = opts.merge(
         :operation => :"DefaultApi.foo_get",
@@ -62,7 +65,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => return_type
+        :return_type => return_type,
+        :return_types_map => return_types_map
       )
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
