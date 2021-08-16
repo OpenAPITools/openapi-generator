@@ -347,6 +347,36 @@ public class CodegenConstants {
     public static final String PARENT_VERSION = "parentVersion";
     public static final String PARENT_VERSION_DESC = "parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
 
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_ID = "distributionManagementRepositoryId";
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_ID_DESC = "id of the release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME = "distributionManagementRepositoryName";
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME_DESC = "name of the release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_URL = "distributionManagementRepositoryUrl";
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_URL_DESC = "url of the release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT = "distributionManagementRepositoryLayout";
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT_DESC = "layout setting of the release repository in distributionManagement of generated pom N.B. only considered, if distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl are specified";
+
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION = "distributionManagementRepositoryUniqueVersion";
+    public static final String DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION_DESC = "uniqueVersion setting of the release repository in distributionManagement of generated pom N.B. only considered, if distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl are specified";
+
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID = "distributionManagementSnapshotRepositoryId";
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID_DESC = "id of the snapshot release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME = "distributionManagementSnapshotRepositoryName";
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME_DESC = "name of the snapshot release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL = "distributionManagementSnapshotRepositoryUrl";
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL_DESC = "url of the snapshot release repository in distributionManagement of generated pom N.B. distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT = "distributionManagementSnapshotRepositoryLayout";
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT_DESC = "layout setting of the snapshot release repository in distributionManagement of generated pom N.B. only considered, if distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl are specified";
+
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION = "distributionManagementSnapshotRepositoryUniqueVersion";
+    public static final String DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION_DESC = "uniqueVersion setting of the snapshot release repository in distributionManagement of generated pom N.B. only considered, if distributionManagementRepositoryId, distributionManagementRepositoryName and distributionManagementRepositoryUrl are specified";
+
     public static final String ENABLE_POST_PROCESS_FILE = "enablePostProcessFile";
     public static final String ENABLE_POST_PROCESS_FILE_DESC = "Enable post-processing file using environment variables.";
 

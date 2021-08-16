@@ -111,6 +111,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentArtifactId = "";
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
+    protected boolean distributionManagementOverridden = false;
+    protected String distributionManagementRepositoryId = "";
+    protected String distributionManagementRepositoryName = "";
+    protected String distributionManagementRepositoryUrl = "";
+    protected String distributionManagementRepositoryLayout = "default";
+    protected boolean distributionManagementRepositoryUniqueVersion = true;
+    protected boolean distributionManagementRepositoryOverridden = false;
+    protected String distributionManagementSnapshotRepositoryId = "";
+    protected String distributionManagementSnapshotRepositoryName = "";
+    protected String distributionManagementSnapshotRepositoryUrl = "";
+    protected String distributionManagementSnapshotRepositoryLayout = "default";
+    protected boolean distributionManagementSnapshotRepositoryUniqueVersion = true;
+    protected boolean distributionManagementSnapshotRepositoryOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
@@ -257,6 +270,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
+
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_ID, CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME, CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_URL, CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_URL_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT, CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION, CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID, CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME, CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL, CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT, CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION, CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION_DESC));
+
         CliOption snapShotVersion = CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC);
         Map<String, String> snapShotVersionOptions = new HashMap<>();
         snapShotVersionOptions.put("true", "Use a SnapShot Version");
@@ -478,6 +503,56 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_ID)) {
+            this.setDistributionManagementRepositoryId((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME)) {
+            this.setDistributionManagementRepositoryName((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_NAME));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_URL)) {
+            this.setDistributionManagementRepositoryUrl((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_URL));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT)) {
+            this.setDistributionManagementRepositoryLayout((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_LAYOUT));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION)) {
+            this.setDistributionManagementRepositoryUniqueVersion(Boolean.valueOf(additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_REPOSITORY_UNIQUE_VERSION).toString()));
+        }
+
+        if (!StringUtils.isEmpty(distributionManagementRepositoryId) && !StringUtils.isEmpty(distributionManagementRepositoryName) && !StringUtils.isEmpty(distributionManagementRepositoryUrl)) {
+            additionalProperties.put("distributionManagementOverridden", true);
+            additionalProperties.put("distributionManagementRepositoryOverridden", true);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID)) {
+            this.setDistributionManagementSnapshotRepositoryId((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME)) {
+            this.setDistributionManagementSnapshotRepositoryName((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_NAME));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL)) {
+            this.setDistributionManagementSnapshotRepositoryUrl((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_URL));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT)) {
+            this.setDistributionManagementSnapshotRepositoryLayout((String) additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_LAYOUT));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION)) {
+            this.setDistributionManagementSnapshotRepositoryUniqueVersion(Boolean.valueOf(additionalProperties.get(CodegenConstants.DISTRIBUTION_MANAGEMENT_SNAPSHOT_REPOSITORY_UNIQUE_VERSION).toString()));;
+        }
+
+        if (!StringUtils.isEmpty(distributionManagementRepositoryId) && !StringUtils.isEmpty(distributionManagementRepositoryName) && !StringUtils.isEmpty(distributionManagementSnapshotRepositoryUrl)) {
+            additionalProperties.put("distributionManagementOverridden", true);
+            additionalProperties.put("distributionManagementSnapshotRepositoryOverridden", true);
         }
 
         // make api and model doc path available in mustache template
@@ -1877,6 +1952,58 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setParentOverridden(final boolean parentOverridden) {
         this.parentOverridden = parentOverridden;
+    }
+
+    public void setDistributionManagementOverridden(final boolean distributionManagementOverridden) {
+        this.distributionManagementOverridden = distributionManagementOverridden;
+    }
+
+    public void setDistributionManagementRepositoryId(final String distributionManagementRepositoryId) {
+        this.distributionManagementRepositoryId = distributionManagementRepositoryId;
+    }
+
+    public void setDistributionManagementRepositoryName(final String distributionManagementRepositoryName) {
+        this.distributionManagementRepositoryName = distributionManagementRepositoryName;
+    }
+
+    public void setDistributionManagementRepositoryUrl(final String distributionManagementRepositoryUrl) {
+        this.distributionManagementRepositoryUrl = distributionManagementRepositoryUrl;
+    }
+
+    public void setDistributionManagementRepositoryLayout(final String distributionManagementRepositoryLayout) {
+        this.distributionManagementRepositoryLayout = distributionManagementRepositoryLayout;
+    }
+
+    public void setDistributionManagementRepositoryUniqueVersion(final boolean distributionManagementRepositoryUniqueVersion) {
+        this.distributionManagementRepositoryUniqueVersion = distributionManagementRepositoryUniqueVersion;
+    }
+
+    public void setDistributionManagementRepositoryOverridden(final boolean distributionManagementRepositoryOverridden) {
+        this.distributionManagementRepositoryOverridden = distributionManagementRepositoryOverridden;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryId(final String distributionManagementSnapshotRepositoryId) {
+        this.distributionManagementSnapshotRepositoryId = distributionManagementSnapshotRepositoryId;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryName(final String distributionManagementSnapshotRepositoryName) {
+        this.distributionManagementSnapshotRepositoryName = distributionManagementSnapshotRepositoryName;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryUrl(final String distributionManagementSnapshotRepositoryUrl) {
+        this.distributionManagementSnapshotRepositoryUrl = distributionManagementSnapshotRepositoryUrl;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryLayout(final String distributionManagementSnapshotRepositoryLayout) {
+        this.distributionManagementSnapshotRepositoryLayout = distributionManagementSnapshotRepositoryLayout;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryUniqueVersion(final boolean distributionManagementSnapshotRepositoryUniqueVersion) {
+        this.distributionManagementSnapshotRepositoryUniqueVersion = distributionManagementSnapshotRepositoryUniqueVersion;
+    }
+
+    public void setDistributionManagementSnapshotRepositoryOverridden(final boolean distributionManagementSnapshotRepositoryOverridden) {
+        this.distributionManagementSnapshotRepositoryOverridden = distributionManagementSnapshotRepositoryOverridden;
     }
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
