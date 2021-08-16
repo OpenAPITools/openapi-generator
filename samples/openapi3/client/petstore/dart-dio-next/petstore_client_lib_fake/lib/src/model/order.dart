@@ -65,37 +65,37 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.petId != null) {
             result
                 ..add(r'petId')
                 ..add(serializers.serialize(object.petId,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.quantity != null) {
             result
                 ..add(r'quantity')
                 ..add(serializers.serialize(object.quantity,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.shipDate != null) {
             result
                 ..add(r'shipDate')
                 ..add(serializers.serialize(object.shipDate,
-                    specifiedType: const FullType(DateTime) ,),);                
+                    specifiedType: const FullType(DateTime)));                
         }
         if (object.status != null) {
             result
                 ..add(r'status')
                 ..add(serializers.serialize(object.status,
-                    specifiedType: const FullType(OrderStatusEnum) ,),);                
+                    specifiedType: const FullType(OrderStatusEnum)));                
         }
         if (object.complete != null) {
             result
                 ..add(r'complete')
                 ..add(serializers.serialize(object.complete,
-                    specifiedType: const FullType(bool) ,),);                
+                    specifiedType: const FullType(bool)));                
         }
         return result;
     }
@@ -114,32 +114,32 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
             switch (key) {
                 case r'id':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.id = valueDes;
                     break;
                 case r'petId':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.petId = valueDes;
                     break;
                 case r'quantity':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.quantity = valueDes;
                     break;
                 case r'shipDate':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime) ,) as DateTime;
+                        specifiedType: const FullType(DateTime)) as DateTime;
                     result.shipDate = valueDes;
                     break;
                 case r'status':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(OrderStatusEnum) ,) as OrderStatusEnum;
+                        specifiedType: const FullType(OrderStatusEnum)) as OrderStatusEnum;
                     result.status = valueDes;
                     break;
                 case r'complete':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool) ,) as bool;
+                        specifiedType: const FullType(bool)) as bool;
                     result.complete = valueDes;
                     break;
             }

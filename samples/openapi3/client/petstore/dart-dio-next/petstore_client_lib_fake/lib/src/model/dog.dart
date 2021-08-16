@@ -53,18 +53,18 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
         result
             ..add(r'className')
             ..add(serializers.serialize(object.className,
-                specifiedType: const FullType(String) ,),);
+                specifiedType: const FullType(String)));
         if (object.color != null) {
             result
                 ..add(r'color')
                 ..add(serializers.serialize(object.color,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.breed != null) {
             result
                 ..add(r'breed')
                 ..add(serializers.serialize(object.breed,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -83,17 +83,17 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
             switch (key) {
                 case r'className':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.className = valueDes;
                     break;
                 case r'color':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.color = valueDes;
                     break;
                 case r'breed':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.breed = valueDes;
                     break;
             }

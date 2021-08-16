@@ -41,7 +41,7 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
             result
                 ..add(r'client')
                 ..add(serializers.serialize(object.client,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -60,7 +60,7 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
             switch (key) {
                 case r'client':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.client = valueDes;
                     break;
             }

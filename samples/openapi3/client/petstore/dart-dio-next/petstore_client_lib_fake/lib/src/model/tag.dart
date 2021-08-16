@@ -45,13 +45,13 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.name != null) {
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -70,12 +70,12 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
             switch (key) {
                 case r'id':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.id = valueDes;
                     break;
                 case r'name':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.name = valueDes;
                     break;
             }

@@ -42,7 +42,7 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
             result
                 ..add(r'string')
                 ..add(serializers.serialize(object.string,
-                    specifiedType: const FullType(Foo) ,),);                
+                    specifiedType: const FullType(Foo)));                
         }
         return result;
     }
@@ -61,7 +61,7 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
             switch (key) {
                 case r'string':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(Foo) ,) as Foo;
+                        specifiedType: const FullType(Foo)) as Foo;
                     result.string.replace(valueDes);
                     break;
             }

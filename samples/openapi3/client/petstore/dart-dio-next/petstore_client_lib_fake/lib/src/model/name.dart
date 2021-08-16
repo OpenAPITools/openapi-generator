@@ -52,24 +52,24 @@ class _$NameSerializer implements StructuredSerializer<Name> {
         result
             ..add(r'name')
             ..add(serializers.serialize(object.name,
-                specifiedType: const FullType(int) ,),);
+                specifiedType: const FullType(int)));
         if (object.snakeCase != null) {
             result
                 ..add(r'snake_case')
                 ..add(serializers.serialize(object.snakeCase,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.property != null) {
             result
                 ..add(r'property')
                 ..add(serializers.serialize(object.property,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.n123number != null) {
             result
                 ..add(r'123Number')
                 ..add(serializers.serialize(object.n123number,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         return result;
     }
@@ -88,22 +88,22 @@ class _$NameSerializer implements StructuredSerializer<Name> {
             switch (key) {
                 case r'name':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.name = valueDes;
                     break;
                 case r'snake_case':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.snakeCase = valueDes;
                     break;
                 case r'property':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.property = valueDes;
                     break;
                 case r'123Number':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.n123number = valueDes;
                     break;
             }

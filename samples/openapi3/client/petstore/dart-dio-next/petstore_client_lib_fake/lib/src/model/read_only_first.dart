@@ -45,13 +45,13 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             result
                 ..add(r'bar')
                 ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.baz != null) {
             result
                 ..add(r'baz')
                 ..add(serializers.serialize(object.baz,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -70,12 +70,12 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             switch (key) {
                 case r'bar':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.bar = valueDes;
                     break;
                 case r'baz':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.baz = valueDes;
                     break;
             }

@@ -41,7 +41,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             result
                 ..add(r'_class')
                 ..add(serializers.serialize(object.class_,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -60,7 +60,7 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             switch (key) {
                 case r'_class':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.class_ = valueDes;
                     break;
             }

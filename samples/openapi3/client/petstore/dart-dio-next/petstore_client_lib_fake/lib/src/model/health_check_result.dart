@@ -41,7 +41,7 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             result
                 ..add(r'NullableMessage')
                 ..add(serializers.serialize(object.nullableMessage,
-                    specifiedType: const FullType.nullable(String) ,),);                
+                    specifiedType: const FullType.nullable(String)));                
         }
         return result;
     }
@@ -60,7 +60,7 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             switch (key) {
                 case r'NullableMessage':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(String) ,) as String?;
+                        specifiedType: const FullType.nullable(String)) as String?;
                     if (valueDes == null) continue;
                     result.nullableMessage = valueDes;
                     break;

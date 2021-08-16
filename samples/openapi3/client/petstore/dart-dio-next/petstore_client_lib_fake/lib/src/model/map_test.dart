@@ -55,25 +55,25 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
             result
                 ..add(r'map_map_of_string')
                 ..add(serializers.serialize(object.mapMapOfString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));                
         }
         if (object.mapOfEnumString != null) {
             result
                 ..add(r'map_of_enum_string')
                 ..add(serializers.serialize(object.mapOfEnumString,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])));                
         }
         if (object.directMap != null) {
             result
                 ..add(r'direct_map')
                 ..add(serializers.serialize(object.directMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));                
         }
         if (object.indirectMap != null) {
             result
                 ..add(r'indirect_map')
                 ..add(serializers.serialize(object.indirectMap,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])));                
         }
         return result;
     }
@@ -92,22 +92,22 @@ class _$MapTestSerializer implements StructuredSerializer<MapTest> {
             switch (key) {
                 case r'map_map_of_string':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]) ,) as BuiltMap<String, BuiltMap<String, String>>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
                     result.mapMapOfString.replace(valueDes);
                     break;
                 case r'map_of_enum_string':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)]) ,) as BuiltMap<String, MapTestMapOfEnumStringEnum>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(MapTestMapOfEnumStringEnum)])) as BuiltMap<String, MapTestMapOfEnumStringEnum>;
                     result.mapOfEnumString.replace(valueDes);
                     break;
                 case r'direct_map':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]) ,) as BuiltMap<String, bool>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>;
                     result.directMap.replace(valueDes);
                     break;
                 case r'indirect_map':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)]) ,) as BuiltMap<String, bool>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(bool)])) as BuiltMap<String, bool>;
                     result.indirectMap.replace(valueDes);
                     break;
             }

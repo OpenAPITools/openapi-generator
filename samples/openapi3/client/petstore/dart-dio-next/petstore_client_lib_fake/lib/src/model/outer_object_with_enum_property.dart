@@ -42,7 +42,7 @@ class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<Ou
         result
             ..add(r'value')
             ..add(serializers.serialize(object.value,
-                specifiedType: const FullType(OuterEnumInteger) ,),);
+                specifiedType: const FullType(OuterEnumInteger)));
         return result;
     }
 
@@ -60,7 +60,7 @@ class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<Ou
             switch (key) {
                 case r'value':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(OuterEnumInteger) ,) as OuterEnumInteger;
+                        specifiedType: const FullType(OuterEnumInteger)) as OuterEnumInteger;
                     result.value = valueDes;
                     break;
             }

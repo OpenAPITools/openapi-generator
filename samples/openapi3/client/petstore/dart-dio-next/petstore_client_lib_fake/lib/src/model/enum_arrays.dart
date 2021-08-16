@@ -48,13 +48,13 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             result
                 ..add(r'just_symbol')
                 ..add(serializers.serialize(object.justSymbol,
-                    specifiedType: const FullType(EnumArraysJustSymbolEnum) ,),);                
+                    specifiedType: const FullType(EnumArraysJustSymbolEnum)));                
         }
         if (object.arrayEnum != null) {
             result
                 ..add(r'array_enum')
                 ..add(serializers.serialize(object.arrayEnum,
-                    specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])));                
         }
         return result;
     }
@@ -73,12 +73,12 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             switch (key) {
                 case r'just_symbol':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(EnumArraysJustSymbolEnum) ,) as EnumArraysJustSymbolEnum;
+                        specifiedType: const FullType(EnumArraysJustSymbolEnum)) as EnumArraysJustSymbolEnum;
                     result.justSymbol = valueDes;
                     break;
                 case r'array_enum':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]) ,) as BuiltList<EnumArraysArrayEnumEnum>;
+                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>;
                     result.arrayEnum.replace(valueDes);
                     break;
             }

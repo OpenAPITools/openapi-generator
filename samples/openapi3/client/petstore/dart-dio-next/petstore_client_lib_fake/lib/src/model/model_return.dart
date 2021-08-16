@@ -41,7 +41,7 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
             result
                 ..add(r'return')
                 ..add(serializers.serialize(object.return_,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         return result;
     }
@@ -60,7 +60,7 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
             switch (key) {
                 case r'return':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.return_ = valueDes;
                     break;
             }

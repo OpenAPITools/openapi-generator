@@ -70,49 +70,49 @@ class _$UserSerializer implements StructuredSerializer<User> {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         if (object.username != null) {
             result
                 ..add(r'username')
                 ..add(serializers.serialize(object.username,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.firstName != null) {
             result
                 ..add(r'firstName')
                 ..add(serializers.serialize(object.firstName,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.lastName != null) {
             result
                 ..add(r'lastName')
                 ..add(serializers.serialize(object.lastName,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.email != null) {
             result
                 ..add(r'email')
                 ..add(serializers.serialize(object.email,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.password != null) {
             result
                 ..add(r'password')
                 ..add(serializers.serialize(object.password,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.phone != null) {
             result
                 ..add(r'phone')
                 ..add(serializers.serialize(object.phone,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.userStatus != null) {
             result
                 ..add(r'userStatus')
                 ..add(serializers.serialize(object.userStatus,
-                    specifiedType: const FullType(int) ,),);                
+                    specifiedType: const FullType(int)));                
         }
         return result;
     }
@@ -131,42 +131,42 @@ class _$UserSerializer implements StructuredSerializer<User> {
             switch (key) {
                 case r'id':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.id = valueDes;
                     break;
                 case r'username':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.username = valueDes;
                     break;
                 case r'firstName':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.firstName = valueDes;
                     break;
                 case r'lastName':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.lastName = valueDes;
                     break;
                 case r'email':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.email = valueDes;
                     break;
                 case r'password':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.password = valueDes;
                     break;
                 case r'phone':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.phone = valueDes;
                     break;
                 case r'userStatus':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int) ,) as int;
+                        specifiedType: const FullType(int)) as int;
                     result.userStatus = valueDes;
                     break;
             }

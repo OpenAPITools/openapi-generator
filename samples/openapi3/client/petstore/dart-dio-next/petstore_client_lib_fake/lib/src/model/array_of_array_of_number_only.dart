@@ -42,7 +42,7 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements StructuredSerializer<Array
             result
                 ..add(r'ArrayArrayNumber')
                 ..add(serializers.serialize(object.arrayArrayNumber,
-                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])));                
         }
         return result;
     }
@@ -61,7 +61,7 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements StructuredSerializer<Array
             switch (key) {
                 case r'ArrayArrayNumber':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])]) ,) as BuiltList<BuiltList<num>>;
+                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])) as BuiltList<BuiltList<num>>;
                     result.arrayArrayNumber.replace(valueDes);
                     break;
             }

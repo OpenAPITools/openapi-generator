@@ -42,7 +42,7 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
             result
                 ..add(r'bar')
                 ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         return result;
     }
@@ -61,7 +61,7 @@ class _$FooSerializer implements StructuredSerializer<Foo> {
             switch (key) {
                 case r'bar':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.bar = valueDes;
                     break;
             }

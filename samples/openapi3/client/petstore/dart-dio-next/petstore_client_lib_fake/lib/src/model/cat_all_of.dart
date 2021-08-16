@@ -41,7 +41,7 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
             result
                 ..add(r'declawed')
                 ..add(serializers.serialize(object.declawed,
-                    specifiedType: const FullType(bool) ,),);                
+                    specifiedType: const FullType(bool)));                
         }
         return result;
     }
@@ -60,7 +60,7 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
             switch (key) {
                 case r'declawed':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool) ,) as bool;
+                        specifiedType: const FullType(bool)) as bool;
                     result.declawed = valueDes;
                     break;
             }

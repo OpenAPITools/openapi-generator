@@ -51,19 +51,19 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             result
                 ..add(r'uuid')
                 ..add(serializers.serialize(object.uuid,
-                    specifiedType: const FullType(String) ,),);                
+                    specifiedType: const FullType(String)));                
         }
         if (object.dateTime != null) {
             result
                 ..add(r'dateTime')
                 ..add(serializers.serialize(object.dateTime,
-                    specifiedType: const FullType(DateTime) ,),);                
+                    specifiedType: const FullType(DateTime)));                
         }
         if (object.map != null) {
             result
                 ..add(r'map')
                 ..add(serializers.serialize(object.map,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])));                
         }
         return result;
     }
@@ -82,17 +82,17 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             switch (key) {
                 case r'uuid':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String) ,) as String;
+                        specifiedType: const FullType(String)) as String;
                     result.uuid = valueDes;
                     break;
                 case r'dateTime':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(DateTime) ,) as DateTime;
+                        specifiedType: const FullType(DateTime)) as DateTime;
                     result.dateTime = valueDes;
                     break;
                 case r'map':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]) ,) as BuiltMap<String, Animal>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>;
                     result.map.replace(valueDes);
                     break;
             }
