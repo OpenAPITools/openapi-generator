@@ -1,6 +1,6 @@
 ---
-title: Config Options for micronaut-client
-sidebar_label: micronaut-client
+title: Config Options for java-micronaut-client
+sidebar_label: java-micronaut-client
 ---
 
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
