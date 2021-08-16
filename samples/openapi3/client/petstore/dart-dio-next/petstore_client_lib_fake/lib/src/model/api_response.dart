@@ -49,19 +49,19 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             result
                 ..add(r'code')
                 ..add(serializers.serialize(object.code,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         if (object.type != null) {
             result
                 ..add(r'type')
                 ..add(serializers.serialize(object.type,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         if (object.message != null) {
             result
                 ..add(r'message')
                 ..add(serializers.serialize(object.message,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -78,17 +78,17 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'code':                                  
+                case r'code':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.code = valueDes;
                     break;
-                case r'type':                                  
+                case r'type':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.type = valueDes;
                     break;
-                case r'message':                                  
+                case r'message':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.message = valueDes;

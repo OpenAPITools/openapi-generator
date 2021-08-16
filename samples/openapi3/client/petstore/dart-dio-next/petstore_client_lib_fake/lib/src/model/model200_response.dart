@@ -45,13 +45,13 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         if (object.class_ != null) {
             result
                 ..add(r'class')
                 ..add(serializers.serialize(object.class_,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -68,12 +68,12 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'name':                                  
+                case r'name':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.name = valueDes;
                     break;
-                case r'class':                                  
+                case r'class':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.class_ = valueDes;

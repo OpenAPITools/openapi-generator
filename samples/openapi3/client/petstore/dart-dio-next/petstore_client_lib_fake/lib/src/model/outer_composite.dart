@@ -49,19 +49,19 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             result
                 ..add(r'my_number')
                 ..add(serializers.serialize(object.myNumber,
-                    specifiedType: const FullType(num)));                
+                    specifiedType: const FullType(num)));
         }
         if (object.myString != null) {
             result
                 ..add(r'my_string')
                 ..add(serializers.serialize(object.myString,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         if (object.myBoolean != null) {
             result
                 ..add(r'my_boolean')
                 ..add(serializers.serialize(object.myBoolean,
-                    specifiedType: const FullType(bool)));                
+                    specifiedType: const FullType(bool)));
         }
         return result;
     }
@@ -78,17 +78,17 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'my_number':                                  
+                case r'my_number':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
                     result.myNumber = valueDes;
                     break;
-                case r'my_string':                                  
+                case r'my_string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.myString = valueDes;
                     break;
-                case r'my_boolean':                                  
+                case r'my_boolean':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool)) as bool;
                     result.myBoolean = valueDes;

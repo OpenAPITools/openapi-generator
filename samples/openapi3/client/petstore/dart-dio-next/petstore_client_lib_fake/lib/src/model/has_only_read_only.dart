@@ -45,13 +45,13 @@ class _$HasOnlyReadOnlySerializer implements StructuredSerializer<HasOnlyReadOnl
             result
                 ..add(r'bar')
                 ..add(serializers.serialize(object.bar,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         if (object.foo != null) {
             result
                 ..add(r'foo')
                 ..add(serializers.serialize(object.foo,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -68,12 +68,12 @@ class _$HasOnlyReadOnlySerializer implements StructuredSerializer<HasOnlyReadOnl
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'bar':                                  
+                case r'bar':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.bar = valueDes;
                     break;
-                case r'foo':                                  
+                case r'foo':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.foo = valueDes;

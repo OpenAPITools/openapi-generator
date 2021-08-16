@@ -41,7 +41,7 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
             result
                 ..add(r'123-list')
                 ..add(serializers.serialize(object.n123list,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -58,7 +58,7 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'123-list':                                  
+                case r'123-list':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.n123list = valueDes;

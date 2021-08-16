@@ -41,7 +41,7 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
             result
                 ..add(r'breed')
                 ..add(serializers.serialize(object.breed,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -58,7 +58,7 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'breed':                                  
+                case r'breed':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.breed = valueDes;

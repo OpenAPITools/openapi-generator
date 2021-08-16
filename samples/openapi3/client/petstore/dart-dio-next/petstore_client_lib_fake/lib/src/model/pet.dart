@@ -66,13 +66,13 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         if (object.category != null) {
             result
                 ..add(r'category')
                 ..add(serializers.serialize(object.category,
-                    specifiedType: const FullType(Category)));                
+                    specifiedType: const FullType(Category)));
         }
         result
             ..add(r'name')
@@ -86,13 +86,13 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
             result
                 ..add(r'tags')
                 ..add(serializers.serialize(object.tags,
-                    specifiedType: const FullType(BuiltList, [FullType(Tag)])));                
+                    specifiedType: const FullType(BuiltList, [FullType(Tag)])));
         }
         if (object.status != null) {
             result
                 ..add(r'status')
                 ..add(serializers.serialize(object.status,
-                    specifiedType: const FullType(PetStatusEnum)));                
+                    specifiedType: const FullType(PetStatusEnum)));
         }
         return result;
     }
@@ -109,32 +109,32 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'id':                                  
+                case r'id':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.id = valueDes;
                     break;
-                case r'category':                                  
+                case r'category':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Category)) as Category;
                     result.category.replace(valueDes);
                     break;
-                case r'name':                                  
+                case r'name':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.name = valueDes;
                     break;
-                case r'photoUrls':                                  
+                case r'photoUrls':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltSet, [FullType(String)])) as BuiltSet<String>;
                     result.photoUrls.replace(valueDes);
                     break;
-                case r'tags':                                  
+                case r'tags':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>;
                     result.tags.replace(valueDes);
                     break;
-                case r'status':                                  
+                case r'status':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(PetStatusEnum)) as PetStatusEnum;
                     result.status = valueDes;

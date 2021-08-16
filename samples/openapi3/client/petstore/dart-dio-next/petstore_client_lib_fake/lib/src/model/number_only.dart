@@ -41,7 +41,7 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
             result
                 ..add(r'JustNumber')
                 ..add(serializers.serialize(object.justNumber,
-                    specifiedType: const FullType(num)));                
+                    specifiedType: const FullType(num)));
         }
         return result;
     }
@@ -58,7 +58,7 @@ class _$NumberOnlySerializer implements StructuredSerializer<NumberOnly> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'JustNumber':                                  
+                case r'JustNumber':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
                     result.justNumber = valueDes;

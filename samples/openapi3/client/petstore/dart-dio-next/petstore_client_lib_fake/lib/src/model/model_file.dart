@@ -42,7 +42,7 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
             result
                 ..add(r'sourceURI')
                 ..add(serializers.serialize(object.sourceURI,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -59,7 +59,7 @@ class _$ModelFileSerializer implements StructuredSerializer<ModelFile> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'sourceURI':                                  
+                case r'sourceURI':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.sourceURI = valueDes;

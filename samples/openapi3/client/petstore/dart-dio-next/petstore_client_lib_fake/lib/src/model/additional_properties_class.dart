@@ -46,13 +46,13 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             result
                 ..add(r'map_property')
                 ..add(serializers.serialize(object.mapProperty,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])));                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])));
         }
         if (object.mapOfMapProperty != null) {
             result
                 ..add(r'map_of_map_property')
                 ..add(serializers.serialize(object.mapOfMapProperty,
-                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])));
         }
         return result;
     }
@@ -69,12 +69,12 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'map_property':                                  
+                case r'map_property':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>;
                     result.mapProperty.replace(valueDes);
                     break;
-                case r'map_of_map_property':                                  
+                case r'map_of_map_property':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
                     result.mapOfMapProperty.replace(valueDes);

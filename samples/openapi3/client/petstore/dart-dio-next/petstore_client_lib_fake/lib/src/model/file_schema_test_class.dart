@@ -47,13 +47,13 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             result
                 ..add(r'file')
                 ..add(serializers.serialize(object.file,
-                    specifiedType: const FullType(ModelFile)));                
+                    specifiedType: const FullType(ModelFile)));
         }
         if (object.files != null) {
             result
                 ..add(r'files')
                 ..add(serializers.serialize(object.files,
-                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));                
+                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)])));
         }
         return result;
     }
@@ -70,12 +70,12 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'file':                                  
+                case r'file':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(ModelFile)) as ModelFile;
                     result.file.replace(valueDes);
                     break;
-                case r'files':                                  
+                case r'files':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>;
                     result.files.replace(valueDes);

@@ -41,7 +41,7 @@ class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObj
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -58,7 +58,7 @@ class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObj
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'name':                                  
+                case r'name':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.name = valueDes;

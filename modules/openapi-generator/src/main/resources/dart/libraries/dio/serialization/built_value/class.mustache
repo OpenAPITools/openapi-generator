@@ -75,7 +75,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             result
                 ..add(r'{{baseName}}')
                 ..add(serializers.serialize(object.{{{name}}},
-                    specifiedType: const {{>serialization/built_value/variable_serializer_type}}));                
+                    specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
         }
         {{/required}}
         {{/vars}}
@@ -95,7 +95,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             
             switch (key) {
                 {{#vars}}
-                case r'{{baseName}}':                                  
+                case r'{{baseName}}':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const {{>serialization/built_value/variable_serializer_type}}) as {{>serialization/built_value/variable_type}};
                     {{#isNullable}}

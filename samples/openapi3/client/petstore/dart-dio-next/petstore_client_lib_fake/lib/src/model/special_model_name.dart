@@ -41,7 +41,7 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
             result
                 ..add(r'$special[property.name]')
                 ..add(serializers.serialize(object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         return result;
     }
@@ -58,7 +58,7 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'$special[property.name]':                                  
+                case r'$special[property.name]':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;

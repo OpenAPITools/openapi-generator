@@ -58,7 +58,7 @@ class _$OuterObjectWithEnumPropertySerializer implements StructuredSerializer<Ou
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'value':                                  
+                case r'value':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(OuterEnumInteger)) as OuterEnumInteger;
                     result.value = valueDes;

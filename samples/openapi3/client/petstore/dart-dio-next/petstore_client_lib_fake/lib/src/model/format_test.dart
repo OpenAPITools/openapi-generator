@@ -105,19 +105,19 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'integer')
                 ..add(serializers.serialize(object.integer,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         if (object.int32 != null) {
             result
                 ..add(r'int32')
                 ..add(serializers.serialize(object.int32,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         if (object.int64 != null) {
             result
                 ..add(r'int64')
                 ..add(serializers.serialize(object.int64,
-                    specifiedType: const FullType(int)));                
+                    specifiedType: const FullType(int)));
         }
         result
             ..add(r'number')
@@ -127,25 +127,25 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'float')
                 ..add(serializers.serialize(object.float,
-                    specifiedType: const FullType(double)));                
+                    specifiedType: const FullType(double)));
         }
         if (object.double_ != null) {
             result
                 ..add(r'double')
                 ..add(serializers.serialize(object.double_,
-                    specifiedType: const FullType(double)));                
+                    specifiedType: const FullType(double)));
         }
         if (object.decimal != null) {
             result
                 ..add(r'decimal')
                 ..add(serializers.serialize(object.decimal,
-                    specifiedType: const FullType(double)));                
+                    specifiedType: const FullType(double)));
         }
         if (object.string != null) {
             result
                 ..add(r'string')
                 ..add(serializers.serialize(object.string,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         result
             ..add(r'byte')
@@ -155,7 +155,7 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'binary')
                 ..add(serializers.serialize(object.binary,
-                    specifiedType: const FullType(Uint8List)));                
+                    specifiedType: const FullType(Uint8List)));
         }
         result
             ..add(r'date')
@@ -165,13 +165,13 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'dateTime')
                 ..add(serializers.serialize(object.dateTime,
-                    specifiedType: const FullType(DateTime)));                
+                    specifiedType: const FullType(DateTime)));
         }
         if (object.uuid != null) {
             result
                 ..add(r'uuid')
                 ..add(serializers.serialize(object.uuid,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         result
             ..add(r'password')
@@ -181,13 +181,13 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             result
                 ..add(r'pattern_with_digits')
                 ..add(serializers.serialize(object.patternWithDigits,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         if (object.patternWithDigitsAndDelimiter != null) {
             result
                 ..add(r'pattern_with_digits_and_delimiter')
                 ..add(serializers.serialize(object.patternWithDigitsAndDelimiter,
-                    specifiedType: const FullType(String)));                
+                    specifiedType: const FullType(String)));
         }
         return result;
     }
@@ -204,82 +204,82 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             final Object? value = iterator.current;
             
             switch (key) {
-                case r'integer':                                  
+                case r'integer':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.integer = valueDes;
                     break;
-                case r'int32':                                  
+                case r'int32':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.int32 = valueDes;
                     break;
-                case r'int64':                                  
+                case r'int64':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.int64 = valueDes;
                     break;
-                case r'number':                                  
+                case r'number':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
                     result.number = valueDes;
                     break;
-                case r'float':                                  
+                case r'float':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
                     result.float = valueDes;
                     break;
-                case r'double':                                  
+                case r'double':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
                     result.double_ = valueDes;
                     break;
-                case r'decimal':                                  
+                case r'decimal':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
                     result.decimal = valueDes;
                     break;
-                case r'string':                                  
+                case r'string':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.string = valueDes;
                     break;
-                case r'byte':                                  
+                case r'byte':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.byte = valueDes;
                     break;
-                case r'binary':                                  
+                case r'binary':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Uint8List)) as Uint8List;
                     result.binary = valueDes;
                     break;
-                case r'date':                                  
+                case r'date':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Date)) as Date;
                     result.date = valueDes;
                     break;
-                case r'dateTime':                                  
+                case r'dateTime':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime)) as DateTime;
                     result.dateTime = valueDes;
                     break;
-                case r'uuid':                                  
+                case r'uuid':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.uuid = valueDes;
                     break;
-                case r'password':                                  
+                case r'password':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.password = valueDes;
                     break;
-                case r'pattern_with_digits':                                  
+                case r'pattern_with_digits':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.patternWithDigits = valueDes;
                     break;
-                case r'pattern_with_digits_and_delimiter':                                  
+                case r'pattern_with_digits_and_delimiter':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.patternWithDigitsAndDelimiter = valueDes;
